@@ -13,9 +13,7 @@ import teammates.common.util.FieldValidator;
  */
 public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorResultsParticipantPanel {
     
-    List<InstructorResultsQuestionTable> questionTables;
-    
-    boolean isEmailValid;
+    private List<InstructorResultsQuestionTable> questionTables;
     
     public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
@@ -66,12 +64,5 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
         this.questionTables = questionTables;
     }
 
-    public boolean isEmailValid() {
-        return isEmailValid;
-    }
-
-    public void setEmailValid(boolean isEmailValid) {
-        this.isEmailValid = isEmailValid;
-    }
     
 }

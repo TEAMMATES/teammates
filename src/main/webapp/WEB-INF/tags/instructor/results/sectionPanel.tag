@@ -10,6 +10,7 @@
 <%@ attribute name="sectionIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="teamIndexOffset" type="java.lang.Integer" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="sectionPanel" type="teammates.ui.template.InstructorFeedbackResultsSectionPanel" required="true" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="feedbackSessionName" required="true" %>
@@ -88,16 +89,16 @@
                                               isTeamHasResponses="${sectionPanel.isTeamWithResponses[teamPanel.key]}"
                                               isDisplayingTeamStatistics="${sectionPanel.displayingTeamStatistics}"
                                               isDisplayingMissingParticipants="${sectionPanel.displayingMissingParticipants}"
-                                              participantPanels="${teamPanel.value}"/>  
+                                              participantPanels="${teamPanel.value}"
+                                              isSecondaryParticipantType="${!isGroupedByQuestion}"/>  
                         <c:set var="teamIndex" value="${teamIndex + 1}"/>
-                    
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="participantPanel" items="${sectionPanel.participantPanelsInSortedOrder}">
-                            <results:participantGroupByQuestionPanel showAll="${showAll}" 
-                                                                     groupByQuestionPanel="${participantPanel}" 
-                                                                     shouldCollapsed="${shouldCollapsed}"/>
+                        <results:participantPanel showAll="${showAll}" shouldCollapsed="${shouldCollapsed}"
+                                                  participantPanel="${participantPanel}" 
+                                                  isSecondaryParticipantType="${!isGroupedByQuestion}"/>
                     </c:forEach>
                 </c:otherwise>
             </c:choose>

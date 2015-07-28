@@ -7,6 +7,7 @@
 
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByTeam" type="java.lang.Boolean" required="true" %>
 
 <br>
@@ -16,6 +17,7 @@
                           shouldCollapsed="${shouldCollapsed}" sectionIndex="${i.index}" 
                           teamIndexOffset="${teamIndex}" courseId="${data.courseId}" 
                           feedbackSessionName="${data.feedbackSessionName}"
+                          isGroupedByQuestion="${isGroupedByQuestion}"
                           isGroupedByTeam="${isGroupedByTeam}"/>
     <c:set var="teamIndex" value="${teamIndex + fn:length(sectionPanel.value.participantPanels)}"/>
 </c:forEach>
