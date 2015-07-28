@@ -114,76 +114,20 @@ public class InstructorResultsQuestionTable {
         return isShowResponseRows;
     }
 
-    public void setShowResponseRows(boolean isShowResponseRows) {
-        this.isShowResponseRows = isShowResponseRows;
-    }
-
     public List<ElementTag> getColumns() {
         return columns;
-    }
-
-    public void setColumns(List<ElementTag> columns) {
-        this.columns = columns;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public void setFeedbackSessionName(String feedbackSessionName) {
-        this.feedbackSessionName = feedbackSessionName;
-    }
-
-    public void setPanelClass(String panelClass) {
-        this.panelClass = panelClass;
-    }
-
-    public void setResponses(List<InstructorResultsResponseRow> responses) {
-        this.responses = responses;
-    }
-
-    public void setQuestion(FeedbackQuestionAttributes question) {
-        this.question = question;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
-
-    public void setAdditionalInfoText(String additionalInfoText) {
-        this.additionalInfoText = additionalInfoText;
-    }
-
-    public void setQuestionStatisticsTable(String questionStatisticsTable) {
-        this.questionStatisticsTable = questionStatisticsTable;
-    }
-
-    public void setQuestionHasResponses(boolean isQuestionHasResponses) {
-        this.isQuestionHasResponses = isQuestionHasResponses;
     }
 
     public boolean isCollapsible() {
         return isCollapsible;
     }
-
-    public void setCollapsible(boolean isCollapsible) {
-        this.isCollapsible = isCollapsible;
-    }
     
     public boolean isBoldQuestionNumber() {
         return isBoldQuestionNumber;
     }
-
-    public void setBoldQuestionNumber(boolean isBoldQuestionNumber) {
-        this.isBoldQuestionNumber = isBoldQuestionNumber;
-    }
     
     public Map<String, Boolean> getIsColumnSortable() {
         return isColumnSortable;
-    }
-
-    public void setIsColumnSortable(Map<String, Boolean> isColumnSortable) {
-        this.isColumnSortable = isColumnSortable;
     }
 
     public String getResponsesBodyClass() {
@@ -192,6 +136,20 @@ public class InstructorResultsQuestionTable {
 
     public void setResponsesBodyClass(String responsesBodyClass) {
         this.responsesBodyClass = responsesBodyClass;
+    }
+    
+    
+
+    public void setShowResponseRows(boolean isShowResponseRows) {
+        this.isShowResponseRows = isShowResponseRows;
+    }
+
+    public void setCollapsible(boolean isCollapsible) {
+        this.isCollapsible = isCollapsible;
+    }
+
+    public void setBoldQuestionNumber(boolean isBoldQuestionNumber) {
+        this.isBoldQuestionNumber = isBoldQuestionNumber;
     }
 
     public static void sortByQuestionNumber(List<InstructorResultsQuestionTable> questionTables) {

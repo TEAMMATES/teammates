@@ -29,8 +29,8 @@
         </c:choose>
 
         <div class="pull-right">
-            <c:if test="${groupByQuestionPanel.moderationButtonDisplayed}">
-                <results:moderationsButton moderationButton="${groupByQuestionPanel.moderationButton}" />
+            <c:if test="${not empty groupByQuestionPanel.moderationButton}">
+                <results:moderationButton moderationButton="${groupByQuestionPanel.moderationButton}" />
             </c:if>
             &nbsp;
             <div class="display-icon" style="display:inline;">

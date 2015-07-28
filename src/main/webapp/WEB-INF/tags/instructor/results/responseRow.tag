@@ -11,7 +11,7 @@
         <c:if test="${responseRow.giverProfilePictureAColumn}">
             <td class="middlealign">
              <c:choose>
-                <c:when test="${responseRow.giverProfilePictureDisplayed}">
+                <c:when test="${not empty responseRow.giverProfilePictureLink}">
                     <div class="profile-pic-icon-click align-center" data-link="${responseRow.giverProfilePictureLink}">
                         <a class="student-profile-pic-view-link btn-link">
                             View Photo
@@ -32,7 +32,7 @@
         </c:if>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
-            <c:when test="${responseRow.giverProfilePictureDisplayed && !responseRow.giverProfilePictureAColumn}">
+            <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}">
                     ${responseRow.giverDisplayableIdentifier}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -49,7 +49,7 @@
         <c:if test="${responseRow.recipientProfilePictureAColumn}">
             <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
                 <c:choose>
-                    <c:when test="${responseRow.recipientProfilePictureDisplayed}">
+                    <c:when test="${not empty responseRow.recipientProfilePictureLink}">
                         <div class="profile-pic-icon-click align-center" data-link="${responseRow.recipientProfilePictureLink}">
                             <a class="student-profile-pic-view-link btn-link">
                                 View Photo
@@ -71,7 +71,7 @@
         </c:if>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
-            <c:when test="${responseRow.recipientProfilePictureDisplayed && !responseRow.recipientProfilePictureAColumn}">
+            <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
                     ${responseRow.recipientDisplayableIdentifier}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -88,8 +88,8 @@
     <td class="text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
     <c:if test="${responseRow.actionsDisplayed}">
         <td>
-            <c:if test="${responseRow.moderationsButtonDisplayed}">
-                <results:moderationsButton moderationButton="${responseRow.moderationButton}" />
+            <c:if test="${not empty responseRow.moderationButton}">
+                <results:moderationButton moderationButton="${responseRow.moderationButton}" />
             </c:if>
         </td>
     </c:if>
