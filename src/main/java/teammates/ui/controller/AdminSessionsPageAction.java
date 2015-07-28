@@ -21,7 +21,6 @@ public class AdminSessionsPageAction extends Action {
     
     AdminSessionsPageData data;
 
-    /******************** pageData data ********************/
     private Map<String, List<FeedbackSessionAttributes>> map;
     private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     private int totalOngoingSessions;
