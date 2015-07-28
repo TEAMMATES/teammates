@@ -59,7 +59,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
         
         return createRedirectResult(new PageData(account)
-                                            .getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
+                                            .getInstructorFeedbackEditLink(courseId,feedbackSessionName));
     }
 
     private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {

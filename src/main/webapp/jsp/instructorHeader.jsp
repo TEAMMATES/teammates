@@ -26,10 +26,10 @@
                     <a class='nav home' data-link="instructorHome" href="<%=data.getInstructorHomeLink()%>">Home</a>
                 </li>
                 <li class="<%=data.getClass().toString().contains("InstructorCourse") && !data.getClass().toString().contains("CourseStudent")?"active":""%>">
-                    <a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCourseLink()%>">Courses</a>
+                    <a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCoursesLink()%>">Courses</a>
                 </li>
                 <li class="<%=(data.getClass().toString().contains("Eval") || data.getClass().toString().contains("Feedback"))?"active":""%>">
-                    <a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorFeedbackSessionLink()%>">Sessions</a>
+                    <a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorFeedbacksLink()%>">Sessions</a>
                 </li>
                 <li class="<%=data.getClass().toString().contains("Student")?"active":""%>">
                     <a class='nav students' data-link="instructorStudent" href="<%=data.getInstructorStudentListLink()%>">Students</a>

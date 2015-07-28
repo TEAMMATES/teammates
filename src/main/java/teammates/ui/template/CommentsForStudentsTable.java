@@ -9,9 +9,10 @@ import java.util.List;
  */
 public class CommentsForStudentsTable {
     private String giverDetails;
-    private List<CommentRow> rows;
+    private String extraClass = "";
+    private List<Comment> rows;
     
-    public CommentsForStudentsTable(String giverDetails, List<CommentRow> rows) {
+    public CommentsForStudentsTable(String giverDetails, List<Comment> rows) {
         this.giverDetails = giverDetails;
         this.rows = rows;
     }
@@ -20,7 +21,15 @@ public class CommentsForStudentsTable {
         return giverDetails;
     }
     
-    public List<CommentRow> getRows() {
+    public List<Comment> getRows() {
         return rows;
+    }
+    
+    public String getExtraClass() {
+        return extraClass;
+    }
+    
+    public void withExtraClass(String extraClass) {
+        this.extraClass = " " + extraClass;
     }
 }

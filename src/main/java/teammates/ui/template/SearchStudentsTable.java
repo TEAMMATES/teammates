@@ -8,18 +8,30 @@ import java.util.List;
  */
 public class SearchStudentsTable {
     private String courseId;
-    private List<StudentRow> studentRows;
+    private List<StudentListSectionData> sections;
+    private boolean hasSection;
     
-    public SearchStudentsTable(String courseId, List<StudentRow> studentRows) {
+    public SearchStudentsTable(String courseId, List<StudentListSectionData> sections) {
         this.courseId = courseId;
-        this.studentRows = studentRows;
+        this.sections = sections;
+        if (sections.size() == 1) {
+            StudentListSectionData section = sections.get(0);
+            this.hasSection = !section.getSectionName().equals("None");
+        } else {
+            this.hasSection = true;
+        }
     }
     
     public String getCourseId() {
         return courseId;
     }
     
-    public List<StudentRow> getStudentRows() {
-        return studentRows;
+    public List<StudentListSectionData> getSections() {
+        return sections;
     }
+
+    public boolean isHasSection() {
+        return hasSection;
+    }
+
 }
