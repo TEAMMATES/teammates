@@ -6,52 +6,46 @@
 
 <table class="table table-bordered table-striped">
     <c:set var="hasSection">${courseDetails.stats.sectionsTotal > 0}</c:set>
-
+    <c:choose>
+        <c:when test="${not empty studentsTable.rows}">
     <thead class="fill-primary">
-        <tr>
-            <c:if test="${hasSection}">
-                <th onclick="toggleSort(this, 1);" id="button_sortstudentsection" class="button-sort-none">
-                    Section<span class="icon-sort unsorted"></span>
-                </th>
-            </c:if>
-            <th onclick="toggleSort(this, ${hasSection ? 2 : 1});" id="button_sortstudentteam" class="button-sort-none">
-                Team<span class="icon-sort unsorted"></span>
+        <tr id="resultsHeader-0">
+            <th id="button_sortsection-0" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this,1)">
+                Section <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this, ${hasSection ? 3 : 2});" id="button_sortstudentname" class="button-sort-none">
-                Student Name<span class="icon-sort unsorted"></span>
+            <th id="button_sortteam-0" class="button-sort-none" onclick="toggleSort(this,2)">
+                Team <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this, ${hasSection ? 4 : 3});" id="button_sortstudentstatus" class="button-sort-none">
-                Status<span class="icon-sort unsorted"></span>
+            <th id="button_sortstudentname-0" class="button-sort-none" onclick="toggleSort(this,3)">
+                Student Name <span class="icon-sort unsorted"></span>
             </th>
-            <th class="align-center no-print">
-                Action(s)
+            <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,4)">
+                Status <span class="icon-sort unsorted"></span>
             </th>
+            <th>Action(s)</th>
         </tr>
     </thead>
-    
     <c:forEach items="${studentsTable.rows}" var="row" varStatus="i">
-        <tr class="student_row" id="student${i.index}">
-            <c:if test="${hasSection}">
-                <td id="<%=Const.ParamsNames.SECTION_NAME%>">${row.student.section}</td>
-            </c:if>
+        <tr class="student_row" id="student-c0.${i.index}">
+            <td id="<%=Const.ParamsNames.SECTION_NAME%>" <c:if test="${not hasSection}">class="hidden"</c:if>>
+                ${row.student.section}
+            </td>
             <td id="<%=Const.ParamsNames.TEAM_NAME%>">${row.student.team}</td>
-            <td id="<%=Const.ParamsNames.STUDENT_NAME%>">${row.student.name}</td>
+            <td id="<%=Const.ParamsNames.STUDENT_NAME%>-c0.${i.index}">${row.student.name}</td>
             <td class="align-center">${row.student.studentStatus}</td>
-            <td class="align-center no-print">
+            <td class="no-print align-center">
                 <c:forEach items="${row.actions}" var="action">
                     <a ${action.attributesToString}>
                         ${action.content}
                     </a>
                 </c:forEach>
-                
                 <div class="btn-group">
                     <c:forEach items="${row.commentActions}" var="action">
                         <a ${action.attributesToString}>
                             ${action.content}
                         </a>
                     </c:forEach>
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                         <c:forEach items="${row.commentRecipientOptions}" var="option">
                             <li role="presentation">
                                 <a role="menuitem" tabindex="-1" ${option.attributesToString}>
@@ -67,15 +61,13 @@
             <% out.flush(); %>
         </c:if>
     </c:forEach>
-    <c:if test="${empty studentsTable.rows}">
-        <tr>
-            <c:if test="${hasSection}">
-                <td></td>
-            </c:if>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </c:if>
+        </c:when>
+        <c:otherwise>
+            <thead class="fill-primary">
+                <tr>
+                    <th class="align-center color_white bold">There are no students in this course</th>
+                </tr>
+            </thead>
+        </c:otherwise>
+    </c:choose>
 </table>

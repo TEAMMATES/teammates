@@ -72,26 +72,26 @@ public class InstructorCourseDetailsPageData extends PageData {
     private List<ElementTag> createCommentRecipientOptions(int studentIndex, StudentAttributes student) {
         List<ElementTag> commentRecipientOptions = new ArrayList<ElementTag>();
         
-        String buttonClass = "t_student_details_tostudent-c" + courseDetails.course.id + "." + studentIndex;
         String href = getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email, "student");
-        ElementTag toStudentCommentOption = createButton("To student: " + sanitizeForHtml(student.name), 
-                                                         buttonClass, null, href, null, null, null, false);
+        ElementTag toStudentCommentOption = createButton("Comment on student: " + sanitizeForHtml(student.name), 
+                                                         null, null, href, null, null, null, false);
+        toStudentCommentOption.setAttribute("target", "_blank");
         
-        buttonClass = "t_student_details_toteam-c" + courseDetails.course.id + "." + studentIndex;
         href = getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email, "team");
-        ElementTag toTeamCommentOption = createButton("To team: " + sanitizeForHtml(student.team), 
-                                                      buttonClass, null, href, null, null, null, false);
+        ElementTag toTeamCommentOption = createButton("Comment on team: " + sanitizeForHtml(student.team), 
+                                                      null, null, href, null, null, null, false);
+        toTeamCommentOption.setAttribute("target", "_blank");
         
         commentRecipientOptions.add(toStudentCommentOption);
         commentRecipientOptions.add(toTeamCommentOption);
         
         if ((student.section != null) && (!student.section.equals("None"))) {
-            buttonClass = "t_student_details_tosection-c" + courseDetails.course.id + "." + studentIndex;
             href = getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email, "section");
-            ElementTag toSectionCommentOption = createButton("To section: " + sanitizeForHtml(student.section), 
-                                                             buttonClass, null, href, null, null, null, false);
+            ElementTag toSectionCommentOption = createButton("Comment on section: " + sanitizeForHtml(student.section), 
+                                                             null, null, href, null, null, null, false);
             toSectionCommentOption.setAttribute("role", "menuitem");
             toSectionCommentOption.setAttribute("tabindex", "-1");
+            toSectionCommentOption.setAttribute("target", "_blank");
               
             commentRecipientOptions.add(toSectionCommentOption);
         }
@@ -122,14 +122,16 @@ public class InstructorCourseDetailsPageData extends PageData {
     private List<ElementTag> createActionButtons(StudentAttributes student) {
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        ElementTag viewButton = createButton("View", "btn btn-default btn-xs", null,
+        ElementTag viewButton = createButton("View", "btn btn-default btn-xs student-view-for-test", null,
                                              getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email),
                                              Const.Tooltips.COURSE_STUDENT_DETAILS, "tooltip", null, isDisabled);
+        viewButton.setAttribute("target", "_blank");
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        ElementTag editButton = createButton("Edit", "btn btn-default btn-xs", null,
+        ElementTag editButton = createButton("Edit", "btn btn-default btn-xs student-edit-for-test", null,
                                              getInstructorCourseStudentDetailsEditLink(courseDetails.course.id, student.email),
                                              Const.Tooltips.COURSE_STUDENT_EDIT, "tooltip", null, isDisabled);
+        editButton.setAttribute("target", "_blank");
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         ElementTag sendInviteButton = createButton("Send Invite", "btn btn-default btn-xs", null, 
@@ -140,13 +142,14 @@ public class InstructorCourseDetailsPageData extends PageData {
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "return toggleDeleteStudentConfirmation('" + sanitizeForJs(student.course) 
                          + "','" + sanitizeForJs(student.name) + "')";
-        ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs", null,
+        ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs student-delete-for-test", null,
                                                getInstructorCourseStudentDeleteLink(courseDetails.course.id, student.email),
                                                Const.Tooltips.COURSE_STUDENT_DELETE, "tooltip", onClick, isDisabled);
         
-        ElementTag allRecordsButton = createButton("All Records", "btn btn-default btn-xs", null, 
+        ElementTag allRecordsButton = createButton("All Records", "btn btn-default btn-xs student-records-for-test", null, 
                                                    getInstructorStudentRecordsLink(courseDetails.course.id, student.email),
                                                    Const.Tooltips.COURSE_STUDENT_RECORDS, "tooltip", null, false);
+        allRecordsButton.setAttribute("target", "_blank");
         
         List<ElementTag> actionButtons = new ArrayList<ElementTag>();
         actionButtons.add(viewButton);
