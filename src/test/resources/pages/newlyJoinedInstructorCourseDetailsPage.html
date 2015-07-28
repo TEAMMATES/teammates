@@ -258,325 +258,50 @@
 
 <table class="table table-bordered table-striped">
     
-
+    
+        
     <thead class="fill-primary">
-        <tr>
-            
-                <th onclick="toggleSort(this, 1);" id="button_sortstudentsection" class="button-sort-ascending">
-                    Section<span class="icon-sort sorted-ascending"></span>
-                </th>
-            
-            <th onclick="toggleSort(this, 2);" id="button_sortstudentteam" class="button-sort-none">
-                Team<span class="icon-sort unsorted"></span>
+        <tr id="resultsHeader-0">
+            <th id="button_sortsection-0" class="button-sort-none" onclick="toggleSort(this,1)">
+                Section <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this, 3);" id="button_sortstudentname" class="button-sort-none">
-                Student Name<span class="icon-sort unsorted"></span>
+            <th id="button_sortteam-0" class="button-sort-none" onclick="toggleSort(this,2)">
+                Team <span class="icon-sort unsorted"></span>
             </th>
-            <th onclick="toggleSort(this, 4);" id="button_sortstudentstatus" class="button-sort-none">
-                Status<span class="icon-sort unsorted"></span>
+            <th id="button_sortstudentname-0" class="button-sort-none" onclick="toggleSort(this,3)">
+                Student Name <span class="icon-sort unsorted"></span>
             </th>
-            <th class="align-center no-print">
-                Action(s)
+            <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,4)">
+                Status <span class="icon-sort unsorted"></span>
             </th>
+            <th>Action(s)</th>
         </tr>
     </thead>
     
-    
-        <tbody>
-        
-            
-        
-    
-        
-        
-    
-        
-        
-    
-        
-        
-    
-        
-        
-    
-        
-        
-    
-        
-        
-    
-        
-        
-    
-        
-        
-    
-    
-<tr class="student_row" id="student1">
-            
-                <td id="sectionname">Tutorial Group 1</td>
-            
-            <td id="teamname">Team 1</td>
-            <td id="studentname">Alice Betsy</td>
-            <td class="align-center">Joined</td>
-            <td class="align-center no-print">
-                
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        View
-                    </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Edit
-                    </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Alice Betsy')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Delete
-                    </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        All Records
-                    </a>
-                
-                
-                <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
-                            Add Comment
-                        </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                            <span class="caret"></span><span class="sr-only">Add comments</span>
-                        </a>
-                    
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.1" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Alice Betsy
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.1" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 1
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.1" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 1
-                                </a>
-                            </li>
-                        
-                    </ul>
-                </div>
+        <tbody><tr class="student_row" id="student-c0.0">
+            <td id="sectionname">
+                Tutorial Group 2
             </td>
-        </tr><tr class="student_row" id="student2">
-            
-                <td id="sectionname">Tutorial Group 1</td>
-            
-            <td id="teamname">Team 1</td>
-            <td id="studentname">Benny Charles</td>
-            <td class="align-center">Joined</td>
-            <td class="align-center no-print">
-                
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        View
-                    </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Edit
-                    </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Benny Charles')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Delete
-                    </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        All Records
-                    </a>
-                
-                
-                <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
-                            Add Comment
-                        </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                            <span class="caret"></span><span class="sr-only">Add comments</span>
-                        </a>
-                    
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.2" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Benny Charles
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.2" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 1
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.2" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 1
-                                </a>
-                            </li>
-                        
-                    </ul>
-                </div>
-            </td>
-        </tr><tr class="student_row" id="student4">
-            
-                <td id="sectionname">Tutorial Group 1</td>
-            
-            <td id="teamname">Team 1</td>
-            <td id="studentname">Danny Engrid</td>
-            <td class="align-center">Joined</td>
-            <td class="align-center no-print">
-                
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        View
-                    </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Edit
-                    </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Danny Engrid')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Delete
-                    </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        All Records
-                    </a>
-                
-                
-                <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
-                            Add Comment
-                        </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                            <span class="caret"></span><span class="sr-only">Add comments</span>
-                        </a>
-                    
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.4" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Danny Engrid
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.4" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 1
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.4" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 1
-                                </a>
-                            </li>
-                        
-                    </ul>
-                </div>
-            </td>
-        </tr><tr class="student_row" id="student5">
-            
-                <td id="sectionname">Tutorial Group 1</td>
-            
-            <td id="teamname">Team 1</td>
-            <td id="studentname">Emma Farrell</td>
-            <td class="align-center">Joined</td>
-            <td class="align-center no-print">
-                
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        View
-                    </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Edit
-                    </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Emma Farrell')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        Delete
-                    </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
-                        All Records
-                    </a>
-                
-                
-                <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
-                            Add Comment
-                        </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                            <span class="caret"></span><span class="sr-only">Add comments</span>
-                        </a>
-                    
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.5" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Emma Farrell
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.5" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 1
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.5" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 1
-                                </a>
-                            </li>
-                        
-                    </ul>
-                </div>
-            </td>
-        </tr><tr class="student_row" id="student0">
-            
-                <td id="sectionname">Tutorial Group 2</td>
-            
             <td id="teamname">Team 2</td>
-            <td id="studentname">AHPUiT Instrúctör</td>
+            <td id="studentname-c0.0">AHPUiT Instrúctör</td>
             <td class="align-center">Joined</td>
-            <td class="align-center no-print">
+            <td class="no-print align-center">
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
                         View
                     </a>
                 
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
                         Edit
                     </a>
                 
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','AHPUiT Instrúctör')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','AHPUiT Instrúctör')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
                         Delete
                     </a>
                 
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
                         All Records
                     </a>
-                
                 
                 <div class="btn-group">
                     
@@ -588,55 +313,180 @@
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
                     
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.0" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: AHPUiT Instrúctör
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: AHPUiT Instrúctör
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.0" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 2
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.0" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 2
                                 </a>
                             </li>
                         
                     </ul>
                 </div>
             </td>
-        </tr><tr class="student_row" id="student3">
+        </tr>
+        
             
-                <td id="sectionname">Tutorial Group 2</td>
-            
+        
+    
+        <tr class="student_row" id="student-c0.1">
+            <td id="sectionname">
+                Tutorial Group 1
+            </td>
+            <td id="teamname">Team 1</td>
+            <td id="studentname-c0.1">Alice Betsy</td>
+            <td class="align-center">Joined</td>
+            <td class="no-print align-center">
+                
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        View
+                    </a>
+                
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Edit
+                    </a>
+                
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Alice Betsy')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Delete
+                    </a>
+                
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        All Records
+                    </a>
+                
+                <div class="btn-group">
+                    
+                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
+                            Add Comment
+                        </a>
+                    
+                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                            <span class="caret"></span><span class="sr-only">Add comments</span>
+                        </a>
+                    
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Alice Betsy
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 1
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=alice.b.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 1
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        
+    
+        <tr class="student_row" id="student-c0.2">
+            <td id="sectionname">
+                Tutorial Group 1
+            </td>
+            <td id="teamname">Team 1</td>
+            <td id="studentname-c0.2">Benny Charles</td>
+            <td class="align-center">Joined</td>
+            <td class="no-print align-center">
+                
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        View
+                    </a>
+                
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Edit
+                    </a>
+                
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Benny Charles')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Delete
+                    </a>
+                
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        All Records
+                    </a>
+                
+                <div class="btn-group">
+                    
+                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
+                            Add Comment
+                        </a>
+                    
+                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                            <span class="caret"></span><span class="sr-only">Add comments</span>
+                        </a>
+                    
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Benny Charles
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 1
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=benny.c.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 1
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        
+    
+        <tr class="student_row" id="student-c0.3">
+            <td id="sectionname">
+                Tutorial Group 2
+            </td>
             <td id="teamname">Team 2</td>
-            <td id="studentname">Charlie Davis</td>
+            <td id="studentname-c0.3">Charlie Davis</td>
             <td class="align-center">Joined</td>
-            <td class="align-center no-print">
+            <td class="no-print align-center">
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         View
                     </a>
                 
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Edit
                     </a>
                 
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Charlie Davis')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Charlie Davis')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Delete
                     </a>
                 
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         All Records
                     </a>
-                
                 
                 <div class="btn-group">
                     
@@ -648,55 +498,178 @@
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
                     
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.3" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Charlie Davis
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Charlie Davis
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.3" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 2
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.3" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=charlie.d.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 2
                                 </a>
                             </li>
                         
                     </ul>
                 </div>
             </td>
-        </tr><tr class="student_row" id="student6">
-            
-                <td id="sectionname">Tutorial Group 2</td>
-            
+        </tr>
+        
+    
+        <tr class="student_row" id="student-c0.4">
+            <td id="sectionname">
+                Tutorial Group 1
+            </td>
+            <td id="teamname">Team 1</td>
+            <td id="studentname-c0.4">Danny Engrid</td>
+            <td class="align-center">Joined</td>
+            <td class="no-print align-center">
+                
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        View
+                    </a>
+                
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Edit
+                    </a>
+                
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Danny Engrid')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Delete
+                    </a>
+                
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        All Records
+                    </a>
+                
+                <div class="btn-group">
+                    
+                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
+                            Add Comment
+                        </a>
+                    
+                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                            <span class="caret"></span><span class="sr-only">Add comments</span>
+                        </a>
+                    
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Danny Engrid
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 1
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 1
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        
+    
+        <tr class="student_row" id="student-c0.5">
+            <td id="sectionname">
+                Tutorial Group 1
+            </td>
+            <td id="teamname">Team 1</td>
+            <td id="studentname-c0.5">Emma Farrell</td>
+            <td class="align-center">Joined</td>
+            <td class="no-print align-center">
+                
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        View
+                    </a>
+                
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Edit
+                    </a>
+                
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Emma Farrell')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        Delete
+                    </a>
+                
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                        All Records
+                    </a>
+                
+                <div class="btn-group">
+                    
+                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
+                            Add Comment
+                        </a>
+                    
+                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                            <span class="caret"></span><span class="sr-only">Add comments</span>
+                        </a>
+                    
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Emma Farrell
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 1
+                                </a>
+                            </li>
+                        
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=emma.f.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 1
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        
+    
+        <tr class="student_row" id="student-c0.6">
+            <td id="sectionname">
+                Tutorial Group 2
+            </td>
             <td id="teamname">Team 2</td>
-            <td id="studentname">Francis Gabriel</td>
+            <td id="studentname-c0.6">Francis Gabriel</td>
             <td class="align-center">Joined</td>
-            <td class="align-center no-print">
+            <td class="no-print align-center">
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         View
                     </a>
                 
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Edit
                     </a>
                 
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Francis Gabriel')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Francis Gabriel')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Delete
                     </a>
                 
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         All Records
                     </a>
-                
                 
                 <div class="btn-group">
                     
@@ -708,55 +681,56 @@
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
                     
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.6" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Francis Gabriel
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Francis Gabriel
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.6" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 2
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.6" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=francis.g.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 2
                                 </a>
                             </li>
                         
                     </ul>
                 </div>
             </td>
-        </tr><tr class="student_row" id="student7">
-            
-                <td id="sectionname">Tutorial Group 2</td>
-            
+        </tr>
+        
+    
+        <tr class="student_row" id="student-c0.7">
+            <td id="sectionname">
+                Tutorial Group 2
+            </td>
             <td id="teamname">Team 2</td>
-            <td id="studentname">Gene Hudson</td>
+            <td id="studentname-c0.7">Gene Hudson</td>
             <td class="align-center">Joined</td>
-            <td class="align-center no-print">
+            <td class="no-print align-center">
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         View
                     </a>
                 
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Edit
                     </a>
                 
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Gene Hudson')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Gene Hudson')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Delete
                     </a>
                 
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         All Records
                     </a>
-                
                 
                 <div class="btn-group">
                     
@@ -768,44 +742,46 @@
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
                     
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.7" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Gene Hudson
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Gene Hudson
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.7" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 2
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.7" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=gene.h.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 2
                                 </a>
                             </li>
                         
                     </ul>
                 </div>
             </td>
-        </tr><tr class="student_row" id="student8">
-            
-                <td id="sectionname">Tutorial Group 2</td>
-            
+        </tr>
+        
+    
+        <tr class="student_row" id="student-c0.8">
+            <td id="sectionname">
+                Tutorial Group 2
+            </td>
             <td id="teamname">Team 3</td>
-            <td id="studentname">Hugh Ivanov</td>
+            <td id="studentname-c0.8">Hugh Ivanov</td>
             <td class="align-center">Yet to join</td>
-            <td class="align-center no-print">
+            <td class="no-print align-center">
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         View
                     </a>
                 
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Edit
                     </a>
                 
@@ -813,14 +789,13 @@
                         Send Invite
                     </a>
                 
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Hugh Ivanov')" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('AHPUiT.instr1.gma-demo','Hugh Ivanov')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         Delete
                     </a>
                 
-                    <a data-original-title="View all data about this student" data-placement="top" title="" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
+                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}">
                         All Records
                     </a>
-                
                 
                 <div class="btn-group">
                     
@@ -832,31 +807,36 @@
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
                     
-                    
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tostudent-cAHPUiT.instr1.gma-demo.8" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
-                                    To student: Hugh Ivanov
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=student">
+                                    Comment on student: Hugh Ivanov
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_toteam-cAHPUiT.instr1.gma-demo.8" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
-                                    To team: Team 3
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=team">
+                                    Comment on team: Team 3
                                 </a>
                             </li>
                         
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" class="t_student_details_tosection-cAHPUiT.instr1.gma-demo.8" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
-                                    To section: Tutorial Group 2
+                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;studentemail=hugh.i.tmms%40gmail.tmt&amp;user={$test.instructor}&amp;addComment=section">
+                                    Comment on section: Tutorial Group 2
                                 </a>
                             </li>
                         
                     </ul>
                 </div>
             </td>
-        </tr></tbody></table>
+        </tr>
+        
+    
+        
+        
+    
+</tbody></table>
     <br>
     <br>
     <br>
