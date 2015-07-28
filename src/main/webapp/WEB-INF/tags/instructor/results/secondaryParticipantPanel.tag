@@ -52,7 +52,7 @@
         &nbsp;
         <div class="col-md-12">
             <c:if test="${secondaryParticipantPanelBody.moderationButtonDisplayed}">
-                <results:moderationsButton moderationButton="${secondaryParticipantPanelBody.moderationButton}"/>
+                <results:moderationButton moderationButton="${secondaryParticipantPanelBody.moderationButton}"/>
             </c:if>
         </div>
         &nbsp;

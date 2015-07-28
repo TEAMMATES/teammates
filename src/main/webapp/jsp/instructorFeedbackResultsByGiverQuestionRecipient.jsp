@@ -7,7 +7,7 @@
 </c:set>
 
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
-    <results:byParticipantQuestionParticipant isGroupedByQuestion="${true}" showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" />
-                                              shouldCollapsed="${data.shouldCollapsed}" 
-                                              isGroupedByTeam="${data.groupedByTeam}" />
+    <results:byParticipantQuestionParticipant isGroupedByQuestion="${true}" isGroupedByTeam="${data.groupedByTeam}"
+                                              showAll="${data.bundle.complete}" 
+                                              shouldCollapsed="${data.shouldCollapsed}" />
 </results:resultsPage>

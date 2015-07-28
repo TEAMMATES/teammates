@@ -13,8 +13,7 @@ import teammates.common.util.FieldValidator;
  */
 public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorResultsParticipantPanel {
     
-    List<InstructorResultsQuestionTable> questionTables;
-    
+    private List<InstructorResultsQuestionTable> questionTables;
     
     public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorResultsQuestionTable> questionTables,
                                     String profilePictureLink, 

@@ -7,7 +7,7 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
     protected String name; 
     
     protected boolean isHasResponses;
-    
+    protected boolean isEmailValid;
     
     protected String profilePictureLink;
     
