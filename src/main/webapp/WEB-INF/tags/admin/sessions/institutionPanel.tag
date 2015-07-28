@@ -12,7 +12,7 @@
                 <span class="badge pull-right" id="badge_${tableIndex}" style="display: none">
                     ${fn:length(institutionPanel.feedbackSessionRows)}
                 </span>
-                <Strong>${institutionPanel.institutionName}</Strong>
+                <strong>${institutionPanel.institutionName}</strong>
             </a>
         </li>
     </ul>
