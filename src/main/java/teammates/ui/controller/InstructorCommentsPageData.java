@@ -108,6 +108,7 @@ public class InstructorCommentsPageData extends PageData {
         String namesString = namesStringBuilder.toString();
         return removeEndComma(namesString);
     }
+    
     private void setCoursePagination(List<String> coursePaginationList) {
         String previousPageLink = retrievePreviousPageLink(coursePaginationList);
         String nextPageLink = retrieveNextPageLink(coursePaginationList);

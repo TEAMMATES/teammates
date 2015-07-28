@@ -27,7 +27,7 @@
                 </h4>
                 <comments:commentsNotifyPanel courseId="${data.courseId}" numberOfPendingComments="${data.numberOfPendingComments}" />
             </div>
-            <div id="no-comment-panel" style="${empty data.commentsForStudentsTables && empty data.feedbackSessions ? '' : 'display:none;'}">
+            <div id="no-comment-panel" style="${empty data.commentsForStudentsTables and empty data.feedbackSessions ? '' : 'display:none;'}">
                 <br>
                 <div class="panel">
                     <div class="panel-body">
