@@ -108,19 +108,19 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         //the first table is the hidden table used for comments' visibility options
         String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
-        detailsPage.sortByStatus().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
         patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
-        detailsPage.sortByStatus().verifyTablePattern(1, 3, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
         
         patternString = "Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
-        detailsPage.sortByName().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
-        detailsPage.sortByName().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         
         patternString = "Team 1{*}Team 1{*}Team 2{*}Team 2";
-        detailsPage.sortByTeam().verifyTablePattern(1, 1, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
         patternString = "Team 2{*}Team 2{*}Team 1{*}Team 1";
-        detailsPage.sortByTeam().verifyTablePattern(1, 1, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
     }
     
     public void testLinks() {
