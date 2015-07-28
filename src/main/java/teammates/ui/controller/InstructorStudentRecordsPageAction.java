@@ -100,10 +100,9 @@ public class InstructorStudentRecordsPageAction extends Action {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.courseId.equals(courseId)) {
-                iterFs.remove();
-            } else if (!instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
-                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+            if (!tempFs.courseId.equals(courseId)
+                || !instructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }
         }

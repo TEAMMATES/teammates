@@ -51,7 +51,8 @@ public class InstructorStudentRecordsPageData extends PageData {
         }
         this.commentsForStudentTable = new ArrayList<CommentsForStudentsTable>();
         CommentsForStudentsTable commentsForStudent = new CommentsForStudentsTable("You", commentDivs);
-        commentsForStudent.setInstructorAllowedToGiveComment(instructor.isAllowedForPrivilege(student.section,
+        commentsForStudent.setInstructorAllowedToGiveComment(
+                                        instructor.isAllowedForPrivilege(student.section,
                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         commentsForStudentTable.add(commentsForStudent);
         this.sessionNames = sessionNames;

@@ -12,7 +12,7 @@
         var showCommentBox = "${data.showCommentBox}";
     </script>
 </c:set>
-<c:set var="bodyTitle" value="${data.studentName}'s Records<small class=\"muted\"> - ${data.courseId}</small>" />
+<c:set var="bodyTitle">${data.studentName}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
     <t:statusMessage />
     <div class="container-fluid">

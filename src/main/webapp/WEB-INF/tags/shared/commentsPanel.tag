@@ -8,7 +8,6 @@
 <%@ attribute name="courseId" %>
 <%@ attribute name="viewingDraft" %>
 <%@ attribute name="forRecordsPage" %>
-<%@ attribute name="newCommentIndex" %>
 <c:choose>
     <c:when test="${viewingDraft}">
         <c:set var="bodyTitle" value="Comment drafts" />
