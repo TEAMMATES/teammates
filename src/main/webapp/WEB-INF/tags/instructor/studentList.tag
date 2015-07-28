@@ -6,10 +6,19 @@
 <%@ attribute name="hasSection" required="true" %>
 <%@ attribute name="sections" type="java.util.Collection" required="true" %>
 <%@ attribute name="fromStudentListPage" %>
-<table class="table table-responsive table-striped table-bordered margin-0">
+<%@ attribute name="fromCourseDetailsPage" %>
+<c:choose>
+    <c:when test="${fromCourseDetailsPage}">
+        <c:set var="tableHeader"><thead class="fill-primary"></c:set>
+    </c:when>
+    <c:otherwise>
+        <c:set var="tableHeader"><thead class="background-color-medium-gray text-color-gray font-weight-normal"></c:set>
+    </c:otherwise>
+</c:choose>
+<table class="table table-bordered table-striped<c:if test="${not fromCourseDetailsPage}"> table-responsive margin-0</c:if>">
     <c:choose>
         <c:when test="${not empty sections}">
-            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+            ${tableHeader}
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
                     <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this,2)">
@@ -26,11 +35,6 @@
                     </th>
                     <th>Action(s)</th>
                 </tr>
-                <c:if test="${fromStudentListPage}">
-                    <tr id="searchNoResults-${courseIndex}" class="hidden">
-                        <th class="align-center color_white bold">Cannot find students in this course</th>
-                    </tr>
-                </c:if>
             </thead>
             <tbody>
                 <c:set var="teamIndex" value="${-1}" />
@@ -68,7 +72,7 @@
                                     ${student.studentEmail}
                                 </div>
                             </c:if>
-                            <tr id="student-c${courseIndex}.${studentIndex}">
+                            <tr class="student_row" id="student-c${courseIndex}.${studentIndex}">
                                 <td id="studentphoto-c${courseIndex}.${studentIndex}">
                                     <div class="profile-pic-icon-click align-center" data-link="${student.photoUrl}">
                                         <a class="student-profile-pic-view-link btn-link">View Photo</a>
@@ -124,12 +128,20 @@
                                        data-placement="top">
                                         All Records
                                     </a>
-                                    <div class="dropdown inline">
+                                    <div class="btn-group">
+                                        <a class="btn btn-default btn-xs cursor-default"
+                                           href="javascript:;"
+                                           title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           href="javascript:;">
+                                            Add Comment
+                                        </a>
                                         <a class="btn btn-default btn-xs dropdown-toggle"
                                            href="javascript:;"
                                            data-toggle="dropdown"
                                            <c:if test="${not section.allowedToGiveCommentInSection}">disabled="disabled"</c:if>>
-                                            Add Comment
+                                            <span class="caret"></span><span class="sr-only">Add comments</span>
                                         </a>
                                         <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                                             <li role="presentation">
@@ -137,7 +149,7 @@
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=student">
-                                                    Comment on ${student.studentName}
+                                                    Comment on student: ${student.studentName}
                                                 </a>
                                             </li>
                                             <li role="presentation">
@@ -145,7 +157,7 @@
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=team">
-                                                    Comment on ${team.teamName}
+                                                    Comment on team: ${team.teamName}
                                                 </a>
                                             </li>
                                             <c:if test="${hasSection}">
@@ -154,7 +166,7 @@
                                                        role="menuitem"
                                                        tabindex="-1"
                                                        href="${student.courseStudentDetailsLink}&addComment=section">
-                                                        Comment on ${section.sectionName}
+                                                        Comment on section: ${section.sectionName}
                                                     </a>
                                                 </li>
                                             </c:if>
@@ -168,7 +180,7 @@
             </tbody>
         </c:when>
         <c:otherwise>
-            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+            ${tableHeader}
                 <tr>
                     <th class="align-center color_white bold">There are no students in this course</th>
                 </tr>
