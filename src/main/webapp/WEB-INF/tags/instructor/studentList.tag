@@ -15,6 +15,7 @@
         <c:set var="tableHeader"><thead class="background-color-medium-gray text-color-gray font-weight-normal"></c:set>
     </c:otherwise>
 </c:choose>
+<c:set var="STUDENT_COURSE_STATUS_YET_TO_JOIN" value="<%= Const.STUDENT_COURSE_STATUS_YET_TO_JOIN %>" />
 <table class="table table-bordered table-striped<c:if test="${not fromCourseDetailsPage}"> table-responsive margin-0</c:if>">
     <c:choose>
         <c:when test="${not empty sections}">
@@ -30,9 +31,16 @@
                     <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,4)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,5)">
-                        Email <span class="icon-sort unsorted"></span>
-                    </th>
+                    <c:if test="${not fromCourseDetailsPage}">
+                        <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,5)">
+                            Email <span class="icon-sort unsorted"></span>
+                        </th>
+                    </c:if>
+                    <c:if test="${fromCourseDetailsPage}">
+                        <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
+                            Status <span class="icon-sort unsorted"></span>
+                        </th>
+                    </c:if>
                     <th>Action(s)</th>
                 </tr>
             </thead>
@@ -89,9 +97,16 @@
                                 <td id="studentname-c${courseIndex}.${studentIndex}">
                                     ${student.studentName}
                                 </td>
-                                <td id="studentemail-c${courseIndex}.${studentIndex}">
-                                    ${student.studentEmail}
-                                </td>
+                                <c:if test="${not fromCourseDetailsPage}">
+                                    <td id="studentemail-c${courseIndex}.${studentIndex}">
+                                        ${student.studentEmail}
+                                    </td>
+                                </c:if>
+                                <c:if test="${fromCourseDetailsPage}">
+                                    <td class="align-center">
+                                        ${student.studentStatus}
+                                    </td>
+                                </c:if>
                                 <td class="no-print align-center">
                                     <a class="btn btn-default btn-xs student-view-for-test"
                                        href="${student.courseStudentDetailsLink}"
@@ -111,6 +126,17 @@
                                        <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
                                         Edit
                                     </a>
+                                    <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
+                                        <a class="btn btn-default btn-xs student-edit-for-test"
+                                           href="${student.courseStudentRemindLink}"
+                                           title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           onclick="return toggleSendRegistrationKey()"
+                                           <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                            Send Invite
+                                        </a>
+                                    </c:if>
                                     <a class="btn btn-default btn-xs student-delete-for-test"
                                        href="${student.courseStudentDeleteLink}"
                                        onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
