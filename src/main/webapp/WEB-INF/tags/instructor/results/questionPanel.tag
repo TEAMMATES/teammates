@@ -8,7 +8,7 @@
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="questionIndex" type="java.lang.Integer"%>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="questionPanel" type="teammates.ui.template.InstructorResultsQuestionTable" required="true" %>
+<%@ attribute name="questionPanel" type="teammates.ui.template.InstructorFeedbackResultsQuestionTable" required="true" %>
 
 
 <div class="panel ${questionPanel.panelClass}">

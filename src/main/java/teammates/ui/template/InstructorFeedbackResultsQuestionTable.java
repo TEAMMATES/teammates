@@ -10,7 +10,7 @@ import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.ui.controller.InstructorFeedbackResultsPageData;
 
-public class InstructorResultsQuestionTable {
+public class InstructorFeedbackResultsQuestionTable {
 
     private String courseId;
     private String feedbackSessionName;
@@ -18,7 +18,7 @@ public class InstructorResultsQuestionTable {
     private String panelClass;
     private String responsesBodyClass;
     
-    private List<InstructorResultsResponseRow> responses;
+    private List<InstructorFeedbackResultsResponseRow> responses;
     
     // store the attributes of the question for the non-display purposes 
     // such as form inputs
@@ -37,10 +37,10 @@ public class InstructorResultsQuestionTable {
     private List<ElementTag> columns;
     private Map<String, Boolean> isColumnSortable;
 
-    public InstructorResultsQuestionTable(InstructorFeedbackResultsPageData data,
+    public InstructorFeedbackResultsQuestionTable(InstructorFeedbackResultsPageData data,
                                           List<FeedbackResponseAttributes> responses,
                                           String questionStatisticsHtml,
-                                          List<InstructorResultsResponseRow> responseRows,
+                                          List<InstructorFeedbackResultsResponseRow> responseRows,
                                           FeedbackQuestionAttributes question,
                                           String additionalInfoId,
                                           List<ElementTag> columns,
@@ -74,7 +74,7 @@ public class InstructorResultsQuestionTable {
         this.isColumnSortable = isColumnSortable;
     }
 
-    public List<InstructorResultsResponseRow> getResponses() {
+    public List<InstructorFeedbackResultsResponseRow> getResponses() {
         return responses;
     }
 
@@ -152,9 +152,9 @@ public class InstructorResultsQuestionTable {
         this.isBoldQuestionNumber = isBoldQuestionNumber;
     }
 
-    public static void sortByQuestionNumber(List<InstructorResultsQuestionTable> questionTables) {
-        Collections.sort(questionTables, new Comparator<InstructorResultsQuestionTable>() {
-            public int compare(InstructorResultsQuestionTable questionTable1, InstructorResultsQuestionTable questionTable2) {
+    public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
+        Collections.sort(questionTables, new Comparator<InstructorFeedbackResultsQuestionTable>() {
+            public int compare(InstructorFeedbackResultsQuestionTable questionTable1, InstructorFeedbackResultsQuestionTable questionTable2) {
                 return questionTable1.question.questionNumber - questionTable2.question.questionNumber;
             }
         });

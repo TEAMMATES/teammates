@@ -5,7 +5,7 @@ import teammates.common.util.Url;
 /**
  * Data model for Instructor Feedback Results view by question, view by...
  */
-public class InstructorResultsResponseRow {
+public class InstructorFeedbackResultsResponseRow {
     private ElementTag rowAttributes;
     private boolean isRowGrey;
     
@@ -26,21 +26,21 @@ public class InstructorResultsResponseRow {
     private boolean isActionsDisplayed;
     
     private String displayableResponse;
-    private InstructorResultsModerationButton moderationButton;
+    private InstructorFeedbackResultsModerationButton moderationButton;
     
     
-    public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
+    public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse, 
-                                        InstructorResultsModerationButton moderationButton) {
+                                        InstructorFeedbackResultsModerationButton moderationButton) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
              displayableResponse, moderationButton, false);
     }
     
-    public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
+    public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse, 
-                                        InstructorResultsModerationButton moderationButton, boolean isRowGrey) {
+                                        InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverTeam = giverTeam;
         
@@ -75,7 +75,7 @@ public class InstructorResultsResponseRow {
     }
     
     
-    public InstructorResultsModerationButton getModerationButton() {
+    public InstructorFeedbackResultsModerationButton getModerationButton() {
         return moderationButton;
     }
 

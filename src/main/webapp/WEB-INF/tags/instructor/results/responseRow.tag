@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="responseRow" type="teammates.ui.template.InstructorResultsResponseRow" required="true" %>
+<%@ attribute name="responseRow" type="teammates.ui.template.InstructorFeedbackResultsResponseRow" required="true" %>
 
 <tr <c:forEach items="${responseRow.rowAttributes.attributes}" var="attr">${attr.key}="${attr.value}"</c:forEach>>
     <c:if test="${responseRow.giverDisplayed}">
