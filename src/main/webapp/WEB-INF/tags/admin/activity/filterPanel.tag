@@ -187,31 +187,31 @@
         
         <input type="hidden" name="pageChange" value="true">
         
-        <!-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
+        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
         logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
-        or simply reloaded with this parameter omitted. -->
+        or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="all" value="${ifShowAll}">
 
-        <!-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
+        <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. -->
+        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="testdata" value="${ifShowTestData}"> 
     </form>
     
      
-    <!-- this form is used to store parameters for ajaxloader only -->
+    <%-- this form is used to store parameters for ajaxloader only --%>
    <form id="ajaxLoaderDataForm">
       <input type="hidden" name="offset" value="${offset}">
-       <!-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
+       <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
         logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
-        or simply reloaded with this parameter omitted. -->
+        or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="all" value="${ifShowAll}">
 
-        <!-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
+        <%-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
         to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
-        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. -->
+        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. --%>
         <input type="hidden" name="testdata" value="${ifShowTestData}">
         
         <input type="hidden" id="filterQuery" name="filterQuery" value="${filterQuery}">
