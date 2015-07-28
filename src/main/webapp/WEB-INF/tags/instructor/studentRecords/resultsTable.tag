@@ -26,7 +26,7 @@
                             <c:forEach items="${responsesByPerson.responses}" var="response" varStatus="qnIndex">
                                 <div class="panel panel-info">
                                     <div class="panel-heading">
-                                    	Question ${response.questionNumber}: <span class="text-preserve-space">${response.questionText}${response.questionMoreInfo}</span>
+                                        Question ${response.questionNumber}: <span class="text-preserve-space">${response.questionText}${response.questionMoreInfo}</span>
                                     </div>
                                     <div class="panel-body">
                                         <div style="clear:both; overflow: hidden">
@@ -34,11 +34,11 @@
                                             <div class="pull-left text-preserve-space">${response.responseText}</div>
                                         </div>
                                         <c:if test="${not empty response.responseComments}">
-                                        	<ul class="list-group" id="responseCommentTable-${fbIndex}-${personIndex.index + 1}-${qnIndex.index + 1}-${viewType}" style="margin-top:15px;">
-                                        		<c:forEach items="${response.responseComments}" var="responseComment">
-                                        			<shared:feedbackResponseComment frc="${responseComment}" />
-                                        		</c:forEach>
-                                        	</ul>
+                                            <ul class="list-group" id="responseCommentTable-${fbIndex}-${personIndex.index + 1}-${qnIndex.index + 1}-${viewType}" style="margin-top:15px;">
+                                                <c:forEach items="${response.responseComments}" var="responseComment">
+                                                    <shared:feedbackResponseComment frc="${responseComment}" />
+                                                </c:forEach>
+                                            </ul>
                                         </c:if>
                                     </div>
                                 </div>
