@@ -11,7 +11,7 @@
 
 <div class="panel ${not empty groupByParticipantPanel.secondaryParticipantPanels ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
-        To: 
+        ${groupByParticipantPanel.giver ? 'From' : 'To'}: 
         <c:choose>
             <c:when test="${groupByParticipantPanel.emailValid}">
                 <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByParticipantPanel.profilePictureLink}">

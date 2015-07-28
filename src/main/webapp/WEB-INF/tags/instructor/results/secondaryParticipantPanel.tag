@@ -13,11 +13,11 @@
 
 
 
-<div class="row ${secondaryParticipantIndex == 0? '': 'border-top-gray'}">
+<div class="row ${secondaryParticipantIndex == 0 ? '': 'border-top-gray'}">
     <%-- Side of the panel --%>
     <div class="col-md-2">
         <div class="col-md-12">
-            From: 
+            ${primaryParticipantPanel.giver? 'To' : 'From'}: 
             
             <c:choose>
                 <c:when test="${secondaryParticipantPanelBody.emailValid}">

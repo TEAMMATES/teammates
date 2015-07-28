@@ -137,6 +137,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
             case "giver-recipient-question":
+                data.initForViewByGiverRecipientQuestion(instructor, data.selectedSection, data.showStats, data.groupByTeam);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
             case "recipient-question-giver":
