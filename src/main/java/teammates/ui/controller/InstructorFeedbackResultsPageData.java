@@ -33,6 +33,7 @@ import teammates.ui.template.InstructorResultsQuestionTable;
 import teammates.ui.template.InstructorResultsResponseRow;
 import teammates.ui.template.InstructorResultsModerationButton;
 
+
 public class InstructorFeedbackResultsPageData extends PageData {
     private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
 
@@ -132,7 +133,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
-            buildSectionPanelsForForAjaxLoading(sections);
+            if (isAllSectionsSelected()) {
+                buildSectionPanelsForForAjaxLoading(sections);
+            } else {
+                buildSectionPanelWithErrorMessage();
+            }
+            
             return;
         }
         
@@ -171,7 +177,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
-            buildSectionPanelsForForAjaxLoading(sections);
+            if (isAllSectionsSelected()) {
+                buildSectionPanelsForForAjaxLoading(sections);
+            } else {
+                buildSectionPanelWithErrorMessage();
+            }
+            
             return;
         }
         
@@ -293,7 +304,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         finaliseBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam, teamsWithResponses);
         sectionPanels.put(prevSection, sectionPanel);
 
-        isAllSectionsSelected(prevSection, sectionsWithResponses);
+        // TODO introduce enums for this, because this causes problems if there is a section named "All"
+        if (isAllSectionsSelected()) {
+            sectionsWithResponses.add(prevSection); // for the last section having responses 
+            buildSectionPanelsForMissingSections(sectionsWithResponses);
+        }
     }
 
     private void buildSectionPanelsForRecipientQuestionGiver(
@@ -395,17 +410,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         finaliseBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam, teamsWithResponses);
         sectionPanels.put(prevSection, sectionPanel);        
 
-        isAllSectionsSelected(prevSection, sectionsWithResponses);
-    }
-
-    private void isAllSectionsSelected(String prevSection, Set<String> sectionsWithResponses) {
         // TODO introduce enums for this, because this causes problems if there is a section named "All"
-        if (selectedSection.equals("All")) {
+        if (isAllSectionsSelected()) {
             sectionsWithResponses.add(prevSection); // for the last section having responses 
             buildSectionPanelsForMissingSections(sectionsWithResponses);
         }
     }
-    
+
     private InstructorFeedbackResultsGroupByQuestionPanel buildParticipantGroupByQuestionPanel(
                                     String participantIdentifier,
                                     Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesForParticipant,
@@ -607,35 +618,35 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // TODO 
         // Abstract out "All" sections into a boolean or enum instead. Otherwise this will cause problems in future
         // if there is ever a section named "All"
-        if (selectedSection.equals("All")) {
-            sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
-            
-            for (String section : sections) {
-                InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-                sectionPanel.setSectionName(section);
-                sectionPanel.setSectionNameForDisplay(section);
-                sectionPanel.setLoadSectionResponsesByAjax(true);
-                
-                sectionPanels.put(section, sectionPanel);
-            }
-            
+        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+        
+        for (String section : sections) {
             InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-            sectionPanel.setSectionName(Const.DEFAULT_SECTION);
-            sectionPanel.setSectionNameForDisplay(DISPLAY_NAME_FOR_DEFAULT_SECTION);
+            sectionPanel.setSectionName(section);
+            sectionPanel.setSectionNameForDisplay(section);
             sectionPanel.setLoadSectionResponsesByAjax(true);
             
-            sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
-            
-        } else {
-            sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
-            
-            InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-            sectionPanel.setSectionName(selectedSection);
-            sectionPanel.setSectionNameForDisplay(selectedSection);
-            sectionPanel.setLoadSectionResponsesByAjax(true);
-            
-            sectionPanels.put(selectedSection, sectionPanel);
+            sectionPanels.put(section, sectionPanel);
         }
+        
+        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+        sectionPanel.setSectionName(Const.DEFAULT_SECTION);
+        sectionPanel.setSectionNameForDisplay(DISPLAY_NAME_FOR_DEFAULT_SECTION);
+        sectionPanel.setLoadSectionResponsesByAjax(true);
+        
+        sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);  
+    }
+    
+    private void buildSectionPanelWithErrorMessage() {
+        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+        
+        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+        sectionPanel.setSectionName(selectedSection);
+        sectionPanel.setSectionNameForDisplay(selectedSection);
+        sectionPanel.setAbleToLoadResponses(false);
+        
+        sectionPanels.put(selectedSection, sectionPanel);
+        
     }
 
     private void addMissingParticipantsForTeamToSectionPanelWithModerationButton(
@@ -1172,7 +1183,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver);
             
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
-            if (!selectedSection.equals("All") && !bundle.getSectionFromRoster(possibleGiverWithNoResponses).equals(selectedSection)) {
+            if (!isAllSectionsSelected() && !bundle.getSectionFromRoster(possibleGiverWithNoResponses).equals(selectedSection)) {
                 continue;
             }
             possibleRecipientsForGiver = bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
@@ -1238,6 +1249,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String getProfilePictureLink(String studentEmail) {
         return getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
                                             StringHelper.encrypt(instructor.courseId));
+    }
+
+    public static String getExceedingResponsesErrorMessage() {
+        return EXCEEDING_RESPONSES_ERROR_MESSAGE;
     }
 
     public void setBundle(FeedbackSessionResultsBundle bundle) {

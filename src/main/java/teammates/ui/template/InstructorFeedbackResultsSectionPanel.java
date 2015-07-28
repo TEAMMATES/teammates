@@ -13,6 +13,7 @@ public class InstructorFeedbackResultsSectionPanel {
     private boolean isGroupedByTeam;
     private boolean isDisplayingMissingParticipants;
     private boolean isLoadSectionResponsesByAjax;
+    private boolean isAbleToLoadResponses;
     
     private String sectionName;
     private String sectionNameForDisplay;
@@ -31,6 +32,7 @@ public class InstructorFeedbackResultsSectionPanel {
         panelClass = "panel-success";
         isDisplayingMissingParticipants = true;
         
+        isAbleToLoadResponses = true;
         isTeamWithResponses = new HashMap<String, Boolean>();
         participantPanels = new LinkedHashMap<String, List<InstructorResultsParticipantPanel>>();
     }
@@ -132,6 +134,15 @@ public class InstructorFeedbackResultsSectionPanel {
     public void setSectionNameForDisplay(String sectionNameForDisplay) {
         this.sectionNameForDisplay = sectionNameForDisplay;
     }
+
+    public boolean isAbleToLoadResponses() {
+        return isAbleToLoadResponses;
+    }
+
+    public void setAbleToLoadResponses(boolean isUnableToLoadResponses) {
+        this.isAbleToLoadResponses = isUnableToLoadResponses;
+    }
+
 
     public List<InstructorResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
         List<InstructorResultsParticipantPanel> sortedPanels = new ArrayList<InstructorResultsParticipantPanel>();
