@@ -34,31 +34,26 @@
         </div>
         
         <div class="col-md-12 text-muted small"><br>
-            To:
-            
-            
+            ${primaryParticipantPanel.giver? 'From' : 'To' }: 
             <c:choose>
                 <c:when test="${primaryParticipantPanel.emailValid}">
                     <div class="middlealign profile-pic-icon-hover inline-block" data-link="${primaryParticipantPanel.profilePictureLink}">
-                        <strong>${primaryParticipantPanel.name}</strong>
+                        ${primaryParticipantPanel.name}
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                     </div>               
                 </c:when>
                 <c:otherwise>
-                    <strong>${primaryParticipantPanel.name}</strong>
+                    ${primaryParticipantPanel.name}
                 </c:otherwise>
             </c:choose>
         </div>
-        &nbsp;
             <c:if test="${not empty secondaryParticipantPanelBody.moderationButton}">
                 <div class="col-md-12">
                     <results:moderationButton moderationButton="${secondaryParticipantPanelBody.moderationButton}"/>
                 </div>
             </c:if>
-        &nbsp;
     </div>
     <%-- End of Side of the panel --%>
-    
     <div class="col-md-10">
         <c:set var="qnIndx" value="${1}"/>
         <c:forEach var="responsePanel" items="${secondaryParticipantPanelBody.responsePanels}">
