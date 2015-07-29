@@ -201,7 +201,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
         
         String contribAdditionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
-                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                FeedbackQuestionFormTemplates.CONTRIB_ADDITIONAL_INFO,
                 "${more}", "[how to interpret, etc..]",
                 "${less}", "[less]",
                 "${questionNumber}", Integer.toString(question.questionNumber),
