@@ -11,6 +11,7 @@ public class CommentsForStudentsTable {
     private String giverDetails;
     private String extraClass = "";
     private List<Comment> rows;
+    private boolean instructorAllowedToGiveComment;
     
     public CommentsForStudentsTable(String giverDetails, List<Comment> rows) {
         this.giverDetails = giverDetails;
@@ -32,4 +33,13 @@ public class CommentsForStudentsTable {
     public void withExtraClass(String extraClass) {
         this.extraClass = " " + extraClass;
     }
+
+    public void setInstructorAllowedToGiveComment(boolean isInstructorAllowedToGiveComment) {
+        this.instructorAllowedToGiveComment = isInstructorAllowedToGiveComment;
+    }
+    
+    public boolean isInstructorAllowedToGiveComment() {
+        return instructorAllowedToGiveComment;
+    }
+
 }

@@ -51,7 +51,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
         
         InstructorStudentRecordsAjaxPageData data = (InstructorStudentRecordsAjaxPageData) r.data;
-        assertEquals(1, data.results.size());
+        assertEquals(1, data.getResultsTables().size());
         
         ______TS("Typical case: instructor cannot view sections");
 
@@ -73,7 +73,7 @@ public class InstructorStudentRecordsAjaxPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
 
         data = (InstructorStudentRecordsAjaxPageData) r.data;
-        assertEquals(0, data.results.size());
+        assertEquals(0, data.getResultsTables().size());
         
     }
 

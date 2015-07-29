@@ -132,10 +132,12 @@ function setupFsCopyModal() {
         var actionlink = button.data('actionlink');
         var courseid = button.data('courseid');
         var fsname = button.data('fsname');
+        var currentPage = window.location.href;
         
         $.ajax({
             type: 'GET',
-            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname),
+            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname)
+                 + '&currentPage=' + encodeURIComponent(currentPage),
             beforeSend: function() {
                 $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
