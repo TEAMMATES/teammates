@@ -35,7 +35,7 @@ public class FeedbackResponseRow {
         }
         this.responseComments = new ArrayList<FeedbackResponseComment>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
-        if (frcs != null && frcs.size() > 0) {
+        if (frcs != null) {
             for (FeedbackResponseCommentAttributes frc : frcs) {
                 this.responseComments.add(new FeedbackResponseComment(frc, frc.giverEmail));
             }
