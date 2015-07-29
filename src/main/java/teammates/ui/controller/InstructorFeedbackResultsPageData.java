@@ -116,6 +116,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         startIndex = -1;
     }
     
+    /**
+     * Prepares question tables for viewing
+     *  
+     * {@code bundle} should be set before this method
+     */
     public void initForViewByQuestion(InstructorAttributes instructor, 
                                       String selectedSection, String showStats, 
                                       String groupByTeam) {
@@ -138,6 +143,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
     }
     
+  
     /**
      * Creates {@code InstructorFeedbackResultsSectionPanel}s for sectionPanels.
      * 
@@ -145,47 +151,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * of missing sections, teams and participants who do not have responses 
      * and create panels for these missing sections, teams and participants.
      * 
+     * {@code bundle} should be set before this method
      * TODO: simplify the logic in this method
      */
-    public void initForViewByGiverQuestionRecipient(InstructorAttributes instructor, 
-                                                    String selectedSection, String showStats, 
-                                                    String groupByTeam) {
-        viewType = ViewType.GIVER_QUESTION_RECIPIENT;
-        this.instructor = instructor;
-        this.selectedSection = selectedSection;
-        this.showStats = showStats;
-        this.groupByTeam = groupByTeam;
-        
-        if (!bundle.isComplete) {
-            // results page to be loaded by ajax instead 
-            if (isAllSectionsSelected()) {
-                buildSectionPanelsForForAjaxLoading(sections);
-            } else {
-                buildSectionPanelWithErrorMessage();
-            }
-            
-            return;
-        }
-        
-        // Note that if the page needs to load by ajax, then responses will be empty too,
-        // therefore the check whether the bundle needs to come before this
-        if (bundle.responses.isEmpty()) {
-            // no responses, nothing to initialize
-            return;
-        }
-        
-        setShouldCollapsed(bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL);
-        
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
-                     = bundle.getResponsesSortedByGiverQuestionRecipient(true);
-        
-        buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponses, viewType.additionalInfoId());
-    }
-    
-    public void initForViewByGiverRecipientQuestion(InstructorAttributes instructor, 
+    public void initForSectionPanelViews(InstructorAttributes instructor, 
                                     String selectedSection, String showStats, 
-                                    String groupByTeam) {
-        viewType = ViewType.GIVER_RECIPIENT_QUESTION;
+                                    String groupByTeam, ViewType view) {
+        this.viewType = view;
         this.instructor = instructor;
         this.selectedSection = selectedSection;
         this.showStats = showStats;
@@ -202,8 +174,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             return;
         }
         
-        // Note that if the page needs to load by ajax, then responses will be empty too,
-        // therefore the check whether the bundle needs to come before this
+        // Note that if the page needs to load by ajax, then responses may be empty too,
+        // therefore the check for ajax to come before this
         if (bundle.responses.isEmpty()) {
             // no responses, nothing to initialize
             return;
@@ -211,88 +183,33 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         setShouldCollapsed(bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL);
         
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses 
-                     = bundle.getResponsesSortedByGiver(true);
-        buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponses, viewType.additionalInfoId());
-        
-    }
+        switch (viewType) {
+            case RECIPIENT_GIVER_QUESTION:
+                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForRGQ 
+                    = bundle.getResponsesSortedByRecipient(true);
     
-    /**
-     * Creates {@code InstructorFeedbackResultsSectionPanel}s for sectionPanels.
-     * 
-     * Iterates through the responses and creates panels and questions for them. Keeps track 
-     * of missing sections, teams and participants who do not have responses 
-     * and create panels for these missing sections, teams and participants.
-     * 
-     * TODO: simplify the logic in this method
-     */
-    public void initForViewByRecipientQuestionGiver(InstructorAttributes instructor, 
-                                    String selectedSection, String showStats, 
-                                    String groupByTeam) {
-        viewType = ViewType.RECIPIENT_QUESTION_GIVER;
-        this.instructor = instructor;
-        this.selectedSection = selectedSection;
-        this.showStats = showStats;
-        this.groupByTeam = groupByTeam;
-        
-        if (!bundle.isComplete) {
-            // results page to be loaded by ajax instead 
-            if (isAllSectionsSelected()) {
-                buildSectionPanelsForForAjaxLoading(sections);
-            } else {
-                buildSectionPanelWithErrorMessage();
-            }
-            
-            return;
+                buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForRGQ, viewType.additionalInfoId());
+                break;
+            case RECIPIENT_QUESTION_GIVER:
+                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForRQG
+                    = bundle.getResponsesSortedByRecipientQuestionGiver(true);
+  
+                buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForRQG, viewType.additionalInfoId());
+                break;
+            case GIVER_QUESTION_RECIPIENT:
+                Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponsesForGQR 
+                    = bundle.getResponsesSortedByGiverQuestionRecipient(true);
+   
+                buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponsesForGQR, viewType.additionalInfoId());
+                break;
+            case GIVER_RECIPIENT_QUESTION:
+                Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForGRQ
+                    = bundle.getResponsesSortedByGiver(true);
+                buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForGRQ, viewType.additionalInfoId());
+                break;
+            default:
+                Assumption.fail();
         }
-        
-        // Note that if the page needs to load by ajax, then responses will be empty too,
-        // therefore the check whether the bundle needs to come before this
-        if (bundle.responses.isEmpty()) {
-            // no responses, nothing to initialize
-            return;
-        }
-        
-        setShouldCollapsed(bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL);
-        
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
-                     = bundle.getResponsesSortedByRecipientQuestionGiver(true);
-       
-        buildSectionPanelsForViewByParticipantQuestionParticipant(sortedResponses, viewType.additionalInfoId());
-    }
-    
-    public void initForViewByRecipientGiverQuestion(InstructorAttributes instructor, 
-                                    String selectedSection, String showStats, 
-                                    String groupByTeam) {
-        viewType = ViewType.RECIPIENT_GIVER_QUESTION;
-        this.instructor = instructor;
-        this.selectedSection = selectedSection;
-        this.showStats = showStats;
-        this.groupByTeam = groupByTeam;
-        
-        if (!bundle.isComplete) {
-            // results page to be loaded by ajax instead 
-            if (isAllSectionsSelected()) {
-                buildSectionPanelsForForAjaxLoading(sections);
-            } else {
-                buildSectionPanelWithErrorMessage();
-            }
-            
-            return;
-        }
-        
-        // Note that if the page needs to load by ajax, then responses will be empty too,
-        // therefore the check whether the bundle needs to come before this
-        if (bundle.responses.isEmpty()) {
-            // no responses, nothing to initialize
-            return;
-        }
-        
-        setShouldCollapsed(bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL);
-        
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses 
-                     = bundle.getResponsesSortedByRecipient(true);
-        buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponses, viewType.additionalInfoId());
         
     }
     

@@ -24,6 +24,7 @@
             <strong>${teamName}</strong>                        
         </div>
         <div class="pull-right">
+            <%-- If team statistics are displayed, then the "Collapse Students" button appears under the team statistics tables --%>
             <c:if test="${!isDisplayingTeamStatistics}">
                 <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
                     ${ shouldCollapsed ? 'Expand' : 'Collapse'} Students
