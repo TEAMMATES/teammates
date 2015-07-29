@@ -544,8 +544,4 @@ public class ActivityLogEntry {
     public void setFirstRow() {
         isFirstRow = true;
     }
-    
-    public boolean isFirstRow() {
-        return isFirstRow;
-    }
 }
