@@ -1,8 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -11,8 +8,7 @@ import teammates.ui.template.InstructorFeedbackResponseComment;
 
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
-    public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
-            new HashMap<String, FeedbackSessionResultsBundle>();
+    public FeedbackSessionResultsBundle feedbackResultBundle;
     public InstructorAttributes currentInstructor = null;
     public String instructorEmail = "";
     public CourseRoster roster = null;
@@ -24,8 +20,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         super(account);
     }
 
-    public Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles() {
-        return feedbackResultBundles;
+    public FeedbackSessionResultsBundle getFeedbackResultsBundle() {
+        return feedbackResultBundle;
     }
 
     public int getNumberOfPendingComments() {
@@ -39,5 +35,9 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     public void setInstructorFeedbackResponseComment(
             InstructorFeedbackResponseComment instructorFeedbackResponseComment) {
         this.instructorFeedbackResponseComment = instructorFeedbackResponseComment;
+    }
+    
+    public int getFeedbackSessionIndex() {
+        return feedbackSessionIndex;
     }
 }

@@ -48,33 +48,29 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                                                logic.getInstructorsForCourse(courseId));
         
         data = new InstructorFeedbackResponseCommentsLoadPageData(account);
-        data.feedbackResultBundles = getFeedbackResultBundles(courseId, fsname, roster);
+        data.feedbackResultBundle = getFeedbackResultBundle(courseId, fsname, roster);
         data.instructorEmail = instructor.email;
         data.currentInstructor = instructor;
         data.roster = roster;
-        data.feedbackSessionIndex = fsindex;
+        data.feedbackSessionIndex = fsindex - 1;
         data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         data.setInstructorFeedbackResponseComment(new InstructorFeedbackResponseComment(
-                data.feedbackResultBundles, data.currentInstructor, data.instructorEmail, data));
+                data.feedbackResultBundle, data.currentInstructor, data.instructorEmail, data));
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 
-    private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(String courseId, String fsname,
+    private FeedbackSessionResultsBundle getFeedbackResultBundle(String courseId, String fsname,
             CourseRoster roster) throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
-                new HashMap<String, FeedbackSessionResultsBundle>();
         FeedbackSessionResultsBundle bundle = 
                 logic.getFeedbackSessionResultsForInstructor(
                         fsname, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
         if (bundle != null) {
             removeQuestionsAndResponsesIfNotAllowed(bundle);
             removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-            if (bundle.questions.size() != 0) {
-                feedbackResultBundles.put(fsname, bundle);
-            }
         }
-        return feedbackResultBundles;
+        
+        return bundle.questions.isEmpty() ? null : bundle;
     }
 
     private void removeQuestionsAndResponsesIfNotAllowed(FeedbackSessionResultsBundle bundle) {
