@@ -27,17 +27,18 @@
                 <c:if test="${!responsePanel.allowedToAddComment}">
                         disabled="disabled"
                 </c:if>
-                
                 >
                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
         </div>
-        
+        <ul class="list-group" id="responseCommentTable-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
+            style="${ not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
         <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
             <shared:feedbackResponseComment frc="${responseComment}" firstIndex="${responsePanel.recipientIndex}" 
                                             secondIndex="${responsePanel.giverIndex}" thirdIndex="${responsePanel.qnIndex}" 
                                             frcIndex="${status.count}"/>
         </c:forEach>
+        </ul>
         
     </div>
 
