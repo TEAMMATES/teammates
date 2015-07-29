@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -92,6 +93,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
             return this == RECIPIENT_GIVER_QUESTION || this == GIVER_RECIPIENT_QUESTION ;
         }
         
+        // TODO
+        public String additionalInfoId() {
+            return "";
+        }
     }
     
     
@@ -163,7 +168,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByGiverQuestionRecipient(true);
         
-        buildSectionPanelsForGiverQuestionRecipient(sortedResponses);
+        buildSectionPanels(sortedResponses, "giver-%s-question-%s");
     }
     
     public void initForViewByGiverRecipientQuestion(InstructorAttributes instructor, 
@@ -197,7 +202,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByGiver(true);
-        buildSectionPanelsForGiverRecipientQuestion(sortedResponses);
+        buildSectionPanels(sortedResponses, "giver-%s-recipient-%s");
         
     }
     
@@ -242,7 +247,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByRecipientQuestionGiver(true);
        
-        buildSectionPanelsForRecipientQuestionGiver(sortedResponses);
+        buildSectionPanels(sortedResponses, "recipient-%s-question-%s");
     }
     
     public void initForViewByRecipientGiverQuestion(InstructorAttributes instructor, 
@@ -276,116 +281,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByRecipient(true);
-        buildSectionPanelsForRecipientGiverQuestion(sortedResponses);
+        buildSectionPanels(sortedResponses, "giver-%s-recipient-%s");
         
-    }
-
-    /**
-     * TODO  buildSectionPanelsFor.* should be the same method
-     * @param sortedResponses
-     */
-    private void buildSectionPanelsForGiverQuestionRecipient(
-                                    Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses) {
-        final String additionalInfoId = "giver-%s-question-%s";
-        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
-                = bundle.getQuestionResponseMapByGiverTeam();
-        
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-        
-        // Maintain previous section and previous team while iterating through the loop
-        String prevSection = Const.DEFAULT_SECTION;
-        String prevTeam = "";
-        
-        // Used for displaying sections without responses for the course at the end
-        Set<String> sectionsWithResponses = new HashSet<String>();
-        // Used for displaying teams without responses for every section
-        LinkedHashSet<String> teamsWithResponses = new LinkedHashSet<String>();
-        // Used for displaying participants without responses for every team
-        Set<String> teamMembersWithResponses = new HashSet<String>();                                
-        
-        int giverIndex = this.startIndex;
-        // Iterates through the response givers
-        for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : 
-                                                                    sortedResponses.entrySet()) {
-            giverIndex += 1;
-            String giverIdentifier = responsesFromGiver.getKey();
-            
-            String currentTeam = getCurrentTeam(bundle, giverIdentifier);
-            String currentSection = getCurrentSection(responsesFromGiver);
-            
-            boolean isDifferentTeam = !prevTeam.equals(currentTeam);
-            boolean isDifferentSection = !prevSection.equals(currentSection);
-
-            // handle a change of team by building panels for missing participants
-            // and setting the sectionPanel's flags for teams with responses
-            if (isDifferentTeam) {
-                boolean isFirstTeam = prevTeam.isEmpty();
-                if (!isFirstTeam) {
-                    buildMissingParticipantPanelsForTeam(
-                                                    sectionPanel, prevTeam, teamMembersWithResponses);
-                    teamMembersWithResponses.clear(); 
-                }
-                
-                teamsWithResponses.add(currentTeam);
-                if (!isDifferentSection) {
-                    sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
-                }
-            }
-            
-            // Change in section
-            if (isDifferentSection) {
-                boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
-                if (!isFirstSection) {
-                    // Finalize building of section panel,
-                    finalizeBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam,
-                                                 teamsWithResponses);
-                    
-                    // add sectionPanel to sectionPanels
-                    buildMissingTeamAndParticipantPanelsForSection(sectionPanel, prevSection, teamsWithResponses);
-                    sectionPanels.put(prevSection, sectionPanel);
-                    sectionsWithResponses.add(prevSection);
-                    
-                    // and set up for next section
-                    teamsWithResponses.clear();
-                    teamsWithResponses.add(currentTeam);
-                    
-                    sectionPanel = new InstructorFeedbackResultsSectionPanel();
-                }
-                
-                sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
-            }
-            
-            // For the current giver, constructs a panel 
-            InstructorFeedbackResultsGroupByQuestionPanel giverPanel 
-                    = buildParticipantGroupByQuestionPanel(giverIdentifier, responsesFromGiver,
-                                                           additionalInfoId, giverIndex);
-            
-            // add constructed InstructorFeedbackResultsGroupByQuestionPanel into section's participantPanels            
-            addParticipantPanelToSectionPanel(sectionPanel, currentTeam, giverPanel);
-            teamMembersWithResponses.add(giverIdentifier);
-            
-            prevTeam = currentTeam;
-            prevSection = currentSection;
-        }
-        
-        buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses);
-        
-        
-        teamsWithResponses.add(prevTeam);
-        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, prevSection, teamsWithResponses);
-        finalizeBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam, teamsWithResponses);
-        sectionPanels.put(prevSection, sectionPanel);
-
-        if (isAllSectionsSelected()) {
-            sectionsWithResponses.add(prevSection); // for the last section having responses 
-            buildSectionPanelsForMissingSections(sectionsWithResponses);
-        }
     }
     
-    private void buildSectionPanelsForGiverRecipientQuestion(
-                                    Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses) {
-        final String additionalInfoId = "giver-%s-recipient-%s";
+    private <K> void buildSectionPanels(
+                                    Map<String, Map<K, List<FeedbackResponseAttributes>>> sortedResponses,
+                                    String additionalInfoId) {
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
         
@@ -400,7 +302,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
           
         // Iterate through the recipients
         int recipientIndex = this.startIndex;
-        for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap : 
+        for (Entry<String, Map<K, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap : 
                                                                               sortedResponses.entrySet()) {
             recipientIndex += 1;
             String recipientIdentifier = recipientToGiverToResponsesMap.getKey();
@@ -448,199 +350,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // Build recipient panel for the current response's recipient
-            InstructorFeedbackResultsGroupByParticipantPanel recipientPanel 
-                    = buildGroupByParticipantPanel(recipientIdentifier, currentTeam, additionalInfoId, recipientIndex,
+            InstructorResultsParticipantPanel recipientPanel;
+            if (viewType.isSecondaryGrouperOfParticipantType()) {
+                recipientPanel 
+                    = buildGroupByParticipantPanel(recipientIdentifier, additionalInfoId, recipientIndex,
                                                    recipientToGiverToResponsesMap);
-            addParticipantPanelToSectionPanel(sectionPanel, currentTeam, recipientPanel);
-            
-            teamMembersWithResponses.add(recipientIdentifier);
-
-            prevTeam = currentTeam;
-            prevSection = currentSection;
-        }
-        
-        // for the last section with responses
-        buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses);
-        
-        teamsWithResponses.add(prevTeam);
-        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, prevSection, teamsWithResponses);
-        
-        finalizeBuildingSectionPanelWithoutStats(sectionPanel, prevSection);
-        sectionPanels.put(prevSection, sectionPanel);   
-        if (isAllSectionsSelected()) {
-            sectionsWithResponses.add(prevSection); // for the last section having responses 
-            buildSectionPanelsForMissingSections(sectionsWithResponses);
-        }
-    }
-
-    private void buildSectionPanelsForRecipientQuestionGiver(
-                                    Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses) {        
-        final String additionalInfoId = "recipient-%s-question-%s";
-        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
-                = bundle.getQuestionResponseMapByRecipientTeam();
-        
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-        
-        // Maintain previous section and previous team while iterating through the loop
-        String prevSection = Const.DEFAULT_SECTION;
-        String prevTeam = "";
-        
-        // Used for displaying sections without responses for the course at the end
-        Set<String> sectionsWithResponses = new HashSet<String>();
-        // Used for displaying teams without responses for every section
-        LinkedHashSet<String> teamsWithResponses = new LinkedHashSet<String>();
-        // Used for displaying participants without responses for every team
-        Set<String> teamMembersWithResponses = new HashSet<String>();       
-        
-        // Iterate through the recipients
-        int recipientIndex = this.startIndex;
-        for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesToRecipient : 
-                                                                    sortedResponses.entrySet()) {
-            recipientIndex += 1;
-            String recipientIdentifier = responsesToRecipient.getKey();
-            
-            String currentTeam = getCurrentTeam(bundle, recipientIdentifier);
-            String currentSection = getCurrentSection(responsesToRecipient);
-            
-            boolean isDifferentTeam = !prevTeam.equals(currentTeam);
-            boolean isDifferentSection = !prevSection.equals(currentSection);
-
-            // handle a change of team by building panels for missing participants
-            // and setting the sectionPanel's flags for teams with responses
-            if (isDifferentTeam) {
-                boolean isFirstTeam = prevTeam.isEmpty();
-                if (!isFirstTeam) {
-                    buildMissingParticipantPanelsForTeam(
-                                                    sectionPanel, prevTeam, teamMembersWithResponses);
-                    teamMembersWithResponses.clear(); 
-                }
-                
-                teamsWithResponses.add(currentTeam);
-                if (!isDifferentSection) {
-                    sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
-                }
-            }
-            
-            // Change in section
-            if (isDifferentSection) {
-                boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
-                if (!isFirstSection) {
-                    // Finalize building of section panel,
-                    finalizeBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam,
-                                                 teamsWithResponses);
-                    
-                    // add to sectionPanels
-                    buildMissingTeamAndParticipantPanelsForSection(
-                                                    sectionPanel, prevSection, teamsWithResponses);
-                    sectionPanels.put(prevSection, sectionPanel);
-                    
-                    sectionsWithResponses.add(prevSection);
-                    
-                    // and set up for next section 
-                    teamsWithResponses.clear();
-                    teamsWithResponses.add(currentTeam);
-                    
-                    sectionPanel = new InstructorFeedbackResultsSectionPanel();
-                }
-                
-                sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
-            }
-            // Construct panel for the current recipient
-            InstructorFeedbackResultsGroupByQuestionPanel recipientPanel 
-                    = buildParticipantGroupByQuestionPanel(recipientIdentifier, responsesToRecipient,
+            } else {
+                recipientPanel 
+                    = buildParticipantGroupByQuestionPanel(recipientIdentifier, recipientToGiverToResponsesMap,
                                                            additionalInfoId, recipientIndex);
-            
-            // add constructed InstructorFeedbackResultsGroupByQuestionPanel into section's participantPanels            
-            addParticipantPanelToSectionPanel(sectionPanel, currentTeam, recipientPanel);
-            teamMembersWithResponses.add(recipientIdentifier);
-            
-            prevTeam = currentTeam;
-            prevSection = currentSection;
-        }
-        
-        buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses);
-        
-        teamsWithResponses.add(prevTeam);
-        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, prevSection, teamsWithResponses);
-        
-        finalizeBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam, teamsWithResponses);
-        sectionPanels.put(prevSection, sectionPanel);        
-
-        if (isAllSectionsSelected()) {
-            sectionsWithResponses.add(prevSection); // for the last section having responses 
-            buildSectionPanelsForMissingSections(sectionsWithResponses);
-        }
-    }
-
-    private void buildSectionPanelsForRecipientGiverQuestion(
-                                    Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses) {
-        final String additionalInfoId = "giver-%s-recipient-%s";
-        sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-        
-        // Maintain previous section and previous team while iterating through the recipients
-        // initialize the previous section to "None"
-        String prevSection = Const.DEFAULT_SECTION;
-        String prevTeam = "";
-        
-        Set<String> sectionsWithResponses = new HashSet<String>();
-        Set<String> teamsWithResponses = new HashSet<String>();
-        Set<String> teamMembersWithResponses = new HashSet<String>();      
-          
-        // Iterate through the recipients
-        int recipientIndex = this.startIndex;
-        for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap : 
-                                                                              sortedResponses.entrySet()) {
-            recipientIndex += 1;
-            String recipientIdentifier = recipientToGiverToResponsesMap.getKey();
-            
-            String currentTeam = getCurrentTeam(bundle, recipientIdentifier);
-            String currentSection = getCurrentSection(recipientToGiverToResponsesMap);
-            
-            boolean isChangeOfTeam = !prevTeam.equals(currentTeam);
-            boolean isChangeOfSection = !prevSection.equals(currentSection);
-
-            if (isChangeOfTeam) {
-                boolean isFirstTeam = prevTeam.isEmpty();
-                if (!isFirstTeam) {
-                    // construct missing participant panels for the previous team
-                    buildMissingParticipantPanelsForTeam(
-                        sectionPanel, prevTeam, teamMembersWithResponses);
-                    teamMembersWithResponses.clear(); 
-                }
-                
-                teamsWithResponses.add(currentTeam);
-                if (!isChangeOfSection) { // add team to sectionPanel only if it's the correct section
-                    sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
-                }
             }
-            
-            if (isChangeOfSection) {
-                boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
-                if (!isFirstSection) {
-                    // Finalize building of section panel,
-                    finalizeBuildingSectionPanelWithoutStats(sectionPanel, prevSection);
-                    buildMissingTeamAndParticipantPanelsForSection(
-                            sectionPanel, prevSection, teamsWithResponses);
-                    
-                    // add to sectionPanels,
-                    sectionPanels.put(prevSection, sectionPanel);
-                    sectionsWithResponses.add(prevSection);
-                    
-                    // setup for next section
-                    teamsWithResponses.clear();
-                    teamsWithResponses.add(currentTeam);
-                    
-                    sectionPanel = new InstructorFeedbackResultsSectionPanel();
-                }
-                sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
-            }
-            
-            // Build recipient panel for the current response's recipient
-            InstructorFeedbackResultsGroupByParticipantPanel recipientPanel 
-                    = buildGroupByParticipantPanel(recipientIdentifier, currentTeam, additionalInfoId, recipientIndex,
-                                                   recipientToGiverToResponsesMap);
             addParticipantPanelToSectionPanel(sectionPanel, currentTeam, recipientPanel);
             
             teamMembersWithResponses.add(recipientIdentifier);
@@ -663,18 +382,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
 
-    private InstructorFeedbackResultsGroupByParticipantPanel buildGroupByParticipantPanel(
-                                    String primaryParticipantIdentifier, String currentTeam,
+    private <K> InstructorFeedbackResultsGroupByParticipantPanel buildGroupByParticipantPanel(
+                                    String primaryParticipantIdentifier, 
                                     String additionalInfoId, int primaryParticipantIndex,
-                                    Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> primaryToSecondaryToResponsesMap) {
+                                    Entry<String, Map<K, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap) {
         // first build secondary participant panels for the primary participant panel
-        Map<String, List<FeedbackResponseAttributes>> giverToResponsesMap = primaryToSecondaryToResponsesMap.getValue();
+        @SuppressWarnings("unchecked")
+        Map<String, List<FeedbackResponseAttributes>> giverToResponsesMap = (Map<String, List<FeedbackResponseAttributes>>) recipientToGiverToResponsesMap.getValue();
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels 
                              = buildSecondaryParticipantPanels(
                                         additionalInfoId, primaryParticipantIndex, giverToResponsesMap);
         
         // construct the primary participant panel
-        String primaryParticipantNameWithTeamNameAppended = bundle.appendTeamNameToName(bundle.getNameForEmail(primaryParticipantIdentifier), bundle.getTeamNameForEmail(primaryParticipantIdentifier));
+        String primaryParticipantNameWithTeamNameAppended 
+            = bundle.appendTeamNameToName(bundle.getNameForEmail(primaryParticipantIdentifier), bundle.getTeamNameForEmail(primaryParticipantIdentifier));
         InstructorResultsModerationButton moderationButton = viewType.isPrimaryGrouperOfGiverType() 
                                                            ? buildModerationButtonForGiver(null, primaryParticipantIdentifier, "btn btn-primary btn-xs", "Moderate Responses")
                                                            : null;
@@ -751,15 +472,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return responsePanels;
     }
 
-    private InstructorFeedbackResultsGroupByQuestionPanel buildParticipantGroupByQuestionPanel(
+    private <K> InstructorFeedbackResultsGroupByQuestionPanel buildParticipantGroupByQuestionPanel(
                                     String participantIdentifier,
-                                    Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesForParticipant,
+                                    Entry<String, Map<K, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap,
                                     String additionalInfoId, int participantIndex) {
         List<InstructorResultsQuestionTable> questionTables = new ArrayList<InstructorResultsQuestionTable>();
         
         int questionIndex = 0;
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForParticipantForQuestion : 
-                                                                                     responsesForParticipant.getValue().entrySet()) {
+        for (Entry<K, List<FeedbackResponseAttributes>> responsesForParticipantForQuestion : 
+                                                                                     recipientToGiverToResponsesMap.getValue().entrySet()) {
             if (responsesForParticipantForQuestion.getValue().isEmpty()) {
                 // participant has no responses for the current question
                 continue;
@@ -767,7 +488,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             questionIndex += 1;
             
-            FeedbackQuestionAttributes currentQuestion = responsesForParticipantForQuestion.getKey();
+            FeedbackQuestionAttributes currentQuestion = (FeedbackQuestionAttributes) responsesForParticipantForQuestion.getKey();
             List<FeedbackResponseAttributes> responsesForQuestion = responsesForParticipantForQuestion.getValue();
 
             InstructorResultsQuestionTable questionTable 
