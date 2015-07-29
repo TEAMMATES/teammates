@@ -163,26 +163,28 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         
         for (String recipient : recipients) {
             if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
+                namesStringBuilder.append(" and ");
+            } else if ( i > 0 && i < recipients.size() - 1 && recipients.size() > 2) {
+                namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
             if (recipient.equals(studentEmail)) {
-                namesStringBuilder.append("you, ");
+                namesStringBuilder.append("you");
             } else if (data.getCourseId().equals(recipient)) { 
-                namesStringBuilder.append("All Students In This Course, ");
+                namesStringBuilder.append("All Students In This Course");
             } else if(student != null){
                 if (recipients.size() == 1) {
-                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
+                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
                 } else {
-                    namesStringBuilder.append(student.name + ", ");
+                    namesStringBuilder.append(student.name);
                 }
             } else {
-                namesStringBuilder.append(recipient + ", ");
+                namesStringBuilder.append(recipient);
             }
             i++;
         }
         String namesString = namesStringBuilder.toString();
-        return namesString.substring(0, namesString.length() - 2);
+        return namesString;
     }
 
     /** Creates a single FeedbackSessionResultsBundle object which comprises 
