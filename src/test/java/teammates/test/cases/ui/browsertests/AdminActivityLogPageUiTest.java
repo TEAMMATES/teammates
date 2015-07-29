@@ -2,6 +2,7 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNotNull;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.AfterClass;
@@ -60,8 +61,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         logPage.waitForPageToLoad();
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
-        logPage.verifyHtmlMainContent("/adminActivityLogPage.html");
-        
+        assertNotNull(logPage.getFirstActivityLogRow());
+        logPage.verifyHtmlPart(logPage.getFirstActivityLogRow(), "/adminActivityLogPage.html");
     }
     
     

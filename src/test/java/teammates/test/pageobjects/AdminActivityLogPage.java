@@ -71,4 +71,8 @@ public class AdminActivityLogPage extends AppPage {
         WebElement reference = browser.driver.findElement(By.id("filterReference"));
         return reference.isDisplayed();
     }
+    
+    public By getFirstActivityLogRow() {
+        return By.id("first-row");
+    }
 }

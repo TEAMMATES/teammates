@@ -84,7 +84,7 @@ public class AdminActivityLogPageAction extends Action {
         data.generateQueryParameters(data.filterQuery);
         
         
-        LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
+        LogQuery query = buildQuery(data.offset, data.versions);
         data.logs = getAppLogs(query, data);
         
         if(data.offset == null){
@@ -94,7 +94,7 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
+    private LogQuery buildQuery(String offset, List<String> versions) {
         LogQuery query = LogQuery.Builder.withDefaults();
         
         query.includeAppLogs(includeAppLogs);
@@ -177,6 +177,7 @@ public class AdminActivityLogPageAction extends Action {
         
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
+        boolean isFirstRow = true;
         for (RequestLogs record : records) {
             
             totalLogsSearched ++;
@@ -200,8 +201,13 @@ public class AdminActivityLogPageAction extends Action {
                 if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
                     ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
                     activityLogEntry = data.filterLogs(activityLogEntry);
-                    if(activityLogEntry.toShow()){
+                    
+                    if (activityLogEntry.toShow() && (!data.isTestingData(activityLogEntry.getEmail()) || data.ifShowTestData)) {
                         appLogs.add(activityLogEntry);
+                        if (isFirstRow) {
+                            activityLogEntry.setFirstRow();
+                            isFirstRow = false;
+                        }
                         currentLogsInPage ++;
                     }
                 }
