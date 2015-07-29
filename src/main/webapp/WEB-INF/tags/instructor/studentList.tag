@@ -9,17 +9,17 @@
 <%@ attribute name="fromCourseDetailsPage" %>
 <c:choose>
     <c:when test="${fromCourseDetailsPage}">
-        <c:set var="tableHeader"><thead class="fill-primary"></c:set>
+        <c:set var="tableHeaderClass" value="fill-primary" />
     </c:when>
     <c:otherwise>
-        <c:set var="tableHeader"><thead class="background-color-medium-gray text-color-gray font-weight-normal"></c:set>
+        <c:set var="tableHeaderClass" value="background-color-medium-gray text-color-gray font-weight-normal" />
     </c:otherwise>
 </c:choose>
 <c:set var="STUDENT_COURSE_STATUS_YET_TO_JOIN" value="<%= Const.STUDENT_COURSE_STATUS_YET_TO_JOIN %>" />
 <table class="table table-bordered table-striped<c:if test="${not fromCourseDetailsPage}"> table-responsive margin-0</c:if>">
     <c:choose>
         <c:when test="${not empty sections}">
-            ${tableHeader}
+            <thead class="${tableHeaderClass}">
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
                     <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this,2)">
@@ -206,7 +206,7 @@
             </tbody>
         </c:when>
         <c:otherwise>
-            ${tableHeader}
+            <thead class="${tableHeaderClass}">
                 <tr>
                     <th class="align-center color_white bold">There are no students in this course</th>
                 </tr>
