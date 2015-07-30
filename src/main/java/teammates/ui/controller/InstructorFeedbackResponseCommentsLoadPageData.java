@@ -2,16 +2,18 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -20,7 +22,6 @@ import teammates.ui.template.InstructorFeedbackResponseComment;
 
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
-    public FeedbackSessionResultsBundle feedbackResultBundle;
     public InstructorAttributes currentInstructor = null;
     public String instructorEmail = "";
     public CourseRoster roster = null;
@@ -37,101 +38,117 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     // Initializes responseEntryAnswerHtml
     // Initializes instructorAllowedToSubmit
     // Initializes feedbackResponseCommentsLists
-    public void init() {
+    public void init(FeedbackSessionResultsBundle bundle) {
         // no visible questions / responses with comments
-        if (feedbackResultBundle == null) {
+        if (bundle == null) {
             return;
         }
         
-        questionCommentsMap = new HashMap<>();
-        
-        FeedbackSessionResultsBundle bundle = feedbackResultBundle;
+        questionCommentsMap = new LinkedHashMap<>();
         
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries 
-            : bundle.getQuestionResponseMap().entrySet()) {
+                : bundle.getQuestionResponseMap().entrySet()) {
            FeedbackQuestionAttributes question = bundle.questions.get(responseEntries.getKey().getId());
-           FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-           
            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
            
-           List<InstructorFeedbackResponseComment> responseCommentList = new ArrayList<>();
+           List<InstructorFeedbackResponseComment> responseCommentList = buildInstructorFeedbackResponseComments(
+                   responseEntries, bundle, question, responseVisibilityMap);
 
-           for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
-               // giverNames and recipientNames are initialized here
-               String giverName = bundle.getGiverNameForResponse(responseEntry);
-               String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
-               giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
-
-               String recipientName = bundle.getRecipientNameForResponse(responseEntry);
-               String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
-               recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
-               
-               String responseEntryAnswerHtml = 
-                       responseEntry.getResponseDetails().getAnswerHtml(questionDetails);
-               
-               boolean instructorAllowedToAddComment =
-                       currentInstructor != null
-                       && currentInstructor.isAllowedForPrivilege(
-                               responseEntry.giverSection, responseEntry.feedbackSessionName,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                       && currentInstructor.isAllowedForPrivilege(
-                               responseEntry.recipientSection, responseEntry.feedbackSessionName,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-               
-               List<FeedbackResponseCommentAttributes> feedbackResponseComments =
-                       bundle.responseComments.get(responseEntry.getId());
-
-               List<FeedbackResponseComment> frcList = new ArrayList<>();
-               for (FeedbackResponseCommentAttributes frca : feedbackResponseComments) {
-                   String whoCanSeeComment = getTypeOfPeopleCanViewComment(frca, question);
-                   
-                   boolean isInstructorGiver = frca.giverEmail.equals(instructorEmail);
-                   boolean isInstructorAllowedToModify =
-                           currentInstructor != null
-                           && currentInstructor.isAllowedForPrivilege(
-                               responseEntry.giverSection, responseEntry.feedbackSessionName,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                           && currentInstructor.isAllowedForPrivilege(
-                               responseEntry.recipientSection, responseEntry.feedbackSessionName,
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                   boolean allowedToEditAndDeleteComment = isInstructorGiver || isInstructorAllowedToModify;
-                   
-                   String showCommentToString = getResponseCommentVisibilityString(frca, question);
-                   String showGiverNameToString = getResponseCommentGiverNameVisibilityString(frca, question);
-
-                   boolean isResponseVisibleToRecipient = responseVisibilityMap.get(FeedbackParticipantType.RECEIVER);
-                   boolean isResponseVisibleToGiverTeam = responseVisibilityMap.get(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-                   boolean isResponseVisibleToRecipientTeam = responseVisibilityMap.get(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                   boolean isResponseVisibleToStudents = responseVisibilityMap.get(FeedbackParticipantType.STUDENTS);
-                   boolean isResponseVisibleToInstructors = responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS);
-                   
-                   boolean editDeleteEnabledOnlyOnHover = true;
-                   
-                   FeedbackResponseComment frc = new FeedbackResponseComment(
-                       frca, frca.giverEmail, giverName, recipientName, instructorEmail,
-                       bundle.feedbackSession, question, whoCanSeeComment, showCommentToString,
-                       showGiverNameToString, allowedToEditAndDeleteComment, editDeleteEnabledOnlyOnHover,
-                       isResponseVisibleToRecipient, isResponseVisibleToGiverTeam,
-                       isResponseVisibleToRecipientTeam, isResponseVisibleToStudents,
-                       isResponseVisibleToInstructors);
-
-                   frcList.add(frc);
-               }
-               
-               FeedbackResponseComment feedbackResponseCommentAdd =
-                       setUpFeedbackResponseCommentAdd(question, responseEntry, responseVisibilityMap, giverName, recipientName);
-               
-               responseCommentList.add(new InstructorFeedbackResponseComment(
-                       giverName, recipientName, frcList, responseEntryAnswerHtml,
-                       instructorAllowedToAddComment, feedbackResponseCommentAdd));
-           }
-           
            questionCommentsMap.put(question, responseCommentList);
        }
-       
-       
     }
     
+    private List<InstructorFeedbackResponseComment> buildInstructorFeedbackResponseComments(
+            Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries,
+            FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question,
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap) {
+        List<InstructorFeedbackResponseComment> responseCommentList = new ArrayList<>();
+        
+        for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
+            // giverNames and recipientNames are initialized here
+            String giverName = bundle.getGiverNameForResponse(responseEntry);
+            String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
+            giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
+
+            String recipientName = bundle.getRecipientNameForResponse(responseEntry);
+            String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+            recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
+            
+            String responseEntryAnswerHtml = 
+                    responseEntry.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
+            
+            boolean instructorAllowedToAddComment = isInstructorAllowedForSectionalPrivilege(
+                    responseEntry.giverSection, responseEntry.recipientSection, responseEntry.feedbackSessionName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            
+            List<FeedbackResponseCommentAttributes> feedbackResponseCommentsAttributes =
+                    bundle.responseComments.get(responseEntry.getId());
+
+            List<FeedbackResponseComment> frcList = buildFeedbackResponseComments(
+                    feedbackResponseCommentsAttributes, question, responseEntry, giverName, recipientName,
+                    responseVisibilityMap, bundle.feedbackSession);
+            
+            FeedbackResponseComment feedbackResponseCommentAdd = buildFeedbackResponseCommentAdd(
+                    question, responseEntry, responseVisibilityMap, giverName, recipientName);
+            
+            responseCommentList.add(new InstructorFeedbackResponseComment(
+                    giverName, recipientName, frcList, responseEntryAnswerHtml,
+                    instructorAllowedToAddComment, feedbackResponseCommentAdd));
+        }
+        
+        return responseCommentList;
+    }
+
+    private List<FeedbackResponseComment> buildFeedbackResponseComments(
+            List<FeedbackResponseCommentAttributes> feedbackResponseCommentsAttributes,
+            FeedbackQuestionAttributes question, FeedbackResponseAttributes responseEntry,
+            String giverName, String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
+            FeedbackSessionAttributes feedbackSession) {
+        List<FeedbackResponseComment> comments = new ArrayList<>();
+        
+        for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsAttributes) {
+            String whoCanSeeComment = getTypeOfPeopleCanViewComment(frca, question);
+            
+            boolean isInstructorGiver = frca.giverEmail.equals(instructorEmail);
+            boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(
+                    responseEntry.giverSection, responseEntry.recipientSection, responseEntry.feedbackSessionName,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            boolean allowedToEditAndDeleteComment = isInstructorGiver || isInstructorAllowedToModify;
+            
+            String showCommentToString = getResponseCommentVisibilityString(frca, question);
+            String showGiverNameToString = getResponseCommentGiverNameVisibilityString(frca, question);
+
+            boolean isResponseVisibleToRecipient = responseVisibilityMap.get(FeedbackParticipantType.RECEIVER);
+            boolean isResponseVisibleToGiverTeam = responseVisibilityMap.get(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+            boolean isResponseVisibleToRecipientTeam = responseVisibilityMap.get(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+            boolean isResponseVisibleToStudents = responseVisibilityMap.get(FeedbackParticipantType.STUDENTS);
+            boolean isResponseVisibleToInstructors = responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS);
+            
+            boolean editDeleteEnabledOnlyOnHover = true;
+            
+            FeedbackResponseComment frc = new FeedbackResponseComment(
+                frca, frca.giverEmail, giverName, recipientName, instructorEmail,
+                feedbackSession, question, whoCanSeeComment, showCommentToString,
+                showGiverNameToString, allowedToEditAndDeleteComment, editDeleteEnabledOnlyOnHover,
+                isResponseVisibleToRecipient, isResponseVisibleToGiverTeam,
+                isResponseVisibleToRecipientTeam, isResponseVisibleToStudents,
+                isResponseVisibleToInstructors);
+
+            comments.add(frc);
+        }
+        
+        return comments;
+    }
+    
+    private boolean isInstructorAllowedForSectionalPrivilege(String giverSection, String recipientSection,
+            String feedbackSessionName, String privilege) {
+        return currentInstructor != null
+               && currentInstructor.isAllowedForPrivilege(
+                   giverSection, feedbackSessionName, privilege)
+               && currentInstructor.isAllowedForPrivilege(
+                   recipientSection, feedbackSessionName, privilege);
+    }
+
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = new HashMap<>();
         boolean isResponseVisibleToGiver =
@@ -169,7 +186,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         return responseVisibilityMap;
     }
 
-    private FeedbackResponseComment setUpFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
+    private FeedbackResponseComment buildFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
             String giverName, String recipientName) {
         FeedbackParticipantType[] relevantTypes = {
@@ -202,10 +219,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 responseVisibilityMap.get(FeedbackParticipantType.STUDENTS),
                 responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS),
                 showCommentTo, showGiverNameTo, true);
-    }
-
-    public FeedbackSessionResultsBundle getFeedbackResultsBundle() {
-        return feedbackResultBundle;
     }
 
     public int getNumberOfPendingComments() {

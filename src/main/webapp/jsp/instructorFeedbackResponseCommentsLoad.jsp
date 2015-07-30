@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ page import="teammates.common.util.Const" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="hidden number-of-pending-comments">${data.numberOfPendingComments}</div>
-
 <c:choose>
-    <c:when test="${empty data.feedbackResultsBundle}">
+    <c:when test="${empty data.questionCommentsMap}">
         <div id="no-comment-panel" style="">
 	        <br>
 	        <div class="panel panel-info">
@@ -36,7 +34,7 @@
                                 <td><b>From:</b> ${response.giverName} <b>To:</b> ${response.recipientName}</td>
                             </tr>
                             <tr>
-                                <td><strong>Response: </strong>${response.responseEntryAnswerHtml}</td>
+                                <td><strong>Response: </strong>${response.answerHtml}</td>
                             </tr>
                             <tr class="active">
 	                            <td>Comment(s):

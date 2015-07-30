@@ -47,14 +47,13 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                                                logic.getInstructorsForCourse(courseId));
         
         data = new InstructorFeedbackResponseCommentsLoadPageData(account);
-        data.feedbackResultBundle = getFeedbackResultBundle(courseId, fsname, roster);
         data.instructorEmail = instructor.email;
         data.currentInstructor = instructor;
         data.roster = roster;
         data.feedbackSessionIndex = fsindex;
         data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
-        data.init();
+        data.init(getFeedbackResultBundle(courseId, fsname, roster));
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 

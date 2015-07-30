@@ -6,19 +6,19 @@ import teammates.ui.template.FeedbackResponseComment;
 
 public class InstructorFeedbackResponseComment {
     private List<FeedbackResponseComment> feedbackResponseComments;
-    private String responseEntryAnswerHtml;
+    private String answerHtml;
     private String giverName;
     private String recipientName;
     private boolean isInstructorAllowedToSubmit;
     private FeedbackResponseComment feedbackResponseCommentAdd;
 
     public InstructorFeedbackResponseComment(String giverName, String recipientName,
-            List<FeedbackResponseComment> feedbackResponseComments, String responseEntryAnswerHtml,
+            List<FeedbackResponseComment> feedbackResponseComments, String answerHtml,
             boolean isInstructorAllowedToSubmit, FeedbackResponseComment feedbackResponseCommentAdd) {
         this.giverName = giverName;
         this.recipientName = recipientName;
         this.feedbackResponseComments = feedbackResponseComments;
-        this.responseEntryAnswerHtml = responseEntryAnswerHtml;
+        this.answerHtml = answerHtml;
         this.isInstructorAllowedToSubmit = isInstructorAllowedToSubmit;
         this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
@@ -27,8 +27,8 @@ public class InstructorFeedbackResponseComment {
         return feedbackResponseComments;
     }
 
-    public String getResponseEntryAnswerHtml() {
-        return responseEntryAnswerHtml;
+    public String getAnswerHtml() {
+        return answerHtml;
     }
 
     public String getGiverName() {
