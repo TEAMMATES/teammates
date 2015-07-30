@@ -26,6 +26,7 @@ public class InstructorFeedbackResponseComment {
     private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToStudents;
     private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToInstructors;
     private Map<FeedbackResponseAttributes, Boolean> instructorAllowedToSubmit;
+    private HashMap<FeedbackQuestionAttributes, FeedbackResponseComment> feedbackResponseCommentAdd;
 
     public InstructorFeedbackResponseComment(FeedbackSessionResultsBundle feedbackResultBundle,
                                              InstructorAttributes currentInstructor, String instructorEmail,
@@ -57,7 +58,8 @@ public class InstructorFeedbackResponseComment {
                                     HashMap<FeedbackQuestionAttributes, Boolean> responseVisibleToRecipientTeam,
                                     HashMap<FeedbackQuestionAttributes, Boolean> responseVisibleToStudents,
                                     HashMap<FeedbackQuestionAttributes, Boolean> responseVisibleToInstructors,
-                                    HashMap<FeedbackResponseAttributes, Boolean> instructorAllowedToSubmitMap) {
+                                    HashMap<FeedbackResponseAttributes, Boolean> instructorAllowedToSubmitMap,
+                                    HashMap<FeedbackQuestionAttributes, FeedbackResponseComment> feedbackResponseCommentAdd) {
         this.giverNames = giverNames;
         this.recipientNames = recipientNames;
         this.feedbackResponseCommentsLists = feedbackResponseCommentsLists;
@@ -71,6 +73,7 @@ public class InstructorFeedbackResponseComment {
         this.responseVisibleToStudents = responseVisibleToStudents;
         this.responseVisibleToInstructors = responseVisibleToInstructors;
         this.instructorAllowedToSubmit = instructorAllowedToSubmitMap;
+        this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
 
     public Map<FeedbackResponseAttributes, String> getGiverNames() {
@@ -123,5 +126,9 @@ public class InstructorFeedbackResponseComment {
 
     public Map<FeedbackResponseAttributes, Boolean> getInstructorAllowedToSubmit() {
         return instructorAllowedToSubmit;
+    }
+
+    public HashMap<FeedbackQuestionAttributes, FeedbackResponseComment> getFeedbackResponseCommentAdd() {
+        return feedbackResponseCommentAdd;
     }
 }
