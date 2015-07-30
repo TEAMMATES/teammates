@@ -133,7 +133,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                     responseVisibleToInstructors.put(question, isResponseVisibleToInstructors);
 
                     FeedbackResponseComment frc = new FeedbackResponseComment(
-                        frca, frca.giverEmail, instructorEmail, bundle.feedbackSession, question,
+                        frca, frca.giverEmail, appendedGiverName, appendedRecipientName,
+                        instructorEmail, bundle.feedbackSession, question,
                         whoCanSeeComment, showCommentToString, showGiverNameToString,
                         allowedToEditAndDeleteComment, isResponseVisibleToRecipient,
                         isResponseVisibleToGiverTeam, isResponseVisibleToRecipientTeam,

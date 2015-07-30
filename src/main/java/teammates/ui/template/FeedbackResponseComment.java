@@ -53,7 +53,8 @@ public class FeedbackResponseComment {
     // Used in InstructorFeedbackResponseComment which is part of 
     // InstructorFeedbackResponseCommentsLoadPageData
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                   String instructorEmail, FeedbackSessionAttributes feedbackSession,
+                                   String giverName, String recipientName, String instructorEmail,
+                                   FeedbackSessionAttributes feedbackSession,
                                    FeedbackQuestionAttributes question, String whoCanSeeComment,
                                    String showCommentToString, String showGiverNameToString,
                                    boolean isAllowedToEditAndDeleteComment,
@@ -62,6 +63,8 @@ public class FeedbackResponseComment {
                                    boolean responseVisibleToInstructors) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
+        this.responseGiverName = giverName;
+        this.responseRecipientName = recipientName;
         this.createdAt = frc.createdAt.toString();
         this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
