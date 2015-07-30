@@ -10,7 +10,9 @@
 <%@ attribute name="textAreaId" required="true" %>
 <%@ attribute name="submitLink" required="true" %>
 <%@ attribute name="buttonText" required="true" %>
-<form class="responseComment${formType}Form"<c:if test="${frc.editDeleteEnabled}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
+<c:set var="isEditForm" value="${formType eq 'Edit'}" />
+<c:set var="isAddForm" value="${formType eq 'Add'}" />
+<form class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
     <div class="form-group form-inline">
         <div class="form-group text-muted">
             <p>
@@ -204,8 +206,9 @@
                value="Cancel"
                onclick="return hideResponseComment${formType}Form(${divIdAsJsParams});">
     </div>
+    <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
+    <c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
