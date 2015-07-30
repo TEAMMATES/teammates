@@ -7,15 +7,15 @@
 <c:choose>
     <c:when test="${empty data.questionCommentsMap}">
         <div id="no-comment-panel" style="">
-	        <br>
-	        <div class="panel panel-info">
-	            <ul class="list-group comments">
-	                <li class="list-group-item list-group-item-warning">
-	                    You don't have any comment in this session.
-	                </li>
-	            </ul>
-	        </div>
-	    </div>
+            <br>
+            <div class="panel panel-info">
+                <ul class="list-group comments">
+                    <li class="list-group-item list-group-item-warning">
+                        You don't have any comment in this session.
+                    </li>
+                </ul>
+            </div>
+        </div>
     </c:when>
     <c:otherwise>
         <c:set var="fsIndex" value="${data.feedbackSessionIndex}" />
@@ -24,10 +24,10 @@
                 <div class="panel-heading">
                     <c:set var="question" value="${questionCommentsEntry.key}"/>
                     <b>Question ${question.questionNumber}</b>:
-			        ${question.questionDetails.questionText}
-			        ${question.questionAdditionalInfoHtml}
-			    </div>
-			    <table class="table">
+                    ${question.questionDetails.questionText}
+                    ${question.questionAdditionalInfoHtml}
+                </div>
+                <table class="table">
                     <tbody>
                         <c:forEach items="${questionCommentsEntry.value}" var="response" varStatus="responseStatus">
                             <tr>
@@ -37,24 +37,24 @@
                                 <td><strong>Response: </strong>${response.answerHtml}</td>
                             </tr>
                             <tr class="active">
-	                            <td>Comment(s):
-	                                <button type="button"
-	                                        class="btn btn-default btn-xs icon-button pull-right"
-	                                        id="button_add_comment-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
-	                                        onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseStatus.count})"
-	                                        data-toggle="tooltip" data-placement="top"
-	                                        title="<%= Const.Tooltips.COMMENT_ADD %>"
-	                                        <c:if test="${not response.instructorAllowedToSubmit}">disabled="disabled"</c:if>>
-	                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-	                                </button>
-	                            </td>
-	                        </tr>
-	                        <tr>
-	                            <td>
+                                <td>Comment(s):
+                                    <button type="button"
+                                            class="btn btn-default btn-xs icon-button pull-right"
+                                            id="button_add_comment-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
+                                            onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseStatus.count})"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="<%= Const.Tooltips.COMMENT_ADD %>"
+                                            <c:if test="${not response.instructorAllowedToSubmit}">disabled="disabled"</c:if>>
+                                        <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <ul class="list-group comments"
-	                                    id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
-	                                    <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
-	                                    <c:forEach var="frc" items="${response.feedbackResponseComments}" varStatus="frcStatus">
+                                        id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
+                                        <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
+                                        <c:forEach var="frc" items="${response.feedbackResponseComments}" varStatus="frcStatus">
                                             <shared:feedbackResponseComment frc="${frc}"
                                                                             firstIndex="${fsIndex}"
                                                                             secondIndex="${responseEntriesStatus.count}"
@@ -65,12 +65,12 @@
                                                                            firstIndex="${fsIndex}"
                                                                            secondIndex="${responseEntriesStatus.count}"
                                                                            thirdIndex="${responseStatus.count}" />
-	                                </ul>
-	                            </td>
-	                        </tr>
+                                    </ul>
+                                </td>
+                            </tr>
                         </c:forEach>
-		            </tbody>
-	            </table>
+                    </tbody>
+                </table>
             </div>
         </c:forEach>
     </c:otherwise>
