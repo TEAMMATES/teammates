@@ -27,6 +27,25 @@ public class AdminEmailLogPageData extends PageData {
         super(account);
     }
     
+    public String getFilterQuery() {
+        return filterQuery;
+    }
+    
+    public String getOffset() {
+        return offset;
+    }
+    
+    public String getQueryMessage() {
+        return queryMessage;
+    }
+    
+    public List<EmailLogEntry> getLogs() {
+        return logs;
+    }
+    
+    public boolean isShouldShowAll() {
+        return shouldShowAll;
+    }
     
     /**
      * Creates a QueryParameters object used for filtering
