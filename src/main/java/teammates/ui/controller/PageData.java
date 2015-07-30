@@ -1058,8 +1058,7 @@ public class PageData {
     //========================================================================    
     }
     
-    public String getRecipientNames(Set<String> recipients, String courseId, CourseRoster roster) {
-        String studentEmail = this.student.email;
+    public String getRecipientNames(Set<String> recipients, String courseId, String studentEmail, CourseRoster roster) {
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
         
@@ -1070,7 +1069,7 @@ public class PageData {
                 namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (!account.isInstructor && recipient.equals(studentEmail)) {
+            if (studentEmail != null && recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("All Students In This Course");

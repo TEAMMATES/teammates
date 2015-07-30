@@ -148,7 +148,7 @@ public class StudentCommentsPageData extends PageData {
         List<Comment> commentRows = new ArrayList<Comment>();
         
         for (CommentAttributes comment : comments) {
-            String recipientDetails = getRecipientNames(comment.recipients, courseId, roster);
+            String recipientDetails = getRecipientNames(comment.recipients, courseId, studentEmail, roster);
             InstructorAttributes instructor = roster.getInstructorForEmail(comment.giverEmail);
             String giverDetails = comment.giverEmail;
             if (instructor != null) {

@@ -122,7 +122,7 @@ public class InstructorCommentsPageData extends PageData {
         List<Comment> rows = new ArrayList<Comment>();
         for (int i = 0; i < commentsForGiver.size(); i++) {            
             CommentAttributes comment = commentsForGiver.get(i);
-            String recipientDetails = getRecipientNames(comment.recipients, courseId, roster);
+            String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
             Comment commentDiv = new Comment(comment, giverName, recipientDetails);

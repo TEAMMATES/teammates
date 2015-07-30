@@ -102,7 +102,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             String giverDetails, String studentEmail, List<CommentAttributes> comments, CourseRoster roster) {
         List<Comment> commentRows = new ArrayList<Comment>();
         for (CommentAttributes comment : comments) {
-            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.id, roster);
+            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.id, studentEmail, roster);
             commentRows.add(new Comment(comment, giverDetails, recipientDetails));
         }
         CommentsForStudentsTable commentsForStudentsTable = 
