@@ -188,7 +188,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         switch (viewType) {
             case RECIPIENT_GIVER_QUESTION:
                 Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForRGQ 
-                    = bundle.getResponsesSortedByRecipient(true);
+                    = bundle.getResponsesSortedByRecipientGiverQuestion();
     
                 buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForRGQ, viewType.additionalInfoId());
                 break;
@@ -206,7 +206,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             case GIVER_RECIPIENT_QUESTION:
                 Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponsesForGRQ
-                    = bundle.getResponsesSortedByGiver(true);
+                    = bundle.getResponsesSortedByGiverRecipientQuestion()();
                 buildSectionPanelsForViewByParticipantParticipantQuestion(sortedResponsesForGRQ, viewType.additionalInfoId());
                 break;
             default:
@@ -529,7 +529,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                             rowAttributes, displayableResponse, comments,
                                             isAllowedToSubmitSessionsInBothSection);
             
-            responsePanel.setFeedbackResponseCommentsIndexes(recipientIndex, giverIndex, i);
+            responsePanel.setFeedbackResponseCommentsIndexes(recipientIndex, giverIndex, i + 1);
             
             responsePanels.add(responsePanel);
         }
