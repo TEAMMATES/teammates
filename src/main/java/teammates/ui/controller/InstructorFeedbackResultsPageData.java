@@ -26,6 +26,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
+import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
 import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
 import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
@@ -1734,5 +1735,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), isPanelsCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), sections);
+    }
+    
+    public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
+        return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus);
     }
 }
