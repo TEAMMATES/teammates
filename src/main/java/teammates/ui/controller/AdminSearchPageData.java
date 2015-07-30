@@ -108,7 +108,7 @@ public class AdminSearchPageData extends PageData {
         String courseJoinLink = instructorCourseJoinLinkMap.get(instructor.getIdentificationString());
         
         return new AdminSearchInstructorRow(id, name, courseName, courseId, googleId, googleIdLink, 
-                                                institute, viewRecentActionsId, email, courseJoinLink);
+                                            institute, viewRecentActionsId, email, courseJoinLink);
     }
 
     private String createId(InstructorAttributes instructor) {
@@ -167,9 +167,9 @@ public class AdminSearchPageData extends PageData {
                                         createFeedbackSessionsList(student, FeedbackSessionState.PUBLISHED);
         
         return new AdminSearchStudentRow(id, name, institute, courseName, courseId, section, 
-                                        team, googleId, email, comments, viewRecentActionsId, 
-                                        links, openFeedbackSessions, closedFeedbackSessions, 
-                                        publishedFeedbackSessions);
+                                         team, googleId, email, comments, viewRecentActionsId, 
+                                         links, openFeedbackSessions, closedFeedbackSessions, 
+                                         publishedFeedbackSessions);
     }
 
     private String createId(StudentAttributes student) {
