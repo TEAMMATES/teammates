@@ -51,7 +51,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         data.instructorEmail = instructor.email;
         data.currentInstructor = instructor;
         data.roster = roster;
-        data.feedbackSessionIndex = fsindex - 1;
+        data.feedbackSessionIndex = fsindex;
         data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         data.init();

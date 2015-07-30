@@ -38,6 +38,11 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     // Initializes instructorAllowedToSubmit
     // Initializes feedbackResponseCommentsLists
     public void init() {
+        // no visible questions / responses with comments
+        if (feedbackResultBundle == null) {
+            return;
+        }
+        
         FeedbackSessionResultsBundle bundle = feedbackResultBundle;
         HashMap<FeedbackResponseAttributes, String> giverNames = new HashMap<>();
         HashMap<FeedbackResponseAttributes, String> recipientNames = new HashMap<>();
