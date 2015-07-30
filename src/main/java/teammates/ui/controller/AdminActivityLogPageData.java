@@ -49,7 +49,7 @@ public class AdminActivityLogPageData extends PageData {
     
     public List<String> getExcludedLogRequestURIs() {
         List<String> excludedList = new ArrayList<String>();
-        for(String excludedLogRequestURI : excludedLogRequestURIs) {
+        for (String excludedLogRequestURI : excludedLogRequestURIs) {
             excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf("/") + 1));
         }
         return excludedList;
@@ -258,7 +258,7 @@ public class AdminActivityLogPageData extends PageData {
        
         System.out.print(tokens.length);
         
-        for(int i = 0; i < tokens.length; i++) {           
+        for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
@@ -332,11 +332,11 @@ public class AdminActivityLogPageData extends PageData {
         
         if (actionName.startsWith("instructor")) {
             style = "list-group-item";
-        }else if (actionName.startsWith("student")) {
+        } else if (actionName.startsWith("student")) {
             style = "list-group-item-success";
-        }else if (actionName.startsWith("admin")) {
+        } else if (actionName.startsWith("admin")) {
             style = "list-group-item-warning";
-        }else{
+        } else {
             style = "list-group-item-danger";
         }
         
@@ -360,7 +360,7 @@ public class AdminActivityLogPageData extends PageData {
        
         List<String> actionNameList = new ArrayList<String>();
         
-        for(Field field : Const.ActionURIs.class.getFields()) {
+        for (Field field : Const.ActionURIs.class.getFields()) {
 
             String actionString = getActionNameStringFromField(field);
             actionNameList.add(actionString);        
