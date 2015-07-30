@@ -19,10 +19,10 @@
                        maxlength="500"
                        value="${(not empty emailToEdit) and (not empty emailToEdit.addressReceiver) ? emailToEdit.firstAddressReceiver : ''}">
                        
-                <input style="${(not empty emailToEdit) and emailToEdit.hasGroupReceiver ? '' : 'display:none;'}"
+                <input style="${(not empty emailToEdit) and (not empty emailToEdit.groupReceiver) ? '' : 'display:none;'}"
                        id="groupReceiverListFileKey" type="text" class="form-control" 
                        name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY%>" 
-                       value="${(not empty emailToEdit) and emailToEdit.hasGroupReceiver ? emailToEdit.firstGroupReceiver : ''}">
+                       value="${(not empty emailToEdit) and (not empty emailToEdit.groupReceiver) ? emailToEdit.firstGroupReceiver : ''}">
              </div>
              <div class="col-md-1 border-left-gray">
                 <button type="button" class="btn btn-info" id="adminEmailGroupReceiverListUploadButton">

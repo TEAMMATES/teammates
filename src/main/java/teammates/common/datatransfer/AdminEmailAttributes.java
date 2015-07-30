@@ -159,10 +159,6 @@ public class AdminEmailAttributes extends EntityAttributes {
         return this.addressReceiver.get(0);
     }
     
-    public boolean getHasGroupReceiver() {
-        return this.getGroupReceiver() != null && this.getGroupReceiver().size() > 0;
-    }
-    
     public String getFirstGroupReceiver(){
         return getGroupReceiver().get(0);
     }
