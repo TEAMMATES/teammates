@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="displayArchive" required="true" %>
 <%@ attribute name="instructorCommentsLink" required="true" %>
-<%@ attribute name="comments" type="java.util.Map" required="true" %>
+<%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
 <%@ attribute name="feedbackSessions" type="java.util.Collection" required="true" %>
 <div class="well well-plain">
     <div class="row">
@@ -45,7 +45,7 @@
                         </div>
                         <br>
                         <c:set var="panelIdx" value="0" scope="page" />
-                        <c:if test="${not empty comments}"> 
+                        <c:if test="${not empty commentsForStudentsTables}"> 
                             <c:set var="panelIdx" value="${panelIdx + 1}" scope="page" />
                             <div class="checkbox">
                                 <input id="panel_check-${panelIdx}"
