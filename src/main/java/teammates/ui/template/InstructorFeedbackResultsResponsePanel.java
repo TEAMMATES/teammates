@@ -17,6 +17,7 @@ public class InstructorFeedbackResultsResponsePanel {
     private String displayableResponse;
     
     private List<FeedbackResponseComment> comments;
+    private FeedbackResponseComment frcForAdding;
     private boolean isAllowedToAddComment;
     
     // The indexes are used for the parameters of js functions for handling response comments 
@@ -89,4 +90,14 @@ public class InstructorFeedbackResultsResponsePanel {
     public int getQnIndex() {
         return qnIndex;
     }
+    
+
+    public void setFrcForAdding(FeedbackResponseComment frcForAdding) {
+        this.frcForAdding = frcForAdding;
+    }
+
+    public FeedbackResponseComment getFrcForAdding() {
+        return frcForAdding;
+    }
+    
 }

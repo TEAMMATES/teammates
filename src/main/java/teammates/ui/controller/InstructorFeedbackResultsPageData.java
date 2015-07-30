@@ -534,6 +534,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                             isAllowedToSubmitSessionsInBothSection);
             
             responsePanel.setFeedbackResponseCommentsIndexes(recipientIndex, giverIndex, i + 1);
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap 
+                    = getResponseVisibilityMap(question);
+            FeedbackResponseComment frcForAdding = setUpFeedbackResponseCommentAdd(question, response, 
+                                            responseVisibilityMap, giverName, recipientName);
+            
+            responsePanel.setFrcForAdding(frcForAdding);
             
             responsePanels.add(responsePanel);
         }
@@ -1481,6 +1487,73 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 isResponseVisibleToRecipient, isResponseVisibleToGiverTeam, isResponseVisibleToRecipientTeam,
                 isResponseVisibleToStudents, isResponseVisibleToInstructors,
                 true, isInstructorAllowedToModify, isInstructorAllowedToModify);
+    }
+    
+    private FeedbackResponseComment setUpFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
+                        FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
+                        String giverName, String recipientName) {
+        FeedbackParticipantType[] relevantTypes = {
+                FeedbackParticipantType.GIVER,
+                FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.INSTRUCTORS
+        };
+        
+        List<FeedbackParticipantType> showCommentTo = new ArrayList<>();
+        List<FeedbackParticipantType> showGiverNameTo = new ArrayList<>();
+        for (FeedbackParticipantType type : relevantTypes) {
+            if (isResponseCommentVisibleTo(question, type)) {
+                showCommentTo.add(type);
+            }
+            if (isResponseCommentGiverNameVisibleTo(question, type)) {
+                showGiverNameTo.add(type);
+            }
+        }
+        
+        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
+                    question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
+        return new FeedbackResponseComment(frca, giverName, recipientName,
+                getResponseCommentVisibilityString(question), getResponseCommentGiverNameVisibilityString(question),
+                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER),
+                responseVisibilityMap.get(FeedbackParticipantType.OWN_TEAM_MEMBERS),
+                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS),
+                responseVisibilityMap.get(FeedbackParticipantType.STUDENTS),
+                responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS),
+                showCommentTo, showGiverNameTo, true);
+    }
+    
+    private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
+        Map<FeedbackParticipantType, Boolean> responseVisibilityMap = new HashMap<>();
+        boolean isResponseVisibleToGiver =
+                question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isResponseVisibleToRecipient =
+                question.recipientType != FeedbackParticipantType.SELF
+                && question.recipientType != FeedbackParticipantType.NONE
+                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+        boolean isResponseVisibleToGiverTeam =
+                question.giverType != FeedbackParticipantType.INSTRUCTORS
+                && question.giverType != FeedbackParticipantType.SELF
+                && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        boolean isResponseVisibleToRecipientTeam =
+                question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                && question.recipientType != FeedbackParticipantType.SELF
+                && question.recipientType != FeedbackParticipantType.NONE
+                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        boolean isResponseVisibleToStudents =
+                question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+        boolean isResponseVisibleToInstructors =
+                question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        
+        responseVisibilityMap.put(FeedbackParticipantType.GIVER, isResponseVisibleToGiver);
+        responseVisibilityMap.put(FeedbackParticipantType.RECEIVER, isResponseVisibleToRecipient);
+        responseVisibilityMap.put(FeedbackParticipantType.OWN_TEAM_MEMBERS, isResponseVisibleToGiverTeam);
+        responseVisibilityMap.put(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS, isResponseVisibleToRecipientTeam);
+        responseVisibilityMap.put(FeedbackParticipantType.STUDENTS, isResponseVisibleToStudents);
+        responseVisibilityMap.put(FeedbackParticipantType.INSTRUCTORS, isResponseVisibleToInstructors);
+        
+        return responseVisibilityMap;
     }
     
     // TODO remove this entirely and use PageData method directly

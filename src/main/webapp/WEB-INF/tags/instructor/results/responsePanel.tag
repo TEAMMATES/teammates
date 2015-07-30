@@ -31,13 +31,20 @@
                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
         </div>
+        
+        <c:set var="firstIndex" value="${responsePanel.recipientIndex}"/>
+        <c:set var="secondIndex" value="${responsePanel.giverIndex}"/>
+        <c:set var="thirdIndex" value="${responsePanel.qnIndex}"/>
+        
         <ul class="list-group" id="responseCommentTable-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
             style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
             <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
-                <shared:feedbackResponseComment frc="${responseComment}" firstIndex="${responsePanel.recipientIndex}" 
-                                                secondIndex="${responsePanel.giverIndex}" thirdIndex="${responsePanel.qnIndex}" 
+                <shared:feedbackResponseComment frc="${responseComment}" firstIndex="${firstIndex}" 
+                                                secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" 
                                                 frcIndex="${status.count}"/>
             </c:forEach>
+            <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}" 
+                                               secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" />
         </ul>
         
     </div>
