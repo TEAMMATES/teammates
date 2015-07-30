@@ -62,28 +62,36 @@ public class FeedbackResponseComment {
                                    boolean responseVisibleToRecipientTeam, boolean responseVisibleToStudents,
                                    boolean responseVisibleToInstructors, boolean editDeleteEnabledOnlyOnHover) {
         this.commentId = frc.getId();
+        this.createdAt = frc.createdAt.toString();
+        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.feedbackResponseId = frc.feedbackResponseId;
+        this.courseId = frc.courseId;
+        this.feedbackSessionName = frc.feedbackSessionName;
+        
         this.giverDisplay = giverDisplay;
         this.responseGiverName = giverName;
         this.responseRecipientName = recipientName;
-        this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
+        
         this.responseCommentPublicToRecipient = frc.showCommentTo.size() > 0 ? true : false;
         this.feedbackSessionPublished = feedbackSession.isPublished();
         instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(frc.giverEmail, instructorEmail);
-        this.whoCanSeeComment = whoCanSeeComment;
         checkIfShouldDisplayVisibilityIcon();
         checkIfShouldDisplayNotificationIcon(frc);
+        
+        this.whoCanSeeComment = whoCanSeeComment;
         this.showCommentTo = frc.showCommentTo;
         this.showGiverNameTo = frc.showGiverNameTo;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
         updateEditDeleteAccessibility(isAllowedToEditAndDeleteComment);
+        
         this.responseVisibleToRecipient = responseVisibleToRecipient;
         this.responseVisibleToGiverTeam = responseVisibleToGiverTeam;
         this.responseVisibleToRecipientTeam = responseVisibleToRecipientTeam;
         this.responseVisibleToStudents = responseVisibleToStudents;
         this.responseVisibleToInstructors = responseVisibleToInstructors;
+        
         this.editDeleteEnabledOnlyOnHover = editDeleteEnabledOnlyOnHover;
     }
 
