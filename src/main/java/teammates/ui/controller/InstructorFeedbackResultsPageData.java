@@ -23,6 +23,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
+import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
 import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
@@ -1360,5 +1361,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), isPanelsCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), sections);
+    }
+    
+    public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
+        return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus);
     }
 }
