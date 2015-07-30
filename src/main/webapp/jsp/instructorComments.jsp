@@ -12,7 +12,7 @@
     <script src="/js/omniComment.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
-    <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
+    <comments:search instructorSearchLink="${data.instructorSearchLink}" displayArchive="${data.displayArchive}" instructorCommentsLink="${data.instructorCommentsLink}" commentsForStudentsTables="${data.commentsForStudentsTables}" feedbackSessions="${data.feedbackSessions}" />
     <br>
     <t:statusMessage />
     <c:choose>
