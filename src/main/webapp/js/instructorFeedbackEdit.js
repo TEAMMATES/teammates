@@ -176,12 +176,14 @@ function enableQuestion(number) {
         $('#mcqChoiceTable-' + number).hide();
         $('#msqChoiceTable-' + number).hide();
         $("#mcqOtherOptionFlag-" + number).parent().hide();
+        $("#msqOtherOptionFlag-" + number).parent().hide();
         $('#mcqGenerateForSelect-' + number).prop('disabled', false);
         $('#msqGenerateForSelect-' + number).prop('disabled', false);
     } else {
         $('#mcqChoiceTable-' + number).show();
         $('#msqChoiceTable-' + number).show();
         $("#mcqOtherOptionFlag-" + number).parent().show();
+        $("#msqOtherOptionFlag-" + number).parent().show();
         $('#mcqGenerateForSelect-' + number).prop('disabled', true);
         $('#msqGenerateForSelect-' + number).prop('disabled', true);
     }
@@ -266,8 +268,10 @@ function disableQuestion(number) {
        If so, hide 'add Other option' */
     if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
         $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().hide();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().hide();
     } else {
         $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().show();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().show();
     }
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
@@ -986,12 +990,14 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#msqChoiceTable' + idSuffix).hide();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
+        $("#msqOtherOptionFlag" + idSuffix).parent().hide();
         $('#generatedOptions' + idSuffix).attr('value',
                                                $('#msqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#msqChoiceTable' + idSuffix).show();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', true);
+        $("#msqOtherOptionFlag" + idSuffix).parent().show();
         $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }
