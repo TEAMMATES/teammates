@@ -145,7 +145,7 @@
                                 class="btn  btn-link btn-xs"> <span
                                     class="glyphicon glyphicon-info-sign"></span>
                                     View Details
-                            </a>&nbsp;&nbsp;&nbsp;&nbsp; <a
+                            </a><a
                                 id="<%=acc.googleId + "_delete"%>"
                                 href="<%=data.getAdminDeleteInstructorStatusLink(acc.googleId)%>"
                                 class="btn  btn-link btn-xs"

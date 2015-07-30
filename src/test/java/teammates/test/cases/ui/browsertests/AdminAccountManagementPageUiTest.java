@@ -52,6 +52,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         loginToAdminAccountsManagementPage();
         accountsPage.verifyIsCorrectPage();
+        accountsPage.verifyHtmlPart(accountsPage.getFirstAccountEntryRow(), "/adminAccountManagementPage.html");
+        
         //Full page content cannot be checked because the list of 
         //  account cannot be fixed in the live server. 
     }
