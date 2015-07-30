@@ -5,13 +5,13 @@
 <tr id="${trashEmail.emailId}">
     <td>
         <a <c:forEach items="${trashEmail.actions.editButton.attributes}" var="attribute">
-           ${attribute.key}="${attribute.value}"
+               ${attribute.key}="${attribute.value}"
            </c:forEach>>
                ${trashEmail.actions.editButton.content}
         </a>
         
         <a <c:forEach items="${trashEmail.actions.moveOutOfTrashButton.attributes}" var="attribute">
-           ${attribute.key}="${attribute.value}"
+               ${attribute.key}="${attribute.value}"
            </c:forEach>>
                ${trashEmail.actions.moveOutOfTrashButton.content}
         </a>
