@@ -90,35 +90,6 @@ public class StudentCommentsPageData extends PageData {
         return nextPageLink;
     }
     
-    private String getRecipientNames(Set<String> recipients, String studentEmail, CourseRoster roster) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (recipient.equals(studentEmail)) {
-                namesStringBuilder.append("you, ");
-            } else if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("All Students In This Course, ");
-            } else if(student != null){
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
-                } else {
-                    namesStringBuilder.append(student.name + ", ");
-                }
-            } else {
-                namesStringBuilder.append(recipient + ", ");
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return removeEndComma(namesString);
-    }
-    
-    
     private void setCoursePagination(List<String> coursePaginationList) {
         String previousPageLink = retrievePreviousPageLink(coursePaginationList);
         String nextPageLink = retrieveNextPageLink(coursePaginationList);
@@ -179,7 +150,7 @@ public class StudentCommentsPageData extends PageData {
         List<Comment> commentRows = new ArrayList<Comment>();
         
         for (CommentAttributes comment : comments) {
-            String recipientDetails = getRecipientNames(comment.recipients, studentEmail, roster);
+            String recipientDetails = getRecipientNames(comment.recipients, courseId, roster);
             InstructorAttributes instructor = roster.getInstructorForEmail(comment.giverEmail);
             String giverDetails = comment.giverEmail;
             if (instructor != null) {

@@ -1058,7 +1058,7 @@ public class PageData {
     //========================================================================    
     }
     
-    private String getRecipientNames(Set<String> recipients, String courseId, CourseRoster roster) {
+    public String getRecipientNames(Set<String> recipients, String courseId, CourseRoster roster) {
         String studentEmail = this.student.email;
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
