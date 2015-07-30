@@ -21,57 +21,52 @@
     </c:when>
     <c:otherwise>
         <c:set var="fsIndex" value="${data.feedbackSessionIndex}" />
-        <c:set var="ifrc" value="${data.instructorFeedbackResponseComment}"/>
-        <c:forEach var="responseEntries" items="${data.feedbackResultsBundle.questionResponseMap}" varStatus="responseEntriesStatus">
+        <c:forEach items="${data.questionCommentsMap}" var="questionCommentsEntry" varStatus="responseEntriesStatus">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <c:set var="question" value="${data.feedbackResultsBundle.questions[responseEntries.key.id]}"/>
-                    <c:set var="questionDetails" value="${question.questionDetails}"/>
-			        <b>Question ${responseEntries.key.questionNumber}</b>:
-			        ${questionDetails.questionText}
+                    <c:set var="question" value="${questionCommentsEntry.key}"/>
+                    <b>Question ${question.questionNumber}</b>:
+			        ${question.questionDetails.questionText}
 			        ${question.questionAdditionalInfoHtml}
 			    </div>
 			    <table class="table">
                     <tbody>
-                        <c:forEach var="responseEntry" items="${responseEntries.value}" varStatus="responseEntryStatus">
-                            <c:set var="giverName" value="${ifrc.giverNames[responseEntry]}"/>
-                            <c:set var="recipientName" value="${ifrc.recipientNames[responseEntry]}"/>
+                        <c:forEach items="${questionCommentsEntry.value}" var="response" varStatus="responseStatus">
                             <tr>
-                                <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>
+                                <td><b>From:</b> ${response.giverName} <b>To:</b> ${response.recipientName}</td>
                             </tr>
                             <tr>
-                                <td><strong>Response: </strong>${ifrc.responseEntryAnswerHtmls[responseEntry]}</td>
+                                <td><strong>Response: </strong>${response.responseEntryAnswerHtml}</td>
                             </tr>
                             <tr class="active">
 	                            <td>Comment(s):
 	                                <button type="button"
 	                                        class="btn btn-default btn-xs icon-button pull-right"
-	                                        id="button_add_comment-${fsIndex}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
-	                                        onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseEntryStatus.count})"
+	                                        id="button_add_comment-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
+	                                        onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseStatus.count})"
 	                                        data-toggle="tooltip" data-placement="top"
 	                                        title="<%= Const.Tooltips.COMMENT_ADD %>"
-	                                        <c:if test="${not ifrc.instructorAllowedToSubmit[responseEntry]}">disabled="disabled"</c:if>>
+	                                        <c:if test="${not response.instructorAllowedToSubmit}">disabled="disabled"</c:if>>
 	                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
 	                                </button>
 	                            </td>
 	                        </tr>
 	                        <tr>
 	                            <td>
-                                    <c:set var="frcList" value="${ifrc.feedbackResponseCommentsList[responseEntry.id]}"/>
-	                                <ul class="list-group comments"
-	                                    id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
-	                                    <c:if test="${empty frcList}">style="display: none;"</c:if>>
-	                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
+                                    <ul class="list-group comments"
+	                                    id="responseCommentTable-${fsIndex}-${responseEntriesStatus.count}-${responseStatus.count}"
+	                                    <c:if test="${empty response.feedbackResponseComments}">style="display: none;"</c:if>>
+	                                    <c:forEach var="frc" items="${response.feedbackResponseComments}" varStatus="frcStatus">
                                             <shared:feedbackResponseComment frc="${frc}"
                                                                             firstIndex="${fsIndex}"
                                                                             secondIndex="${responseEntriesStatus.count}"
-                                                                            thirdIndex="${responseEntryStatus.count}"
+                                                                            thirdIndex="${responseStatus.count}"
                                                                             frcIndex="${frcStatus.count}" />
                                         </c:forEach>
-                                        <shared:feedbackResponseCommentAdd frc="${ifrc.feedbackResponseCommentAdd[question]}"
+                                        <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}"
                                                                            firstIndex="${fsIndex}"
                                                                            secondIndex="${responseEntriesStatus.count}"
-                                                                           thirdIndex="${responseEntryStatus.count}" />
+                                                                           thirdIndex="${responseStatus.count}" />
 	                                </ul>
 	                            </td>
 	                        </tr>

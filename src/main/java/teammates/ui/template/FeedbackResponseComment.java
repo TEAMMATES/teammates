@@ -57,10 +57,10 @@ public class FeedbackResponseComment {
                                    FeedbackSessionAttributes feedbackSession,
                                    FeedbackQuestionAttributes question, String whoCanSeeComment,
                                    String showCommentToString, String showGiverNameToString,
-                                   boolean isAllowedToEditAndDeleteComment,
+                                   boolean isAllowedToEditAndDeleteComment, boolean editDeleteEnabledOnlyOnHover,
                                    boolean responseVisibleToRecipient, boolean responseVisibleToGiverTeam,
                                    boolean responseVisibleToRecipientTeam, boolean responseVisibleToStudents,
-                                   boolean responseVisibleToInstructors, boolean editDeleteEnabledOnlyOnHover) {
+                                   boolean responseVisibleToInstructors) {
         this.commentId = frc.getId();
         this.createdAt = frc.createdAt.toString();
         this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
