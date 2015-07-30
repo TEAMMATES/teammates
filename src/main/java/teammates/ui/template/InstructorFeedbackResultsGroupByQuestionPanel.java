@@ -11,14 +11,14 @@ import teammates.common.util.FieldValidator;
  * 
  *
  */
-public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorResultsParticipantPanel {
+public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFeedbackResultsParticipantPanel {
+        
+    private List<InstructorFeedbackResultsQuestionTable> questionTables;
     
-    private List<InstructorResultsQuestionTable> questionTables;
-    
-    public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorResultsQuestionTable> questionTables,
+    public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorFeedbackResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
                                     boolean isGiver, String participantIdentifier, String participantName,
-                                    InstructorResultsModerationButton moderationButton) {
+                                    InstructorFeedbackResultsModerationButton moderationButton) {
         this.participantIdentifier = participantIdentifier;
         this.name = participantName;
         this.isGiver = isGiver;
@@ -36,7 +36,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     }
     
     public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
-                                    List<InstructorResultsQuestionTable> questionTables,
+                                    List<InstructorFeedbackResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
                                     boolean isGroupedByGiver, String participantIdentifier, String participantName) {
         return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
@@ -46,21 +46,21 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     
     public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithModerationButton(
                                     String participantIdentifier, String participantName, 
-                                    List<InstructorResultsQuestionTable> questionTables,
+                                    List<InstructorFeedbackResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
                                     boolean isGroupedByGiver,
-                                    InstructorResultsModerationButton moderationButton) {
+                                    InstructorFeedbackResultsModerationButton moderationButton) {
         return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
                                                                  participantIdentifier, participantName, 
                                                                  moderationButton);
     }
     
 
-    public List<InstructorResultsQuestionTable> getQuestionTables() {
+    public List<InstructorFeedbackResultsQuestionTable> getQuestionTables() {
         return questionTables;
     }
 
-    public void setQuestionTables(List<InstructorResultsQuestionTable> questionTables) {
+    public void setQuestionTables(List<InstructorFeedbackResultsQuestionTable> questionTables) {
         this.questionTables = questionTables;
     }
 

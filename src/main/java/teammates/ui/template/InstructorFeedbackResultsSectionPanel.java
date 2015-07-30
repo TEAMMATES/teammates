@@ -22,10 +22,10 @@ public class InstructorFeedbackResultsSectionPanel {
     private String detailedResponsesHeaderText;
     
     // A mapping from team name to a list of participant panels. Each participant panel is for one member of the team
-    private Map<String, List<InstructorResultsParticipantPanel>> participantPanels;
+    private Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels;
     
     private boolean isDisplayingTeamStatistics;
-    private Map<String, List<InstructorResultsQuestionTable>> teamStatisticsTable;
+    private Map<String, List<InstructorFeedbackResultsQuestionTable>> teamStatisticsTable;
     private Map<String, Boolean> isTeamWithResponses;
 
     public InstructorFeedbackResultsSectionPanel() {
@@ -34,7 +34,7 @@ public class InstructorFeedbackResultsSectionPanel {
         
         isAbleToLoadResponses = true;
         isTeamWithResponses = new HashMap<String, Boolean>();
-        participantPanels = new LinkedHashMap<String, List<InstructorResultsParticipantPanel>>();
+        participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
     }
     
     
@@ -54,20 +54,20 @@ public class InstructorFeedbackResultsSectionPanel {
         this.sectionName = sectionName;
     }
 
-    public Map<String, List<InstructorResultsParticipantPanel>> getParticipantPanels() {
+    public Map<String, List<InstructorFeedbackResultsParticipantPanel>> getParticipantPanels() {
         return participantPanels;
     }
 
     public void setParticipantPanels(
-                                    Map<String, List<InstructorResultsParticipantPanel>> participantPanels) {
+                                    Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels) {
         this.participantPanels = participantPanels; 
     }
 
-    public Map<String, List<InstructorResultsQuestionTable>> getTeamStatisticsTable() {
+    public Map<String, List<InstructorFeedbackResultsQuestionTable>> getTeamStatisticsTable() {
         return teamStatisticsTable;
     }
 
-    public void setTeamStatisticsTable(Map<String, List<InstructorResultsQuestionTable>> teamStatisticsTable) {
+    public void setTeamStatisticsTable(Map<String, List<InstructorFeedbackResultsQuestionTable>> teamStatisticsTable) {
         this.teamStatisticsTable = teamStatisticsTable;
     }
 
@@ -136,9 +136,9 @@ public class InstructorFeedbackResultsSectionPanel {
     }
 
 
-    public List<InstructorResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
-        List<InstructorResultsParticipantPanel> sortedPanels = new ArrayList<InstructorResultsParticipantPanel>();
-        for (Collection<InstructorResultsParticipantPanel> participantsPanels : participantPanels.values()) {
+    public List<InstructorFeedbackResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
+        List<InstructorFeedbackResultsParticipantPanel> sortedPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();
+        for (Collection<InstructorFeedbackResultsParticipantPanel> participantsPanels : participantPanels.values()) {
             sortedPanels.addAll(participantsPanels);
         }
         Collections.sort(sortedPanels);

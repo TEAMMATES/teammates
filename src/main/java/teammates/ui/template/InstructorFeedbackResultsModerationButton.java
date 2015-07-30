@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 
-public class InstructorResultsModerationButton {
+public class InstructorFeedbackResultsModerationButton {
     
     private boolean isAllowedToModerate;
     private boolean isDisabled;
@@ -13,7 +13,7 @@ public class InstructorResultsModerationButton {
     private String courseId;
     private String feedbackSessionName;
     
-    public InstructorResultsModerationButton(boolean isAllowedToModerate, boolean isDisabled, String className,
+    public InstructorFeedbackResultsModerationButton(boolean isAllowedToModerate, boolean isDisabled, String className,
                              String giverIdentifier,
                              String courseId, String feedbackSessionName, FeedbackQuestionAttributes question,
                              String buttonText) {

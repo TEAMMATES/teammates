@@ -132,6 +132,50 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
                              + "Who do you like in the class?|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
+        
+        ______TS("Enable other option");
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Choose all the food you like",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3", 
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "Pizza",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "Pasta",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "Chicken rice",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, "on"
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+                     result.getDestinationWithParams());
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
+                             + "Choose all the food you like|||/page/instructorFeedbackQuestionAdd";
+        assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
