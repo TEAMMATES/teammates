@@ -22,7 +22,7 @@
             <div class="pull-left text-preserve-space">${responsePanel.displayableResponse}</div>
             
             <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
-                onclick="showResponseCommentAddForm()"
+                onclick="showResponseCommentAddForm(${responsePanel.recipientIndex},${responsePanel.giverIndex},${responsePanel.qnIndex})"
                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
                 <c:if test="${!responsePanel.allowedToAddComment}">
                         disabled="disabled"
@@ -32,12 +32,12 @@
             </button>
         </div>
         <ul class="list-group" id="responseCommentTable-${responsePanel.recipientIndex}-${responsePanel.giverIndex}-${responsePanel.qnIndex}"
-            style="${ not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
-        <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
-            <shared:feedbackResponseComment frc="${responseComment}" firstIndex="${responsePanel.recipientIndex}" 
-                                            secondIndex="${responsePanel.giverIndex}" thirdIndex="${responsePanel.qnIndex}" 
-                                            frcIndex="${status.count}"/>
-        </c:forEach>
+            style="${not empty responsePanel.comments ? 'margin-top:15px;': 'display:none'}">
+            <c:forEach items="${responsePanel.comments}" var="responseComment" varStatus="status">
+                <shared:feedbackResponseComment frc="${responseComment}" firstIndex="${responsePanel.recipientIndex}" 
+                                                secondIndex="${responsePanel.giverIndex}" thirdIndex="${responsePanel.qnIndex}" 
+                                                frcIndex="${status.count}"/>
+            </c:forEach>
         </ul>
         
     </div>
