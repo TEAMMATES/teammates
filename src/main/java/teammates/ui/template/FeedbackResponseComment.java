@@ -145,9 +145,9 @@ public class FeedbackResponseComment {
         String extraClassToSet = "";
 
         if (giverEmail.equals(instructorEmail)) {
-            extraClassToSet += "giver_display-by-you";
+            extraClassToSet += " giver_display-by-you";
         } else {
-            extraClassToSet += "giver_display-by-others";
+            extraClassToSet += " giver_display-by-others";
         }
 
         if (responseCommentPublicToRecipient && feedbackSessionPublished) {
