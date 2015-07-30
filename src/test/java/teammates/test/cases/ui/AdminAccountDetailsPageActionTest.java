@@ -47,7 +47,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
         assertEquals(false, result.isError);
 
         AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) result.data;
-        assertEquals(instructor1OfCourse1.googleId, data.accountInformation.googleId);
+        assertEquals(instructor1OfCourse1.googleId, data.getAccountInformation().googleId);
                 
     }
     
