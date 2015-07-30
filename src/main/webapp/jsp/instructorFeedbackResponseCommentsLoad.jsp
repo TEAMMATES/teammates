@@ -50,7 +50,7 @@
 	                                        onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseEntryStatus.count})"
 	                                        data-toggle="tooltip" data-placement="top"
 	                                        title="<%= Const.Tooltips.COMMENT_ADD %>"
-	                                        <c:if test="${not ifrc.instructorAllowedToSubmit}">disabled="disabled"</c:if>>
+	                                        <c:if test="${not ifrc.instructorAllowedToSubmit[responseEntry]}">disabled="disabled"</c:if>>
 	                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
 	                                </button>
 	                            </td>
