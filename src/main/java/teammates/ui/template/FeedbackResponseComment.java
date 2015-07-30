@@ -60,7 +60,7 @@ public class FeedbackResponseComment {
                                    boolean isAllowedToEditAndDeleteComment,
                                    boolean responseVisibleToRecipient, boolean responseVisibleToGiverTeam,
                                    boolean responseVisibleToRecipientTeam, boolean responseVisibleToStudents,
-                                   boolean responseVisibleToInstructors) {
+                                   boolean responseVisibleToInstructors, boolean editDeleteEnabledOnlyOnHover) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.responseGiverName = giverName;
@@ -84,6 +84,7 @@ public class FeedbackResponseComment {
         this.responseVisibleToRecipientTeam = responseVisibleToRecipientTeam;
         this.responseVisibleToStudents = responseVisibleToStudents;
         this.responseVisibleToInstructors = responseVisibleToInstructors;
+        this.editDeleteEnabledOnlyOnHover = editDeleteEnabledOnlyOnHover;
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp

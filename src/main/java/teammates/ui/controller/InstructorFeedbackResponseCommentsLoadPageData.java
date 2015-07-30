@@ -138,7 +138,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                         whoCanSeeComment, showCommentToString, showGiverNameToString,
                         allowedToEditAndDeleteComment, isResponseVisibleToRecipient,
                         isResponseVisibleToGiverTeam, isResponseVisibleToRecipientTeam,
-                        isResponseVisibleToStudents, isResponseVisibleToInstructors);
+                        isResponseVisibleToStudents, isResponseVisibleToInstructors, true);
 
                     frcList.add(frc);
                 }
