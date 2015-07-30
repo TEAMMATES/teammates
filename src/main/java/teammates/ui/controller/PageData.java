@@ -7,11 +7,13 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -1049,6 +1051,42 @@ public class PageData {
     
     public String removeBracketsForArrayString(String arrayString) {
         return arrayString.substring(1, arrayString.length() - 1).trim();
+    }
+    
+    @SuppressWarnings("unused")
+    private void ___________methods_to_generate_comments() {
+    //========================================================================    
+    }
+    
+    private String getRecipientNames(Set<String> recipients, String courseId, CourseRoster roster) {
+        String studentEmail = this.student.email;
+        StringBuilder namesStringBuilder = new StringBuilder();
+        int i = 0;
+        
+        for (String recipient : recipients) {
+            if (i == recipients.size() - 1 && recipients.size() > 1) {
+                namesStringBuilder.append(" and ");
+            } else if ( i > 0 && i < recipients.size() - 1 && recipients.size() > 2) {
+                namesStringBuilder.append(", ");
+            }
+            StudentAttributes student = roster.getStudentForEmail(recipient);
+            if (!account.isInstructor && recipient.equals(studentEmail)) {
+                namesStringBuilder.append("you");
+            } else if (courseId.equals(recipient)) { 
+                namesStringBuilder.append("All Students In This Course");
+            } else if(student != null){
+                if (recipients.size() == 1) {
+                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
+                } else {
+                    namesStringBuilder.append(student.name);
+                }
+            } else {
+                namesStringBuilder.append(recipient);
+            }
+            i++;
+        }
+        String namesString = namesStringBuilder.toString();
+        return namesString;
     }
 
     public String getjQueryFilePath() {
