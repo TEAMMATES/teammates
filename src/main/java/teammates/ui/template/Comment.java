@@ -1,6 +1,7 @@
 package teammates.ui.template;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentParticipantType;
 import static teammates.common.datatransfer.CommentParticipantType.*;
 import teammates.common.util.Const;
 
@@ -23,6 +24,7 @@ public class Comment {
     private boolean editDeleteEnabled;
     private boolean editDeleteEnabledOnlyOnHover;
     private boolean fromCommentsPage;
+    private String studentEmail;
     private int numComments;
 
     public Comment(CommentAttributes comment, String giverDisplay, String recipientDisplay) {
@@ -110,6 +112,23 @@ public class Comment {
 
     public void setFromCommentsPage() {
         this.fromCommentsPage = true;
+    }
+
+    public void setNotFromCommentsPage(String studentEmail) {
+        this.fromCommentsPage = false;
+        this.studentEmail = studentEmail;
+    }
+
+    public String getStudentEmail() {
+        return studentEmail;
+    }
+
+    public CommentParticipantType getRecipientType() {
+        return comment.recipientType;
+    }
+
+    public String getRecipientsString() {
+        return removeBracketsForArrayString(comment.recipients.toString());
     }
 
     public int getNumComments() {
