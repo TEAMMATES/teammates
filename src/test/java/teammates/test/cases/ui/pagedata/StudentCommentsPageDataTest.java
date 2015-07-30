@@ -238,6 +238,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         String expectedNextPageLink = 
                 index < coursePaginationList.size() - 1 ? coursePaginationList.get(index + 1) : "javascript:;";
         List<String> expectedCoursePaginationList = coursePaginationList;
+        String expectedActiveCourseClass = "active";
         String expectedActiveCourse = courseId;
         String expectedUserCommentsLink = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         expectedUserCommentsLink = Url.addParamToUrl(expectedUserCommentsLink, Const.ParamsNames.USER_ID, account.googleId);
@@ -245,6 +246,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         assertEquals(expectedPreviousPageLink, actualCoursePagination.getPreviousPageLink());
         assertEquals(expectedNextPageLink, actualCoursePagination.getNextPageLink());
         assertEquals(expectedCoursePaginationList, actualCoursePagination.getCoursePaginationList());
+        assertEquals(expectedActiveCourseClass, actualCoursePagination.getActiveCourseClass());
         assertEquals(expectedActiveCourse, actualCoursePagination.getActiveCourse());
         assertEquals(expectedUserCommentsLink, actualCoursePagination.getUserCommentsLink());
     }
