@@ -527,6 +527,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             String giverName = bundle.getNameForEmail(response.giverEmail);
             String recipientName = bundle.getNameForEmail(response.recipientEmail);
+            
+            String giverTeam = bundle.getTeamNameForEmail(response.giverEmail);
+            String recipientTeam = bundle.getTeamNameForEmail(response.recipientEmail);
+            
+            giverName = bundle.appendTeamNameToName(giverName, giverTeam);
+            recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
+            
             List<FeedbackResponseComment> comments = buildResponseComments(giverName, recipientName, question, response);
             boolean isAllowedToSubmitSessionsInBothSection 
                 = instructor.isAllowedForPrivilege(response.giverSection,
@@ -535,10 +542,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                           response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             
             InstructorFeedbackResultsResponsePanel responsePanel 
-                = new InstructorFeedbackResultsResponsePanel(question, response, 
-                                            questionText, additionalInfoText, 
-                                            rowAttributes, displayableResponse, comments,
-                                            isAllowedToSubmitSessionsInBothSection);
+                = new InstructorFeedbackResultsResponsePanel(question, response, questionText, additionalInfoText, 
+                                                             rowAttributes, displayableResponse, comments,
+                                                             isAllowedToSubmitSessionsInBothSection);
             
             responsePanel.setFeedbackResponseCommentsIndexes(recipientIndex, giverIndex, i + 1);
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap 
