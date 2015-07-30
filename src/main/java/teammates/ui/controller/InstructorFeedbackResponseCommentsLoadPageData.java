@@ -43,7 +43,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         HashMap<FeedbackResponseAttributes, String> recipientNames = new HashMap<>();
         HashMap<FeedbackResponseAttributes, Boolean> instructorAllowedToSubmitMap = new HashMap<>();
         HashMap<String, List<FeedbackResponseComment>> feedbackResponseCommentsLists = new HashMap<>();
-        HashMap<FeedbackQuestionDetails, String> responseEntryAnswerHtmls = new HashMap<>();
+        HashMap<FeedbackResponseAttributes, String> responseEntryAnswerHtmls = new HashMap<>();
         HashMap<FeedbackQuestionAttributes, String> showResponseCommentToStrings = new HashMap<>();
         HashMap<FeedbackQuestionAttributes, String> showResponseGiverNameToStrings = new HashMap<>();
         HashMap<FeedbackQuestionAttributes, Boolean> responseVisibleToGiver = new HashMap<>();
@@ -79,7 +79,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 String responseEntryAnswerHtml = 
                         responseEntry.getResponseDetails().getAnswerHtml(questionDetails);
 
-                responseEntryAnswerHtmls.put(questionDetails, responseEntryAnswerHtml);
+                responseEntryAnswerHtmls.put(responseEntry, responseEntryAnswerHtml);
                 
                 boolean instructorAllowedToSubmit = !(currentInstructor == null
                     || !currentInstructor.isAllowedForPrivilege(

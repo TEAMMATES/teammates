@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -14,7 +13,7 @@ import teammates.ui.template.FeedbackResponseComment;
 
 public class InstructorFeedbackResponseComment {
     private Map<String, List<FeedbackResponseComment>> feedbackResponseCommentsLists;
-    private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
+    private Map<FeedbackResponseAttributes, String> responseEntryAnswerHtmls;
     private Map<FeedbackResponseAttributes, String> giverNames;
     private Map<FeedbackResponseAttributes, String> recipientNames;
     private Map<FeedbackQuestionAttributes, String> showResponseCommentToStrings;
@@ -34,7 +33,7 @@ public class InstructorFeedbackResponseComment {
         this.giverNames = new HashMap<FeedbackResponseAttributes, String>();
         this.recipientNames = new HashMap<FeedbackResponseAttributes, String>();
         this.feedbackResponseCommentsLists = new HashMap<String, List<FeedbackResponseComment>>();
-        this.responseEntryAnswerHtmls = new HashMap<FeedbackQuestionDetails, String>();
+        this.responseEntryAnswerHtmls = new HashMap<FeedbackResponseAttributes, String>();
         this.showResponseCommentToStrings = new HashMap<FeedbackQuestionAttributes, String>();
         this.showResponseGiverNameToStrings = new HashMap<FeedbackQuestionAttributes, String>();
         this.responseVisibleToGiver = new HashMap<FeedbackQuestionAttributes, Boolean>();
@@ -49,7 +48,7 @@ public class InstructorFeedbackResponseComment {
                                     HashMap<FeedbackResponseAttributes, String> giverNames,
                                     HashMap<FeedbackResponseAttributes, String> recipientNames,
                                     HashMap<String, List<FeedbackResponseComment>> feedbackResponseCommentsLists,
-                                    HashMap<FeedbackQuestionDetails, String> responseEntryAnswerHtmls,
+                                    HashMap<FeedbackResponseAttributes, String> responseEntryAnswerHtmls,
                                     HashMap<FeedbackQuestionAttributes, String> showResponseCommentToStrings,
                                     HashMap<FeedbackQuestionAttributes, String> showResponseGiverNameToStrings,
                                     HashMap<FeedbackQuestionAttributes, Boolean> responseVisibleToGiver,
@@ -84,7 +83,7 @@ public class InstructorFeedbackResponseComment {
         return recipientNames;
     }
 
-    public Map<FeedbackQuestionDetails, String> getResponseEntryAnswerHtmls() {
+    public Map<FeedbackResponseAttributes, String> getResponseEntryAnswerHtmls() {
         return responseEntryAnswerHtmls;
     }
 

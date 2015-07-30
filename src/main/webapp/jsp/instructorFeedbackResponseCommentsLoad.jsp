@@ -40,7 +40,7 @@
                                 <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>
                             </tr>
                             <tr>
-                                <td><strong>Response: </strong>${ifrc.responseEntryAnswerHtmls[questionDetails]}</td>
+                                <td><strong>Response: </strong>${ifrc.responseEntryAnswerHtmls[responseEntry]}</td>
                             </tr>
                             <tr class="active">
 	                            <td>Comment(s):
