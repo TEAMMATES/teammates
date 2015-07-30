@@ -8,6 +8,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
 
 public class InstructorFeedbackResultsPageAction extends Action {
 
@@ -72,7 +73,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         if (data.sortType == null) {
-            // default: sort by question, stats shown, grouped by team.
+            // default view: sort by question, statistics shown, grouped by team.
             data.showStats = new String("on");
             data.groupByTeam = new String("on");
             data.sortType = new String("question");
@@ -80,7 +81,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.sections = logic.getSectionNamesForCourse(courseId);
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
-        if (data.selectedSection.equals(InstructorFeedbackResultsPageData.ALL_SECTION_OPTION) && questionNumStr == null) {
+        if (data.isAllSectionsSelected() && questionNumStr == null) {
             // bundle for all questions and all sections  
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
@@ -132,22 +133,29 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
-                data.initForViewByRecipientGiverQuestion(instructor, data.selectedSection, data.showStats, data.groupByTeam);
+                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam, 
+                                              ViewType.RECIPIENT_GIVER_QUESTION);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
             case "giver-recipient-question":
+                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam,
+                                              ViewType.GIVER_RECIPIENT_QUESTION);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
             case "recipient-question-giver":
-                data.initForViewByRecipientQuestionGiver(instructor, data.selectedSection, data.showStats, data.groupByTeam);
+                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam,
+                                              ViewType.RECIPIENT_QUESTION_GIVER);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
             case "giver-question-recipient":
-                data.initForViewByGiverQuestionRecipient(instructor, data.selectedSection, data.showStats, data.groupByTeam);
+                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam, 
+                                              ViewType.GIVER_QUESTION_RECIPIENT);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
             default:
                 data.sortType = "recipient-giver-question";
+                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam, 
+                                              ViewType.RECIPIENT_GIVER_QUESTION);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }

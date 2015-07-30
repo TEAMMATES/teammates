@@ -5,7 +5,7 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="participantPanel" type="teammates.ui.template.InstructorResultsParticipantPanel" required="true" %>
+<%@ attribute name="participantPanel" type="teammates.ui.template.InstructorFeedbackResultsParticipantPanel" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 

@@ -13,24 +13,24 @@
 <div class="panel ${not empty groupByQuestionPanel.questionTables ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
         ${groupByQuestionPanel.giver? 'From:' : 'To:'} 
-            <c:choose>
-                <c:when test="${groupByQuestionPanel.emailValid}">
-                    <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
-                        <strong>${groupByQuestionPanel.name}</strong>
-                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailto:${groupByQuestionPanel.participantIdentifier}">[${groupByQuestionPanel.participantIdentifier}]</a>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <div class="inline panel-heading-text">
-                        <strong>${groupByQuestionPanel.name}</strong>
-                    </div>
-                </c:otherwise>
-            </c:choose>
+        <c:choose>
+            <c:when test="${groupByQuestionPanel.emailValid}">
+                <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
+                    <strong>${groupByQuestionPanel.name}</strong>
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                    <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailto:${groupByQuestionPanel.participantIdentifier}">[${groupByQuestionPanel.participantIdentifier}]</a>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="inline panel-heading-text">
+                    <strong>${groupByQuestionPanel.name}</strong>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
         <div class="pull-right">
-            <c:if test="${groupByQuestionPanel.moderationButtonDisplayed}">
-                <results:moderationsButton moderationButton="${groupByQuestionPanel.moderationButton}" />
+            <c:if test="${not empty groupByQuestionPanel.moderationButton}">
+                <results:moderationButton moderationButton="${groupByQuestionPanel.moderationButton}" />
             </c:if>
             &nbsp;
             <div class="display-icon" style="display:inline;">

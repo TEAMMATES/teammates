@@ -8,7 +8,7 @@ import java.util.List;
  * and for the recipient panel in Recipient > Giver > Question 
  * 
  */
-public class InstructorFeedbackResultsGroupByParticipantPanel extends InstructorResultsParticipantPanel {
+public class InstructorFeedbackResultsGroupByParticipantPanel extends InstructorFeedbackResultsParticipantPanel {
     // One InstructorFeedbackResultsSecondaryParticipantPanelBody for each secondary participant
     private List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels;
 

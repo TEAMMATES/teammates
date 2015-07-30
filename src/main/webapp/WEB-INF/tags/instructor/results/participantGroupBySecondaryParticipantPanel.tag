@@ -11,13 +11,13 @@
 
 <div class="panel ${not empty groupByParticipantPanel.secondaryParticipantPanels ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
-        To: 
+        ${groupByParticipantPanel.giver ? 'From' : 'To'}: 
         <c:choose>
             <c:when test="${groupByParticipantPanel.emailValid}">
                 <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByParticipantPanel.profilePictureLink}">
                     <strong>${groupByParticipantPanel.name}</strong>
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                    <a <c:if test="${not empty groupByParticipantPanel.secondaryParticipantPanels}">class="link-in-dark-bg"</c:if> href="mailTo:${groupByParticipantPanel.participantIdentifier}">[${groupByParticipantPanel.participantIdentifier}]</a>
+                    <a <c:if test="${not empty groupByParticipantPanel.secondaryParticipantPanels}">class="link-in-dark-bg"</c:if> href="mailto:${groupByParticipantPanel.participantIdentifier}">[${groupByParticipantPanel.participantIdentifier}]</a>
                 </div>
             </c:when>
             <c:otherwise>
@@ -26,7 +26,15 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <span class="glyphicon ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
+        <div class="pull-right">
+            <c:if test="${not empty groupByParticipantPanel.moderationButton}">
+                <results:moderationButton moderationButton="${groupByParticipantPanel.moderationButton}" />
+            </c:if>
+            &nbsp;
+            <div class="display-icon" style="display:inline;">
+                <span class='glyphicon ${!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"} pull-right'></span>
+            </div>                
+        </div>
     </div>
     <div class="panel-collapse collapse ${shouldCollapsed ? '' : 'in'}">
         <div class="panel-body">

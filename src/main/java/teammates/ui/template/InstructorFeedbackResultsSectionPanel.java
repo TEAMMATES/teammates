@@ -10,9 +10,10 @@ import java.util.Map;
 
 public class InstructorFeedbackResultsSectionPanel {
     private String panelClass;
-    private boolean isGroupedByTeam;
+    
     private boolean isDisplayingMissingParticipants;
     private boolean isLoadSectionResponsesByAjax;
+    private boolean isAbleToLoadResponses;
     
     private String sectionName;
     private String sectionNameForDisplay;
@@ -21,18 +22,19 @@ public class InstructorFeedbackResultsSectionPanel {
     private String detailedResponsesHeaderText;
     
     // A mapping from team name to a list of participant panels. Each participant panel is for one member of the team
-    private Map<String, List<InstructorResultsParticipantPanel>> participantPanels;
+    private Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels;
     
     private boolean isDisplayingTeamStatistics;
-    private Map<String, List<InstructorResultsQuestionTable>> teamStatisticsTable;
+    private Map<String, List<InstructorFeedbackResultsQuestionTable>> teamStatisticsTable;
     private Map<String, Boolean> isTeamWithResponses;
 
     public InstructorFeedbackResultsSectionPanel() {
         panelClass = "panel-success";
         isDisplayingMissingParticipants = true;
         
+        isAbleToLoadResponses = true;
         isTeamWithResponses = new HashMap<String, Boolean>();
-        participantPanels = new LinkedHashMap<String, List<InstructorResultsParticipantPanel>>();
+        participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
     }
     
     
@@ -44,14 +46,6 @@ public class InstructorFeedbackResultsSectionPanel {
         this.panelClass = panelClass;
     }
 
-    public boolean isGroupedByTeam() {
-        return isGroupedByTeam;
-    }
-
-    public void setGroupedByTeam(boolean isGroupedByTeam) {
-        this.isGroupedByTeam = isGroupedByTeam;
-    }
-
     public String getSectionName() {
         return sectionName;
     }
@@ -60,20 +54,20 @@ public class InstructorFeedbackResultsSectionPanel {
         this.sectionName = sectionName;
     }
 
-    public Map<String, List<InstructorResultsParticipantPanel>> getParticipantPanels() {
+    public Map<String, List<InstructorFeedbackResultsParticipantPanel>> getParticipantPanels() {
         return participantPanels;
     }
 
     public void setParticipantPanels(
-                                    Map<String, List<InstructorResultsParticipantPanel>> participantPanels) {
+                                    Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels) {
         this.participantPanels = participantPanels; 
     }
 
-    public Map<String, List<InstructorResultsQuestionTable>> getTeamStatisticsTable() {
+    public Map<String, List<InstructorFeedbackResultsQuestionTable>> getTeamStatisticsTable() {
         return teamStatisticsTable;
     }
 
-    public void setTeamStatisticsTable(Map<String, List<InstructorResultsQuestionTable>> teamStatisticsTable) {
+    public void setTeamStatisticsTable(Map<String, List<InstructorFeedbackResultsQuestionTable>> teamStatisticsTable) {
         this.teamStatisticsTable = teamStatisticsTable;
     }
 
@@ -133,9 +127,18 @@ public class InstructorFeedbackResultsSectionPanel {
         this.sectionNameForDisplay = sectionNameForDisplay;
     }
 
-    public List<InstructorResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
-        List<InstructorResultsParticipantPanel> sortedPanels = new ArrayList<InstructorResultsParticipantPanel>();
-        for (Collection<InstructorResultsParticipantPanel> participantsPanels : participantPanels.values()) {
+    public boolean isAbleToLoadResponses() {
+        return isAbleToLoadResponses;
+    }
+
+    public void setAbleToLoadResponses(boolean isUnableToLoadResponses) {
+        this.isAbleToLoadResponses = isUnableToLoadResponses;
+    }
+
+
+    public List<InstructorFeedbackResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
+        List<InstructorFeedbackResultsParticipantPanel> sortedPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();
+        for (Collection<InstructorFeedbackResultsParticipantPanel> participantsPanels : participantPanels.values()) {
             sortedPanels.addAll(participantsPanels);
         }
         Collections.sort(sortedPanels);

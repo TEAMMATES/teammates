@@ -14,8 +14,7 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     private boolean isEmailValid;
     private String profilePictureLink;
     
-    private boolean isModerationButtonDisplayed;
-    private InstructorResultsModerationButton moderationButton;
+    private InstructorFeedbackResultsModerationButton moderationButton;
     
     private List<InstructorFeedbackResultsResponsePanel> responsePanels;
 
@@ -55,19 +54,11 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
         this.profilePictureLink = profilePictureLink;
     }
 
-    public boolean isModerationButtonDisplayed() {
-        return isModerationButtonDisplayed;
-    }
-
-    public void setModerationButtonDisplayed(boolean isModerationButtonDisplayed) {
-        this.isModerationButtonDisplayed = isModerationButtonDisplayed;
-    }
-
-    public InstructorResultsModerationButton getModerationButton() {
+    public InstructorFeedbackResultsModerationButton getModerationButton() {
         return moderationButton;
     }
 
-    public void setModerationButton(InstructorResultsModerationButton moderationButton) {
+    public void setModerationButton(InstructorFeedbackResultsModerationButton moderationButton) {
         this.moderationButton = moderationButton;
     }
     
