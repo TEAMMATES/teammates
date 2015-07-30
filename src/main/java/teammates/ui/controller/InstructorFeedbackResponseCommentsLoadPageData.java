@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -22,22 +21,20 @@ import teammates.ui.template.InstructorFeedbackResponseComment;
 
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
-    public InstructorAttributes currentInstructor = null;
-    public String instructorEmail = "";
-    public CourseRoster roster = null;
-    public int numberOfPendingComments = 0;
-    public int feedbackSessionIndex = 0;
+    private InstructorAttributes instructor;
+    private int numberOfPendingComments = 0;
+    private int feedbackSessionIndex = 0;
     private Map<FeedbackQuestionAttributes, List<InstructorFeedbackResponseComment>> questionCommentsMap;
     
-    public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account) {
+    public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account, int feedbackSessionIndex,
+            int numberOfPendingComments, InstructorAttributes currentInstructor, FeedbackSessionResultsBundle bundle) {
         super(account);
+        this.feedbackSessionIndex = feedbackSessionIndex;
+        this.numberOfPendingComments = numberOfPendingComments;
+        this.instructor = currentInstructor;
+        init(bundle);
     }
     
-    // Initializes giverNames
-    // Initializes recipientNames
-    // Initializes responseEntryAnswerHtml
-    // Initializes instructorAllowedToSubmit
-    // Initializes feedbackResponseCommentsLists
     public void init(FeedbackSessionResultsBundle bundle) {
         // no visible questions / responses with comments
         if (bundle == null) {
@@ -109,7 +106,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsAttributes) {
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(frca, question);
             
-            boolean isInstructorGiver = frca.giverEmail.equals(instructorEmail);
+            boolean isInstructorGiver = frca.giverEmail.equals(instructor.email);
             boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(
                     responseEntry.giverSection, responseEntry.recipientSection, responseEntry.feedbackSessionName,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
@@ -127,7 +124,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             boolean editDeleteEnabledOnlyOnHover = true;
             
             FeedbackResponseComment frc = new FeedbackResponseComment(
-                frca, frca.giverEmail, giverName, recipientName, instructorEmail,
+                frca, frca.giverEmail, giverName, recipientName, instructor.email,
                 feedbackSession, question, whoCanSeeComment, showCommentToString,
                 showGiverNameToString, allowedToEditAndDeleteComment, editDeleteEnabledOnlyOnHover,
                 isResponseVisibleToRecipient, isResponseVisibleToGiverTeam,
@@ -142,10 +139,10 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     
     private boolean isInstructorAllowedForSectionalPrivilege(String giverSection, String recipientSection,
             String feedbackSessionName, String privilege) {
-        return currentInstructor != null
-               && currentInstructor.isAllowedForPrivilege(
+        return instructor != null
+               && instructor.isAllowedForPrivilege(
                    giverSection, feedbackSessionName, privilege)
-               && currentInstructor.isAllowedForPrivilege(
+               && instructor.isAllowedForPrivilege(
                    recipientSection, feedbackSessionName, privilege);
     }
 

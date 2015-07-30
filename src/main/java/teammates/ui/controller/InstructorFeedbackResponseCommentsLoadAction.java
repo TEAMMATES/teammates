@@ -22,7 +22,6 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
     private InstructorAttributes instructor = null;
-    private InstructorFeedbackResponseCommentsLoadPageData data;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -31,9 +30,9 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         String fsname = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String fsindexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
         Assumption.assertNotNull(fsindexString);
-        int fsindex = 0;
+        int fsIndex = 0;
         try {
-            fsindex = Integer.parseInt(fsindexString);
+            fsIndex = Integer.parseInt(fsindexString);
         } catch (NumberFormatException e) {
             Assumption.fail("Invalid request parameter value for feedback session index: " + fsindexString);
         }
@@ -46,14 +45,12 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
                                                logic.getInstructorsForCourse(courseId));
         
-        data = new InstructorFeedbackResponseCommentsLoadPageData(account);
-        data.instructorEmail = instructor.email;
-        data.currentInstructor = instructor;
-        data.roster = roster;
-        data.feedbackSessionIndex = fsindex;
-        data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+        int numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
-        data.init(getFeedbackResultBundle(courseId, fsname, roster));
+        FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsname, roster);
+        InstructorFeedbackResponseCommentsLoadPageData data =
+                new InstructorFeedbackResponseCommentsLoadPageData(
+                        account, fsIndex, numberOfPendingComments, instructor, bundle);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 
