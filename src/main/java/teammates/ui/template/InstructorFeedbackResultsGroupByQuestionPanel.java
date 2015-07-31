@@ -35,24 +35,22 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.isHasResponses = true;
     }
     
-    public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
+    public InstructorFeedbackResultsGroupByQuestionPanel(
                                     List<InstructorFeedbackResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
                                     boolean isGroupedByGiver, String participantIdentifier, String participantName) {
-        return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
-                                                                participantIdentifier, participantName, 
-                                                                null);
+        this(questionTables, profilePictureLink, isGroupedByGiver, 
+             participantIdentifier, participantName, null);
     }
     
-    public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithModerationButton(
+    public InstructorFeedbackResultsGroupByQuestionPanel(
                                     String participantIdentifier, String participantName, 
                                     List<InstructorFeedbackResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
                                     boolean isGroupedByGiver,
                                     InstructorFeedbackResultsModerationButton moderationButton) {
-        return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
-                                                                 participantIdentifier, participantName, 
-                                                                 moderationButton);
+        this(questionTables, profilePictureLink, isGroupedByGiver, participantIdentifier, 
+             participantName, moderationButton);
     }
     
 

@@ -548,10 +548,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                              isAllowedToSubmitSessionsInBothSection);
             
             responsePanel.setFeedbackResponseCommentsIndexes(recipientIndex, giverIndex, i + 1);
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap 
-                    = getResponseVisibilityMap(question);
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
             FeedbackResponseComment frcForAdding = setUpFeedbackResponseCommentAdd(question, response, 
-                                            responseVisibilityMap, giverName, recipientName);
+                                                            responseVisibilityMap, giverName, recipientName);
             
             responsePanel.setFrcForAdding(frcForAdding);
             
@@ -599,14 +598,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                    = buildModerationButtonForGiver(
                                                          null, participantIdentifier, "btn btn-primary btn-xs", 
                                                          "Moderate Responses");
-            participantPanel = InstructorFeedbackResultsGroupByQuestionPanel
-                                   .buildInstructorFeedbackResultsGroupByQuestionPanelWithModerationButton(
+            participantPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
                                             participantIdentifier, bundle.getNameForEmail(participantIdentifier),
                                             questionTables, getProfilePictureLink(participantIdentifier), 
                                             true, moderationButton);
         } else {
-            participantPanel = InstructorFeedbackResultsGroupByQuestionPanel
-                                   .buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
+            participantPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
                                             questionTables, getProfilePictureLink(participantIdentifier), 
                                             viewType.isPrimaryGroupingOfGiverType(), participantIdentifier, 
                                             bundle.getNameForEmail(participantIdentifier));
@@ -828,8 +825,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             if (!viewType.isSecondaryGroupingOfParticipantType()) {
                 giverPanel 
-                    = InstructorFeedbackResultsGroupByQuestionPanel
-                        .buildInstructorFeedbackResultsGroupByQuestionPanelWithModerationButton(
+                    = new InstructorFeedbackResultsGroupByQuestionPanel(
                                                     teamMember, bundle.getFullNameFromRoster(teamMember),
                                                     new ArrayList<InstructorFeedbackResultsQuestionTable>(), 
                                                     getProfilePictureLink(teamMember), 
@@ -859,10 +855,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             if (!viewType.isSecondaryGroupingOfParticipantType()) {
                 giverPanel = 
-                InstructorFeedbackResultsGroupByQuestionPanel
-                    .buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
-                        new ArrayList<InstructorFeedbackResultsQuestionTable>(), getProfilePictureLink(teamMember), 
-                        viewType.isPrimaryGroupingOfGiverType(), teamMember, bundle.getFullNameFromRoster(teamMember));
+                    new InstructorFeedbackResultsGroupByQuestionPanel(
+                            new ArrayList<InstructorFeedbackResultsQuestionTable>(), getProfilePictureLink(teamMember), 
+                            viewType.isPrimaryGroupingOfGiverType(), teamMember, bundle.getFullNameFromRoster(teamMember));
                 
             } else {
                 String teamMemberWithTeamNameAppended = bundle.getFullNameFromRoster(teamMember) 
@@ -895,7 +890,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * 
+     * Constructs InstructorFeedbackResultsQuestionTable containing statistics for each team.
+     * The statistics tables are added to the sectionPanel.
      * 
      * @param sectionPanel
      * @param questions
