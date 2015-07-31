@@ -14,7 +14,7 @@
     <br>
     <c:choose>
         <c:when test="${not empty data.coursePagination.coursePaginationList}">
-            <comments:pagination coursePagination="${data.coursePagination}" />
+            <shared:pagination coursePagination="${data.coursePagination}" />
             <div class="well well-plain">
                 <div class="text-color-primary">
                     <h4>
@@ -39,7 +39,7 @@
                     <comments:feedbackSessionPanel feedbackSessionRow="${feedbackSessionRow}" fsIdx="${i.index + 1}"/>
                 </c:forEach>
             </div>
-            <comments:pagination coursePagination="${data.coursePagination}" />
+            <shared:pagination coursePagination="${data.coursePagination}" />
         </c:when>
         <c:otherwise>
             <div id="statusMessage" class="alert alert-warning">

@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -21,10 +20,10 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.util.TestHelper;
 import teammates.ui.controller.InstructorCommentsPageData;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
+import teammates.ui.template.CoursePagination;
 
 public class InstructorCommentsPageDataTest extends BaseTestCase {
     private static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
@@ -69,28 +68,17 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
-        
-        Map<String, List<CommentAttributes>> actualComments = data.getComments();
-        Map<String, List<CommentAttributes>> expectedComments = comments;
-        
-        List<String> actualGivers = new ArrayList<String>();
-        actualGivers.addAll(actualComments.keySet());
-        List<String> expectedGivers = new ArrayList<String>();
-        expectedGivers.addAll(expectedComments.keySet());
-        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
-        
-        for (String email : expectedGivers) {
-            assertEquals(expectedComments.get(email), actualComments.get(email));
-        }
-
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        assertEquals(coursePaginationList, data.getCoursePaginationList());
+        CoursePagination actualCoursePagination = data.getCoursePagination();
+        assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course2.id, 
+                     actualCoursePagination.getNextPageLink());
+        assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
+        assertEquals(courseId, actualCoursePagination.getActiveCourse());
+        assertEquals("active", actualCoursePagination.getActiveCourseClass());
+        assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
         assertEquals(feedbackSessions, data.getFeedbackSessions());
-        String expectedNextPageLink = data.getInstructorCommentsLink() + "&courseid=" + course2.id;
-        String expectedPreviousPageLink = "javascript:;";
-        assertEquals(expectedNextPageLink, data.getNextPageLink());
-        assertEquals(expectedPreviousPageLink, data.getPreviousPageLink());
         assertEquals(numberOfPendingComments, data.getNumberOfPendingComments());
         assertFalse(data.isDisplayArchive());
         assertFalse(data.isViewingDraft());
@@ -156,18 +144,18 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
-        
-        actualComments = data.getComments();
-        assertEquals(1, actualComments.size());
-        assertEquals(0, actualComments.get(COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        assertEquals(coursePaginationList, data.getCoursePaginationList());
+        actualCoursePagination = data.getCoursePagination();
+        assertEquals(data.getInstructorCommentsLink() + "&courseid=" + course1.id, 
+                     actualCoursePagination.getPreviousPageLink());
+        assertEquals("javascript:;", actualCoursePagination.getNextPageLink());
+        assertEquals(coursePaginationList, actualCoursePagination.getCoursePaginationList());
+        assertEquals(courseId, actualCoursePagination.getActiveCourse());
+        assertEquals("active", actualCoursePagination.getActiveCourseClass());
+        assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
+        assertEquals(coursePaginationList, data.getCoursePagination().getCoursePaginationList());
         assertEquals(feedbackSessions, data.getFeedbackSessions());
-        expectedNextPageLink = "javascript:;";
-        expectedPreviousPageLink = data.getInstructorCommentsLink() + "&courseid=" + course1.id;
-        assertEquals(data.getNextPageLink(), expectedNextPageLink);
-        assertEquals(data.getPreviousPageLink(), expectedPreviousPageLink);        
         assertEquals(numberOfPendingComments, data.getNumberOfPendingComments());
         assertFalse(data.isDisplayArchive());
         assertFalse(data.isViewingDraft());
