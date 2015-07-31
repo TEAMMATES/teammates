@@ -47,23 +47,22 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO find out why it's 500
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
 
-    public FeedbackSessionResultsBundle bundle = null;
-    public InstructorAttributes instructor = null;
-    public List<String> sections = null;
+    private FeedbackSessionResultsBundle bundle = null;
+    private InstructorAttributes instructor = null;
+    private List<String> sections = null;
     private String selectedSection = null;
     private String sortType = null;
     private String groupByTeam = null;
     private String showStats = null;
-    public int startIndex;
+    private int startIndex;
     private boolean isPanelsCollapsed;
     
     private FieldValidator validator = new FieldValidator();
-
+    private String feedbackSessionName = null;
+    
     // used for html table ajax loading
-    public String courseId = null;
-    public String feedbackSessionName = null;
-    public String ajaxStatus = null;
-    public String sessionResultsHtmlTableAsString = null;
+    private String ajaxStatus = null;
+    private String sessionResultsHtmlTableAsString = null;
     
 
     // for question view
@@ -110,7 +109,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
-        startIndex = -1;
+        setStartIndex(-1);
     }
     
     /**
@@ -164,7 +163,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
             if (isAllSectionsSelected()) {
-                buildSectionPanelsForForAjaxLoading(sections);
+                buildSectionPanelsForForAjaxLoading(getSections());
             } else {
                 buildSectionPanelWithErrorMessage();
             }
@@ -227,7 +226,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Set<String> teamMembersWithResponses = new HashSet<String>();      
           
         // Iterate through the recipients
-        int recipientIndex = this.startIndex;
+        int recipientIndex = this.getStartIndex();
         for (Entry<String, Map<String, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap : 
                                                                               sortedResponses.entrySet()) {
             recipientIndex += 1;
@@ -330,7 +329,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
        Set<String> teamMembersWithResponses = new HashSet<String>();      
          
        // Iterate through the recipients
-       int recipientIndex = this.startIndex;
+       int recipientIndex = this.getStartIndex();
        for (Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap : 
                                                                              sortedResponses.entrySet()) {
            recipientIndex += 1;
@@ -1735,10 +1734,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), isPanelsCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
-                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), sections);
+                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), getSections());
     }
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus);
+    }
+
+    public void setSections(List<String> sections) {
+        this.sections = sections;
+    }
+
+    public void setStartIndex(int startIndex) {
+        this.startIndex = startIndex;
+    }
+
+    public void setAjaxStatus(String ajaxStatus) {
+        this.ajaxStatus = ajaxStatus;
+    }
+
+    public void setSessionResultsHtmlTableAsString(String sessionResultsHtmlTableAsString) {
+        this.sessionResultsHtmlTableAsString = sessionResultsHtmlTableAsString;
     }
 }

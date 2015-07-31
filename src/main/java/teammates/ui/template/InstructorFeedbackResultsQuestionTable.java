@@ -55,13 +55,13 @@ public class InstructorFeedbackResultsQuestionTable {
         
         this.question = question;
         
-        this.questionText = data.bundle.getQuestionText(question.getId());
+        this.questionText = data.getBundle().getQuestionText(question.getId());
         
         this.panelClass = responses.isEmpty() ? 
                           "panel-default" : 
                           "panel-info";
         
-        this.responsesBodyClass = data.bundle.isComplete() && !data.isShouldCollapsed() ? 
+        this.responsesBodyClass = data.getBundle().isComplete() && !data.isShouldCollapsed() ? 
                                   "panel-collapse collapse in" :
                                   "panel-collapse collapse";
         
