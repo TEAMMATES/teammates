@@ -2,11 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 
 public class FeedbackResponseComment {
     private Long commentId;
@@ -39,23 +36,20 @@ public class FeedbackResponseComment {
     private boolean responseVisibleToRecipientTeam;
     private boolean responseVisibleToStudents;
     private boolean responseVisibleToInstructors;
-    private boolean responseCommentPublicToRecipient;
-    private boolean feedbackSessionPublished;
 
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.editedAt = frc.getEditedAtText(isAnonymous(giverDisplay));
         this.commentText = frc.commentText.getValue();
     }
 
     // Used in InstructorFeedbackResponseComment which is part of 
     // InstructorFeedbackResponseCommentsLoadPageData
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                   String giverName, String recipientName, String instructorEmail,
-                                   FeedbackSessionAttributes feedbackSession,
-                                   FeedbackQuestionAttributes question, String whoCanSeeComment,
+                                   String giverName, String recipientName, String extraClass,
+                                   boolean withVisibilityIcon, boolean withNotificationIcon, String whoCanSeeComment,
                                    String showCommentToString, String showGiverNameToString,
                                    boolean isAllowedToEditAndDeleteComment, boolean editDeleteEnabledOnlyOnHover,
                                    boolean responseVisibleToRecipient, boolean responseVisibleToGiverTeam,
@@ -63,7 +57,7 @@ public class FeedbackResponseComment {
                                    boolean responseVisibleToInstructors) {
         this.commentId = frc.getId();
         this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.editedAt = frc.getEditedAtText(isAnonymous(giverDisplay));
         this.feedbackResponseId = frc.feedbackResponseId;
         this.courseId = frc.courseId;
         this.feedbackSessionName = frc.feedbackSessionName;
@@ -73,26 +67,25 @@ public class FeedbackResponseComment {
         this.responseRecipientName = recipientName;
         this.commentText = frc.commentText.getValue();
         
-        this.responseCommentPublicToRecipient = frc.showCommentTo.size() > 0 ? true : false;
-        this.feedbackSessionPublished = feedbackSession.isPublished();
-        instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(frc.giverEmail, instructorEmail);
-        checkIfShouldDisplayVisibilityIcon();
-        checkIfShouldDisplayNotificationIcon(frc);
+        this.extraClass = extraClass;
+        this.withVisibilityIcon = withVisibilityIcon;
+        this.whoCanSeeComment = whoCanSeeComment;
+        this.withNotificationIcon = withNotificationIcon;
         
         this.whoCanSeeComment = whoCanSeeComment;
         this.showCommentTo = frc.showCommentTo;
         this.showGiverNameTo = frc.showGiverNameTo;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
-        updateEditDeleteAccessibility(isAllowedToEditAndDeleteComment);
+        this.editDeleteEnabledOnlyOnHover = editDeleteEnabledOnlyOnHover;
+        this.editDeleteEnabled = isAllowedToEditAndDeleteComment;
+        this.instructorAllowedToEdit = this.instructorAllowedToDelete = this.editDeleteEnabled;
         
         this.responseVisibleToRecipient = responseVisibleToRecipient;
         this.responseVisibleToGiverTeam = responseVisibleToGiverTeam;
         this.responseVisibleToRecipientTeam = responseVisibleToRecipientTeam;
         this.responseVisibleToStudents = responseVisibleToStudents;
         this.responseVisibleToInstructors = responseVisibleToInstructors;
-        
-        this.editDeleteEnabledOnlyOnHover = editDeleteEnabledOnlyOnHover;
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
@@ -106,7 +99,7 @@ public class FeedbackResponseComment {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.editedAt = frc.getEditedAtText(isAnonymous(giverDisplay));
         this.commentText = frc.commentText.getValue();
         this.feedbackResponseId = frc.feedbackResponseId;
         this.courseId = frc.courseId;
@@ -152,43 +145,8 @@ public class FeedbackResponseComment {
         this.showGiverNameTo = showGiverNameTo;
     }
 
-    private void instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(
-            String giverEmail, String instructorEmail) {
-        String extraClassToSet = "";
-
-        if (giverEmail.equals(instructorEmail)) {
-            extraClassToSet += " giver_display-by-you";
-        } else {
-            extraClassToSet += " giver_display-by-others";
-        }
-
-        if (responseCommentPublicToRecipient && feedbackSessionPublished) {
-            extraClassToSet += " status_display-public";
-        } else {
-            extraClassToSet += " status_display-private";
-        }
-
-        setExtraClass(extraClassToSet);
-    }
-
-    private void checkIfShouldDisplayVisibilityIcon() {
-        if (responseCommentPublicToRecipient && feedbackSessionPublished) {
-            withVisibilityIcon = true;
-        }
-    }
-
-    private void checkIfShouldDisplayNotificationIcon(FeedbackResponseCommentAttributes frc) {
-        if (frc.sendingState == CommentSendingState.PENDING && feedbackSessionPublished) {
-            withNotificationIcon = true;
-        }
-    }
-
-    private void updateEditDeleteAccessibility(boolean isAllowedToEditAndDeleteComment) {
-        if (isAllowedToEditAndDeleteComment) {
-            editDeleteEnabled = true;
-            instructorAllowedToDelete = true;
-            instructorAllowedToEdit = true;
-        }
+    private boolean isAnonymous(String participant) {
+        return participant.equals("Anonymous");
     }
 
     public String getExtraClass() {

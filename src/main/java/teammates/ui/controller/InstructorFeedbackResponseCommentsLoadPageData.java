@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -104,8 +105,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         List<FeedbackResponseComment> comments = new ArrayList<>();
         
         for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsAttributes) {
-            String whoCanSeeComment = getTypeOfPeopleCanViewComment(frca, question);
-            
             boolean isInstructorGiver = frca.giverEmail.equals(instructor.email);
             boolean isInstructorAllowedToModify = isInstructorAllowedForSectionalPrivilege(
                     responseEntry.giverSection, responseEntry.recipientSection, responseEntry.feedbackSessionName,
@@ -123,14 +122,31 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             
             boolean editDeleteEnabledOnlyOnHover = true;
             
+            String whoCanSeeComment = null;
+            boolean isVisibilityIconShown = false;
+            boolean isNotificationIconShown = false;
+            if (feedbackSession.isPublished()) {
+                boolean responseCommentPublicToRecipient = !frca.showCommentTo.isEmpty();
+                isVisibilityIconShown = responseCommentPublicToRecipient;
+                
+                if (isVisibilityIconShown) {
+                    whoCanSeeComment = getTypeOfPeopleCanViewComment(frca, question);
+                }
+                
+                isNotificationIconShown = frca.sendingState == CommentSendingState.PENDING;
+            }
+            
+            String extraClass = getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown);
+            
             FeedbackResponseComment frc = new FeedbackResponseComment(
-                frca, frca.giverEmail, giverName, recipientName, instructor.email,
-                feedbackSession, question, whoCanSeeComment, showCommentToString,
-                showGiverNameToString, allowedToEditAndDeleteComment, editDeleteEnabledOnlyOnHover,
+                frca, frca.giverEmail, giverName, recipientName, extraClass,
+                isVisibilityIconShown, isNotificationIconShown, whoCanSeeComment,
+                showCommentToString, showGiverNameToString,
+                allowedToEditAndDeleteComment, editDeleteEnabledOnlyOnHover,
                 isResponseVisibleToRecipient, isResponseVisibleToGiverTeam,
                 isResponseVisibleToRecipientTeam, isResponseVisibleToStudents,
                 isResponseVisibleToInstructors);
-
+            
             comments.add(frc);
         }
         
@@ -216,6 +232,20 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 responseVisibilityMap.get(FeedbackParticipantType.STUDENTS),
                 responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS),
                 showCommentTo, showGiverNameTo, true);
+    }
+    
+
+
+    private String getExtraClass(String giverEmail, String instructorEmail, boolean isPublic) {
+        String extraClass = "";
+        
+        extraClass += " giver_display-by-";
+        extraClass += giverEmail.equals(instructorEmail)? "you" : "others";
+        
+        extraClass += " status_display-";
+        extraClass += isPublic ? "public" : "private";
+
+        return extraClass;
     }
 
     public int getNumberOfPendingComments() {
