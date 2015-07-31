@@ -7,9 +7,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 
 <%@ attribute name="responsePanel" type="teammates.ui.template.InstructorFeedbackResultsResponsePanel" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
-
 
 <div class="panel panel-info">
     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->

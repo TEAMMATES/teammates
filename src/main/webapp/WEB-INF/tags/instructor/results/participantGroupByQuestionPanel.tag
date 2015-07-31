@@ -6,8 +6,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="groupByQuestionPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 
 
 <div class="panel ${not empty groupByQuestionPanel.questionTables ? 'panel-primary' : 'panel-default'}">
@@ -34,16 +34,16 @@
             </c:if>
             &nbsp;
             <div class="display-icon" style="display:inline;">
-                <span class='glyphicon ${!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"} pull-right'></span>
+                <span class='glyphicon ${!isPanelsCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"} pull-right'></span>
             </div>                
         </div>
     </div>
-    <div class="panel-collapse collapse ${shouldCollapsed ? '' : 'in'}">
+    <div class="panel-collapse collapse ${isPanelsCollapsed ? '' : 'in'}">
         <div class="panel-body">
             <c:choose>
                 <c:when test="${not empty groupByQuestionPanel.questionTables}">
                     <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-                        <results:questionPanel showAll="${showAll}" questionPanel="${questionTable}" shouldCollapsed="${shouldCollapsed}"/>        
+                        <results:questionPanel isShowingAll="${isShowingAll}" questionPanel="${questionTable}" isPanelsCollapsed="${isPanelsCollapsed}"/>        
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

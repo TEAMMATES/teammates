@@ -6,8 +6,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="participantPanel" type="teammates.ui.template.InstructorFeedbackResultsParticipantPanel" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 
 <%-- TODO use enum --%>
 <%@ attribute name="isSecondaryParticipantType" type="java.lang.Boolean" required="true" %>
@@ -15,12 +15,11 @@
 <c:choose>
     <c:when test="${isSecondaryParticipantType}">
         <results:participantGroupBySecondaryParticipantPanel groupByParticipantPanel="${participantPanel}" 
-                                                             showAll="${showAll}" 
-                                                             shouldCollapsed="${shouldCollapsed}"/>
+                                                             isPanelsCollapsed="${isPanelsCollapsed}"/>
     </c:when>
     <c:otherwise>
         <results:participantGroupByQuestionPanel groupByQuestionPanel="${participantPanel}" 
-                                                 showAll="${showAll}" 
-                                                 shouldCollapsed="${shouldCollapsed}"/>
+                                                 isShowingAll="${isShowingAll}" 
+                                                 isPanelsCollapsed="${isPanelsCollapsed}"/>
     </c:otherwise>
 </c:choose>
