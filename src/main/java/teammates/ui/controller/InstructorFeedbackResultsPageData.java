@@ -327,7 +327,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
        String prevTeam = "";
        
        Set<String> sectionsWithResponses = new HashSet<String>();
-       LinkedHashSet<String> teamsWithResponses = new LinkedHashSet<String>();
+       Set<String> teamsWithResponses = new LinkedHashSet<String>();
        Set<String> teamMembersWithResponses = new HashSet<String>();      
          
        // Iterate through the primary participant
@@ -625,7 +625,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void finalizeBuildingSectionPanel(
                  InstructorFeedbackResultsSectionPanel sectionPanel, String sectionName,
                  LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
-                 LinkedHashSet<String> teamsWithResponses) {
+                 Set<String> teamsWithResponses) {
         switch (viewType) {
             case GIVER_QUESTION_RECIPIENT:
             case RECIPIENT_QUESTION_GIVER:
@@ -904,8 +904,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     private void buildTeamsStatisticsTableForSectionPanel(
                      InstructorFeedbackResultsSectionPanel sectionPanel, 
-                     LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
-                     LinkedHashSet<String> teamsInSection) {
+                     Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam,
+                     Set<String> teamsInSection) {
         Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables = new HashMap<String, List<InstructorFeedbackResultsQuestionTable>>();
         for (String team : teamsInSection) {
             if (!responsesGroupedByTeam.containsKey(team)) {
