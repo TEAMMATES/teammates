@@ -14,14 +14,14 @@ public class InstructorFeedbackResultsResponseRow {
     private String giverTeam;
     
     private boolean isGiverProfilePictureAColumn = false;
-    private Url giverProfilePictureLink;
+    private String giverProfilePictureLink;
     
     private boolean isRecipientDisplayed = true;
     private String recipientDisplayableIdentifier;
     private String recipientTeam;
     
     private boolean isRecipientProfilePictureAColumn = false;
-    private Url recipientProfilePictureLink;
+    private String recipientProfilePictureLink;
     
     private boolean isActionsDisplayed;
     
@@ -79,11 +79,11 @@ public class InstructorFeedbackResultsResponseRow {
         return moderationButton;
     }
 
-    public Url getGiverProfilePictureLink() {
+    public String getGiverProfilePictureLink() {
         return giverProfilePictureLink;
     }
 
-    public Url getRecipientProfilePictureLink() {
+    public String getRecipientProfilePictureLink() {
         return recipientProfilePictureLink;
     }
 
@@ -91,11 +91,11 @@ public class InstructorFeedbackResultsResponseRow {
         return isRowGrey;
     }
 
-    public void setGiverProfilePictureLink(Url giverProfilePictureLink) {
+    public void setGiverProfilePictureLink(String giverProfilePictureLink) {
         this.giverProfilePictureLink = giverProfilePictureLink;
     }
 
-    public void setRecipientProfilePictureLink(Url recipientProfilePictureLink) {
+    public void setRecipientProfilePictureLink(String recipientProfilePictureLink) {
         this.recipientProfilePictureLink = recipientProfilePictureLink;
     }
 

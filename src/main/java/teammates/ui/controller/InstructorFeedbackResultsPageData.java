@@ -1257,12 +1257,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void configureResponseRow(FeedbackQuestionAttributes question,
                                       String giver, String recipient,
                                       InstructorFeedbackResultsResponseRow responseRow) {
-        
+        Url giverProfilePicture;
+        Url recipientProfilePicture;
         switch (viewType) {
             case QUESTION:
-                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
+                giverProfilePicture = getProfilePictureIfEmailValid(giver);
+                if (giverProfilePicture != null) {
+                    responseRow.setGiverProfilePictureLink(giverProfilePicture.toString());
+                }
                 
-                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
+                recipientProfilePicture = getProfilePictureIfEmailValid(recipient);
+                if (recipientProfilePicture != null) {
+                    responseRow.setRecipientProfilePictureLink(recipientProfilePicture.toString());
+                }
                 responseRow.setActionsDisplayed(true);
                 break;
             case GIVER_QUESTION_RECIPIENT:
@@ -1270,14 +1277,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setGiverProfilePictureLink(null);
                 responseRow.setRecipientProfilePictureAColumn(true);
                 
-                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
+                recipientProfilePicture = getProfilePictureIfEmailValid(recipient);
+                if (recipientProfilePicture != null) {
+                    responseRow.setRecipientProfilePictureLink(recipientProfilePicture.toString());
+                }
                 responseRow.setActionsDisplayed(false);
                 break;
             case RECIPIENT_QUESTION_GIVER:
                 responseRow.setRecipientDisplayed(false);
                 responseRow.setGiverProfilePictureAColumn(true);
                 
-                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
+                giverProfilePicture = getProfilePictureIfEmailValid(giver);
+                if (giverProfilePicture != null) {
+                    responseRow.setGiverProfilePictureLink(giverProfilePicture.toString());
+                }
                 responseRow.setActionsDisplayed(true);
                 break;
             default:
