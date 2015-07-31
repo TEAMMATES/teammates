@@ -21,7 +21,8 @@
     <br>
     <t:statusMessage />
     <br>
-    <course:studentsTable studentsTable="${data.studentsTable}" courseDetails="${data.courseDetails}"/>
+    <ti:studentList courseId="${data.courseDetails.course.id}" courseIndex="${0}" hasSection="${data.hasSection}" sections="${data.sections}"
+                    fromCourseDetailsPage="${true}"/>
     <br>
     <br>
     <br>
