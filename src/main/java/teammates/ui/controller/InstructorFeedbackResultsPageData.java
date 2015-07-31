@@ -50,10 +50,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public FeedbackSessionResultsBundle bundle = null;
     public InstructorAttributes instructor = null;
     public List<String> sections = null;
-    public String selectedSection = null;
-    public String sortType = null;
-    public String groupByTeam = null;
-    public String showStats = null;
+    private String selectedSection = null;
+    private String sortType = null;
+    private String groupByTeam = null;
+    private String showStats = null;
     public int startIndex;
     private boolean isPanelsCollapsed;
     
@@ -67,14 +67,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
 
     // for question view
-    List<InstructorFeedbackResultsQuestionTable> questionPanels;
+    private List<InstructorFeedbackResultsQuestionTable> questionPanels;
     // for giver > question > recipient, recipient > question > giver,
     // giver > recipient > question, recipient > giver > question
-    LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
+    private LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
     
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
-    ViewType viewType;
+    private ViewType viewType;
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
@@ -121,8 +121,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public void initForViewByQuestion(InstructorAttributes instructor, 
                                       String selectedSection, String showStats, 
                                       String groupByTeam) {
-        viewType = ViewType.QUESTION;
-        
+        this.viewType = ViewType.QUESTION;
+        this.sortType = ViewType.QUESTION.toString();
         this.instructor = instructor;
         this.selectedSection = selectedSection;
         this.showStats = showStats;
@@ -155,6 +155,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     String selectedSection, String showStats, 
                                     String groupByTeam, ViewType view) {
         this.viewType = view;
+        this.sortType = view.toString();
         this.instructor = instructor;
         this.selectedSection = selectedSection;
         this.showStats = showStats;
