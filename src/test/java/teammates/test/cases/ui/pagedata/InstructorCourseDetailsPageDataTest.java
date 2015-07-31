@@ -59,9 +59,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         pageData.init(curInstructor, courseDetails, instructors, students);
         
         assertEquals(instructors.size(), pageData.getInstructors().size());
-        //assertEquals(students.size(), pageData.getStudentsTable().getRows().size());
-        //assertEquals(4, pageData.getStudentsTable().getRows().get(0).getActions().size());
-        //assertEquals(2, pageData.getStudentsTable().getRows().get(0).getCommentActions().size());
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
@@ -70,12 +67,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
-        //assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(0).getAttributes().get("disabled"));
-        //assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(1).getAttributes().get("disabled"));
-        //assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(2).getAttributes().get("disabled"));
-        //assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(3).getAttributes().get("disabled"));
-        //assertEquals(null, pageData.getStudentsTable().getRows().get(0).getCommentActions().get(0).getAttributes().get("disabled"));
-        //assertEquals(null, pageData.getStudentsTable().getRows().get(0).getCommentActions().get(1).getAttributes().get("disabled"));
         
         ______TS("test current instructor doesn't have any permission for the course");
         String[] allPrivileges = {
@@ -100,9 +91,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         pageData.init(curInstructor, courseDetails, instructors, students);
 
         assertEquals(instructors.size(), pageData.getInstructors().size());
-        //assertEquals(students.size(), pageData.getStudentsTable().getRows().size());
-        //assertEquals(4, pageData.getStudentsTable().getRows().get(0).getActions().size());
-        //assertEquals(2, pageData.getStudentsTable().getRows().get(0).getCommentActions().size());
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
@@ -111,11 +99,5 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
-        //assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getActions().get(0).getAttributes().get("disabled"));
-        //assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getActions().get(1).getAttributes().get("disabled"));
-        //assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getActions().get(2).getAttributes().get("disabled"));
-        //assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(3).getAttributes().get("disabled"));
-        //assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getCommentActions().get(0).getAttributes().get("disabled"));
-        //assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getCommentActions().get(1).getAttributes().get("disabled"));
     }
 }
