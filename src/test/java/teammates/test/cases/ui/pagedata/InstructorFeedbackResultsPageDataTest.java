@@ -276,7 +276,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         data.feedbackSessionName, data.courseId, instructor.email, 
                                         1000, "giver-question-recipient");
-        //data.initForViewByGiverQuestionRecipient(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "giver-question-recipient", "on");
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, 
                                       "on", "on", ViewType.GIVER_QUESTION_RECIPIENT);
         
@@ -1122,7 +1121,300 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         1, "recipient-giver-question");
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                        "on", "on", ViewType.RECIPIENT_GIVER_QUESTION);
+                                      "on", "on", ViewType.RECIPIENT_GIVER_QUESTION);
+        assertFalse(data.bundle.isComplete());
+        
+        Map<String, InstructorFeedbackResultsSectionPanel> ajaxPanels = data.getSectionPanels();
+        assertEquals(3, ajaxPanels.size());
+        
+        verifyKeysOfMap(ajaxPanels, Arrays.asList("None", "Section 1", "Section 2"));
+        
+        for (InstructorFeedbackResultsSectionPanel ajaxSectionPanel : ajaxPanels.values()) {
+            verifyHtmlClass(ajaxSectionPanel.getPanelClass(), "panel-success");
+            assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
+            assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
+        } 
+    }
+    
+    @Test
+    public void testInitForViewByGRQ() throws UnauthorizedAccessException, EntityDoesNotExistException {
+        AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
+        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
+        
+        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        
+        ______TS("GRQ typical case: view all sections");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = "on";
+        data.groupByTeam = "on";
+        data.sortType = "giver-recipient-question";
+        data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                        data.feedbackSessionName, data.courseId, instructor.email, 
+                                        1000, "recipient-giver-question");
+        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+                                        "on", "on", ViewType.GIVER_RECIPIENT_QUESTION);
+        
+        Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
+        
+        verifyKeysOfMap(sectionPanels, Arrays.asList("None", "Section 1", "Section 2"));
+        
+        ______TS("GRQ typical case - verify that section panel for 'Not in a section' is correct");
+        InstructorFeedbackResultsSectionPanel noneSectionPanel = sectionPanels.get("None");
+        
+        assertEquals("panel-success", noneSectionPanel.getPanelClass());
+        assertEquals(NOT_IN_A_SECTION, noneSectionPanel.getSectionNameForDisplay());
+        assertEquals(Const.DEFAULT_SECTION, noneSectionPanel.getSectionName());
+        
+        Map<String, List<InstructorFeedbackResultsParticipantPanel>> noneSectionprimaryParticipantPanelsMap = noneSectionPanel.getParticipantPanels();
+        assertEquals(1, noneSectionprimaryParticipantPanelsMap.size());
+        verifyKeysOfMap(noneSectionprimaryParticipantPanelsMap, Arrays.asList("Instructors"));
+        List<InstructorFeedbackResultsParticipantPanel> noneSectionPrimaryParticipantPanels = noneSectionprimaryParticipantPanelsMap.get("Instructors");
+        
+        InstructorFeedbackResultsGroupByParticipantPanel noneSectionPrimaryParticipantPanel 
+            = (InstructorFeedbackResultsGroupByParticipantPanel)noneSectionPrimaryParticipantPanels.get(0);
+        
+        assertEquals("Instructor1 Course1 (Instructors)", noneSectionPrimaryParticipantPanel.getName());
+        assertEquals("instructor1@course1.tmt", noneSectionPrimaryParticipantPanel.getParticipantIdentifier());
+        assertTrue(noneSectionPrimaryParticipantPanel.isEmailValid());
+        
+        
+        List<InstructorFeedbackResultsSecondaryParticipantPanelBody> noneSectionSecondaryParticipantPanels = noneSectionPrimaryParticipantPanel.getSecondaryParticipantPanels();
+        InstructorFeedbackResultsSecondaryParticipantPanelBody noneSectionSecondaryParticipantPanel = noneSectionSecondaryParticipantPanels.get(0);
+        
+        assertEquals("%GENERAL%", noneSectionSecondaryParticipantPanel.getSecondaryParticipantIdentifier());
+        assertEquals("-", noneSectionSecondaryParticipantPanel.getSecondaryParticipantDisplayableName());
+        
+        // test response panels
+        List<InstructorFeedbackResultsResponsePanel> noneSectionResponsePanels = noneSectionSecondaryParticipantPanel.getResponsePanels();
+        
+        List<String> expectedResponsesId = Arrays.asList("response1ForQ3S1C1");
+        List<String> expectedQuestionsId = Arrays.asList("qn3InSession1InCourse1");
+        verifyResponsePanels(noneSectionResponsePanels, expectedResponsesId, expectedQuestionsId);
+        
+        
+        ______TS("GRQ typical case - verify that that section 1 is correct");
+        InstructorFeedbackResultsSectionPanel firstSectionPanel = sectionPanels.get("Section 1");
+        
+        assertEquals("panel-success", firstSectionPanel.getPanelClass());
+        assertEquals("Section 1", firstSectionPanel.getSectionNameForDisplay());
+        assertEquals("Section 1", firstSectionPanel.getSectionName());
+        
+        Map<String, List<InstructorFeedbackResultsParticipantPanel>> primaryParticipantPanelsMap = firstSectionPanel.getParticipantPanels();
+        assertEquals(1, primaryParticipantPanelsMap.size());
+        verifyKeysOfMap(primaryParticipantPanelsMap, Arrays.asList("Team 1.1"));
+        
+        List<InstructorFeedbackResultsParticipantPanel> primaryParticipantPanels = primaryParticipantPanelsMap.get("Team 1.1");
+        
+        InstructorFeedbackResultsGroupByParticipantPanel primaryParticipantPanel 
+            = (InstructorFeedbackResultsGroupByParticipantPanel)primaryParticipantPanels.get(0);
+        
+        assertEquals("student1 In Course1 (Team 1.1)", primaryParticipantPanel.getName());
+        assertEquals("student1InCourse1@gmail.tmt", primaryParticipantPanel.getParticipantIdentifier());
+        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), primaryParticipantPanel.getProfilePictureLink());
+        
+        List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels = primaryParticipantPanel.getSecondaryParticipantPanels();
+        InstructorFeedbackResultsSecondaryParticipantPanelBody secondaryParticipantPanel = secondaryParticipantPanels.get(0);
+        
+        assertEquals("student1InCourse1@gmail.tmt", secondaryParticipantPanel.getSecondaryParticipantIdentifier());
+        assertEquals("student1 In Course1 (Team 1.1)", secondaryParticipantPanel.getSecondaryParticipantDisplayableName());
+        
+        // test response panels
+        List<InstructorFeedbackResultsResponsePanel> responsePanels = secondaryParticipantPanel.getResponsePanels();
+        
+        expectedResponsesId = Arrays.asList("response1ForQ1S1C1", "response1ForQ2S1C1");
+        expectedQuestionsId = Arrays.asList("qn1InSession1InCourse1", "qn2InSession1InCourse1");
+        verifyResponsePanels(responsePanels, expectedResponsesId, expectedQuestionsId);
+       
+        ______TS("GRQ typical case - verify that section 2 is correct");
+        
+        InstructorFeedbackResultsSectionPanel secondSectionPanel = sectionPanels.get("Section 2");
+        
+        assertEquals("panel-success", secondSectionPanel.getPanelClass());
+        assertEquals("Section 2", secondSectionPanel.getSectionNameForDisplay());
+        assertEquals("Section 2", secondSectionPanel.getSectionName());
+        
+        Map<String, List<InstructorFeedbackResultsParticipantPanel>> secondprimaryParticipantPanelsMap = secondSectionPanel.getParticipantPanels();
+        assertEquals(1, secondprimaryParticipantPanelsMap.size());
+        verifyKeysOfMap(secondprimaryParticipantPanelsMap, Arrays.asList("Team 1.2"));
+        
+        List<InstructorFeedbackResultsParticipantPanel> secondPrimaryParticipantPanels = secondprimaryParticipantPanelsMap.get("Team 1.2");
+        
+        InstructorFeedbackResultsGroupByParticipantPanel secondPrimaryParticipantPanel 
+            = (InstructorFeedbackResultsGroupByParticipantPanel)secondPrimaryParticipantPanels.get(0);
+        
+        assertEquals("student5 In Course1 (Team 1.2)", secondPrimaryParticipantPanel.getName());
+        assertEquals("student5InCourse1@gmail.tmt", secondPrimaryParticipantPanel.getParticipantIdentifier());
+        assertEquals(data.getProfilePictureLink("student5InCourse1@gmail.tmt"), secondPrimaryParticipantPanel.getProfilePictureLink());
+        
+        assertTrue(secondPrimaryParticipantPanel.getSecondaryParticipantPanels().isEmpty());
+        
+        
+        ______TS("GRQ single section case: view section 1, all questions");
+        data = new InstructorFeedbackResultsPageData(account);
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = null;
+        data.groupByTeam = "on";
+        data.sortType = "giver-recipient-question";
+        data.selectedSection = "Section 1";
+        
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorToSectionWithinRange(
+                                        data.feedbackSessionName, data.courseId,
+                                        data.instructor.email, data.selectedSection, 1000));
+        data.initForSectionPanelViews(instructor, "Section 1",
+                                      null, "on", ViewType.GIVER_RECIPIENT_QUESTION);
+        
+        Map<String, InstructorFeedbackResultsSectionPanel> singleSectionSectionPanels = data.getSectionPanels();
+        
+        verifyKeysOfMap(singleSectionSectionPanels, Arrays.asList("Section 1"));
+        InstructorFeedbackResultsSectionPanel singleSectionSectionPanel = singleSectionSectionPanels.get("Section 1");
+        
+        assertEquals("panel-success", singleSectionSectionPanel.getPanelClass());
+        assertEquals("Section 1", singleSectionSectionPanel.getSectionNameForDisplay());
+        assertEquals("Section 1", singleSectionSectionPanel.getSectionName());
+                
+        
+        Map<String, List<InstructorFeedbackResultsParticipantPanel>> singleSectionPrimaryParticipantPanelsMap 
+                                                 = singleSectionSectionPanel.getParticipantPanels();
+        assertEquals(1, singleSectionPrimaryParticipantPanelsMap.size());
+        verifyKeysOfMap(singleSectionPrimaryParticipantPanelsMap, Arrays.asList("Team 1.1"));
+        
+        List<InstructorFeedbackResultsParticipantPanel> singleSectionPrimaryParticipantPanels = singleSectionPrimaryParticipantPanelsMap.get("Team 1.1");
+        
+        InstructorFeedbackResultsGroupByParticipantPanel singleSectionPrimaryParticipantPanel 
+            = (InstructorFeedbackResultsGroupByParticipantPanel)singleSectionPrimaryParticipantPanels.get(0);
+        
+        assertEquals("student1 In Course1 (Team 1.1)", singleSectionPrimaryParticipantPanel.getName());
+        assertEquals("student1InCourse1@gmail.tmt", singleSectionPrimaryParticipantPanel.getParticipantIdentifier());
+        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), singleSectionPrimaryParticipantPanel.getProfilePictureLink());
+        
+        List<InstructorFeedbackResultsSecondaryParticipantPanelBody> singleSectionSecondaryParticipantPanels = singleSectionPrimaryParticipantPanel.getSecondaryParticipantPanels();
+        InstructorFeedbackResultsSecondaryParticipantPanelBody singleSectionSecondaryParticipantPanel = singleSectionSecondaryParticipantPanels.get(0);
+        
+        assertEquals("student1InCourse1@gmail.tmt", singleSectionSecondaryParticipantPanel.getSecondaryParticipantIdentifier());
+        assertEquals("student1 In Course1 (Team 1.1)", singleSectionSecondaryParticipantPanel.getSecondaryParticipantDisplayableName());
+        
+        // test response panels
+        List<InstructorFeedbackResultsResponsePanel> singleSectionResponsePanels = singleSectionSecondaryParticipantPanel.getResponsePanels();
+        
+        expectedResponsesId = Arrays.asList("response1ForQ1S1C1", "response1ForQ2S1C1");
+        expectedQuestionsId = Arrays.asList("qn1InSession1InCourse1", "qn2InSession1InCourse1");
+        verifyResponsePanels(singleSectionResponsePanels, expectedResponsesId, expectedQuestionsId);
+        
+       
+        ______TS("GRQ case : all sections, not grouping by team");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions
+                                             .get("session1InCourse1")
+                                             .feedbackSessionName;
+        
+        data.showStats = "on";
+        data.groupByTeam = null;
+        data.sortType = "giver-recipient-question";
+        data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                        data.feedbackSessionName, data.courseId, instructor.email, 
+                                        1000, "recipient-giver-question");
+        
+        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+                                      "on", null, ViewType.GIVER_RECIPIENT_QUESTION);
+        
+        Map<String, InstructorFeedbackResultsSectionPanel> notGroupedByTeamSectionPanels = data.getSectionPanels();
+        
+        verifyKeysOfMap(notGroupedByTeamSectionPanels, Arrays.asList("None", "Section 1", "Section 2"));
+        
+        
+        ______TS("GRQ all section not grouped by team case - verify that section panel for 'Not in a section' is correct");
+        InstructorFeedbackResultsSectionPanel notGroupedByTeamNoneSectionPanel = sectionPanels.get("None");
+        
+        assertEquals("panel-success", notGroupedByTeamNoneSectionPanel.getPanelClass());
+        assertEquals(NOT_IN_A_SECTION, notGroupedByTeamNoneSectionPanel.getSectionNameForDisplay());
+        assertEquals("None", notGroupedByTeamNoneSectionPanel.getSectionName());
+        
+        Map<String, List<InstructorFeedbackResultsParticipantPanel>> notGroupedByTeamNoneSectionPrimaryParticipantPanelsMap = notGroupedByTeamNoneSectionPanel.getParticipantPanels();
+        assertEquals(1, notGroupedByTeamNoneSectionPrimaryParticipantPanelsMap.size());
+        verifyKeysOfMap(notGroupedByTeamNoneSectionPrimaryParticipantPanelsMap, Arrays.asList("Instructors"));
+        List<InstructorFeedbackResultsParticipantPanel> notGroupedByTeamNoneSectionPrimaryParticipantPanels = notGroupedByTeamNoneSectionPrimaryParticipantPanelsMap.get("Instructors");
+        
+        InstructorFeedbackResultsGroupByParticipantPanel notGroupedByTeamNoneSectionPrimaryParticipantPanel 
+            = (InstructorFeedbackResultsGroupByParticipantPanel)notGroupedByTeamNoneSectionPrimaryParticipantPanels.get(0);
+        
+        assertEquals("Instructor1 Course1 (Instructors)", notGroupedByTeamNoneSectionPrimaryParticipantPanel.getName());
+        assertEquals("instructor1@course1.tmt", notGroupedByTeamNoneSectionPrimaryParticipantPanel.getParticipantIdentifier());
+        assertTrue(notGroupedByTeamNoneSectionPrimaryParticipantPanel.isEmailValid());
+        
+        
+        List<InstructorFeedbackResultsSecondaryParticipantPanelBody> notGroupedByTeamNoneSectionSecondaryParticipantPanels = notGroupedByTeamNoneSectionPrimaryParticipantPanel.getSecondaryParticipantPanels();
+        InstructorFeedbackResultsSecondaryParticipantPanelBody notGroupedByTeamNoneSectionSecondaryParticipantPanel = notGroupedByTeamNoneSectionSecondaryParticipantPanels.get(0);
+        
+        assertEquals("%GENERAL%", notGroupedByTeamNoneSectionSecondaryParticipantPanel.getSecondaryParticipantIdentifier());
+        assertEquals("-", notGroupedByTeamNoneSectionSecondaryParticipantPanel.getSecondaryParticipantDisplayableName());
+        
+        // test response panels
+        List<InstructorFeedbackResultsResponsePanel> notGroupedByTeamNoneSectionResponsePanels = notGroupedByTeamNoneSectionSecondaryParticipantPanel.getResponsePanels();
+        
+        expectedResponsesId = Arrays.asList("response1ForQ3S1C1");
+        expectedQuestionsId = Arrays.asList("qn3InSession1InCourse1");
+        verifyResponsePanels(notGroupedByTeamNoneSectionResponsePanels, expectedResponsesId, expectedQuestionsId);
+        
+        
+        ______TS("RGQ all section not grouped by team case - verify that that section 1 is correct");
+        InstructorFeedbackResultsSectionPanel notGroupedByTeamFirstSectionPanel = notGroupedByTeamSectionPanels.get("Section 1");
+        
+        assertEquals("panel-success", notGroupedByTeamFirstSectionPanel.getPanelClass());
+        assertEquals("Section 1", notGroupedByTeamFirstSectionPanel.getSectionNameForDisplay());
+        assertEquals("Section 1", notGroupedByTeamFirstSectionPanel.getSectionName());
+        
+        List<InstructorFeedbackResultsParticipantPanel> notGroupedByTeamPrimaryParticipantPanels = notGroupedByTeamFirstSectionPanel.getParticipantPanelsInSortedOrder();
+        
+        InstructorFeedbackResultsGroupByParticipantPanel notGroupedByTeamPrimaryParticipantPanel 
+            = (InstructorFeedbackResultsGroupByParticipantPanel)notGroupedByTeamPrimaryParticipantPanels.get(0);
+        
+        assertEquals("student1 In Course1 (Team 1.1)", notGroupedByTeamPrimaryParticipantPanel.getName());
+        assertEquals("student1InCourse1@gmail.tmt", notGroupedByTeamPrimaryParticipantPanel.getParticipantIdentifier());
+        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), notGroupedByTeamPrimaryParticipantPanel.getProfilePictureLink());
+        
+        List<InstructorFeedbackResultsSecondaryParticipantPanelBody> notGroupedByTeamSecondaryParticipantPanels = notGroupedByTeamPrimaryParticipantPanel.getSecondaryParticipantPanels();
+        InstructorFeedbackResultsSecondaryParticipantPanelBody notGroupedByTeamSecondaryParticipantPanel = notGroupedByTeamSecondaryParticipantPanels.get(0);
+        
+        assertEquals("student1InCourse1@gmail.tmt", notGroupedByTeamSecondaryParticipantPanel.getSecondaryParticipantIdentifier());
+        assertEquals("student1 In Course1 (Team 1.1)", notGroupedByTeamSecondaryParticipantPanel.getSecondaryParticipantDisplayableName());
+        
+        // test response panels
+        List<InstructorFeedbackResultsResponsePanel> notGroupedByTeamResponsePanels = notGroupedByTeamSecondaryParticipantPanel.getResponsePanels();
+        
+        expectedResponsesId = Arrays.asList("response1ForQ1S1C1", "response1ForQ2S1C1");
+        expectedQuestionsId = Arrays.asList("qn1InSession1InCourse1", "qn2InSession1InCourse1");
+        verifyResponsePanels(notGroupedByTeamResponsePanels, expectedResponsesId, expectedQuestionsId);
+        
+        
+        ______TS("RGQ case : all sections, require loading by ajax");
+        data = new InstructorFeedbackResultsPageData(account);
+        
+        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = "on";
+        data.groupByTeam = "on";
+        data.sortType = "giver-recipient-question";
+        data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                        data.feedbackSessionName, data.courseId, instructor.email, 
+                                        1, "recipient-giver-question");
+        
+        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+                                      "on", "on", ViewType.GIVER_RECIPIENT_QUESTION);
         assertFalse(data.bundle.isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxPanels = data.getSectionPanels();
