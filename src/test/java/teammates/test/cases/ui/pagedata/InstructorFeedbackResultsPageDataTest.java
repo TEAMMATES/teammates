@@ -546,15 +546,42 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                       "on", "on", ViewType.GIVER_QUESTION_RECIPIENT);
         assertFalse(data.bundle.isComplete());
         
-        Map<String, InstructorFeedbackResultsSectionPanel> ajaxQuestionPanels = data.getSectionPanels();
-        assertEquals(3, ajaxQuestionPanels.size());
+        Map<String, InstructorFeedbackResultsSectionPanel> ajaxSectionPanels = data.getSectionPanels();
+        assertEquals(3, ajaxSectionPanels.size());
         
-        verifyKeysOfMap(ajaxQuestionPanels, Arrays.asList("None", "Section 1", "Section 2"));
-        for (InstructorFeedbackResultsSectionPanel ajaxSectionPanel : ajaxQuestionPanels.values()) {
+        verifyKeysOfMap(ajaxSectionPanels, Arrays.asList("None", "Section 1", "Section 2"));
+        for (InstructorFeedbackResultsSectionPanel ajaxSectionPanel : ajaxSectionPanels.values()) {
             verifyHtmlClass(ajaxSectionPanel.getPanelClass(), "panel-success");
             assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
             assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
         }
+        
+        ______TS("GQR ajax error case: single section, require loading by ajax ");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = "on";
+        data.groupByTeam = "on";
+        data.sortType = "question";
+        data.selectedSection = "Section 1";
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+                                                            data.feedbackSessionName, data.courseId,
+                                                            data.instructor.email, data.selectedSection,
+                                                            1);
+        data.initForSectionPanelViews(instructor, data.selectedSection,
+                                      "on", "on", ViewType.GIVER_QUESTION_RECIPIENT);
+        assertFalse(data.bundle.isComplete());
+        Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
+        assertEquals(1, errorSectionPanels.size());
+        
+        verifyKeysOfMap(errorSectionPanels, Arrays.asList("Section 1"));
+        
+        InstructorFeedbackResultsSectionPanel errorSectionPanel = errorSectionPanels.get("Section 1");
+        
+        verifyHtmlClass(errorSectionPanel.getPanelClass(), "panel-success");
+        assertFalse(errorSectionPanel.isAbleToLoadResponses());
+
     }
 
     private void verifyQuestionTableForGQR(InstructorFeedbackResultsQuestionTable firstQuestionTable, String dataQuestionId) {
@@ -797,6 +824,31 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
             assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
         }
         
+        ______TS("RQG ajax error case: single section, require loading by ajax ");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = "on";
+        data.groupByTeam = "on";
+        data.sortType = "question";
+        data.selectedSection = "Section 1";
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+                                                            data.feedbackSessionName, data.courseId,
+                                                            data.instructor.email, data.selectedSection,
+                                                            1);
+        data.initForSectionPanelViews(instructor, data.selectedSection,
+                                      "on", "on", ViewType.RECIPIENT_QUESTION_GIVER);
+        assertFalse(data.bundle.isComplete());
+        Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
+        assertEquals(1, errorSectionPanels.size());
+        
+        verifyKeysOfMap(errorSectionPanels, Arrays.asList("Section 1"));
+        
+        InstructorFeedbackResultsSectionPanel errorSectionPanel = errorSectionPanels.get("Section 1");
+        
+        verifyHtmlClass(errorSectionPanel.getPanelClass(), "panel-success");
+        assertFalse(errorSectionPanel.isAbleToLoadResponses());
     }
     
     private void verifyQuestionTableForRQG(InstructorFeedbackResultsQuestionTable questionPanel, String dataQuestionKey) {
@@ -1133,7 +1185,33 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
             verifyHtmlClass(ajaxSectionPanel.getPanelClass(), "panel-success");
             assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
             assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
-        } 
+        }
+        
+        ______TS("RGQ ajax error case: single section, require loading by ajax ");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = "on";
+        data.groupByTeam = "on";
+        data.sortType = "question";
+        data.selectedSection = "Section 1";
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+                                                            data.feedbackSessionName, data.courseId,
+                                                            data.instructor.email, data.selectedSection,
+                                                            1);
+        data.initForSectionPanelViews(instructor, data.selectedSection,
+                                      "on", "on", ViewType.RECIPIENT_GIVER_QUESTION);
+        assertFalse(data.bundle.isComplete());
+        Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
+        assertEquals(1, errorSectionPanels.size());
+        
+        verifyKeysOfMap(errorSectionPanels, Arrays.asList("Section 1"));
+        
+        InstructorFeedbackResultsSectionPanel errorSectionPanel = errorSectionPanels.get("Section 1");
+        
+        verifyHtmlClass(errorSectionPanel.getPanelClass(), "panel-success");
+        assertFalse(errorSectionPanel.isAbleToLoadResponses());
     }
     
     @Test
@@ -1366,7 +1444,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyResponsePanels(notGroupedByTeamNoneSectionResponsePanels, expectedResponsesId, expectedQuestionsId);
         
         
-        ______TS("RGQ all section not grouped by team case - verify that that section 1 is correct");
+        ______TS("GRQ all section not grouped by team case - verify that that section 1 is correct");
         InstructorFeedbackResultsSectionPanel notGroupedByTeamFirstSectionPanel = notGroupedByTeamSectionPanels.get("Section 1");
         
         assertEquals("panel-success", notGroupedByTeamFirstSectionPanel.getPanelClass());
@@ -1396,7 +1474,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyResponsePanels(notGroupedByTeamResponsePanels, expectedResponsesId, expectedQuestionsId);
         
         
-        ______TS("RGQ case : all sections, require loading by ajax");
+        ______TS("GRQ case : all sections, require loading by ajax");
         data = new InstructorFeedbackResultsPageData(account);
         
         data.sections = Arrays.asList("Section 1", "Section 2", "None");
@@ -1427,6 +1505,32 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
             assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
             assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
         } 
+        
+        ______TS("GRQ ajax error case: single section, require loading by ajax ");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = "on";
+        data.groupByTeam = "on";
+        data.sortType = "question";
+        data.selectedSection = "Section 1";
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+                                                            data.feedbackSessionName, data.courseId,
+                                                            data.instructor.email, data.selectedSection,
+                                                            1);
+        data.initForSectionPanelViews(instructor, data.selectedSection,
+                                      "on", "on", ViewType.GIVER_RECIPIENT_QUESTION);
+        assertFalse(data.bundle.isComplete());
+        Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
+        assertEquals(1, errorSectionPanels.size());
+        
+        verifyKeysOfMap(errorSectionPanels, Arrays.asList("Section 1"));
+        
+        InstructorFeedbackResultsSectionPanel errorSectionPanel = errorSectionPanels.get("Section 1");
+        
+        verifyHtmlClass(errorSectionPanel.getPanelClass(), "panel-success");
+        assertFalse(errorSectionPanel.isAbleToLoadResponses());
     }
 
     private void verifyResponsePanels(List<InstructorFeedbackResultsResponsePanel> responsePanels,
