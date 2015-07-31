@@ -246,7 +246,7 @@ public class Const {
         public static final String COMMENT_EDIT_IN_COMMENTS_PAGE = "Edit comment in the Comments page";
         public static final String COMMENT_DELETE = "Delete this comment";
         
-        public static final String SEARCH_STUDENT = "Search for student's name";
+        public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
     }
     
     public class FeedbackQuestionTypeNames{
@@ -324,6 +324,8 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
+        public static final String CURRENT_PAGE = "currentPage";
+        
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
@@ -381,6 +383,9 @@ public class Const {
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER = "mcqIsOtherOptionAnswer";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
+        public static final String FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
+        public static final String FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
+        public static final String FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER = "msqIsOtherOptionAnswer";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
@@ -710,6 +715,13 @@ public class Const {
     
     public class PublicActionNames{
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
+    }
+    
+    public class PageNames {
+        public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
+        public static final String INSTRUCTOR_FEEDBACKS_PAGE = "instructorFeedbacksPage";
+        public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
+        public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
     }
     
     public class ViewURIs{

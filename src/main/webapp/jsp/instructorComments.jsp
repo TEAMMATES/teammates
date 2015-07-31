@@ -12,14 +12,12 @@
     <script src="/js/omniComment.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
-    <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
+    <comments:search instructorSearchLink="${data.instructorSearchLink}" displayArchive="${data.displayArchive}" instructorCommentsLink="${data.instructorCommentsLink}" commentsForStudentsTables="${data.commentsForStudentsTables}" feedbackSessions="${data.feedbackSessions}" />
     <br>
     <t:statusMessage />
     <c:choose>
-    <c:when test="${not empty data.coursePaginationList}">
-        <comments:pagination previousPageLink="${data.previousPageLink}" coursePaginationList="${data.coursePaginationList}"
-         viewingDraft="${data.viewingDraft}" currentCourseId="${data.courseId}" 
-         instructorCommentsLink="${data.instructorCommentsLink}" nextPageLink="${data.nextPageLink}"/>
+    <c:when test="${not empty data.coursePagination.coursePaginationList}">
+        <shared:pagination coursePagination="${data.coursePagination}"/>
         <div class="well well-plain">
             <div class="row">
                 <h4 class="col-sm-9 text-color-primary">
@@ -29,7 +27,7 @@
                 </h4>
                 <comments:commentsNotifyPanel courseId="${data.courseId}" numberOfPendingComments="${data.numberOfPendingComments}" />
             </div>
-            <div id="no-comment-panel" style="${empty data.comments && empty data.feedbackSessions ? '' : 'display:none;'}">
+            <div id="no-comment-panel" style="${empty data.commentsForStudentsTables and empty data.feedbackSessions ? '' : 'display:none;'}">
                 <br>
                 <div class="panel">
                     <div class="panel-body">
@@ -38,7 +36,7 @@
                 </div>
             </div>
             <c:set var="panelIdx" value="0" />
-            <c:if test="${not empty data.comments}"> <%--check student comments starts--%> 
+            <c:if test="${not empty data.commentsForStudentsTables}"> <%--check student comments starts--%> 
                 <c:set var="panelIdx" value="${panelIdx + 1}" />
                 <div id="panel_display-${panelIdx}">
                     <br>
@@ -55,9 +53,7 @@
                 </div>
             </c:forEach> <%-- FeedbackSession loop ends --%>
         </div>
-        <comments:pagination previousPageLink="${data.previousPageLink}" coursePaginationList="${data.coursePaginationList}"
-         viewingDraft="${data.viewingDraft}" currentCourseId="${data.courseId}" 
-         instructorCommentsLink="${data.instructorCommentsLink}" nextPageLink="${data.nextPageLink}"/>
+        <shared:pagination coursePagination="${data.coursePagination}"/>
     </c:when>
     <c:otherwise>
         <div id="statusMessage" class="alert alert-warning">

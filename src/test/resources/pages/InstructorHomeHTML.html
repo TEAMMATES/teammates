@@ -17,7 +17,7 @@
         <div class="col-md-12">
 			<form method="get" action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms" name="search_form">
 			    <div class="input-group">
-			        <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
+			        <input data-original-title="Search for student's information, e.g. name, email" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz, charles@gmail.com" type="text">
 			        <span class="input-group-btn">
 			            <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">
 			                Search
@@ -152,7 +152,43 @@
             </div>
         </div>
     </div>
-    
+    <table class="table-responsive table table-striped table-bordered">
+            <thead>
+               <tr>
+                  <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,1);">
+                     Session Name
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th>
+                     Status
+                  </th>
+                  <th>
+                     <span data-original-title="Number of students submitted &#x2f; Class size" data-placement="top" data-toggle="tooltip" title="">
+                        Response Rate
+                     </span>
+                  </th>
+                  <th class="no-print">
+                     Action(s)
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                  <span class="text-muted">
+                    This course does not have any sessions yet.
+                </span>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
                 
             
 </div>

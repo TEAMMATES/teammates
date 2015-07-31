@@ -17,6 +17,7 @@ public class FeedbackResponseComment {
     private String commentText;
     private String feedbackResponseId;
     private String courseId;
+    private String questionId;
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
@@ -113,6 +114,31 @@ public class FeedbackResponseComment {
         this.instructorAllowedToDelete = isInstructorAllowedToDelete;
         this.instructorAllowedToEdit = isInstructorAllowedToEdit;
     }
+    
+    // for adding comments
+    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
+                                   String giverName, String recipientName,String showCommentToString,
+                                   String showGiverNameToString, boolean isResponseVisibleToRecipient,
+                                   boolean isResponseVisibleToGiverTeam, boolean isResponseVisibleToRecipientTeam,
+                                   boolean isResponseVisibleToStudents, boolean isResponseVisibleToInstructors,
+                                   List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
+                                   boolean isAddEnabled) {
+        this.questionId = frc.feedbackQuestionId;
+        this.feedbackResponseId = frc.feedbackResponseId;
+        this.courseId = frc.courseId;
+        this.feedbackSessionName = frc.feedbackSessionName;
+        this.responseGiverName = giverName;
+        this.responseRecipientName = recipientName;
+        this.showCommentToString = showCommentToString;
+        this.showGiverNameToString = showGiverNameToString;
+        this.responseVisibleToRecipient = isResponseVisibleToRecipient;
+        this.responseVisibleToGiverTeam = isResponseVisibleToGiverTeam;
+        this.responseVisibleToRecipientTeam = isResponseVisibleToRecipientTeam;
+        this.responseVisibleToStudents = isResponseVisibleToStudents;
+        this.responseVisibleToInstructors = isResponseVisibleToInstructors;
+        this.showCommentTo = showCommentTo;
+        this.showGiverNameTo = showGiverNameTo;
+    }
 
     private void instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(
             String giverEmail, String instructorEmail) {
@@ -191,6 +217,10 @@ public class FeedbackResponseComment {
 
     public String getCourseId() {
         return courseId;
+    }
+    
+    public String getQuestionId() {
+        return questionId;
     }
 
     public String getFeedbackSessionName() {

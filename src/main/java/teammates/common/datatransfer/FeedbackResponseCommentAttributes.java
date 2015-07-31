@@ -81,6 +81,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.lastEditedAt = createdAt;
     }
     
+    public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName,
+            String feedbackQuestionId, String feedbackResponseId) {
+        this.courseId = courseId;
+        this.feedbackSessionName = feedbackSessionName;
+        this.feedbackQuestionId = feedbackQuestionId;
+        this.feedbackResponseId = feedbackResponseId;
+    }
+    
     public FeedbackResponseCommentAttributes(FeedbackResponseComment comment) {
         this.feedbackResponseCommentId = comment.getFeedbackResponseCommentId();
         this.courseId = comment.getCourseId();
