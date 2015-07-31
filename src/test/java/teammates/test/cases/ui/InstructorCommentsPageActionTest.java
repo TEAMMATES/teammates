@@ -2,6 +2,8 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.ArrayList;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -13,6 +15,7 @@ import teammates.test.util.Priority;
 import teammates.ui.controller.InstructorCommentsPageAction;
 import teammates.ui.controller.InstructorCommentsPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.template.CoursePagination;
 
 @Priority(-1)
 public class InstructorCommentsPageActionTest extends BaseActionTest {
@@ -44,9 +47,14 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
 
         InstructorCommentsPageData data = (InstructorCommentsPageData) result.data;
         assertEquals("", data.getCourseName());
-        assertEquals(0, data.getCoursePaginationList().size());
-        assertEquals("javascript:;", data.getPreviousPageLink());
-        assertEquals("javascript:;", data.getNextPageLink());
+        CoursePagination actualCoursePagination = data.getCoursePagination();
+        assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
+        assertEquals("javascript:;", 
+                     actualCoursePagination.getNextPageLink());
+        assertEquals(new ArrayList<String>(), actualCoursePagination.getCoursePaginationList());
+        assertEquals("", actualCoursePagination.getActiveCourse());
+        assertEquals("active", actualCoursePagination.getActiveCourseClass());
+        assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
         
         ______TS("instructor with courses and comments");
         AccountAttributes instructorWithCoursesAndComments = dataBundle.accounts.get("instructor1OfCourse1");
@@ -63,10 +71,16 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         
         data = (InstructorCommentsPageData) result.data;
         assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
-        assertEquals(1, data.getCoursePaginationList().size());
-        assertEquals("javascript:;", data.getPreviousPageLink());
-        assertEquals("javascript:;", data.getNextPageLink());
-        assertEquals(5, data.getComments().get(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
+        actualCoursePagination = data.getCoursePagination();
+        assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
+        assertEquals("javascript:;", actualCoursePagination.getNextPageLink());
+        assertEquals(1, actualCoursePagination.getCoursePaginationList().size());
+        assertEquals("idOfTypicalCourse1", actualCoursePagination.getActiveCourse());
+        assertEquals("active", actualCoursePagination.getActiveCourseClass());
+        assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
+        assertEquals(1, data.getCommentsForStudentsTables().size());
+        assertEquals(5, data.getCommentsForStudentsTables().get(0).getRows().size());
+        
         
         ______TS("instructor with courses but without comments");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructor2OfCourse1").googleId);
@@ -82,10 +96,14 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         
         data = (InstructorCommentsPageData) result.data;
         assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
-        assertEquals(1, data.getCoursePaginationList().size());
-        assertEquals("javascript:;", data.getPreviousPageLink());
-        assertEquals("javascript:;", data.getNextPageLink());
-        assertEquals(0, data.getComments().size());
+        actualCoursePagination = data.getCoursePagination();
+        assertEquals("javascript:;", actualCoursePagination.getPreviousPageLink());
+        assertEquals("javascript:;", actualCoursePagination.getNextPageLink());
+        assertEquals(1, actualCoursePagination.getCoursePaginationList().size());
+        assertEquals("idOfTypicalCourse1", actualCoursePagination.getActiveCourse());
+        assertEquals("active", actualCoursePagination.getActiveCourseClass());
+        assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
+        assertEquals(0, data.getCommentsForStudentsTables().size());
     }
     
     private InstructorCommentsPageAction getAction(String... params) throws Exception{
