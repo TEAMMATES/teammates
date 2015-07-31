@@ -23,9 +23,9 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.name = participantName;
         this.isGiver = isGiver;
         
-        boolean isEmailValid = new FieldValidator()
-                                       .getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
-        this.isEmailValid = isEmailValid;
+        this.isEmailValid = new FieldValidator()
+                                    .getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier)
+                                    .isEmpty(); 
         this.profilePictureLink = profilePictureLink;
         
         this.questionTables = questionTables;
@@ -35,6 +35,9 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.isHasResponses = true;
     }
     
+    /**
+     * Constructs a GroupByQuestionPanel without a moderation button
+     */
     public InstructorFeedbackResultsGroupByQuestionPanel(
                                     List<InstructorFeedbackResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
@@ -43,6 +46,9 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
              participantIdentifier, participantName, null);
     }
     
+    /**
+     * Constructs a GroupByQuestionPanel with a moderation button
+     */
     public InstructorFeedbackResultsGroupByQuestionPanel(
                                     String participantIdentifier, String participantName, 
                                     List<InstructorFeedbackResultsQuestionTable> questionTables,
