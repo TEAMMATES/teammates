@@ -61,4 +61,18 @@ public class AdminActivityLogPage extends AppPage {
         WebElement alert = browser.driver.findElement(By.id("queryMessage"));
         return alert.getText();
     }
+    
+    public void clickReferenceButton() {
+        WebElement button = browser.driver.findElement(By.id("referenceText"));
+        button.click();
+    }
+    
+    public boolean isFilterReferenceVisible() {
+        WebElement reference = browser.driver.findElement(By.id("filterReference"));
+        return reference.isDisplayed();
+    }
+    
+    public By getFirstActivityLogRow() {
+        return By.id("first-row");
+    }
 }

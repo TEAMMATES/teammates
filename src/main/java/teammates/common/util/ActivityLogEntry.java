@@ -27,7 +27,8 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-
+    private boolean isFirstRow = false;
+    
     @SuppressWarnings("unused")
     private String logInfoAsHtml;
     
@@ -488,7 +489,7 @@ public class ActivityLogEntry {
         
         
         String result = "";
-        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+        result += "<tr" + (isFirstRow ? " id=\"first-row\"" : "" ) + "> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
                + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
                + "<p class=\"localTime\"></p></span>" 
                + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
@@ -540,4 +541,7 @@ public class ActivityLogEntry {
         
     }
     
+    public void setFirstRow() {
+        isFirstRow = true;
+    }
 }
