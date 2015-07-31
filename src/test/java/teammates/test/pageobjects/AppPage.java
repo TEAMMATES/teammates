@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -816,16 +817,16 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) {
-        WebElement element = browser.driver.findElement(by);
-        if(filePath.startsWith("/")){
+        if (filePath.startsWith("/")) {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
-        String actual = element.getAttribute("outerHTML");
-        
+        String actualPageSource = browser.driver.getPageSource();
+        String actual = "";
         try {
+            actual = extractHtmlPartFromPageSource(by, actualPageSource);
             String expected = extractHtmlPartFromFile(by, filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
-        } catch(AssertionError ae) { 
+        } catch (AssertionError ae) { 
             if(!testAndRunGodMode(filePath, actual)) {
                 throw ae;
             }
@@ -837,13 +838,24 @@ public abstract class AppPage {
         }
         return this;
     }
-
-    private String extractHtmlPartFromFile(By by, String filePath)
+    
+    private String extractHtmlPartFromPageSource(By by, String pageSource) throws SAXException, IOException {
+        InputSource inputSource = new InputSource();
+        inputSource.setCharacterStream(new StringReader(pageSource));
+        return extractHtmlPartFromInputSource(by, inputSource);
+    }
+    
+    private String extractHtmlPartFromFile(By by, String filePath) throws SAXException, IOException {
+        InputSource inputSource = new InputSource(new BufferedReader(new FileReader(filePath)));
+        return extractHtmlPartFromInputSource(by, inputSource);
+    }
+    
+    private String extractHtmlPartFromInputSource(By by, InputSource inputSource)
             throws SAXException, IOException {
         String byId = by.toString().split(":")[1].trim();
         
         DOMParser parser = new DOMParser();
-        parser.parse(new InputSource(new BufferedReader(new FileReader(filePath))));
+        parser.parse(inputSource);
         org.w3c.dom.Document htmlDoc = parser.getDocument();
         org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
         StringBuilder expectedHtml = new StringBuilder();
