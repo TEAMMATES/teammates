@@ -480,9 +480,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                         responsePanels, isEmail);
             
             // TODO this check can be improved to use isStudent
-            secondaryParticipantPanel.setProfilePictureLink(isEmail
-                                                          ? getProfilePictureLink(secondaryParticipantIdentifier)
-                                                          : null);
+            Url profilePictureLink = getProfilePictureIfEmailValid(secondaryParticipantIdentifier);
+            if (profilePictureLink != null) {
+                secondaryParticipantPanel
+                    .setProfilePictureLink(profilePictureLink.toString());
+            }
             
             boolean isStudent = bundle.roster.getStudentForEmail(secondaryParticipantIdentifier) != null;
             boolean isVisibleTeam = bundle.rosterTeamNameMembersTable.containsKey(secondaryParticipantDisplayableName);
@@ -1258,15 +1260,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         switch (viewType) {
             case QUESTION:
-                responseRow.setGiverProfilePictureLink(
-                                validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty() 
-                              ? new Url(getProfilePictureLink(giver))
-                              : null);
+                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
                 
-                responseRow.setRecipientProfilePictureLink(
-                                validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty() 
-                              ? new Url(getProfilePictureLink(recipient)) 
-                              : null);
+                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
                 responseRow.setActionsDisplayed(true);
                 break;
             case GIVER_QUESTION_RECIPIENT:
@@ -1274,27 +1270,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setGiverProfilePictureLink(null);
                 responseRow.setRecipientProfilePictureAColumn(true);
                 
-                boolean isRecipientEmailValid 
-                    = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty();
-                responseRow.setRecipientProfilePictureLink(isRecipientEmailValid 
-                                                         ? new Url(getProfilePictureLink(recipient))
-                                                         : null);
+                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
                 responseRow.setActionsDisplayed(false);
                 break;
             case RECIPIENT_QUESTION_GIVER:
                 responseRow.setRecipientDisplayed(false);
                 responseRow.setGiverProfilePictureAColumn(true);
                 
-                boolean isGiverEmailValid 
-                    = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty();
-                responseRow.setGiverProfilePictureLink(isGiverEmailValid 
-                                                     ? new Url(getProfilePictureLink(giver))
-                                                     : null);
+                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
                 responseRow.setActionsDisplayed(true);
                 break;
             default:
                 Assumption.fail();            
         }
+    }
+    
+    public Url getProfilePictureIfEmailValid(String email) {
+        boolean isEmailValid 
+            = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty();
+        return isEmailValid ? new Url(getProfilePictureLink(email))
+                            : null;
     }
     
     /**
@@ -1453,7 +1448,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
-                                                                    isAllowedToModerate, isDisabled, className,
+                                                                    isDisabled, className,
                                                                     giverIdentifier, getCourseId(), 
                                                                     getFeedbackSessionName(), question, buttonText);
         return moderationButton;
@@ -1476,10 +1471,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
         bySecondaryParticipantPanel.setEmailValid(isEmailValid);
         
-        Url profilePictureLink = new Url(isEmailValid 
-                                       ? getProfilePictureLink(participantIdentifier)
-                                       : null);
-        bySecondaryParticipantPanel.setProfilePictureLink(profilePictureLink.toString());
+        Url profilePictureLink = getProfilePictureIfEmailValid(participantIdentifier);
+        if (profilePictureLink != null) {
+            bySecondaryParticipantPanel.setProfilePictureLink(profilePictureLink.toString());
+        }
         
         bySecondaryParticipantPanel.setModerationButton(moderationButton);
         
