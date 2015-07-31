@@ -13,26 +13,32 @@ import teammates.common.util.TimeHelper;
 
 public class AdminEmailLogPageData extends PageData {
 
-    public String offset;
-    public String filterQuery;
-    public String queryMessage;
-    public List<EmailLogEntry> logs;
-    public List<String> versions;
+    private String offset;
+    private String filterQuery;
+    private String queryMessage;
+    private List<EmailLogEntry> logs;
+    private List<String> versions;
     
-    public boolean shouldShowAll;
-    public String statusForAjax;
+    private boolean shouldShowAll;
+    private String statusForAjax;
     private QueryParameters q;
-    
-    public AdminEmailLogPageData(AccountAttributes account) {
+
+    public AdminEmailLogPageData(AccountAttributes account, String offset, 
+                                     String filterQuery, boolean shouldShowAll) {
         super(account);
+        this.offset = offset;
+        this.filterQuery = filterQuery;
+        this.shouldShowAll = shouldShowAll;
+    }
+    
+    /************* Getter methods *************/
+    
+    public String getOffset() {
+        return offset;
     }
     
     public String getFilterQuery() {
         return filterQuery;
-    }
-    
-    public String getOffset() {
-        return offset;
     }
     
     public String getQueryMessage() {
@@ -43,8 +49,46 @@ public class AdminEmailLogPageData extends PageData {
         return logs;
     }
     
+    public List<String> getVersions() {
+        return versions;
+    }
+    
     public boolean isShouldShowAll() {
         return shouldShowAll;
+    }
+    
+    public String getStatusForAjax() {
+        return statusForAjax;
+    }
+    
+    /************* Setter methods *************/
+    
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
+    
+    public void setFilterQuery(String filterQuery) {
+        this.filterQuery = filterQuery;
+    }
+    
+    public void setQueryMessage(String queryMessage) {
+        this.queryMessage = queryMessage;
+    }
+    
+    public void setLogs(List<EmailLogEntry> logs) {
+        this.logs = logs;
+    }
+    
+    public void setVersions(List<String> versions) {
+        this.versions = versions;
+    }
+    
+    public void setShouldShowAll(boolean shouldShowAll) {
+        this.shouldShowAll = shouldShowAll;
+    }
+    
+    public void setStatusForAjax(String statusForAjax) {
+        this.statusForAjax = statusForAjax;
     }
     
     /**
@@ -67,7 +111,7 @@ public class AdminEmailLogPageData extends PageData {
      */
     private QueryParameters parseQuery(String query) throws Exception{
         QueryParameters q = new QueryParameters();
-        versions = new ArrayList<String>();
+        setVersions(new ArrayList<String>());
         
         if(query == null || query.equals("")){
             return q;
@@ -95,7 +139,7 @@ public class AdminEmailLogPageData extends PageData {
                 //it does not belong to the internal class "QueryParameters"
                 //so need to store here for future use
                 for (int j = 0; j < values.length; j++) {
-                    versions.add(values[j].replace(".", "-"));
+                    getVersions().add(values[j].replace(".", "-"));
                 }
                 
             } else {
@@ -160,8 +204,8 @@ public class AdminEmailLogPageData extends PageData {
         
         return true;
     }
-    
-    
+
+
     /**
      * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
      * The boolean variables determine if the specific label was within the query
