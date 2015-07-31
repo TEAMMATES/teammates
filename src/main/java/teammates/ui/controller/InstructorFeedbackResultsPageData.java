@@ -75,7 +75,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
     ViewType viewType;
-    enum ViewType {
+    public enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
         public String toString() {
