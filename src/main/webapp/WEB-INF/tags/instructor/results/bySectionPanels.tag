@@ -5,16 +5,16 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByTeam" type="java.lang.Boolean" required="true" %>
 
 <br>
 <c:set var="teamIndex" value="${0}"/>
 <c:forEach items="${data.sectionPanels}" var="sectionPanel" varStatus="i">
-    <results:sectionPanel showAll="${showAll}" sectionPanel="${sectionPanel.value}" 
-                          shouldCollapsed="${shouldCollapsed}" sectionIndex="${i.index}" 
+    <results:sectionPanel isShowingAll="${isShowingAll}" sectionPanel="${sectionPanel.value}" 
+                          isPanelsCollapsed="${isPanelsCollapsed}" sectionIndex="${i.index}" 
                           teamIndexOffset="${teamIndex}" courseId="${data.courseId}" 
                           feedbackSessionName="${data.feedbackSessionName}"
                           isGroupedByQuestion="${isGroupedByQuestion}"

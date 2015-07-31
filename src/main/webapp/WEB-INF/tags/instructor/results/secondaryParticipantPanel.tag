@@ -6,8 +6,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="secondaryParticipantPanelBody" type="teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="primaryParticipantPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel" required="true" %>
 <%@ attribute name="secondaryParticipantIndex" type="java.lang.Integer" required="true" %>
 
@@ -20,7 +18,7 @@
     
     <div class="col-md-10">
         <c:forEach var="responsePanel" items="${secondaryParticipantPanelBody.responsePanels}">
-            <results:responsePanel responsePanel="${responsePanel}" showAll="${showAll}" shouldCollapsed="${shouldCollapse}"/>
+            <results:responsePanel responsePanel="${responsePanel}"/>
         </c:forEach>
     </div>
 </div>

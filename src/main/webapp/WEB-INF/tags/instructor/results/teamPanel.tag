@@ -5,9 +5,9 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="teamIndex" type="java.lang.Integer" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="statisticsHeaderText" required="true"%>
 <%@ attribute name="detailedResponsesHeaderText" required="true"%>
 <%@ attribute name="teamName" required="true" %>
@@ -27,15 +27,15 @@
             <%-- If team statistics are displayed, then the "Collapse Students" button appears under the team statistics tables --%>
             <c:if test="${!isDisplayingTeamStatistics}">
                 <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                    ${ shouldCollapsed ? 'Expand' : 'Collapse'} Students
+                    ${ isPanelsCollapsed ? 'Expand' : 'Collapse'} Students
                 </a>
                 &nbsp;
             </c:if>
-            <span class="glyphicon ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'}"></span>
+            <span class="glyphicon ${!isPanelsCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'}"></span>
         </div>
     </div>
     
-    <div class="panel-collapse collapse<c:if test="${!shouldCollapsed}"> in</c:if>">
+    <div class="panel-collapse collapse<c:if test="${!isPanelsCollapsed}"> in</c:if>">
         <div class="panel-body background-color-warning">
             <c:if test="${isDisplayingTeamStatistics}">
                 <%-- Statistics Tables for entire team --%>
@@ -50,7 +50,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${statsTables}" var="statsTable">
-                                    <results:questionPanel showAll="${showAll}" questionPanel="${statsTable}" shouldCollapsed="${shouldCollapse}"/>
+                                    <results:questionPanel isShowingAll="${isShowingAll}" questionPanel="${statsTable}" isPanelsCollapsed="${isPanelsCollapsed}"/>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="col-sm-3 h3">
                                 <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                                    ${shouldCollapsed ? 'Expand' : 'Collapse'} Students
+                                    ${isPanelsCollapsed ? 'Expand' : 'Collapse'} Students
                                 </a>
                             </div>
                         </div>
@@ -71,8 +71,8 @@
              
             <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
                 <c:forEach items="${participantPanels}" var="participantPanel">
-                    <results:participantPanel showAll="${showAll}" participantPanel="${participantPanel}" 
-                            shouldCollapsed="${shouldCollapsed}" isSecondaryParticipantType="${isSecondaryParticipantType}"/>
+                    <results:participantPanel isShowingAll="${isShowingAll}" participantPanel="${participantPanel}" 
+                            isPanelsCollapsed="${isPanelsCollapsed}" isSecondaryParticipantType="${isSecondaryParticipantType}"/>
                 </c:forEach>
              </c:if>
 

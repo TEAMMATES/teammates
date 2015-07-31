@@ -6,8 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="groupByParticipantPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 
 <div class="panel ${not empty groupByParticipantPanel.secondaryParticipantPanels ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
@@ -32,18 +31,16 @@
             </c:if>
             &nbsp;
             <div class="display-icon" style="display:inline;">
-                <span class='glyphicon ${!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"} pull-right'></span>
+                <span class='glyphicon ${!isPanelsCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"} pull-right'></span>
             </div>                
         </div>
     </div>
-    <div class="panel-collapse collapse ${shouldCollapsed ? '' : 'in'}">
+    <div class="panel-collapse collapse ${isPanelsCollapsed ? '' : 'in'}">
         <div class="panel-body">
             <c:choose>
                 <c:when test="${not empty groupByParticipantPanel.secondaryParticipantPanels}">
                     <c:forEach items="${groupByParticipantPanel.secondaryParticipantPanels}" var="secondaryParticipantPanel" varStatus="i">
                         <results:secondaryParticipantPanel secondaryParticipantPanelBody="${secondaryParticipantPanel}" 
-                                                           showAll="${showAll}" 
-                                                           shouldCollapsed="${shouldCollapsed}"
                                                            primaryParticipantPanel="${groupByParticipantPanel}"
                                                            secondaryParticipantIndex="${i.index}"/>
                      </c:forEach>

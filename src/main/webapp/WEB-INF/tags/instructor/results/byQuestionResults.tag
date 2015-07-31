@@ -4,12 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
-<%@ attribute name="data" type="teammates.ui.controller.InstructorFeedbackResultsPageData" required="true" %>
-<%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="questionPanels" type="java.util.List" required="true" %>
+<%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 
 <br>
 
-<c:forEach items="${data.questionPanels}" var="questionPanel" varStatus="i">
-    <results:questionPanel questionIndex="${i.index}" showAll="${showAll}" questionPanel="${questionPanel}" shouldCollapsed="${shouldCollapsed}"/>
+<c:forEach items="${questionPanels}" var="questionPanel" varStatus="i">
+    <results:questionPanel questionIndex="${i.index}" isShowingAll="${isShowingAll}" questionPanel="${questionPanel}" isPanelsCollapsed="${isPanelsCollapsed}"/>
 </c:forEach>

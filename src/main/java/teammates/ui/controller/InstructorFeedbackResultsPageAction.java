@@ -12,6 +12,7 @@ import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
 
 public class InstructorFeedbackResultsPageAction extends Action {
 
+    private static final String ALL_SECTION_OPTION = "All";
     private static final int DEFAULT_QUERY_RANGE = 1000;
     private static final int DEFAULT_SECTION_QUERY_RANGE = 2500;
     private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
@@ -43,17 +44,14 @@ public class InstructorFeedbackResultsPageAction extends Action {
         new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly);
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
-        data.selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
-        data.instructor = instructor;
-        data.courseId = courseId;
-        data.feedbackSessionName = feedbackSessionName;
-        data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
-        data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
-        data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
 
-        if (data.selectedSection == null) {
-            data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        if (selectedSection == null) {
+            selectedSection = ALL_SECTION_OPTION;
         }
         
         // this is for ajax loading of the html table in the modal 
@@ -61,7 +59,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         // TODO move into another action and another page data class 
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
-            return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data);
+            return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data, selectedSection);
         } else {
             data.sessionResultsHtmlTableAsString = "";
             data.ajaxStatus = "";
@@ -72,46 +70,46 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.startIndex = Integer.parseInt(startIndex);
         }
 
-        if (data.sortType == null) {
+        if (sortType == null) {
             // default view: sort by question, statistics shown, grouped by team.
-            data.showStats = new String("on");
-            data.groupByTeam = new String("on");
-            data.sortType = new String("question");
+            showStats = new String("on");
+            groupByTeam = new String("on");
+            sortType = new String("question");
         }
         
         data.sections = logic.getSectionNamesForCourse(courseId);
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
-        if (data.isAllSectionsSelected() && questionNumStr == null) {
+        if ("All".equals(selectedSection) && questionNumStr == null) {
             // bundle for all questions and all sections  
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
-                                                                               data.instructor.email,
-                                                                               queryRange, data.sortType);
-        } else if (data.sortType.equals("question")) {
+                                                                               instructor.email,
+                                                                               queryRange, sortType);
+        } else if (sortType.equals("question")) {
             if (questionNumStr == null) {
                 // bundle for all questions, with a selected section
                 data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                    data.instructor.email,
-                                                                                    data.selectedSection);
+                                                                                    instructor.email,
+                                                                                    selectedSection);
             } else {
                 // bundle for a specific question, with a selected section
                 int questionNum = Integer.parseInt(questionNumStr);
                 data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                                       data.instructor.email, questionNum);
+                                                                                       instructor.email, questionNum);
             }
-        } else if (data.sortType.equals("giver-question-recipient")
-                || data.sortType.equals("giver-recipient-question")) {
+        } else if (sortType.equals("giver-question-recipient")
+                || sortType.equals("giver-recipient-question")) {
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
-                                                                                  data.instructor.email,
-                                                                                  data.selectedSection,
+                                                                                  instructor.email,
+                                                                                  selectedSection,
                                                                                   DEFAULT_SECTION_QUERY_RANGE);
-        } else if (data.sortType.equals("recipient-question-giver")
-                || data.sortType.equals("recipient-giver-question")) {
+        } else if (sortType.equals("recipient-question-giver")
+                || sortType.equals("recipient-giver-question")) {
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
-                                                                                data.instructor.email,
-                                                                                data.selectedSection,
+                                                                                instructor.email,
+                                                                                selectedSection,
                                                                                 DEFAULT_SECTION_QUERY_RANGE);
         }
 
@@ -121,40 +119,41 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         // Warning for section wise viewing in case of many responses.
-        if (data.selectedSection.equals(InstructorFeedbackResultsPageData.ALL_SECTION_OPTION) && !data.bundle.isComplete) {
+        if (selectedSection.equals(ALL_SECTION_OPTION) && !data.bundle.isComplete) {
             // not tested because the test data is not large enough to make this happen
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
         }
+        
 
-        switch (data.sortType) {
+        switch (sortType) {
             case "question":
-                data.initForViewByQuestion(instructor, data.selectedSection, data.showStats, data.groupByTeam);
+                data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
-                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam, 
+                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
                                               ViewType.RECIPIENT_GIVER_QUESTION);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
             case "giver-recipient-question":
-                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam,
+                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
                                               ViewType.GIVER_RECIPIENT_QUESTION);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
             case "recipient-question-giver":
-                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam,
+                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam,
                                               ViewType.RECIPIENT_QUESTION_GIVER);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
             case "giver-question-recipient":
-                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam, 
+                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
                                               ViewType.GIVER_QUESTION_RECIPIENT);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
             default:
-                data.sortType = "recipient-giver-question";
-                data.initForSectionPanelViews(instructor, data.selectedSection, data.showStats, data.groupByTeam, 
+                sortType = "recipient-giver-question";
+                data.initForSectionPanelViews(instructor, selectedSection, showStats, groupByTeam, 
                                               ViewType.RECIPIENT_GIVER_QUESTION);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
@@ -162,13 +161,14 @@ public class InstructorFeedbackResultsPageAction extends Action {
     }
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
-                                    InstructorAttributes instructor, InstructorFeedbackResultsPageData data)
+                                    InstructorAttributes instructor, InstructorFeedbackResultsPageData data, 
+                                    String selectedSection)
                                     throws EntityDoesNotExistException {
         try {
-            if (!data.selectedSection.contentEquals(InstructorFeedbackResultsPageData.ALL_SECTION_OPTION)) {
+            if (!selectedSection.contentEquals(ALL_SECTION_OPTION)) {
                 data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
                         logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName,
-                                                                            instructor.email, data.selectedSection));
+                                                                            instructor.email, selectedSection));
             } else {
                 data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
                         logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName,
