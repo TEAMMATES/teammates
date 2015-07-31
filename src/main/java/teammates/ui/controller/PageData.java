@@ -1065,7 +1065,7 @@ public class PageData {
         for (String recipient : recipients) {
             if (i == recipients.size() - 1 && recipients.size() > 1) {
                 namesStringBuilder.append(" and ");
-            } else if ( i > 0 && i < recipients.size() - 1 && recipients.size() > 2) {
+            } else if (i > 0 && i < recipients.size() - 1 && recipients.size() > 2) {
                 namesStringBuilder.append(", ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
@@ -1073,7 +1073,7 @@ public class PageData {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("all students in this course");
-            } else if(student != null){
+            } else if (student != null) {
                 if (recipients.size() == 1) {
                     namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
                 } else {
