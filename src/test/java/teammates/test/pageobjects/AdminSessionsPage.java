@@ -9,8 +9,7 @@ public class AdminSessionsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        // TODO Auto-generated method stub
-        return false;
+        return getPageSource().contains("Ongoing Sessions");
     }
 
 }
