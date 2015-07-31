@@ -1072,7 +1072,7 @@ public class PageData {
             if (studentEmail != null && recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you");
             } else if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("All Students In This Course");
+                namesStringBuilder.append("all students in this course");
             } else if(student != null){
                 if (recipients.size() == 1) {
                     namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
