@@ -32,6 +32,8 @@ public class AdminEmailComposePageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
         }
         statusToAdmin = "adminEmailComposePage Page Load";
+        data.init();
+        
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
     }
 

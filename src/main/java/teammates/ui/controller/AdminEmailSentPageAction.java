@@ -13,6 +13,9 @@ public class AdminEmailSentPageAction extends Action {
         data.adminSentEmailList = logic.getSentAdminEmails();
             
         statusToAdmin = "adminEmailSentPage Page Load";
+        
+        data.init();
+        
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
             
     }

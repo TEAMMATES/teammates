@@ -12,8 +12,9 @@ public class AdminEmailTrashPageAction extends Action {
         
         data.adminTrashEmailList = logic.getAdminEmailsInTrashBin(); 
         statusToAdmin = "adminEmailTrashPage Page Load";
+        data.init();
+        
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
-            
     }
 
 }
