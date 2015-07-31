@@ -5,7 +5,7 @@
 <c:set var="ERROR"><%= Const.ParamsNames.ERROR %></c:set>
 <c:choose>
     <c:when test="${not empty requestScope[STATUS_MESSAGE]}">
-        <div id="statusMessage"  class="alert alert-<c:choose><c:when test="${requestScope[ERROR]}">danger</c:when><c:otherwise>warning</c:otherwise></c:choose>">
+        <div id="statusMessage"  class="alert alert-${requestScope[ERROR] ? 'danger' : 'warning'}">
             ${requestScope[STATUS_MESSAGE]}
         </div>
     </c:when>
