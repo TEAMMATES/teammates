@@ -200,7 +200,7 @@
     </form>
     
      
-    <%-- this form is used to store parameters for ajaxloader only --%>
+    <%-- This form is used to store parameters for ajaxloader only --%>
    <form id="ajaxLoaderDataForm">
       <input type="hidden" name="offset" value="${offset}">
        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
