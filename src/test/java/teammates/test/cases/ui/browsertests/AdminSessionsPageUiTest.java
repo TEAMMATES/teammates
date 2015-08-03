@@ -37,7 +37,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
         Url sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
-        sessionsPage.verifyHtmlMainContent("/adminSessionsPage.html");
+        sessionsPage.verifyHtml("/adminSessionsPage.html");
         
         ______TS("content: show filter");
         
