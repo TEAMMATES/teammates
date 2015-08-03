@@ -27,7 +27,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception{
+    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception {
         testContent();
     }
     
@@ -37,8 +37,13 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
         Url sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
-        //Full page content check is omitted because this is an internal page.
         sessionsPage.verifyHtmlMainContent("/adminSessionsPage.html");
+        
+        ______TS("content: show filter");
+        
+        sessionsPage.clickDetailButton();
+        sessionsPage.verifyHtmlMainContent("/adminSessionsPageShowFilter.html");
+        
     }
 }
 
