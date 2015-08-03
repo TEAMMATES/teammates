@@ -305,47 +305,12 @@
                             <th width="20%" class="button-sort-ascending" onclick="toggleSort(this,3); reLabelOrderedAccountEntries();">
                                 Institute <span id="button_sort_institute" class="icon-sort unsorted"></span>
                             </th>
-                            <th width="30%" class="button-sort-descending" onclick="toggleSort(this,4); reLabelOrderedAccountEntries();">Create
-                                At <span id="button_sort_createat" class="icon-sort sorted-descending"></span>
+                            <th width="30%" class="button-sort-descending" onclick="toggleSort(this,4); reLabelOrderedAccountEntries();">Create At <span id="button_sort_createat" class="icon-sort sorted-descending"></span>
                             </th>
                             <th width="5%">Options</th>
                         </tr>
                     </thead>
-
-                    <tbody>
-                        <tr class="accountEntry" id="accountEntry_1" style="display: table-row;">
-                            <td>
-                                <span class="bold">Google ID: </span><a target="blank" href="/page/instructorHomePage?user={*}">{*}</a><br />
-                                <span class="bold">Name: </span>{*}<br />
-                                <span class="bold">Email: </span>{*}
-                            </td>
-                            <td id="courses_{*}">
-                                Total Courses: {*}<br />
-                                --- {*}
-                            </td>
-                            <td id="{*}_institude">{*}</td>
-                            <td id="{*}_createAt">{*}</td>
-                            <td>
-                                <a class="btn  btn-link btn-xs" target="blank" href="/admin/adminAccountDetailsPage?instructorid={*}" id="{*}_details">
-                                    <span class="glyphicon glyphicon-info-sign"></span>View Details
-                                </a>
-                                <a role="button" class="btn  btn-link btn-xs" href="/admin/adminAccountDelete?instructorid={*}" id="{*}_delete">
-                                    <span class="glyphicon glyphicon-remove"></span>Delete Instructor Status
-                                </a>
-                                <a class="btn btn-link btn-xs " onclick="return toggleDeleteAccountConfirmation('{*}')" href="/admin/adminAccountDelete?instructorid={*}&amp;account=true" id="{*}_deleteAccount">
-                                    <span class="glyphicon glyphicon-trash"></span>Delete Entire Account
-                                </a>
-                                <form action="/admin/adminActivityLogPage" target="blank" method="post">
-                                    <button class="btn btn-link btn-xs" id="{*}_recentActions" type="submit">
-                                        <span class="glyphicon glyphicon-zoom-in"></span>
-                                        View Recent Actions
-                                    </button>
-                                    <input type="hidden" value="person:{*}" name="filterQuery" />
-                                </form>
-                            </td>
-                        </tr>
                         {*}
-                    </tbody>
                 </table>
             </div>
         </div>
