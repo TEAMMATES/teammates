@@ -1,5 +1,3 @@
-jQuery.fn.reverse = Array.prototype.reverse;
-
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
@@ -587,7 +585,7 @@ function formatRecipientLists() {
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display === 'none') {
-            $(this).children().reverse().each(function() {
+            $($(this).children().get().reverse()).each(function() {
                 if (this.style.display !== 'none' && $(this).val() !== '') {
                     firstUnhidden = this;
                 }
