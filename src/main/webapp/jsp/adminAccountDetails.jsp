@@ -1,218 +1,55 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
+<%@ taglib tagdir="/WEB-INF/tags/admin/accounts" prefix="accounts" %>
 
-<%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
-<%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
-<%@ page import="teammates.ui.controller.AdminAccountDetailsPageData"%>
-
-<%
-    AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) request
-            .getAttribute("data");
-%>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TEAMMATES - Administrator Account Details</title>
-
-    <link rel="shortcut icon" href="/favicon.png">
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
-	
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="<%= data.getjQueryFilePath() %>"></script>
-    <script type="text/javascript" src="<%= data.getjQueryUiFilePath() %>"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-
-    <jsp:include page="../enableJS.jsp"></jsp:include>
-	
-	<link rel="stylesheet" href="/stylesheets/adminAccountDetails.css" type="text/css">
-
+<c:set var="jsIncludes">
+    <link rel="stylesheet" href="/stylesheets/adminAccountDetails.css" type="text/css">
     <script type="text/javascript" src="/js/administrator.js"></script>
-</head>
+</c:set>
 
-<body>
+<ta:adminPage pageTitle="TEAMMATES - Administrator Account Details" bodyTitle="Instructor Account Details" jsIncludes="${jsIncludes}">
+    <accounts:accountDetailsForInstructorPanel accountInformation="${data.accountInformation}"/>
+    <t:statusMessage />
 
-    <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
-    <div class="container" id="mainContent">
-                <div id="topOfPage"></div>
-                <h1>Instructor Account Details</h1>
-                <br>
+    <div class="page-header">
+        <h2>
+            Instructor For <small class="courseCount rightalign bold">${fn:length(data.instructorCourseListTable)} Courses</small>
+        </h2>
+    </div>
 
-                <div class="well well-plain">
-                    <form class="form-horizontal" role="form">
-                        <div class="panel-heading">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Google
-                                    ID:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.googleId%></p>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Name:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.name%></p>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Email:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.email%></p>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Institute:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.institute%></p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-
-                <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-
-                <div class="page-header">
-                    <h2>
-                        Instructor For <small
-                            class="courseCount rightalign bold">
-                            <%=data.instructorCourseList != null ? data.instructorCourseList
-                    .size() : 0%> Courses
-                        </small>
-                    </h2>
-                </div>
-
-                <%
-                    if (data.instructorCourseList != null
-                            && data.instructorCourseList.size() != 0) {
-                %>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <br>
-                    </div>
-
-                    <table class="table table-striped dataTable">
-                        <thead>
-                            <tr>
-                                <th width="70%">Course</th>
-                                <th>Options</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                for (CourseDetailsBundle courseDetails : data.instructorCourseList) {
-                                        out.print("<tr>");
-                                        out.print("<td>[" + courseDetails.course.id + "] "
-                                                + courseDetails.course.name + "</td>");
-                                        out.print("<td><a id=\"instructor_"
-                                                + courseDetails.course.id
-                                                + "\" class=\"btn btn-danger btn-sm \" href=\""
-                                                + data.getAdminDeleteInstructorFromCourseLink(
-                                                        data.accountInformation.googleId,
-                                                        courseDetails.course.id)
-                                                + "\"><span class=\"glyphicon glyphicon-trash\"></span>"
-                                                + "Remove From Course</a></td>");
-                                        out.print("</tr>");
-                                    }
-                            %>
-                        </tbody>
-                    </table>
-                </div>
-
-                <%
-                    } else {
-                %>
-
-                <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    No Courses found for this Account
-                </div>
-
-                <%
-                    /* out.print("<tr><td colspan=\"2\" class=\"bold\">No Courses found for this Account.</td></tr>"); */
-                    }
-                %>
-
-
-
-                <div class="page-header">
-                    <h2>
-                        Student For <small
-                            class="courseCount rightalign bold">
-                            <%=data.studentCourseList != null ? data.studentCourseList
-                    .size() : 0%> Courses
-                        </small>
-                    </h2>
-                </div>
-
-                <%
-                    if (data.studentCourseList != null) {
-                %>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <br>
-                    </div>
-
-                    <table class="table table-striped dataTable">
-
-                        <thead>
-                            <tr>
-                                <th width="70%">Course</th>
-                                <th>Options</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                for (CourseAttributes course : data.studentCourseList) {
-                                        out.print("<tr>");
-                                        out.print("<td>[" + course.id + "] " + course.name
-                                                + "</td>");
-                                        out.print("<td><a id=\"student_"
-                                                + course.id
-                                                + "\" class=\"btn btn-danger btn-sm \" href=\""
-                                                + data.getAdminDeleteStudentFromCourseLink(
-                                                        data.accountInformation.googleId, course.id)
-                                                + "\"><span class=\"glyphicon glyphicon-trash\"></span>"
-                                                + "Remove From Course</a></td>");
-                                        out.print("</tr>");
-                                    }
-                            %>
-                        </tbody>
-                    </table>
-                </div>
-                <%
-                    } else {
-                %>
-
-                <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    This Account is not a Student
-                </div>
-
-                <%
-                    }
-                %>
-                <br> <br> <br>
+    <c:choose>
+        <c:when test="${not empty data.instructorCourseListTable}">
+            <accounts:courseListForInstructorTable instructorCourseListTable="${data.instructorCourseListTable}" />
+        </c:when>
+        <c:otherwise>
+            <div class="alert alert-warning">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                No Courses found for this Account
             </div>
+        </c:otherwise>
+    </c:choose>
 
+    <div class="page-header">
+        <h2>
+            Student For <small class="courseCount rightalign bold">${fn:length(data.studentCourseListTable)} Courses</small>
+        </h2>
+    </div>
 
-    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-</body>
-</html>
+    <c:choose>
+        <c:when test="${not empty data.studentCourseListTable}">
+            <accounts:courseListForStudentTable studentCourseListTable="${data.studentCourseListTable}" />
+        </c:when>
+        <c:otherwise>
+            <div class="alert alert-warning">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                This Account is not a Student
+            </div>
+        </c:otherwise>
+    </c:choose>
+
+    <br> <br> <br>
+
+</ta:adminPage>

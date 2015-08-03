@@ -544,4 +544,9 @@ public class ActivityLogEntry {
     public void setFirstRow() {
         isFirstRow = true;
     }
+    
+    public boolean isTestingData() {
+        return email.endsWith(".tmt");
+
+    }
 }

@@ -75,6 +75,10 @@ public class AccountAttributes extends EntityAttributes {
         return googleId;
     }
     
+    public String getName() {
+        return name;
+    }
+    
     public String getEmail() {
         return email;
     }
