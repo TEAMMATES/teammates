@@ -484,12 +484,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                         secondaryParticipantIdentifier, secondaryParticipantDisplayableName, 
                                         responsePanels, isEmail);
             
-            // TODO this check can be improved to use isStudent
-            Url profilePictureLink = getProfilePictureIfEmailValid(secondaryParticipantIdentifier);
-            if (profilePictureLink != null) {
-                secondaryParticipantPanel
-                    .setProfilePictureLink(profilePictureLink.toString());
-            }
+            secondaryParticipantPanel
+                .setProfilePictureLink(getProfilePictureIfEmailValid(secondaryParticipantIdentifier));
+            
             
             boolean isStudent = bundle.roster.getStudentForEmail(secondaryParticipantIdentifier) != null;
             boolean isVisibleTeam = bundle.rosterTeamNameMembersTable.containsKey(secondaryParticipantDisplayableName);
@@ -1260,19 +1257,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void configureResponseRow(FeedbackQuestionAttributes question,
                                       String giver, String recipient,
                                       InstructorFeedbackResultsResponseRow responseRow) {
-        Url giverProfilePicture;
-        Url recipientProfilePicture;
         switch (viewType) {
             case QUESTION:
-                giverProfilePicture = getProfilePictureIfEmailValid(giver);
-                if (giverProfilePicture != null) {
-                    responseRow.setGiverProfilePictureLink(giverProfilePicture.toString());
-                }
+                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
+                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
                 
-                recipientProfilePicture = getProfilePictureIfEmailValid(recipient);
-                if (recipientProfilePicture != null) {
-                    responseRow.setRecipientProfilePictureLink(recipientProfilePicture.toString());
-                }
                 responseRow.setActionsDisplayed(true);
                 break;
             case GIVER_QUESTION_RECIPIENT:
@@ -1280,20 +1269,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setGiverProfilePictureLink(null);
                 responseRow.setRecipientProfilePictureAColumn(true);
                 
-                recipientProfilePicture = getProfilePictureIfEmailValid(recipient);
-                if (recipientProfilePicture != null) {
-                    responseRow.setRecipientProfilePictureLink(recipientProfilePicture.toString());
-                }
+                responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
                 responseRow.setActionsDisplayed(false);
                 break;
             case RECIPIENT_QUESTION_GIVER:
                 responseRow.setRecipientDisplayed(false);
                 responseRow.setGiverProfilePictureAColumn(true);
                 
-                giverProfilePicture = getProfilePictureIfEmailValid(giver);
-                if (giverProfilePicture != null) {
-                    responseRow.setGiverProfilePictureLink(giverProfilePicture.toString());
-                }
+                responseRow.setGiverProfilePictureLink(getProfilePictureIfEmailValid(giver));
                 responseRow.setActionsDisplayed(true);
                 break;
             default:
@@ -1301,7 +1284,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
-    public Url getProfilePictureIfEmailValid(String email) {
+    private Url getProfilePictureIfEmailValid(String email) {
+        // TODO the check for determining whether to show a profile picture 
+        // can be improved to use isStudent
         boolean isEmailValid 
             = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty();
         return isEmailValid ? new Url(getProfilePictureLink(email))
@@ -1487,10 +1472,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
         bySecondaryParticipantPanel.setEmailValid(isEmailValid);
         
-        Url profilePictureLink = getProfilePictureIfEmailValid(participantIdentifier);
-        if (profilePictureLink != null) {
-            bySecondaryParticipantPanel.setProfilePictureLink(profilePictureLink.toString());
-        }
+        
+        bySecondaryParticipantPanel.setProfilePictureLink(getProfilePictureIfEmailValid(participantIdentifier));
+        
         
         bySecondaryParticipantPanel.setModerationButton(moderationButton);
         

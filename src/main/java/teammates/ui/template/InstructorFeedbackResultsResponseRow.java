@@ -91,12 +91,15 @@ public class InstructorFeedbackResultsResponseRow {
         return isRowGrey;
     }
 
-    public void setGiverProfilePictureLink(String giverProfilePictureLink) {
-        this.giverProfilePictureLink = giverProfilePictureLink;
+    public void setGiverProfilePictureLink(Url giverProfilePictureLink) {
+        this.giverProfilePictureLink = giverProfilePictureLink != null ? giverProfilePictureLink.toString()
+                                                                       : null;
     }
 
-    public void setRecipientProfilePictureLink(String recipientProfilePictureLink) {
-        this.recipientProfilePictureLink = recipientProfilePictureLink;
+    public void setRecipientProfilePictureLink(Url recipientProfilePictureLink) {
+        this.recipientProfilePictureLink = recipientProfilePictureLink != null 
+                                         ? recipientProfilePictureLink.toString()
+                                         : null;
     }
 
     public ElementTag getRowAttributes() {
