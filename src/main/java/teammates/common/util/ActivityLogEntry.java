@@ -540,4 +540,7 @@ public class ActivityLogEntry {
         
     }
     
+    public boolean isTestingData() {
+        return email.endsWith(".tmt");
+    }
 }

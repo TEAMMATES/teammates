@@ -41,12 +41,12 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry){
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {   	
-                	$(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime) + "<mark>";
+                	$(link).parent().html(originalTime + "<mark>" + "<br>" + data.getLogLocalTime()) + "</mark>";
                 } else {
                 	$(localTimeDisplay).html("Loading error, please retry");      	
                 }
             	               
-                $("#statusMessage").html(data.statusForAjax);
+                $("#statusMessage").html(data.getStatusForAjax());
 
             },500);
         }
@@ -74,7 +74,7 @@ function submitFormAjax(offset) {
             setTimeout(function(){
                 if (!data.isError) {
                     // Inject new log row              	
-                	var logs = data.logs;                	
+                	var logs = data.getLogs();                	
                 	jQuery.each(logs, function(i, value){                		
                 	lastLogRow.after(value.logInfoAsHtml);
                 	lastLogRow = $('#logsTable tr:last');	                		
@@ -86,7 +86,7 @@ function submitFormAjax(offset) {
                     setFormErrorMessage(button, data.errorMessage);
                 }
             	               
-                $("#statusMessage").html(data.statusForAjax);
+                $("#statusMessage").html(data.getStatusForAjax());
 
             },500);
         }
