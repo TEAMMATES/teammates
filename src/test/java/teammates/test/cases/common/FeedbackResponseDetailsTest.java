@@ -129,6 +129,43 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         assertEquals("msq option 1, msq option 2, msq option 3", responseDetails.getAnswerString());
         requestParameters.clear();
         
+        ______TS("MSQ Response: other disabled, other option not selected");
+        msqQuestionDetails = new FeedbackMsqQuestionDetails();
+        requestParameters.put("questiontype-6", new String[] { "MSQ" });
+        requestParameters.put("responsetext-6-0", new String[] { "msq option 1", "msq option 2", "msq option 3" });
+        requestParameters.put("msqIsOtherOptionAnswer-6-0", new String[] { "0" });
+        
+        responseDetails = 
+                FeedbackResponseDetails.createResponseDetails(
+                        new String[] { "msq option 1", "msq option 2", "msq option 3" },
+                        FeedbackQuestionType.MSQ,
+                        msqQuestionDetails, requestParameters, 6, 0);
+
+        assertEquals(responseDetails.questionType, FeedbackQuestionType.MSQ);
+        assertTrue(responseDetails instanceof FeedbackMsqResponseDetails);
+        assertEquals("msq option 1, msq option 2, msq option 3", responseDetails.getAnswerString());
+        assertFalse(((FeedbackMsqResponseDetails) responseDetails).isOtherOptionAnswer());
+        requestParameters.clear();
+        
+        ______TS("MSQ Response: other disabled, other option selected");
+        msqQuestionDetails = new FeedbackMsqQuestionDetails();
+        requestParameters.put("questiontype-7", new String[] { "MSQ" });
+        requestParameters.put("responsetext-7-0", new String[] { "msq option 1", "msq option 2", "msq option 3", "other answer" });
+        requestParameters.put("msqIsOtherOptionAnswer-7-0", new String[] { "1" });
+        
+        responseDetails = 
+                FeedbackResponseDetails.createResponseDetails(
+                        new String[] { "msq option 1", "msq option 2", "msq option 3", "other answer" },
+                        FeedbackQuestionType.MSQ,
+                        msqQuestionDetails, requestParameters, 7, 0);
+
+        assertEquals(responseDetails.questionType, FeedbackQuestionType.MSQ);
+        assertTrue(responseDetails instanceof FeedbackMsqResponseDetails);
+        assertEquals("msq option 1, msq option 2, msq option 3, other answer", responseDetails.getAnswerString());
+        assertTrue(((FeedbackMsqResponseDetails) responseDetails).isOtherOptionAnswer());
+        assertEquals("other answer", ((FeedbackMsqResponseDetails) responseDetails).getOtherFieldContent());
+        requestParameters.clear();
+        
         ______TS("NUMSCALE Response: typical case");
         FeedbackNumericalScaleQuestionDetails numericalScaleQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
         numericalScaleQuestionDetails.maxScale = 5;

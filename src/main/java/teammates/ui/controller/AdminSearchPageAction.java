@@ -80,6 +80,7 @@ public class AdminSearchPageAction extends Action {
             isError = true;
         }
               
+        data.init();
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
