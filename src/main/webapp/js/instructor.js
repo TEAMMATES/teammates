@@ -139,7 +139,8 @@ function setupFsCopyModal() {
             url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname)
                  + '&currentPage=' + encodeURIComponent(currentPage),
             beforeSend: function() {
-                $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+                $('#fscopy_submit').prop('disabled', true);
+                $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
                 $('#courseList').html('Error retrieving course list.' + 
@@ -147,6 +148,7 @@ function setupFsCopyModal() {
             },
             success: function(data) {
                 $('#courseList').html(data);
+                $('#fscopy_submit').prop('disabled', false);
             }
         });
     });
