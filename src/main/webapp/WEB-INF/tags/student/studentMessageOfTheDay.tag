@@ -40,7 +40,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12" id="student-motd">
-                                <!-- Message of the day loads here -->
+                                <%-- Message of the day loads here --%>
                             </div>
                         </div>
                     </div>
