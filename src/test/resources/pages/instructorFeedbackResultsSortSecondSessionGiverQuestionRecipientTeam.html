@@ -75,8 +75,7 @@
             <div class="row">
                 <span class="help-block align-center">
 
-                    Non-English characters not displayed properly in the
-                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
+                    Non-English characters not displayed properly in the downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
             </span></div>
 
         </div>
@@ -96,13 +95,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                 <span class="help-block" style="display:inline;"> Tips: After
-                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                 <span class="help-block" style="display:inline;"> Tips: After selecting the table, <kbd>Ctrl + C</kbd> to COPY and
                     <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
                 </span>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
+                <button type="button" class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));">
                     Select Table</button>
             </div>
             <div class="modal-body">
@@ -256,8 +254,7 @@
                             <div class="col-sm-3">
                                 <div class="pull-right">
                                     <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="">
-                                        Collapse 
-                                        Students
+                                        Collapse Students
                                     </a>
                                     &nbsp;
                                     <span class="glyphicon glyphicon-chevron-up"></span>
@@ -280,7 +277,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Alice Betsy</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.tmt ">[CFResultsUiT.alice.b@gmail.tmt]</a>
+                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">[CFResultsUiT.alice.b@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -306,12 +303,13 @@
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 2: <span class="text-preserve-space">Who are your teammates?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-2-giver-0-question-1" class="color_gray" onclick="toggleAdditionalQuestionInfo('2-giver-0-question-1')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-2-giver-1-question-1" class="color_gray" onclick="toggleAdditionalQuestionInfo('2-giver-1-question-1')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-2-giver-0-question-1" style="display:none;">Multiple-choice (multiple answers) question options:
+    <span id="questionAdditionalInfo-2-giver-1-question-1" style="display:none;">Multiple-choice (multiple answers) question options:
 <br>The options for this question is automatically generated from the list of all students in this course.</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
@@ -356,6 +354,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -395,18 +394,21 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                            </div>
                             </div>
                         </div>
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 3: <span class="text-preserve-space">Which teams do you like?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-question-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-0-question-2')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-1-question-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-1-question-2')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-3-giver-0-question-2" style="display:none;">Multiple-choice (multiple answers) question options:
+    <span id="questionAdditionalInfo-3-giver-1-question-2" style="display:none;">Multiple-choice (multiple answers) question options:
 <br>The options for this question is automatically generated from the list of all teams in this course.</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
@@ -461,6 +463,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -500,17 +503,20 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                            </div>
                             </div>
                         </div>
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 4: <span class="text-preserve-space">Rate our product.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-4-giver-0-question-3" class="color_gray" onclick="toggleAdditionalQuestionInfo('4-giver-0-question-3')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-4-giver-1-question-3" class="color_gray" onclick="toggleAdditionalQuestionInfo('4-giver-1-question-3')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-4-giver-0-question-3" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
+    <span id="questionAdditionalInfo-4-giver-1-question-3" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
@@ -553,6 +559,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -592,18 +599,21 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                            </div>
                             </div>
                         </div>
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 5: <span class="text-preserve-space">How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-5-giver-0-question-4" class="color_gray" onclick="toggleAdditionalQuestionInfo('5-giver-0-question-4')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-5-giver-1-question-4" class="color_gray" onclick="toggleAdditionalQuestionInfo('5-giver-1-question-4')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-5-giver-0-question-4" style="display:none;">Distribute points (among options) question options:
+    <span id="questionAdditionalInfo-5-giver-1-question-4" style="display:none;">Distribute points (among options) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>Grades</li><li>Fun</li></ul>Total points: 100</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
@@ -655,6 +665,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -694,17 +705,20 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                                </div>
                             </div>
                         </div>
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 6: <span class="text-preserve-space">Split points among the your team members and yourself, according to how much you think each member has contributed.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-6-giver-0-question-5" class="color_gray" onclick="toggleAdditionalQuestionInfo('6-giver-0-question-5')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-6-giver-1-question-5" class="color_gray" onclick="toggleAdditionalQuestionInfo('6-giver-1-question-5')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-6-giver-0-question-5" style="display:none;">Distribute points (among recipients) question<br>Points per recipient: 100</span>
+    <span id="questionAdditionalInfo-6-giver-1-question-5" style="display:none;">Distribute points (among recipients) question<br>Points per recipient: 100</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
@@ -790,6 +804,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -880,21 +895,25 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                            </div>
                             </div>
                         </div>
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 7: <span class="text-preserve-space">Rate the contribution of yourself and your team members towards the latest project.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-7-giver-0-question-6" class="color_gray" onclick="toggleAdditionalQuestionInfo('7-giver-0-question-6')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-7-giver-1-question-6" class="color_gray" onclick="toggleAdditionalQuestionInfo('7-giver-1-question-6')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-7-giver-0-question-6" style="display:none;">Team contribution question</span>
+    <span id="questionAdditionalInfo-7-giver-1-question-6" style="display:none;">Team contribution question</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -951,21 +970,25 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                            </div>
                             </div>
                         </div>
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 8: <span class="text-preserve-space">Rate you and your team members work.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-8-giver-0-question-7" class="color_gray" onclick="toggleAdditionalQuestionInfo('8-giver-0-question-7')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-8-giver-1-question-7" class="color_gray" onclick="toggleAdditionalQuestionInfo('8-giver-1-question-7')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-8-giver-0-question-7" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
+    <span id="questionAdditionalInfo-8-giver-1-question-7" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1020,6 +1043,8 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                            </div>
                             </div>
                         </div>
                 
@@ -1027,57 +1052,13 @@
                 </div>
             </div>
         
-
-        
-                            <div class="panel panel-default">
-                            <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading">
-                                From: 
-                                
-                                    <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
-                                        <strong>Benny Charles</strong>
-                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                        <a href="mailTo:CFResultsUiT.benny.c@gmail.tmt">[CFResultsUiT.benny.c@gmail.tmt]</a>
-                                    </div>
-                                
-                                <div class="pull-right">
-                                
-                                        <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        
-                                            <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
-                                            <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                            <input name="fsname" value="Second Session" type="hidden">
-                                            <input name="moderatedstudent" value="CFResultsUiT.benny.c@gmail.tmt" type="hidden">
-                                        
-                                        </form>
-                                    &nbsp;
-                                    <div class="display-icon" style="display:inline;">
-                                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                                    </div>                
-                                </div>
-                            </div>
-                            <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                     <i>There are no responses given by this user</i> 
-                                </div>
-                            </div>
-                            </div>
-        
-
-        
-
-        
-
-
-        
-
-
-                <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading">
+<div class="panel panel-primary">
+                <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading">
                     From: 
                     
                         <div class="inline panel-heading-text">
                             <strong>Anonymous student 410339386</strong>
-                            <a class="link-in-dark-bg" href="mailTo:Anonymous student 410339386@@Anonymous student 410339386.com " style="display:none;">[Anonymous student 410339386@@Anonymous student 410339386.com]</a>
+             
                         </div>
                     
                     <div class="pull-right">
@@ -1088,17 +1069,18 @@
                         </div>                
                     </div>
                 </div>
-                <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
                 <div class="panel-body">
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 9: <span class="text-preserve-space">Rate the class&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-9-giver-1-question-1" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-giver-1-question-1')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-9-giver-0-question-1" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-giver-0-question-1')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-9-giver-1-question-1" style="display:none;">Numerical-scale question:<br>Minimum value: -5. Increment: 0.25. Maximum value: 5.</span>
+    <span id="questionAdditionalInfo-9-giver-0-question-1" style="display:none;">Numerical-scale question:<br>Minimum value: -5. Increment: 0.25. Maximum value: 5.</span>
 </span></span>
                             </div>
+                            <div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
@@ -1141,6 +1123,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1179,12 +1162,58 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
+                            </div>
                             </div>
                         </div>
                 
                 </div>
                 </div>
             </div>
+        
+                            <div class="panel panel-default">
+                            <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading">
+                                From: 
+                                
+                                    <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                        <strong>Benny Charles</strong>
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        <a href="mailto:CFResultsUiT.benny.c@gmail.tmt">[CFResultsUiT.benny.c@gmail.tmt]</a>
+                                    </div>
+                                
+                                <div class="pull-right">
+                                
+                                        <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
+                                        
+                                            <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
+                                            <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                                            <input name="fsname" value="Second Session" type="hidden">
+                                            <input name="moderatedstudent" value="CFResultsUiT.benny.c@gmail.tmt" type="hidden">
+                                        
+                                        </form>
+                                    &nbsp;
+                                    <div class="display-icon" style="display:inline;">
+                                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                    </div>                
+                                </div>
+                            </div>
+                            <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                     <i>There are no responses given by this user</i> 
+                                </div>
+                            </div>
+                            </div>
+        
+
+        
+
+        
+
+
+        
+
+
+                
         
                                       	     <div class="panel panel-default">
                                                 <div style="cursor: pointer;" id="panelHeading-5" data-target="#panelBodyCollapse-5" class="panel-heading">
@@ -1193,7 +1222,7 @@
                                                         <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <strong>Charlie Dávis</strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a href="mailTo:CFResultsUiT.charlie.d@gmail.tmt">[CFResultsUiT.charlie.d@gmail.tmt]</a>
+                                                            <a href="mailto:CFResultsUiT.charlie.d@gmail.tmt">[CFResultsUiT.charlie.d@gmail.tmt]</a>
                                                         </div>
                                                     
                                                     <div class="pull-right">
@@ -1228,7 +1257,7 @@
                                                         <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <strong>Danny Engrid</strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a href="mailTo:CFResultsUiT.danny.e@gmail.tmt">[CFResultsUiT.danny.e@gmail.tmt]</a>
+                                                            <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">[CFResultsUiT.danny.e@gmail.tmt]</a>
                                                         </div>
                                                     
                                                     <div class="pull-right">
@@ -1263,7 +1292,7 @@
                                                         <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <strong>Drop out</strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a href="mailTo:drop.out@gmail.tmt">[drop.out@gmail.tmt]</a>
+                                                            <a href="mailto:drop.out@gmail.tmt">[drop.out@gmail.tmt]</a>
                                                         </div>
                                                     
                                                     <div class="pull-right">
@@ -1298,7 +1327,7 @@
                                                         <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <strong>Extra guy</strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a href="mailTo:extra.guy@gmail.tmt">[extra.guy@gmail.tmt]</a>
+                                                            <a href="mailto:extra.guy@gmail.tmt">[extra.guy@gmail.tmt]</a>
                                                         </div>
                                                     
                                                     <div class="pull-right">
@@ -1333,13 +1362,27 @@
         
                         <div class="panel panel-success">
                             <div style="cursor: pointer;" id="panelHeading-9" data-target="#panelBodyCollapse-9" class="panel-heading">
-                                <div class="inline panel-heading-text">
-                                    <strong> Section B</strong>
+                                <div class="row">
+               <div class="col-sm-9 panel-heading-text">
+                  <strong>
+                     Section B
+                  </strong>
+               </div>
+               <div class="col-sm-3">
+                  <div class="pull-right">
+                     <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-1" title="">
+                        Collapse Students
+                     </a>
+                      
+                     <span class="glyphicon glyphicon-chevron-up">
+                     </span>
+                  </div>
+               </div>
                                 </div>
-                                <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+             
                             </div>
-                            <div class="panel-collapse collapse in" id="panelBodyCollapse-9" style="height: auto;">
-                                <div class="panel-body">
+                            <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
+                                <div class="panel-body" id="sectionBody-1">
                                     
                                                  <div class="panel panel-default">
                                                     <div style="cursor: pointer;" id="panelHeading-10" data-target="#panelBodyCollapse-10" class="panel-heading">
@@ -1348,7 +1391,7 @@
                                                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                 <strong>Emily</strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                <a href="mailTo:CFResultsUiT.emily.f@gmail.tmt">[CFResultsUiT.emily.f@gmail.tmt]</a>
+                                                                <a href="mailto:CFResultsUiT.emily.f@gmail.tmt">[CFResultsUiT.emily.f@gmail.tmt]</a>
                                                             </div>
                                                         
                                                         <div class="pull-right">

@@ -75,8 +75,7 @@
             <div class="row">
                 <span class="help-block align-center">
 
-                    Non-English characters not displayed properly in the
-                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
+                    Non-English characters not displayed properly in the downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
             </span></div>
 
         </div>
@@ -96,13 +95,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                 <span class="help-block" style="display:inline;"> Tips: After
-                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                 <span class="help-block" style="display:inline;"> Tips: After selecting the table, <kbd>Ctrl + C</kbd> to COPY and
                     <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
                 </span>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
+                <button type="button" class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));">
                     Select Table</button>
             </div>
             <div class="modal-body">
@@ -256,8 +254,7 @@
                             <div class="col-sm-3">
                                 <div class="pull-right">
                                     <a data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="">
-                                        Collapse 
-                                        Teams
+                                        Collapse Teams
                                     </a>
                                     &nbsp;
                                     <span class="glyphicon glyphicon-chevron-up"></span>
@@ -276,7 +273,10 @@
                         <div class="inline panel-heading-text">
                             <strong>Instructors</strong>
                         </div>
-                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-up">
+                        </span>
+                     </div>
                     </div>
                     <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
                     <div class="panel-body background-color-warning">
@@ -294,7 +294,7 @@
                                     </div>
                                     <div class="col-sm-3 h3">
                                         <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-0" data-toggle="tooltip" title="">
-                                            Collapse  Students
+                                            Collapse Students
                                         </a>
                                     </div>
                                 </div>
@@ -311,7 +311,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Teammates Test</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.instr@gmail.tmt ">[CFResultsUiT.instr@gmail.tmt]</a>
+                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.instr@gmail.tmt">[CFResultsUiT.instr@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -328,11 +328,11 @@
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 3: <span class="text-preserve-space">My comments on the class</span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -371,11 +371,13 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                 
                 </div>
                 </div>
+            </div>
             </div>
         
 
@@ -387,7 +389,7 @@
                                     <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                         <strong>Teammates Helper1</strong>
                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                        <a href="mailTo:CFResultsUiT.helper1@gmail.tmt">[CFResultsUiT.helper1@gmail.tmt]</a>
+                                        <a href="mailto:CFResultsUiT.helper1@gmail.tmt">[CFResultsUiT.helper1@gmail.tmt]</a>
                                     </div>
                                 
                                 <div class="pull-right">
@@ -420,7 +422,7 @@
                                     <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                         <strong>Teammates Helper2</strong>
                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                        <a href="mailTo:CFResultsUiT.helper2@gmail.tmt">[CFResultsUiT.helper2@gmail.tmt]</a>
+                                        <a href="mailto:CFResultsUiT.helper2@gmail.tmt">[CFResultsUiT.helper2@gmail.tmt]</a>
                                     </div>
                                 
                                 <div class="pull-right">
@@ -467,8 +469,7 @@
                             <div class="col-sm-3">
                                 <div class="pull-right">
                                     <a data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-1" data-toggle="tooltip" title="">
-                                        Collapse 
-                                        Teams
+                                        Collapse Teams
                                     </a>
                                     &nbsp;
                                     <span class="glyphicon glyphicon-chevron-up"></span>
@@ -487,7 +488,10 @@
                         <div class="inline panel-heading-text">
                             <strong>Team 1</strong>
                         </div>
-                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-up">
+                        </span>
+                     </div>
                     </div>
                     <div id="panelBodyCollapse-7" class="panel-collapse collapse in">
                     <div class="panel-body background-color-warning">
@@ -499,14 +503,16 @@
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
                                                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                    <strong>Question 7: </strong><span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
+                                                    <strong>Question 7:
+                                 </strong>
+                                 <div class="inline panel-heading-text">
+                                    <span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-7-" class="color_gray" onclick="toggleAdditionalQuestionInfo('7-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-7-" style="display:none;">Multiple-choice (single answer) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></span>
-                                                </div>
-                                                <div class="panel-body padding-0">                
+</span></span></div>
+                                                </div><div><div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <div class="panel-body">
     <div class="row">
@@ -582,18 +588,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
                                 
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
                                                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                    <strong>Question 8: </strong><span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
+                                                    <strong>Question 8:
+                                 </strong>
+                                 <div class="inline panel-heading-text">
+                                    <span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-8-" class="color_gray" onclick="toggleAdditionalQuestionInfo('8-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-8-" style="display:none;">Multiple-choice (multiple answers) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></span>
-                                                </div>
-                                                <div class="panel-body padding-0">                
+</span></span></div>
+                                                </div><div><div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <div class="panel-body">
     <div class="row">
@@ -669,18 +678,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
                                 
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
                                                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                    <strong>Question 9: </strong><span class="text-preserve-space">Who do you think is the most hardworking student?&nbsp;<span style=" white-space: normal;">
+                                                    <strong>Question 9:
+                                 </strong>
+                                 <div class="inline panel-heading-text">
+                                    <span class="text-preserve-space">Who do you think is the most hardworking student?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-9-" style="display:none;">Multiple-choice (single answer) question options:
 <br>The options for this question is automatically generated from the list of all students in this course.</span>
-</span></span>
-                                                </div>
-                                                <div class="panel-body padding-0">                
+</span></span></div>
+                                                </div><div><div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <div class="panel-body">
     <div class="row">
@@ -726,18 +738,21 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            </div>
                                 
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
                                                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                    <strong>Question 10: </strong><span class="text-preserve-space">Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
+                                                    <strong>Question 10:
+                                 </strong>
+                                 <div class="inline panel-heading-text">
+                                    <span class="text-preserve-space">Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-10-" class="color_gray" onclick="toggleAdditionalQuestionInfo('10-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-10-" style="display:none;">Multiple-choice (single answer) question options:
 <br>The options for this question is automatically generated from the list of all teams in this course.</span>
-</span></span>
-                                                </div>
-                                                <div class="panel-body padding-0">                
+</span></span></div>
+                                                </div><div><div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <div class="panel-body">
     <div class="row">
@@ -783,15 +798,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                
+                                </div>
                             
                                 <div class="row">
                                     <div class="col-sm-9">
                                         <h3>Team 1 Detailed Responses </h3>
                                     </div>
                                     <div class="col-sm-3 h3">
-                                        <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-0" data-toggle="tooltip" title="">
-                                            Collapse  Students
+                                        <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-1" data-toggle="tooltip" title="">
+                                            Collapse Students
                                         </a>
                                     </div>
                                 </div>
@@ -808,7 +823,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Alice Betsy</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.tmt ">[CFResultsUiT.alice.b@gmail.tmt]</a>
+                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">[CFResultsUiT.alice.b@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -834,11 +849,11 @@
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -895,17 +910,19 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
+                        </div>
                         </div>
                 
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 2: <span class="text-preserve-space">What is the best selling point of your product?</span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -945,9 +962,10 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
-                
+                        </div>
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 7: <span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
@@ -955,9 +973,8 @@
     <br>
     <span id="questionAdditionalInfo-7-giver-1-question-3" style="display:none;">Multiple-choice (single answer) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></span>
-                            </div>
-                            <div class="panel-body padding-0">
+</span></span></div>
+                                <div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
     <div class="row">
@@ -1031,6 +1048,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1070,7 +1088,9 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
+                        </div>
                         </div>
                 
                         <div class="panel panel-info">
@@ -1081,8 +1101,7 @@
     <span id="questionAdditionalInfo-8-giver-1-question-4" style="display:none;">Multiple-choice (multiple answers) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
 </span></span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
     <div class="row">
@@ -1156,6 +1175,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1195,7 +1215,9 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
+                        </div>
                         </div>
                 
                         <div class="panel panel-info">
@@ -1205,9 +1227,8 @@
     <br>
     <span id="questionAdditionalInfo-9-giver-1-question-5" style="display:none;">Multiple-choice (single answer) question options:
 <br>The options for this question is automatically generated from the list of all students in this course.</span>
-</span></span>
-                            </div>
-                            <div class="panel-body padding-0">
+</span></span></div>
+                            <div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
     <div class="row">
@@ -1251,6 +1272,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1290,7 +1312,9 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
+                        </div>
                         </div>
                 
                         <div class="panel panel-info">
@@ -1301,8 +1325,7 @@
     <span id="questionAdditionalInfo-10-giver-1-question-6" style="display:none;">Multiple-choice (single answer) question options:
 <br>The options for this question is automatically generated from the list of all teams in this course.</span>
 </span></span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
     <div class="row">
@@ -1346,6 +1369,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1385,9 +1409,11 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                 
+                </div>
                 </div>
                 </div>
             </div>
@@ -1410,7 +1436,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Benny Charles</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.benny.c@gmail.tmt ">[CFResultsUiT.benny.c@gmail.tmt]</a>
+                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">[CFResultsUiT.benny.c@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -1436,11 +1462,11 @@
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1497,7 +1523,9 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
+                        </div>
                         </div>
                 
                         <div class="panel panel-info">
@@ -1507,12 +1535,12 @@
     <br>
     <span id="questionAdditionalInfo-8-giver-2-question-2" style="display:none;">Multiple-choice (multiple answers) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></span>
-                            </div>
-                            <div class="panel-body padding-0">
+</span></span></div>
+                            <div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1552,6 +1580,7 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                 
@@ -1568,7 +1597,7 @@
 
 
         
-
+                </div>
 
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" id="panelHeading-10" data-target="#panelBodyCollapse-10" class="panel-heading">
@@ -1576,7 +1605,7 @@
                     
                         <div class="inline panel-heading-text">
                             <strong>Team 1</strong>
-                            <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.tmt's Team " style="display:none;">[CFResultsUiT.alice.b@gmail.tmt's Team]</a>
+                          
                         </div>
                     
                     <div class="pull-right">
@@ -1593,11 +1622,11 @@
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 4: <span class="text-preserve-space">Give feedback to 3 other teams.</span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1636,6 +1665,7 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                 
@@ -1653,7 +1683,7 @@
         
 
         
-
+            </div>
 
         
                 <div class="panel panel-warning">
@@ -1661,7 +1691,10 @@
                         <div class="inline panel-heading-text">
                             <strong>Team 2</strong>
                         </div>
-                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-up">
+                        </span>
+                     </div>
                     </div>
                     <div id="panelBodyCollapse-11" class="panel-collapse collapse in">
                     <div class="panel-body background-color-warning">
@@ -1673,14 +1706,16 @@
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
                                                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                    <strong>Question 7: </strong><span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
+                                                    <strong>Question 7:
+                                 </strong>
+                                 <div class="inline panel-heading-text">
+                                    <span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-7-" class="color_gray" onclick="toggleAdditionalQuestionInfo('7-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-7-" style="display:none;">Multiple-choice (single answer) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></span>
-                                                </div>
-                                                <div class="panel-body padding-0">                
+</span></span></div></div>
+                                                <div><div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <div class="panel-body">
     <div class="row">
@@ -1756,18 +1791,20 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                
+                                </div>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
                                                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                    <strong>Question 10: </strong><span class="text-preserve-space">Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
+                                                    <strong>Question 10:
+                                 </strong>
+                                 <div class="inline panel-heading-text">
+                                    <span class="text-preserve-space">Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-10-" class="color_gray" onclick="toggleAdditionalQuestionInfo('10-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-10-" style="display:none;">Multiple-choice (single answer) question options:
 <br>The options for this question is automatically generated from the list of all teams in this course.</span>
-</span></span>
-                                                </div>
-                                                <div class="panel-body padding-0">                
+</span></span></div>
+                                                </div><div><div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
                                                         <div class="panel-body">
     <div class="row">
@@ -1779,6 +1816,7 @@
     </div>
     <div class="row">
         <div class="col-sm-4">
+        
             <table class="table margin-0">
                 <thead>
                     <tr>
@@ -1807,21 +1845,22 @@
 </tr>
                 </tbody>
             </table>
+        
         </div>
     </div>
 </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                
+                                </div>
                             
                                 <div class="row">
                                     <div class="col-sm-9">
                                         <h3>Team 2 Detailed Responses </h3>
                                     </div>
                                     <div class="col-sm-3 h3">
-                                        <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-0" data-toggle="tooltip" title="">
-                                            Collapse  Students
+                                        <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-2" data-toggle="tooltip" title="">
+                                            Collapse Students
                                         </a>
                                     </div>
                                 </div>
@@ -1838,7 +1877,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Charlie Dávis</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.charlie.d@gmail.tmt ">[CFResultsUiT.charlie.d@gmail.tmt]</a>
+                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.charlie.d@gmail.tmt">[CFResultsUiT.charlie.d@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -1864,11 +1903,11 @@
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -1908,6 +1947,7 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                 
@@ -1925,7 +1965,7 @@
 
         
 
-
+                </div>
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" id="panelHeading-13" data-target="#panelBodyCollapse-13" class="panel-heading">
                     From: 
@@ -1933,7 +1973,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Drop out</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:drop.out@gmail.tmt ">[drop.out@gmail.tmt]</a>
+                                <a class="link-in-dark-bg" href="mailto:drop.out@gmail.tmt">[drop.out@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -1959,11 +1999,11 @@
                         <div class="panel panel-info">
                             <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
-                            </div>
-                            <div class="panel-body padding-0">
+                            </div><div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -2037,7 +2077,9 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
+                        </div>
                         </div>
                 
                         <div class="panel panel-info">
@@ -2047,9 +2089,8 @@
     <br>
     <span id="questionAdditionalInfo-7-giver-5-question-2" style="display:none;">Multiple-choice (single answer) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
-</span></span>
-                            </div>
-                            <div class="panel-body padding-0">
+</span></span></div>
+                            <div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
     <div class="row">
@@ -2123,6 +2164,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -2162,7 +2204,9 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
+                        </div>
                         </div>
                 
                         <div class="panel panel-info">
@@ -2172,9 +2216,8 @@
     <br>
     <span id="questionAdditionalInfo-10-giver-5-question-3" style="display:none;">Multiple-choice (single answer) question options:
 <br>The options for this question is automatically generated from the list of all teams in this course.</span>
-</span></span>
-                            </div>
-                            <div class="panel-body padding-0">
+</span></span></div>
+                            <div><div class="panel-body padding-0">
                                 <div class="resultStatistics">
                                     <div class="panel-body">
     <div class="row">
@@ -2218,6 +2261,7 @@
     </div>
 </div>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
@@ -2257,11 +2301,13 @@
                                         
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                 
                 </div>
                 </div>
+            </div>
             </div>
         
                 <div class="panel panel-default">
@@ -2271,7 +2317,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Danny Engrid</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a href="mailTo:CFResultsUiT.danny.e@gmail.tmt">[CFResultsUiT.danny.e@gmail.tmt]</a>
+                                <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">[CFResultsUiT.danny.e@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -2304,7 +2350,7 @@
                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Extra guy</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a href="mailTo:extra.guy@gmail.tmt">[extra.guy@gmail.tmt]</a>
+                                <a href="mailto:extra.guy@gmail.tmt">[extra.guy@gmail.tmt]</a>
                             </div>
                     
                     <div class="pull-right">
@@ -2337,28 +2383,45 @@
                 </div>
                 </div>
             </div>
-
+            
         
                         <div class="panel panel-success">
                             <div style="cursor: pointer;" id="panelHeading-16" data-target="#panelBodyCollapse-16" class="panel-heading">
-                                <div class="inline panel-heading-text">
-                                    <strong> Section B</strong>
+                                <div class="row">
+                                   <div class="col-sm-9 panel-heading-text">
+                                      <strong>
+                                         Section B
+                                      </strong>
+                                   </div>
+                                   <div class="col-sm-3">
+                                      <div class="pull-right">
+                                         <a class="btn btn-success btn-xs" data-original-title="Collapse or expand all team panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button-section-2" title="">
+                                            Collapse Teams
+                                         </a>
+                                          
+                                         <span class="glyphicon glyphicon-chevron-up">
+                                         </span>
+                                      </div>
+                                   </div>
                                 </div>
-                                <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                             </div>
-                            <div class="panel-collapse collapse in" id="panelBodyCollapse-16" style="height: auto;">
-                                <div class="panel-body">
+                            <div class="panel-collapse collapse in" id="panelBodyCollapse-16">
+                                    <div class="panel-body" id="sectionBody-2">
                                     
                                             <div class="panel panel-warning">
                                               <div style="cursor: pointer;" id="panelHeading-17" data-target="#panelBodyCollapse-17" class="panel-heading">
                                                     <div class="inline panel-heading-text">
                                                         <strong> Team 3</strong>
                                                     </div>
-                                                  <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                                                  <div class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-up">
+                        </span>
+                     </div>
                                               </div>
-                                              <div class="panel-collapse collapse in" id="panelBodyCollapse-17" style="height: auto;">
+                                              <div class="panel-collapse collapse in" id="panelBodyCollapse-17">
                                                   <div class="panel-body background-color-warning">
-                                      
+                                                          <div class="resultStatistics">
+                                                        </div>
                                                  <div class="panel panel-default">
                                                     <div style="cursor: pointer;" id="panelHeading-18" data-target="#panelBodyCollapse-18" class="panel-heading">
                                                         From: 
@@ -2366,7 +2429,7 @@
                                                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                 <strong>Emily</strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                <a href="mailTo:CFResultsUiT.emily.f@gmail.tmt">[CFResultsUiT.emily.f@gmail.tmt]</a>
+                                                                <a href="mailto:CFResultsUiT.emily.f@gmail.tmt">[CFResultsUiT.emily.f@gmail.tmt]</a>
                                                             </div>
                                                         
                                                         <div class="pull-right">
@@ -2401,18 +2464,11 @@
                                     
                                 </div>
                             </div>
+
+
+
+  
                         </div>                
-        
-
-        
-
-
-
-
-
-
-
-
 
   <div class="panel panel-warning">
       <div style="cursor: pointer;" id="panelHeading-19" data-target="#panelBodyCollapse-19" class="panel-heading">
@@ -2491,5 +2547,15 @@
   
       </div>
       </div>
-  
+        
+
+        
+
+
+
+
+
+
+
+
         </div>
