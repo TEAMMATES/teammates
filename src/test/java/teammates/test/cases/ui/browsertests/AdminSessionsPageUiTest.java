@@ -44,6 +44,11 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         sessionsPage.clickDetailButton();
         sessionsPage.verifyHtmlMainContent("/adminSessionsPageShowFilter.html");
         
+        ______TS("content: hide filter");
+        
+        sessionsPage.clickDetailButton();
+        sessionsPage.verifyHtmlMainContent("/adminSessionsPageHideFilter.html");
+        
     }
 }
 
