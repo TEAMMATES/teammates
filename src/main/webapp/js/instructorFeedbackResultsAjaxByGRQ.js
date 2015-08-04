@@ -28,7 +28,6 @@ $(document).ready(function() {
                 console.log('Error');
             },
             success: function(data) {
-                console.log(data);
                 if (numPanels == 0) {
                     numPanels += $('.panel-collapse').length;
                 }

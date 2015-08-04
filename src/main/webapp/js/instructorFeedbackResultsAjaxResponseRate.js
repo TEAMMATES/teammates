@@ -1,5 +1,4 @@
 function getAppendedResponseRateData(data) {
-    console.log(data);
     var appendedResponseStatus = $(data).find('#responseStatus').html();
     $(data).remove();
     return appendedResponseStatus;

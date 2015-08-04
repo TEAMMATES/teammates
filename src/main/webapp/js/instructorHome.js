@@ -19,7 +19,6 @@ $(document).ready(function() {
                 params["user"] = $("input[name='user']").val();
             }
 
-            console.log(currentPath + "?user=" + params["user"]) + "&sortby=" + $(this).attr("data");
             window.location.href = currentPath + "?user=" + params["user"] + "&sortby=" + $(this).attr("data");
         });
     });
