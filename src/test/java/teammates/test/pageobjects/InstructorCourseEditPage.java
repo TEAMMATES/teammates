@@ -326,4 +326,11 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("instructoremail" + String.valueOf(instrNum)));
     }
 
+    public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum + " input[type='checkbox'][name='" 
+                        + privilege + "']");
+        WebElement checkbox = browser.driver.findElement(selector);
+        return checkbox.isSelected();
+    }
+
 }
