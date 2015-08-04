@@ -181,7 +181,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             return;
         }
         
-        setShouldCollapsed(bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL);
+        this.isPanelsCollapsed = bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL;
         
         switch (viewType) {
             case RECIPIENT_GIVER_QUESTION:
@@ -643,19 +643,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     buildTeamsStatisticsTableForSectionPanel(sectionPanel, responsesGroupedByTeam, 
                                                              teamsWithResponses);
                 }
+                sectionPanel.setDisplayingTeamStatistics(true);
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
                                                     ? DISPLAY_NAME_FOR_DEFAULT_SECTION 
                                                     : sectionName);
-                sectionPanel.setDisplayingTeamStatistics(true);
                 break;
             case RECIPIENT_GIVER_QUESTION:
             case GIVER_RECIPIENT_QUESTION:
+                sectionPanel.setDisplayingTeamStatistics(false);
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
                                                     ? DISPLAY_NAME_FOR_DEFAULT_SECTION
                                                     : sectionName);
-                sectionPanel.setDisplayingTeamStatistics(false);
                 break;
             default:
                 Assumption.fail();
@@ -786,7 +786,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
-        setShouldCollapsed(true);
+        this.isPanelsCollapsed = true;
         
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         
@@ -1443,9 +1443,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
-                                                                    isDisabled, className,
-                                                                    giverIdentifier, getCourseId(), 
-                                                                    getFeedbackSessionName(), question, buttonText);
+                                                                            isDisabled, className,
+                                                                            giverIdentifier, getCourseId(), 
+                                                                            getFeedbackSessionName(), question, buttonText);
         return moderationButton;
    }
     
@@ -1683,20 +1683,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return isPanelsCollapsed;
     }
 
-    public void setShouldCollapsed(boolean shouldCollapsed) {
-        this.isPanelsCollapsed = shouldCollapsed;
-    }
-
     public List<InstructorFeedbackResultsQuestionTable> getQuestionPanels() {
         return questionPanels;
     }
 
     public Map<String, InstructorFeedbackResultsSectionPanel> getSectionPanels() {
         return sectionPanels;
-    }
-
-    public void setSectionPanels(LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels) {
-        this.sectionPanels = sectionPanels;
     }
 
     private String getInstructorFeedbackSessionEditLink() {
