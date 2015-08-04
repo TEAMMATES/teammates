@@ -27,16 +27,18 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String fsname = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String fsindexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
-        Assumption.assertNotNull(fsindexString);
+        
+        String fsName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertNotNull(fsName);
+        
+        String fsIndexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
+        Assumption.assertNotNull(fsIndexString);
         int fsIndex = 0;
         try {
-            fsIndex = Integer.parseInt(fsindexString);
+            fsIndex = Integer.parseInt(fsIndexString);
         } catch (NumberFormatException e) {
-            Assumption.fail("Invalid request parameter value for feedback session index: " + fsindexString);
+            Assumption.fail("Invalid request parameter value for feedback session index: " + fsIndexString);
         }
-        Assumption.assertNotNull(fsname);
         
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
@@ -45,9 +47,9 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
                                                logic.getInstructorsForCourse(courseId));
         
-        int numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+        int numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size()
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
-        FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsname, roster);
+        FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsName, roster);
         InstructorFeedbackResponseCommentsLoadPageData data =
                 new InstructorFeedbackResponseCommentsLoadPageData(
                         account, fsIndex, numberOfPendingComments, instructor, bundle);
@@ -78,8 +80,8 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                     instructor.isAllowedForPrivilege(fdr.recipientSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             
-            boolean instructorHasSessionViewingPrivileges = (canInstructorViewSessionInGiverSection
-                                                                    && canInstructorViewSessionInRecipientSection);
+            boolean instructorHasSessionViewingPrivileges = canInstructorViewSessionInGiverSection
+                                                            && canInstructorViewSessionInRecipientSection;
             if (!instructorHasSessionViewingPrivileges) {
                 iter.remove();
             }
@@ -91,7 +93,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                 new ArrayList<FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes fr : bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if (frComment != null && frComment.size() != 0) {
+            if (frComment != null && !frComment.isEmpty()) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
@@ -99,7 +101,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                 new HashMap<String, FeedbackQuestionAttributes>();
         for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
-            if (questionsWithFeedbackResponseComment.get(qn.getId()) == null) {
+            if (!questionsWithFeedbackResponseComment.containsKey(qn.getId())) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);
             }
         }
