@@ -405,7 +405,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("Expand Students", resultsPage.studentCollapseButton.getText());
         
         int numOfPanels = resultsPage.getNumOfPanelsInInstructorPanel();
-        resultsPage.verifyParticipantPanelIsCollapsed(4, (numOfPanels * 50) + 1000);
+        resultsPage.verifyParticipantPanelIsCollapsed(4, (numOfPanels * 50));
 
         resultsPage.clickGroupByTeam();
         resultsPage.displayByQuestion();
