@@ -1,6 +1,7 @@
 package teammates.ui.template;
 
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -31,11 +32,7 @@ public class FeedbackResponseComment {
     private boolean editDeleteEnabledOnlyOnHover;
     private boolean instructorAllowedToDelete;
     private boolean instructorAllowedToEdit;
-    private boolean responseVisibleToRecipient;
-    private boolean responseVisibleToGiverTeam;
-    private boolean responseVisibleToRecipientTeam;
-    private boolean responseVisibleToStudents;
-    private boolean responseVisibleToInstructors;
+    private Map<FeedbackParticipantType, Boolean> responseVisibilities;
 
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
@@ -52,9 +49,7 @@ public class FeedbackResponseComment {
                                    boolean withVisibilityIcon, boolean withNotificationIcon, String whoCanSeeComment,
                                    String showCommentToString, String showGiverNameToString,
                                    boolean isAllowedToEditAndDeleteComment, boolean editDeleteEnabledOnlyOnHover,
-                                   boolean responseVisibleToRecipient, boolean responseVisibleToGiverTeam,
-                                   boolean responseVisibleToRecipientTeam, boolean responseVisibleToStudents,
-                                   boolean responseVisibleToInstructors) {
+                                   Map<FeedbackParticipantType, Boolean> responseVisiblities) {
         this.commentId = frc.getId();
         this.createdAt = frc.createdAt.toString();
         this.editedAt = frc.getEditedAtText(isAnonymous(giverDisplay));
@@ -81,19 +76,13 @@ public class FeedbackResponseComment {
         this.editDeleteEnabled = isAllowedToEditAndDeleteComment;
         this.instructorAllowedToEdit = this.instructorAllowedToDelete = this.editDeleteEnabled;
         
-        this.responseVisibleToRecipient = responseVisibleToRecipient;
-        this.responseVisibleToGiverTeam = responseVisibleToGiverTeam;
-        this.responseVisibleToRecipientTeam = responseVisibleToRecipientTeam;
-        this.responseVisibleToStudents = responseVisibleToStudents;
-        this.responseVisibleToInstructors = responseVisibleToInstructors;
+        this.responseVisibilities = responseVisiblities;
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay, 
                                    String giverName, String recipientName, String showCommentToString,
-                                   String showGiverNameToString, boolean isResponseVisibleToRecipient,
-                                   boolean isResponseVisibleToGiverTeam, boolean isResponseVisibleToRecipientTeam,
-                                   boolean isResponseVisibleToStudents, boolean isResponseVisibleToInstructors,
+                                   String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities,
                                    boolean isEditDeleteEnabled, boolean isInstructorAllowedToDelete,
                                    boolean isInstructorAllowedToEdit) {
         this.commentId = frc.getId();
@@ -109,12 +98,8 @@ public class FeedbackResponseComment {
         this.responseGiverName = giverName;
         this.responseRecipientName = recipientName;
         this.showCommentToString = showCommentToString;
-        this.showGiverNameToString = showGiverNameToString;
-        this.responseVisibleToRecipient = isResponseVisibleToRecipient;
-        this.responseVisibleToGiverTeam = isResponseVisibleToGiverTeam;
-        this.responseVisibleToRecipientTeam = isResponseVisibleToRecipientTeam;
-        this.responseVisibleToStudents = isResponseVisibleToStudents;
-        this.responseVisibleToInstructors = isResponseVisibleToInstructors;
+        this.showGiverNameToString = showGiverNameToString;;
+        this.responseVisibilities = responseVisiblities;
         this.editDeleteEnabled = isEditDeleteEnabled;
         this.instructorAllowedToDelete = isInstructorAllowedToDelete;
         this.instructorAllowedToEdit = isInstructorAllowedToEdit;
@@ -123,9 +108,7 @@ public class FeedbackResponseComment {
     // for adding comments
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
                                    String giverName, String recipientName,String showCommentToString,
-                                   String showGiverNameToString, boolean isResponseVisibleToRecipient,
-                                   boolean isResponseVisibleToGiverTeam, boolean isResponseVisibleToRecipientTeam,
-                                   boolean isResponseVisibleToStudents, boolean isResponseVisibleToInstructors,
+                                   String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities,
                                    List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
                                    boolean isAddEnabled) {
         this.questionId = frc.feedbackQuestionId;
@@ -136,11 +119,7 @@ public class FeedbackResponseComment {
         this.responseRecipientName = recipientName;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
-        this.responseVisibleToRecipient = isResponseVisibleToRecipient;
-        this.responseVisibleToGiverTeam = isResponseVisibleToGiverTeam;
-        this.responseVisibleToRecipientTeam = isResponseVisibleToRecipientTeam;
-        this.responseVisibleToStudents = isResponseVisibleToStudents;
-        this.responseVisibleToInstructors = isResponseVisibleToInstructors;
+        this.responseVisibilities = responseVisiblities;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
     }
@@ -244,25 +223,29 @@ public class FeedbackResponseComment {
     public boolean isInstructorAllowedToEdit() {
         return instructorAllowedToEdit;
     }
+    
+    private boolean isResponseVisibleTo(FeedbackParticipantType type) {
+        return responseVisibilities.containsKey(type) && responseVisibilities.get(type);
+    }
 
     public boolean isResponseVisibleToRecipient() {
-        return responseVisibleToRecipient;
+        return isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isResponseVisibleToGiverTeam() {
-        return responseVisibleToGiverTeam;
+        return isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isResponseVisibleToRecipientTeam() {
-        return responseVisibleToRecipientTeam;
+        return isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isResponseVisibleToStudents() {
-        return responseVisibleToStudents;
+        return isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isResponseVisibleToInstructors() {
-        return responseVisibleToInstructors;
+        return isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
     public boolean isShowCommentToResponseGiver() {

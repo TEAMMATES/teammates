@@ -114,12 +114,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             String showCommentToString = getResponseCommentVisibilityString(frca, question);
             String showGiverNameToString = getResponseCommentGiverNameVisibilityString(frca, question);
 
-            boolean isResponseVisibleToRecipient = responseVisibilityMap.get(FeedbackParticipantType.RECEIVER);
-            boolean isResponseVisibleToGiverTeam = responseVisibilityMap.get(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-            boolean isResponseVisibleToRecipientTeam = responseVisibilityMap.get(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-            boolean isResponseVisibleToStudents = responseVisibilityMap.get(FeedbackParticipantType.STUDENTS);
-            boolean isResponseVisibleToInstructors = responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS);
-            
             boolean editDeleteEnabledOnlyOnHover = true;
             
             String whoCanSeeComment = null;
@@ -143,9 +137,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 isVisibilityIconShown, isNotificationIconShown, whoCanSeeComment,
                 showCommentToString, showGiverNameToString,
                 allowedToEditAndDeleteComment, editDeleteEnabledOnlyOnHover,
-                isResponseVisibleToRecipient, isResponseVisibleToGiverTeam,
-                isResponseVisibleToRecipientTeam, isResponseVisibleToStudents,
-                isResponseVisibleToInstructors);
+                responseVisibilityMap);
             
             comments.add(frc);
         }
@@ -224,14 +216,12 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         
         FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
                 question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
-        return new FeedbackResponseComment(frca, giverName, recipientName,
-                getResponseCommentVisibilityString(question), getResponseCommentGiverNameVisibilityString(question),
-                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER),
-                responseVisibilityMap.get(FeedbackParticipantType.OWN_TEAM_MEMBERS),
-                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS),
-                responseVisibilityMap.get(FeedbackParticipantType.STUDENTS),
-                responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS),
-                showCommentTo, showGiverNameTo, true);
+        
+        boolean isAddEnabled = true;
+        return new FeedbackResponseComment(
+                frca, giverName, recipientName, getResponseCommentVisibilityString(question),
+                getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
+                showCommentTo, showGiverNameTo, isAddEnabled);
     }
     
 
