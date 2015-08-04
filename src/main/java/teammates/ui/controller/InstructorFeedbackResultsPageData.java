@@ -1302,11 +1302,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<InstructorFeedbackResultsResponseRow> missingResponses = new ArrayList<InstructorFeedbackResultsResponseRow>();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         
-        for (String possibleRecipient : possibleReceivers) {
-            String textToDisplay 
-                = questionDetails.getNoResponseTextInHtml(giverIdentifier, possibleRecipient, bundle, question);
-            
+        for (String possibleRecipient : possibleReceivers) {            
             if (questionDetails.shouldShowNoResponseText(giverIdentifier, possibleRecipient, question)) {
+                String textToDisplay 
+                    = questionDetails.getNoResponseTextInHtml(giverIdentifier, possibleRecipient, bundle, question);
                 String possibleRecipientName = bundle.getFullNameFromRoster(possibleRecipient);
                 String possibleRecipientTeam = bundle.getTeamNameFromRoster(possibleRecipient);
                 
@@ -1590,10 +1589,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             case INSTRUCTORS:
                 return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
             case OWN_TEAM_MEMBERS:
-                return question.giverType != FeedbackParticipantType.INSTRUCTORS
-                       && question.giverType != FeedbackParticipantType.SELF
-                       && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 return question.giverType != FeedbackParticipantType.INSTRUCTORS
                        && question.giverType != FeedbackParticipantType.SELF
                        && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
