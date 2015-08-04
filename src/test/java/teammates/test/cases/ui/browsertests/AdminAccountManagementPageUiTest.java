@@ -52,8 +52,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         loginToAdminAccountsManagementPage();
         accountsPage.verifyIsCorrectPage();
-        //Full page content cannot be checked because the list of 
-        //  account cannot be fixed in the live server. 
+        accountsPage.verifyHtml("/adminAccountManagementPage.html"); 
     }
 
     public void testViewAccountDetailsLink() {
