@@ -248,6 +248,8 @@ window.onload = function() {
     var panels = $('div.panel');
     var numPanels = 0;
 
+    var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
+
     bindCollapseEvents(panels, numPanels);
     $('a[id^="collapse-panels-button-section-"]').on('click', function() {
         var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
@@ -255,14 +257,14 @@ window.onload = function() {
         if (isGroupByTeam) {
             childPanelType = 'div.panel.panel-warning';
         } else {
-            childPanelType = 'div.panel.panel-primary';
+            childPanelType = participantPanelType;
         }
         var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 
     $('a[id^="collapse-panels-button-team-"]').on('click', function() {
-        var panels = $(this).closest('.panel-warning').children('.panel-collapse').find('div.panel.panel-primary').children('.panel-collapse');
+        var panels = $(this).closest('.panel-warning').children('.panel-collapse').find(participantPanelType).children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 };
