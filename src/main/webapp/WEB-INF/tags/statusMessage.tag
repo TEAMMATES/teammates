@@ -8,9 +8,7 @@
         <div id="statusMessage"  class="alert alert-<c:choose><c:when test="${requestScope[ERROR]}">danger</c:when><c:otherwise>warning</c:otherwise></c:choose>">
             ${requestScope[STATUS_MESSAGE]}
         </div>
-        <script type="text/javascript">
-            document.getElementById('statusMessage').scrollIntoView();
-        </script>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
     </c:when>
     <c:otherwise>
         <div id="statusMessage" style="display: none;"></div>
