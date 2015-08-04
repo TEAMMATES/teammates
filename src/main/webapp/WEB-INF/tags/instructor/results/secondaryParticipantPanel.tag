@@ -11,8 +11,8 @@
 
 
 
-<div class="row ${secondaryParticipantIndex == 0 ? '': 'border-top-gray'}">
-    <%-- Side of the panel --%>
+<div class="row ${secondaryParticipantIndex == 0 ? '' : 'border-top-gray'}">
+    <%-- Left side of the panel --%>
     <results:secondaryParticipantPanelSide primaryParticipantPanel="${primaryParticipantPanel}" 
                                            secondaryParticipantPanelBody="${secondaryParticipantPanelBody}" />
     

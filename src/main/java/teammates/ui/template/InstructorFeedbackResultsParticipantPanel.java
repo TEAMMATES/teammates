@@ -29,7 +29,7 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
         return isGiver;
     }
 
-    public void setGiver(boolean isGiver) {
+    public void setIsGiver(boolean isGiver) {
         this.isGiver = isGiver;
     }
 
