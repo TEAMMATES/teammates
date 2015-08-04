@@ -572,7 +572,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public String getQuestionAdditionalInfoHtml() {
-        FeedbackQuestionDetails questionDetails = this.getQuestionDetails();
-        return questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber, "");
+        return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
 }

@@ -919,10 +919,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
-    public Map<String, String> getEmailTeamNameTable() {
-        return emailTeamNameTable;
-    }
-
     /**
      * Returns displayable email if the email of a giver/recipient in the course
      * and it is allowed to be displayed. 
@@ -1008,10 +1004,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
-    public Map<String, String> getEmailNameTable() {
-        return emailNameTable;
-    }
-
     public String appendTeamNameToName(String name, String teamName) {
         String outputName;
         if (name.contains("Anonymous") || name.equals(Const.USER_UNKNOWN_TEXT)
@@ -1023,19 +1015,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return outputName;
     }
 
-    public Map<String, FeedbackQuestionAttributes> getQuestions() {
-        return questions;
-    }
-
     // TODO consider removing this to increase cohesion
     public String getQuestionText(String feedbackQuestionId) {
         return PageData.sanitizeForHtml(questions.get(feedbackQuestionId)
                                                  .getQuestionDetails()
                                                  .questionText);
-    }
-
-    public Map<String, List<FeedbackResponseCommentAttributes>> getResponseComments() {
-        return responseComments;
     }
 
     // TODO: make responses to the student calling this method always on top.
