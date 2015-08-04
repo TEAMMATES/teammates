@@ -248,14 +248,33 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysessioncommentinsection"));
         courseEditPage.closeModal();
         
-        // this should be click co-owner role
+        ______TS("view details: co-owner");
+        
         courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 1);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesModal.html");
         courseEditPage.closeModal();
         
+        ______TS("verify that custom has no privileges by default");
+        
+        int instrNum = 5;
+        courseEditPage.clickEditInstructorLink(instrNum);
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifycourse", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifyinstructor", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifysession", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifystudent", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewstudentinsection", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("cangivecommentinsection", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewcommentinsection", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifycommentinsection", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("cansubmitsessioninsection", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canviewsessioninsection", instrNum));
+        assertFalse(courseEditPage.isCustomCheckboxChecked("canmodifysessioncommentinsection", instrNum));
+        courseEditPage.clickSaveInstructorButton(instrNum);
+        
         ______TS("success: edit an instructor with privileges");
         
-        assertEquals(true, courseEditPage.displayedToStudentCheckBox(instructorIndex).isSelected());
+        courseEditPage.clickEditInstructorLink(instructorIndex);
+        assertTrue(courseEditPage.displayedToStudentCheckBox(instructorIndex).isSelected());
         // not displayed to students
         courseEditPage.clickDisplayedToStudentCheckBox(instructorIndex);
         // select the role as Custom for instr1
