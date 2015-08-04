@@ -1,1 +1,3 @@
-document.getElementById('statusMessage').scrollIntoView();
+$(document).ready(function() {
+	document.getElementById('statusMessage').scrollIntoView();
+}
