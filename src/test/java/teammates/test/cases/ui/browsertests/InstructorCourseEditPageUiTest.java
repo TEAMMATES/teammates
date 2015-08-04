@@ -80,6 +80,29 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseEditPage = getCourseEditPage();
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditCoowner.html" );
+        
+        ______TS("page load: Manager privileges");
+        
+        instructorId = testData.instructors.get("InsCrsEdit.manager").googleId;
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditManager.html" );
+        
+        ______TS("page load: Observer privileges");
+        
+        instructorId = testData.instructors.get("InsCrsEdit.observer").googleId;
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditObserver.html" );
+        
+        ______TS("page load: Tutor privileges");
+        
+        instructorId = testData.instructors.get("InsCrsEdit.tutor").googleId;
+        courseEditPage = getCourseEditPage();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditTutor.html" );
+        
+        ______TS("go back to co-owner privileges");
+        
+        instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
+        courseEditPage = getCourseEditPage();
     }
     
     private void testEditInstructorLink() {
