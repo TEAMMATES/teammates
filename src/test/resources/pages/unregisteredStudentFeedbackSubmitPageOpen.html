@@ -250,23 +250,9 @@
 
 
     <script>
-        var url = window.location.origin + '/' + 'test-student-motd.html';
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function(data) {
-                $('#student-motd').html(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('AJAX request failed');
-            }
-        });
-
-        function closeMotd() {
-            $('#student-motd-container').hide();
-        }
+        var motdUrl = window.location.origin + '/test-student-motd.html';
     </script>
+    <script type="text/javascript" src="/js/studentMotd.js"></script>
 
     <div id="student-motd-container" class="container theme-showcase">
         <div class="row">
