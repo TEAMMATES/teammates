@@ -110,6 +110,10 @@ public class EmailLogEntry {
         return Sanitizer.sanitizeForHtml(this.content);
     }
     
+    public String getUnsanitizedContent() {
+        return StringHelper.recoverFromSanitizedText(content);
+    }
+    
     public String getTimeForDisplay(){
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);

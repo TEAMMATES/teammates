@@ -18,6 +18,7 @@ public class FeedbackQuestionFormTemplates {
     
     public static String MSQ_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormTemplate.html");
     public static String MSQ_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormOptionFragment.html");
+    public static String MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMsqSubmissionFormOtherOptionFragment.html");
     public static String MSQ_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionMsqEditFormTemplate.html");
     public static String MSQ_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMsqEditFormOptionFragment.html");
     public static String MSQ_ADDITIONAL_INFO_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionMsqAdditionalInfoFragment.html");
@@ -40,6 +41,7 @@ public class FeedbackQuestionFormTemplates {
     public static String CONSTSUM_RESULT_RECIPIENT_STATS = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientTemplate.html");
     public static String CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientFragment.html");
     
+    public static String CONTRIB_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionContribAdditionalInfoTemplate.html");
     public static String CONTRIB_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionContribEditFormTemplate.html");
     public static String CONTRIB_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionContribSubmissionFormTemplate.html");
     public static String CONTRIB_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionContribResultStatsTemplate.html");
