@@ -393,22 +393,26 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testDeleteInstructorAction() {
         
         ______TS("delete instructor then cancel");
+        
         courseEditPage.clickDeleteInstructorLinkAndCancel();
         assertNotNull(BackDoor.getInstructorAsJsonByGoogleId(instructorId, courseId));
         
         ______TS("delete instructor successfully");
+        
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         String expectedMsg = "The instructor has been deleted from the course.";
         courseEditPage.verifyStatus(expectedMsg);
         
-        ______TS("failed to delete the last instructor");
+        ______TS("delete all instructors");
+        
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
+        courseEditPage.clickDeleteInstructorLinkAndConfirm();
         
         ______TS("deleted own instructor role and redirect to courses page");
+        
         // Change login id to another instructor
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.coord"));
         instructorId = testData.instructors.get("InsCrsEdit.coord").googleId;
