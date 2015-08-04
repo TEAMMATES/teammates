@@ -15,13 +15,12 @@ import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
     
-    public String offset;
-    public String pageChange;
-    public String filterQuery;
-    public String queryMessage;
-    public List<ActivityLogEntry> logs;
-    public List<String> versions;
-    public String logLocalTime;
+    private String offset;
+    private String filterQuery;
+    private String queryMessage;
+    private List<ActivityLogEntry> logs;
+    private List<String> versions;
+    private String logLocalTime;
     
     /**
      * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
@@ -29,45 +28,82 @@ public class AdminActivityLogPageData extends PageData {
      * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
      * or simply reloaded with this parameter omitted.
      */
-    public boolean ifShowAll = false;
+    private boolean ifShowAll = false;
     
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
      * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
      * unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
-    public boolean ifShowTestData = false;
+    private boolean ifShowTestData = false;
     
-    public String statusForAjax;
+    private String statusForAjax;
     private QueryParameters q;
     
     /**
      * this array stores the requests to be excluded from being shown in admin activity logs page
      */
-    public static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
+    private static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
                                                       //this servlet name is set in CompileLogsServlet
                                                       Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
     
-    public boolean isTestingData(String email){
-        boolean isTestingAccount = false;
-        
-        if(email.endsWith(".tmt")){
-            isTestingAccount = true;
+    public List<String> getExcludedLogRequestURIs() {
+        List<String> excludedList = new ArrayList<String>();
+        for (String excludedLogRequestURI : excludedLogRequestURIs) {
+            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf("/") + 1));
         }
-        return isTestingAccount;
+        return excludedList;
     }
     
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
     }
-
+    
+    public void init(String offset, String filterQuery, boolean ifShowAll,
+                     boolean ifShowTestData, List<ActivityLogEntry> logs) {
+        this.offset = offset;
+        this.filterQuery = filterQuery;
+        this.ifShowAll = ifShowAll;
+        this.ifShowTestData = ifShowTestData;
+        this.logs = logs;
+        
+    }
+    
+    public boolean getIfShowAll() {
+        return ifShowAll;
+    }
+    
+    public boolean getIfShowTestData() {
+        return ifShowTestData;
+    }
+    
+    public String getOffset() {
+        return offset;
+    }
+    
+    public String getFilterQuery() {
+        return filterQuery;
+    }
+    
+    public String getQueryMessage() {
+        return queryMessage;
+    }
+    
+    public List<ActivityLogEntry> getLogs() {
+        return logs;
+    }
+    
+    public List<String> getVersions() {
+        return versions;
+    }
+    
     /**
      * Checks in an array contains a specific value
      * value is converted to lower case before comparing
      */
-    private boolean arrayContains(String[] arr, String value){
-        for (int i = 0; i < arr.length; i++){
-            if(arr[i].equals(value.toLowerCase().trim())){
+    private boolean arrayContains(String[] arr, String value) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(value.toLowerCase().trim())) {
                 return true;
             }
         }
@@ -78,12 +114,12 @@ public class AdminActivityLogPageData extends PageData {
     /**
      * Creates a QueryParameters object used for filtering
      */
-    public void generateQueryParameters(String query){
+    public void generateQueryParameters(String query) {
         query = query.toLowerCase();
         
-        try{
+        try {
             q = parseQuery(query);
-        } catch (Exception e){
+        } catch (Exception e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
@@ -94,15 +130,15 @@ public class AdminActivityLogPageData extends PageData {
      * check current log entry should be excluded as rubbish logs 
      * returns false if the logEntry is regarded as rubbish
      */   
-    private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry){
+    private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry) {
         
-        if(ifShowAll == true){        
+        if (ifShowAll == true) {        
             return false;
         }
         
-        for (String uri: excludedLogRequestURIs){
+        for (String uri: excludedLogRequestURIs) {
             
-            if(uri.contains(logEntry.getServletName())){
+            if (uri.contains(logEntry.getServletName())) {
                 return true;
             }
         }
@@ -116,13 +152,13 @@ public class AdminActivityLogPageData extends PageData {
      * Performs the actual filtering, based on QueryParameters
      * returns false if the logEntry fails the filtering process
      */
-    public ActivityLogEntry filterLogs(ActivityLogEntry logEntry){
-        if(!logEntry.toShow()){
+    public ActivityLogEntry filterLogs(ActivityLogEntry logEntry) {
+        if (!logEntry.toShow()) {
             return logEntry;
         }
         
-        if(q == null){
-            if (this.queryMessage == null){
+        if (q == null) {
+            if (this.queryMessage == null) {
                 this.queryMessage = "Error parsing the query. QueryParameters not created.";
             }
             logEntry.setToShow(true);
@@ -130,59 +166,59 @@ public class AdminActivityLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if(q.isToDateInQuery){
-            if(logEntry.getTime() > q.toDateValue){
+        if (q.isToDateInQuery) {
+            if (logEntry.getTime() > q.toDateValue) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
         }
-        if(q.isFromDateInQuery){
-            if(logEntry.getTime() < q.fromDateValue){
+        if (q.isFromDateInQuery) {
+            if (logEntry.getTime() < q.fromDateValue) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
         }
-        if(q.isRequestInQuery){
-            if(!arrayContains(q.requestValues, logEntry.getServletName())){
+        if (q.isRequestInQuery) {
+            if (!arrayContains(q.requestValues, logEntry.getServletName())) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
         }
-        if(q.isResponseInQuery){
-            if(!arrayContains(q.responseValues, logEntry.getAction())){
+        if (q.isResponseInQuery) {
+            if (!arrayContains(q.responseValues, logEntry.getAction())) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
         }
-        if(q.isPersonInQuery){
-            if(!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
+        if (q.isPersonInQuery) {
+            if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
                     !logEntry.getId().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())){
+                    !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
         }
-        if(q.isRoleInQuery){
-            if(!arrayContains(q.roleValues, logEntry.getRole())){
+        if (q.isRoleInQuery) {
+            if (!arrayContains(q.roleValues, logEntry.getRole())) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
         }
-        if(q.isCutoffInQuery){
-            if(logEntry.getTimeTaken() == null){
+        if (q.isCutoffInQuery) {
+            if (logEntry.getTimeTaken() == null) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
             
-            if(logEntry.getTimeTaken() < q.cutoffValue){
+            if (logEntry.getTimeTaken() < q.cutoffValue) {
                 logEntry.setToShow(false);
                 return logEntry;
             }
         } 
-        if(q.isInfoInQuery){
+        if (q.isInfoInQuery) {
             
-            for (String keyString : q.infoValues){
-                if(!logEntry.getMessageInfo().toLowerCase().contains(keyString.toLowerCase())){
+            for (String keyString : q.infoValues) {
+                if (!logEntry.getMessageInfo().toLowerCase().contains(keyString.toLowerCase())) {
                     logEntry.setToShow(false);
                     return logEntry;
                 }
@@ -194,7 +230,7 @@ public class AdminActivityLogPageData extends PageData {
             return logEntry;
         }
         
-        if(shouldExcludeLogEntry(logEntry)){
+        if (shouldExcludeLogEntry(logEntry)) {
             logEntry.setToShow(false);
             return logEntry;
         }
@@ -211,7 +247,7 @@ public class AdminActivityLogPageData extends PageData {
         QueryParameters q = new QueryParameters();
         versions = new ArrayList<String>();
         
-        if(query == null || query.equals("")){
+        if (query == null || query.equals("")) {
             return q;
         }
         
@@ -222,10 +258,10 @@ public class AdminActivityLogPageData extends PageData {
        
         System.out.print(tokens.length);
         
-        for(int i = 0; i < tokens.length; i++){           
+        for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
             
-            if(pair.length != 2){
+            if (pair.length != 2) {
                 throw new Exception("Invalid format");
             }
             
@@ -252,7 +288,7 @@ public class AdminActivityLogPageData extends PageData {
     /** 
      * @return possible servlet requests list as html 
      */
-    public String getActionListAsHtml(){       
+    public String getActionListAsHtml() {       
         List<String> allActionNames = getAllActionNames();         
         int totalColumns = 4;
         int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
@@ -260,7 +296,7 @@ public class AdminActivityLogPageData extends PageData {
     }
     
     
-    private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns){
+    private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns) {
         
         String outputHtml = "<tr>";      
         int count = 0;      
@@ -270,7 +306,7 @@ public class AdminActivityLogPageData extends PageData {
             outputHtml += "<ul class=\"list-group\">";
             for (int j = 0; j < rowsPerCol; j++) {
                 
-                if(count >= allActionNames.size()){
+                if (count >= allActionNames.size()) {
                     break;
                 }
                 
@@ -290,29 +326,29 @@ public class AdminActivityLogPageData extends PageData {
     }
     
     
-    private String getStyleForListGroupItem(String actionName){
+    private String getStyleForListGroupItem(String actionName) {
         
         String style = "";
         
-        if(actionName.startsWith("instructor")){
+        if (actionName.startsWith("instructor")) {
             style = "list-group-item";
-        }else if(actionName.startsWith("student")){
+        } else if (actionName.startsWith("student")) {
             style = "list-group-item-success";
-        }else if(actionName.startsWith("admin")){
+        } else if (actionName.startsWith("admin")) {
             style = "list-group-item-warning";
-        }else{
+        } else {
             style = "list-group-item-danger";
         }
         
         return style;
     }
     
-    private int calculateRowsPerCol(int totalNumOfActions, int totalColumns){
+    private int calculateRowsPerCol(int totalNumOfActions, int totalColumns) {
         
         int rowsPerCol = totalNumOfActions / totalColumns;
         int remainder = totalNumOfActions % totalColumns;
         
-        if(remainder > 0){
+        if (remainder > 0) {
             rowsPerCol ++;
         }
         
@@ -320,11 +356,11 @@ public class AdminActivityLogPageData extends PageData {
     }
     
      
-    private List<String> getAllActionNames(){
+    private List<String> getAllActionNames() {
        
         List<String> actionNameList = new ArrayList<String>();
         
-        for(Field field : Const.ActionURIs.class.getFields()){
+        for (Field field : Const.ActionURIs.class.getFields()) {
 
             String actionString = getActionNameStringFromField(field);
             actionNameList.add(actionString);        
@@ -334,7 +370,7 @@ public class AdminActivityLogPageData extends PageData {
     }
     
     
-    private String getActionNameStringFromField(Field field){
+    private String getActionNameStringFromField(Field field) {
         
         String rawActionString = "";
         
@@ -380,7 +416,7 @@ public class AdminActivityLogPageData extends PageData {
         public boolean isInfoInQuery;
         public String[] infoValues;
         
-        public QueryParameters(){
+        public QueryParameters() {
             isToDateInQuery = false;
             isFromDateInQuery = false;
             isRequestInQuery = false;
@@ -395,7 +431,7 @@ public class AdminActivityLogPageData extends PageData {
          * add a label and values in
          */
         public void add(String label, String[] values) throws Exception{
-            if(label.equals("from")){
+            if (label.equals("from")) {
                 isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 00:00");                
@@ -404,7 +440,7 @@ public class AdminActivityLogPageData extends PageData {
                 cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 fromDateValue = cal.getTime().getTime();
                 
-            } else if (label.equals("to")){
+            } else if (label.equals("to")) {
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 23:59");                
@@ -413,22 +449,22 @@ public class AdminActivityLogPageData extends PageData {
                 cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 toDateValue = cal.getTime().getTime();       
                 
-            } else if (label.equals("request")){
+            } else if (label.equals("request")) {
                 isRequestInQuery = true;
                 requestValues = values;
-            } else if (label.equals("response")){
+            } else if (label.equals("response")) {
                 isResponseInQuery = true;
                 responseValues = values;
-            } else if (label.equals("person")){
+            } else if (label.equals("person")) {
                 isPersonInQuery = true;
                 personValue = values[0];
-            } else if (label.equals("role")){
+            } else if (label.equals("role")) {
                 isRoleInQuery = true;
                 roleValues = values;
-            } else if (label.equals("time")){
+            } else if (label.equals("time")) {
                 isCutoffInQuery = true;
                 cutoffValue = Long.parseLong(values[0]);
-            } else if (label.equals("info")){
+            } else if (label.equals("info")) {
                 isInfoInQuery = true;
                 infoValues = values;
             } else {
@@ -437,4 +473,19 @@ public class AdminActivityLogPageData extends PageData {
         }
     }
 
+    public void setLogLocalTime(String localTimeInfo) {
+        logLocalTime = localTimeInfo;
+    }
+    
+    public String getLogLocalTime() {
+        return logLocalTime;
+    }
+
+    public void setStatusForAjax(String status) {
+        statusForAjax = status;
+    }
+    
+    public String getStatusForAjax() {
+        return statusForAjax;
+    }
 }

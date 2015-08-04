@@ -83,6 +83,10 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             PageData pageData,
             FeedbackSessionResultsBundle bundle,
             String view) {
+        if (responses.isEmpty()) {
+            return "";
+        }
+        
         @SuppressWarnings("unused")
         String html = "";
         int averageLength = 0;

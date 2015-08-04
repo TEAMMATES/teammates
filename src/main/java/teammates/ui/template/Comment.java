@@ -3,7 +3,7 @@ package teammates.ui.template;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import static teammates.common.datatransfer.CommentParticipantType.*;
-import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 public class Comment {
 
@@ -34,7 +34,7 @@ public class Comment {
     }
 
     public String getCreatedAt() {
-        return Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt);
+        return TimeHelper.formatDateTimeForComments(comment.createdAt);
     }
 
     public String getEditedAt() {

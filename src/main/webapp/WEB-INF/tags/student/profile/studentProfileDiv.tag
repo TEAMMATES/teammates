@@ -134,7 +134,7 @@
             <label for="studentNationality">
                 More info about yourself
             </label>
-            <!-- Do not add whitespace between the opening and closing tags-->
+            <%-- Do not add whitespace between the opening and closing tags --%>
             <textarea id="studentMoreInfo"
                       name="<%= Const.ParamsNames.STUDENT_PROFILE_MOREINFO %>"
                       rows="4"

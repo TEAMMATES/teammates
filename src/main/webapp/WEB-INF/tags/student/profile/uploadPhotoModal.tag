@@ -80,10 +80,10 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                </div> <!-- /.row -->
-            </div> <!-- /.modal-body -->
+                </div><%-- /.row --%>
+            </div><%-- /.modal-body --%>
             <div class="modal-footer">
             </div>
-        </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-</div> <!-- /.modal -->
+        </div><%-- /.modal-content --%>
+    </div><%-- /.modal-dialog --%>
+</div><%-- /.modal --%>
