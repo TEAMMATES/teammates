@@ -23,7 +23,7 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instrDeleteLink1")
     private WebElement deleteInstructorLink;
     
-    @FindBy(id = "instrRemindLink3")
+    @FindBy(id = "instrRemindLink4")
     private WebElement inviteInstructorLink;
 
     @FindBy(id = "instructorid1")
