@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -337,6 +339,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
+    public void clickEndDateBox() {
+        endDateBox.click();
+    }
+    
     public void clickFsCopyButton() {
         fscopyButton.click();
     }
@@ -504,6 +510,44 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyNewRubricQuestionFormIsDisplayed() {
         WebElement contribForm = browser.driver.findElement(By.id("rubricForm"));
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyEndDatesBeforeTodayAreDisabled() {
+        Calendar cal = Calendar.getInstance();
+        
+        // if today is the 1st day of the month, the datepicker cannot navigate to the previous month (yesterday) 
+        if (cal.get(Calendar.DATE) != 1) {
+            cal.add(Calendar.DATE, -1);       
+
+            // get month names
+            DateFormatSymbols dfs = new DateFormatSymbols();
+            String[] months = dfs.getMonths();        
+
+            // yesterday's day, month and year
+            String day = Integer.toString(cal.get(Calendar.DATE));
+            String month = months[cal.get(Calendar.MONTH)];
+            String year = Integer.toString(cal.get(Calendar.YEAR));
+
+            // go to previous month
+            while (!(getDatepickerMonth().equals(month) && getDatepickerYear().equals(year))) {
+                browser.driver.findElement(By.className("ui-datepicker-prev")).click();
+            }
+
+            WebElement yesterday = browser.driver.findElement(By.xpath("//td[span[contains(text(), \"" + day + "\")]]"));
+
+            return yesterday.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled");
+        } else {
+            return true;
+        }
+        
+    }
+
+    private String getDatepickerYear() {
+        return browser.driver.findElement(By.className("ui-datepicker-year")).getText();
+    }
+
+    private String getDatepickerMonth() {
+        return browser.driver.findElement(By.className("ui-datepicker-month")).getText();
     }
     
     public void selectNewQuestionType(String questionType) {
