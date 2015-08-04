@@ -111,8 +111,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
             String showCommentToString = getResponseCommentVisibilityString(frca, question);
             String showGiverNameToString = getResponseCommentGiverNameVisibilityString(frca, question);
 
-            boolean editDeleteEnabledOnlyOnHover = true;
-            
             String whoCanSeeComment = null;
             boolean isVisibilityIconShown = false;
             boolean isNotificationIconShown = false;
@@ -127,14 +125,23 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 isNotificationIconShown = frca.sendingState == CommentSendingState.PENDING;
             }
             
-            String extraClass = getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown);
-            
             FeedbackResponseComment frc = new FeedbackResponseComment(
-                frca, frca.giverEmail, giverName, recipientName, extraClass,
-                isVisibilityIconShown, isNotificationIconShown, whoCanSeeComment,
-                showCommentToString, showGiverNameToString,
-                allowedToEditAndDeleteComment, editDeleteEnabledOnlyOnHover,
-                responseVisibilities);
+                frca, frca.giverEmail, giverName, recipientName, showCommentToString,
+                showGiverNameToString, responseVisibilities);
+            
+            frc.setExtraClass(getExtraClass(frca.giverEmail, instructor.email, isVisibilityIconShown));
+            
+            if (allowedToEditAndDeleteComment) {
+                frc.enableEdit();
+                frc.enableDelete();
+                frc.enableEditDeleteOnHover();
+            }
+            if (isVisibilityIconShown) {
+                frc.enableVisibilityIcon(whoCanSeeComment);
+            }
+            if (isNotificationIconShown) {
+                frc.enableNotificationIcon();
+            }
             
             comments.add(frc);
         }
@@ -154,6 +161,9 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     private FeedbackResponseComment buildFeedbackResponseCommentAdd(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
             String giverName, String recipientName) {
+        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
+                question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
+        
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.GIVER,
                 FeedbackParticipantType.RECEIVER,
@@ -163,25 +173,21 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
                 FeedbackParticipantType.INSTRUCTORS
         };
         
-        List<FeedbackParticipantType> showCommentTo = new ArrayList<>();
-        List<FeedbackParticipantType> showGiverNameTo = new ArrayList<>();
+        frca.showCommentTo = new ArrayList<>();
+        frca.showGiverNameTo = new ArrayList<>();
         for (FeedbackParticipantType type : relevantTypes) {
             if (isResponseCommentVisibleTo(question, type)) {
-                showCommentTo.add(type);
+                frca.showCommentTo.add(type);
             }
             if (isResponseCommentGiverNameVisibleTo(question, type)) {
-                showGiverNameTo.add(type);
+                frca.showGiverNameTo.add(type);
             }
         }
         
-        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
-                question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
         
-        boolean isAddEnabled = true;
         return new FeedbackResponseComment(
                 frca, giverName, recipientName, getResponseCommentVisibilityString(question),
-                getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
-                showCommentTo, showGiverNameTo, isAddEnabled);
+                getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
     }
 
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {

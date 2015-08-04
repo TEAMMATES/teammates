@@ -19,121 +19,73 @@ public class FeedbackResponseComment {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
+
     private String showCommentToString;
     private String showGiverNameToString;
-    private String linkToCommentsPage;
-    private String whoCanSeeComment;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
+    private Map<FeedbackParticipantType, Boolean> responseVisibilities;
+
+    private String whoCanSeeComment;
     private boolean withVisibilityIcon;
     private boolean withNotificationIcon;
     private boolean withLinkToCommentsPage;
+    private String linkToCommentsPage;
+    
     private boolean editDeleteEnabled;
     private boolean editDeleteEnabledOnlyOnHover;
     private boolean instructorAllowedToDelete;
     private boolean instructorAllowedToEdit;
-    private Map<FeedbackParticipantType, Boolean> responseVisibilities;
-
+    
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(isAnonymous(giverDisplay));
+        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
     }
 
-    // Used in InstructorFeedbackResponseComment which is part of 
-    // InstructorFeedbackResponseCommentsLoadPageData
+    // for editing / deleting comments
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                   String giverName, String recipientName, String extraClass,
-                                   boolean withVisibilityIcon, boolean withNotificationIcon, String whoCanSeeComment,
-                                   String showCommentToString, String showGiverNameToString,
-                                   boolean isAllowedToEditAndDeleteComment, boolean editDeleteEnabledOnlyOnHover,
-                                   Map<FeedbackParticipantType, Boolean> responseVisiblities) {
-        this.commentId = frc.getId();
-        this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(isAnonymous(giverDisplay));
-        this.feedbackResponseId = frc.feedbackResponseId;
-        this.courseId = frc.courseId;
-        this.feedbackSessionName = frc.feedbackSessionName;
-        
-        this.giverDisplay = giverDisplay;
-        this.responseGiverName = giverName;
-        this.responseRecipientName = recipientName;
-        this.commentText = frc.commentText.getValue();
-        
-        this.extraClass = extraClass;
-        this.withVisibilityIcon = withVisibilityIcon;
-        this.whoCanSeeComment = whoCanSeeComment;
-        this.withNotificationIcon = withNotificationIcon;
-        
-        this.whoCanSeeComment = whoCanSeeComment;
-        this.showCommentTo = frc.showCommentTo;
-        this.showGiverNameTo = frc.showGiverNameTo;
-        this.showCommentToString = showCommentToString;
-        this.showGiverNameToString = showGiverNameToString;
-        this.editDeleteEnabledOnlyOnHover = editDeleteEnabledOnlyOnHover;
-        this.editDeleteEnabled = isAllowedToEditAndDeleteComment;
-        this.instructorAllowedToEdit = this.instructorAllowedToDelete = this.editDeleteEnabled;
-        
-        this.responseVisibilities = responseVisiblities;
-    }
-
-    // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay, 
-                                   String giverName, String recipientName, String showCommentToString,
-                                   String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities,
-                                   boolean isEditDeleteEnabled, boolean isInstructorAllowedToDelete,
-                                   boolean isInstructorAllowedToEdit) {
-        this.commentId = frc.getId();
-        this.giverDisplay = giverDisplay;
-        this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(isAnonymous(giverDisplay));
-        this.commentText = frc.commentText.getValue();
-        this.feedbackResponseId = frc.feedbackResponseId;
-        this.courseId = frc.courseId;
-        this.feedbackSessionName = frc.feedbackSessionName;
-        this.showCommentTo = frc.showCommentTo;
-        this.showGiverNameTo = frc.showGiverNameTo;
-        this.responseGiverName = giverName;
-        this.responseRecipientName = recipientName;
-        this.showCommentToString = showCommentToString;
-        this.showGiverNameToString = showGiverNameToString;;
-        this.responseVisibilities = responseVisiblities;
-        this.editDeleteEnabled = isEditDeleteEnabled;
-        this.instructorAllowedToDelete = isInstructorAllowedToDelete;
-        this.instructorAllowedToEdit = isInstructorAllowedToEdit;
+            String giverName, String recipientName, String showCommentToString,
+            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+        this(frc, giverDisplay);
+        setDataForAddEditDelete(frc, giverName, recipientName,
+                                showCommentToString, showGiverNameToString, responseVisiblities);
     }
     
     // for adding comments
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
-                                   String giverName, String recipientName,String showCommentToString,
-                                   String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities,
-                                   List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
-                                   boolean isAddEnabled) {
+            String giverName, String recipientName,String showCommentToString,
+            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+        setDataForAddEditDelete(frc, giverName, recipientName,
+                                showCommentToString, showGiverNameToString, responseVisiblities);
         this.questionId = frc.feedbackQuestionId;
+    }
+    
+    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
+            String giverName, String recipientName,
+            String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+        this.responseGiverName = giverName;
+        this.responseRecipientName = recipientName;
+        
+        this.showCommentTo = frc.showCommentTo;
+        this.showGiverNameTo = frc.showGiverNameTo;
+        
+        this.responseVisibilities = responseVisiblities;
+        
+        // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
         this.courseId = frc.courseId;
         this.feedbackSessionName = frc.feedbackSessionName;
-        this.responseGiverName = giverName;
-        this.responseRecipientName = recipientName;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
-        this.responseVisibilities = responseVisiblities;
-        this.showCommentTo = showCommentTo;
-        this.showGiverNameTo = showGiverNameTo;
-    }
-
-    private boolean isAnonymous(String participant) {
-        return participant.equals("Anonymous");
+        
     }
 
     public String getExtraClass() {
         return extraClass;
-    }
-
-    public void setExtraClass(String extraClass) {
-        this.extraClass = extraClass;
     }
 
     public Long getCommentId() {
@@ -302,6 +254,37 @@ public class FeedbackResponseComment {
 
     public boolean isShowGiverNameToInstructors() {
         return isShowGiverNameTo(FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    public void setExtraClass(String extraClass) {
+        this.extraClass = extraClass;
+    }
+    
+    private void enableEditDelete() {
+        this.editDeleteEnabled = true;
+    }
+    
+    public void enableEdit() {
+        enableEditDelete();
+        this.instructorAllowedToEdit = true;
+    }
+    
+    public void enableDelete() {
+        enableEditDelete();
+        this.instructorAllowedToDelete = true;
+    }
+    
+    public void enableEditDeleteOnHover() {
+        this.editDeleteEnabledOnlyOnHover = true;
+    }
+    
+    public void enableVisibilityIcon(String whoCanSeeComment) {
+        this.withVisibilityIcon = true;
+        this.whoCanSeeComment = whoCanSeeComment;
+    }
+    
+    public void enableNotificationIcon() {
+        this.withNotificationIcon = true;
     }
 
     public FeedbackResponseComment setLinkToCommentsPage(String linkToCommentsPage) {
