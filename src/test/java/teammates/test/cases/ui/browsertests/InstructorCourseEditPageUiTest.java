@@ -67,7 +67,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     public void testContent() throws Exception {
         
-        ______TS("page load: Helper privileges");
+        ______TS("page load: Helper privileges (custom)");
         
         instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
         courseEditPage = getCourseEditPage();
@@ -123,6 +123,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testInputValidation() {
         
         ______TS("Checking max-length enforcement by the text boxes");
+        
         String maxLengthInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
         String longInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         
@@ -170,7 +171,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
             
         InstructorCourseDetailsPage courseDetailsPage = courseEditPage.navigateTo(
                                                                 courseDetailsLink, InstructorCourseDetailsPage.class);
-        
         courseDetailsPage.verifyHtmlPart(By.id("instructors"), "/instructorCourseDetailsAddInstructor.html");
         courseEditPage = getCourseEditPage();
     
@@ -180,6 +180,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
         
         ______TS("failure: add an instructor with an invalid parameter");
+        
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
@@ -201,9 +202,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
         int instructorIndex = 1;
         
-        assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
+        assertTrue(courseEditPage.clickEditInstructorLink(instructorIndex));
         
-        // Manager
+        ______TS("view details: manager");
+        
         courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 2);
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycourse"));
         assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifyinstructor"));
@@ -218,7 +220,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysessioncommentinsection"));
         courseEditPage.closeModal();
         
-        // Observer
+        ______TS("view details: observer");
+        
         courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 3);
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycourse"));
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifyinstructor"));
@@ -233,7 +236,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysessioncommentinsection"));
         courseEditPage.closeModal();
         
-        // Tutor
+        ______TS("view details: tutor");
+        
         courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 4);
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycourse"));
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifyinstructor"));
@@ -297,6 +301,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // after 3 sections added, no more things to add
         assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
+        
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
         assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
@@ -319,7 +324,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         instructorIndex = 2;
         courseEditPage.clickEditInstructorLink(instructorIndex);
         
-        // Tutor
+        ______TS("tutor->custom");
+        
         courseEditPage.selectRoleForInstructor(instructorIndex, "Tutor");
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.clickEditInstructorLink(instructorIndex);
@@ -336,7 +342,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewsessioninsection"));
         assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysessioncommentinsection"));
         
-        // Observer
+        ______TS("observer->custom");
+        
         courseEditPage.selectRoleForInstructor(instructorIndex, "Observer");
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.clickEditInstructorLink(instructorIndex);
@@ -353,7 +360,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewsessioninsection"));
         assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysessioncommentinsection"));
         
-        // Manager
+        ______TS("manager->custom");
+        
         courseEditPage.selectRoleForInstructor(instructorIndex, "Manager");
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.clickEditInstructorLink(instructorIndex);
@@ -370,7 +378,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewsessioninsection"));
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysessioncommentinsection"));
         
-        // Co-owner
+        ______TS("co-owner->custom");
+        
         courseEditPage.selectRoleForInstructor(instructorIndex, "Co-owner");
         courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.clickEditInstructorLink(instructorIndex);
@@ -430,26 +439,31 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testDeleteCourseAction() {
         // TODO: use navigateTo instead
         courseEditPage = getCourseEditPage();
+        
         ______TS("delete course then cancel");
+        
         courseEditPage.clickDeleteCourseLinkAndCancel();
         assertNotNull(BackDoor.getCourseAsJson(courseId));
         
         ______TS("delete course then proceed");
+        
         InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLinkAndConfirm();
         coursePage.verifyContains("Add New Course");
     }
     
     private void testUnregisteredInstructorEmailNotEditable() {
         courseEditPage = getCourseEditPage();
+        
         ______TS("make a new unregistered instructor and test that its email can't be edited");
+        
         courseEditPage.addNewInstructor("Unreg Instructor", "InstructorCourseEditEmail@gmail.tmt");
+        int unregInstrNum = 4;
+        assertEquals("Unreg Instructor", courseEditPage.getNameField(unregInstrNum).getAttribute("value"));
+        assertFalse(courseEditPage.getNameField(unregInstrNum).isEnabled());
         
-        assertEquals("Unreg Instructor", courseEditPage.getNameField(3).getAttribute("value"));
-        assertFalse(courseEditPage.getNameField(3).isEnabled());
-        
-        assertTrue(courseEditPage.clickEditInstructorLink(3));
-        assertEquals("true", courseEditPage.getEmailField(3).getAttribute("readonly"));
-        assertTrue(courseEditPage.getNameField(3).isEnabled());
+        assertTrue(courseEditPage.clickEditInstructorLink(unregInstrNum));
+        assertEquals("true", courseEditPage.getEmailField(unregInstrNum).getAttribute("readonly"));
+        assertTrue(courseEditPage.getNameField(unregInstrNum).isEnabled());
     }
     
     private InstructorCourseEditPage getCourseEditPage() {        
