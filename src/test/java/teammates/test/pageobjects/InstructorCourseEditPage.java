@@ -23,7 +23,7 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instrDeleteLink1")
     private WebElement deleteInstructorLink;
     
-    @FindBy(id = "instrRemindLink3")
+    @FindBy(id = "instrRemindLink4")
     private WebElement inviteInstructorLink;
 
     @FindBy(id = "instructorid1")
@@ -324,6 +324,13 @@ public class InstructorCourseEditPage extends AppPage {
     }
     public WebElement getEmailField(int instrNum) {
         return browser.driver.findElement(By.id("instructoremail" + String.valueOf(instrNum)));
+    }
+
+    public boolean isCustomCheckboxChecked(String privilege, int instrNum) {
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instrNum + " input[type='checkbox'][name='" 
+                        + privilege + "']");
+        WebElement checkbox = browser.driver.findElement(selector);
+        return checkbox.isSelected();
     }
 
 }

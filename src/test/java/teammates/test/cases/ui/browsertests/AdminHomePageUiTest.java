@@ -109,6 +109,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
                                       + expectedjoinUrl);
+        homePage.verifyHtml("/adminHomePageCreateInstructorSuccess.html");
+        
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(BackDoor.getCourse(demoCourseId));
