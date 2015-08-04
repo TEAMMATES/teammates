@@ -227,6 +227,14 @@ public class FeedbackResponseComment {
     private boolean isResponseVisibleTo(FeedbackParticipantType type) {
         return responseVisibilities.containsKey(type) && responseVisibilities.get(type);
     }
+    
+    private boolean isShowCommentTo(FeedbackParticipantType type) {
+        return showCommentTo.contains(type);
+    }
+    
+    private boolean isShowGiverNameTo(FeedbackParticipantType type) {
+        return showGiverNameTo.contains(type);
+    }
 
     public boolean isResponseVisibleToRecipient() {
         return isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
@@ -249,51 +257,51 @@ public class FeedbackResponseComment {
     }
 
     public boolean isShowCommentToResponseGiver() {
-        return showCommentTo.contains(FeedbackParticipantType.GIVER);
+        return isShowCommentTo(FeedbackParticipantType.GIVER);
     }
 
     public boolean isShowGiverNameToResponseGiver() {
-        return showGiverNameTo.contains(FeedbackParticipantType.GIVER);
+        return isShowGiverNameTo(FeedbackParticipantType.GIVER);
     }
 
     public boolean isShowCommentToResponseRecipient() {
-        return showCommentTo.contains(FeedbackParticipantType.RECEIVER);
+        return isShowCommentTo(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isShowGiverNameToResponseRecipient() {
-        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
+        return isShowGiverNameTo(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isShowCommentToResponseGiverTeam() {
-        return showCommentTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        return isShowCommentTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isShowGiverNameToResponseGiverTeam() {
-        return showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        return isShowGiverNameTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isShowCommentToResponseRecipientTeam() {
-        return showCommentTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        return isShowCommentTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isShowGiverNameToResponseRecipientTeam() {
-        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        return isShowGiverNameTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isShowCommentToStudents() {
-        return showCommentTo.contains(FeedbackParticipantType.STUDENTS);
+        return isShowCommentTo(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isShowGiverNameToStudents() {
-        return showGiverNameTo.contains(FeedbackParticipantType.STUDENTS);
+        return isShowGiverNameTo(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isShowCommentToInstructors() {
-        return showCommentTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        return isShowCommentTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
     public boolean isShowGiverNameToInstructors() {
-        return showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        return isShowGiverNameTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
     public FeedbackResponseComment setLinkToCommentsPage(String linkToCommentsPage) {
