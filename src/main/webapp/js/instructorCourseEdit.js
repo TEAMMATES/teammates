@@ -175,7 +175,7 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 	} else if (role === "Custom") {
 		checkPrivilegesOfCustomForInstructor(instrNum);
 	} else {
-		console.log(role + " is not properly defined");
+
 	}
 }
 
@@ -257,7 +257,7 @@ function checkPrivilegesOfRoleForModal(role) {
 	} else if (role === "Tutor") {
 		checkPrivilegesOfTutorForModal();
 	} else {
-		console.log(role + " is not properly defined");
+
 	}
 }
 

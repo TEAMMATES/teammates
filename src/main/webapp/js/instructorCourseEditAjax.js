@@ -18,7 +18,7 @@ function editFormRequest(e){
         	displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>");
         },
         error : function() {
-            console.log('Error');
+
         },
         success : function(data) {
           	var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
