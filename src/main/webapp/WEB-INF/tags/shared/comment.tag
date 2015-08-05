@@ -95,8 +95,7 @@
                                     <td class="text-left">
                                         <div data-toggle="tooltip"
                                              data-placement="top"
-                                             title=""
-                                             data-original-title="Control what comment recipient(s) can view">
+                                             title="Control what comment recipient(s) can view">
                                             Recipient(s)
                                         </div>
                                     </td>
@@ -127,8 +126,7 @@
                                     <td class="text-left">
                                         <div data-toggle="tooltip"
                                              data-placement="top"
-                                             title=""
-                                             data-original-title="Control what team members of comment recipients can view">
+                                             title="Control what team members of comment recipients can view">
                                             <c:choose>
                                                 <c:when test="${comment.commentForTeam}">
                                                     Recipient Team
@@ -165,8 +163,7 @@
                                     <td class="text-left">
                                         <div data-toggle="tooltip"
                                              data-placement="top"
-                                             title=""
-                                             data-original-title="Control what other students in the same section can view">
+                                             title="Control what other students in the same section can view">
                                             <c:choose>
                                                 <c:when test="${comment.commentForSection}">
                                                     Recipient Section
@@ -202,8 +199,7 @@
                                 <td class="text-left">
                                     <div data-toggle="tooltip"
                                          data-placement="top"
-                                         title=""
-                                         data-original-title="Control what other students in this course can view">
+                                         title="Control what other students in this course can view">
                                         <c:choose>
                                             <c:when test="${comment.commentForCourse}">
                                                 Students in this course
@@ -238,8 +234,7 @@
                                 <td class="text-left">
                                     <div data-toggle="tooltip"
                                          data-placement="top"
-                                         title=""
-                                         data-original-title="Control what instructors can view">
+                                         title="Control what instructors can view">
                                         Instructors
                                     </div>
                                 </td>
