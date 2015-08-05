@@ -400,9 +400,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Test that 'Collapse Student' button is working");
         resultsPage.clickGroupByTeam();
         resultsPage.displayByGiverRecipientQuestion();
-        assertEquals("Collapse Students", resultsPage.studentCollapseButton.getText());
-        resultsPage.clickInstructorCollapseButton();
-        assertEquals("Expand Students", resultsPage.studentCollapseButton.getText());
+        assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
+        resultsPage.clickInstructorPanelCollapseStudentsButton();
+        assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
         
         int numOfPanels = resultsPage.getNumOfPanelsInInstructorPanel();
         resultsPage.verifyParticipantPanelIsCollapsed(4, (numOfPanels * 50));

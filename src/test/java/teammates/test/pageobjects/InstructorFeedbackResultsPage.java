@@ -37,7 +37,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public WebElement collapseExpandButton;
     
     @FindBy(id = "collapse-panels-button-team-0")
-    public WebElement studentCollapseButton;
+    public WebElement instructorPanelCollapseStudentsButton;
 
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
@@ -383,8 +383,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                              .findElement(By.xpath("table/tbody/tr[" + responseNo + "]/td[6]/form"));
     }
 
-    public void clickInstructorCollapseButton() {
-        studentCollapseButton.click();
+    public void clickInstructorPanelCollapseStudentsButton() {
+        instructorPanelCollapseStudentsButton.click();
     }
 
     public void verifyParticipantPanelIsCollapsed(int id, int timeToWait) {
