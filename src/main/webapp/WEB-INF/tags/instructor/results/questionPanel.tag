@@ -45,18 +45,19 @@
     </div>
     <div <c:if test="${questionPanel.collapsible}">class="${questionPanel.responsesBodyClass}"</c:if>>
         <div class="panel-body padding-0" <c:if test="${questionIndex != null}">id="questionBody-${questionIndex}"</c:if>>
-            
-            <c:if test="${!questionPanel.questionHasResponses}">
+        <c:choose>
+            <c:when test="${(empty questionPanel.responses && questionPanel.showResponseRows) || !isShowingAll}">
                 <div class="col-sm-12">
                     <i class="text-muted">There are no responses for this question.</i>
                 </div>
-            </c:if>
-            
-            <c:if test="${isShowingAll && questionPanel.questionHasResponses}">
-                <div class="resultStatistics">
-                    ${questionPanel.questionStatisticsTable}
-                </div>
-                <c:if test="${questionPanel.showResponseRows}">
+            </c:when>
+            <c:otherwise>
+                <c:if test="${questionPanel.questionHasResponses}">
+                    <div class="resultStatistics">
+                        ${questionPanel.questionStatisticsTable}
+                    </div>
+                </c:if>
+                <c:if test="${not empty questionPanel.responses && questionPanel.showResponseRows}">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered dataTable margin-0">
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
@@ -77,8 +78,8 @@
                         </table>
                     </div>
                 </c:if>
-            </c:if>
-            
+            </c:otherwise>
+        </c:choose>
         </div>
     </div>
 </div>
