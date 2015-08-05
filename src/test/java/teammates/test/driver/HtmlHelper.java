@@ -224,7 +224,22 @@ public class HtmlHelper {
     
     private static boolean isMotdComponent(Node currentNode) {      
         if (currentNode.getNodeName().equalsIgnoreCase("script")) {
-            return currentNode.getTextContent().contains("closeMotd");
+            NamedNodeMap attributes = currentNode.getAttributes();
+            
+            if (attributes != null) { 
+                for (int i = 0; i < attributes.getLength(); i++) {
+                    Node attribute = attributes.item(i);
+                    
+                    // script to include studentMotd.js
+                    if (attribute.getNodeName().equalsIgnoreCase("src")
+                          && attribute.getNodeValue().contains("studentMotd.js")) {
+                        return true;
+                    }
+                }
+            }
+                
+            // script with variable motdUrl
+            return currentNode.getTextContent().contains("motdUrl");
             
         } else if (currentNode.getNodeName().equalsIgnoreCase("div")) {
             NamedNodeMap attributes = currentNode.getAttributes();
@@ -235,6 +250,8 @@ public class HtmlHelper {
                 
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
+                
+                // Motd container
                 if (attribute.getNodeName().equalsIgnoreCase("id")
                       && attribute.getNodeValue().contains("student-motd-container")) {
                     return true;
