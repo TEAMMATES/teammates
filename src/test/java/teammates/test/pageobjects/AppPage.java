@@ -396,9 +396,9 @@ public abstract class AppPage {
      * This can be used to save pages which can later be used as the 'expected'
      * in UI test cases. After saving the file, remember to edit it manually and
      *  replace the version number in the page footer with the string 
-     * "{$version}". so that the test can insert the correct version number 
+     * "${version}". so that the test can insert the correct version number 
      * before comparing the 'expected' with the 'actual.
-     *  e.g., replace "V4.55" in the page footer by "V{$version}".
+     *  e.g., replace "V4.55" in the page footer by "V${version}".
      *  @param filePath If the full path is not given, it will be saved in the
      *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
@@ -742,7 +742,7 @@ public abstract class AppPage {
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
-                .replace(Config.APP_URL, "{$app.url}")
+                .replace(Config.APP_URL, "${app.url}")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
@@ -776,12 +776,12 @@ public abstract class AppPage {
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#{*}")
                 // the test accounts/ email
-                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
-                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
-                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "{$test.instructor}")
-                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "{$test.admin}")
-                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
-                .replace(Config.SUPPORT_EMAIL, "{$support.email}")
+                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
+                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
+                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
+                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
+                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
+                .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now), "{*}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]

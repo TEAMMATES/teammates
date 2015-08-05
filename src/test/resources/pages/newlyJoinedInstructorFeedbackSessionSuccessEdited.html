@@ -43,11 +43,11 @@
                 <button disabled="disabled" type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
                     Save Changes
                 </button>
-                <a data-original-title="Delete the feedback session" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','Second team feedback session');" title="" data-toggle="tooltip" data-placement="top" class="btn btn-primary btn-sm" id="fsDeleteLink">
+                <a data-original-title="Delete the feedback session" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%3Fuser%3D${test.instructor}&amp;user=${test.instructor}" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','Second team feedback session');" title="" data-toggle="tooltip" data-placement="top" class="btn btn-primary btn-sm" id="fsDeleteLink">
                     Delete
                 </a>
                 <span data-original-title="Copy this feedback session to other courses" data-toggle="tooltip" title="" data-placement="top">
-                    <a class="btn btn-primary btn-sm" href="#" data-actionlink="/page/instructorFeedbackEditCopyPage?user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Second team feedback session" data-target="#fsCopyModal" data-placement="top" id="button_fscopy" data-toggle="modal">
+                    <a class="btn btn-primary btn-sm" href="#" data-actionlink="/page/instructorFeedbackEditCopyPage?user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Second team feedback session" data-target="#fsCopyModal" data-placement="top" id="button_fscopy" data-toggle="modal">
                         Copy
                     </a>
                 </span>
@@ -893,7 +893,7 @@
         
             <input disabled="disabled" name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
         
-        <input disabled="disabled" name="user" value="{$test.instructor}" type="hidden">
+        <input disabled="disabled" name="user" value="${test.instructor}" type="hidden">
     </form>
 </div>
      
@@ -931,7 +931,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <input class="btn btn-primary" id="fscopy_submit" value="Copy" type="submit">
-                    <input name="user" value="{$test.instructor}" type="hidden">
+                    <input name="user" value="${test.instructor}" type="hidden">
                </div>
             </form>
         </div>
@@ -1281,7 +1281,7 @@
     <input value="RECEIVER,INSTRUCTORS" name="showresponsesto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showgiverto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showrecipientto" type="hidden">
-    <input name="user" value="{$test.instructor}" type="hidden">
+    <input name="user" value="${test.instructor}" type="hidden">
 </form>
 <br><br>
     
@@ -1617,7 +1617,7 @@
     <input value="RECEIVER,INSTRUCTORS" name="showresponsesto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showgiverto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showrecipientto" type="hidden">
-    <input name="user" value="{$test.instructor}" type="hidden">
+    <input name="user" value="${test.instructor}" type="hidden">
 </form>
 <br><br>
     
@@ -1947,7 +1947,7 @@
     <input value="RECEIVER,INSTRUCTORS" name="showresponsesto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showgiverto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showrecipientto" type="hidden">
-    <input name="user" value="{$test.instructor}" type="hidden">
+    <input name="user" value="${test.instructor}" type="hidden">
 </form>
 <br><br>
     
@@ -2277,7 +2277,7 @@
     <input value="RECEIVER,INSTRUCTORS" name="showresponsesto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showgiverto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showrecipientto" type="hidden">
-    <input name="user" value="{$test.instructor}" type="hidden">
+    <input name="user" value="${test.instructor}" type="hidden">
 </form>
 <br><br>
     
@@ -2609,7 +2609,7 @@
     <input value="RECEIVER,INSTRUCTORS" name="showresponsesto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showgiverto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showrecipientto" type="hidden">
-    <input name="user" value="{$test.instructor}" type="hidden">
+    <input name="user" value="${test.instructor}" type="hidden">
 </form>
 <br><br>
     
@@ -2652,7 +2652,7 @@
                 </a>
             </div>
             <div class="col-sm-2">
-                <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session">
+                <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=${test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session">
                     &nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;
                 </a>
             </div>
@@ -3286,7 +3286,7 @@
     <input value="RECEIVER,INSTRUCTORS" name="showresponsesto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showgiverto" type="hidden">
     <input value="RECEIVER,INSTRUCTORS" name="showrecipientto" type="hidden">
-    <input name="user" value="{$test.instructor}" type="hidden">
+    <input name="user" value="${test.instructor}" type="hidden">
     <input name="generatedOptions" value="NONE" id="generatedOptions" type="hidden">
 </form>
     
@@ -3526,7 +3526,7 @@
                         
                     </tbody></table>
                     <input name="fsname" value="Second team feedback session" type="hidden">
-                    <input name="user" value="{$test.instructor}" type="hidden">
+                    <input name="user" value="${test.instructor}" type="hidden">
                     <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
                 </form>
             </div>
@@ -3604,7 +3604,7 @@
                     <div class="col-sm-6">
                         <input id="button_preview_student" class="btn btn-primary" value="Preview as Student" type="submit">
                     </div>
-                    <input name="user" value="{$test.instructor}" type="hidden">
+                    <input name="user" value="${test.instructor}" type="hidden">
                 </form>
             </div>
             <div data-original-title="View how this session would look like to an instructor who is submitting feedback." class="col-sm-5" data-toggle="tooltip" data-placement="top" title="">
@@ -3623,7 +3623,7 @@
                     <div class="col-sm-6">
                         <input id="button_preview_instructor" class="btn btn-primary" value="Preview as Instructor" type="submit">
                     </div>
-                    <input name="user" value="{$test.instructor}" type="hidden">
+                    <input name="user" value="${test.instructor}" type="hidden">
                 </form>
             </div>
         </div>

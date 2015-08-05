@@ -212,22 +212,22 @@
         <div id="contentLinks" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/page/instructorHomePage?user={$test.instructor}" data-link="instructorHome" class="nav home">Home</a>
+                    <a href="/page/instructorHomePage?user=${test.instructor}" data-link="instructorHome" class="nav home">Home</a>
                 </li>
                 <li class="active">
-                    <a href="/page/instructorCoursesPage?user={$test.instructor}" data-link="instructorCourse" class="nav courses">Courses</a>
+                    <a href="/page/instructorCoursesPage?user=${test.instructor}" data-link="instructorCourse" class="nav courses">Courses</a>
                 </li>
                 <li>
-                    <a href="/page/instructorFeedbacksPage?user={$test.instructor}" data-link="instructorEval" class="nav evaluations">Sessions</a>
+                    <a href="/page/instructorFeedbacksPage?user=${test.instructor}" data-link="instructorEval" class="nav evaluations">Sessions</a>
                 </li>
                 <li>
-                    <a href="/page/instructorStudentListPage?user={$test.instructor}" data-link="instructorStudent" class="nav students">Students</a>
+                    <a href="/page/instructorStudentListPage?user=${test.instructor}" data-link="instructorStudent" class="nav students">Students</a>
                 </li>
                 <li>
-                    <a href="/page/instructorCommentsPage?user={$test.instructor}" data-link="instructorComments" class="nav comments">Comments</a>
+                    <a href="/page/instructorCommentsPage?user=${test.instructor}" data-link="instructorComments" class="nav comments">Comments</a>
                 </li>
                 <li>
-                    <a href="/page/instructorSearchPage?user={$test.instructor}" data-link="instructorSearch" class="nav search">
+                    <a href="/page/instructorSearchPage?user=${test.instructor}" data-link="instructorSearch" class="nav search">
                         Search
                     </a>
                 </li>
@@ -238,8 +238,8 @@
             <ul class="nav navbar-nav pull-right">
                 <li><a href="/logout.jsp" class="nav logout">Logout
                         
-                        (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="{$test.instructor}">
-                                {$test.instructor}
+                        (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="${test.instructor}">
+                                ${test.instructor}
                         </span>)
                     </a>
                 </li>
@@ -274,7 +274,7 @@
         </div>
         <div class="panel-body">
             <p class="lead">
-                You are currently logged in as <span><strong>{$test.instructor}</strong></span>.
+                You are currently logged in as <span><strong>${test.instructor}</strong></span>.
                 <br />If this is not you please <a href="/logout.jsp">log out</a> and re-login using your own Google account. 
                     <br />If this is you, please confirm below to complete your registration. <br />
             </p><div class="align-center">
@@ -293,7 +293,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
+                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
             </div>
             <div class="col-md-8">
                 [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]

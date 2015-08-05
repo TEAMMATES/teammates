@@ -16,7 +16,7 @@
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-12">
-            <form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
+            <form method="get" action="/page/instructorSearchPage?user=${test.instructor}" name="search_form">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="form-group">
@@ -34,7 +34,7 @@
                 <input name="searchstudents" value="true" type="hidden">
                 <input name="searchcommentforstudents" value="false" type="hidden">
                 <input name="searchcommentforresponses" value="false" type="hidden">
-                <input name="user" value="{$test.instructor}" type="hidden">
+                <input name="user" value="${test.instructor}" type="hidden">
             </form>
         </div>
     </div>
@@ -145,10 +145,10 @@
     <div style="cursor: pointer;" id="panelHeading-0" data-target="#panelBodyCollapse-0" class="panel-heading ajax_submit">
         <form style="display:none;" id="seeMore-0" class="seeMoreForm-0" action="/page/instructorStudentListAjaxPage">
             <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-            <input name="user" value="{$test.instructor}" type="hidden">
+            <input name="user" value="${test.instructor}" type="hidden">
             <input id="numStudents-0" value="9" type="hidden">
         </form>
-        <a data-original-title="Enroll student into the course" class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" id="enroll-0" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">
+        <a data-original-title="Enroll student into the course" class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" id="enroll-0" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}" title="" data-toggle="tooltip" data-placement="top">
             <span class="glyphicon glyphicon-list"></span> Enroll
         </a>
         <div class="display-icon pull-right">

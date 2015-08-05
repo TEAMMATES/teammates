@@ -20,8 +20,8 @@
 <div class="panel panel-primary">
     <div class="panel-body fill-plain">
         <form method="get" action="/page/instructorCourseAdd" name="form_addcourse" class="form form-horizontal">
-            <input id="instructorid" name="instructorid" value="{$test.instructor}" type="hidden">
-            <input name="user" value="{$test.instructor}" type="hidden">
+            <input id="instructorid" name="instructorid" value="${test.instructor}" type="hidden">
+            <input name="user" value="${test.instructor}" type="hidden">
             <div class="form-group">
                 <label class="col-sm-3 control-label">Course ID:</label>
                 <div class="col-sm-3">
@@ -104,23 +104,23 @@
             <td class="align-center">1</td>
             <td class="align-center no-print">
                 
-                    <a data-original-title="Enroll student into the course" data-placement="top" title="" class="btn btn-default btn-xs t_course_enroll0" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}">
+                    <a data-original-title="Enroll student into the course" data-placement="top" title="" class="btn btn-default btn-xs t_course_enroll0" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}">
                         Enroll
                     </a>
                 
-                    <a data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" title="" class="btn btn-default btn-xs t_course_view0" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}">
+                    <a data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" title="" class="btn btn-default btn-xs t_course_view0" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}">
                         View
                     </a>
                 
-                    <a data-original-title="Edit Course information and instructor list" data-placement="top" title="" class="btn btn-default btn-xs t_course_edit0" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}">
+                    <a data-original-title="Edit Course information and instructor list" data-placement="top" title="" class="btn btn-default btn-xs t_course_edit0" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}">
                         Edit
                     </a>
                 
-                    <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" title="" class="btn btn-default btn-xs t_course_archive0" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=AHPUiT.instr1.gma-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user={$test.instructor}">
+                    <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" title="" class="btn btn-default btn-xs t_course_archive0" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=AHPUiT.instr1.gma-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=${test.instructor}">
                         Archive
                     </a>
                 
-                    <a data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('AHPUiT.instr1.gma-demo');" class="btn btn-default btn-xs t_course_delete0" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user={$test.instructor}">
+                    <a data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('AHPUiT.instr1.gma-demo');" class="btn btn-default btn-xs t_course_delete0" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=${test.instructor}">
                         Delete
                     </a>
                 

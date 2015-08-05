@@ -15,7 +15,7 @@
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-12">
-			<form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
+			<form method="get" action="/page/instructorSearchPage?user=${test.instructor}" name="search_form">
 			    <div class="input-group">
 			        <input data-original-title="Search for student's information, e.g. name, email" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz, charles@gmail.com" type="text">
 			        <span class="input-group-btn">
@@ -27,7 +27,7 @@
 			    <input name="searchstudents" value="true" type="hidden">
 			    <input name="searchcommentforstudents" value="false" type="hidden">
 			    <input name="searchcommentforresponses" value="false" type="hidden">
-			    <input name="user" value="{$test.instructor}" type="hidden">
+			    <input name="user" value="${test.instructor}" type="hidden">
 			</form>
 		</div>
 	</div>
@@ -66,7 +66,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <input class="btn btn-primary" value="Remind" type="submit">
-                    <input name="user" value="{$test.instructor}" type="hidden">
+                    <input name="user" value="${test.instructor}" type="hidden">
                 </div>
             </form>
         </div>
@@ -95,7 +95,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <input class="btn btn-primary" id="fscopy_submit" value="Copy" type="submit">
-                    <input name="user" value="{$test.instructor}" type="hidden">
+                    <input name="user" value="${test.instructor}" type="hidden">
                </div>
             </form>
         </div>
