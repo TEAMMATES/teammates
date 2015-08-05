@@ -61,13 +61,13 @@ public class InstructorFeedbackResultsPageAction extends Action {
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data, selectedSection);
         } else {
-            data.sessionResultsHtmlTableAsString = "";
-            data.ajaxStatus = "";
+            data.setSessionResultsHtmlTableAsString("");
+            data.setAjaxStatus("");
         }
 
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
         if (startIndex != null) {
-            data.startIndex = Integer.parseInt(startIndex);
+            data.setStartIndex(Integer.parseInt(startIndex));
         }
 
         if (sortType == null) {
@@ -77,49 +77,49 @@ public class InstructorFeedbackResultsPageAction extends Action {
             sortType = new String("question");
         }
         
-        data.sections = logic.getSectionNamesForCourse(courseId);
+        data.setSections(logic.getSectionNamesForCourse(courseId));
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
-        if ("All".equals(selectedSection) && questionNumStr == null) {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
             // bundle for all questions and all sections  
-            data.bundle = logic
+            data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
                                                                                instructor.email,
-                                                                               queryRange, sortType);
+                                                                               queryRange, sortType));
         } else if (sortType.equals("question")) {
             if (questionNumStr == null) {
                 // bundle for all questions, with a selected section
-                data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
+                data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                     instructor.email,
-                                                                                    selectedSection);
+                                                                                    selectedSection));
             } else {
                 // bundle for a specific question, with a selected section
                 int questionNum = Integer.parseInt(questionNumStr);
-                data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                                       instructor.email, questionNum);
+                data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
+                                                                                       instructor.email, questionNum));
             }
         } else if (sortType.equals("giver-question-recipient")
                 || sortType.equals("giver-recipient-question")) {
-            data.bundle = logic
+            data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
                                                                                   instructor.email,
                                                                                   selectedSection,
-                                                                                  DEFAULT_SECTION_QUERY_RANGE);
+                                                                                  DEFAULT_SECTION_QUERY_RANGE));
         } else if (sortType.equals("recipient-question-giver")
                 || sortType.equals("recipient-giver-question")) {
-            data.bundle = logic
+            data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
                                                                                 instructor.email,
                                                                                 selectedSection,
-                                                                                DEFAULT_SECTION_QUERY_RANGE);
+                                                                                DEFAULT_SECTION_QUERY_RANGE));
         }
 
-        if (data.bundle == null) {
+        if (data.getBundle() == null) {
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
                                                   + " does not exist in " + courseId + ".");
         }
 
         // Warning for section wise viewing in case of many responses.
-        if (selectedSection.equals(ALL_SECTION_OPTION) && !data.bundle.isComplete) {
+        if (selectedSection.equals(ALL_SECTION_OPTION) && !data.getBundle().isComplete) {
             // not tested because the test data is not large enough to make this happen
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
@@ -166,18 +166,18 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                     throws EntityDoesNotExistException {
         try {
             if (!selectedSection.contentEquals(ALL_SECTION_OPTION)) {
-                data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
+                data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                         logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName,
-                                                                            instructor.email, selectedSection));
+                                                                            instructor.email, selectedSection)));
             } else {
-                data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
+                data.setSessionResultsHtmlTableAsString(StringHelper.csvToHtmlTable(
                         logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName,
-                                                                   instructor.email));
+                                                                   instructor.email)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
-            data.sessionResultsHtmlTableAsString = "";
-            data.ajaxStatus = "There are too many responses. Please download the feedback results by section.";
+            data.setSessionResultsHtmlTableAsString("");
+            data.setAjaxStatus("There are too many responses. Please download the feedback results by section.");
         }
 
         return createAjaxResult(data);

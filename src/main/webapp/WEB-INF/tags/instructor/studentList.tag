@@ -6,10 +6,20 @@
 <%@ attribute name="hasSection" required="true" %>
 <%@ attribute name="sections" type="java.util.Collection" required="true" %>
 <%@ attribute name="fromStudentListPage" %>
-<table class="table table-responsive table-striped table-bordered margin-0">
+<%@ attribute name="fromCourseDetailsPage" %>
+<c:choose>
+    <c:when test="${fromCourseDetailsPage}">
+        <c:set var="tableHeaderClass" value="fill-primary" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="tableHeaderClass" value="background-color-medium-gray text-color-gray font-weight-normal" />
+    </c:otherwise>
+</c:choose>
+<c:set var="STUDENT_COURSE_STATUS_YET_TO_JOIN" value="<%= Const.STUDENT_COURSE_STATUS_YET_TO_JOIN %>" />
+<table class="table table-bordered table-striped<c:if test="${not fromCourseDetailsPage}"> table-responsive margin-0</c:if>">
     <c:choose>
         <c:when test="${not empty sections}">
-            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+            <thead class="${tableHeaderClass}">
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
                     <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this,2)">
@@ -21,16 +31,18 @@
                     <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,4)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,5)">
-                        Email <span class="icon-sort unsorted"></span>
-                    </th>
+                    <c:if test="${not fromCourseDetailsPage}">
+                        <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,5)">
+                            Email <span class="icon-sort unsorted"></span>
+                        </th>
+                    </c:if>
+                    <c:if test="${fromCourseDetailsPage}">
+                        <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
+                            Status <span class="icon-sort unsorted"></span>
+                        </th>
+                    </c:if>
                     <th>Action(s)</th>
                 </tr>
-                <c:if test="${fromStudentListPage}">
-                    <tr id="searchNoResults-${courseIndex}" class="hidden">
-                        <th class="align-center color_white bold">Cannot find students in this course</th>
-                    </tr>
-                </c:if>
             </thead>
             <tbody>
                 <c:set var="teamIndex" value="${-1}" />
@@ -68,7 +80,7 @@
                                     ${student.studentEmail}
                                 </div>
                             </c:if>
-                            <tr id="student-c${courseIndex}.${studentIndex}">
+                            <tr class="student_row" id="student-c${courseIndex}.${studentIndex}">
                                 <td id="studentphoto-c${courseIndex}.${studentIndex}">
                                     <div class="profile-pic-icon-click align-center" data-link="${student.photoUrl}">
                                         <a class="student-profile-pic-view-link btn-link">View Photo</a>
@@ -85,9 +97,16 @@
                                 <td id="studentname-c${courseIndex}.${studentIndex}">
                                     ${student.studentName}
                                 </td>
-                                <td id="studentemail-c${courseIndex}.${studentIndex}">
-                                    ${student.studentEmail}
-                                </td>
+                                <c:if test="${not fromCourseDetailsPage}">
+                                    <td id="studentemail-c${courseIndex}.${studentIndex}">
+                                        ${student.studentEmail}
+                                    </td>
+                                </c:if>
+                                <c:if test="${fromCourseDetailsPage}">
+                                    <td class="align-center">
+                                        ${student.studentStatus}
+                                    </td>
+                                </c:if>
                                 <td class="no-print align-center">
                                     <a class="btn btn-default btn-xs student-view-for-test"
                                        href="${student.courseStudentDetailsLink}"
@@ -107,6 +126,17 @@
                                        <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
                                         Edit
                                     </a>
+                                    <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
+                                        <a class="btn btn-default btn-xs student-edit-for-test"
+                                           href="${student.courseStudentRemindLink}"
+                                           title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           onclick="return toggleSendRegistrationKey()"
+                                           <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                            Send Invite
+                                        </a>
+                                    </c:if>
                                     <a class="btn btn-default btn-xs student-delete-for-test"
                                        href="${student.courseStudentDeleteLink}"
                                        onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
@@ -124,12 +154,20 @@
                                        data-placement="top">
                                         All Records
                                     </a>
-                                    <div class="dropdown inline">
+                                    <div class="btn-group">
+                                        <a class="btn btn-default btn-xs cursor-default"
+                                           href="javascript:;"
+                                           title="<%= Const.Tooltips.COURSE_STUDENT_COMMENT %>"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           href="javascript:;">
+                                            Add Comment
+                                        </a>
                                         <a class="btn btn-default btn-xs dropdown-toggle"
                                            href="javascript:;"
                                            data-toggle="dropdown"
                                            <c:if test="${not section.allowedToGiveCommentInSection}">disabled="disabled"</c:if>>
-                                            Add Comment
+                                            <span class="caret"></span><span class="sr-only">Add comments</span>
                                         </a>
                                         <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
                                             <li role="presentation">
@@ -137,7 +175,7 @@
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=student">
-                                                    Comment on ${student.studentName}
+                                                    Comment on student: ${student.studentName}
                                                 </a>
                                             </li>
                                             <li role="presentation">
@@ -145,7 +183,7 @@
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=team">
-                                                    Comment on ${team.teamName}
+                                                    Comment on team: ${team.teamName}
                                                 </a>
                                             </li>
                                             <c:if test="${hasSection}">
@@ -154,7 +192,7 @@
                                                        role="menuitem"
                                                        tabindex="-1"
                                                        href="${student.courseStudentDetailsLink}&addComment=section">
-                                                        Comment on ${section.sectionName}
+                                                        Comment on section: ${section.sectionName}
                                                     </a>
                                                 </li>
                                             </c:if>
@@ -168,7 +206,7 @@
             </tbody>
         </c:when>
         <c:otherwise>
-            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+            <thead class="${tableHeaderClass}">
                 <tr>
                     <th class="align-center color_white bold">There are no students in this course</th>
                 </tr>

@@ -2,6 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.util.Url;
+
 /**
  * Data model for the panel body for the participant panels 
  * used in Results by Participant > Participant > Question
@@ -11,7 +13,6 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     private String secondaryParticipantIdentifier;
     private String secondaryParticipantDisplayableName;
     
-    private boolean isEmailValid;
     private String profilePictureLink;
     
     private InstructorFeedbackResultsModerationButton moderationButton;
@@ -22,12 +23,10 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
     public InstructorFeedbackResultsSecondaryParticipantPanelBody(
                                     String secondaryParticipantIdentifier,
                                     String secondaryParticipantDisplayableName,
-                                    List<InstructorFeedbackResultsResponsePanel> responsePanels,
-                                    boolean isEmailValid) {
+                                    List<InstructorFeedbackResultsResponsePanel> responsePanels) {
         this.secondaryParticipantIdentifier = secondaryParticipantIdentifier;
         this.secondaryParticipantDisplayableName = secondaryParticipantDisplayableName;
         this.responsePanels = responsePanels;
-        this.isEmailValid = isEmailValid;
     }
 
     public String getSecondaryParticipantIdentifier() {
@@ -42,16 +41,15 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
         return responsePanels;
     }
 
-    public boolean isEmailValid() {
-        return isEmailValid;
-    }
+
 
     public String getProfilePictureLink() {
         return profilePictureLink;
     }
 
-    public void setProfilePictureLink(String profilePictureLink) {
-        this.profilePictureLink = profilePictureLink;
+    public void setProfilePictureLink(Url profilePictureLink) {
+        this.profilePictureLink = profilePictureLink != null ? profilePictureLink.toString() 
+                                                             : null;
     }
 
     public InstructorFeedbackResultsModerationButton getModerationButton() {

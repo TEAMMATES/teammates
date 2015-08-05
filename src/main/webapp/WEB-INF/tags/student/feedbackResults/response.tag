@@ -10,7 +10,7 @@
 </tr>
 
 <tr>
-    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
     <td class="text-preserve-space">${response.answer}</td>
 </tr>
                                                             

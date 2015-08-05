@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.pagedata;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -15,6 +16,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
@@ -55,13 +57,14 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         students.add(unregisteredStudent);
         
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
+        courseDetails.sections = new ArrayList<SectionDetailsBundle>();
+        SectionDetailsBundle sampleSection = new SectionDetailsBundle();
+        sampleSection.name = "Sample section name";
+        courseDetails.sections.add(sampleSection);
         
         pageData.init(curInstructor, courseDetails, instructors, students);
         
         assertEquals(instructors.size(), pageData.getInstructors().size());
-        assertEquals(students.size(), pageData.getStudentsTable().getRows().size());
-        assertEquals(4, pageData.getStudentsTable().getRows().get(0).getActions().size());
-        assertEquals(2, pageData.getStudentsTable().getRows().get(0).getCommentActions().size());
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
@@ -70,12 +73,18 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
-        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(0).getAttributes().get("disabled"));
-        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(1).getAttributes().get("disabled"));
-        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(2).getAttributes().get("disabled"));
-        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(3).getAttributes().get("disabled"));
-        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getCommentActions().get(0).getAttributes().get("disabled"));
-        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getCommentActions().get(1).getAttributes().get("disabled"));
+        assertTrue(pageData.isHasSection());
+        assertEquals(1, pageData.getSections().size());
+        
+        ______TS("test data bundle with no section");
+        
+        courseDetails.sections = new ArrayList<SectionDetailsBundle>();
+        sampleSection = new SectionDetailsBundle();
+        sampleSection.name = "None";
+        courseDetails.sections.add(sampleSection);
+        pageData.init(curInstructor, courseDetails, instructors, students);
+        assertFalse(pageData.isHasSection());
+        assertEquals(1, pageData.getSections().size());
         
         ______TS("test current instructor doesn't have any permission for the course");
         String[] allPrivileges = {
@@ -100,9 +109,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         pageData.init(curInstructor, courseDetails, instructors, students);
 
         assertEquals(instructors.size(), pageData.getInstructors().size());
-        assertEquals(students.size(), pageData.getStudentsTable().getRows().size());
-        assertEquals(4, pageData.getStudentsTable().getRows().get(0).getActions().size());
-        assertEquals(2, pageData.getStudentsTable().getRows().get(0).getCommentActions().size());
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
@@ -111,11 +117,5 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
-        assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getActions().get(0).getAttributes().get("disabled"));
-        assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getActions().get(1).getAttributes().get("disabled"));
-        assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getActions().get(2).getAttributes().get("disabled"));
-        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(3).getAttributes().get("disabled"));
-        assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getCommentActions().get(0).getAttributes().get("disabled"));
-        assertEquals("disabled", pageData.getStudentsTable().getRows().get(0).getCommentActions().get(1).getAttributes().get("disabled"));
     }
 }

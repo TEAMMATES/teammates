@@ -1,16 +1,20 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
-import teammates.ui.template.CourseDetailsStudentsTable;
-import teammates.ui.template.CourseDetailsStudentsTableRow;
+import teammates.common.util.StringHelper;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.StudentListSectionData;
 
 /**
  * PageData: data used for the "Course Details" page
@@ -22,7 +26,8 @@ public class InstructorCourseDetailsPageData extends PageData {
     private String studentListHtmlTableAsString;
     private ElementTag giveCommentButton;
     private ElementTag courseRemindButton;
-    private CourseDetailsStudentsTable studentsTable;
+    private List<StudentListSectionData> sections;
+    private boolean hasSection;
     
     public InstructorCourseDetailsPageData(AccountAttributes account) {
         super(account);
@@ -48,116 +53,37 @@ public class InstructorCourseDetailsPageData extends PageData {
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
         
-        studentsTable = new CourseDetailsStudentsTable();
-        int studentIndex = 0;
-        
-        List<CourseDetailsStudentsTableRow> studentTableRows = new ArrayList<CourseDetailsStudentsTableRow>();
-        
-        for (StudentAttributes student : students) {
-            CourseDetailsStudentsTableRow row = createStudentsTableRow(studentIndex, student);
-            studentTableRows.add(row);
-            studentIndex++;
-        }
-        studentsTable.setRows(studentTableRows);
-    }
-    
-    public CourseDetailsStudentsTableRow createStudentsTableRow(int studentIndex, StudentAttributes student) {
-        CourseDetailsStudentsTableRow row = new CourseDetailsStudentsTableRow(student);
-        row.setActions(createActionButtons(student));
-        row.setCommentActionButtons(createCommentActionButtons(student));
-        row.setCommentRecipientOptions(createCommentRecipientOptions(studentIndex, student));
-        return row;
-    }
+        String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
+                        + "?" + Const.ParamsNames.STUDENT_EMAIL
+                        + "=%s&" + Const.ParamsNames.COURSE_ID
+                        + "=%s&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
 
-    private List<ElementTag> createCommentRecipientOptions(int studentIndex, StudentAttributes student) {
-        List<ElementTag> commentRecipientOptions = new ArrayList<ElementTag>();
-        
-        String buttonClass = "t_student_details_tostudent-c" + courseDetails.course.id + "." + studentIndex;
-        String href = getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email, "student");
-        ElementTag toStudentCommentOption = createButton("To student: " + sanitizeForHtml(student.name), 
-                                                         buttonClass, null, href, null, null, null, false);
-        
-        buttonClass = "t_student_details_toteam-c" + courseDetails.course.id + "." + studentIndex;
-        href = getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email, "team");
-        ElementTag toTeamCommentOption = createButton("To team: " + sanitizeForHtml(student.team), 
-                                                      buttonClass, null, href, null, null, null, false);
-        
-        commentRecipientOptions.add(toStudentCommentOption);
-        commentRecipientOptions.add(toTeamCommentOption);
-        
-        if ((student.section != null) && (!student.section.equals("None"))) {
-            buttonClass = "t_student_details_tosection-c" + courseDetails.course.id + "." + studentIndex;
-            href = getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email, "section");
-            ElementTag toSectionCommentOption = createButton("To section: " + sanitizeForHtml(student.section), 
-                                                             buttonClass, null, href, null, null, null, false);
-            toSectionCommentOption.setAttribute("role", "menuitem");
-            toSectionCommentOption.setAttribute("tabindex", "-1");
-              
-            commentRecipientOptions.add(toSectionCommentOption);
-        }
-        return commentRecipientOptions;
-    }
-
-    private List<ElementTag> createCommentActionButtons(StudentAttributes student) {
-        boolean isDisabled;
-        isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
+        this.sections = new ArrayList<StudentListSectionData>();
+        for (SectionDetailsBundle section: courseDetails.sections) {
+            Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+            for (TeamDetailsBundle teamDetails : section.teams) {
+                for (StudentAttributes student : teamDetails.students) {
+                    emailPhotoUrlMapping.put(student.email, String.format(photoUrl,
+                                                                          StringHelper.encrypt(student.email),
+                                                                          StringHelper.encrypt(student.course)));
+                }
+            }
+            boolean isAllowedToViewStudentInSection = currentInstructor.isAllowedForPrivilege(section.name,
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+            boolean isAllowedToModifyStudent = currentInstructor.isAllowedForPrivilege(section.name,
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+            boolean isAllowedToGiveCommentInSection = currentInstructor.isAllowedForPrivilege(section.name,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        ElementTag addCommentButton = createButton("Add Comment", "btn btn-default btn-xs cursor-default", 
-                                                   null, "javascript:;", Const.Tooltips.COURSE_STUDENT_COMMENT, 
-                                                   "tooltip", null, isDisabled);
-        
-        isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        
-        String content = "<span class=\"caret\"></span><span class=\"sr-only\">Add comments</span>";
-        ElementTag addCommentsDropdownButton  = createButton(content, "btn btn-default btn-xs dropdown-toggle", null, 
-                                                    "javascript:;", null, "dropdown", null, isDisabled);
-        
-        List<ElementTag> commentActionButtons = new ArrayList<ElementTag>();
-        commentActionButtons.add(addCommentButton);
-        commentActionButtons.add(addCommentsDropdownButton );
-        return commentActionButtons;
-    }
-
-    private List<ElementTag> createActionButtons(StudentAttributes student) {
-        boolean isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
-                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        ElementTag viewButton = createButton("View", "btn btn-default btn-xs", null,
-                                             getInstructorCourseStudentDetailsLink(courseDetails.course.id, student.email),
-                                             Const.Tooltips.COURSE_STUDENT_DETAILS, "tooltip", null, isDisabled);
-        
-        isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        ElementTag editButton = createButton("Edit", "btn btn-default btn-xs", null,
-                                             getInstructorCourseStudentDetailsEditLink(courseDetails.course.id, student.email),
-                                             Const.Tooltips.COURSE_STUDENT_EDIT, "tooltip", null, isDisabled);
-        
-        isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        ElementTag sendInviteButton = createButton("Send Invite", "btn btn-default btn-xs", null, 
-                                                   getInstructorCourseRemindStudentLink(courseDetails.course.id, student.email),
-                                                   Const.Tooltips.COURSE_STUDENT_REMIND, 
-                                                   "tooltip", "return toggleSendRegistrationKey()", isDisabled);
-   
-        isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        String onClick = "return toggleDeleteStudentConfirmation('" + sanitizeForJs(student.course) 
-                         + "','" + sanitizeForJs(student.name) + "')";
-        ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs", null,
-                                               getInstructorCourseStudentDeleteLink(courseDetails.course.id, student.email),
-                                               Const.Tooltips.COURSE_STUDENT_DELETE, "tooltip", onClick, isDisabled);
-        
-        ElementTag allRecordsButton = createButton("All Records", "btn btn-default btn-xs", null, 
-                                                   getInstructorStudentRecordsLink(courseDetails.course.id, student.email),
-                                                   Const.Tooltips.COURSE_STUDENT_RECORDS, "tooltip", null, false);
-        
-        List<ElementTag> actionButtons = new ArrayList<ElementTag>();
-        actionButtons.add(viewButton);
-        actionButtons.add(editButton);
-        if (!student.isRegistered()) {
-            actionButtons.add(sendInviteButton);
+            this.sections.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
+                                                         isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
+                                                         emailPhotoUrlMapping, account.googleId));
         }
-        actionButtons.add(deleteButton);
-        actionButtons.add(allRecordsButton);
-        
-        return actionButtons;
+        if (sections.size() == 1) {
+            StudentListSectionData section = sections.get(0);
+            this.hasSection = !section.getSectionName().equals("None");
+        } else {
+            this.hasSection = true;
+        }
     }
     
     public InstructorAttributes getCurrentInstructor() {
@@ -170,10 +96,6 @@ public class InstructorCourseDetailsPageData extends PageData {
     
     public List<InstructorAttributes> getInstructors() {
         return instructors;
-    }
-    
-    public CourseDetailsStudentsTable getStudentsTable() {
-        return studentsTable;
     }
     
     public ElementTag getGiveCommentButton() {
@@ -191,7 +113,15 @@ public class InstructorCourseDetailsPageData extends PageData {
     public String getStudentListHtmlTableAsString() {
         return studentListHtmlTableAsString;
     }
-    
+
+    public List<StudentListSectionData> getSections() {
+        return sections;
+    }
+
+    public boolean isHasSection() {
+        return hasSection;
+    }
+
     private ElementTag createButton(String content, String buttonClass, String id, String href, 
                             String title, String dataToggle, String onClick, boolean isDisabled){
         ElementTag button = new ElementTag(content);

@@ -1325,6 +1325,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sortedMap;
     }
     
+    /**
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * <br>The tree is sorted by recipientName > giverName > questionNumber.
+     * <br>The key of each map represents the parent node, while the value represents the leaf.
+     * <br>The top-most parent {@code String recipientName} is the recipient's name of all it's leafs.
+     * <br>The inner parent {@code String giverName} is the giver's name of all it's leafs.
+     * <br>The inner-most child is a {@code List<FeedbackResponseAttributes} of all the responses
+     * <br>with attributes corresponding to it's parents.
+     * @return The responses in this bundle sorted by recipient identifier > giver identifier > question number.
+     * @see {@link getResponsesSortedByRecipient}. 
+     */
     public LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientGiverQuestion() {
         
@@ -1515,6 +1526,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sortedMap;
     }
     
+    /**
+     *  Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * <br>The tree is sorted by giverName > recipientName > questionNumber.
+     * <br>The key of each map represents the parent node, while the value represents the leaf.
+     * <br>The top-most parent {@code String giverName} is the recipient's name of all it's leafs.
+     * <br>The inner parent {@code String recipientName} is the giver's name of all it's leafs.
+     * <br>The inner-most child is a {@code List<FeedbackResponseAttributes} of all the responses
+     * <br>with attributes corresponding to it's parents.
+     * @return The responses in this bundle sorted by giver's identifier > recipient's identifier > question number.
+     * @see {@link getResponsesSortedByGiver}. 
+     */
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
                 getResponsesSortedByGiverRecipientQuestion() {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =

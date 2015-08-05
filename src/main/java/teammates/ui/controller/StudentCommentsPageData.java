@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -15,7 +14,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
@@ -90,42 +88,14 @@ public class StudentCommentsPageData extends PageData {
         return nextPageLink;
     }
     
-    private String getRecipientNames(Set<String> recipients, String studentEmail, CourseRoster roster) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (recipient.equals(studentEmail)) {
-                namesStringBuilder.append("you, ");
-            } else if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("All Students In This Course, ");
-            } else if(student != null){
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
-                } else {
-                    namesStringBuilder.append(student.name + ", ");
-                }
-            } else {
-                namesStringBuilder.append(recipient + ", ");
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return removeEndComma(namesString);
-    }
-    
-    
     private void setCoursePagination(List<String> coursePaginationList) {
         String previousPageLink = retrievePreviousPageLink(coursePaginationList);
         String nextPageLink = retrieveNextPageLink(coursePaginationList);
         String activeCourse = coursePaginationList.contains(courseId) ? courseId : "";
+        String activeCourseClass = "active";
         String userCommentsLink = getStudentCommentsLink(false);
         coursePagination = new CoursePagination(previousPageLink, nextPageLink, coursePaginationList,
-                                                activeCourse, userCommentsLink);
+                                                activeCourse, activeCourseClass, userCommentsLink);
     }
     
     private void setCommentsForStudentsTables(String studentEmail, CourseRoster roster,
@@ -178,7 +148,7 @@ public class StudentCommentsPageData extends PageData {
         List<Comment> commentRows = new ArrayList<Comment>();
         
         for (CommentAttributes comment : comments) {
-            String recipientDetails = getRecipientNames(comment.recipients, studentEmail, roster);
+            String recipientDetails = getRecipientNames(comment.recipients, courseId, studentEmail, roster);
             InstructorAttributes instructor = roster.getInstructorForEmail(comment.giverEmail);
             String giverDetails = comment.giverEmail;
             if (instructor != null) {

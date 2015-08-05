@@ -13,7 +13,7 @@
         ${primaryParticipantPanel.giver ? 'To' : 'From'}: 
         
         <c:choose>
-            <c:when test="${secondaryParticipantPanelBody.emailValid}">
+            <c:when test="${not empty secondaryParticipantPanelBody.profilePictureLink}">
                 <div class="middlealign profile-pic-icon-hover inline-block" data-link="${secondaryParticipantPanelBody.profilePictureLink}">
                     <strong>${secondaryParticipantPanelBody.secondaryParticipantDisplayableName}</strong>
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">

@@ -37,6 +37,20 @@ public class InstructorFeedbackResultsSectionPanel {
         participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
     }
     
+    public void addParticipantPanel(String currentTeam,
+                                    InstructorFeedbackResultsParticipantPanel giverPanel) {
+        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels;
+        
+        if (participantPanels.containsKey(currentTeam)) {
+            teamsMembersPanels = participantPanels.get(currentTeam);
+        } else {
+            teamsMembersPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();
+        }
+        
+        teamsMembersPanels.add(giverPanel);
+        participantPanels.put(currentTeam, teamsMembersPanels);
+    }
+    
     
     public String getPanelClass() {
         return panelClass;

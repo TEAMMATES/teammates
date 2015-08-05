@@ -1,6 +1,8 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNotNull;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.AfterClass;
@@ -28,12 +30,20 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     public void testAll(){
         
         testContent();
+        testReference();
         testViewActionsLink();
         testInputValidation();
         // Full page content check is omitted because this is an internal page. 
     }
     
     
+    private void testReference() {
+        ______TS("content: show reference");
+        logPage.clickReferenceButton();
+        assertTrue(logPage.isFilterReferenceVisible());
+        
+    }
+
     public void testContent() {
         
         ______TS("content: typical page");
@@ -41,6 +51,18 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         Url logPageUrl = createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE);
         logPage = loginAdminToPage(browser, logPageUrl, AdminActivityLogPage.class);
         logPage.verifyIsCorrectPage();
+        
+        ______TS("content: navigate to other pages to get some logs");
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
+        logPage.waitForPageToLoad();
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE));
+        logPage.waitForPageToLoad();
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE));
+        logPage.waitForPageToLoad();
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
+        logPage.waitForPageToLoad();
+        assertNotNull(logPage.getFirstActivityLogRow());
+        logPage.verifyHtmlPart(logPage.getFirstActivityLogRow(), "/adminActivityLogPage.html");
     }
     
     
@@ -75,6 +97,14 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         logPage.clickSearchSubmitButton();
         
         assertEquals("Error with the query: Invalid format", logPage.getQueryMessage());
+        
+        ______TS("valid query format");
+        
+        logPage.fillQueryBoxWithText("role:instructor");
+        logPage.clickSearchSubmitButton();
+        
+        assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
+        
     }
     
     

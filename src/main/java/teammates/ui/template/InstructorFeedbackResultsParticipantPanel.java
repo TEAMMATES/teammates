@@ -1,5 +1,9 @@
 package teammates.ui.template;
 
+import teammates.common.util.Url;
+
+
+
 
 public class InstructorFeedbackResultsParticipantPanel implements Comparable<InstructorFeedbackResultsParticipantPanel>{
     protected boolean isGiver; // if false, then participant is a recipient
@@ -25,7 +29,7 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
         return isGiver;
     }
 
-    public void setGiver(boolean isGiver) {
+    public void setIsGiver(boolean isGiver) {
         this.isGiver = isGiver;
     }
 
@@ -57,8 +61,9 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
         return profilePictureLink;
     }
 
-    public void setProfilePictureLink(String profilePictureLink) {
-        this.profilePictureLink = profilePictureLink;
+    public void setProfilePictureLink(Url profilePictureLink) {
+        this.profilePictureLink = profilePictureLink != null ? profilePictureLink.toString()
+                                                             : null;
     }
 
     public InstructorFeedbackResultsModerationButton getModerationButton() {

@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
+import teammates.ui.template.CoursePagination;
 
 /**
  * PageData: the data to be used in the InstructorCommentsPage
@@ -25,13 +24,8 @@ public class InstructorCommentsPageData extends PageData {
     private boolean isDisplayArchive;
     private String courseId;
     private String courseName;
-    private List<String> coursePaginationList;
-    private Map<String, List<CommentAttributes>> comments;
-    private Map<String, List<Boolean>> commentModifyPermissions;
-    private CourseRoster roster;
+    private CoursePagination coursePagination;
     private List<FeedbackSessionAttributes> feedbackSessions;
-    private String previousPageLink;
-    private String nextPageLink;
     private int numberOfPendingComments = 0;
     
     private List<CommentsForStudentsTable> commentsForStudentsTables;
@@ -48,21 +42,12 @@ public class InstructorCommentsPageData extends PageData {
         this.isDisplayArchive = isDisplayArchive;
         this.courseId = courseId;
         this.courseName = courseName;
-        this.coursePaginationList = coursePaginationList;
-        this.comments = comments;
-        this.commentModifyPermissions = commentModifyPermissions;
-        this.roster = roster;
         this.feedbackSessions = feedbackSessions;
-        this.previousPageLink = retrievePreviousPageLink();
-        this.nextPageLink = retrieveNextPageLink();
         this.numberOfPendingComments = numberOfPendingComments;
-    
-        setCommentsForStudentsTables();
+        
+        setCoursePagination(coursePaginationList);
+        setCommentsForStudentsTables(comments, commentModifyPermissions, roster);
                                         
-    }
-
-    public Map<String, List<CommentAttributes>> getComments() {
-        return comments;
     }
     
     public String getCourseId() {
@@ -73,24 +58,16 @@ public class InstructorCommentsPageData extends PageData {
         return courseName;
     }
     
-    public List<String> getCoursePaginationList() {
-        return coursePaginationList;
+    public CoursePagination getCoursePagination() {
+        return coursePagination;
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessions() {
         return feedbackSessions;
     }
     
-    public String getNextPageLink() {
-        return nextPageLink;
-    }
-    
     public int getNumberOfPendingComments() {
         return numberOfPendingComments;
-    }
-    
-    public String getPreviousPageLink() {
-        return previousPageLink;
     }
     
     public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
@@ -103,41 +80,30 @@ public class InstructorCommentsPageData extends PageData {
     
     public boolean isViewingDraft() {
         return isViewingDraft;
-    }        
-
-    private String getRecipientNames(Set<String> recipients) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("All students in this course, ");
-            } else if (student != null) {
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
-                } else {
-                    namesStringBuilder.append(student.name + ", ");
-                }
-            } else {
-                namesStringBuilder.append(recipient + ", ");
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return removeEndComma(namesString);
+    }
+    
+    private void setCoursePagination(List<String> coursePaginationList) {
+        String previousPageLink = retrievePreviousPageLink(coursePaginationList);
+        String nextPageLink = retrieveNextPageLink(coursePaginationList);
+        String activeCourse = coursePaginationList.contains(courseId) ? courseId : "";
+        String activeCourseClass = isViewingDraft ? "" : "active";
+        String userCommentsLink = getInstructorCommentsLink();
+        coursePagination = new CoursePagination(previousPageLink, nextPageLink, coursePaginationList,
+                                                activeCourse, activeCourseClass, userCommentsLink);
     }
 
-    private void setCommentsForStudentsTables() {
-        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
+    private void setCommentsForStudentsTables(
+            Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions,
+            CourseRoster roster) {
+        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(comments, roster);
         commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
-            CommentsForStudentsTable table = new CommentsForStudentsTable(giverName,
-                                                                          createCommentRows(giverEmail, giverName));
+            CommentsForStudentsTable table = 
+                    new CommentsForStudentsTable(
+                            giverName, createCommentRows(giverEmail, giverName, comments.get(giverEmail), 
+                                                         commentModifyPermissions, roster));
             String extraClass;
             if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
                 extraClass = "giver_display-by-you";
@@ -149,13 +115,14 @@ public class InstructorCommentsPageData extends PageData {
         }
     }
     
-    private List<Comment> createCommentRows(String giverEmail, String giverName) {
+    private List<Comment> createCommentRows(
+            String giverEmail, String giverName, List<CommentAttributes> commentsForGiver,
+            Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster) {
         
         List<Comment> rows = new ArrayList<Comment>();
-        List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
         for (int i = 0; i < commentsForGiver.size(); i++) {            
             CommentAttributes comment = commentsForGiver.get(i);
-            String recipientDetails = getRecipientNames(comment.recipients);
+            String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
             Comment commentDiv = new Comment(comment, giverName, recipientDetails);
@@ -179,7 +146,7 @@ public class InstructorCommentsPageData extends PageData {
         return rows;
     }
     
-    private String retrievePreviousPageLink() {
+    private String retrievePreviousPageLink(List<String> coursePaginationList) {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String previousPageLink = "javascript:;";
         if (courseIdx >= 1) {
@@ -188,7 +155,7 @@ public class InstructorCommentsPageData extends PageData {
         return previousPageLink;
     }
 
-    private String retrieveNextPageLink() {
+    private String retrieveNextPageLink(List<String> coursePaginationList) {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String nextPageLink = "javascript:;";
         if (courseIdx < coursePaginationList.size() - 1) {
@@ -197,7 +164,8 @@ public class InstructorCommentsPageData extends PageData {
         return nextPageLink;
     }
 
-    private Map<String, String> getGiverEmailToGiverNameMap() {
+    private Map<String, String> getGiverEmailToGiverNameMap(
+            Map<String, List<CommentAttributes>> comments, CourseRoster roster) {
         
         Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
         for (String giverEmail : comments.keySet()) {

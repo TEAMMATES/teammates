@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackResults - moderations button" %>
+<%@ tag description="instructorFeedbackResults - moderation button" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

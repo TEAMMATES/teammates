@@ -40,7 +40,7 @@ public class InstructorFeedbackResultsResponsePanel {
         this.isAllowedToAddComment = isAllowedToAddComment;
     }
     
-    public void setFeedbackResponseCommentsIndexes(int recipientIndex, int giverIndex, int qnIndex) {
+    public void setCommentsIndexes(int recipientIndex, int giverIndex, int qnIndex) {
         this.recipientIndex = recipientIndex;
         this.giverIndex = giverIndex;
         this.qnIndex = qnIndex;
