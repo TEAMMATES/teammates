@@ -1516,20 +1516,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
         
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-
-        String whoCanSeeComment = null;
-        boolean isVisibilityIconShown = false;
-        boolean isNotificationIconShown = false;
-        if (bundle.feedbackSession.isPublished()) {
-            boolean responseCommentPublicToRecipient = !frcAttributes.showCommentTo.isEmpty();
-            isVisibilityIconShown = responseCommentPublicToRecipient;
-            
-            if (isVisibilityIconShown) {
-                whoCanSeeComment = getTypeOfPeopleCanViewComment(frcAttributes, question);
-            }
-            
-            isNotificationIconShown = frcAttributes.sendingState == CommentSendingState.PENDING;
-        }
         
         FeedbackResponseComment frc = new FeedbackResponseComment(
                                         frcAttributes, frcAttributes.giverEmail, giverName, recipientName, 
@@ -1537,32 +1523,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                         getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                         responseVisibilityMap);
                                     
-        frc.setExtraClass(getExtraClass(frcAttributes.giverEmail, instructor.email, isVisibilityIconShown));
-                                    
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();
             frc.enableDelete();
         }
-        if (isVisibilityIconShown) {
-            frc.enableVisibilityIcon(whoCanSeeComment);
-        }
-        if (isNotificationIconShown) {
-            frc.enableNotificationIcon();
-        }
+  
         return frc;
     }
-    
-    private String getExtraClass(String giverEmail, String instructorEmail, boolean isPublic) {
-        String extraClass = "";
-        
-        extraClass += " giver_display-by-";
-        extraClass += giverEmail.equals(instructorEmail) ? "you" : "others";
-        
-        extraClass += " status_display-";
-        extraClass += isPublic ? "public" : "private";
 
-        return extraClass;
-    }
     
     private FeedbackResponseComment buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
