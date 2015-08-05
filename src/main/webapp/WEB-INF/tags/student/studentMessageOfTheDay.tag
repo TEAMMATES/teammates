@@ -4,24 +4,9 @@
 <c:set var="motdUrl" value="<%= Config.inst().STUDENT_MOTD_URL %>" />
 <c:if test="${not empty motdUrl}">
     <script>
-        var url = window.location.origin + '/' + '<c:out value="${motdUrl}" />';
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function(data) {
-                $('#student-motd').html(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('AJAX request failed');
-            }
-        });
-
-        function closeMotd() {
-            $('#student-motd-container').hide();
-        }
+        var motdUrl = window.location.origin + '/<c:out value="${motdUrl}" />';
     </script>
-
+    <script type="text/javascript" src="/js/studentMotd.js"></script>
     <div class="container theme-showcase" id="student-motd-container">
         <div class="row">
             <div class="col-sm-12">
