@@ -533,13 +533,18 @@ public class InstructorFeedbackEditPage extends AppPage {
                 browser.driver.findElement(By.className("ui-datepicker-prev")).click();
             }
 
-            WebElement yesterday = browser.driver.findElement(By.xpath("//td[span[contains(text(), \"" + day + "\")]]"));
-
-            return yesterday.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled");
-        } else {
-            return true;
+            // different months with the same day (e.g. first week or last week of the month) in the datepicker
+            List<WebElement> daysWithSameDayAsYesterday = browser.driver.findElements(By.xpath("//td[a[text() = \"" + day + "\"]]"));
+            
+            for (WebElement yesterday : daysWithSameDayAsYesterday) {
+                // yesterday is enabled
+                if (!yesterday.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled")) {
+                    return false;
+                }
+            }
         }
         
+        return true;
     }
 
     private String getDatepickerYear() {
