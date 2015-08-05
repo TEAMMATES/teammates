@@ -50,6 +50,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO find out why it's 500
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
 
+    public static final String ALL_SECTION_OPTION = "All";
+
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
     private List<String> sections = null;
@@ -77,7 +79,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
     private ViewType viewType;
-    enum ViewType {
+    public enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
         public String toString() {
@@ -1698,7 +1700,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isAllSectionsSelected() {
-        return "All".equals(selectedSection);
+        return ALL_SECTION_OPTION.equals(selectedSection);
     }
     
     // TODO: place below getter methods for template objects in some init method common to all views

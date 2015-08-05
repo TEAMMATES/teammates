@@ -72,9 +72,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String sortType = "question";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, sortType);
+                                        1000, sortType));
         data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam);
         
         List<InstructorFeedbackResultsQuestionTable> questionPanels = data.getQuestionPanels();
@@ -135,8 +135,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         groupByTeam = "on";
         sortType = "question";
         selectedSection = "Section 1";
-        data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, 
-                                                                            instructor.email, selectedSection);
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, 
+                                                                            instructor.email, selectedSection));
         data.initForViewByQuestion(instructor, "Section 1", null, "on");
         
         List<InstructorFeedbackResultsQuestionTable> sectionQuestionPanels = data.getQuestionPanels();
@@ -153,17 +153,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         
         ______TS("view by question, all sections, question 2");
-        data.instructor = instructor;
-        data.courseId = instructor.courseId;
-        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1")
+        feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1")
                                              .feedbackSessionName;
         
         showStats = "on";
         groupByTeam = "on";
         sortType = "question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
-        data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                               instructor.email, 2);
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
+                                                                               instructor.email, 2));
         
         data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, 
                                    "on", "on");
@@ -190,28 +188,28 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("Moderate Response", modButton.getButtonText());
         verifyHtmlClass(modButton.getClassName(), "btn", "btn-default", "btn-xs");
         
+        assertNotNull(modButton);
         assertEquals("idOfTypicalCourse1", modButton.getCourseId());
         assertEquals("First feedback session", modButton.getFeedbackSessionName());
         assertEquals("student2InCourse1@gmail.tmt", modButton.getGiverIdentifier());
         assertEquals(2, modButton.getQuestionNumber());
-        assertTrue(modButton.isAllowedToModerate());
         assertFalse(modButton.isDisabled());
         
         
         ______TS("view by question, all sections, require loading by ajax");
-        data.instructor = instructor;
-        data.courseId = instructor.courseId;
-        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        
+        
+        feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = "on";
         groupByTeam = "on";
         sortType = "question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1, "question");
+                                        1, "question"));
         data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "on", "on");
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         
         List<InstructorFeedbackResultsQuestionTable> ajaxQuestionPanels = data.getQuestionPanels();
         assertEquals(4, ajaxQuestionPanels.size());
@@ -225,12 +223,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
     private void verifyModerateButton(InstructorFeedbackResultsModerationButton modButton, String moderateButtonText,
                                     StudentAttributes studentToModerate, String feedbackSessionName,
                                     int questionNumber) {
+        assertNotNull(modButton);
         assertEquals(moderateButtonText, modButton.getButtonText());
         assertEquals(studentToModerate.course, modButton.getCourseId());
         assertEquals(feedbackSessionName, modButton.getFeedbackSessionName());
         assertEquals(studentToModerate.email, modButton.getGiverIdentifier());
         assertEquals(questionNumber, modButton.getQuestionNumber());
-        assertTrue(modButton.isAllowedToModerate());
         assertFalse(modButton.isDisabled());
         
         verifyHtmlClass(modButton.getClassName(), "btn", "btn-default", "btn-xs");
@@ -259,7 +257,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         
-        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        data.setSections(Arrays.asList("Section 1", "Section 2", "None"));
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -272,9 +270,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String sortType = "giver-question-recipient";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, sortType);
+                                        1000, sortType));
         data.initForSectionPanelViews(instructor, selectedSection, 
                                       showStats, groupByTeam, ViewType.GIVER_QUESTION_RECIPIENT);
         
@@ -375,8 +373,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "question";
         selectedSection = "Section 1";
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
-                                                                                  instructor.email, selectedSection, 1000);
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
+                                                                                  instructor.email, selectedSection, 1000));
         
         data.initForSectionPanelViews(instructor, "Section 1", null, "on", ViewType.GIVER_QUESTION_RECIPIENT);
         
@@ -439,9 +437,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         groupByTeam = null;
         sortType = "giver-question-recipient";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, "giver-question-recipient");
+                                        1000, "giver-question-recipient"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       "on", null, ViewType.GIVER_QUESTION_RECIPIENT);
@@ -538,12 +536,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1, "giver-question-recipient");
+                                        1, "giver-question-recipient"));
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       "on", "on", ViewType.GIVER_QUESTION_RECIPIENT);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxSectionPanels = data.getSectionPanels();
         assertEquals(3, ajaxSectionPanels.size());
@@ -556,21 +554,20 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         }
         
         ______TS("GQR ajax error case: single section, require loading by ajax ");
-        data.instructor = instructor;
-        data.courseId = instructor.courseId;
-        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        
+        feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = "on";
         groupByTeam = "on";
         sortType = "question";
         selectedSection = "Section 1";
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
                                                             feedbackSessionName, courseId,
                                                             instructor.email, selectedSection,
-                                                            1);
+                                                            1));
         data.initForSectionPanelViews(instructor, selectedSection,
                                       "on", "on", ViewType.GIVER_QUESTION_RECIPIENT);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
         
@@ -603,7 +600,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         
-        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        data.setSections(Arrays.asList("Section 1", "Section 2", "None"));
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -616,9 +613,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String sortType = "recipient-question-giver";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, sortType);
+                                        1000, sortType));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       showStats, groupByTeam, ViewType.RECIPIENT_QUESTION_GIVER);
@@ -677,16 +674,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         
         ______TS("RQG single section case : view section 1, all questions, no stats");
-        data.instructor = instructor;
-        data.courseId = instructor.courseId;
-        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+    
+        feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = null;
         groupByTeam = "on";
         sortType = "recipient-question-giver";
         selectedSection = "Section 1";
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
-                                                                                      instructor.email, selectedSection, 1000);
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
+                                                                                      instructor.email, selectedSection, 1000));
         data.initForSectionPanelViews(instructor, "Section 1",
                                       null, "on", ViewType.RECIPIENT_QUESTION_GIVER);
         
@@ -747,9 +743,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         groupByTeam = null;
         sortType = "recipient-question-giver";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, "recipient-question-giver");
+                                        1000, "recipient-question-giver"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       "on", null, ViewType.RECIPIENT_QUESTION_GIVER);
@@ -804,12 +800,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "recipient-question-giver";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         // force load by ajax by setting the responses range to 1
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1, "recipient-question-giver");
+                                        1, "recipient-question-giver"));
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                         "on", "on", ViewType.RECIPIENT_QUESTION_GIVER);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxQuestionPanels = data.getSectionPanels();
         assertEquals(3, ajaxQuestionPanels.size());
@@ -831,13 +827,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "question";
         selectedSection = "Section 1";
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
                                                             feedbackSessionName, courseId,
                                                             instructor.email, selectedSection,
-                                                            1);
+                                                            1));
         data.initForSectionPanelViews(instructor, selectedSection,
                                       "on", "on", ViewType.RECIPIENT_QUESTION_GIVER);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
         
@@ -898,7 +894,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         
-        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        data.setSections(Arrays.asList("Section 1", "Section 2", "None"));
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -911,9 +907,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String sortType = "recipient-giver-question";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, sortType);
+                                        1000, sortType));
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       showStats, groupByTeam, ViewType.RECIPIENT_GIVER_QUESTION);
         
@@ -1077,9 +1073,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         groupByTeam = null;
         sortType = "recipient-giver-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, "recipient-giver-question");
+                                        1000, "recipient-giver-question"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       "on", null, ViewType.RECIPIENT_GIVER_QUESTION);
@@ -1156,7 +1152,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         ______TS("RGQ case : all sections, require loading by ajax");
         data = new InstructorFeedbackResultsPageData(account);
         
-        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        data.setSections(Arrays.asList("Section 1", "Section 2", "None"));
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
@@ -1165,13 +1161,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "recipient-giver-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1, sortType);
+                                        1, sortType));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                         showStats, groupByTeam, ViewType.RECIPIENT_GIVER_QUESTION);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxPanels = data.getSectionPanels();
         assertEquals(3, ajaxPanels.size());
@@ -1193,13 +1189,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "question";
         selectedSection = "Section 1";
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
                                                             feedbackSessionName, courseId,
                                                             instructor.email, selectedSection,
-                                                            1);
+                                                            1));
         data.initForSectionPanelViews(instructor, selectedSection,
                                       "on", "on", ViewType.RECIPIENT_GIVER_QUESTION);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
         
@@ -1216,7 +1212,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
         
-        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        data.setSections(Arrays.asList("Section 1", "Section 2", "None"));
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -1229,9 +1225,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String sortType = "giver-recipient-question";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, sortType);
+                                        1000, sortType));
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                         showStats, groupByTeam, ViewType.GIVER_RECIPIENT_QUESTION);
         
@@ -1395,9 +1391,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         groupByTeam = null;
         sortType = "giver-recipient-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, "recipient-giver-question");
+                                        1000, "recipient-giver-question"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       "on", null, ViewType.GIVER_RECIPIENT_QUESTION);
@@ -1474,7 +1470,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         ______TS("GRQ case : all sections, require loading by ajax");
         data = new InstructorFeedbackResultsPageData(account);
         
-        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        data.setSections(Arrays.asList("Section 1", "Section 2", "None"));
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
@@ -1483,13 +1479,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "giver-recipient-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1, "recipient-giver-question");
+                                        1, "recipient-giver-question"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
                                       "on", "on", ViewType.GIVER_RECIPIENT_QUESTION);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxPanels = data.getSectionPanels();
         assertEquals(3, ajaxPanels.size());
@@ -1511,13 +1507,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         sortType = "question";
         selectedSection = "Section 1";
         
-        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
+        data.setBundle(logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
                                                             feedbackSessionName, courseId,
                                                             instructor.email, selectedSection,
-                                                            1);
+                                                            1));
         data.initForSectionPanelViews(instructor, selectedSection,
                                       "on", "on", ViewType.GIVER_RECIPIENT_QUESTION);
-        assertFalse(data.bundle.isComplete());
+        assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
         
