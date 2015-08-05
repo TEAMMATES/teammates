@@ -35,7 +35,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         init(bundle);
     }
     
-    public void init(FeedbackSessionResultsBundle bundle) {
+    private void init(FeedbackSessionResultsBundle bundle) {
         // no visible questions / responses with comments
         if (bundle == null) {
             return;
