@@ -1542,7 +1542,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (isInstructorAllowedToEditAndDeleteComment) {
             frc.enableEdit();
             frc.enableDelete();
-            frc.enableEditDeleteOnHover();
         }
         if (isVisibilityIconShown) {
             frc.enableVisibilityIcon(whoCanSeeComment);
