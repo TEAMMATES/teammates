@@ -211,12 +211,12 @@ public class StudentCommentsPageData extends PageData {
         
         for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
             String giverName = 
-                    feedbackResultBundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                    feedbackResultBundle.getGiverNameForResponse(responseEntry);
             String giverTeamName = feedbackResultBundle.getTeamNameForEmail(responseEntry.giverEmail);
             giverName = feedbackResultBundle.appendTeamNameToName(giverName, giverTeamName);
 
             String recipientName = 
-                    feedbackResultBundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                    feedbackResultBundle.getRecipientNameForResponse(responseEntry);
             String recipientTeamName = feedbackResultBundle.getTeamNameForEmail(responseEntry.recipientEmail);
             recipientName = feedbackResultBundle.appendTeamNameToName(recipientName, recipientTeamName);
             

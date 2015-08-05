@@ -979,8 +979,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return isIdentifierEmail && !(isIdentifierName || isIdentifierTeamName || isIdentifierTeam);
     }
     
-    public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
-                                              FeedbackResponseAttributes response) {
+    public String getRecipientNameForResponse(FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.recipientEmail);
         if (name == null || name.equals(Const.USER_IS_TEAM)) {
             return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
@@ -991,8 +990,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
-    public String getGiverNameForResponse(FeedbackQuestionAttributes question,
-                                          FeedbackResponseAttributes response) {
+    public String getGiverNameForResponse(FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.giverEmail);
         if (name == null || name.equals(Const.USER_IS_TEAM)) {
             return Const.USER_UNKNOWN_TEXT;
@@ -1306,12 +1304,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
             prevGiver = response.giverEmail;
             prevRecipient = response.recipientEmail;
-            recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId),
-                                                             response);
+            recipientName = this.getRecipientNameForResponse(response);
             recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
             recipientName = this.appendTeamNameToName(recipientName,
                                                       recipientTeamName);
-            giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId), response);
+            giverName = this.getGiverNameForResponse(response);
             giverTeamName = this.getTeamNameForEmail(response.giverEmail);
             giverName = this.appendTeamNameToName(giverName, giverTeamName);
         }
@@ -1507,12 +1504,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         
             prevRecipient = response.recipientEmail;
             prevGiver = response.giverEmail;
-            recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId),
-                                                             response);
+            recipientName = this.getRecipientNameForResponse(response);
             recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
             recipientName = this.appendTeamNameToName(recipientName, recipientTeamName);
-            giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId),
-                                                     response);
+            giverName = this.getGiverNameForResponse(response);
             giverTeamName = this.getTeamNameForEmail(response.giverEmail);
             giverName = this.appendTeamNameToName(giverName, giverTeamName);
         }

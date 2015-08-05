@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
@@ -1162,9 +1163,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                ? buildModerationButtonForExistingResponse(question, response)
                                                                : null;
             InstructorFeedbackResultsResponseRow responseRow = new InstructorFeedbackResultsResponseRow(
-                                                               bundle.getGiverNameForResponse(question, response), 
+                                                               bundle.getGiverNameForResponse(response), 
                                                                bundle.getTeamNameForEmail(response.giverEmail), 
-                                                               bundle.getRecipientNameForResponse(question, response), 
+                                                               bundle.getRecipientNameForResponse(response), 
                                                                bundle.getTeamNameForEmail(response.recipientEmail), 
                                                                bundle.getResponseAnswerHtml(response, question), 
                                                                moderationButton);
@@ -1219,9 +1220,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             InstructorFeedbackResultsResponseRow responseRow 
                 = new InstructorFeedbackResultsResponseRow(
-                                   bundle.getGiverNameForResponse(question, response), 
+                                   bundle.getGiverNameForResponse(response), 
                                    bundle.getTeamNameForEmail(response.giverEmail), 
-                                   bundle.getRecipientNameForResponse(question, response), 
+                                   bundle.getRecipientNameForResponse(response), 
                                    bundle.getTeamNameForEmail(response.recipientEmail), 
                                    bundle.getResponseAnswerHtml(response, question), 
                                    moderationButton);
@@ -1512,24 +1513,31 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 && instructor.isAllowedForPrivilege(
                            response.recipientSection, response.feedbackSessionName,
                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        boolean isInstructorAllowedToModify = isInstructorGiver || isInstructorWithPrivilegesToModify;
+        boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
         
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-
-        return new FeedbackResponseComment(frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
-                getResponseCommentVisibilityString(frcAttributes, question),
-                getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER), 
-                responseVisibilityMap.get(FeedbackParticipantType.OWN_TEAM_MEMBERS),
-                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS),
-                responseVisibilityMap.get(FeedbackParticipantType.STUDENTS),
-                responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS),
-                true, isInstructorAllowedToModify, isInstructorAllowedToModify);
+        
+        FeedbackResponseComment frc = new FeedbackResponseComment(
+                                        frcAttributes, frcAttributes.giverEmail, giverName, recipientName, 
+                                        getResponseCommentVisibilityString(frcAttributes, question),
+                                        getResponseCommentGiverNameVisibilityString(frcAttributes, question),
+                                        responseVisibilityMap);
+                                    
+        if (isInstructorAllowedToEditAndDeleteComment) {
+            frc.enableEdit();
+            frc.enableDelete();
+        }
+  
+        return frc;
     }
+
     
     private FeedbackResponseComment buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
                         FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
-                        String giverName, String recipientName) {
+                        String giverName, String recipientName) {                        
+        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
+                                        question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
+                                
         FeedbackParticipantType[] relevantTypes = {
                 FeedbackParticipantType.GIVER,
                 FeedbackParticipantType.RECEIVER,
@@ -1539,27 +1547,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 FeedbackParticipantType.INSTRUCTORS
         };
         
-        List<FeedbackParticipantType> showCommentTo = new ArrayList<>();
-        List<FeedbackParticipantType> showGiverNameTo = new ArrayList<>();
+        frca.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        frca.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
         for (FeedbackParticipantType type : relevantTypes) {
             if (isResponseCommentVisibleTo(question, type)) {
-                showCommentTo.add(type);
+                frca.showCommentTo.add(type);
             }
             if (isResponseCommentGiverNameVisibleTo(question, type)) {
-                showGiverNameTo.add(type);
+                frca.showGiverNameTo.add(type);
             }
         }
         
-        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes(
-                    question.courseId, question.feedbackSessionName, question.getFeedbackQuestionId(), response.getId());
-        return new FeedbackResponseComment(frca, giverName, recipientName,
-                getResponseCommentVisibilityString(question), getResponseCommentGiverNameVisibilityString(question),
-                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER),
-                responseVisibilityMap.get(FeedbackParticipantType.OWN_TEAM_MEMBERS),
-                responseVisibilityMap.get(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS),
-                responseVisibilityMap.get(FeedbackParticipantType.STUDENTS),
-                responseVisibilityMap.get(FeedbackParticipantType.INSTRUCTORS),
-                showCommentTo, showGiverNameTo, true);
+        return new FeedbackResponseComment(frca, giverName, recipientName, 
+                                           getResponseCommentVisibilityString(question),
+                                           getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap);
     }
     
     private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
