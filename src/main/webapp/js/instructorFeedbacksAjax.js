@@ -10,7 +10,7 @@ $(document).ready(function(){
                 $('#sessionList').html('<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>');
             },
             error: function() {
-                console.log('Error');
+
             },
             success: function(data) {
                 var appendedModalBody = $(data).find('#copySessionsBody').html();

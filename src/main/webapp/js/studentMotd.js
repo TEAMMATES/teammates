@@ -6,7 +6,7 @@ $(document).ready(function() {
             $('#student-motd').html(data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log('AJAX request failed');
+
         }
     });
 }

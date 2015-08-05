@@ -25,7 +25,7 @@ $(document).ready(function() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
             },
             error: function() {
-                console.log('Error');
+
             },
             success: function(data) {
                 if (numPanels == 0) {
