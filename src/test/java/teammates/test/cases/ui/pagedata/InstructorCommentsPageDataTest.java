@@ -101,7 +101,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         commentRows.add(commentRow);
         
         // Create second expected comment row
-        recipientDisplay = "All students in this course";
+        recipientDisplay = "all students in this course";
         comment = dataBundle.comments.get("comment1FromI3C1toC1");
         commentRow = new Comment(comment, giverDetails, recipientDisplay);
         commentRow.withExtraClass("status_display-private");
