@@ -743,7 +743,7 @@ public abstract class AppPage {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "${app.url}")
-                .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
+                .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
