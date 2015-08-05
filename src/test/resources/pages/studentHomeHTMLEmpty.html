@@ -215,17 +215,17 @@
         <div id="contentLinks" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="/page/studentHomePage?user={$test.unreg}" id="studentHomeNavLink" class="navLinks">
+                    <a href="/page/studentHomePage?user=${test.unreg}" id="studentHomeNavLink" class="navLinks">
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="/page/studentProfilePage?user={$test.unreg}" id="studentProfileNavLink" class="navLinks">
+                    <a href="/page/studentProfilePage?user=${test.unreg}" id="studentProfileNavLink" class="navLinks">
                         Profile
                     </a>
                 </li>
                 <li>
-                    <a href="/page/studentCommentsPage?user={$test.unreg}" id="studentCommentsNavLink" class="navLinks">
+                    <a href="/page/studentCommentsPage?user=${test.unreg}" id="studentCommentsNavLink" class="navLinks">
                         Comments
                     </a>
                 </li>
@@ -237,8 +237,8 @@
                 <ul class="nav navbar-nav pull-right">
                     <li>
                         <a href="/logout.jsp" class="nav logout">Logout
-                            (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="{$test.unreg}">
-                                    {$test.unreg}
+                            (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="${test.unreg}">
+                                    ${test.unreg}
                             </span>)
                         </a>
                     </li>
@@ -284,7 +284,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
+                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
             </div>
             <div class="col-md-8">
                 

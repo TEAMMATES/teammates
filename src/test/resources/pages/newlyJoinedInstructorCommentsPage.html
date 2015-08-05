@@ -17,7 +17,7 @@
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-12">
-			<form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
+			<form method="get" action="/page/instructorSearchPage?user=${test.instructor}" name="search_form">
 			    <div class="input-group">
 			        <input name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox" type="text"> 
 			        <span class="input-group-btn">
@@ -28,7 +28,7 @@
 			    </div>
 			    <input name="searchcommentforstudents" value="true" type="hidden">
 			    <input name="searchcommentforresponses" value="true" type="hidden">
-			    <input name="user" value="{$test.instructor}" type="hidden">
+			    <input name="user" value="${test.instructor}" type="hidden">
 			</form>
 			
 
@@ -53,7 +53,7 @@
                     Include Archived Courses
                 </label>
                 <div id="displayArchivedCourses_link" style="display:none;">
-                    <a href="/page/instructorCommentsPage?user={$test.instructor}">link back to the page</a>
+                    <a href="/page/instructorCommentsPage?user=${test.instructor}">link back to the page</a>
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@
     <li><a href="javascript:;">«</a></li>
     
         <li class="active">
-            <a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">AHPUiT.instr1.gma-demo</a>
+            <a href="/page/instructorCommentsPage?user=${test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">AHPUiT.instr1.gma-demo</a>
         </li>
     
     <li><a href="javascript:;">»</a></li>
@@ -209,7 +209,7 @@
 
 
 <div class="btn-group pull-right" style="display:none">
-    <a data-original-title="Send email notification to 0 recipient(s) of comments pending notification" type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;" href="/page/instructorStudentCommentClearPending?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" title="">
+    <a data-original-title="Send email notification to 0 recipient(s) of comments pending notification" type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;" href="/page/instructorStudentCommentClearPending?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}" title="">
         <span class="badge" style="margin-right: 5px">0</span>
         <span class="glyphicon glyphicon-comment"></span>
         <span class="glyphicon glyphicon-arrow-right"></span>
@@ -407,7 +407,7 @@
 <input name="showcommentsto" value="TEAM" type="hidden">
 <input name="showgiverto" value="TEAM" type="hidden">
 <input name="showrecipientto" value="TEAM" type="hidden">
-<input name="user" value="{$test.instructor}" type="hidden">
+<input name="user" value="${test.instructor}" type="hidden">
 </form>
                                  
                         </li>
@@ -565,7 +565,7 @@
 <input name="showcommentsto" value="" type="hidden">
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
-<input name="user" value="{$test.instructor}" type="hidden">
+<input name="user" value="${test.instructor}" type="hidden">
 </form>
                                  
                         </li>
@@ -589,7 +589,7 @@
 
 
 <div class="panel panel-primary">
-    <div class="panel-heading" onclick="loadFeedbackResponseComments('{$test.instructor}','AHPUiT.instr1.gma-demo','First team feedback session', '1', this);" style="cursor: pointer;">
+    <div class="panel-heading" onclick="loadFeedbackResponseComments('${test.instructor}','AHPUiT.instr1.gma-demo','First team feedback session', '1', this);" style="cursor: pointer;">
         <strong>Comments in session: First team feedback session</strong>
         <div class="placeholder-img-loading pull-right"></div>
     </div>
@@ -617,7 +617,7 @@
 
 
 <div class="panel panel-primary">
-    <div class="panel-heading" onclick="loadFeedbackResponseComments('{$test.instructor}','AHPUiT.instr1.gma-demo','Second team feedback session', '2', this);" style="cursor: pointer;">
+    <div class="panel-heading" onclick="loadFeedbackResponseComments('${test.instructor}','AHPUiT.instr1.gma-demo','Second team feedback session', '2', this);" style="cursor: pointer;">
         <strong>Comments in session: Second team feedback session</strong>
         <div class="placeholder-img-loading pull-right"></div>
     </div>
@@ -645,7 +645,7 @@
 
 
 <div class="panel panel-primary">
-    <div class="panel-heading" onclick="loadFeedbackResponseComments('{$test.instructor}','AHPUiT.instr1.gma-demo','Session with different question types', '3', this);" style="cursor: pointer;">
+    <div class="panel-heading" onclick="loadFeedbackResponseComments('${test.instructor}','AHPUiT.instr1.gma-demo','Session with different question types', '3', this);" style="cursor: pointer;">
         <strong>Comments in session: Session with different question types</strong>
         <div class="placeholder-img-loading pull-right"></div>
     </div>
@@ -676,7 +676,7 @@
     <li><a href="javascript:;">«</a></li>
     
         <li class="active">
-            <a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">AHPUiT.instr1.gma-demo</a>
+            <a href="/page/instructorCommentsPage?user=${test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">AHPUiT.instr1.gma-demo</a>
         </li>
     
     <li><a href="javascript:;">»</a></li>

@@ -24,10 +24,10 @@
   
   "instructors": {
     "ICJConfirmationUiT.instr.CS2104": {
-      "googleId": "{$test.instructor}",
+      "googleId": "${test.instructor}",
       "courseId": "ICJConfirmationUiT.CS2104",
       "name": "Teammates Test 2",
-      "email": "{$test.instructor}@gmail.com",
+      "email": "${test.instructor}@gmail.com",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -36,7 +36,7 @@
       "googleId": null,
       "courseId": "ICJConfirmationUiT.CS1101",
       "name": "Teammates Test 2",
-      "email": "{$test.instructor}@gmail.com",
+      "email": "${test.instructor}@gmail.com",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
