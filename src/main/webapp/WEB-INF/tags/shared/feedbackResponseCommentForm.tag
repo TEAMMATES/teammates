@@ -44,8 +44,7 @@
                     <td class="text-left">
                         <div data-toggle="tooltip"
                              data-placement="top"
-                             title=""
-                             data-original-title="Control what response giver can view">
+                             title="Control what response giver can view">
                             Response Giver
                         </div>
                     </td>
@@ -68,8 +67,7 @@
                         <td class="text-left">
                             <div data-toggle="tooltip"
                                  data-placement="top"
-                                 title=""
-                                 data-original-title="Control what response recipient(s) can view">
+                                 title="Control what response recipient(s) can view">
                                 Response Recipient(s)
                             </div>
                         </td>
@@ -93,8 +91,7 @@
                         <td class="text-left">
                             <div data-toggle="tooltip"
                                  data-placement="top"
-                                 title=""
-                                 data-original-title="Control what team members of response giver can view">
+                                 title="Control what team members of response giver can view">
                                 Response Giver's Team Members
                             </div>
                         </td>
@@ -117,8 +114,7 @@
                         <td class="text-left">
                             <div data-toggle="tooltip"
                                  data-placement="top"
-                                 title=""
-                                 data-original-title="Control what team members of response recipient(s) can view">
+                                 title="Control what team members of response recipient(s) can view">
                                 Response Recipient's Team Members
                             </div>
                         </td>
@@ -141,8 +137,7 @@
                         <td class="text-left">
                             <div data-toggle="tooltip"
                                  data-placement="top"
-                                 title=""
-                                 data-original-title="Control what other students in this course can view">
+                                 title="Control what other students in this course can view">
                                 Other students in this course
                             </div>
                         </td>
@@ -165,8 +160,7 @@
                         <td class="text-left">
                             <div data-toggle="tooltip"
                                  data-placement="top"
-                                 title=""
-                                 data-original-title="Control what instructors can view">
+                                 title="Control what instructors can view">
                                 Instructors
                             </div>
                         </td>

@@ -36,7 +36,7 @@
                     
                     <tr id="recipient-course">
                         <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what students in this course can view">
+                            <div data-toggle="tooltip" data-placement="top" title="Control what students in this course can view">
                                 Students in this course
                             </div>
                         </td>
@@ -52,7 +52,7 @@
                     </tr>
                     <tr>
                         <td class="text-left">
-                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                            <div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
                                 Instructors
                             </div>
                         </td>
