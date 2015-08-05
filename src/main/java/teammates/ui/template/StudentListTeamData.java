@@ -19,6 +19,7 @@ public class StudentListTeamData {
                                         new ArrayList<StudentListStudentData>();
         for (StudentAttributes student: team.students) {
             studentsDetails.add(new StudentListStudentData(googleId, student.name, student.email, student.course,
+                                                           student.getStudentStatus(),
                                                            emailPhotoUrlMapping.get(student.email)));
         }
         this.students = studentsDetails;

@@ -441,11 +441,7 @@ function setStatusMessage(message, error) {
         $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-warning');
     }
 
-    Element.prototype.documentOffsetTop = function() {
-        return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);
-    }
-
-    var positionToScrollTo = document.getElementById('statusMessage').documentOffsetTop() - (window.innerHeight / 2);
+    var positionToScrollTo = $(DIV_STATUS_MESSAGE).offset().top - (window.innerHeight / 2);
     
     window.scrollTo(0, positionToScrollTo);
 }

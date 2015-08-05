@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -103,7 +102,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             String giverDetails, String studentEmail, List<CommentAttributes> comments, CourseRoster roster) {
         List<Comment> commentRows = new ArrayList<Comment>();
         for (CommentAttributes comment : comments) {
-            String recipientDetails = getRecipientNames(comment.recipients, studentEmail, roster);
+            String recipientDetails = data.getRecipientNames(comment.recipients, sampleCourse.id, studentEmail, roster);
             commentRows.add(new Comment(comment, giverDetails, recipientDetails));
         }
         CommentsForStudentsTable commentsForStudentsTable = 
@@ -156,37 +155,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
     
         return sessionRow;
     }
-
-    private static String getRecipientNames(Set<String> recipients, String studentEmail, CourseRoster roster) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append(" and ");
-            } else if ( i > 0 && i < recipients.size() - 1 && recipients.size() > 2) {
-                namesStringBuilder.append(", ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (recipient.equals(studentEmail)) {
-                namesStringBuilder.append("you");
-            } else if (data.getCourseId().equals(recipient)) { 
-                namesStringBuilder.append("All Students In This Course");
-            } else if(student != null){
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
-                } else {
-                    namesStringBuilder.append(student.name);
-                }
-            } else {
-                namesStringBuilder.append(recipient);
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return namesString;
-    }
-
+    
     /** Creates a single FeedbackSessionResultsBundle object which comprises 
       * a single feedback session, a single question, a single response and a single response comment */
     private static FeedbackSessionResultsBundle getSingleFeedbackSessionResultsBundle(CourseRoster roster) {

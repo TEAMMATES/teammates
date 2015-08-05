@@ -80,7 +80,7 @@
             </a>
         </c:if>
     </div>
-    <!-- do not add whitespace between the opening and closing tags -->
+    <%-- Do not add whitespace between the opening and closing tags --%>
     <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
     <c:if test="${frc.editDeleteEnabled}">
         <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
