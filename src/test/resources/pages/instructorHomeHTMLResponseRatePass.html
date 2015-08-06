@@ -39,6 +39,7 @@
 
 
 
+
     
     
         <div id="statusMessage" style="display: none;"></div>
@@ -71,40 +72,34 @@
 </div>
     
         
-            <div class="row">
-                
+            
 
 
 
 
 
-<div class="col-md-7 pull-right">
-    <div class="row">
-        <div class="col-md-3">
-            <h5 class="pull-right"><strong> Sort By: </strong></h5>
-        </div>
-        <div class="col-md-6">
-            <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-default" name="sortby" data="id" id="sortById">
-                    <input type="radio">
-                    Course ID
-                </label>
-                <label class="btn btn-default" name="sortby" data="name" id="sortByName">
-                    <input name="sortby" value="name" type="radio">
-                    Course Name
-                </label>
-                <label class="btn btn-default active" name="sortby" data="createdAt" id="sortByDate">
-                    <input type="radio">
-                    Creation Date
-                </label>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <a class="btn btn-primary btn-md pull-right" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">Add New Course</a>
+<div class="row">
+    <div class="col-md-2 pull-left">
+        <a class="btn btn-primary btn-md pull-left" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">Add New Course</a>
+    </div>
+    <div class="col-md-5 pull-right">
+        <h5 class="pull-left"><strong> Sort By: </strong></h5>
+        <div class="btn-group pull-right" data-toggle="buttons">
+            <label class="btn btn-default" name="sortby" data="id" id="sortById">
+                <input type="radio">
+                Course ID
+            </label>
+            <label class="btn btn-default" name="sortby" data="name" id="sortByName">
+                <input name="sortby" value="name" type="radio">
+                Course Name
+            </label>
+            <label class="btn btn-default active" name="sortby" data="createdAt" id="sortByDate">
+                <input type="radio">
+                Creation Date
+            </label>
         </div>
     </div>
 </div>
-            </div>
         
         <br>
         
@@ -152,44 +147,38 @@
             </div>
         </div>
     </div>
-    <table class="table-responsive table table-striped table-bordered">
-            <thead>
-               <tr>
-                  <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,1);">
-                     Session Name
-                     <span class="icon-sort unsorted">
-                     </span>
-                  </th>
-                  <th>
-                     Status
-                  </th>
-                  <th>
-                     <span data-original-title="Number of students submitted &#x2f; Class size" data-placement="top" data-toggle="tooltip" title="">
-                        Response Rate
-                     </span>
-                  </th>
-                  <th class="no-print">
-                     Action(s)
-                  </th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                  <span class="text-muted">
+    
+                
+
+
+
+
+<table class="table-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th id="button_sortname" onclick="toggleSort(this,1);" class="button-sort-none">
+                Session Name<span class="icon-sort unsorted"></span></th>
+            <th>Status</th>
+            <th>
+                <span data-original-title="Number of students submitted / Class size" title="" data-toggle="tooltip" data-placement="top">Response Rate</span>
+            </th>
+            <th class="no-print">Action(s)</th>
+        </tr>
+    </thead>
+    
+        <tbody>
+    
+    
+<tr>
+            <td>
+                <span class="text-muted">
                     This course does not have any sessions yet.
                 </span>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-                
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr></tbody></table>
             
 </div>
         
@@ -239,7 +228,6 @@
     </div>
     
                 
-                    
 
 
 
@@ -256,6 +244,7 @@
             <th class="no-print">Action(s)</th>
         </tr>
     </thead>
+    
     
         <tbody>
     
@@ -556,7 +545,6 @@
 
             </td>
         </tr></tbody></table>
-                
             
 </div>
         
