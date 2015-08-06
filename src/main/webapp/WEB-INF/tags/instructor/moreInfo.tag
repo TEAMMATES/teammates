@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <br>
-                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
                 <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : student.moreInfo}</p>
             </div>
             <div class="modal-footer">
@@ -28,7 +28,7 @@
                 <span data-toggle="modal" data-target="#studentProfileMoreInfo"
                     class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
                 <h5>More Info </h5>
-                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->                                    
+                <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
                 <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : student.moreInfo}</p>
             </div>
         </div>

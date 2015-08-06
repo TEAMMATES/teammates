@@ -16,7 +16,7 @@
             <div class="modal-body padding-0">
                 <form class="form" id="copyModalForm" role="form" method="post"
                     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY %>">
-                    <!-- Previous Questions -->
+                    <%-- Previous Questions --%>
                     <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <tr>

@@ -71,7 +71,6 @@ var seeMoreRequest = function(e) {
                     },
                     error: function() {
                         numStudents -= courseNumStudents;
-                        console.log('Error');
                     },
                     success: function(data) {
                         $(panelBody[0]).html(data);

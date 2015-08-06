@@ -72,7 +72,7 @@
         <div class="panel-body">
             <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                 <div>
-                    <!-- Do not add whitespace between the opening and closing tags-->
+                    <%-- Do not add whitespace between the opening and closing tags --%>
                     <textarea class="form-control textvalue nonDestructive" rows="5"
                         name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
                         id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-${fqForm.question.questionNumber}"

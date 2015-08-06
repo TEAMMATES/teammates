@@ -22,7 +22,7 @@
         <div class="panel-heading">Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber 
                                                                              : questionWithResponses.question.qnIndx}:
             <br>
-            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
             <span class="text-preserve-space"><c:out value="${questionWithResponses.question.questionText}"/></span>
         </div>
         

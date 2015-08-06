@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
@@ -34,9 +35,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
+    
+    @FindBy(id = "collapse-panels-button-team-0")
+    public WebElement instructorPanelCollapseStudentsButton;
 
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
+    
+    @FindBy(id = "panelBodyCollapse-1")
+    public WebElement instructorPanelBody;
 
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -374,6 +381,25 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return browser.driver.findElement(By.id("questionBody-" + (qnNo - 1)))
                              .findElement(By.className("table-responsive"))
                              .findElement(By.xpath("table/tbody/tr[" + responseNo + "]/td[6]/form"));
+    }
+
+    public void clickInstructorPanelCollapseStudentsButton() {
+        instructorPanelCollapseStudentsButton.click();
+    }
+
+    public void verifyParticipantPanelIsCollapsed(int id, int timeToWait) {
+        WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
+
+        // Need to wait for the total duration according to the number of collapse/expand intervals 
+        // between panels before checking final state of the panel
+        ThreadHelper.waitFor(timeToWait);
+        assertFalse(panel.isDisplayed());
+    }
+
+    public int getNumOfPanelsInInstructorPanel() {
+        List<WebElement> participantPanels = instructorPanelBody
+                                                 .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
+        return participantPanels.size();
     }
 
 }

@@ -794,7 +794,7 @@ function getVisibilityMessage(buttonElem) {
             $formOptions.hide();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log('AJAX request failed');
+
         }
     });    
 }

@@ -26,7 +26,7 @@
 
     <activity:activityLogTable logs="${data.logs}" />
     
-    <t:statusMessageWithoutFocusingToStatus />
+    <t:statusMessage doNotFocusToStatus="${true}" />
 
     <br>
 

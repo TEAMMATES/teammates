@@ -109,14 +109,14 @@ public class HtmlHelper {
     }
 
     private static String replaceInRawHtmlString(String htmlString) {
-        htmlString = htmlString.replace("{$version}", TestProperties.inst().TEAMMATES_VERSION);
-        htmlString = htmlString.replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT);
-        htmlString = htmlString.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
-        htmlString = htmlString.replace("{$test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        htmlString = htmlString.replace("{$test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
-        htmlString = htmlString.replace("{$test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
-        htmlString = htmlString.replace("{$support.email}", Config.SUPPORT_EMAIL);
-        htmlString = htmlString.replace("{$app.url}", Config.APP_URL);
+        htmlString = htmlString.replace("${version}", TestProperties.inst().TEAMMATES_VERSION);
+        htmlString = htmlString.replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT);
+        htmlString = htmlString.replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
+        htmlString = htmlString.replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        htmlString = htmlString.replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
+        htmlString = htmlString.replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
+        htmlString = htmlString.replace("${support.email}", Config.SUPPORT_EMAIL);
+        htmlString = htmlString.replace("${app.url}", Config.APP_URL);
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
         htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
         htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
@@ -224,7 +224,22 @@ public class HtmlHelper {
     
     private static boolean isMotdComponent(Node currentNode) {      
         if (currentNode.getNodeName().equalsIgnoreCase("script")) {
-            return currentNode.getTextContent().contains("closeMotd");
+            NamedNodeMap attributes = currentNode.getAttributes();
+            
+            if (attributes != null) { 
+                for (int i = 0; i < attributes.getLength(); i++) {
+                    Node attribute = attributes.item(i);
+                    
+                    // script to include studentMotd.js
+                    if (attribute.getNodeName().equalsIgnoreCase("src")
+                          && attribute.getNodeValue().contains("studentMotd.js")) {
+                        return true;
+                    }
+                }
+            }
+                
+            // script with variable motdUrl
+            return currentNode.getTextContent().contains("motdUrl");
             
         } else if (currentNode.getNodeName().equalsIgnoreCase("div")) {
             NamedNodeMap attributes = currentNode.getAttributes();
@@ -235,6 +250,8 @@ public class HtmlHelper {
                 
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
+                
+                // Motd container
                 if (attribute.getNodeName().equalsIgnoreCase("id")
                       && attribute.getNodeValue().contains("student-motd-container")) {
                     return true;

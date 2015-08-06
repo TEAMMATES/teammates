@@ -396,6 +396,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     public void testPanelsCollapseExpand() {
+        
+        ______TS("Test that 'Collapse Student' button is working");
+        resultsPage.clickGroupByTeam();
+        resultsPage.displayByGiverRecipientQuestion();
+        assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
+        resultsPage.clickInstructorPanelCollapseStudentsButton();
+        assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
+        
+        int numOfPanels = resultsPage.getNumOfPanelsInInstructorPanel();
+        resultsPage.verifyParticipantPanelIsCollapsed(4, (numOfPanels * 50));
+
+        resultsPage.clickGroupByTeam();
+        resultsPage.displayByQuestion();
 
         ______TS("Typical case: panels expand/collapse");
 
@@ -501,7 +514,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-1-1-2");
-        // change the timestamps in line 365 and 781 to {*}
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
 
     }

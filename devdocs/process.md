@@ -38,14 +38,14 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    ```
 4. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
 
-5. Start a new branch named `Issue{IssueNumber}`. 
+5. Start a new branch named `{IssueNumber}-{some-keywords}`. 
    If you are already working in a branch, remember to switch to the `master` 
    before creating the new branch. e.g.,
     ```
     //switch to master (if not already on the master)
     git checkout master
-    //create new branch and switch to it at the same time e.g. git checkout -b Issue236
-    git checkout -b Issue{issue number}
+    //create new branch and switch to it at the same time e.g. git checkout -b 2342-remove-println
+    git checkout -b {branch-name}
     ```
 6. Fix the issue.
    * Have a look at our coding and testing best practices (links given [here]
@@ -70,7 +70,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
        git checkout master
        git pull upstream master       
        //merge updates into working branch
-       git checkout Issue{issue number}
+       git checkout {branch-name}
        git merge master
        ```
 
@@ -140,7 +140,7 @@ Role: committer
   * Fetch code from upstream: <br>
     `git fetch origin`<br>
   * Checkout the branch and update with latest master<br>
-    `git checkout -b Issue1234 origin/Issue1234`<br>
+    `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
     `git merge master` <br>
   * Test the code. 
   * If green, 

@@ -1,6 +1,7 @@
 package teammates.ui.template;
 
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -18,24 +19,24 @@ public class FeedbackResponseComment {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
+
     private String showCommentToString;
     private String showGiverNameToString;
-    private String linkToCommentsPage;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
+    private Map<FeedbackParticipantType, Boolean> responseVisibilities;
+
+    private String whoCanSeeComment;
     private boolean withVisibilityIcon;
     private boolean withNotificationIcon;
     private boolean withLinkToCommentsPage;
+    private String linkToCommentsPage;
+    
     private boolean editDeleteEnabled;
     private boolean editDeleteEnabledOnlyOnHover;
     private boolean instructorAllowedToDelete;
     private boolean instructorAllowedToEdit;
-    private boolean responseVisibleToRecipient;
-    private boolean responseVisibleToGiverTeam;
-    private boolean responseVisibleToRecipientTeam;
-    private boolean responseVisibleToStudents;
-    private boolean responseVisibleToInstructors;
-
+    
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
@@ -44,69 +45,47 @@ public class FeedbackResponseComment {
         this.commentText = frc.commentText.getValue();
     }
 
-    // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
-    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay, 
-                                   String giverName, String recipientName, String showCommentToString,
-                                   String showGiverNameToString, boolean isResponseVisibleToRecipient,
-                                   boolean isResponseVisibleToGiverTeam, boolean isResponseVisibleToRecipientTeam,
-                                   boolean isResponseVisibleToStudents, boolean isResponseVisibleToInstructors,
-                                   boolean isEditDeleteEnabled, boolean isInstructorAllowedToDelete,
-                                   boolean isInstructorAllowedToEdit) {
-        this.commentId = frc.getId();
-        this.giverDisplay = giverDisplay;
-        this.createdAt = frc.createdAt.toString();
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
-        this.commentText = frc.commentText.getValue();
-        this.feedbackResponseId = frc.feedbackResponseId;
-        this.courseId = frc.courseId;
-        this.feedbackSessionName = frc.feedbackSessionName;
-        this.showCommentTo = frc.showCommentTo;
-        this.showGiverNameTo = frc.showGiverNameTo;
-        this.responseGiverName = giverName;
-        this.responseRecipientName = recipientName;
-        this.showCommentToString = showCommentToString;
-        this.showGiverNameToString = showGiverNameToString;
-        this.responseVisibleToRecipient = isResponseVisibleToRecipient;
-        this.responseVisibleToGiverTeam = isResponseVisibleToGiverTeam;
-        this.responseVisibleToRecipientTeam = isResponseVisibleToRecipientTeam;
-        this.responseVisibleToStudents = isResponseVisibleToStudents;
-        this.responseVisibleToInstructors = isResponseVisibleToInstructors;
-        this.editDeleteEnabled = isEditDeleteEnabled;
-        this.instructorAllowedToDelete = isInstructorAllowedToDelete;
-        this.instructorAllowedToEdit = isInstructorAllowedToEdit;
+    // for editing / deleting comments
+    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
+            String giverName, String recipientName, String showCommentToString,
+            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+        this(frc, giverDisplay);
+        setDataForAddEditDelete(frc, giverName, recipientName,
+                                showCommentToString, showGiverNameToString, responseVisiblities);
     }
     
     // for adding comments
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc,
-                                   String giverName, String recipientName,String showCommentToString,
-                                   String showGiverNameToString, boolean isResponseVisibleToRecipient,
-                                   boolean isResponseVisibleToGiverTeam, boolean isResponseVisibleToRecipientTeam,
-                                   boolean isResponseVisibleToStudents, boolean isResponseVisibleToInstructors,
-                                   List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
-                                   boolean isAddEnabled) {
+            String giverName, String recipientName,String showCommentToString,
+            String showGiverNameToString, Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+        setDataForAddEditDelete(frc, giverName, recipientName,
+                                showCommentToString, showGiverNameToString, responseVisiblities);
         this.questionId = frc.feedbackQuestionId;
+    }
+    
+    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
+            String giverName, String recipientName,
+            String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+        this.responseGiverName = giverName;
+        this.responseRecipientName = recipientName;
+        
+        this.showCommentTo = frc.showCommentTo;
+        this.showGiverNameTo = frc.showGiverNameTo;
+        
+        this.responseVisibilities = responseVisiblities;
+        
+        // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
         this.courseId = frc.courseId;
         this.feedbackSessionName = frc.feedbackSessionName;
-        this.responseGiverName = giverName;
-        this.responseRecipientName = recipientName;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
-        this.responseVisibleToRecipient = isResponseVisibleToRecipient;
-        this.responseVisibleToGiverTeam = isResponseVisibleToGiverTeam;
-        this.responseVisibleToRecipientTeam = isResponseVisibleToRecipientTeam;
-        this.responseVisibleToStudents = isResponseVisibleToStudents;
-        this.responseVisibleToInstructors = isResponseVisibleToInstructors;
-        this.showCommentTo = showCommentTo;
-        this.showGiverNameTo = showGiverNameTo;
+        
     }
 
     public String getExtraClass() {
         return extraClass;
-    }
-
-    public void setExtraClass(String extraClass) {
-        this.extraClass = extraClass;
     }
 
     public Long getCommentId() {
@@ -165,6 +144,10 @@ public class FeedbackResponseComment {
         return showGiverNameToString;
     }
 
+    public String getWhoCanSeeComment() {
+        return whoCanSeeComment;
+    }
+
     public boolean isWithVisibilityIcon() {
         return withVisibilityIcon;
     }
@@ -192,73 +175,116 @@ public class FeedbackResponseComment {
     public boolean isInstructorAllowedToEdit() {
         return instructorAllowedToEdit;
     }
+    
+    private boolean isResponseVisibleTo(FeedbackParticipantType type) {
+        return responseVisibilities.containsKey(type) && responseVisibilities.get(type);
+    }
+    
+    private boolean isShowCommentTo(FeedbackParticipantType type) {
+        return showCommentTo.contains(type);
+    }
+    
+    private boolean isShowGiverNameTo(FeedbackParticipantType type) {
+        return showGiverNameTo.contains(type);
+    }
 
     public boolean isResponseVisibleToRecipient() {
-        return responseVisibleToRecipient;
+        return isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isResponseVisibleToGiverTeam() {
-        return responseVisibleToGiverTeam;
+        return isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isResponseVisibleToRecipientTeam() {
-        return responseVisibleToRecipientTeam;
+        return isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isResponseVisibleToStudents() {
-        return responseVisibleToStudents;
+        return isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isResponseVisibleToInstructors() {
-        return responseVisibleToInstructors;
+        return isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
     public boolean isShowCommentToResponseGiver() {
-        return showCommentTo.contains(FeedbackParticipantType.GIVER);
+        return isShowCommentTo(FeedbackParticipantType.GIVER);
     }
 
     public boolean isShowGiverNameToResponseGiver() {
-        return showGiverNameTo.contains(FeedbackParticipantType.GIVER);
+        return isShowGiverNameTo(FeedbackParticipantType.GIVER);
     }
 
     public boolean isShowCommentToResponseRecipient() {
-        return showCommentTo.contains(FeedbackParticipantType.RECEIVER);
+        return isShowCommentTo(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isShowGiverNameToResponseRecipient() {
-        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
+        return isShowGiverNameTo(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isShowCommentToResponseGiverTeam() {
-        return showCommentTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        return isShowCommentTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isShowGiverNameToResponseGiverTeam() {
-        return showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        return isShowGiverNameTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isShowCommentToResponseRecipientTeam() {
-        return showCommentTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        return isShowCommentTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isShowGiverNameToResponseRecipientTeam() {
-        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        return isShowGiverNameTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isShowCommentToStudents() {
-        return showCommentTo.contains(FeedbackParticipantType.STUDENTS);
+        return isShowCommentTo(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isShowGiverNameToStudents() {
-        return showGiverNameTo.contains(FeedbackParticipantType.STUDENTS);
+        return isShowGiverNameTo(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isShowCommentToInstructors() {
-        return showCommentTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        return isShowCommentTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
     public boolean isShowGiverNameToInstructors() {
-        return showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        return isShowGiverNameTo(FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    public void setExtraClass(String extraClass) {
+        this.extraClass = extraClass;
+    }
+    
+    private void enableEditDelete() {
+        this.editDeleteEnabled = true;
+    }
+    
+    public void enableEdit() {
+        enableEditDelete();
+        this.instructorAllowedToEdit = true;
+    }
+    
+    public void enableDelete() {
+        enableEditDelete();
+        this.instructorAllowedToDelete = true;
+    }
+    
+    public void enableEditDeleteOnHover() {
+        this.editDeleteEnabledOnlyOnHover = true;
+    }
+    
+    public void enableVisibilityIcon(String whoCanSeeComment) {
+        this.withVisibilityIcon = true;
+        this.whoCanSeeComment = whoCanSeeComment;
+    }
+    
+    public void enableNotificationIcon() {
+        this.withNotificationIcon = true;
     }
 
     public FeedbackResponseComment setLinkToCommentsPage(String linkToCommentsPage) {

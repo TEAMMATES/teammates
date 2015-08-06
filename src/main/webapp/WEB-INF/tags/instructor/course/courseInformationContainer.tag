@@ -8,7 +8,7 @@
 <%@ attribute name="courseRemindButton" type="teammates.ui.template.ElementTag" required="true" %>
 
 <div class="well well-plain" id="courseInformationHeader">
-    <button type="button" data-original-title="Give a comment about all students in the course"
+    <button type="button" title="Give a comment about all students in the course"
             ${giveCommentButton.attributesToString}>
         ${giveCommentButton.content}
     </button>

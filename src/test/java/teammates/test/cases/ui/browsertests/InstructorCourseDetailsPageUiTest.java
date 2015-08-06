@@ -219,7 +219,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickDeleteAndCancel(studentName);
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
-        //Use {$test.student1} etc. 
+        //Use ${test.student1} etc. 
         detailsPage.clickDeleteAndConfirm(studentName)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
         

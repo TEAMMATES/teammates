@@ -1,433 +1,511 @@
 <div class="container" id="mainContent">
-            <div id="topOfPage"></div>
-            <h1>Session Results</h1>
-            <br>
-            
-
-
-
-
-
-
-<div class="well well-plain padding-0">
-    <div class="form-horizontal">
-        <div class="panel-heading">
-          <div class="row">
-          <div class="col-sm-4">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Course ID:</label>
-                <div class="col-sm-10">
-                  <p class="form-control-static">AHPUiT.instr1.gma-demo</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Session:</label>
-                <div class="col-sm-10">
-                  <p class="form-control-static">Second team feedback session 
-                      
-                          <a href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}">
-                          [Edit]</a>
-                      
-                  </p>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Session duration:</label>
-                <div class="col-sm-8">
-                  <p class="form-control-static">Sun, 01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;Sun, 02 Apr 2017, 23:59</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Results visible from:</label>
-                <div class="col-sm-8">
-                  <p class="form-control-static">
-                    Tue, 01 May 2012, 23:59
-                    
-                    </p>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-2">
-              
-              <div class="form-group">
-                  <div class="col-sm-12">
-                    <form method="post" action="/page/instructorFeedbackResultsDownload">
-                    <div id="feedbackDataButtons">
-                        <input id="button_download" class="btn btn-primary btn-block" name="fruploaddownloadbtn" value="Download Results" type="submit">
-                    </div>
-                    <input name="user" value="{$test.instructor}" type="hidden">
-                    <input name="fsname" value="Second team feedback session" type="hidden">
-                    <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                    <input name="sectionname" value="All" type="hidden">
-                    </form><br>
-                    
-                    <div>
-                    <a data-original-title="Make responses no longer visible" class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('Second team feedback session');">Unpublish Results</a> 
-                    </div>
-                  </div>
-              </div>
-              
-          </div>
-        </div>
-
+   <div id="topOfPage">
+   </div>
+   <h1>
+      Session Results
+   </h1>
+   <br/>
+      <div class="well well-plain padding-0">
+      <div class="form-horizontal">
+         <div class="panel-heading">
             <div class="row">
-                <span class="help-block align-center">
-
-                    Non-English characters not displayed properly in the
-                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
-            </span></div>
-
-        </div>
+               <div class="col-sm-4">
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label">
+                        Course ID:
+                     </label>
+                     <div class="col-sm-10">
+                        <p class="form-control-static">
+                           AHPUiT.instr1.gma-demo
+                        </p>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label">
+                        Session:
+                     </label>
+                     <div class="col-sm-10">
+                        <p class="form-control-static">
+                           Second team feedback session
+                           <a href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user=${test.instructor}">
+                              [Edit]
+                           </a>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group">
+                     <label class="col-sm-4 control-label">
+                        Session duration:
+                     </label>
+                     <div class="col-sm-8">
+                        <p class="form-control-static">
+                           Sun, 01 Apr 2012, 23:59   
+                           <b>
+                              to
+                           </b>
+                              Sun, 02 Apr 2017, 23:59
+                        </p>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="col-sm-4 control-label">
+                        Results visible from:
+                     </label>
+                     <div class="col-sm-8">
+                        <p class="form-control-static">
+                           Tue, 01 May 2012, 23:59
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-2">
+                  <div class="form-group">
+                     <div class="col-sm-12">
+                        <form action="&#x2f;page&#x2f;instructorFeedbackResultsDownload" method="post">
+                           <div id="feedbackDataButtons">
+                              <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
+                                                         </div>
+                           <input name="user" type="hidden" value="${test.instructor}"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="sectionname" type="hidden" value="All"/>
+                                                   </form>
+                        <br/>
+                                                <div>
+                           <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D${test.instructor}&amp;user=${test.instructor}" onclick="return toggleUnpublishEvaluation(&#39;Second team feedback session&#39;);" title="">
+                              Unpublish Results
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <span class="help-block align-center">
+                  Non-English characters not displayed properly in the downloaded file?
+                  <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
+                     click here
+                  </span>
+               </span>
+            </div>
+         </div>
       </div>
-    
-</div>
-
-<form id="csvToHtmlForm">
-<input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-<input name="fsname" value="Second team feedback session" type="hidden">
-<input name="user" value="{$test.instructor}" type="hidden">
-<input name="frgroupbysection" value="All" type="hidden">
-<input name="csvtohtmltable" value="true" type="hidden">
-</form>
-
-<div class="modal fade align-center" id="fsResultsTableWindow">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+   </div>
+   <form id="csvToHtmlForm">
+      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+            <input name="fsname" type="hidden" value="Second team feedback session"/>
+            <input name="user" type="hidden" value="${test.instructor}"/>
+            <input name="frgroupbysection" type="hidden" value="All"/>
+            <input name="csvtohtmltable" type="hidden" value="true"/>
+         </form>
+   <div class="modal fade align-center" id="fsResultsTableWindow">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
             <div class="modal-header">
-                 <span class="help-block" style="display:inline;"> Tips: After
-                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
-                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
-                </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
-                    Select Table</button>
+               <span class="help-block" style="display:inline;">
+                  Tips: After selecting the table,
+                  <kbd>
+                     Ctrl + C
+                  </kbd>
+                  to COPY and
+                  <kbd>
+                     Ctrl + V
+                  </kbd>
+                  to PASTE to your Excel Workbook.
+               </span>
+                    
+               <button class="btn btn-default" data-dismiss="modal" type="button">
+                  Close
+               </button>
+               <button class="btn btn-primary" onclick="selectElementContents(document.getElementById(&#39;fsModalTable&#39;));" type="button">
+                  Select Table
+               </button>
             </div>
             <div class="modal-body">
-            <div class="table-responsive">
-            <div id="fsModalTable">
-               
-            </div>
-            <br>
-             <div id="ajaxStatus"></div>      
-            </div>
+               <div class="table-responsive">
+                  <div id="fsModalTable">
+                  </div>
+                  <br/>
+                                    <div id="ajaxStatus">
+                  </div>
+               </div>
             </div>
             <div class="modal-footer">
-               
             </div>
-        </div>
-    </div>
-</div>
-
-
-<br>
-
-
-
-
-
-        <div id="statusMessage" style="display: none;"></div>
-
-<br>
-
-    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
-
-
-            <br>
-            
-            
-            <div class="panel panel-default">
-            
-                <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
-                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsPage">
-                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                        <input name="fsname" value="Second team feedback session" type="hidden">
-                        <input name="user" value="{$test.instructor}" type="hidden">
-                        <input name="frgroupbyteam" value="on" type="hidden">
-                        <input name="frsorttype" value="question" type="hidden">
-                        <input name="frshowstats" value="on" id="showStats-1" type="hidden">
-                        <input name="questionnum" value="1" type="hidden">
-                    </form>
-                    <div class="display-icon pull-right">
-                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                    </div>
-                    <strong>Question 1: </strong>
-                    <div class="inline panel-heading-text">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                        <span class="text-preserve-space">Please rate the estimated contribution of your team members and yourself.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
-    <br>
-    <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
-</span></span>
-                    </div>
-                </div>
-                <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
-                <div class="panel-body padding-0" id="questionBody-0">
-                    
-                        <div class="col-sm-12">
-                            <i class="text-muted">There are no responses for this question.</i>
-                        </div>
-                    
-                </div>
-                </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+      <div id="statusMessage" style="display: none;">
+   </div>
+   <br/>
+      <div class="bold color_red align-center">
+      There are no responses for this feedback session yet or you do not have access to the responses collected so far.
+   </div>
+   <br/>
+      <div class="panel panel-default">
+      <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+         <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
+            <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                        <input name="fsname" type="hidden" value="Second team feedback session"/>
+                        <input name="user" type="hidden" value="${test.instructor}"/>
+                        <input name="frgroupbyteam" type="hidden" value="on"/>
+                        <input name="frsorttype" type="hidden" value="question"/>
+                        <input id="showStats-1" name="frshowstats" type="hidden" value="on"/>
+                        <input name="questionnum" type="hidden" value="1"/>
+                     </form>
+         <div class="display-icon pull-right">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
+         </div>
+         <strong>
+            Question 1:
+         </strong>
+         <div class="inline panel-heading-text">
+            <span class="text-preserve-space">
+               Please rate the estimated contribution of your team members and yourself. 
+               <span style=" white-space: normal;">
+                  <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-" onclick="toggleAdditionalQuestionInfo(&#39;1-&#39;)">
+                     [more]
+                  </a>
+                  <br/>
+                                    <span id="questionAdditionalInfo-1-" style="display:none;">
+                     Team contribution question
+                  </span>
+               </span>
+            </span>
+         </div>
+      </div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+         <div class="panel-body padding-0" id="questionBody-0">
+            <div class="col-sm-12">
+               <i class="text-muted">
+                  There are no responses for this question.
+               </i>
             </div>
-            
-            
-            <div class="panel panel-default">
-            
-                <div style="cursor: pointer;" id="panelHeading-2" data-target="#panelBodyCollapse-2" class="panel-heading">
-                    <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsPage">
-                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                        <input name="fsname" value="Second team feedback session" type="hidden">
-                        <input name="user" value="{$test.instructor}" type="hidden">
-                        <input name="frgroupbyteam" value="on" type="hidden">
-                        <input name="frsorttype" value="question" type="hidden">
-                        <input name="frshowstats" value="on" id="showStats-2" type="hidden">
-                        <input name="questionnum" value="2" type="hidden">
-                    </form>
-                    <div class="display-icon pull-right">
-                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                    </div>
-                    <strong>Question 2: </strong>
-                    <div class="inline panel-heading-text">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                        <span class="text-preserve-space">Comments about my contribution (shown to other teammates)</span>
-                    </div>
-                </div>
-                <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
-                <div class="panel-body padding-0" id="questionBody-1">
-                    
-                        <div class="col-sm-12">
-                            <i class="text-muted">There are no responses for this question.</i>
-                        </div>
-                    
-                </div>
-                </div>
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-default">
+      <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
+         <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
+            <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                        <input name="fsname" type="hidden" value="Second team feedback session"/>
+                        <input name="user" type="hidden" value="${test.instructor}"/>
+                        <input name="frgroupbyteam" type="hidden" value="on"/>
+                        <input name="frsorttype" type="hidden" value="question"/>
+                        <input id="showStats-2" name="frshowstats" type="hidden" value="on"/>
+                        <input name="questionnum" type="hidden" value="2"/>
+                     </form>
+         <div class="display-icon pull-right">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
+         </div>
+         <strong>
+            Question 2:
+         </strong>
+         <div class="inline panel-heading-text">
+            <span class="text-preserve-space">
+               Comments about my contribution (shown to other teammates)
+            </span>
+         </div>
+      </div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-2">
+         <div class="panel-body padding-0" id="questionBody-1">
+            <div class="col-sm-12">
+               <i class="text-muted">
+                  There are no responses for this question.
+               </i>
             </div>
-            
-            
-            <div class="panel panel-default">
-            
-                <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading">
-                    <form style="display:none;" id="seeMore-3" class="seeMoreForm-3" action="/page/instructorFeedbackResultsPage">
-                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                        <input name="fsname" value="Second team feedback session" type="hidden">
-                        <input name="user" value="{$test.instructor}" type="hidden">
-                        <input name="frgroupbyteam" value="on" type="hidden">
-                        <input name="frsorttype" value="question" type="hidden">
-                        <input name="frshowstats" value="on" id="showStats-3" type="hidden">
-                        <input name="questionnum" value="3" type="hidden">
-                    </form>
-                    <div class="display-icon pull-right">
-                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                    </div>
-                    <strong>Question 3: </strong>
-                    <div class="inline panel-heading-text">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                        <span class="text-preserve-space">My comments about this teammate(confidential and only shown to instructor)</span>
-                    </div>
-                </div>
-                <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
-                <div class="panel-body padding-0" id="questionBody-2">
-                    
-                        <div class="col-sm-12">
-                            <i class="text-muted">There are no responses for this question.</i>
-                        </div>
-                    
-                </div>
-                </div>
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-default">
+      <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
+         <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="seeMoreForm-3" id="seeMore-3" style="display:none;">
+            <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                        <input name="fsname" type="hidden" value="Second team feedback session"/>
+                        <input name="user" type="hidden" value="${test.instructor}"/>
+                        <input name="frgroupbyteam" type="hidden" value="on"/>
+                        <input name="frsorttype" type="hidden" value="question"/>
+                        <input id="showStats-3" name="frshowstats" type="hidden" value="on"/>
+                        <input name="questionnum" type="hidden" value="3"/>
+                     </form>
+         <div class="display-icon pull-right">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
+         </div>
+         <strong>
+            Question 3:
+         </strong>
+         <div class="inline panel-heading-text">
+            <span class="text-preserve-space">
+               My comments about this teammate(confidential and only shown to instructor)
+            </span>
+         </div>
+      </div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
+         <div class="panel-body padding-0" id="questionBody-2">
+            <div class="col-sm-12">
+               <i class="text-muted">
+                  There are no responses for this question.
+               </i>
             </div>
-            
-            
-            <div class="panel panel-default">
-            
-                <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading">
-                    <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsPage">
-                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                        <input name="fsname" value="Second team feedback session" type="hidden">
-                        <input name="user" value="{$test.instructor}" type="hidden">
-                        <input name="frgroupbyteam" value="on" type="hidden">
-                        <input name="frsorttype" value="question" type="hidden">
-                        <input name="frshowstats" value="on" id="showStats-4" type="hidden">
-                        <input name="questionnum" value="4" type="hidden">
-                    </form>
-                    <div class="display-icon pull-right">
-                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                    </div>
-                    <strong>Question 4: </strong>
-                    <div class="inline panel-heading-text">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                        <span class="text-preserve-space">Comments about team dynamics(confidential and only shown to instructor)</span>
-                    </div>
-                </div>
-                <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
-                <div class="panel-body padding-0" id="questionBody-3">
-                    
-                        <div class="col-sm-12">
-                            <i class="text-muted">There are no responses for this question.</i>
-                        </div>
-                    
-                </div>
-                </div>
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-default">
+      <div class="panel-heading" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
+         <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="seeMoreForm-4" id="seeMore-4" style="display:none;">
+            <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                        <input name="fsname" type="hidden" value="Second team feedback session"/>
+                        <input name="user" type="hidden" value="${test.instructor}"/>
+                        <input name="frgroupbyteam" type="hidden" value="on"/>
+                        <input name="frsorttype" type="hidden" value="question"/>
+                        <input id="showStats-4" name="frshowstats" type="hidden" value="on"/>
+                        <input name="questionnum" type="hidden" value="4"/>
+                     </form>
+         <div class="display-icon pull-right">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
+         </div>
+         <strong>
+            Question 4:
+         </strong>
+         <div class="inline panel-heading-text">
+            <span class="text-preserve-space">
+               Comments about team dynamics(confidential and only shown to instructor)
+            </span>
+         </div>
+      </div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-4">
+         <div class="panel-body padding-0" id="questionBody-3">
+            <div class="col-sm-12">
+               <i class="text-muted">
+                  There are no responses for this question.
+               </i>
             </div>
-            
-            
-            <div class="panel panel-default">
-            
-                <div style="cursor: pointer;" id="panelHeading-5" data-target="#panelBodyCollapse-5" class="panel-heading">
-                    <form style="display:none;" id="seeMore-5" class="seeMoreForm-5" action="/page/instructorFeedbackResultsPage">
-                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                        <input name="fsname" value="Second team feedback session" type="hidden">
-                        <input name="user" value="{$test.instructor}" type="hidden">
-                        <input name="frgroupbyteam" value="on" type="hidden">
-                        <input name="frsorttype" value="question" type="hidden">
-                        <input name="frshowstats" value="on" id="showStats-5" type="hidden">
-                        <input name="questionnum" value="5" type="hidden">
-                    </form>
-                    <div class="display-icon pull-right">
-                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                    </div>
-                    <strong>Question 5: </strong>
-                    <div class="inline panel-heading-text">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                        <span class="text-preserve-space">My feedback to this teammate(shown anonymously to the teammate)</span>
-                    </div>
-                </div>
-                <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
-                <div class="panel-body padding-0" id="questionBody-4">
-                    
-                        <div class="col-sm-12">
-                            <i class="text-muted">There are no responses for this question.</i>
-                        </div>
-                    
-                </div>
-                </div>
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-default">
+      <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
+         <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="seeMoreForm-5" id="seeMore-5" style="display:none;">
+            <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                        <input name="fsname" type="hidden" value="Second team feedback session"/>
+                        <input name="user" type="hidden" value="${test.instructor}"/>
+                        <input name="frgroupbyteam" type="hidden" value="on"/>
+                        <input name="frsorttype" type="hidden" value="question"/>
+                        <input id="showStats-5" name="frshowstats" type="hidden" value="on"/>
+                        <input name="questionnum" type="hidden" value="5"/>
+                     </form>
+         <div class="display-icon pull-right">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
+         </div>
+         <strong>
+            Question 5:
+         </strong>
+         <div class="inline panel-heading-text">
+            <span class="text-preserve-space">
+               My feedback to this teammate(shown anonymously to the teammate)
+            </span>
+         </div>
+      </div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
+         <div class="panel-body padding-0" id="questionBody-4">
+            <div class="col-sm-12">
+               <i class="text-muted">
+                  There are no responses for this question.
+               </i>
             </div>
-            
-            
-
-
-
-
-
-
-
-
-
-  <div class="panel panel-warning">
-      <div style="cursor: pointer;" id="panelHeading-6" data-target="#panelBodyCollapse-6" class="panel-heading">
-          <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsPage">
-              <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-              <input name="fsname" value="Second team feedback session" type="hidden">
-              <input name="user" value="{$test.instructor}" type="hidden">
-              <input name="questionnum" value="-1" type="hidden">
-          </form>
-          <div class="display-icon pull-right">
-          <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-          </div>
-          Participants who have not responded to any question</div>
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-warning">
+      <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
+         <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+            <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                        <input name="fsname" type="hidden" value="Second team feedback session"/>
+                        <input name="user" type="hidden" value="${test.instructor}"/>
+                        <input name="questionnum" type="hidden" value="-1"/>
+                     </form>
+         <div class="display-icon pull-right">
+            <span class="glyphicon glyphicon-chevron-up pull-right">
+            </span>
+         </div>
+         Participants who have not responded to any question
+      </div>
       <div class="panel-collapse collapse in" id="panelBodyCollapse-6">
-            
-          <div class="panel-body padding-0">
-              <table class="table table-striped table-bordered margin-0">
-                  <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                      <tr>
-                      <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 15%;">Team<span class="icon-sort unsorted"></span>
-                      </th>
-                      <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">Name<span class="icon-sort unsorted"></span>
-                      </th>                            
-                      </tr>
-                  </thead>
-                  <tbody>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 1
-                          
-                          </td>
-                          <td>Alice Betsy</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 1
-                          
-                          </td>
-                          <td>Benny Charles</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 1
-                          
-                          </td>
-                          <td>Danny Engrid</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 1
-                          
-                          </td>
-                          <td>Emma Farrell</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 2
-                          
-                          </td>
-                          <td>AHPUiT Instrúctör</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 2
-                          
-                          </td>
-                          <td>Charlie Davis</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 2
-                          
-                          </td>
-                          <td>Francis Gabriel</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 2
-                          
-                          </td>
-                          <td>Gene Hudson</td>                              
-                      </tr>
-                  
-                      <tr>
-                          <td>
-                          
-                              Team 3
-                          
-                          </td>
-                          <td>Hugh Ivanov</td>                              
-                      </tr>
-                  
-                  </tbody>
-              </table>
-          </div>
-  
+         <div class="panel-body padding-0">
+            <table class="table table-striped table-bordered margin-0">
+               <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                  <tr>
+                     <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this,1)" style="width: 30%;">
+                        Team
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </th>
+                     <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this,2)" style="width: 30%;">
+                        Name
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </th>
+                     <th>
+                        Actions
+                     </th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        Team 1
+                     </td>
+                     <td>
+                        Alice Betsy
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="alice.b.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 1
+                     </td>
+                     <td>
+                        Benny Charles
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 1
+                     </td>
+                     <td>
+                        Danny Engrid
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="danny.e.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 1
+                     </td>
+                     <td>
+                        Emma Farrell
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="emma.f.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 2
+                     </td>
+                     <td>
+                        AHPUiT Instrúctör
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="AHPUiT.instr1@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 2
+                     </td>
+                     <td>
+                        Charlie Davis
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="charlie.d.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 2
+                     </td>
+                     <td>
+                        Francis Gabriel
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="francis.g.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 2
+                     </td>
+                     <td>
+                        Gene Hudson
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="gene.h.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 3
+                     </td>
+                     <td>
+                        Hugh Ivanov
+                     </td>
+                     <td>
+                        <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=${test.instructor}" class="inline" method="post" target="_blank">
+                           <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="moderatedstudent" type="hidden" value="hugh.i.tmms@gmail.tmt"/>
+                                                   </form>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
-      </div>
-  
-            </div>
+   </div>
+</div>

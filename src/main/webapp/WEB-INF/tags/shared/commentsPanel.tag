@@ -92,7 +92,7 @@
                                             </tr>
                                             <tr id="recipient-person${newCommentIndex}">
                                                 <td class="text-left">
-                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
+                                                    <div data-toggle="tooltip" data-placement="top" title="Control what comment recipient(s) can view">
                                                         Recipient(s)
                                                     </div>
                                                 </td>
@@ -108,7 +108,7 @@
                                             </tr>
                                             <tr id="recipient-team${newCommentIndex}">
                                                 <td class="text-left">
-                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
+                                                    <div data-toggle="tooltip" data-placement="top" title="Control what team members of comment recipients can view">
                                                         Recipient's Team
                                                     </div>
                                                 </td>
@@ -124,7 +124,7 @@
                                             </tr>
                                             <tr id="recipient-section${newCommentIndex}">
                                                 <td class="text-left">
-                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
+                                                    <div data-toggle="tooltip" data-placement="top" title="Control what other students in the same section can view">
                                                         Recipient's Section
                                                     </div>
                                                 </td>
@@ -140,7 +140,7 @@
                                             </tr>
                                             <tr id="recipient-course${newCommentIndex}">
                                                 <td class="text-left">
-                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
+                                                    <div data-toggle="tooltip" data-placement="top" title="Control what other students in this course can view">
                                                         Other students in this course
                                                     </div>
                                                 </td>
@@ -156,7 +156,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="text-left">
-                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                    <div data-toggle="tooltip" data-placement="top" title="Control what instructors can view">
                                                         Instructors
                                                     </div>
                                                 </td>

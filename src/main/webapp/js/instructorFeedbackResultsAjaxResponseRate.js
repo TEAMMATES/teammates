@@ -1,5 +1,4 @@
 function getAppendedResponseRateData(data) {
-    console.log(data);
     var appendedResponseStatus = $(data).find('#responseStatus').html();
     $(data).remove();
     return appendedResponseStatus;
@@ -21,7 +20,7 @@ $(document).ready(function() {
                 // submitButton.html('<img src="/images/ajax-loader.gif">');
             },
             error: function() {
-                console.log('Error');
+
             },
             success: function(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));

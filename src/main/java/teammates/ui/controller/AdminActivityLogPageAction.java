@@ -83,8 +83,7 @@ public class AdminActivityLogPageAction extends Action {
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
         
-        
-        LogQuery query = buildQuery(offset, includeAppLogs, data.getVersions());
+        LogQuery query = buildQuery(offset, data.getVersions());
         
         List<ActivityLogEntry> logs = getAppLogs(query, data);
         
@@ -97,7 +96,7 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
+    private LogQuery buildQuery(String offset, List<String> versions) {
         LogQuery query = LogQuery.Builder.withDefaults();
         
         query.includeAppLogs(includeAppLogs);
@@ -180,6 +179,7 @@ public class AdminActivityLogPageAction extends Action {
         
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
+        boolean isFirstRow = true;
         for (RequestLogs record : records) {
             
             totalLogsSearched ++;
@@ -203,8 +203,13 @@ public class AdminActivityLogPageAction extends Action {
                 if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
                     ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
                     activityLogEntry = data.filterLogs(activityLogEntry);
+
                     if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
                         appLogs.add(activityLogEntry);
+                        if (isFirstRow) {
+                            activityLogEntry.setFirstRow();
+                            isFirstRow = false;
+                        }
                         currentLogsInPage ++;
                     }
                 }
