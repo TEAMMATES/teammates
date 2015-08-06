@@ -14,12 +14,15 @@ public class InstructorFeedbackResultsNoResponsePanel {
     private List<String> emails;
     private Map<String, String> names;
     private Map<String, String> teams;
+    private Map<String, InstructorFeedbackResultsModerationButton> moderationButtons; 
     
-    public InstructorFeedbackResultsNoResponsePanel(FeedbackSessionResponseStatus responseStatus) {
+    public InstructorFeedbackResultsNoResponsePanel(FeedbackSessionResponseStatus responseStatus,
+                                    Map<String, InstructorFeedbackResultsModerationButton> moderationButtons) {
         this.names = Collections.unmodifiableMap(responseStatus.emailNameTable);
         this.emails = getFilteredEmails(responseStatus.getStudentsWhoDidNotRespondToAnyQuestion());
         this.teams = getTeamsWithInstructorTeam(responseStatus.emailTeamNameTable,
                                                 "<i>" + Const.USER_TEAM_FOR_INSTRUCTOR + "</i>");
+        this.moderationButtons = moderationButtons;
     }
 
     public List<String> getEmails() {
@@ -63,4 +66,10 @@ public class InstructorFeedbackResultsNoResponsePanel {
         
         return Collections.unmodifiableMap(teams);
     } 
+    
+    public Map<String, InstructorFeedbackResultsModerationButton> getModerationButtons() {
+        return moderationButtons;
+    }
+    
+
 }
