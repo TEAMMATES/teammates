@@ -36,6 +36,8 @@ public abstract class ActionResult {
     protected List<String> statusToUser = new ArrayList<String>();
     // TODO: List<StatusMessage> instead of List<String>?
     
+    public String statusMessageColor;
+    
     public ActionResult(
             String destination, 
             AccountAttributes account, 
