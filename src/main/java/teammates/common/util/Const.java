@@ -793,6 +793,8 @@ public class Const {
         
         public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
     }
+    
+    public static enum StatusMessageColor {INFO, WARNING, DANGER, SUCCESS};    
 
     /* These are status messages that may be shown to the user */
     public class StatusMessages{
