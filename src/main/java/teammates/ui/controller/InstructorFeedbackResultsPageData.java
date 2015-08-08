@@ -23,7 +23,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
 import teammates.ui.template.InstructorFeedbackResultsNoResponsePanel;
@@ -1289,12 +1288,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
-    private Url getProfilePictureIfEmailValid(String email) {
+    private String getProfilePictureIfEmailValid(String email) {
         // TODO the check for determining whether to show a profile picture 
         // can be improved to use isStudent
         boolean isEmailValid 
             = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty();
-        return isEmailValid ? new Url(getProfilePictureLink(email))
+        return isEmailValid ? getProfilePictureLink(email)
                             : null;
     }
     

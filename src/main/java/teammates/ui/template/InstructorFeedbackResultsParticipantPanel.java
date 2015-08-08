@@ -1,8 +1,5 @@
 package teammates.ui.template;
 
-import teammates.common.util.Url;
-
-
 
 
 public class InstructorFeedbackResultsParticipantPanel implements Comparable<InstructorFeedbackResultsParticipantPanel>{
@@ -61,9 +58,8 @@ public class InstructorFeedbackResultsParticipantPanel implements Comparable<Ins
         return profilePictureLink;
     }
 
-    public void setProfilePictureLink(Url profilePictureLink) {
-        this.profilePictureLink = profilePictureLink != null ? profilePictureLink.toString()
-                                                             : null;
+    public void setProfilePictureLink(String profilePictureLink) {
+        this.profilePictureLink = profilePictureLink;
     }
 
     public InstructorFeedbackResultsModerationButton getModerationButton() {
