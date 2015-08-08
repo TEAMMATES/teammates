@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import teammates.common.util.Const.ActionURIs;
+
 
 /** Holds String-related helper functions
  */
@@ -481,6 +483,51 @@ public class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
+    }
+
+    public static String removeVariables(String statusMessage) {
+        return statusMessage.replaceAll("<a href=\"(.*)\">", "")                               // COURSE_ADDED
+                            .replaceAll("(.*) is not acceptable to TEAMMATES as an email", "") // INVALID_EMAIL
+                            .replaceAll("The course (.*) has been archived", "")               // COURSE_ARCHIVED, COURSE_ARCHIVED_FROM_HOMEPAGE
+                            .replaceAll("The course (.*) has been unarchived", "")             // COURSE_UNARCHIVED
+                            .replaceAll("The course (.*) has been deleted", "")                // COURSE_DELETED
+                            .replaceAll("An email has been sent to (.*)", "")                  // COURSE_REMINDER_SENT_TO
+                            .replaceAll(ActionURIs.INSTRUCTOR_COURSES_PAGE 
+                                           + "(.*)\">here</a> to create or unarchive a course", "") // COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
+                            .replaceAll("Errors on (.*) student(s):", "")                      // COURSE_ENROLL_STUDENTS_ERROR
+                            .replaceAll("(.*) student(s) added:", "")                          // COURSE_ENROLL_STUDENTS_ADDED
+                            .replaceAll("Errors on (.*) student(s):", "")                      // COURSE_ENROLL_STUDENTS_ERROR
+                            .replaceAll("(.*) student(s) modified:", "")                       // COURSE_ENROLL_STUDENTS_MODIFIED
+                            .replaceAll("(.*) student(s) updated with no changes:", "")        // COURSE_ENROLL_STUDENTS_UNMODIFIED
+                            .replaceAll("(.*) student(s) remain unmodified:", "")              // COURSE_ENROLL_STUDENTS_NOT_IN_LIST
+                            .replaceAll("(.*) student(s) with unknown enrolment status:", "")  // COURSE_ENROLL_STUDENTS_UNKNOWN
+                            .replaceAll("The team (.*) is in multiple sections", "")           // TEAM_INVALID_SECTION_EDIT
+                            .replaceAll("enroll more than 100 students in section (.*). To avoid performance problems"
+                                                                                                , "") // SECTION_QUOTA_EXCEED
+                            .replaceAll("The instructor (.*) has been added successfully", "")        // COURSE_INSTRUCTOR_ADDED
+                            .replaceAll("this course will be sent to (.*) in a few minutes", "")      // COURSE_INSTRUCTOR_ADDED
+                            .replaceAll("different user whose Google ID is (.*)", "")           // JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER
+                            .replaceAll("The Google ID (.*) belongs to an existing user", "")   // JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER
+                            .replaceAll("A feedback session with the name (.*) already exists in the following course(s): (.*)", 
+                                                                                            "") // FEEDBACK_SESSION_COPY_ALREADYEXISTS
+                            .replaceAll("You did not specify a recipient for your response in question (.*).", "")   // FEEDBACK_RESPONSES_MISSING_RECIPIENT
+                            .replaceAll("Incorrect question type for response in question (.*).", "")                // FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE
+                            .replaceAll("You are modifying an invalid response in question (.*)", "")                // FEEDBACK_RESPONSES_INVALID_ID
+                            .replaceAll("Trying to update recipient to an invalid recipient for question (.*).", "") // FEEDBACK_RESPONSE_INVALID_RECIPIENT
+                            .replaceAll("Problem in line : <span class=\"invalidLine\">(.*)</span>", "")             // ENROLL_LINES_PROBLEM
+                            .replaceAll("<br><span class=\"problemDetail\">" 
+                                          + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " (.*)</span>", "") // ENROLL_LINES_PROBLEM
+                            .replaceAll("You have successfully joined the course (.*). <br>Updating of the course"
+                                                            + " data on our servers is currently in progress", "")   // EVENTUAL_CONSISTENCY_MESSAGE_STUDENT
+                            .replaceAll("Please refresh this page in a few minutes to see the course (.*) in the list below", "")
+                            .replaceAll("Currently, there are no open feedback sessions in the course (.*).", "")    // HINT_FOR_NO_SESSIONS_STUDENT
+                            .replaceAll("You have been successfully added to the course (.*).", "")                  // STUDENT_COURSE_JOIN_SUCCESSFUL
+                            .replaceAll("You are submitting feedback as <span class='text-danger text-bold text-large'>(.*)</span>."
+                                                                                                            , "")    // UNREGISTERED_STUDENT
+                            .replaceAll("To access other features you need <a href='(.*)' class='link'>to login"
+                                                                                      , "")    // UNREGISTERED_STUDENT, UNREGISTERED_STUDENT_RESULTS
+                            .replaceAll("You are viewing feedback results as <span class='text-danger text-bold text-large'>(.*)</span>"
+                                                                                                            , "");    // UNREGISTERED_STUDENT_RESULTS
     }
 
 }
