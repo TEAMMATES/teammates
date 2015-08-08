@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessageColors;
 
 /**
  * A result that shows a page in the Browser. These are usually implemented as 
@@ -26,6 +27,7 @@ public class ShowPageResult extends ActionResult{
             Map<String, String[]> parametersFromPreviousRequest,
             List<String> status) {
         super(destination, account, parametersFromPreviousRequest, status);
+        statusMessageColor = "";
     }
     
     public ShowPageResult(
@@ -52,8 +54,9 @@ public class ShowPageResult extends ActionResult{
          *  in the URL
          */ 
         req.setAttribute(Const.ParamsNames.ERROR, ""+isError);
-        
         addStatusMessageToRequest(req);
+        req.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
+
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }
 
@@ -63,8 +66,11 @@ public class ShowPageResult extends ActionResult{
             //Remove status message in session, thus it becomes an one-time message
             req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
             req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession);
+            statusMessageColor = StatusMessageColors.getStatusMessageColor(statusMessageInSession);
         } else {
             req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
+            statusMessageColor = "info";
         }
+        req.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
     }
 }
