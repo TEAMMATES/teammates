@@ -18,6 +18,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessageColors;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
@@ -372,6 +373,8 @@ public abstract class Action {
         } else {
             session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession + "<br>"  + response.getStatusMessage());
         }
+        
+        session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, StatusMessageColors.getStatusMessageColor(response.getStatusMessage()));
     }
 
     /**
