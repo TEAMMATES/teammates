@@ -13,17 +13,20 @@
         <h5 class="pull-left"><strong> Sort By: </strong></h5>
         <div class="btn-group pull-right" data-toggle="buttons">
             <label class="btn btn-default<c:if test="${data.sortCriteria == byCourse}"> active</c:if>"
-                   name="sortby" data="id" id="sortById">
+                   name="sortby" data="id" id="sortById"
+                   <c:if test="${data.unarchivedCoursesCount <= 1}">disabled="disabled"</c:if>>
                 <input type="radio">
                 Course ID
             </label>
             <label class="btn btn-default<c:if test="${data.sortCriteria == byName}"> active</c:if>" 
-                   name="sortby" data="name" id="sortByName">
+                   name="sortby" data="name" id="sortByName"
+                   <c:if test="${data.unarchivedCoursesCount <= 1}">disabled="disabled"</c:if>>
                 <input type="radio" name="sortby" value="name" >
                 Course Name
             </label>
             <label class="btn btn-default<c:if test="${data.sortCriteria == byCreationDate}"> active</c:if>" 
-                   name="sortby" data="createdAt" id="sortByDate">
+                   name="sortby" data="createdAt" id="sortByDate"
+                   <c:if test="${data.unarchivedCoursesCount <= 1}">disabled="disabled"</c:if>>
                 <input type="radio">
                 Creation Date
             </label>
