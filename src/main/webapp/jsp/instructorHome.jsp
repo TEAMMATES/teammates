@@ -15,7 +15,7 @@
     <t:statusMessage />
     <ti:remindParticularStudentsModal />
     <c:if test="${data.account.instructor}">
-        <home:sort />
+        <home:sort isSortButtonsDisabled="${data.unarchivedCoursesCount <= 1}"/>
         <br />
         <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
             <home:coursePanel courseTable="${courseTable}" index="${i.index}">
