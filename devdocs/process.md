@@ -202,6 +202,7 @@ The meaning of issue prefixes: `s.` status, `a.` aspect, `f.` feature, `t.` type
 
 **Urgency**
 
+* `p.Critical`: Would like to fix it ASAP and release as a hot patch.
 * `p.Urgent`: Would like to handle in the very next release.
 * `p.High`: Enhances user experience significantly, would like to do in the next few releases.
 * `p.Medium`: Marginal impact on user experience.

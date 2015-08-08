@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
@@ -1610,6 +1609,33 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
+    private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtons(
+                                                                       Map<String, String> emailNameTable) {
+        Map<String, InstructorFeedbackResultsModerationButton> moderationButtons = new HashMap<>();
+        for (String giverIdentifier : bundle.responseStatus.emailNameTable.keySet()) {
+            boolean isStudent = bundle.isParticipantIdentifierStudent(giverIdentifier);
+            
+            if (!isStudent) {
+                continue;
+            }
+            
+            String sectionName = bundle.getSectionFromRoster(giverIdentifier);
+            boolean isAllowedToModerate = isStudent 
+                                       && instructor.isAllowedForPrivilege(
+                                               sectionName, feedbackSessionName, 
+                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            
+            InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
+                                        !isAllowedToModerate, "btn btn-default btn-xs", giverIdentifier, 
+                                        bundle.feedbackSession.courseId, bundle.feedbackSession.feedbackSessionName, 
+                                        null, "Submit Responses");
+            moderationButtons.put(giverIdentifier, moderationButton);
+            
+        }
+        
+        return moderationButtons;
+    }
+    
     // TODO remove this entirely and use PageData method directly
     public String getProfilePictureLink(String studentEmail) {
         return getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
@@ -1716,7 +1742,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
-        return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus);
+        return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
+                                        buildModerateButtons(bundle.emailNameTable));
     }
 
     public void setSections(List<String> sections) {
