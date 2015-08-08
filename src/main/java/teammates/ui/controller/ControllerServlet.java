@@ -16,6 +16,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StatusMessageColors;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
@@ -95,6 +96,11 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGE, 
                                           Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+            
+            req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, 
+                                            StatusMessageColors.getStatusMessageColor(
+                                                                 Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE));
+            
             if(requestUrl.contains("/instructor")) {
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             } else if(requestUrl.contains("/student")) {
