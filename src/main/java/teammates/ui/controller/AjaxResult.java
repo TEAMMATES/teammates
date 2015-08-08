@@ -35,7 +35,8 @@ public class AjaxResult extends ActionResult {
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         
-        req.setAttribute(Const.ParamsNames.ERROR, "" + isError);        
+        req.setAttribute(Const.ParamsNames.ERROR, "" + isError); 
+        req.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
         clearStatusMessageForRequest(req);
         
         resp.setContentType("application/json");
