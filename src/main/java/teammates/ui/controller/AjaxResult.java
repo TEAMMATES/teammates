@@ -51,6 +51,7 @@ public class AjaxResult extends ActionResult {
         if (statusMessageInSession != null) {
             //Remove status message in session, thus it becomes an one-time message
             req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
         }
     }
 }
