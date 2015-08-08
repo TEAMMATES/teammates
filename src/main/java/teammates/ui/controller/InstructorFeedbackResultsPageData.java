@@ -1646,7 +1646,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return moderationButtons;
     }
     
-    // TODO remove this entirely and use PageData method directly
     public String getProfilePictureLink(String studentEmail) {
         if (!profilePictureLink.containsKey(studentEmail)) {
             profilePictureLink.put(studentEmail, 
