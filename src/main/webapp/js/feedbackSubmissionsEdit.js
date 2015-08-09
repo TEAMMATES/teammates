@@ -172,7 +172,7 @@ function prepareContribQuestions() {
         var qnNum = contribQuestionNums[i];
 
         // Get number of options for the specified question number of contribution question type
-        var optionNums = $('[name^="responsetext-' + qnNum + '"]').length;
+        var optionNums = $('[name^="responsetext-' + qnNum + '-"]').length;
 
         for (var k = 0; k < optionNums; k++) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
