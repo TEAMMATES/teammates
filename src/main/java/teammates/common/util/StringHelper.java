@@ -485,6 +485,16 @@ public class StringHelper {
         return (str == null) ? "" : str;
     }
 
+    /**
+     * Removes templates and actual values filled in place of templates
+     * for status messages
+     * 
+     * Example : "You are enrolled in %s" and "You are enrolled in CS2103"
+     *            are converted to "You are enrolled in "
+     *            
+     * @param statusMessage
+     * @return status message without variables and actual values
+     */
     public static String removeVariables(String statusMessage) {
         return statusMessage.replaceAll("<a href=\"(.*)\">", "")                               // COURSE_ADDED
                             .replaceAll("(.*) is not acceptable to TEAMMATES as an email", "") // INVALID_EMAIL
