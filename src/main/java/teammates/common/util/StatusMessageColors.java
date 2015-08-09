@@ -31,6 +31,7 @@ public class StatusMessageColors {
                     return "info";
             }
         } catch (Exception e) {
+            assert false : Const.StatusCodes.STATUS_MESSAGE_NOT_FOUND_IN_HASHMAP;
             return "info";
         }
     }
