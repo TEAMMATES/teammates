@@ -62,6 +62,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FieldValidator validator = new FieldValidator();
     private String feedbackSessionName = null;
     
+    private String displayableFsName = null;
+    private String displayableCourseId = null;
+    
     // used for html table ajax loading
     private String ajaxStatus = null;
     private String sessionResultsHtmlTableAsString = null;
@@ -1701,11 +1704,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     public String getCourseId() {
-        return sanitizeForHtml(bundle.feedbackSession.courseId);
+        if (displayableCourseId == null) {
+            displayableCourseId = sanitizeForHtml(bundle.feedbackSession.courseId);
+        }
+        
+        return displayableCourseId;
     }
 
     public String getFeedbackSessionName() {
-        return sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
+        if (displayableFsName == null) {
+            displayableFsName = sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
+        }
+        
+        return displayableFsName;
     }
 
     public String getAjaxStatus() {
