@@ -1005,9 +1005,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                               List<FeedbackResponseAttributes> responses,
                                                               String additionalInfoId, 
                                                               String participantIdentifier, boolean isShowingResponseRows) {
-        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
-        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, this, 
-                                                                                 bundle, viewType.toString());
 
         List<ElementTag> columnTags = new ArrayList<ElementTag>();
         Map<String, Boolean> isSortable = new HashMap<String, Boolean>();
@@ -1037,9 +1034,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
         
-        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(this, 
-                                                                        responses, statisticsTable, 
-                                                                        responseRows, question, additionalInfoId, 
+        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
+        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, this, 
+                                                                                 bundle, viewType.toString());
+        
+        String questionText = questionDetails.getQuestionText();
+        String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
+        
+        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable( 
+                                                                        !responses.isEmpty(), statisticsTable, 
+                                                                        responseRows, question, 
+                                                                        questionText, additionalInfoText, 
                                                                         columnTags, isSortable);
         questionTable.setShowResponseRows(isShowingResponseRows);
         questionTable.setCollapsible(isCollapsible);
