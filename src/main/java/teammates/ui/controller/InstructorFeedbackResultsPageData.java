@@ -77,7 +77,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
     
     private Map<FeedbackQuestionAttributes, FeedbackQuestionDetails> questionToDetailsMap = new HashMap<>();
-    private Map<String, String> profilePictureLink = new HashMap<>();
+    private Map<String, String> profilePictureLinks = new HashMap<>();
     
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
@@ -155,6 +155,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             questionToDetailsMap.put(question, questionDetails);
         }
+        
+        displayableFsName = sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
+        displayableCourseId = sanitizeForHtml(bundle.feedbackSession.courseId);
     }
     
   
@@ -625,11 +628,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                          MODERATE_RESPONSES_FOR_GIVER);
             participantPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
                                             participantIdentifier, bundle.getNameForEmail(participantIdentifier),
-                                            questionTables, getProfilePictureLink(participantIdentifier), 
+                                            questionTables, 
+                                            getStudentProfilePictureLink(participantIdentifier, instructor.courseId), 
                                             true, moderationButton);
         } else {
             participantPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
-                                            questionTables, getProfilePictureLink(participantIdentifier), 
+                                            questionTables, 
+                                            getStudentProfilePictureLink(participantIdentifier, instructor.courseId), 
                                             viewType.isPrimaryGroupingOfGiverType(), participantIdentifier, 
                                             bundle.getNameForEmail(participantIdentifier));
         }
@@ -852,7 +857,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     = new InstructorFeedbackResultsGroupByQuestionPanel(
                                                     teamMember, bundle.getFullNameFromRoster(teamMember),
                                                     new ArrayList<InstructorFeedbackResultsQuestionTable>(), 
-                                                    getProfilePictureLink(teamMember), 
+                                                    getStudentProfilePictureLink(teamMember, instructor.courseId), 
                                                     viewType.isPrimaryGroupingOfGiverType(), moderationButton);
             } else {
                 String teamMemberNameWithTeamNameAppended = bundle.getFullNameFromRoster(teamMember) 
@@ -880,7 +885,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!viewType.isSecondaryGroupingOfParticipantType()) {
                 giverPanel = 
                     new InstructorFeedbackResultsGroupByQuestionPanel(
-                            new ArrayList<InstructorFeedbackResultsQuestionTable>(), getProfilePictureLink(teamMember), 
+                            new ArrayList<InstructorFeedbackResultsQuestionTable>(), 
+                            getStudentProfilePictureLink(teamMember, instructor.courseId), 
                             viewType.isPrimaryGroupingOfGiverType(), teamMember, bundle.getFullNameFromRoster(teamMember));
                 
             } else {
@@ -1290,13 +1296,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 Assumption.fail();            
         }
     }
-    
+
+    // TODO consider using Url in future
     private String getProfilePictureIfEmailValid(String email) {
         // TODO the check for determining whether to show a profile picture 
         // can be improved to use isStudent
         boolean isEmailValid 
             = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty();
-        return isEmailValid ? getProfilePictureLink(email)
+        return isEmailValid ? getStudentProfilePictureLink(email, instructor.courseId)
                             : null;
     }
     
@@ -1649,15 +1656,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return moderationButtons;
     }
     
-    public String getProfilePictureLink(String studentEmail) {
-        if (!profilePictureLink.containsKey(studentEmail)) {
-            profilePictureLink.put(studentEmail, 
-                                   getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
-                                                                StringHelper.encrypt(instructor.courseId)));
+    @Override
+    public String getStudentProfilePictureLink(String studentEmail, String courseId) {
+        if (!profilePictureLinks.containsKey(studentEmail)) {
+            profilePictureLinks.put(studentEmail, 
+                                    super.getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
+                                                                       StringHelper.encrypt(courseId)));
        
         }
         
-        return profilePictureLink.get(studentEmail);
+        return profilePictureLinks.get(studentEmail);
     }
 
     public void setBundle(FeedbackSessionResultsBundle bundle) {
@@ -1704,18 +1712,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     public String getCourseId() {
-        if (displayableCourseId == null) {
-            displayableCourseId = sanitizeForHtml(bundle.feedbackSession.courseId);
-        }
-        
         return displayableCourseId;
     }
 
     public String getFeedbackSessionName() {
-        if (displayableFsName == null) {
-            displayableFsName = sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
-        }
-        
         return displayableFsName;
     }
 
