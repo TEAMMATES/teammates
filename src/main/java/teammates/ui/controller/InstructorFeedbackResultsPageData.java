@@ -48,6 +48,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     // TODO find out why it's 500
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
+    private static final int RESPONDANTS_LIMIT_FOR_AUTOLOADING = 150;
 
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
@@ -1793,5 +1794,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     public void setSessionResultsHtmlTableAsString(String sessionResultsHtmlTableAsString) {
         this.sessionResultsHtmlTableAsString = sessionResultsHtmlTableAsString;
+    }
+    
+    public boolean isLargeNumberOfRespondants() {
+        return (bundle.feedbackSession.respondingInstructorList.size() 
+             + bundle.feedbackSession.respondingStudentList.size()) > RESPONDANTS_LIMIT_FOR_AUTOLOADING;
     }
 }

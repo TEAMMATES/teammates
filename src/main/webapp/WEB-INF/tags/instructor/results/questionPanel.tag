@@ -12,7 +12,7 @@
 
 
 <div class="panel ${questionPanel.panelClass}">
-    <div class="panel-heading${isShowingResponses ? '' : ' ajax_submit'}">
+    <div class="panel-heading${isShowingResponses ? ' ajax_auto' : ' ajax_submit'}">
         <c:if test="${questionPanel.collapsible}">
             <form style="display:none;" id="seeMore-${questionPanel.question.questionNumber}" class="seeMoreForm-${questionPanel.question.questionNumber}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
@@ -52,7 +52,7 @@
                 </div>
             </c:if>
             
-            <c:if test="${isShowingResponses && questionPanel.questionHasResponses}">
+            <c:if test="${questionPanel.questionHasResponses}">
                 <div class="resultStatistics">
                     ${questionPanel.questionStatisticsTable}
                 </div>

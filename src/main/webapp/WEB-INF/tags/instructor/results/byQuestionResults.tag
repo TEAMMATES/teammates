@@ -11,5 +11,6 @@
 <br>
 
 <c:forEach items="${questionPanels}" var="questionPanel" varStatus="i">
-    <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}" questionPanel="${questionPanel}" isPanelsCollapsed="${isPanelsCollapsed}"/>
+    <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}" 
+                           questionPanel="${questionPanel}" isPanelsCollapsed="${isPanelsCollapsed}"/>
 </c:forEach>

@@ -51,5 +51,8 @@ $(document).ready(function() {
             }
         });
     };
-    $('.ajax_submit').click(seeMoreRequest);
+
+    var questionPanelHeadings = $('.ajax_submit,.ajax_auto');
+    questionPanelHeadings.click(seeMoreRequest);
+    $('.ajax_auto').click();
 });
