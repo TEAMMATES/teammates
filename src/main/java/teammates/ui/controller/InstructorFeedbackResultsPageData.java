@@ -1191,9 +1191,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responseRows.add(responseRow);
         }
         
-        responseRows.addAll(getRemainingMissingResponseRows(question, possibleGiversWithoutResponses, 
-                                                            possibleReceiversWithoutResponsesForGiver, 
-                                                            prevGiver, viewType));
+        if (!responses.isEmpty()) {
+            responseRows.addAll(getRemainingMissingResponseRows(question, possibleGiversWithoutResponses, 
+                                                                possibleReceiversWithoutResponsesForGiver, 
+                                                                prevGiver, viewType));
+        }
         
         return responseRows;
     }
