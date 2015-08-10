@@ -1966,13 +1966,7 @@ public class FeedbackSessionsLogic {
                 for (FeedbackQuestionAttributes qn : allQuestions){
                     relevantQuestions.put(qn.getId(), qn);
                 }
-                FeedbackSessionResultsBundle results =
-                    new FeedbackSessionResultsBundle(
-                            session, responses, relevantQuestions,
-                            emailNameTable, emailLastNameTable, emailTeamNameTable,
-                            visibilityTable, responseStatus, roster, responseComments, isComplete);
-    
-                return results;
+                
             }
         } else {
             if(isInSection){

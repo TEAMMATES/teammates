@@ -48,16 +48,13 @@ public class InstructorFeedbackResultsQuestionTable {
         this.questionStatisticsTable = questionStatisticsHtml;
         this.responses = responseRows;
         
-        this.isQuestionHasResponses = isQuestionHasResponses; //TODO: just check is response is empty in jsp? 
+        this.isQuestionHasResponses = isQuestionHasResponses;  
         
         this.question = question;
         
         this.questionText = questionText;
         
-        this.panelClass = isQuestionHasResponses 
-                        ? "panel-default" 
-                        : "panel-info";
-        
+        this.panelClass = "panel-info";
         
         this.additionalInfoText = additionalInfoText;
         

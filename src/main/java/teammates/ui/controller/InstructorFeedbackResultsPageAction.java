@@ -79,14 +79,22 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.setSections(logic.getSectionNamesForCourse(courseId));
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
+        
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null && !sortType.equals("question")) {
             // bundle for all questions and all sections  
             data.setBundle(logic
-                    .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
-                                                                               instructor.email,
-                                                                               queryRange, sortType));
+                .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
+                                                                           instructor.email,
+                                                                           queryRange, sortType));
         } else if (sortType.equals("question")) {
-            if (questionNumStr == null) {
+            if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
+                // set up question tables, responses to load by ajax
+                data.setBundle(logic
+                            .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
+                                                                                       instructor.email,
+                                                                                       1, sortType));
+                data.getBundle().isComplete = true;
+            } else if (questionNumStr == null) {
                 // bundle for all questions, with a selected section
                 data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                     instructor.email,
