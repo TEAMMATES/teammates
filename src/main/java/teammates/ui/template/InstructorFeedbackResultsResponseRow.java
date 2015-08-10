@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import teammates.common.util.Url;
 
 /**
  * Data model for Instructor Feedback Results view by question, view by...
@@ -91,15 +90,13 @@ public class InstructorFeedbackResultsResponseRow {
         return isRowGrey;
     }
 
-    public void setGiverProfilePictureLink(Url giverProfilePictureLink) {
-        this.giverProfilePictureLink = giverProfilePictureLink != null ? giverProfilePictureLink.toString()
-                                                                       : null;
+    public void setGiverProfilePictureLink(String giverProfilePictureLink) {
+        this.giverProfilePictureLink = giverProfilePictureLink;
+                                                                       
     }
 
-    public void setRecipientProfilePictureLink(Url recipientProfilePictureLink) {
-        this.recipientProfilePictureLink = recipientProfilePictureLink != null 
-                                         ? recipientProfilePictureLink.toString()
-                                         : null;
+    public void setRecipientProfilePictureLink(String recipientProfilePictureLink) {
+        this.recipientProfilePictureLink = recipientProfilePictureLink;
     }
 
     public ElementTag getRowAttributes() {
