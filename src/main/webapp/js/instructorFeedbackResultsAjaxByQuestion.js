@@ -18,10 +18,10 @@ $(document).ready(function() {
             cache: false,
             url: $(formObject[0]).attr('action') + '?' + formData,
             beforeSend: function() {
-                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
+                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
             error: function() {
-
+                // TODO handle errors!
             },
             success: function(data) {
                 var appendedQuestion = $(data).find('#questionBody-0').html();
@@ -43,10 +43,13 @@ $(document).ready(function() {
                 bindStudentPhotoHoverLink($(panelBody[0]).find('.profile-pic-icon-hover'));
 
                 $(panelHeading).removeClass('ajax_submit ajax_auto');
-                $(panelHeading).off('click');
+
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
+                
+                $(panelHeading).off('click');
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
+
                 showHideStats();
             }
         });
