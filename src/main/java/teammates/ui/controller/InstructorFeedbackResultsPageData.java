@@ -1063,7 +1063,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // setup classes, for loading responses by ajax
             // ajax_submit: user needs to click on the panel to load
             // ajax_auto: responses are loaded automatically
-            questionTable.setAjaxClass(isLoadingByAjax()
+            questionTable.setAjaxClass(isLargeNumberOfResponses()
                                      ? " ajax_submit" 
                                      : " ajax_auto");
         }
@@ -1815,7 +1815,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         this.sessionResultsHtmlTableAsString = sessionResultsHtmlTableAsString;
     }
     
-    public boolean isLoadingByAjax() {
+    public boolean isLargeNumberOfResponses() {
         return (viewType == ViewType.QUESTION && isLargeNumberOfRespondants() && isAllSectionsSelected())
              || !bundle.isComplete;
     }
