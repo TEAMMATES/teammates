@@ -1061,8 +1061,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                         columnTags, isSortable);
         if (viewType == ViewType.QUESTION) {
             // setup classes, for loading responses by ajax
-            // ajax_submit: user needs to click on the panel to load, ajax_auto: responses are loaded automatically
-            questionTable.setAjaxClass(isLargeNumberOfRespondants() && isAllSectionsSelected()
+            // ajax_submit: user needs to click on the panel to load
+            // ajax_auto: responses are loaded automatically
+            questionTable.setAjaxClass(isLoadingByAjax()
                                      ? " ajax_submit" 
                                      : " ajax_auto");
         }
@@ -1815,10 +1816,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
         this.sessionResultsHtmlTableAsString = sessionResultsHtmlTableAsString;
     }
     
+    public boolean isLoadingByAjax() {
+        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondants() && !isAllSectionsSelected())
+             || !bundle.isComplete;
+    }
+    
     public boolean isLargeNumberOfRespondants() {
+        int numRespondants = (bundle.feedbackSession.respondingInstructorList.size() 
+                           + bundle.feedbackSession.respondingStudentList.size());
         return isLargeNumberOfRespondants 
-           || (bundle.feedbackSession.respondingInstructorList.size() 
-               + bundle.feedbackSession.respondingStudentList.size()) > RESPONDANTS_LIMIT_FOR_AUTOLOADING;
+           || numRespondants > RESPONDANTS_LIMIT_FOR_AUTOLOADING;
     }
 
     

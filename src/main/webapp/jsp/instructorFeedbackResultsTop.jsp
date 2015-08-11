@@ -4,7 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
-<c:set var="showAll" value="${data.bundle.complete && !data.largeNumberOfRespondants}" />
+<c:set var="showAll" value="${!data.loadingByAjax}" />
 <c:set var="noResponses" value="${empty data.bundle.responses}" />
 
 <r:sessionPanel sessionPanel="${data.sessionPanel}" />
