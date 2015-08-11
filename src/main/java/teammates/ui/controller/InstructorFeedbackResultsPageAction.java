@@ -78,6 +78,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         data.setSections(logic.getSectionNamesForCourse(courseId));
+        data.setLargeNumberOfRespondants(needAjax != null);
+        
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         
         if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null && !sortType.equals("question")) {

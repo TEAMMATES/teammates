@@ -50,6 +50,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
     private static final int RESPONDANTS_LIMIT_FOR_AUTOLOADING = 150;
 
+    // isLargeNumberOfRespondants is an attribute used for testing the ui, for ViewType.Question 
+    private boolean isLargeNumberOfRespondants = false;
+    
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
     private List<String> sections = null;
@@ -1050,8 +1053,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (viewType == ViewType.QUESTION) {
             // setup classes, for loading responses by ajax
             // ajax_submit: user needs to click on the panel to load, ajax_auto: responses are loaded automatically
-            questionTable.setAjaxClass(isLargeNumberOfRespondants() ? " ajax_submit" 
-                                                                    : " ajax_auto");
+            questionTable.setAjaxClass(isLargeNumberOfRespondants() 
+                                     ? " ajax_submit" 
+                                     : " ajax_auto");
         }
         questionTable.setShowResponseRows(isShowingResponseRows);
         questionTable.setCollapsible(isCollapsible);
@@ -1803,7 +1807,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfRespondants() {
-        return (bundle.feedbackSession.respondingInstructorList.size() 
-             + bundle.feedbackSession.respondingStudentList.size()) > RESPONDANTS_LIMIT_FOR_AUTOLOADING;
+        return isLargeNumberOfRespondants 
+           || (bundle.feedbackSession.respondingInstructorList.size() 
+               + bundle.feedbackSession.respondingStudentList.size()) > RESPONDANTS_LIMIT_FOR_AUTOLOADING;
     }
+
+    
+    // Only used for testing the ui
+    public void setLargeNumberOfRespondants(boolean needAjax) {
+        this.isLargeNumberOfRespondants = needAjax;
+    }
+    
 }
