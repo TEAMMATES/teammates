@@ -1047,6 +1047,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                         responseRows, question, 
                                                                         questionText, additionalInfoText, 
                                                                         columnTags, isSortable);
+        if (viewType == ViewType.QUESTION) {
+            // setup classes, for loading responses by ajax
+            // ajax_submit: user needs to click on the panel to load, ajax_auto: responses are loaded automatically
+            questionTable.setAjaxClass(isLargeNumberOfRespondants() ? " ajax_submit" 
+                                                                    : " ajax_auto");
+        }
         questionTable.setShowResponseRows(isShowingResponseRows);
         questionTable.setCollapsible(isCollapsible);
         

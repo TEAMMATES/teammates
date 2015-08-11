@@ -1859,6 +1859,8 @@ public class FeedbackSessionsLogic {
             FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
                     feedbackSessionName, courseId, questionNumber);
             if (question != null) {
+                relevantQuestions.put(question.getId(), question);
+                
                 List<FeedbackResponseAttributes> responsesForThisQn;
 
                 boolean isPrivateSessionCreatedByThisUser = session
@@ -1875,8 +1877,6 @@ public class FeedbackSessionsLogic {
                 boolean thisQuestionHasResponses = (!responsesForThisQn
                         .isEmpty());
                 if (thisQuestionHasResponses) {
-                    relevantQuestions.put(question.getId(),
-                            question);
                     for (FeedbackResponseAttributes response : responsesForThisQn) {
                         boolean isVisibleResponse = false;
                         if ((response.giverEmail.equals(userEmail))

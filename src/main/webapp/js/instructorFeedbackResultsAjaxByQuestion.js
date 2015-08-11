@@ -42,7 +42,7 @@ $(document).ready(function() {
                 // bind the show picture onhover events
                 bindStudentPhotoHoverLink($(panelBody[0]).find('.profile-pic-icon-hover'));
 
-                $(panelHeading).removeClass('ajax_submit');
+                $(panelHeading).removeClass('ajax_submit ajax_auto');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
                 $(panelHeading).click(toggleSingleCollapse);

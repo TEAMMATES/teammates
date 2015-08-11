@@ -13,6 +13,7 @@ public class InstructorFeedbackResultsQuestionTable {
     private String feedbackSessionName;
     
     private String panelClass;
+    private String ajaxClass;
     
     private List<InstructorFeedbackResultsResponseRow> responses;
     
@@ -130,6 +131,14 @@ public class InstructorFeedbackResultsQuestionTable {
 
     public void setBoldQuestionNumber(boolean isBoldQuestionNumber) {
         this.isBoldQuestionNumber = isBoldQuestionNumber;
+    }
+
+    public void setAjaxClass(String ajaxClass) {
+        this.ajaxClass = ajaxClass;
+    }
+
+    public String getAjaxClass() {
+        return ajaxClass;
     }
 
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
