@@ -1062,7 +1062,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (viewType == ViewType.QUESTION) {
             // setup classes, for loading responses by ajax
             // ajax_submit: user needs to click on the panel to load, ajax_auto: responses are loaded automatically
-            questionTable.setAjaxClass(isLargeNumberOfRespondants() 
+            questionTable.setAjaxClass(isLargeNumberOfRespondants() && isAllSectionsSelected()
                                      ? " ajax_submit" 
                                      : " ajax_auto");
         }
