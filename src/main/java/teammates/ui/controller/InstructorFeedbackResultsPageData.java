@@ -137,11 +137,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
         questionPanels = new ArrayList<InstructorFeedbackResultsQuestionTable>();
         
+        // if there is more than one question, we omit generation of responseRows,
+        // and load them by ajax question by question
+        boolean isLoadingStructureOnly = questionToResponseMap.size() > 1;
+                                        
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionToResponseMap.entrySet()) {
             FeedbackQuestionAttributes question = entry.getKey();
             List<FeedbackResponseAttributes> responses = entry.getValue();
             
-            questionPanels.add(buildQuestionTableAndResponseRows(question, responses, ""));
+            InstructorFeedbackResultsQuestionTable questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
+            if (isLoadingStructureOnly) {
+                questionPanel.setQuestionHasResponses(false);
+            }
+            
+            questionPanels.add(questionPanel);
         }
         
     }

@@ -141,6 +141,10 @@ public class InstructorFeedbackResultsQuestionTable {
         return ajaxClass;
     }
 
+    public void setQuestionHasResponses(boolean isQuestionHasResponses) {
+        this.isQuestionHasResponses = isQuestionHasResponses;
+    }
+
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
         Collections.sort(questionTables, new Comparator<InstructorFeedbackResultsQuestionTable>() {
             public int compare(InstructorFeedbackResultsQuestionTable questionTable1, InstructorFeedbackResultsQuestionTable questionTable2) {
