@@ -1657,8 +1657,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
-    private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtons(
-                                                                       Map<String, String> emailNameTable) {
+    private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtons() {
         Map<String, InstructorFeedbackResultsModerationButton> moderationButtons = new HashMap<>();
         for (String giverIdentifier : bundle.responseStatus.emailNameTable.keySet()) {
             boolean isStudent = bundle.isParticipantIdentifierStudent(giverIdentifier);
@@ -1797,7 +1796,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
-                                        buildModerateButtons(bundle.emailNameTable));
+                                                            buildModerateButtons());
     }
 
     public void setSections(List<String> sections) {
@@ -1817,7 +1816,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLoadingByAjax() {
-        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondants() && !isAllSectionsSelected())
+        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondants() && isAllSectionsSelected())
              || !bundle.isComplete;
     }
     

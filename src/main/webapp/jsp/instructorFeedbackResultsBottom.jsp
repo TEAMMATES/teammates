@@ -3,11 +3,11 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
-<c:set var="showAll" value="${!data.loadingByAjax}" />
+<c:set var="showAll" value="${empty data.bundle.questions}" />
 
 <c:if test="${data.allSectionsSelected}">
     <div class="panel panel-warning">
-        <div class="panel-heading<c:if test="${not showAll}"> ajax_response_rate_submit</c:if>">
+        <div class="panel-heading ${data.loadingByAjax ? 'ajax_response_rate_submit' : 'ajax_response_rate_auto'}">
             <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${data.bundle.feedbackSession.courseId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${data.bundle.feedbackSession.feedbackSessionName}">

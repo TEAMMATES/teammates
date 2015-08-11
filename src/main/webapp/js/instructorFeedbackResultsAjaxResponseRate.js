@@ -32,5 +32,8 @@ $(document).ready(function() {
             }
         });
     };
-    $('.ajax_response_rate_submit').click(responseRateRequest);
+
+    $responseRatePanel = $('.ajax_response_rate_submit,.ajax_response_rate_auto');
+    $responseRatePanel.click(responseRateRequest);
+    $('.ajax_response_rate_auto').click();
 });
