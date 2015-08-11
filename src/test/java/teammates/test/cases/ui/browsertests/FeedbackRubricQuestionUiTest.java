@@ -73,7 +73,10 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Question view
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
+        instructorResultsPage.waitForPageToLoad();
+        
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
+        
         
         // Giver Recipient Question View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-recipient-question");

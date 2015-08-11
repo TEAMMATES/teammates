@@ -78,16 +78,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-
+        resultsPage.waitForPageToLoad();
+        
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
@@ -178,7 +181,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // By question
         resultsPage.displayByQuestion();
+        resultsPage.waitForPageToLoad();
+        
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestion.html");
+        
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
@@ -273,6 +279,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("test sort by question for second session");
         resultsPage.displayByQuestion();
+        resultsPage.waitForPageToLoad();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestion.html");
         
         
@@ -289,7 +296,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "Open Session", true, "question");
 
         resultsPage.clickAjaxPanel(0);
-
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
 
         ______TS("Typical case: test view photo for view by questions");
