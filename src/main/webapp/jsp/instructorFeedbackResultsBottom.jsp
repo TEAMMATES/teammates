@@ -5,10 +5,12 @@
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%-- When the page structure is loaded, bundle.questions will contain every question --%>
 <%-- When generating the noResponsePanel when loaded by ajax, there won't be any questions in the bundle --%>
+<%-- TODO it might make sense to make a new action entirely for generating the noResponsePanel --%>
 <c:set var="showAll" value="${empty data.bundle.questions}" />
 
 <c:if test="${data.allSectionsSelected}">
     <div class="panel panel-warning">
+        <%-- see instructorFeedbackResultsAjaxResponseRate.js --%>
         <div class="panel-heading ${data.loadingByAjax ? 'ajax_response_rate_submit' : 'ajax_response_rate_auto'}">
             <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${data.bundle.feedbackSession.courseId}">

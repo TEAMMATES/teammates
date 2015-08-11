@@ -172,7 +172,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
                                                                                    instructor.email,
                                                                                    1, sortType));
-            // set isComplete to true to prevent behavior when loading by ajax, 
+            // set isComplete to true to prevent behavior when there are too many responses, 
             // such as the display of warning messages
             data.getBundle().isComplete = true;
         } else if (questionNumStr == null) {
@@ -188,7 +188,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         } else {
             // bundle for a specific question and a specific section
             int questionNum = Integer.parseInt(questionNumStr);
-            data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(feedbackSessionName, courseId, 
+            data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                            feedbackSessionName, courseId, 
                                             instructor.email, questionNum, selectedSection));
         }
     }
