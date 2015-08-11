@@ -135,8 +135,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         // Warning for section wise viewing in case of many responses.
-        if (selectedSection.equals(ALL_SECTION_OPTION) && !data.getBundle().isComplete) {
-            // not tested because the test data is not large enough to make this happen
+        if (selectedSection.equals(ALL_SECTION_OPTION) && (!data.getBundle().isComplete
+                                                           || data.isLargeNumberOfRespondants())) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
         }

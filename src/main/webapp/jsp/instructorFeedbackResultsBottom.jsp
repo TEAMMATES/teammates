@@ -3,7 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
-<c:set var="showAll" value="${data.bundle.complete}" />
+<c:set var="showAll" value="${data.bundle.complete && !data.largeNumberOfRespondants}" />
 
 <c:if test="${data.allSectionsSelected}">
     <div class="panel panel-warning">
