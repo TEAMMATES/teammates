@@ -78,24 +78,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-        resultsPage.waitForPageToLoad();
-        
+        resultsPage.waitForPanelsToCollapse();
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
-        resultsPage.waitForPageToLoad();
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
-        resultsPage.waitForPageToLoad();
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
 
     }
@@ -181,7 +181,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // By question
         resultsPage.displayByQuestion();
-        resultsPage.waitForPageToLoad();
+        resultsPage.waitForPanelsToCollapse();
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestion.html");
         
@@ -279,7 +279,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("test sort by question for second session");
         resultsPage.displayByQuestion();
-        resultsPage.waitForPageToLoad();
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestion.html");
         
         

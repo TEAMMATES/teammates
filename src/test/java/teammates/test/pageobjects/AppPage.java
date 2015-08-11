@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -216,6 +217,11 @@ public abstract class AppPage {
     public void waitForElementVisibility(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+    
+    public void waitForElementsVisibility(List<WebElement> elements) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
     
     /**
