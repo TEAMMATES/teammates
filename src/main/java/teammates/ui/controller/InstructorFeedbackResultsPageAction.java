@@ -181,12 +181,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                                 instructor.email,
                                                                                 selectedSection));
         } else if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr != null) {
-            // bundle for a specific question, with all section
+            // bundle for a specific question, with all sections
             int questionNum = Integer.parseInt(questionNumStr);
             data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                    instructor.email, questionNum));
         } else {
-            // bundle for specific question and specific section
+            // bundle for a specific question and a specific section
             int questionNum = Integer.parseInt(questionNumStr);
             data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(feedbackSessionName, courseId, 
                                             instructor.email, questionNum, selectedSection));

@@ -45,7 +45,7 @@ $(document).ready(function() {
                 $(panelHeading).removeClass('ajax_submit ajax_auto');
 
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
-                
+
                 $(panelHeading).off('click');
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
@@ -55,7 +55,7 @@ $(document).ready(function() {
         });
     };
 
-    var questionPanelHeadings = $('.ajax_submit,.ajax_auto');
-    questionPanelHeadings.click(seeMoreRequest);
+    var $questionPanelHeadings = $('.ajax_submit,.ajax_auto');
+    $questionPanelHeadings.click(seeMoreRequest);
     $('.ajax_auto').click();
 });

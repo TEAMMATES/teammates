@@ -3,6 +3,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="r" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
+<%-- When the page structure is loaded, bundle.questions will contain every question --%>
+<%-- When generating the noResponsePanel when loaded by ajax, there won't be any questions in the bundle --%>
 <c:set var="showAll" value="${empty data.bundle.questions}" />
 
 <c:if test="${data.allSectionsSelected}">
