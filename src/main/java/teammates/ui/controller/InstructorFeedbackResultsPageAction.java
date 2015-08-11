@@ -90,6 +90,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            queryRange, sortType));
         } else if (sortType.equals("question")) {
             if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
+                // all sections and all questions for question view
                 // set up question tables, responses to load by ajax
                 data.setBundle(logic
                             .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
@@ -101,11 +102,16 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                     instructor.email,
                                                                                     selectedSection));
-            } else {
-                // bundle for a specific question, with a selected section
+            } else if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr != null) {
+                // bundle for a specific question, with all section
                 int questionNum = Integer.parseInt(questionNumStr);
                 data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                        instructor.email, questionNum));
+            } else {
+                // bundle for specific question and specific section
+                int questionNum = Integer.parseInt(questionNumStr);
+                data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(feedbackSessionName, courseId, 
+                                                instructor.email, questionNum, selectedSection));
             }
         } else if (sortType.equals("giver-question-recipient")
                 || sortType.equals("giver-recipient-question")) {

@@ -527,6 +527,31 @@ public class FeedbackSessionsLogic {
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
+    
+    /**
+     * Gets results of a feedback session to show to an instructor from an indicated question 
+     * and in a section
+     * This will not retrieve the list of comments for this question
+     * @throws ExceedingRangeException if the results are beyond the range
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                                String feedbackSessionName, String courseId, String userEmail, 
+                                                int questionNumber, String selectedSection)
+                                        throws EntityDoesNotExistException{
+
+        CourseRoster roster = new CourseRoster(
+                new StudentsDb().getStudentsForCourse(courseId),
+                new InstructorsDb().getInstructorsForCourse(courseId));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("isIncludeResponseStatus", "true");
+        params.put("inSection", "true");
+        params.put("fromSection", "false");
+        params.put("toSection", "false");
+        params.put("questionNum", String.valueOf(questionNumber));
+        params.put("section", selectedSection);
+        
+        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
+    }
 
     /**
      * Gets results of a feedback session to show to an instructor in an indicated range
@@ -1871,7 +1896,7 @@ public class FeedbackSessionsLogic {
                 } else {
                     responsesForThisQn = frLogic
                             .getViewableFeedbackResponsesForQuestionInSection(
-                                    question, userEmail, Role.INSTRUCTOR, null);
+                                    question, userEmail, Role.INSTRUCTOR, section);
                 }
 
                 boolean thisQuestionHasResponses = (!responsesForThisQn
