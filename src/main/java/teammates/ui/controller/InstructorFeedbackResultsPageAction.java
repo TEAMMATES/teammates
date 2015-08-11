@@ -78,7 +78,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         data.setSections(logic.getSectionNamesForCourse(courseId));
-        data.setLargeNumberOfRespondants(needAjax != null);
         
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         
@@ -90,12 +89,18 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            queryRange, sortType));
         } else if (sortType.equals("question")) {
             if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
+                // load page structure without responses
+                
+                data.setLargeNumberOfRespondants(needAjax != null);
+                
                 // all sections and all questions for question view
                 // set up question tables, responses to load by ajax
                 data.setBundle(logic
                             .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
                                                                                        instructor.email,
                                                                                        1, sortType));
+                // set isComplete to true to prevent behavior when loading by ajax, 
+                // such as the display of warning messages
                 data.getBundle().isComplete = true;
             } else if (questionNumStr == null) {
                 // bundle for all questions, with a selected section
