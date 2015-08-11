@@ -88,36 +88,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            instructor.email,
                                                                            queryRange, sortType));
         } else if (sortType.equals("question")) {
-            if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
-                // load page structure without responses
-                
-                data.setLargeNumberOfRespondants(needAjax != null);
-                
-                // all sections and all questions for question view
-                // set up question tables, responses to load by ajax
-                data.setBundle(logic
-                            .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
-                                                                                       instructor.email,
-                                                                                       1, sortType));
-                // set isComplete to true to prevent behavior when loading by ajax, 
-                // such as the display of warning messages
-                data.getBundle().isComplete = true;
-            } else if (questionNumStr == null) {
-                // bundle for all questions, with a selected section
-                data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                    instructor.email,
-                                                                                    selectedSection));
-            } else if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr != null) {
-                // bundle for a specific question, with all section
-                int questionNum = Integer.parseInt(questionNumStr);
-                data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                                       instructor.email, questionNum));
-            } else {
-                // bundle for specific question and specific section
-                int questionNum = Integer.parseInt(questionNumStr);
-                data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(feedbackSessionName, courseId, 
-                                                instructor.email, questionNum, selectedSection));
-            }
+            setBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
+                                     selectedSection, sortType, questionNumStr);
         } else if (sortType.equals("giver-question-recipient")
                 || sortType.equals("giver-recipient-question")) {
             data.setBundle(logic
@@ -140,8 +112,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         // Warning for section wise viewing in case of many responses.
-        if (selectedSection.equals(ALL_SECTION_OPTION) && (!data.getBundle().isComplete
-                                                           || data.isLargeNumberOfRespondants())) {
+        boolean isShowSectionWarningForQuestionView = data.isLargeNumberOfRespondants() 
+                                                   && sortType.equals("question");
+        boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
+                                                   && !sortType.equals("question");
+        if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
+                                                           || isShowSectionWarningForQuestionView)) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
         }
@@ -178,6 +154,42 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                               ViewType.RECIPIENT_GIVER_QUESTION);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+        }
+    }
+
+    private void setBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
+                                    InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
+                                    String selectedSection, String sortType, String questionNumStr)
+                                    throws EntityDoesNotExistException {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
+            // load page structure without responses
+            
+            data.setLargeNumberOfRespondants(needAjax != null);
+            
+            // all sections and all questions for question view
+            // set up question tables, responses to load by ajax
+            data.setBundle(logic
+                        .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
+                                                                                   instructor.email,
+                                                                                   1, sortType));
+            // set isComplete to true to prevent behavior when loading by ajax, 
+            // such as the display of warning messages
+            data.getBundle().isComplete = true;
+        } else if (questionNumStr == null) {
+            // bundle for all questions, with a selected section
+            data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
+                                                                                instructor.email,
+                                                                                selectedSection));
+        } else if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr != null) {
+            // bundle for a specific question, with all section
+            int questionNum = Integer.parseInt(questionNumStr);
+            data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
+                                                                                   instructor.email, questionNum));
+        } else {
+            // bundle for specific question and specific section
+            int questionNum = Integer.parseInt(questionNumStr);
+            data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(feedbackSessionName, courseId, 
+                                            instructor.email, questionNum, selectedSection));
         }
     }
 

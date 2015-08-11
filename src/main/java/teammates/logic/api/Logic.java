@@ -2001,6 +2001,7 @@ public class Logic {
     /**
      * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session from a given question number
+     * in a given section.
      * This will not retrieve the list of comments for this question
      * Preconditions: <br>
      * * All parameters are non-null.
