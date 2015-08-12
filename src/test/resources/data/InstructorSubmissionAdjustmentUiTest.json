@@ -1,10 +1,10 @@
 {
     "accounts":{
         "instructor1OfCourse1":{
-            "googleId":"{$test.instructor}",
+            "googleId":"${test.instructor}",
             "name":"Instructor 1 of Course 1",
             "isInstructor":true,
-            "email":"{$test.instructor}@gmail.com",
+            "email":"${test.instructor}@gmail.com",
             "institute":"TEAMMATES Test Institute 1"
         },
         "instructor2OfCourse1":{

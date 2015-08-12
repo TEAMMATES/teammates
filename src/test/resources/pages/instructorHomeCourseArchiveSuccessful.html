@@ -39,13 +39,14 @@
 
 
 
+
     
         <div id="statusMessage" class="alert alert-warning">
             The course CHomeUiT.CS1101 has been archived. It will not appear in the home page any more. You can access archived courses from the 'Courses' tab.<br>Go there to undo the archiving and bring the course back to the home page.
         </div>
-        <script type="text/javascript">
-            document.getElementById('statusMessage').scrollIntoView();
-        </script>
+        
+            <script type="text/javascript" src="/js/statusMessage.js"></script>
+        
     
     
 
@@ -76,6 +77,33 @@
 </div>
     
         
+
+
+
+
+
+<div class="row">
+    <div class="col-md-2 pull-left">
+        <a class="btn btn-primary btn-md pull-left" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">Add New Course</a>
+    </div>
+    <div class="col-md-5 pull-right">
+        <h5 class="pull-left"><strong> Sort By: </strong></h5>
+        <div class="btn-group pull-right" data-toggle="buttons">
+            <label class="btn btn-default" name="sortby" data="id" id="sortById" disabled="disabled">
+                <input type="radio">
+                Course ID
+            </label>
+            <label class="btn btn-default" name="sortby" data="name" id="sortByName" disabled="disabled">
+                <input name="sortby" value="name" type="radio">
+                Course Name
+            </label>
+            <label class="btn btn-default active" name="sortby" data="createdAt" id="sortByDate" disabled="disabled">
+                <input type="radio">
+                Creation Date
+            </label>
+        </div>
+    </div>
+</div>
         <br>
         
             
@@ -124,7 +152,6 @@
     </div>
     
                 
-                    
 
 
 
@@ -141,6 +168,7 @@
             <th class="no-print">Action(s)</th>
         </tr>
     </thead>
+    
     
         <tbody>
     
@@ -443,7 +471,6 @@
 
             </td>
         </tr></tbody></table>
-                
             
 </div>
         

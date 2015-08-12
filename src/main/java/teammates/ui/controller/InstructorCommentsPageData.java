@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
@@ -82,31 +80,6 @@ public class InstructorCommentsPageData extends PageData {
     
     public boolean isViewingDraft() {
         return isViewingDraft;
-    }        
-
-    private String getRecipientNames(Set<String> recipients, CourseRoster roster) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("All students in this course, ");
-            } else if (student != null) {
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
-                } else {
-                    namesStringBuilder.append(student.name + ", ");
-                }
-            } else {
-                namesStringBuilder.append(recipient + ", ");
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return removeEndComma(namesString);
     }
     
     private void setCoursePagination(List<String> coursePaginationList) {
@@ -149,7 +122,7 @@ public class InstructorCommentsPageData extends PageData {
         List<Comment> rows = new ArrayList<Comment>();
         for (int i = 0; i < commentsForGiver.size(); i++) {            
             CommentAttributes comment = commentsForGiver.get(i);
-            String recipientDetails = getRecipientNames(comment.recipients, roster);
+            String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
             Comment commentDiv = new Comment(comment, giverName, recipientDetails);

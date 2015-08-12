@@ -1,10 +1,8 @@
 package teammates.common.util;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 
 /**
@@ -31,12 +29,7 @@ public class Const {
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
-        /** Used for formatting date times for comments */
-        public static final SimpleDateFormat COMMENTS_SIMPLE_DATE_FORMATTER =
-                new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm:ss zzz");
-        static {
-            COMMENTS_SIMPLE_DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone("UTC"));
-        }
+
         /** Number to trim the Google ID when displaying to the user*/
         public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
         /** Maximum number to do Batching puts/delete documents from a index in the appengine  */
@@ -795,7 +788,6 @@ public class Const {
         public static final String ADMIN_HEADER = "/jsp/adminHeader.jsp"; 
         public static final String FOOTER = "/jsp/footer.jsp"; 
         public static final String STATUS_MESSAGE = "/jsp/statusMessage.jsp";
-        public static final String STATUS_MESSAGE_WITHOUT_FOCUS = "/jsp/statusMessageWithoutFocusingToStatus.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         
         public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
@@ -925,7 +917,9 @@ public class Const {
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";
-        public static final String FEEDBACK_RESULTS_SECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one section at at time.";
+        public static final String FEEDBACK_RESULTS_SECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. " 
+                                                                       + "To view responses for a particular question, click on the question below. "
+                                                                       + "To view response for a particular section, choose the section from the drop-down box above.";
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";

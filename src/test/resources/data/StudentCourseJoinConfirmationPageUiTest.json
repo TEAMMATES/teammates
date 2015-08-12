@@ -8,10 +8,10 @@
       "institute": "TEAMMATES Test Institute 1"
     },
     "alice.tmms": {
-      "googleId": "{$test.student1}",
+      "googleId": "${test.student1}",
       "name": "Alice B",
       "isInstructor": false,
-      "email": "{$test.student1}@gmail.com",
+      "email": "${test.student1}@gmail.com",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
@@ -57,22 +57,22 @@
   
   "students": {
     "alice.tmms@SCJConfirmationUiT.CS2104": {
-      "email": "{$test.student1}@gmail.com",
+      "email": "${test.student1}@gmail.com",
       "course": "SCJConfirmationUiT.CS2104",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1"
     },
     "alice.tmms@SCJConfirmationUiT.CS2103": {
-      "email": "{$test.student1}@gmail.com",
+      "email": "${test.student1}@gmail.com",
       "course": "SCJConfirmationUiT.CS2103",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1"
     },
     "alice.tmms@SCJConfirmationUiT.CS1101": {
-      "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "googleId": "${test.student1}",
+      "email": "${test.student1}@gmail.com",
       "course": "SCJConfirmationUiT.CS1101",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",

@@ -4,7 +4,7 @@
   	  "googleId": "AutSessRem.instructor",
   	  "name": "Test Ins for Aut Sessions Reminder",
   	  "isInstructor": true,
-  	  "email": "{$support.email}",
+  	  "email": "${support.email}",
   	  "institute": "TEAMMATES Test Institute 1"
   	}
   },
@@ -22,7 +22,7 @@
       "googleId": "AutSessRem.instructor",
       "courseId": "AutSessRem.course",
       "name": "Test Ins for Aut Sessions Reminder",
-      "email": "{$support.email}",
+      "email": "${support.email}",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -32,7 +32,7 @@
   "students": {
     "alice.tmms@AutSessRem.course": {
       "googleId": "alice.b.tmms",
-      "email": "{$support.email}",
+      "email": "${support.email}",
       "course": "AutSessRem.course",
       "name": "Alice Betsy",
       "comments" : "dummy comment",
@@ -44,7 +44,7 @@
   	 "openingSession": {
       "feedbackSessionName" : "AutSessRem Opening Session",
       "courseId" : "AutSessRem.course",
-      "creatorEmail": "{$support.email}",
+      "creatorEmail": "${support.email}",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -60,7 +60,7 @@
      "closingSession": {
       "feedbackSessionName" : "AutSessRem Closing Session",
       "courseId" : "AutSessRem.course",
-      "creatorEmail": "{$support.email}",
+      "creatorEmail": "${support.email}",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -76,7 +76,7 @@
     "publishedSession": {
       "feedbackSessionName" : "AutSessRem Published Session",
       "courseId" : "AutSessRem.course",
-      "creatorEmail": "{$support.email}",
+      "creatorEmail": "${support.email}",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -94,7 +94,7 @@
   	 "question": {
         "feedbackSessionName" : "AutSessRem Closing Session",
         "courseId" : "AutSessRem.course",
-        "creatorEmail" : "{$support.email}",
+        "creatorEmail" : "${support.email}",
         "questionMetaData" : {"value" : "This question is so that closing reminders will be sent to students as it is unanswered."},
         "questionNumber" : "1",
         "questionType" : "TEXT",

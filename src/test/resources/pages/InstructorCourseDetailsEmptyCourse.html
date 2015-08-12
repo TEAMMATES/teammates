@@ -195,9 +195,6 @@
     <script src="/js/instructor.js" type="text/javascript"></script>
     <script src="/js/instructorCourseDetails.js" type="text/javascript"></script>
     <script src="/js/contextualcomments.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        var isShowCommentBox = false;
-    </script>
 </head>
 <body>
     
@@ -437,9 +434,7 @@
         <div class="alert alert-warning" id="statusMessage">
             There are no students in this course
         </div>
-        <script type="text/javascript">
-            document.getElementById('statusMessage').scrollIntoView();
-        </script>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
     
     
 
@@ -476,7 +471,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
+                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
             </div>
             <div class="col-md-8">
                 [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]

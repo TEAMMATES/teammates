@@ -19,7 +19,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong>Course:</strong>
-        <a data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" id="courseDeleteLink" title="" onclick="return toggleDeleteCourseConfirmation('AHPUiT.instr1.gma-demo');" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user={$test.instructor}">
+        <a data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" id="courseDeleteLink" title="" onclick="return toggleDeleteCourseConfirmation('AHPUiT.instr1.gma-demo');" class="btn btn-primary btn-xs pull-right" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=${test.instructor}">
             <span class="glyphicon glyphicon-trash"></span>Delete
         </a>
     </div>
@@ -27,7 +27,7 @@
     <div class="panel-body fill-plain">
         <form action="/page/instructorCourseEditSave" method="post" id="formEditcourse" class="form form-horizontal">
             <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-            <input name="instructorid" value="{$test.instructor}" type="hidden">
+            <input name="instructorid" value="${test.instructor}" type="hidden">
             
             <div class="form-group">
                 <label class="col-sm-3 control-label">Course ID:</label>
@@ -49,7 +49,7 @@
                 </div>
             </div>
             
-            <input name="user" value="{$test.instructor}" type="hidden">
+            <input name="user" value="${test.instructor}" type="hidden">
         </form>
     </div>
 </div>
@@ -98,14 +98,14 @@
             <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
             <input name="instructoremail" value="AHPUiT.instr1@gmail.tmt" type="hidden">
             <input name="courseeditmainindex" value="1" type="hidden">
-            <input name="user" value="{$test.instructor}" type="hidden">
+            <input name="user" value="${test.instructor}" type="hidden">
         </form>
     
         <a data-original-title="Edit instructor details" data-placement="top" id="instrEditLink1" title="" class="btn btn-primary btn-xs" data-toggle="tooltip" href="javascript:;">
             <span class="glyphicon glyphicon-pencil"></span> Edit
         </a>
     
-        <a data-original-title="Delete the instructor from the course" data-placement="top" id="instrDeleteLink1" title="" onclick="return toggleDeleteInstructorConfirmation('AHPUiT.instr1.gma-demo','AHPUiT.instr1@gmail.tmt', true);" class="btn btn-primary btn-xs" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=AHPUiT.instr1.gma-demo&amp;instructoremail=AHPUiT.instr1%40gmail.tmt&amp;user={$test.instructor}">
+        <a data-original-title="Delete the instructor from the course" data-placement="top" id="instrDeleteLink1" title="" onclick="return toggleDeleteInstructorConfirmation('AHPUiT.instr1.gma-demo','AHPUiT.instr1@gmail.tmt', true);" class="btn btn-primary btn-xs" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=AHPUiT.instr1.gma-demo&amp;instructoremail=AHPUiT.instr1%40gmail.tmt&amp;user=${test.instructor}">
             <span class="glyphicon glyphicon-trash"></span> Delete
         </a>
     </div>
@@ -123,16 +123,16 @@
     <form method="post" action="/page/instructorCourseInstructorEditSave" id="formEditInstructor1>" name="formEditInstructors" class="form form-horizontal">
         <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
         
-            <input name="instructorid" value="{$test.instructor}" type="hidden">
+            <input name="instructorid" value="${test.instructor}" type="hidden">
         
-        <input name="user" value="{$test.instructor}" type="hidden">
+        <input name="user" value="${test.instructor}" type="hidden">
     
         <div id="instructorTable1">
             
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Google ID:</label>
                     <div class="col-sm-9">
-                        <input class="form-control immutable" id="instructorid1" value="{$test.instructor}" maxlength="45" tabindex="3" disabled="disabled" type="text">
+                        <input class="form-control immutable" id="instructorid1" value="${test.instructor}" maxlength="45" tabindex="3" disabled="disabled" type="text">
                     </div>
                 </div>
             
@@ -221,7 +221,7 @@
     <div class="panel-body fill-plain">
         <form method="post" action="/page/instructorCourseInstructorAdd" name="formAddInstructor" class="form form-horizontal" id="formAddInstructor">
             <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-            <input name="user" value="{$test.instructor}" type="hidden">
+            <input name="user" value="${test.instructor}" type="hidden">
             
             <div id="instructorAddTable">
                 <div class="form-group">

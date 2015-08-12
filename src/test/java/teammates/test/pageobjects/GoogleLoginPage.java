@@ -91,6 +91,8 @@ public class GoogleLoginPage extends LoginPage {
 
     private void submitCredentials(String username, String password) {
         fillTextBox(usernameTextBox, username);
+        click(By.id("next"));
+        waitForElementVisibility(passwordTextBox);
         fillTextBox(passwordTextBox, password);
         
         if (staySignedCheckbox.isSelected()) {

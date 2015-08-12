@@ -281,7 +281,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         result = action.executeAndPostProcess();
         ShowPageResult pageResult = (ShowPageResult) result;
         InstructorFeedbackResultsPageData pageData = (InstructorFeedbackResultsPageData) pageResult.data;
-        assertEquals(true, pageData.bundle.responses.isEmpty());
+        assertEquals(true, pageData.getBundle().responses.isEmpty());
         
     }
 

@@ -21,7 +21,7 @@
             <div class="modal-body" id="copySessionsBody">
                 <form class="form" id="copyModalForm" role="form" method="post"
                     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY %>">
-                    <!-- Course -->
+                    <%-- Course --%>
                     <div class="form-group">
                         <label for="modalCopiedCourseId" class="control-label">
                             Create in course
@@ -34,7 +34,7 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <!-- Session Name -->
+                    <%-- Session Name --%>
                     <div class="form-group">
                         <label for="modalCopiedSessionName" class="control-label">
                             Name for new session
@@ -46,7 +46,7 @@
                             value="${copyFromModal.fsName}"
                             placeholder="e.g. Feedback for Project Presentation 1">
                     </div>
-                    <!-- Previous Session -->
+                    <%-- Previous Session --%>
                     <label>Copy sessions/questions from</label>
                     <table class="table-responsive table table-bordered table-hover margin-0"
                         id="copyTableModal">

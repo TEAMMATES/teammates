@@ -1191,9 +1191,7 @@
         <div class="alert alert-warning" id="statusMessage">
             You have not created any courses yet, or you have no active courses. Go <a href="/page/instructorCoursesPage?user=CFeedbackUiT.nocourses">here</a> to create or unarchive a course.
         </div>
-        <script type="text/javascript">
-            document.getElementById('statusMessage').scrollIntoView();
-        </script>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
     
     
 
@@ -1294,7 +1292,6 @@
             </div>
             <div id="copySessionsBody" class="modal-body">
                 <form action="/page/instructorFeedbackCopy" method="post" role="form" id="copyModalForm" class="form">
-                    <!-- Course -->
                     <div class="form-group">
                         <label class="control-label" for="modalCopiedCourseId">
                             Create in course
@@ -1305,14 +1302,12 @@
                             
                         </select>
                     </div>
-                    <!-- Session Name -->
                     <div class="form-group">
                         <label class="control-label" for="modalCopiedSessionName">
                             Name for new session
                         </label>
                         <input type="text" placeholder="e.g. Feedback for Project Presentation 1" value="" maxlength="38" id="modalCopiedSessionName" name="copiedfsname" class="form-control" />
                     </div>
-                    <!-- Previous Session -->
                     <label>Copy sessions/questions from</label>
                     <table id="copyTableModal" class="table-responsive table table-bordered table-hover margin-0">
                         <thead class="fill-primary">
@@ -1376,7 +1371,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
+                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
             </div>
             <div class="col-md-8">
                 [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]

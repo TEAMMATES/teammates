@@ -1,5 +1,3 @@
-jQuery.fn.reverse = Array.prototype.reverse;
-
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
@@ -254,11 +252,9 @@ function prepareMSQQuestions() {
 
 function updateOtherOptionAttributes(otherOption, indexSuffix) {   
     if (otherOption.is(':checked')) {
-        console.log('checked');
         $('#msqOtherOptionText' + indexSuffix).removeAttr("disabled"); // enable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");                    
     } else {
-        console.log('not checked');
         $('#msqOtherOptionText' + indexSuffix).attr("disabled", "disabled"); // disable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
     }
@@ -587,7 +583,7 @@ function formatRecipientLists() {
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display === 'none') {
-            $(this).children().reverse().each(function() {
+            $($(this).children().get().reverse()).each(function() {
                 if (this.style.display !== 'none' && $(this).val() !== '') {
                     firstUnhidden = this;
                 }
