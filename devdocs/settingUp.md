@@ -55,6 +55,9 @@ Important: When a version is specified, please install that version instead of t
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
+   * `.settings/com.google.gdt.eclipse.core.prefs`<br>
+   Create it using `com.google.gdt.eclipse.core.template.prefs`.
+   Change all `*` in `jarsExcludedFromWebInfLib` to your TEAMMATES project folder, e.g. `C:/TEAMMATES`.
 4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.47.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
