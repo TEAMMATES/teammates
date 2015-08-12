@@ -149,9 +149,30 @@ function setupFsCopyModal() {
             success: function(data) {
                 $('#courseList').html(data);
                 $('#fscopy_submit').prop('disabled', false);
+                $('#fsCopyModal form').submit(validateFsCopyModalSubmission);
             }
         });
     });
+}
+
+/**
+ * Prevents submission of the fsCopyModal if the same fsname is used in the original course.
+ */
+function validateFsCopyModalSubmission(e) {
+    var $checkedCourses = $('#fsCopyModal [name=copiedcoursesid]:checked');
+    var checkedCoursesId =  $checkedCourses.map(function() {
+        return $(this).val();
+    });
+    var originalCourseId = $('#fsCopyModal [name=courseid]').val();
+
+    var isOriginalCourseSelected = $.inArray(originalCourseId, checkedCoursesId) !== -1;
+
+    var fsName = $('#fsCopyModal #copiedfsname').val();
+    var originalFsName = $("#fsCopyModal input[name='fsname']").val();
+
+    var isSameFsName = fsName === originalFsName;
+
+    return !isOriginalCourseSelected || !isSameFsName
 }
 
 // Student Profile Picture
