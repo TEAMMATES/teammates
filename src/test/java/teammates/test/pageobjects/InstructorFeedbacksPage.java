@@ -543,10 +543,12 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.driver.findElements(By.className("sessionsRow")).size();
     }
     
+    @SuppressWarnings("deprecation")
     private String getFeedbackSessionCourseId(int rowId) {
         return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".0");
     }
 
+    @SuppressWarnings("deprecation")
     private String getFeedbackSessionName(int rowId) {
         return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".1");
     }
