@@ -156,23 +156,34 @@ function setupFsCopyModal() {
 }
 
 /**
- * Prevents submission of the fsCopyModal if the same fsname is used in the original course.
+ * Prevents submission of the fsCopyModal if the same fsname is used in the original course, and the original course is 
+ * a destination of copying
  */
 function validateFsCopyModalSubmission(e) {
-    var $checkedCourses = $('#fsCopyModal [name=copiedcoursesid]:checked');
+    var $checkedCourses = $("#fsCopyModal [name='copiedcoursesid']:checked");
     var checkedCoursesId =  $checkedCourses.map(function() {
         return $(this).val();
     });
-    var originalCourseId = $('#fsCopyModal [name=courseid]').val();
+    var originalCourseId = $("#fsCopyModal [name='courseid']").val();
 
     var isOriginalCourseSelected = $.inArray(originalCourseId, checkedCoursesId) !== -1;
+
 
     var fsName = $('#fsCopyModal #copiedfsname').val();
     var originalFsName = $("#fsCopyModal input[name='fsname']").val();
 
     var isSameFsName = fsName === originalFsName;
 
-    return !isOriginalCourseSelected || !isSameFsName
+
+    if (isOriginalCourseSelected && isSameFsName) {
+        var $errorMessage = $('#fs_copy_modal_error');
+        $errorMessage.addClass('alert alert-danger');
+        $errorMessage.text('Please give the feedback session a different name if the destination course and the source course are the same');
+
+        return false;
+    } else {
+        return true;
+    }
 }
 
 // Student Profile Picture
