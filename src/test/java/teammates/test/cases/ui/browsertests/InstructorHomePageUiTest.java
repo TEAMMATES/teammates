@@ -340,40 +340,47 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list: Home Page");
         
-        homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.clickFsCopySubmitButton();
+        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.clickSubmitButton();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
-        homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected(feedbackSessionName);
+        homePage.fsCopyModal.clickSubmitButton();
         
-        homePage.clickFsCopySubmitButton();
+        assertTrue(homePage.fsCopyModal.isErrorMessageVisible());
+        homePage.fsCopyModal.verifyErrorMessage();
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
+        
+        String secondFeedbackSessionName = "Second Feedback Session";
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, secondFeedbackSessionName, courseId);
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected(secondFeedbackSessionName);
+        homePage.fsCopyModal.clickSubmitButton();
         
         homePage.verifyStatus(error);
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
-        homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
-        homePage.clickFsCopySubmitButton();
+        homePage.fsCopyModal.clickSubmitButton();
         
         homePage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
         
         ______TS("Successful case: Home Page");
         
-        homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.fillCopyToOtherCoursesForm("New name!");
+        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected("New name!");
         
-        homePage.clickFsCopySubmitButton();
+        homePage.fsCopyModal.clickSubmitButton();
         
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         

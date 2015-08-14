@@ -41,7 +41,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyPage.html");
@@ -52,33 +52,29 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with same name getting copied to the original course");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
         
         feedbackEditPage.clickFsCopySubmitButton();
         
-        assertTrue(feedbackEditPage.isFsCopyModalErrorMessageVisible());
-        String copyErrorMessage = feedbackEditPage.getFsCopyModalError();
-        String expectedErrorMessage = "Please give the feedback session a different name if the " 
-                                    + "destination course and the source course are the same";
-        assertEquals(expectedErrorMessage, copyErrorMessage);
-
+        assertTrue(feedbackEditPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyErrorMessage();
         
-        feedbackEditPage.resetCoursesCheckbox();
-        feedbackEditPage.selectFsCopyModalCourse("FeedbackEditCopy.CS2104");
+        
+        feedbackEditPage.fsCopyToModal.resetCoursesCheckbox();
+        feedbackEditPage.fsCopyToModal.checkCourse("FeedbackEditCopy.CS2104");
         
         feedbackEditPage.clickFsCopySubmitButton();
-        assertTrue(feedbackEditPage.isFsCopyModalErrorMessageVisible());
-        copyErrorMessage = feedbackEditPage.getFsCopyModalError();
-        assertEquals(expectedErrorMessage, copyErrorMessage);
+        assertTrue(feedbackEditPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyErrorMessage();
         
         
         ______TS("Copying fails due to fs with invalid name");
         feedbackEditPage = getFeedbackEditPage();
         
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
         feedbackEditPage.clickFsCopySubmitButton();
         
@@ -91,8 +87,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Successful case");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm("New name!");
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("New name!");
         
         feedbackEditPage.clickFsCopySubmitButton();
         
@@ -106,10 +102,10 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         ______TS("Copying fails due to fs with same name in course selected");
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
         
-        feedbackEditPage.fillFsCopyModalName("New name!");
-        feedbackEditPage.selectFsCopyModalCourse("FeedbackEditCopy.CS2105");
+        feedbackEditPage.fsCopyToModal.fillFsName("New name!");
+        feedbackEditPage.fsCopyToModal.checkCourse("FeedbackEditCopy.CS2105");
         
         feedbackEditPage.clickFsCopySubmitButton();
 

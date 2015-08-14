@@ -155,9 +155,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
     
+    public InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
+        fsCopyToModal = new InstructorCopyFsToModal(browser);
     }
 
     @Override
@@ -371,51 +373,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         addMsqOtherOptionCheckboxForNewQuestion.click();
     }
     
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
     
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        fillTextBox(fsNameInput, newName);
-    }
-    
-    public void resetCoursesCheckbox() {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsUnchecked(e);
-        }
-    }
-    
-    public void fillFsCopyModalName(String fsName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        fillTextBox(fsNameInput, fsName);
-    }
-    
-    public void selectFsCopyModalCourse(String courseId) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        WebElement courseCheckBox = 
-                fsCopyModal.findElement(
-                        By.xpath("//input[@name='copiedcoursesid' and @value='" + courseId + "']"));
-        assertNotNull(courseCheckBox);
-        markCheckBoxAsChecked(courseCheckBox);
-    }
-    
-    public boolean isFsCopyModalErrorMessageVisible() {
-        return fscopyErrorMessage.isDisplayed();
-    }
-    
-    public String getFsCopyModalError() {
-        return fscopyErrorMessage.getText();
-    }
     
     public WebElement getDeleteSessionLink() {
         return fsDeleteLink;
