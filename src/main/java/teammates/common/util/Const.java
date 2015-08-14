@@ -467,6 +467,7 @@ public class Const {
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
         public static final String HINT = "hint";
+        public static final String UNAUTHORIZED_MESSAGE = "unauthorizedmessage";
     
         public static final String LOGIN_ADMIN = "admin";
         public static final String LOGIN_INSTRUCTOR = "instructor";

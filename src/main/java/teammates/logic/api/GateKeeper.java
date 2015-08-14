@@ -162,7 +162,7 @@ public class GateKeeper {
         }
 
         if (!feedbacksession.isVisible()) {
-            throw new UnauthorizedAccessException("This feedback session is not yet visible.");
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
         }
     }
 

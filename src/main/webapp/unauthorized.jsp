@@ -1,5 +1,9 @@
 <%@ page import="teammates.common.util.Const"%>
 <!DOCTYPE html>
+<%
+    String unauthorizedMessage = (String)session.getAttribute(Const.ParamsNames.UNAUTHORIZED_MESSAGE);
+    session.removeAttribute(Const.ParamsNames.UNAUTHORIZED_MESSAGE);
+%>
 
 <html>
 <head>
@@ -27,7 +31,14 @@
                 <img src="/images/angry.png"
                     style="float: left; height: 90px; margin: 0 10px 10px 0;">
                 <p>
-                    You are not authorized to view this page. <br> <br>
+                    You are not authorized to view this page. <br><br>
+                    <%
+                        if (unauthorizedMessage  != null) {
+                    %>
+                            <%=unauthorizedMessage%><br><br>
+                    <%
+                        }
+                    %>
                     <a href="/logout.jsp">Logout and return to main page.</a>
                 </p>
                 <br>

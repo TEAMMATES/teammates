@@ -78,6 +78,13 @@ public class ControllerServlet extends HttpServlet {
         } catch (UnauthorizedAccessException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);
+            
+            // Set message to display
+            if (e.isDisplayErrorMessage()) {
+                req.getSession().setAttribute(Const.ParamsNames.UNAUTHORIZED_MESSAGE, 
+                                              e.getMessage());
+            }
+            
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
