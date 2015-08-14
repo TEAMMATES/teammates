@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -48,22 +50,32 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         
-        ______TS("Copying fails due to fs with same name in course selected");
+        ______TS("Copying fails due to fs with same name getting copied to the original course");
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.waitForModalToLoad();
         feedbackEditPage.fillCopyToOtherCoursesForm(feedbackSessionName);
         
         feedbackEditPage.clickFsCopySubmitButton();
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
-                                     feedbackSessionName, testData.courses.get("course").id);
-        feedbackEditPage.verifyStatus(error);
+        assertTrue(feedbackEditPage.isFsCopyModalErrorMessageVisible());
+        String copyErrorMessage = feedbackEditPage.getFsCopyModalError();
+        String expectedErrorMessage = "Please give the feedback session a different name if the " 
+                                    + "destination course and the source course are the same";
+        assertEquals(expectedErrorMessage, copyErrorMessage);
 
-        // Full HTML verification already done in InstructorFeedbackEditPageUiTest
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
+        
+        feedbackEditPage.resetCoursesCheckbox();
+        feedbackEditPage.selectFsCopyModalCourse("FeedbackEditCopy.CS2104");
+        
+        feedbackEditPage.clickFsCopySubmitButton();
+        assertTrue(feedbackEditPage.isFsCopyModalErrorMessageVisible());
+        copyErrorMessage = feedbackEditPage.getFsCopyModalError();
+        assertEquals(expectedErrorMessage, copyErrorMessage);
         
         
         ______TS("Copying fails due to fs with invalid name");
+        feedbackEditPage = getFeedbackEditPage();
+        
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.waitForModalToLoad();
         feedbackEditPage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
@@ -90,6 +102,19 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopySuccess.html");
         
+        
+        ______TS("Copying fails due to fs with same name in course selected");
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickFsCopyButton();
+        feedbackEditPage.waitForModalToLoad();
+        
+        feedbackEditPage.fillFsCopyModalName("New name!");
+        feedbackEditPage.selectFsCopyModalCourse("FeedbackEditCopy.CS2105");
+        
+        feedbackEditPage.clickFsCopySubmitButton();
+
+        // Full HTML verification already done in InstructorFeedbackEditPageUiTest
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
     }
 
 

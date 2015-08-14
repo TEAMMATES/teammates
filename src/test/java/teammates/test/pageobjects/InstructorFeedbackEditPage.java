@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
@@ -132,6 +133,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
+    
+    @FindBy(id = "fs_copy_modal_error")
+    private WebElement fscopyErrorMessage;
     
     @FindBy(id = "fscopy_submit")
     private WebElement fscopySubmitButton;
@@ -380,6 +384,37 @@ public class InstructorFeedbackEditPage extends AppPage {
         
         WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
         fillTextBox(fsNameInput, newName);
+    }
+    
+    public void resetCoursesCheckbox() {
+        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
+        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
+        for (WebElement e : coursesCheckBoxes) {
+            markCheckBoxAsUnchecked(e);
+        }
+    }
+    
+    public void fillFsCopyModalName(String fsName) {
+        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
+        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
+        fillTextBox(fsNameInput, fsName);
+    }
+    
+    public void selectFsCopyModalCourse(String courseId) {
+        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
+        WebElement courseCheckBox = 
+                fsCopyModal.findElement(
+                        By.xpath("//input[@name='copiedcoursesid' and @value='" + courseId + "']"));
+        assertNotNull(courseCheckBox);
+        markCheckBoxAsChecked(courseCheckBox);
+    }
+    
+    public boolean isFsCopyModalErrorMessageVisible() {
+        return fscopyErrorMessage.isDisplayed();
+    }
+    
+    public String getFsCopyModalError() {
+        return fscopyErrorMessage.getText();
     }
     
     public WebElement getDeleteSessionLink() {
