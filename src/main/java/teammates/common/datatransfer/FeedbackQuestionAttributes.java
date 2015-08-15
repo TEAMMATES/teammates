@@ -570,5 +570,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> getShowRecipientNameTo() {
         return showRecipientNameTo;
     }
-    
+
+    public String getQuestionAdditionalInfoHtml() {
+        return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
+    }
 }

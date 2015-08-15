@@ -167,10 +167,10 @@ public class BaseTestCase {
     private static String injectRealAccounts(String jsonString) {
         
         return jsonString
-                .replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
-                .replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
-                .replace("{$test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                .replace("{$support.email}", Config.SUPPORT_EMAIL);
+                .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+                .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                .replace("${support.email}", Config.SUPPORT_EMAIL);
     }
 
 }

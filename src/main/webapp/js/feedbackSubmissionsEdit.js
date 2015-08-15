@@ -252,11 +252,9 @@ function prepareMSQQuestions() {
 
 function updateOtherOptionAttributes(otherOption, indexSuffix) {   
     if (otherOption.is(':checked')) {
-        console.log('checked');
         $('#msqOtherOptionText' + indexSuffix).removeAttr("disabled"); // enable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");                    
     } else {
-        console.log('not checked');
         $('#msqOtherOptionText' + indexSuffix).attr("disabled", "disabled"); // disable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
     }

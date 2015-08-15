@@ -103,3 +103,5 @@ function selectElementContents(el) {
         range.select();
     }
 }
+
+var isShowCommentBox = false

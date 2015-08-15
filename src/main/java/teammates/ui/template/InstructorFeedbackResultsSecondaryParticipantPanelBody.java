@@ -2,8 +2,6 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.util.Url;
-
 /**
  * Data model for the panel body for the participant panels 
  * used in Results by Participant > Participant > Question
@@ -47,9 +45,8 @@ public class InstructorFeedbackResultsSecondaryParticipantPanelBody {
         return profilePictureLink;
     }
 
-    public void setProfilePictureLink(Url profilePictureLink) {
-        this.profilePictureLink = profilePictureLink != null ? profilePictureLink.toString() 
-                                                             : null;
+    public void setProfilePictureLink(String profilePictureLink) {
+        this.profilePictureLink = profilePictureLink;
     }
 
     public InstructorFeedbackResultsModerationButton getModerationButton() {

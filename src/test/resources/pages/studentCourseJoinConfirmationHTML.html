@@ -214,17 +214,17 @@
         <div id="contentLinks" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail={$test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentHomePage%3Fuser%3D{$test.student1}" id="studentHomeNavLink" class="navLinks">
+                    <a data-unreg="true" href="${app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=${test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentHomePage%3Fuser%3D${test.student1}" id="studentHomeNavLink" class="navLinks">
                         Home
                     </a>
                 </li>
                 <li>
-                    <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail={$test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentProfilePage%3Fuser%3D{$test.student1}" id="studentProfileNavLink" class="navLinks">
+                    <a data-unreg="true" href="${app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=${test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentProfilePage%3Fuser%3D${test.student1}" id="studentProfileNavLink" class="navLinks">
                         Profile
                     </a>
                 </li>
                 <li>
-                    <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail={$test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentCommentsPage%3Fuser%3D{$test.student1}" id="studentCommentsNavLink" class="navLinks">
+                    <a data-unreg="true" href="${app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=${test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentCommentsPage%3Fuser%3D${test.student1}" id="studentCommentsNavLink" class="navLinks">
                         Comments
                     </a>
                 </li>
@@ -236,8 +236,8 @@
                 <ul class="nav navbar-nav pull-right">
                     <li>
                         <a href="/logout.jsp" class="nav logout">Logout
-                            (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="{$test.student1}">
-                                    {$test.student1}
+                            (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="${test.student1}">
+                                    ${test.student1}
                             </span>)
                         </a>
                     </li>
@@ -272,7 +272,7 @@
 	    </div>
 	    <div class="panel-body">
 	        <p>
-	            You are currently logged in as <span><strong>{$test.student1}</strong></span>. 
+	            You are currently logged in as <span><strong>${test.student1}</strong></span>. 
 	            <br />If this is not you please <a href="{*}">log out</a> and re-login using your own Google account.
 	            <br />If this is you, please confirm below to complete your registration.
 	            <br />
@@ -294,7 +294,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
+                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
             </div>
             <div class="col-md-8">
                 [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]

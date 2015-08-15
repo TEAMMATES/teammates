@@ -16,23 +16,9 @@
 
 
     <script>
-        var url = window.location.origin + '/' + 'test-student-motd.html';
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function(data) {
-                $('#student-motd').html(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('AJAX request failed');
-            }
-        });
-
-        function closeMotd() {
-            $('#student-motd-container').hide();
-        }
+        var motdUrl = window.location.origin + '/test-student-motd.html';
     </script>
+    <script type="text/javascript" src="/js/studentMotd.js"></script>
 
     <div class="container theme-showcase" id="student-motd-container">
         <div class="row">
@@ -111,9 +97,7 @@
         <div id="statusMessage" class="alert alert-warning">
             You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
         </div>
-        <script type="text/javascript">
-            document.getElementById('statusMessage').scrollIntoView();
-        </script>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
     
     
 
