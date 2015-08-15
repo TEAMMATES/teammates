@@ -160,18 +160,17 @@ function setupFsCopyModal() {
  * a destination of copying
  */
 function validateFsCopyModalSubmission(e) {
-    var $checkedCourses = $("#fsCopyModal [name='copiedcoursesid']:checked");
+    var $fsCopyModal = $("#fsCopyModal");
+
+    var $checkedCourses = $fsCopyModal.find("[name='copiedcoursesid']:checked");
     var checkedCoursesId =  $checkedCourses.map(function() {
         return $(this).val();
     });
-    var originalCourseId = $("#fsCopyModal [name='courseid']").val();
-
+    var originalCourseId = $fsCopyModal.find("[name='courseid']").val();
     var isOriginalCourseSelected = $.inArray(originalCourseId, checkedCoursesId) !== -1;
 
-
-    var fsName = $('#fsCopyModal #copiedfsname').val();
-    var originalFsName = $("#fsCopyModal input[name='fsname']").val();
-
+    var fsName = $fsCopyModal.find('#copiedfsname').val();
+    var originalFsName = $fsCopyModal.find("input[name='fsname']").val();
     var isSameFsName = fsName === originalFsName;
 
 
