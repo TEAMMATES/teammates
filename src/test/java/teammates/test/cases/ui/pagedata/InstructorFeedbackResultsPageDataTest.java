@@ -42,6 +42,8 @@ import teammates.ui.template.InstructorFeedbackResultsParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
 
 public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase {
+    private static final String CHECKBOX_CHECKED_VALUE = "on";
+
     private static final String NOT_IN_A_SECTION = "Not in a section";
 
     private static DataBundle dataBundle = getTypicalDataBundle();
@@ -67,9 +69,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         String courseId = instructor.courseId;
         String feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        String showStats = "on";
-        String groupByTeam = "on";
-        String sortType = "question";
+        String showStats = CHECKBOX_CHECKED_VALUE;
+        String groupByTeam = CHECKBOX_CHECKED_VALUE;
+        String sortType = InstructorFeedbackResultsPageData.ViewType.QUESTION.toString();
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
@@ -132,12 +134,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = null;
-        groupByTeam = "on";
-        sortType = "question";
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
+        sortType = InstructorFeedbackResultsPageData.ViewType.QUESTION.toString();
         selectedSection = "Section 1";
         data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, 
                                                                             instructor.email, selectedSection));
-        data.initForViewByQuestion(instructor, "Section 1", null, "on");
+        data.initForViewByQuestion(instructor, "Section 1", null, CHECKBOX_CHECKED_VALUE);
         
         List<InstructorFeedbackResultsQuestionTable> sectionQuestionPanels = data.getQuestionPanels();
         assertEquals(4, sectionQuestionPanels.size());
@@ -156,15 +158,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1")
                                              .feedbackSessionName;
         
-        showStats = "on";
-        groupByTeam = "on";
-        sortType = "question";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
+        sortType = InstructorFeedbackResultsPageData.ViewType.QUESTION.toString();
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                instructor.email, 2));
         
         data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, 
-                                   "on", "on");
+                                   CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE);
             
         List<InstructorFeedbackResultsQuestionTable> singleQuestionPanelList = data.getQuestionPanels();
         assertEquals(1, singleQuestionPanelList.size());
@@ -200,15 +202,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
-        sortType = "question";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
+        sortType = InstructorFeedbackResultsPageData.ViewType.QUESTION.toString();
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1, "question"));
-        data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "on", "on");
+        data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE);
         assertFalse(data.getBundle().isComplete());
         
         List<InstructorFeedbackResultsQuestionTable> ajaxQuestionPanels = data.getQuestionPanels();
@@ -265,9 +267,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         String courseId = instructor.courseId;
         String feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        String showStats = "on";
-        String groupByTeam = "on";
-        String sortType = "giver-question-recipient";
+        String showStats = CHECKBOX_CHECKED_VALUE;
+        String groupByTeam = CHECKBOX_CHECKED_VALUE;
+        String sortType = InstructorFeedbackResultsPageData.ViewType.GIVER_QUESTION_RECIPIENT.toString();
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
@@ -369,14 +371,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = null;
-        groupByTeam = "on";
-        sortType = "question";
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         selectedSection = "Section 1";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
                                                                                   instructor.email, selectedSection, 1000));
         
-        data.initForSectionPanelViews(instructor, "Section 1", null, "on", ViewType.GIVER_QUESTION_RECIPIENT);
+        data.initForSectionPanelViews(instructor, "Section 1", null, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_QUESTION_RECIPIENT);
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionOnePanels = data.getSectionPanels();
         verifyKeysOfMap(sectionOnePanels, Arrays.asList("Section 1"));
@@ -433,16 +434,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                              .get("session1InCourse1")
                                              .feedbackSessionName;
         
-        showStats = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
-        sortType = "giver-question-recipient";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1000, "giver-question-recipient"));
+                                        1000, sortType));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                      "on", null, ViewType.GIVER_QUESTION_RECIPIENT);
+                                      CHECKBOX_CHECKED_VALUE, null, ViewType.GIVER_QUESTION_RECIPIENT);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupByTeamPanels = data.getSectionPanels();
         verifyKeysOfMap(notGroupByTeamPanels, Arrays.asList("Section 1", "Section 2", "None"));
@@ -531,16 +531,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
-        sortType = "question";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
-                                        1, "giver-question-recipient"));
+                                        1, sortType));
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                      "on", "on", ViewType.GIVER_QUESTION_RECIPIENT);
+                                      CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_QUESTION_RECIPIENT);
         assertFalse(data.getBundle().isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxSectionPanels = data.getSectionPanels();
@@ -556,9 +555,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         ______TS("GQR ajax error case: single section, require loading by ajax ");
         
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
-        sortType = "question";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         selectedSection = "Section 1";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
@@ -566,7 +564,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                                             instructor.email, selectedSection,
                                                             1));
         data.initForSectionPanelViews(instructor, selectedSection,
-                                      "on", "on", ViewType.GIVER_QUESTION_RECIPIENT);
+                                      CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_QUESTION_RECIPIENT);
         assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
@@ -608,8 +606,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         String courseId = instructor.courseId;
         String feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        String showStats = "on";
-        String groupByTeam = "on";
+        String showStats = CHECKBOX_CHECKED_VALUE;
+        String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = "recipient-question-giver";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
@@ -677,14 +675,14 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
     
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = null;
-        groupByTeam = "on";
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "recipient-question-giver";
         selectedSection = "Section 1";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
                                                                                       instructor.email, selectedSection, 1000));
         data.initForSectionPanelViews(instructor, "Section 1",
-                                      null, "on", ViewType.RECIPIENT_QUESTION_GIVER);
+                                      null, CHECKBOX_CHECKED_VALUE, ViewType.RECIPIENT_QUESTION_GIVER);
         
         Map<String, InstructorFeedbackResultsSectionPanel> singleSectionSectionPanels = data.getSectionPanels();
         verifyKeysOfMap(singleSectionSectionPanels, Arrays.asList("Section 1"));
@@ -739,7 +737,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                              .get("session1InCourse1")
                                              .feedbackSessionName;
         
-        showStats = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
         sortType = "recipient-question-giver";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
@@ -748,7 +746,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         1000, "recipient-question-giver"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                      "on", null, ViewType.RECIPIENT_QUESTION_GIVER);
+                                      CHECKBOX_CHECKED_VALUE, null, ViewType.RECIPIENT_QUESTION_GIVER);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupByTeamPanels = data.getSectionPanels();
         verifyKeysOfMap(notGroupByTeamPanels, Arrays.asList("Section 1", "Section 2", "None"));
@@ -795,8 +793,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "recipient-question-giver";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         // force load by ajax by setting the responses range to 1
@@ -804,7 +802,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         feedbackSessionName, courseId, instructor.email, 
                                         1, "recipient-question-giver"));
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                        "on", "on", ViewType.RECIPIENT_QUESTION_GIVER);
+                                        CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.RECIPIENT_QUESTION_GIVER);
         assertFalse(data.getBundle().isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxQuestionPanels = data.getSectionPanels();
@@ -822,8 +820,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "question";
         selectedSection = "Section 1";
         
@@ -832,7 +830,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                                             instructor.email, selectedSection,
                                                             1));
         data.initForSectionPanelViews(instructor, selectedSection,
-                                      "on", "on", ViewType.RECIPIENT_QUESTION_GIVER);
+                                      CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.RECIPIENT_QUESTION_GIVER);
         assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
@@ -902,8 +900,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         String courseId = instructor.courseId;
         String feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        String showStats = "on";
-        String groupByTeam = "on";
+        String showStats = CHECKBOX_CHECKED_VALUE;
+        String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = "recipient-giver-question";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
@@ -969,7 +967,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student1 In Course1 (Team 1.1)", primaryParticipantPanel.getName());
         assertEquals("student1InCourse1@gmail.tmt", primaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), primaryParticipantPanel.getProfilePictureLink());
         
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels = primaryParticipantPanel.getSecondaryParticipantPanels();
         InstructorFeedbackResultsSecondaryParticipantPanelBody secondaryParticipantPanel = secondaryParticipantPanels.get(0);
@@ -1003,7 +1000,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student5 In Course1 (Team 1.2)", secondPrimaryParticipantPanel.getName());
         assertEquals("student5InCourse1@gmail.tmt", secondPrimaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student5InCourse1@gmail.tmt"), secondPrimaryParticipantPanel.getProfilePictureLink());
         
         assertTrue(secondPrimaryParticipantPanel.getSecondaryParticipantPanels().isEmpty());
         
@@ -1014,7 +1010,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = null;
-        groupByTeam = "on";
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "recipient-giver-question";
         selectedSection = "Section 1";
         
@@ -1022,7 +1018,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         feedbackSessionName, courseId,
                                         instructor.email, selectedSection, 1000));
         data.initForSectionPanelViews(instructor, "Section 1",
-                                      null, "on", ViewType.RECIPIENT_GIVER_QUESTION);
+                                      null, CHECKBOX_CHECKED_VALUE, ViewType.RECIPIENT_GIVER_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> singleSectionSectionPanels = data.getSectionPanels();
         
@@ -1046,7 +1042,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student1 In Course1 (Team 1.1)", singleSectionPrimaryParticipantPanel.getName());
         assertEquals("student1InCourse1@gmail.tmt", singleSectionPrimaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), singleSectionPrimaryParticipantPanel.getProfilePictureLink());
         
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> singleSectionSecondaryParticipantPanels = singleSectionPrimaryParticipantPanel.getSecondaryParticipantPanels();
         InstructorFeedbackResultsSecondaryParticipantPanelBody singleSectionSecondaryParticipantPanel = singleSectionSecondaryParticipantPanels.get(0);
@@ -1069,7 +1064,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                              .get("session1InCourse1")
                                              .feedbackSessionName;
         
-        showStats = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
         sortType = "recipient-giver-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
@@ -1078,7 +1073,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         1000, "recipient-giver-question"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                      "on", null, ViewType.RECIPIENT_GIVER_QUESTION);
+                                      CHECKBOX_CHECKED_VALUE, null, ViewType.RECIPIENT_GIVER_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupedByTeamSectionPanels = data.getSectionPanels();
         
@@ -1133,7 +1128,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student1 In Course1 (Team 1.1)", notGroupedByTeamPrimaryParticipantPanel.getName());
         assertEquals("student1InCourse1@gmail.tmt", notGroupedByTeamPrimaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), notGroupedByTeamPrimaryParticipantPanel.getProfilePictureLink());
         
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> notGroupedByTeamSecondaryParticipantPanels = notGroupedByTeamPrimaryParticipantPanel.getSecondaryParticipantPanels();
         InstructorFeedbackResultsSecondaryParticipantPanelBody notGroupedByTeamSecondaryParticipantPanel = notGroupedByTeamSecondaryParticipantPanels.get(0);
@@ -1156,8 +1150,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "recipient-giver-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
@@ -1184,8 +1178,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "question";
         selectedSection = "Section 1";
         
@@ -1194,7 +1188,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                                             instructor.email, selectedSection,
                                                             1));
         data.initForSectionPanelViews(instructor, selectedSection,
-                                      "on", "on", ViewType.RECIPIENT_GIVER_QUESTION);
+                                      CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.RECIPIENT_GIVER_QUESTION);
         assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
@@ -1220,8 +1214,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         String courseId = instructor.courseId;
         String feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        String showStats = "on";
-        String groupByTeam = "on";
+        String showStats = CHECKBOX_CHECKED_VALUE;
+        String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = "giver-recipient-question";
         String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
@@ -1287,7 +1281,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student1 In Course1 (Team 1.1)", primaryParticipantPanel.getName());
         assertEquals("student1InCourse1@gmail.tmt", primaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), primaryParticipantPanel.getProfilePictureLink());
         
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels = primaryParticipantPanel.getSecondaryParticipantPanels();
         InstructorFeedbackResultsSecondaryParticipantPanelBody secondaryParticipantPanel = secondaryParticipantPanels.get(0);
@@ -1321,7 +1314,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student5 In Course1 (Team 1.2)", secondPrimaryParticipantPanel.getName());
         assertEquals("student5InCourse1@gmail.tmt", secondPrimaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student5InCourse1@gmail.tmt"), secondPrimaryParticipantPanel.getProfilePictureLink());
         
         assertTrue(secondPrimaryParticipantPanel.getSecondaryParticipantPanels().isEmpty());
         
@@ -1332,7 +1324,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = null;
-        groupByTeam = "on";
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "giver-recipient-question";
         selectedSection = "Section 1";
         
@@ -1340,7 +1332,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         feedbackSessionName, courseId,
                                         instructor.email, selectedSection, 1000));
         data.initForSectionPanelViews(instructor, "Section 1",
-                                      null, "on", ViewType.GIVER_RECIPIENT_QUESTION);
+                                      null, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_RECIPIENT_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> singleSectionSectionPanels = data.getSectionPanels();
         
@@ -1364,7 +1356,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student1 In Course1 (Team 1.1)", singleSectionPrimaryParticipantPanel.getName());
         assertEquals("student1InCourse1@gmail.tmt", singleSectionPrimaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), singleSectionPrimaryParticipantPanel.getProfilePictureLink());
         
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> singleSectionSecondaryParticipantPanels = singleSectionPrimaryParticipantPanel.getSecondaryParticipantPanels();
         InstructorFeedbackResultsSecondaryParticipantPanelBody singleSectionSecondaryParticipantPanel = singleSectionSecondaryParticipantPanels.get(0);
@@ -1387,7 +1378,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                              .get("session1InCourse1")
                                              .feedbackSessionName;
         
-        showStats = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
         sortType = "giver-recipient-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
@@ -1396,7 +1387,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         1000, "recipient-giver-question"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                      "on", null, ViewType.GIVER_RECIPIENT_QUESTION);
+                                      CHECKBOX_CHECKED_VALUE, null, ViewType.GIVER_RECIPIENT_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupedByTeamSectionPanels = data.getSectionPanels();
         
@@ -1451,7 +1442,6 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals("student1 In Course1 (Team 1.1)", notGroupedByTeamPrimaryParticipantPanel.getName());
         assertEquals("student1InCourse1@gmail.tmt", notGroupedByTeamPrimaryParticipantPanel.getParticipantIdentifier());
-        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), notGroupedByTeamPrimaryParticipantPanel.getProfilePictureLink());
         
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> notGroupedByTeamSecondaryParticipantPanels = notGroupedByTeamPrimaryParticipantPanel.getSecondaryParticipantPanels();
         InstructorFeedbackResultsSecondaryParticipantPanelBody notGroupedByTeamSecondaryParticipantPanel = notGroupedByTeamSecondaryParticipantPanels.get(0);
@@ -1474,8 +1464,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "giver-recipient-question";
         selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         
@@ -1484,7 +1474,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         1, "recipient-giver-question"));
         
         data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
-                                      "on", "on", ViewType.GIVER_RECIPIENT_QUESTION);
+                                      CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_RECIPIENT_QUESTION);
         assertFalse(data.getBundle().isComplete());
         
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxPanels = data.getSectionPanels();
@@ -1502,8 +1492,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         courseId = instructor.courseId;
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
-        showStats = "on";
-        groupByTeam = "on";
+        showStats = CHECKBOX_CHECKED_VALUE;
+        groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "question";
         selectedSection = "Section 1";
         
@@ -1512,7 +1502,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                                             instructor.email, selectedSection,
                                                             1));
         data.initForSectionPanelViews(instructor, selectedSection,
-                                      "on", "on", ViewType.GIVER_RECIPIENT_QUESTION);
+                                      CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_RECIPIENT_QUESTION);
         assertFalse(data.getBundle().isComplete());
         Map<String, InstructorFeedbackResultsSectionPanel> errorSectionPanels = data.getSectionPanels();
         assertEquals(1, errorSectionPanels.size());
