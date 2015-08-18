@@ -48,9 +48,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     // TODO find out why it's 500
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
-    private static final int RESPONDANTS_LIMIT_FOR_AUTOLOADING = 150;
+    private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
-    // isLargeNumberOfRespondants is an attribute used for testing the ui, for ViewType.Question 
+    // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
     private boolean isLargeNumberOfRespondents = false;
     
     private FeedbackSessionResultsBundle bundle = null;
@@ -1824,10 +1824,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfRespondents() {
-        int numRespondants = (bundle.feedbackSession.respondingInstructorList.size() 
+        int numRespondents = (bundle.feedbackSession.respondingInstructorList.size() 
                            + bundle.feedbackSession.respondingStudentList.size());
         return isLargeNumberOfRespondents 
-           || numRespondants > RESPONDANTS_LIMIT_FOR_AUTOLOADING;
+            || numRespondents > RESPONDENTS_LIMIT_FOR_AUTOLOADING;
     }
 
     
