@@ -399,15 +399,21 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: panels expand/collapse");
 
-        assertEquals(resultsPage.collapseExpandButton.getText(), "Collapse Questions");
+        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
 
         resultsPage.clickCollapseExpand();
-        assertEquals(resultsPage.collapseExpandButton.getText(), "Expand Questions");
+        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
 
         resultsPage.clickCollapseExpand();
-        assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse Questions");
+        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
 
     }
