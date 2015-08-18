@@ -172,7 +172,7 @@ function prepareContribQuestions() {
         var qnNum = contribQuestionNums[i];
 
         // Get number of options for the specified question number of contribution question type
-        var optionNums = $('[name^="responsetext-' + qnNum + '"]').length;
+        var optionNums = $('[name^="responsetext-' + qnNum + '-"]').length;
 
         for (var k = 0; k < optionNums; k++) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
@@ -197,8 +197,8 @@ function prepareMSQQuestions() {
     for (var i = 0; i < msqQuestionNums.length; i++) {
         var qnNum = msqQuestionNums[i];
 
-        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '"][value=""]:not([data-text])');
-        var otherOption = $('input[name^="responsetext-' + qnNum + '"][data-text="msqOtherOptionText"]');
+        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '-"][value=""]:not([data-text])');
+        var otherOption = $('input[name^="responsetext-' + qnNum + '-"][data-text="msqOtherOptionText"]');
 
         // If 'other' is enabled for the question
         if (otherOption.length > 0) {
@@ -230,8 +230,8 @@ function prepareMSQQuestions() {
         });
 
         // reset "none of the above" if any option is clicked
-        var $options = $('input[name^="responsetext-' + qnNum + '"][value!=""], '
-                        +'input[name^="responsetext-' + qnNum + '"][data-text]'); // includes 'other'
+        var $options = $('input[name^="responsetext-' + qnNum + '-"][value!=""], '
+                        +'input[name^="responsetext-' + qnNum + '-"][data-text]'); // includes 'other'
 
         $options.click(function() {
             var noneOfTheAboveOption = $(this).closest('table').find(
