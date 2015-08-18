@@ -156,7 +156,10 @@ function updateResultsFilter() {
 }
 
 function toggleCollapse(e, panels) {
-    if ($(e).html().indexOf('Expand') != -1) {
+    var expand = 'Expand';
+    var collapse = 'Collapse';
+    
+    if ($(e).html().trim().startsWith(expand)) {
         panels = panels || $('div.panel-collapse');
         isExpandingAll = true;
         var i = 0;
@@ -171,8 +174,10 @@ function toggleCollapse(e, panels) {
             }
         }
         var htmlString = $(e).html();
-        htmlString = htmlString.replace('Expand', 'Collapse');
+        htmlString = htmlString.replace(expand, collapse);
         $(e).html(htmlString);
+        var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
+        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
         panels = panels || $('div.panel-collapse');
         isCollapsingAll = true;
@@ -184,8 +189,10 @@ function toggleCollapse(e, panels) {
             }
         }
         var htmlString = $(e).html();
-        htmlString = htmlString.replace('Collapse', 'Expand');
+        htmlString = htmlString.replace(collapse, expand);
         $(e).html(htmlString);
+        var tooltipString = $(e).attr('data-original-title').replace(collapse, expand);
+        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     }
 }
 
