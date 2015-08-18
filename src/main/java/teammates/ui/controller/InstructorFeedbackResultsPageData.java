@@ -51,7 +51,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final int RESPONDANTS_LIMIT_FOR_AUTOLOADING = 150;
 
     // isLargeNumberOfRespondants is an attribute used for testing the ui, for ViewType.Question 
-    private boolean isLargeNumberOfRespondants = false;
+    private boolean isLargeNumberOfRespondents = false;
     
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
@@ -145,9 +145,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
             FeedbackQuestionAttributes question = entry.getKey();
             List<FeedbackResponseAttributes> responses = entry.getValue();
             
-            InstructorFeedbackResultsQuestionTable questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
+            InstructorFeedbackResultsQuestionTable questionPanel;
             if (isLoadingStructureOnly) {
+                questionPanel = buildQuestionTableWithoutResponseRows(question, responses, ""); 
                 questionPanel.setQuestionHasResponses(false);
+            } else {
+                questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
             }
             
             questionPanels.add(questionPanel);
@@ -1816,21 +1819,21 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isLargeNumberOfResponses() {
-        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondants() && isAllSectionsSelected())
+        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected())
              || !bundle.isComplete;
     }
     
-    public boolean isLargeNumberOfRespondants() {
+    public boolean isLargeNumberOfRespondents() {
         int numRespondants = (bundle.feedbackSession.respondingInstructorList.size() 
                            + bundle.feedbackSession.respondingStudentList.size());
-        return isLargeNumberOfRespondants 
+        return isLargeNumberOfRespondents 
            || numRespondants > RESPONDANTS_LIMIT_FOR_AUTOLOADING;
     }
 
     
     // Only used for testing the ui
-    public void setLargeNumberOfRespondants(boolean needAjax) {
-        this.isLargeNumberOfRespondants = needAjax;
+    public void setLargeNumberOfRespondents(boolean needAjax) {
+        this.isLargeNumberOfRespondents = needAjax;
     }
     
 }

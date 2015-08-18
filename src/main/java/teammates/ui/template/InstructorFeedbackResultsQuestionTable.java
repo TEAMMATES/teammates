@@ -35,7 +35,7 @@ public class InstructorFeedbackResultsQuestionTable {
     private Map<String, Boolean> isColumnSortable;
 
     public InstructorFeedbackResultsQuestionTable(
-                                          boolean isQuestionHasResponses,
+                                          boolean isHasResponses,
                                           String questionStatisticsHtml,
                                           List<InstructorFeedbackResultsResponseRow> responseRows,
                                           FeedbackQuestionAttributes question,
@@ -49,7 +49,7 @@ public class InstructorFeedbackResultsQuestionTable {
         this.questionStatisticsTable = questionStatisticsHtml;
         this.responses = responseRows;
         
-        this.isQuestionHasResponses = isQuestionHasResponses;  
+        this.isQuestionHasResponses = isHasResponses;  
         
         this.question = question;
         

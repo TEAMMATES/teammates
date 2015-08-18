@@ -11,7 +11,7 @@
 <c:if test="${data.allSectionsSelected}">
     <div class="panel panel-warning">
         <%-- see instructorFeedbackResultsAjaxResponseRate.js --%>
-        <div class="panel-heading${data.largeNumberOfResponses ? ' ajax_response_rate_submit' : ' ajax_response_rate_auto'}">
+        <div class="panel-heading ${data.largeNumberOfResponses ? 'ajax_response_rate_submit' : 'ajax_response_rate_auto'}">
             <form style="display:none;" id="responseRate" class="responseRateForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${data.bundle.feedbackSession.courseId}">
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${data.bundle.feedbackSession.feedbackSessionName}">
@@ -19,7 +19,7 @@
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="-1">
             </form>
             <div class="display-icon pull-right">
-                <span class="glyphicon${!isLoadingStructure ? ' glyphicon-chevron-up' : ' glyphicon-chevron-down'} pull-right"></span>
+                <span class="glyphicon ${!isLoadingStructure ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
             </div>
             Participants who have not responded to any question
         </div>

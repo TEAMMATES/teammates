@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
@@ -83,13 +84,14 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null && !sortType.equals("question")) {
             // bundle for all questions and all sections  
-            data.setBundle(logic
-                .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
+            data.setBundle(
+                     logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                                                           feedbackSessionName, courseId,
                                                                            instructor.email,
                                                                            queryRange, sortType));
         } else if (sortType.equals("question")) {
-            setBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
-                                     selectedSection, sortType, questionNumStr);
+            data.setBundle(getBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
+                                                    selectedSection, sortType, questionNumStr));
         } else if (sortType.equals("giver-question-recipient")
                 || sortType.equals("giver-recipient-question")) {
             data.setBundle(logic
@@ -112,7 +114,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         // Warning for section wise viewing in case of many responses.
-        boolean isShowSectionWarningForQuestionView = data.isLargeNumberOfRespondants() 
+        boolean isShowSectionWarningForQuestionView = data.isLargeNumberOfRespondents() 
                                                    && sortType.equals("question");
         boolean isShowSectionWarningForParticipantView = !data.getBundle().isComplete
                                                    && !sortType.equals("question");
@@ -157,41 +159,48 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
     }
 
-    private void setBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
-                                    InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection, String sortType, String questionNumStr)
-                                    throws EntityDoesNotExistException {
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null) {
-            // load page structure without responses
-            
-            data.setLargeNumberOfRespondants(needAjax != null);
-            
-            // all sections and all questions for question view
-            // set up question tables, responses to load by ajax
-            data.setBundle(logic
-                        .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
-                                                                                   instructor.email,
-                                                                                   1, sortType));
-            // set isComplete to true to prevent behavior when there are too many responses, 
-            // such as the display of warning messages
-            data.getBundle().isComplete = true;
-        } else if (questionNumStr == null) {
-            // bundle for all questions, with a selected section
-            data.setBundle(logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                instructor.email,
-                                                                                selectedSection));
-        } else if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr != null) {
-            // bundle for a specific question, with all sections
-            int questionNum = Integer.parseInt(questionNumStr);
-            data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                                   instructor.email, questionNum));
+    private FeedbackSessionResultsBundle getBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
+                                                                  InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
+                                                                  String selectedSection, String sortType, String questionNumStr)
+                                                                  throws EntityDoesNotExistException {
+        FeedbackSessionResultsBundle bundle;
+        if (questionNumStr == null) {
+            if (ALL_SECTION_OPTION.equals(selectedSection) ) {
+                // load page structure without responses
+                
+                data.setLargeNumberOfRespondents(needAjax != null);
+                
+                // all sections and all questions for question view
+                // set up question tables, responses to load by ajax
+                bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                               feedbackSessionName, courseId,
+                                               instructor.email,
+                                               1, sortType);
+                // set isComplete to true to prevent behavior when there are too many responses, 
+                // such as the display of warning messages
+                bundle.isComplete = true;
+            } else {
+                // bundle for all questions, with a selected section
+                bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
+                                                                                    instructor.email,
+                                                                                    selectedSection);
+            }
         } else {
-            // bundle for a specific question and a specific section
-            int questionNum = Integer.parseInt(questionNumStr);
-            data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                                            feedbackSessionName, courseId, 
-                                            instructor.email, questionNum, selectedSection));
+            if (ALL_SECTION_OPTION.equals(selectedSection)) {
+                // bundle for a specific question, with all sections
+                int questionNum = Integer.parseInt(questionNumStr);
+                bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
+                                                                                  instructor.email, questionNum);
+            } else {
+                // bundle for a specific question and a specific section
+                int questionNum = Integer.parseInt(questionNumStr);
+                bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                                feedbackSessionName, courseId, 
+                                                instructor.email, questionNum, selectedSection);
+            }
         }
+        
+        return bundle;
     }
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
