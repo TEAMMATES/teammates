@@ -47,13 +47,13 @@
     <div <c:if test="${questionPanel.collapsible}">class="panel-collapse collapse"</c:if>>
         <div class="panel-body padding-0" <c:if test="${questionIndex != null}">id="questionBody-${questionIndex}"</c:if>>
             
-            <c:if test="${!questionPanel.questionHasResponses}">
+            <c:if test="${!questionPanel.hasResponses}">
                 <div class="col-sm-12">
                     <i class="text-muted">There are no responses for this question.</i>
                 </div>
             </c:if>
             
-            <c:if test="${questionPanel.questionHasResponses}">
+            <c:if test="${questionPanel.hasResponses}">
                 <div class="resultStatistics">
                     ${questionPanel.questionStatisticsTable}
                 </div>

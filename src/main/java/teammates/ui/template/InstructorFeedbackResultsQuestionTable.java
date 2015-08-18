@@ -25,7 +25,7 @@ public class InstructorFeedbackResultsQuestionTable {
     private String additionalInfoText;
     private String questionStatisticsTable;
     
-    private boolean isQuestionHasResponses;
+    private boolean isHasResponses;
     private boolean isShowResponseRows;
     
     private boolean isCollapsible;
@@ -49,7 +49,7 @@ public class InstructorFeedbackResultsQuestionTable {
         this.questionStatisticsTable = questionStatisticsHtml;
         this.responses = responseRows;
         
-        this.isQuestionHasResponses = isHasResponses;  
+        this.isHasResponses = isHasResponses;  
         
         this.question = question;
         
@@ -89,8 +89,8 @@ public class InstructorFeedbackResultsQuestionTable {
         return questionStatisticsTable;
     }
 
-    public boolean isQuestionHasResponses() {
-        return isQuestionHasResponses;
+    public boolean isHasResponses() {
+        return isHasResponses;
     }
 
     public String getCourseId() {
@@ -141,8 +141,8 @@ public class InstructorFeedbackResultsQuestionTable {
         return ajaxClass;
     }
 
-    public void setQuestionHasResponses(boolean isQuestionHasResponses) {
-        this.isQuestionHasResponses = isQuestionHasResponses;
+    public void setHasResponses(boolean isHasResponses) {
+        this.isHasResponses = isHasResponses;
     }
 
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {

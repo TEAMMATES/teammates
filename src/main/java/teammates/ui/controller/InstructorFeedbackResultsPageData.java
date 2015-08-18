@@ -148,7 +148,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsQuestionTable questionPanel;
             if (isLoadingStructureOnly) {
                 questionPanel = buildQuestionTableWithoutResponseRows(question, responses, ""); 
-                questionPanel.setQuestionHasResponses(false);
+                questionPanel.setHasResponses(false);
             } else {
                 questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
             }
