@@ -246,12 +246,8 @@ function bindCollapseEvents(panels, numPanels) {
 }
 
 window.onload = function() {
-    var panels = $('div.panel');
-    var numPanels = 0;
-
     var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
-    bindCollapseEvents(panels, numPanels);
     $('a[id^="collapse-panels-button-section-"]').on('click', function() {
         var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
         var childPanelType;
@@ -297,4 +293,7 @@ $(document).ready(function() {
     $('#fsResultsTableWindow').on('shown.bs.modal', function (e) {
         selectElementContents(document.getElementById('fsModalTable'));
     });
+
+    var panels = $('div.panel');
+    bindCollapseEvents(panels, 0);
 });

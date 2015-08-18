@@ -189,7 +189,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHomePage.clickFeedbackSessionViewResultsLink("AHPUiT.instr1.gma-demo", "Second team feedback session")
-                          .verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
+                          .waitForPageToLoad();
+        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
         
         ______TS("new instructor can edit feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
