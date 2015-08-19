@@ -20,7 +20,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.datastore.Text;
@@ -53,7 +55,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         if (!isSessionOpenForSpecificUser(data.bundle.feedbackSession)) {
             isError = true;
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
             return createSpecificRedirectResult();
         }
         
@@ -71,7 +73,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             if (questionAttributes == null) {
-                statusToUser.add("The feedback session or questions may have changed while you were submitting. Please check your responses to make sure they are saved correctly.");
+                statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
+                                                + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
                 continue;
@@ -134,14 +137,20 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     saveResponse(response);
                 }
             } else {
-                statusToUser.addAll(errors);
+                List<StatusMessage> errorMessages = new ArrayList<StatusMessage>();
+                
+                for (String error : errors) {
+                    errorMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
+                }
+                
+                statusToUser.addAll(errorMessages);
                 isError = true;
             }
             
         }
         
         if (!isError) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
         }
 
         if (logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)) {
