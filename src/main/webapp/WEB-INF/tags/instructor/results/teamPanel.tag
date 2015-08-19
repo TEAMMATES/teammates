@@ -50,7 +50,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${statsTables}" var="statsTable">
-                                    <results:questionPanel isShowingAll="${isShowingAll}" questionPanel="${statsTable}" isPanelsCollapsed="${isPanelsCollapsed}"/>
+                                    <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${statsTable}" isPanelsCollapsed="${isPanelsCollapsed}"/>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>

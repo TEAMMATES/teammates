@@ -32,5 +32,10 @@ $(document).ready(function() {
             }
         });
     };
-    $('.ajax_response_rate_submit').click(responseRateRequest);
+
+    //ajax_response_rate_submit requires the user to click on it to load the noResponsePanel,
+    //ajax_response_rate_auto automatically loads the noResponsePanel when the page is loaded
+    $responseRatePanel = $('.ajax_response_rate_submit,.ajax_response_rate_auto');
+    $responseRatePanel.click(responseRateRequest);
+    $('.ajax_response_rate_auto').click();
 });

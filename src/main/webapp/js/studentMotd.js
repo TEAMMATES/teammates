@@ -9,7 +9,7 @@ $(document).ready(function() {
 
         }
     });
-}
+});
 
 function closeMotd() {
     $('#student-motd-container').hide();

@@ -2,6 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -67,6 +69,11 @@ public class AdminActivityLogPage extends AppPage {
         button.click();
     }
     
+    public void clickUserTimezoneAtFirstRow() {
+        WebElement button = browser.driver.findElement(By.cssSelector("#first-row > td > span > a"));
+        button.click();
+    }
+    
     public boolean isFilterReferenceVisible() {
         WebElement reference = browser.driver.findElement(By.id("filterReference"));
         return reference.isDisplayed();
@@ -74,5 +81,10 @@ public class AdminActivityLogPage extends AppPage {
     
     public By getFirstActivityLogRow() {
         return By.id("first-row");
+    }
+    
+    public boolean isUserTimezoneAtFirstRowClicked() {
+        List<WebElement> elements = browser.driver.findElements(By.cssSelector("#first-row > td > span > mark"));
+        return !elements.isEmpty();
     }
 }
