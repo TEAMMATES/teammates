@@ -32,7 +32,7 @@
                 <img src="/images/angry.png"
                     style="float: left; height: 90px; margin: 0 10px 10px 0;">
                 <p>
-                    Sorry, this session is currently not open for submission yet.
+                    Sorry, this session is currently not open for submission.
                     <% if (startTimeString != null) { %>
                         It will be open from <%= startTimeString %><br><br>
                     <% } %>
