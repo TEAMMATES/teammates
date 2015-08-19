@@ -1,5 +1,10 @@
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <!DOCTYPE html>
+<%
+    String startTimeString = (String)session.getAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE);
+    session.removeAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE);
+%>
 
 <html>
 <head>
@@ -27,8 +32,10 @@
                 <img src="/images/angry.png"
                     style="float: left; height: 90px; margin: 0 10px 10px 0;">
                 <p>
-                    You are not authorized to view this page. <br><br>
-                    <a href="/logout.jsp">Logout and return to main page.</a>
+                    Sorry, this session is currently not open for submission yet.
+                    <% if (startTimeString != null) { %>
+                        It will be open from <%= startTimeString %><br><br>
+                    <% } %>
                 </p>
                 <br>
             </div>

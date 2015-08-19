@@ -30,8 +30,8 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
-import teammates.test.pageobjects.NotAuthorizedPage;
 
 /**
  * Tests 'Submit Feedback' view of students.
@@ -125,9 +125,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Not yet visible session");
         
-        NotAuthorizedPage notAuthorizedPage;
-        notAuthorizedPage = loginToStudentFeedbackSubmitPageNotAuthorized("Alice", "Not Yet Visible Session");
-        notAuthorizedPage.verifyHtmlMainContent("/studentFeedbackSubmitPageNotYetVisible.html");
+        FeedbackSessionNotVisiblePage fsNotVisiblePage;
+        fsNotVisiblePage = loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible("Alice", "Not Yet Visible Session");
+        fsNotVisiblePage.verifyHtmlMainContent("/studentFeedbackSubmitPageNotYetVisible.html");
         
     }
 
@@ -527,13 +527,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
     
-    private NotAuthorizedPage loginToStudentFeedbackSubmitPageNotAuthorized(String studentName, String fsName) {
+    private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
         Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
 
-        return loginAdminToPage(browser, editUrl, NotAuthorizedPage.class);
+        return loginAdminToPage(browser, editUrl, FeedbackSessionNotVisiblePage.class);
     }
 
     private void moveToTeam(StudentAttributes student, String newTeam) {

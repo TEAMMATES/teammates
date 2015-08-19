@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -75,16 +76,16 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
 
-        } catch (UnauthorizedAccessException e) {
+        } catch (FeedbackSessionNotVisibleException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);
+            req.getSession().setAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE, e.getStartTimeString());
+            resp.sendRedirect(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE);
             
-            // Set message to display
-            if (e.isDisplayErrorMessage()) {
-                req.getSession().setAttribute(Const.ParamsNames.UNAUTHORIZED_MESSAGE, 
-                                              e.getMessage());
-            }
-            
+        } 
+        catch (UnauthorizedAccessException e) {
+            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
+            cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
 
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
