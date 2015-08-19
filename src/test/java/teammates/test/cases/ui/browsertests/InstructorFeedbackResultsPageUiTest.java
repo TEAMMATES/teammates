@@ -181,7 +181,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // By question
         resultsPage.displayByQuestion();
-        resultsPage.waitForPanelsToCollapse();
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestion.html");
         
@@ -279,7 +278,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("test sort by question for second session");
         resultsPage.displayByQuestion();
-        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestion.html");
         
         
@@ -578,31 +576,40 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        Url resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+        resultsPage.waitForPageToLoad();
+        return resultsPage;
     }
 
     private InstructorFeedbackResultsPage
             loginToInstructorFeedbackResultsPageWithViewType(String instructorName, String fsName,
                                                              boolean needAjax, String viewType) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        Url resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
 
         if (needAjax) {
-            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,
+            resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,
                                         String.valueOf(needAjax));
         }
 
         if (viewType != null) {
-            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
+            resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+        if (needAjax) {
+            resultsPage.waitForPageStructureToLoad();
+        } else {
+            resultsPage.waitForPageToLoad();
+        }
+        
+        return resultsPage;
     }
 
     private void verifySortingOrder(By sortIcon, String... values) {
