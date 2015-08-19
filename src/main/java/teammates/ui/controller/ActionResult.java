@@ -53,7 +53,17 @@ public abstract class ActionResult {
      * execution of the action. Messages are separated by {@code '<br>'}
      */
     public String getStatusMessage() {
-        return StringHelper.toString(statusToUser, "<br />");
+        List<String> statusMessageTexts = new ArrayList<String>();
+        
+        for (StatusMessage msg : statusToUser) {
+            statusMessageTexts.add(msg.getText());
+        }
+        
+        return StringHelper.toString(statusMessageTexts, "<br />");
+    }
+    
+    public String getStatusMessageColor() {
+        return (statusToUser == null || statusToUser.isEmpty()) ? "info" : statusToUser.get(0).getColor();
     }
     
     /**
