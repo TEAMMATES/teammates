@@ -14,6 +14,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class StudentHomePageAction extends Action { 
@@ -49,7 +51,7 @@ public class StudentHomePageAction extends Action {
             if (recentlyJoinedCourseId != null) {
                 addPlaceholderCourse(courses, recentlyJoinedCourseId, account.googleId, sessionSubmissionStatusMap);
             } else {
-                statusToUser.add(Const.StatusMessages.STUDENT_FIRST_TIME);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_FIRST_TIME, StatusMessageColor.WARNING));
                 statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
             }
         }
@@ -108,7 +110,7 @@ public class StudentHomePageAction extends Action {
     private void showEventualConsistencyMessage(String recentlyJoinedCourseId) {
         String errorMessage = String.format(Const.StatusMessages.EVENTUAL_CONSISTENCY_MESSAGE_STUDENT,
                                             recentlyJoinedCourseId);
-        statusToUser.add(errorMessage);
+        statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
     }
     
     private void addPlaceholderCourse(List<CourseDetailsBundle> courses, String courseId,

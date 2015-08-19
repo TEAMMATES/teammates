@@ -5,7 +5,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Const.StatusMessageColor;
 
 /**
  * Action: saves the new profile details given by a student. 
@@ -19,7 +21,7 @@ public class StudentProfileEditSaveAction extends Action {
         try {
             account.studentProfile = extractProfileData();
             logic.updateStudentProfile(account.studentProfile);
-            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId
                           + ")</span> edited.<br>" + account.studentProfile.toString();
         } catch (InvalidParametersException ipe) {
