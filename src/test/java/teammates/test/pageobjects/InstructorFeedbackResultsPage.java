@@ -401,5 +401,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                  .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
         return participantPanels.size();
     }
+    
+    public void waitForPanelsToCollapse() {
+        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
+        waitForElementsVisibility(panelBodies);
+        ThreadHelper.waitFor(1000);
+    }
 
 }

@@ -43,7 +43,7 @@
             <c:choose>
                 <c:when test="${not empty groupByQuestionPanel.questionTables}">
                     <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-                        <results:questionPanel isShowingAll="${isShowingAll}" questionPanel="${questionTable}" isPanelsCollapsed="${isPanelsCollapsed}"/>        
+                        <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}" isPanelsCollapsed="${isPanelsCollapsed}"/>        
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

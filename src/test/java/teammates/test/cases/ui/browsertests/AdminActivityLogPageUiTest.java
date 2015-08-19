@@ -30,6 +30,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     public void testAll(){
         
         testContent();
+        testUserTimezone();
         testReference();
         testViewActionsLink();
         testInputValidation();
@@ -37,6 +38,12 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     }
     
     
+    private void testUserTimezone() {
+        logPage.clickUserTimezoneAtFirstRow();
+        logPage.waitForAjaxLoaderGifToDisappear();
+        assertTrue(logPage.isUserTimezoneAtFirstRowClicked());
+    }
+
     private void testReference() {
         ______TS("content: show reference");
         logPage.clickReferenceButton();

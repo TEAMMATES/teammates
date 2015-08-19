@@ -1997,6 +1997,28 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                         userEmail, questionNumber);
     }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session from a given question number
+     * in a given section.
+     * This will not retrieve the list of comments for this question
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                    String feedbackSessionName, String courseId, String userEmail, 
+                                    int questionNumber, String selectedSection)
+            throws UnauthorizedAccessException, EntityDoesNotExistException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+       
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                            feedbackSessionName, courseId, userEmail, 
+                                            questionNumber, selectedSection);
+    }
 
     /**
      * Gets a question+response bundle for questions with responses that

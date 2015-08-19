@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.ui.controller.InstructorFeedbackResultsPageData;
 
 public class InstructorFeedbackResultsQuestionTable {
 
@@ -16,7 +13,7 @@ public class InstructorFeedbackResultsQuestionTable {
     private String feedbackSessionName;
     
     private String panelClass;
-    private String responsesBodyClass;
+    private String ajaxClass;
     
     private List<InstructorFeedbackResultsResponseRow> responses;
     
@@ -28,7 +25,7 @@ public class InstructorFeedbackResultsQuestionTable {
     private String additionalInfoText;
     private String questionStatisticsTable;
     
-    private boolean isQuestionHasResponses;
+    private boolean isHasResponses;
     private boolean isShowResponseRows;
     
     private boolean isCollapsible;
@@ -37,12 +34,13 @@ public class InstructorFeedbackResultsQuestionTable {
     private List<ElementTag> columns;
     private Map<String, Boolean> isColumnSortable;
 
-    public InstructorFeedbackResultsQuestionTable(InstructorFeedbackResultsPageData data,
-                                          List<FeedbackResponseAttributes> responses,
+    public InstructorFeedbackResultsQuestionTable(
+                                          boolean isHasResponses,
                                           String questionStatisticsHtml,
                                           List<InstructorFeedbackResultsResponseRow> responseRows,
                                           FeedbackQuestionAttributes question,
-                                          String additionalInfoId,
+                                          String questionText,
+                                          String additionalInfoText,
                                           List<ElementTag> columns,
                                           Map<String, Boolean> isColumnSortable) {
         this.courseId = question.courseId;
@@ -51,22 +49,15 @@ public class InstructorFeedbackResultsQuestionTable {
         this.questionStatisticsTable = questionStatisticsHtml;
         this.responses = responseRows;
         
-        this.isQuestionHasResponses = !responses.isEmpty(); //TODO: just check is response is empty in jsp? 
+        this.isHasResponses = isHasResponses;  
         
         this.question = question;
         
-        this.questionText = data.getBundle().getQuestionText(question.getId());
+        this.questionText = questionText;
         
-        this.panelClass = responses.isEmpty() ? 
-                          "panel-default" : 
-                          "panel-info";
+        this.panelClass = "panel-info";
         
-        this.responsesBodyClass = data.getBundle().isComplete() && !data.isShouldCollapsed() ? 
-                                  "panel-collapse collapse in" :
-                                  "panel-collapse collapse";
-        
-        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-        this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
+        this.additionalInfoText = additionalInfoText;
         
         this.columns = columns;
         
@@ -98,8 +89,8 @@ public class InstructorFeedbackResultsQuestionTable {
         return questionStatisticsTable;
     }
 
-    public boolean isQuestionHasResponses() {
-        return isQuestionHasResponses;
+    public boolean isHasResponses() {
+        return isHasResponses;
     }
 
     public String getCourseId() {
@@ -130,16 +121,6 @@ public class InstructorFeedbackResultsQuestionTable {
         return isColumnSortable;
     }
 
-    public String getResponsesBodyClass() {
-        return responsesBodyClass;
-    }
-
-    public void setResponsesBodyClass(String responsesBodyClass) {
-        this.responsesBodyClass = responsesBodyClass;
-    }
-    
-    
-
     public void setShowResponseRows(boolean isShowResponseRows) {
         this.isShowResponseRows = isShowResponseRows;
     }
@@ -150,6 +131,18 @@ public class InstructorFeedbackResultsQuestionTable {
 
     public void setBoldQuestionNumber(boolean isBoldQuestionNumber) {
         this.isBoldQuestionNumber = isBoldQuestionNumber;
+    }
+
+    public void setAjaxClass(String ajaxClass) {
+        this.ajaxClass = ajaxClass;
+    }
+
+    public String getAjaxClass() {
+        return ajaxClass;
+    }
+
+    public void setHasResponses(boolean isHasResponses) {
+        this.isHasResponses = isHasResponses;
     }
 
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {

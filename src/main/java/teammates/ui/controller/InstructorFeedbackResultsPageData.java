@@ -48,7 +48,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     // TODO find out why it's 500
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
+    private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
+    // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
+    private boolean isLargeNumberOfRespondents = false;
+    
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
     private List<String> sections = null;
@@ -133,11 +137,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
         questionPanels = new ArrayList<InstructorFeedbackResultsQuestionTable>();
         
+        // if there is more than one question, we omit generation of responseRows,
+        // and load them by ajax question by question
+        boolean isLoadingStructureOnly = questionToResponseMap.size() > 1;
+                                        
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionToResponseMap.entrySet()) {
             FeedbackQuestionAttributes question = entry.getKey();
             List<FeedbackResponseAttributes> responses = entry.getValue();
             
-            questionPanels.add(buildQuestionTableAndResponseRows(question, responses, ""));
+            InstructorFeedbackResultsQuestionTable questionPanel;
+            if (isLoadingStructureOnly) {
+                questionPanel = buildQuestionTableWithoutResponseRows(question, responses, ""); 
+                questionPanel.setHasResponses(false);
+            } else {
+                questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
+            }
+            
+            questionPanels.add(questionPanel);
         }
         
     }
@@ -1005,9 +1021,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                               List<FeedbackResponseAttributes> responses,
                                                               String additionalInfoId, 
                                                               String participantIdentifier, boolean isShowingResponseRows) {
-        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
-        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, this, 
-                                                                                 bundle, viewType.toString());
 
         List<ElementTag> columnTags = new ArrayList<ElementTag>();
         Map<String, Boolean> isSortable = new HashMap<String, Boolean>();
@@ -1037,10 +1050,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
         
-        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(this, 
-                                                                        responses, statisticsTable, 
-                                                                        responseRows, question, additionalInfoId, 
+        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
+        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, this, 
+                                                                                 bundle, viewType.toString());
+        
+        String questionText = questionDetails.getQuestionText();
+        String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
+        
+        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable( 
+                                                                        !responses.isEmpty(), statisticsTable, 
+                                                                        responseRows, question, 
+                                                                        questionText, additionalInfoText, 
                                                                         columnTags, isSortable);
+        if (viewType == ViewType.QUESTION) {
+            // setup classes, for loading responses by ajax
+            // ajax_submit: user needs to click on the panel to load
+            // ajax_auto: responses are loaded automatically
+            questionTable.setAjaxClass(isLargeNumberOfResponses()
+                                     ? " ajax_submit" 
+                                     : " ajax_auto");
+        }
         questionTable.setShowResponseRows(isShowingResponseRows);
         questionTable.setCollapsible(isCollapsible);
         
@@ -1631,8 +1660,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
-    private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtons(
-                                                                       Map<String, String> emailNameTable) {
+    private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtons() {
         Map<String, InstructorFeedbackResultsModerationButton> moderationButtons = new HashMap<>();
         for (String giverIdentifier : bundle.responseStatus.emailNameTable.keySet()) {
             boolean isStudent = bundle.isParticipantIdentifierStudent(giverIdentifier);
@@ -1771,7 +1799,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
-                                        buildModerateButtons(bundle.emailNameTable));
+                                                            buildModerateButtons());
     }
 
     public void setSections(List<String> sections) {
@@ -1789,4 +1817,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public void setSessionResultsHtmlTableAsString(String sessionResultsHtmlTableAsString) {
         this.sessionResultsHtmlTableAsString = sessionResultsHtmlTableAsString;
     }
+    
+    public boolean isLargeNumberOfResponses() {
+        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected())
+             || !bundle.isComplete;
+    }
+    
+    public boolean isLargeNumberOfRespondents() {
+        int numRespondents = (bundle.feedbackSession.respondingInstructorList.size() 
+                           + bundle.feedbackSession.respondingStudentList.size());
+        return isLargeNumberOfRespondents 
+            || numRespondents > RESPONDENTS_LIMIT_FOR_AUTOLOADING;
+    }
+
+    
+    // Only used for testing the ui
+    public void setLargeNumberOfRespondents(boolean needAjax) {
+        this.isLargeNumberOfRespondents = needAjax;
+    }
+    
 }
