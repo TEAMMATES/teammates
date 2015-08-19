@@ -16,8 +16,10 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
@@ -54,7 +56,7 @@ public abstract class Action {
     protected String statusToAdmin; // TODO: make this a list?
     
     /** Execution status info to be shown to the user */
-    protected List<String> statusToUser = new ArrayList<String>();
+    protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
     
     /** Whether the execution completed without any errors or
      * when we are unable to perform the requested action(s)
