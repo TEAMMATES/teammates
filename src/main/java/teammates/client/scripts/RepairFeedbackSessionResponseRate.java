@@ -33,7 +33,7 @@ public class RepairFeedbackSessionResponseRate extends RemoteApiClient {
     private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     
     // if isPreview is true, then no writes will be done 
-    private boolean isPreview = false;
+    private boolean isPreview = true;
     
     // if either of courseId or feedbackSessionName is null,
     // then all feedback sessions will be checked
