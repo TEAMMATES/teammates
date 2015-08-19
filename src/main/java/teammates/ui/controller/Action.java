@@ -369,10 +369,18 @@ public abstract class Action {
 
     protected void putStatusMessageToSession(ActionResult response) {
         String statusMessageInSession = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        String statusMessageColor = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+        
         if (statusMessageInSession == null || statusMessageInSession.isEmpty()) {
             session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
         } else {
             session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession + "<br>"  + response.getStatusMessage());
+        }
+        
+        if (statusMessageColor == null || statusMessageColor.isEmpty()) {
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, response.getStatusMessageColor());
+        } else {
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
         }
     }
 
