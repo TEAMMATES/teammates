@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 
 /**
  * A result that shows a page in the Browser. These are usually implemented as 
@@ -24,7 +25,7 @@ public class ShowPageResult extends ActionResult{
             String destination, 
             AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
-            List<String> status) {
+            List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
     }
     
@@ -33,7 +34,7 @@ public class ShowPageResult extends ActionResult{
             AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
             PageData data,
-            List<String> status) {
+            List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
         this.data = data;
     }
