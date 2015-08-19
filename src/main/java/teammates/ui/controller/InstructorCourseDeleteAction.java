@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -23,7 +25,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
         /* Delete the course and setup status to be shown to user and admin */
         logic.deleteCourse(idOfCourseToDelete);
         String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
-        statusToUser.add(statusMessage);
+        statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
         statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
         if (isRedirectedToHomePage()) {
