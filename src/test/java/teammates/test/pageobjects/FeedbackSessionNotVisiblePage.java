@@ -8,7 +8,7 @@ public class FeedbackSessionNotVisiblePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Sorry, this session is currently not open for submission yet.");
+        return getPageSource().contains("Sorry, this session is currently not open for submission.");
     }
 
 }
