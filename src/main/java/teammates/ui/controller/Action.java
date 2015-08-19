@@ -484,7 +484,7 @@ public abstract class Action {
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {
         String errorMessage = "You are not registered in the course " + Sanitizer.sanitizeForHtml(courseId);
-        statusToUser.add(errorMessage);
+        statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
@@ -504,7 +504,7 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e) {
-        statusToUser.add(e.getMessage());
+        statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
     }
@@ -516,7 +516,7 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e, String statusMessageToUser) {
-        statusToUser.add(statusMessageToUser);
+        statusToUser.add(new StatusMessage(statusMessageToUser, StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
     }
