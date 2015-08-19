@@ -463,6 +463,7 @@ public class Const {
         public static final String TEAMMATES = "teammates";
     
         public static final String STATUS_MESSAGE = "message";
+        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
@@ -792,6 +793,8 @@ public class Const {
         
         public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
     }
+    
+    public static enum StatusMessageColor {INFO, WARNING, DANGER, SUCCESS};    
 
     /* These are status messages that may be shown to the user */
     public class StatusMessages{
@@ -1035,6 +1038,7 @@ public class Const {
         public static final String KEY_BELONGS_TO_DIFFERENT_USER = "ERRORCODE_KEY_BELONGS_TO_DIFFERENT_USER";
         public static final String LEADING_OR_TRAILING_SPACES = "ERRORCODE_LEADING_OR_TRAILING_SPACES";
         public static final String PUBLISHED_BEFORE_CLOSING = "ERRORCODE_PUBLISHED_BEFORE_CLOSING";
+        public static final String STATUS_MESSAGE_NOT_FOUND_IN_HASHMAP = "STATUS_MESSAGE_NOT_FOUND_IN_HASHMAP";
         public static final String STRING_TOO_LONG = "ERRORCODE_STRING_TOO_LONG";
         public static final String UNPUBLISHED_BEFORE_PUBLISHING = "ERRORCODE_UNPUBLISHED_BEFORE_PUBLISHING";
         
