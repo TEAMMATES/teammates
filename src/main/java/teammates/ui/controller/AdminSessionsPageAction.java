@@ -12,7 +12,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
@@ -117,8 +119,8 @@ public class AdminSessionsPageAction extends Action {
             
             if (start.after(end)) {
                 isError = true;
-                statusToUser.add("The filter range is not valid."
-                                 + " End time should be after start time.");
+                statusToUser.add(new StatusMessage("The filter range is not valid."
+                                 + " End time should be after start time.", StatusMessageColor.DANGER));
                 statusToAdmin = "Admin Sessions Page Load<br>" +
                                 "<span class=\"bold\"> Error: invalid filter range</span>";
     
@@ -131,7 +133,7 @@ public class AdminSessionsPageAction extends Action {
         } else {
             
             isError = true;
-            statusToUser.add("Error: Missing Parameters");
+            statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
             statusToAdmin = "Admin Sessions Page Load<br>" +
                             "<span class=\"bold\"> Error: Missing Parameters</span>";
 
@@ -154,7 +156,7 @@ public class AdminSessionsPageAction extends Action {
         if (allOpenFeedbackSessionsList.isEmpty()) {
 
             isError = false;
-            statusToUser.add("Currently No Ongoing Sessions");
+            statusToUser.add(new StatusMessage("Currently No Ongoing Sessions", StatusMessageColor.WARNING));
             statusToAdmin = "Admin Sessions Page Load<br>" +
                             "<span class=\"bold\"> No Ongoing Sessions</span>";
 

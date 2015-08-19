@@ -13,8 +13,10 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
@@ -39,7 +41,7 @@ public class AdminSearchPageAction extends Action {
         if(searchKey == null || searchKey.trim().isEmpty()){
             
             if(searchButtonHit != null){             
-                statusToUser.add("Search key cannot be empty");
+                statusToUser.add(new StatusMessage("Search key cannot be empty", StatusMessageColor.WARNING));
                 statusToAdmin = "Invalid Search: Search key cannot be empty";
                 isError = true;
             } else {
@@ -71,11 +73,11 @@ public class AdminSearchPageAction extends Action {
                            + data.instructorResultBundle.getResultSize();
         
         if(numOfResults > 0){
-            statusToUser.add("Total results found: " + numOfResults);
+            statusToUser.add(new StatusMessage("Total results found: " + numOfResults, StatusMessageColor.INFO));
             statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
             isError = false;
         } else {
-            statusToUser.add("No result found, please try again");
+            statusToUser.add(new StatusMessage("No result found, please try again", StatusMessageColor.WARNING));
             statusToAdmin = "Search Key: " + searchKey + "<br>" + "No result found";
             isError = true;
         }
