@@ -1171,6 +1171,7 @@ public class Const {
     
     
     public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
+    public static enum StatusMessageColor{INFO, SUCCESS, WARNING, DANGER};
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
     
