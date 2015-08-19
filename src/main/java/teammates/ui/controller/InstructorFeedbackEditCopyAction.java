@@ -11,7 +11,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackEditCopyAction extends Action {
@@ -86,7 +88,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             List<String> courses = Arrays.asList(coursesIdToCopyTo);
             String commaSeparatedListOfCourses = StringHelper.toString(courses, ",");
             
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "Copying to multiple feedback sessions.<br>"
                     + "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> "
@@ -150,7 +152,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     
     private RedirectResult createRedirectWithErrorMsg(
             String feedbackSessionName, String courseId, String errorToUser, String currentPage) {
-        statusToUser.add(errorToUser);
+        statusToUser.add(new StatusMessage(errorToUser, StatusMessageColor.DANGER));
         return createRedirectWithError(feedbackSessionName, courseId, currentPage);
     }
     

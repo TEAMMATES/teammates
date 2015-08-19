@@ -6,7 +6,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
 
@@ -121,7 +123,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         // Warning for section wise viewing in case of many responses.
         if (selectedSection.equals(ALL_SECTION_OPTION) && !data.getBundle().isComplete) {
             // not tested because the test data is not large enough to make this happen
-            statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING, StatusMessageColor.WARNING));
             isError = true;
         }
         

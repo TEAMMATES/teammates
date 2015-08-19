@@ -12,6 +12,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbacksPageAction extends Action {
@@ -51,15 +53,15 @@ public class InstructorFeedbacksPageAction extends Action {
         } else {
             existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
             if (existingFeedbackSessions.isEmpty()) {
-                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, StatusMessageColor.WARNING));
             }
         }
         
         Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);
         
         if (courses.isEmpty()) {
-            statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
-                             .replace("${user}", "?user=" + account.googleId));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
+                                                 .replace("${user}", "?user=" + account.googleId), StatusMessageColor.WARNING));
         }
         
         statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();
