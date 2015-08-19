@@ -27,7 +27,7 @@
                 <img src="/images/angry.png"
                     style="float: left; height: 90px; margin: 0 10px 10px 0;">
                 <p>
-                    You are not authorized to view this page. <br><br>
+                    You are not authorized to view this page. <br> <br>
                     <a href="/logout.jsp">Logout and return to main page.</a>
                 </p>
                 <br>

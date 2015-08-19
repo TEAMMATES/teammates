@@ -82,8 +82,7 @@ public class ControllerServlet extends HttpServlet {
             req.getSession().setAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE, e.getStartTimeString());
             resp.sendRedirect(Const.ViewURIs.FEEDBACK_SESSION_NOT_VISIBLE);
             
-        } 
-        catch (UnauthorizedAccessException e) {
+        } catch (UnauthorizedAccessException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.UNAUTHORIZED);
