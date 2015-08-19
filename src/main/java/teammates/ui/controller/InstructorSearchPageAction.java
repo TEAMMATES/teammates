@@ -17,6 +17,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -80,11 +82,11 @@ public class InstructorSearchPageAction extends Action {
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
             if (totalResultsSize == 0) {
-                statusToUser.add(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS, StatusMessageColor.WARNING));
             }
         } else {
             //display search tips and tutorials
-            statusToUser.add(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS, StatusMessageColor.INFO));
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
