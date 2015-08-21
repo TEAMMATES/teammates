@@ -18,6 +18,15 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends FeedbackS
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         
     }
+    
+    @Override
+    protected boolean isUserRespondentOfSession() {
+        // Since only the form only contains a single question,
+        // we need to use the database for handling the situation where the user has responses to other 
+        // questions if there is no response to the single question on the submitted form.
+        return isHasResponse 
+               || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
+    }
 
     protected abstract void verifyAccesibleForSpecificUser();
 

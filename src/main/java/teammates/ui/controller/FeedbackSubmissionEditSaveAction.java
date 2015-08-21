@@ -29,7 +29,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String courseId;
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
-    protected String hasResponses;
+    protected boolean isHasResponse;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -132,6 +132,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
                     saveResponse(response);
+                    isHasResponse = true;
                 }
             } else {
                 statusToUser.addAll(errors);
@@ -144,7 +145,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
 
-        if (logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)) {
+        if (isUserRespondentOfSession()) {
             appendRespondant();
         } else {
             removeRespondant();
@@ -294,6 +295,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      */
     protected void checkAdditionalConstraints() {
         return;
+    }
+    
+    /**
+     * @return true if user has responses in the feedback session
+     */
+    protected boolean isUserRespondentOfSession() {
+        return isHasResponse;
     }
     
     protected abstract void appendRespondant();
