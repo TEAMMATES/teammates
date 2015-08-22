@@ -29,8 +29,10 @@ public class InstructorHomePageAction extends Action {
     }
 
     private ActionResult loadCourse(String courseToLoad) throws EntityDoesNotExistException {
-        String index = getRequestParamValue("index");
+        int index = Integer.parseInt(getRequestParamValue("index"));
+        
         CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(courseToLoad);
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseToLoad, account.googleId);
                 
@@ -42,7 +44,7 @@ public class InstructorHomePageAction extends Action {
         int pendingCommentsCount = commentsForSendingStateCount + feedbackResponseCommentsForSendingStateCount;
         
         InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
-        data.init(Integer.parseInt(index), course, instructor, pendingCommentsCount);
+        data.init(index, course, instructor, pendingCommentsCount);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
     }
@@ -57,30 +59,15 @@ public class InstructorHomePageAction extends Action {
         String sortCriteria = getSortCriteria(courseList,
                                               getRequestParamValue(Const.ParamsNames.COURSE_SORTING_CRITERIA));
         
-        HashMap<String, Integer> numberOfPendingComments = new HashMap<String, Integer>();
         HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
         for (CourseSummaryBundle course : courseList) {
             String courseId = course.course.id;
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             instructors.put(courseId, instructor);
-            
-            int numberOfCommentsForSendingState =
-                    logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
-            
-            int numberOfFeedbackResponseCommentsForSendingState =
-                    logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING)
-                         .size();
-            
-            int numberOfPendingCommentsForThisCourse = numberOfCommentsForSendingState
-                                                       + numberOfFeedbackResponseCommentsForSendingState;
-            
-            numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
-            
-            FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         }
         
         InstructorHomePageData data = new InstructorHomePageData(account);
-        data.init(courseList, sortCriteria, instructors, numberOfPendingComments);
+        data.init(courseList, sortCriteria, instructors);
         
         if (logic.isNewInstructor(account.googleId)) {
             statusToUser.add(StatusMessages.HINT_FOR_NEW_INSTRUCTOR);
