@@ -298,6 +298,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
     
     /**
+     * Note that when overriding this method, this should not use {@code respondingStudentList} 
+     * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}.
+     * 
      * @return true if user has responses in the feedback session
      */
     protected boolean isUserRespondentOfSession() {
