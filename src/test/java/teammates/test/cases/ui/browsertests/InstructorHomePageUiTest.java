@@ -139,7 +139,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithSampleCourse.html");
+        homePage.verifyHtmlAjax("/InstructorHomeNewInstructorWithSampleCourse.html");
         
         ______TS("content: multiple courses");
         
