@@ -305,7 +305,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * @return true if user has responses in the feedback session
      */
     protected boolean isUserRespondentOfSession() {
-        return hasValidResponse;
+        // if there is no valid response on the form submission,
+        // we need to use logic to check the database to handle cases where not all questions are displayed
+        // e.g. on FeedbackQuestionSubmissionEditSaveAction, 
+        // or if the submitter can submitted both as a student or instructor 
+        return hasValidResponse
+            || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }
     
     protected abstract void appendRespondant();
