@@ -627,8 +627,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");        
     
         fsSaveLink.click();
-        
-        waitForPageToLoad();
+        waitForElementVisibility(statusMessage);
     }
     
     public InstructorFeedbacksPage deleteSession() {

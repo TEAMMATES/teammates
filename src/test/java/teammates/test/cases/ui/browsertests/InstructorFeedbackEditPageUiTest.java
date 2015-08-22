@@ -162,6 +162,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditUncommonSettingsButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
+        
+        ______TS("test end time earlier than start time");
+        feedbackEditPage.clickEditSessionButton();
+        editedSession.instructions = new Text("Made some changes");
+        feedbackEditPage.editFeedbackSession(editedSession.endTime, editedSession.startTime,
+                                        editedSession.instructions, editedSession.gracePeriod);
+        
+        String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
+        feedbackEditPage.verifyFieldValue("instructions", "Made some changes");
+        feedbackEditPage.verifyStatus(expectedString);
     }
 
     private void testNewQuestionLink() {
