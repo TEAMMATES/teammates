@@ -694,6 +694,11 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getCourseDetails(courseId);
     }
+    
+    public CourseSummaryBundle getCourseSummaryWithFeedbackSessions(String courseId) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        return coursesLogic.getCourseSummaryWithFeedbackSessions(courseId);
+    }
 
     /**
      * Preconditions: <br>

@@ -15,25 +15,39 @@ import teammates.logic.api.GateKeeper;
 public class InstructorHomePageAction extends Action {
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        InstructorHomePageData data = new InstructorHomePageData(account);
-        return getRequestParamValue(Const.ParamsNames.COURSE_LOAD_ONLY) == null
-               ? loadPage(data) : loadCourse(data);
-    }
-
-    private ActionResult loadCourse(InstructorHomePageData data) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private ActionResult loadPage(InstructorHomePageData data) throws EntityDoesNotExistException {
         if (!account.isInstructor && isPersistenceIssue()) {
-            ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
+            ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME,
+                                                           new InstructorHomePageData(account));
             statusToUser.add(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE);
             return response;
         }
         
         new GateKeeper().verifyInstructorPrivileges(account);
         
+        String courseToLoad = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        return courseToLoad == null ? loadPage() : loadCourse(courseToLoad);
+    }
+
+    private ActionResult loadCourse(String courseToLoad) throws EntityDoesNotExistException {
+        String index = getRequestParamValue("index");
+        CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(courseToLoad);
+        
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseToLoad, account.googleId);
+                
+        int commentsForSendingStateCount =
+                logic.getCommentsForSendingState(courseToLoad, CommentSendingState.PENDING).size();
+        int feedbackResponseCommentsForSendingStateCount =
+                logic.getFeedbackResponseCommentsForSendingState(courseToLoad, CommentSendingState.PENDING)
+                     .size();
+        int pendingCommentsCount = commentsForSendingStateCount + feedbackResponseCommentsForSendingStateCount;
+        
+        InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
+        data.init(Integer.parseInt(index), course, instructor, pendingCommentsCount);
+        
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
+    }
+
+    private ActionResult loadPage() throws EntityDoesNotExistException {
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, omitArchived);
@@ -65,6 +79,7 @@ public class InstructorHomePageAction extends Action {
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         }
         
+        InstructorHomePageData data = new InstructorHomePageData(account);
         data.init(courseList, sortCriteria, instructors, numberOfPendingComments);
         
         if (logic.isNewInstructor(account.googleId)) {

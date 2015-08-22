@@ -447,6 +447,12 @@ public class CoursesLogic {
         
         return cdd;
     }
+    
+    public CourseSummaryBundle getCourseSummaryWithFeedbackSessions(String courseId) throws EntityDoesNotExistException {
+        CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(courseId);
+        courseSummary.feedbackSessions.addAll(feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId));
+        return courseSummary;
+    }
 
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);

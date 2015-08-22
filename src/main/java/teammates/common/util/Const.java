@@ -314,7 +314,6 @@ public class Const {
         public static final String SHOW_COMMENT_BOX = "addComment";
         
         public static final String COURSE_SORTING_CRITERIA = "sortby";
-        public static final String COURSE_LOAD_ONLY = "loadcourseonly";
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
@@ -723,6 +722,7 @@ public class Const {
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
         public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp";
+        public static final String INSTRUCTOR_HOME_AJAX_COURSE_TABLE = "/jsp/instructorHomeAjaxCourse.jsp";
         public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD = "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/jsp/instructorFeedbackResponseCommentsLoad.jsp";
