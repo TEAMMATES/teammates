@@ -20,6 +20,7 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -1948,7 +1949,13 @@ public class FeedbackSessionsLogic {
                         }
                         isVisibleResponse = false;
                     }
-
+                }
+                
+                if (question.questionType == FeedbackQuestionType.CONTRIB) {
+                    // add email name pairs of students who did not respond or were not given a response
+                    addRemainingNamePairsToTable(
+                            emailNameTable, emailLastNameTable, emailTeamNameTable, roster, 
+                            courseId, userEmail, role, feedbackSessionName);
                 }
             }
             boolean needResponseStatus = questionNumber == QUESTION_NUM_FOR_RESPONSE_RATE;
@@ -2097,6 +2104,30 @@ public class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
+    }
+
+    private void addRemainingNamePairsToTable(Map<String, String> emailNameTable, Map<String, String> emailLastNameTable,
+                                    Map<String, String> emailTeamNameTable, CourseRoster roster, String courseId,
+                                    String userEmail, UserType.Role role, String feedbackSessionName) {
+        InstructorAttributes instructor = null;
+        if (role == Role.INSTRUCTOR) {
+            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        }
+        if (instructor != null) {
+            for (StudentAttributes student : roster.getStudents()) {
+                boolean isVisibleResponse = 
+                        instructor.isAllowedForPrivilege(
+                                           student.section,
+                                           feedbackSessionName, 
+                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                if (isVisibleResponse) {
+                    emailNameTable.put(student.email, student.name);
+                    emailLastNameTable.put(student.email, student.lastName);
+                    emailTeamNameTable.put(student.email, student.team);
+                }
+            }
+        }
+        
     }
 
     private boolean isResponseVisibleForUser(String userEmail, String courseId,
