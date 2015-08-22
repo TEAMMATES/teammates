@@ -24,7 +24,7 @@ public class InstructorHomePageAction extends Action {
         
         new GateKeeper().verifyInstructorPrivileges(account);
         
-        String courseToLoad = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseToLoad = getRequestParamValue(Const.ParamsNames.COURSE_TO_LOAD);
         return courseToLoad == null ? loadPage() : loadCourse(courseToLoad);
     }
 

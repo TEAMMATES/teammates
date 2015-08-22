@@ -29,7 +29,7 @@
     <c:if test="${isNotLoaded}">
         <form>
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
-            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseTable.courseId}">
+            <input type="hidden" name="<%=Const.ParamsNames.COURSE_TO_LOAD%>" value="${courseTable.courseId}">
             <input type="hidden" name="index" value="${index}">
         </form>
     </c:if>
