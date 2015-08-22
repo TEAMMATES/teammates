@@ -695,9 +695,10 @@ public class Logic {
         return coursesLogic.getCourseDetails(courseId);
     }
     
-    public CourseSummaryBundle getCourseSummaryWithFeedbackSessions(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        return coursesLogic.getCourseSummaryWithFeedbackSessions(courseId);
+    public CourseSummaryBundle getCourseSummaryWithFeedbackSessions(InstructorAttributes instructor)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(instructor);
+        return coursesLogic.getCourseSummaryWithFeedbackSessionsForInstructor(instructor);
     }
 
     /**

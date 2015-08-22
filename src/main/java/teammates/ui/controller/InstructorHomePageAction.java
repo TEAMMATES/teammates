@@ -31,11 +31,11 @@ public class InstructorHomePageAction extends Action {
     private ActionResult loadCourse(String courseToLoad) throws EntityDoesNotExistException {
         int index = Integer.parseInt(getRequestParamValue("index"));
         
-        CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(courseToLoad);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseToLoad, account.googleId);
+        
+        CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(instructor);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseToLoad, account.googleId);
-                
         int commentsForSendingStateCount =
                 logic.getCommentsForSendingState(courseToLoad, CommentSendingState.PENDING).size();
         int feedbackResponseCommentsForSendingStateCount =
