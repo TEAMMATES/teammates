@@ -28,29 +28,30 @@ $(document).ready(function() {
     // AJAX loading of course panels
     var $coursePanels = $('div[id|="course"]');
     $.each($coursePanels, function() {
-    	$(this).filter(function() {
-    		var isNotLoaded = $(this).find('form').length;
-    		return isNotLoaded;
-    	}).click(function() {
-			var $panel = $(this);
-    		var formData = $panel.find('form').serialize();
-    		var content = $panel.find('.pull-right')[0];
-    		
-    		$.ajax({
-    	        type : 'POST',
-    	        url : '/page/instructorHomePage?' + formData,
-    	        beforeSend : function() {
-    	        	$(content).html("<img src='/images/ajax-loader.gif'/>");
-    	        },
-    	        error : function() {
-    	        	// TODO: show an error message?     	
-    	        },
-    	        success : function(data) {
-    	        	$panel.replaceWith(data);
-    	        	linkAjaxForResponseRate();
-    	        }
-    	    });
-    	});
+        $(this).filter(function() {
+            var isNotLoaded = $(this).find('form').length;
+            return isNotLoaded;
+        }).click(function() {
+            var $panel = $(this);
+            var formData = $panel.find('form').serialize();
+            var content = $panel.find('.pull-right')[0];
+            
+            $.ajax({
+                type : 'POST',
+                url : '/page/instructorHomePage?' + formData,
+                beforeSend : function() {
+                    $(content).html("<img src='/images/ajax-loader.gif'/>");
+                },
+                error : function() {
+                    // TODO: show an error message?         
+                },
+                success : function(data) {
+                    // .replaceWith() fixes <br> in statuses' tooltips by closing the tooltip <span>
+                    $panel[0].outerHTML = data;
+                    linkAjaxForResponseRate();
+                }
+            });
+        });
     });
     
     // Automatically load top few course panels
