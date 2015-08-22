@@ -52,11 +52,13 @@ public class InstructorFeedbackEditSaveAction extends Action {
                     + "<br><span class=\"bold\">Session visible from:</span> " + feedbackSession.sessionVisibleFromTime
                     + "<br><span class=\"bold\">Results visible from:</span> " + feedbackSession.resultsVisibleFromTime
                     + "<br><br><span class=\"bold\">Instructions:</span> " + feedbackSession.instructions;
+            data.setHasError(false);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
+            data.setHasError(true);
         }
-        
-        return createRedirectResult(data.getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        data.setStatusForAjax(statusToUser.get(0));
+        return createAjaxResult(data);
     }
     
     private FeedbackSessionAttributes extractFeedbackSessionData() {
