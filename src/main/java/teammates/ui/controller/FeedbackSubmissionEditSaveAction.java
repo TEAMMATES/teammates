@@ -132,7 +132,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
                     saveResponse(response);
-                    hasValidResponse = true;
                 }
             } else {
                 statusToUser.addAll(errors);
@@ -195,6 +194,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
             try {
                 logic.updateFeedbackResponse(response);
+                hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
@@ -202,6 +202,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
+                hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
