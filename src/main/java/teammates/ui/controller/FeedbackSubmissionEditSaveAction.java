@@ -29,7 +29,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String courseId;
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
-    protected boolean isHasResponse;
+    protected boolean hasValidResponse;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -132,7 +132,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             if (errors.isEmpty()) {
                 for (FeedbackResponseAttributes response : responsesForQuestion) {
                     saveResponse(response);
-                    isHasResponse = true;
+                    hasValidResponse = true;
                 }
             } else {
                 statusToUser.addAll(errors);
@@ -301,7 +301,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * @return true if user has responses in the feedback session
      */
     protected boolean isUserRespondentOfSession() {
-        return isHasResponse;
+        return hasValidResponse;
     }
     
     protected abstract void appendRespondant();

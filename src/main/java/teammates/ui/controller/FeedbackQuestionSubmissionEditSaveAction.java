@@ -24,7 +24,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends FeedbackS
         // Since only the form only contains a single question,
         // we need to use the database for handling the situation where the user has responses to other 
         // questions if there is no response to the single question on the submitted form.
-        return isHasResponse 
+        return hasValidResponse 
                || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }
 
