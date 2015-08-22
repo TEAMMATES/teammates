@@ -314,6 +314,7 @@ public class Const {
         public static final String SHOW_COMMENT_BOX = "addComment";
         
         public static final String COURSE_SORTING_CRITERIA = "sortby";
+        public static final String COURSE_LOAD_ONLY = "loadcourseonly";
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         

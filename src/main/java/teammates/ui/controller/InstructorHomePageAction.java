@@ -13,20 +13,26 @@ import teammates.common.util.Const.StatusMessages;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorHomePageAction extends Action {
-    private InstructorHomePageData data;
-    
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
+        InstructorHomePageData data = new InstructorHomePageData(account);
+        return getRequestParamValue(Const.ParamsNames.COURSE_LOAD_ONLY) == null
+               ? loadPage(data) : loadCourse(data);
+    }
+
+    private ActionResult loadCourse(InstructorHomePageData data) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private ActionResult loadPage(InstructorHomePageData data) throws EntityDoesNotExistException {
         if (!account.isInstructor && isPersistenceIssue()) {
-            data = new InstructorHomePageData(account);
             ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
             statusToUser.add(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE);
             return response;
         }
         
         new GateKeeper().verifyInstructorPrivileges(account);
-        
-        data = new InstructorHomePageData(account);
         
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
