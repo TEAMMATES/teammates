@@ -579,19 +579,7 @@ public class CoursesLogic {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, 
                                                                                                omitArchived);
-        
         HashMap<String, CourseSummaryBundle> courseList = getCourseSummaryWithoutStatsForInstructor(instructorList);
-        
-
-        List<FeedbackSessionAttributes> feedbackSessionList = 
-                feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
-        
-        for (FeedbackSessionAttributes fsb : feedbackSessionList) {
-            CourseSummaryBundle courseSummary = courseList.get(fsb.courseId);
-            if (courseSummary != null) {
-                courseSummary.feedbackSessions.add(fsb);
-            }
-        }
         return courseList;
     }
     
