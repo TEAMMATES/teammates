@@ -229,8 +229,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         responses = getActualResponses(question, bundle);
 
-        //List of teams with at least one response
-        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        //List of all teams
+        List<String> teamNames = getTeamNames(bundle);
         
         //Each team's member(email) list
         Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
@@ -333,7 +333,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         //List of teams with at least one response
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
-        
+
         //Each team's member(email) list
         Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
         
@@ -432,6 +432,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return csv;
     }
     
+    private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {
+        List<String> teamNames = new ArrayList<String>();
+        for (String studentEmail : bundle.emailTeamNameTable.keySet()) {
+            String teamName = bundle.emailTeamNameTable.get(studentEmail);
+            if (!teamNames.contains(teamName)) {
+                teamNames.add(teamName);
+            }
+        }
+        return teamNames;
+    }
+
     /**
      * @return A Map with student email as key and StudentResultSummary as value for the specified question.
      */
