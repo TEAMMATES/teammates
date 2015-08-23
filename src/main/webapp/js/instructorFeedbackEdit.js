@@ -70,19 +70,21 @@ function bindFeedbackSessionEditFormSubmission() {
                 $('#statusMessage').hide();
             },
             success: function(result) {
-                $('#statusMessage').text(result.statusForAjax);
+            	$statusMessage = $('#statusMessage');
+            		
+            	$statusMessage.text(result.statusForAjax);
                 
-                $('#statusMessage').removeClass("alert alert-danger alert-warning");
+            	$statusMessage.removeClass("alert alert-danger alert-warning");
                 if (result.hasError) {
-                    $('#statusMessage').addClass("alert alert-danger");
+                	$statusMessage.addClass("alert alert-danger");
                 } else {
                     disableEditFS();
-                    $('#statusMessage').addClass("alert alert-warning");
+                    $statusMessage.addClass("alert alert-warning");
                 }
-                $('#statusMessage').show();
+                $statusMessage.show();
                 
                 // focus on status message
-                $(document).scrollTop($('#statusMessage').offset().top - $('.navbar').height() - 30);
+                $(document).scrollTop($statusMessage.offset().top - $('.navbar').height() - 30);
             }
         });
     });
