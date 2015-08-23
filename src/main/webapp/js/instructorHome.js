@@ -46,7 +46,8 @@ $(document).ready(function() {
                     // TODO: show an error message?         
                 },
                 success : function(data) {
-                    // .replaceWith() fixes <br> in statuses' tooltips by closing the tooltip <span>
+                    // .outerHTML is used instead of jQuery's .replaceWith() to avoid the <span>
+                	// for statuses' tooltips from being closed due to the presence of <br>
                     $panel[0].outerHTML = data;
                     linkAjaxForResponseRate();
                 }
