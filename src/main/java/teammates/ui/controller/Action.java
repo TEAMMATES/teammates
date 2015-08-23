@@ -16,8 +16,10 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
@@ -54,7 +56,7 @@ public abstract class Action {
     protected String statusToAdmin; // TODO: make this a list?
     
     /** Execution status info to be shown to the user */
-    protected List<String> statusToUser = new ArrayList<String>();
+    protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
     
     /** Whether the execution completed without any errors or
      * when we are unable to perform the requested action(s)
@@ -367,10 +369,18 @@ public abstract class Action {
 
     protected void putStatusMessageToSession(ActionResult response) {
         String statusMessageInSession = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        String statusMessageColor = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+        
         if (statusMessageInSession == null || statusMessageInSession.isEmpty()) {
             session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
         } else {
             session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession + "<br>"  + response.getStatusMessage());
+        }
+        
+        if (statusMessageColor == null || statusMessageColor.isEmpty()) {
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, response.getStatusMessageColor());
+        } else {
+            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
         }
     }
 
@@ -474,7 +484,7 @@ public abstract class Action {
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {
         String errorMessage = "You are not registered in the course " + Sanitizer.sanitizeForHtml(courseId);
-        statusToUser.add(errorMessage);
+        statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage; 
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
@@ -494,7 +504,7 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e) {
-        statusToUser.add(e.getMessage());
+        statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
     }
@@ -506,7 +516,7 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e, String statusMessageToUser) {
-        statusToUser.add(statusMessageToUser);
+        statusToUser.add(new StatusMessage(statusMessageToUser, StatusMessageColor.DANGER));
         isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
     }

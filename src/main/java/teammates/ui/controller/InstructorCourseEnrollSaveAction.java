@@ -13,6 +13,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -56,10 +58,10 @@ public class InstructorCourseEnrollSaveAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e);
             
-            statusToUser.add("The enrollment failed, possibly because some students were re-enrolled before "
-                             + "the previous enrollment action was still being processed by TEAMMATES database "
-                             + "servers. Please try again after about 10 minutes. If the problem persists, "
-                             + "please contact TEAMMATES support");
+            statusToUser.add(new StatusMessage("The enrollment failed, possibly because some students were re-enrolled before "
+                                             + "the previous enrollment action was still being processed by TEAMMATES database "
+                                             + "servers. Please try again after about 10 minutes. If the problem persists, "
+                                             + "please contact TEAMMATES support", StatusMessageColor.DANGER));
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
             

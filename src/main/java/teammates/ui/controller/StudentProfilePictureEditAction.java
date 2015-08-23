@@ -21,6 +21,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -54,7 +56,7 @@ public class StudentProfilePictureEditAction extends Action {
         } catch (IOException e) {
             // Happens when GCS Service is down
             isError = true;
-            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN, StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : Writing transformed image to file failed. Error: "
                           + e.getMessage();
         }
@@ -103,7 +105,7 @@ public class StudentProfilePictureEditAction extends Action {
             return newImage.getImageData();
         } catch (RuntimeException re) {
             isError = true;
-            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED, StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : Reading and transforming image failed."
                           + re.getMessage();
         }
@@ -138,18 +140,18 @@ public class StudentProfilePictureEditAction extends Action {
         if (_leftXString.isEmpty() || _topYString.isEmpty()
          || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
             isError = true;
-            statusToUser.add("Given crop locations were not valid. Please try again");
+            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or more of the given coords were empty.";
             return false;
         } else if (_heightString.isEmpty() || _widthString.isEmpty()) {
             isError = true;
-            statusToUser.add("Given crop locations were not valid. Please try again");
+            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were empty.";
             return false;
         } else if (Double.parseDouble(_widthString) == 0
                 || Double.parseDouble(_heightString) == 0) {
             isError = true;
-            statusToUser.add("Given crop locations were not valid. Please try again");
+            statusToUser.add(new StatusMessage("Given crop locations were not valid. Please try again", StatusMessageColor.DANGER));
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were zero.";
             return false;
         }

@@ -9,6 +9,8 @@ import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailComposeSaveAction extends Action {
@@ -68,7 +70,7 @@ public class AdminEmailComposeSaveAction extends Action {
         } else {
             statusToAdmin = "Email draft has been saved: <br>" +
                             "Subject: " + subject;
-            statusToUser.add("Email draft has been saved"); 
+            statusToUser.add(new StatusMessage("Email draft has been saved", StatusMessageColor.SUCCESS)); 
         }
         
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);

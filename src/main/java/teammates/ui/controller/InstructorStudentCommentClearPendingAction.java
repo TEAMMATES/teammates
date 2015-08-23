@@ -7,7 +7,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
@@ -54,10 +56,10 @@ public class InstructorStudentCommentClearPendingAction extends Action {
         }
         
         if (!isError) {
-            statusToUser.add(Const.StatusMessages.COMMENT_CLEARED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
         } else {
-            statusToUser.add(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY, StatusMessageColor.DANGER));
             statusToAdmin = "Unsuccessful: " + account.googleId + " cleared pending comments for course " + courseId;
         }
         

@@ -5,6 +5,8 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 
 public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
     protected String courseId;
@@ -41,7 +43,7 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
         
         if (!data.isSessionOpenForSubmission()) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
         }
         
         setStatusToAdmin();

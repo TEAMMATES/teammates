@@ -2,6 +2,8 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackRemindParticularStudentsAction extends Action {
@@ -18,14 +20,14 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         
         String[] usersToRemind = getRequestParamValues("usersToRemind");
         if (usersToRemind == null || usersToRemind.length == 0) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT, StatusMessageColor.DANGER));
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         }
         
         logic.sendReminderForFeedbackSessionParticularUsers(courseId,
                 feedbackSessionName, usersToRemind);
         
-        statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to the selected user(s): ";
         for(String user : usersToRemind){
             statusToAdmin += "<br>" + user;

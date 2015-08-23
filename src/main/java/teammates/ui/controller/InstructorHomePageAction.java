@@ -9,6 +9,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.StatusMessages;
 import teammates.logic.api.GateKeeper;
 
@@ -20,7 +22,7 @@ public class InstructorHomePageAction extends Action {
         if (!account.isInstructor && isPersistenceIssue()) {
             data = new InstructorHomePageData(account);
             ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
-            statusToUser.add(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE, StatusMessageColor.WARNING));
             return response;
         }
         
@@ -62,7 +64,7 @@ public class InstructorHomePageAction extends Action {
         data.init(courseList, sortCriteria, instructors, numberOfPendingComments);
         
         if (logic.isNewInstructor(account.googleId)) {
-            statusToUser.add(StatusMessages.HINT_FOR_NEW_INSTRUCTOR);
+            statusToUser.add(new StatusMessage(StatusMessages.HINT_FOR_NEW_INSTRUCTOR, StatusMessageColor.INFO));
         }
         statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + courseList.size();
         

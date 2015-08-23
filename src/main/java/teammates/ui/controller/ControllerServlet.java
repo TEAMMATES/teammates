@@ -95,6 +95,8 @@ public class ControllerServlet extends HttpServlet {
             cleanUpStatusMessageInSession(req);
             req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGE, 
                                           Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+            req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, 
+                                            "warning");
             if(requestUrl.contains("/instructor")) {
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             } else if(requestUrl.contains("/student")) {
@@ -120,5 +122,6 @@ public class ControllerServlet extends HttpServlet {
     
     private void cleanUpStatusMessageInSession(HttpServletRequest req){
         req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
     }
 }

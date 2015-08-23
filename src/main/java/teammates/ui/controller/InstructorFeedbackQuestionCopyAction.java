@@ -5,6 +5,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackQuestionCopyAction extends Action {
@@ -43,15 +45,15 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             }
 
             if (index > 0) {
-                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, StatusMessageColor.SUCCESS));
             } else {
-                statusToUser.add("No questions are indicated to be copied");
+                statusToUser.add(new StatusMessage("No questions are indicated to be copied", StatusMessageColor.DANGER));
                 isError = true;
             }
         } catch (InvalidParametersException e) {
             // This part is not tested because GateKeeper handles if this happens, would be
             // extremely difficult to replicate a situation whereby it gets past GateKeeper
-            statusToUser.add(e.getMessage());
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
             statusToAdmin = e.getMessage();
             isError = true;
         }

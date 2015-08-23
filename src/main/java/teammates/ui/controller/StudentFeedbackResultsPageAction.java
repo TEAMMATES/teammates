@@ -9,6 +9,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackResultsPageAction extends Action {
@@ -47,9 +49,9 @@ public class StudentFeedbackResultsPageAction extends Action {
         }
 
         if (data.getBundle().isStudentHasSomethingNewToSee(data.student)) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW, StatusMessageColor.INFO));
         } else {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW, StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "Show student feedback result page<br>"

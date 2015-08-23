@@ -14,6 +14,8 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
@@ -38,7 +40,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
         if (student == null) {
-            statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS, StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
@@ -64,17 +66,17 @@ public class InstructorStudentRecordsPageAction extends Action {
         StudentProfileAttributes studentProfile = null;
 
         if (student.googleId == "") {
-            statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
         } else if (!instructor.isAllowedForPrivilege(student.section,
                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
         } else {
             studentProfile = logic.getStudentProfile(student.googleId);
             Assumption.assertNotNull(studentProfile);
         }
 
         if (sessions.size() == 0 && comments.size() == 0) {
-            statusToUser.add(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS, StatusMessageColor.WARNING));
         }
 
         List<String> sessionNames = new ArrayList<String>();

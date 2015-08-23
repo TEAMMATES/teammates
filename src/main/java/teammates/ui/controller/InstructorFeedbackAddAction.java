@@ -18,7 +18,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackSessionTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails.EmailType;
 
@@ -66,7 +68,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 //TODO: let the user know an error has occurred? delete the feedback session?
             }
             
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " +
                     "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
@@ -97,7 +99,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
         
         if (feedbackSessions.isEmpty()) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
         }
         
         Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);

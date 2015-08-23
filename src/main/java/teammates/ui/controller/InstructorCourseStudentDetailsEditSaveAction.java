@@ -10,6 +10,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCoursesPageAction {
@@ -47,7 +49,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             student.updateWithExistingRecord(logic.getStudentForEmail(courseId, studentEmail));
             logic.validateSections(Arrays.asList(student), courseId);
             logic.updateStudent(studentEmail, student);
-            statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
                             + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                             + "New Email: " + student.email + "<br>New Team: " + student.team + "<br>"
