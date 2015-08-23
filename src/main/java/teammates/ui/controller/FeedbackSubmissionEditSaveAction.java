@@ -300,7 +300,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     
     /**
      * Note that when overriding this method, this should not use {@code respondingStudentList} 
-     * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}.
+     * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}, because this method 
+     * is used to update {@code respondingStudentList} and {@code respondingInstructorList}
      * 
      * @return true if user has responses in the feedback session
      */
@@ -308,7 +309,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         // if there is no valid response on the form submission,
         // we need to use logic to check the database to handle cases where not all questions are displayed
         // e.g. on FeedbackQuestionSubmissionEditSaveAction, 
-        // or if the submitter can submitted both as a student or instructor 
+        // or if the submitter can submit both as a student and instructor 
         return hasValidResponse
             || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }
