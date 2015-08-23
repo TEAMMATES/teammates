@@ -434,8 +434,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<String>();
-        for (String studentEmail : bundle.emailTeamNameTable.keySet()) {
-            String teamName = bundle.emailTeamNameTable.get(studentEmail);
+        for (String teamName : bundle.emailTeamNameTable.values()) {
             if (!teamNames.contains(teamName)) {
                 teamNames.add(teamName);
             }
