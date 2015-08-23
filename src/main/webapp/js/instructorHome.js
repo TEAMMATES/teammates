@@ -4,8 +4,8 @@ $(document).ready(function() {
     setupFsCopyModal();
     
     //Click event binding for radio buttons
-    var radioButtons = $('label[name="sortby"]');
-    $.each(radioButtons, function() {
+    var $radioButtons = $('label[name="sortby"]');
+    $.each($radioButtons, function() {
         $(this).click(function () {
             var currentPath = window.location.pathname;
             var query = window.location.search.substring(1);
