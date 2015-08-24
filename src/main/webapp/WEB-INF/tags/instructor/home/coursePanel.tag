@@ -20,7 +20,7 @@
                         </a>
                     </c:forEach>
                     <c:if test="${isNotLoaded}">
-                        <span class="glyphicon pull-right glyphicon-chevron-down"></span>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
                     </c:if>
                 </span>
             </div>
