@@ -141,6 +141,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
+        feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
 
