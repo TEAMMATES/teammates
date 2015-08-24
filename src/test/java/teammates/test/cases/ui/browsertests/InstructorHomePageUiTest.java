@@ -71,6 +71,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testPersistenceCheck();
         testLogin();
         testContent();
+        testAjaxCourseTableLoad();
         testShowFeedbackStatsLink();
         testHelpLink();
         testCourseLinks();
@@ -83,6 +84,18 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testDeleteCourseAction();
     }
     
+    private void testAjaxCourseTableLoad() throws Exception {
+        DataBundle unloadedCourseTestData = loadDataBundle("/InstructorHomePageUiTestUnloadedCourse.json");
+        restoreTestDataOnServer(unloadedCourseTestData);
+        loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
+        
+        homePage.clickHomeTab();
+        homePage.verifyHtmlAjax("/InstructorHomeHTMLWithUnloadedCourse.html");
+        
+        loginAsCommonInstructor();
+        removeTestDataOnServer(unloadedCourseTestData);
+    }
+
     private void testPersistenceCheck() {
         
         ______TS("persistence check");
