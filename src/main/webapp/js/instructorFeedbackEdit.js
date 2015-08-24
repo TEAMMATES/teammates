@@ -10,9 +10,6 @@ function readyFeedbackEditPage() {
     $('.visibilityOptions').hide();
     
     // Bind submit text links
-    $('#fsSaveLink').click(function() {
-        $('#form_feedbacksession').submit();
-    });
     $('a[id|=questionsavechangestext]').click(function() {
         $(this).parents('form.form_question').submit();
     });
@@ -53,6 +50,44 @@ function readyFeedbackEditPage() {
     collapseIfPrivateSession();
     
     setupFsCopyModal();
+    
+    // Bind feedback session edit form submission
+    bindFeedbackSessionEditFormSubmission();
+}
+
+function bindFeedbackSessionEditFormSubmission() {
+    $('#form_feedbacksession').submit(function( event ) {
+        // Prevent form submission
+        event.preventDefault();
+        
+        var $form = $(event.target);
+        // Use Ajax to submit form data
+        $.ajax({
+            url: '/page/instructorFeedbackEditSave',
+            type: 'POST',
+            data: $form.serialize(),
+            beforeSend: function() {
+                $('#statusMessage').hide();
+            },
+            success: function(result) {
+            	$statusMessage = $('#statusMessage');
+            		
+            	$statusMessage.text(result.statusForAjax);
+                
+            	$statusMessage.removeClass("alert alert-danger alert-warning");
+                if (result.hasError) {
+                	$statusMessage.addClass("alert alert-danger");
+                } else {
+                    disableEditFS();
+                    $statusMessage.addClass("alert alert-warning");
+                }
+                $statusMessage.show();
+                
+                // focus on status message
+                $(document).scrollTop($statusMessage.offset().top - $('.navbar').height() - 30);
+            }
+        });
+    });
 }
 
 /**
@@ -65,6 +100,9 @@ function disableEditFS() {
     });
     $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+    $('#fsEditLink').show();
+    $('#fsSaveLink').hide();
+    $('#button_submit').hide();
 }
 
 /**
