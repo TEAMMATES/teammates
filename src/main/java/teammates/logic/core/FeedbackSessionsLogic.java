@@ -1811,6 +1811,8 @@ public class FeedbackSessionsLogic {
             Collections.sort(responseCommentList,
                     new ResponseCommentCreationDateComparator());
         }
+        
+        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName);
 
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
