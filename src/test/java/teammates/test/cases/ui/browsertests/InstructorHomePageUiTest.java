@@ -86,7 +86,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     
     private void testAjaxCourseTableLoad() throws Exception {
         DataBundle unloadedCourseTestData = loadDataBundle("/InstructorHomePageUiTestUnloadedCourse.json");
-        restoreTestDataOnServer(unloadedCourseTestData);
+        removeAndRestoreTestDataOnServer(unloadedCourseTestData);
         loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
         
         homePage.clickHomeTab();
