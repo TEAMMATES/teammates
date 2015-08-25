@@ -13,6 +13,7 @@ import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.StatusMessage;
 
 public class ImageResult extends ActionResult {
 
@@ -20,7 +21,7 @@ public class ImageResult extends ActionResult {
     
     public ImageResult(String destination, String blobKey, AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
-            List<String> status) {
+            List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
         this.blobKey = blobKey;
     }

@@ -20,7 +20,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.Url;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -61,7 +63,7 @@ public class InstructorStudentCommentAddAction extends Action {
             //TODO: move putDocument to Task Queue
             logic.putDocument(createdComment);
             
-            statusToUser.add(Const.StatusMessages.COMMENT_ADDED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_ADDED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Created Comment for Student:<span class=\"bold\">("
                             + comment.recipients + ")</span> for Course <span class=\"bold\">["
                             + comment.courseId + "]</span><br>"
@@ -72,7 +74,7 @@ public class InstructorStudentCommentAddAction extends Action {
                           + "as comments should have different timestamp\n");
         } catch (InvalidParametersException e) {
             // TODO: add a test to cover this branch
-            statusToUser.add(e.getMessage());
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
             statusToAdmin = e.getMessage();
             isError = true;
         }

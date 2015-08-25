@@ -32,6 +32,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
     private FeedbackQuestionCopyTable copyQnForm;
+    private String statusForAjax;
+    private boolean hasError;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
@@ -296,5 +298,21 @@ public class InstructorFeedbackEditPageData extends PageData {
     
     public FeedbackQuestionCopyTable getCopyQnForm() {
         return copyQnForm;
+    }
+
+    public String getStatusForAjax() {
+        return statusForAjax;
+    }
+
+    public void setStatusForAjax(String statusForAjax) {
+        this.statusForAjax = statusForAjax;
+    }
+
+    public boolean getHasError() {
+        return hasError;
+    }
+
+    public void setHasError(boolean value) {
+        this.hasError = value;
     }
 }

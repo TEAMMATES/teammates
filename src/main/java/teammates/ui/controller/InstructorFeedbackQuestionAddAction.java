@@ -14,6 +14,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackQuestionAddAction extends Action {
@@ -31,22 +33,28 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters,
                                                                                   instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
+        
+        List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
+        
+        for (String error : questionDetailsErrors) {
+            questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
+        }
 
         // if error is not empty not tested as extractFeedbackQuestionData method above uses Assumptions to cover it
         if (!questionDetailsErrors.isEmpty()) {
-            statusToUser.addAll(questionDetailsErrors);
+            statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;
         } else {
             String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
 
             if (!err.isEmpty()) {
-                statusToUser.add(err);
+                statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
                 isError = true;
             }
 
             try {
                 logic.createFeedbackQuestion(feedbackQuestion);
-                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, StatusMessageColor.SUCCESS));
                 statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">("
                                 + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                                 + feedbackQuestion.courseId + "]</span> created.<br>"
@@ -54,7 +62,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                 + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
                                 + ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
             } catch (InvalidParametersException e) {
-                statusToUser.add(e.getMessage());
+                statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
                 statusToAdmin = e.getMessage();
                 isError = true;
             }

@@ -1,0 +1,437 @@
+<div class="container" id="mainContent">
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Instructor Home</h1>
+    <br>
+
+        
+        
+    
+
+
+<div class="well well-plain">
+    <div class="row">
+        <div class="col-md-12">
+			<form method="get" action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms.unloaded" name="search_form">
+			    <div class="input-group">
+			        <input data-original-title="Search for student's information, e.g. name, email" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz, charles@gmail.com" type="text">
+			        <span class="input-group-btn">
+			            <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">
+			                Search
+			            </button>
+			        </span> 
+			    </div>
+			    <input name="searchstudents" value="true" type="hidden">
+			    <input name="searchcommentforstudents" value="false" type="hidden">
+			    <input name="searchcommentforresponses" value="false" type="hidden">
+			    <input name="user" value="CHomeUiT.instructor.tmms.unloaded" type="hidden">
+			</form>
+		</div>
+	</div>
+</div>
+    <br>
+    
+
+
+
+
+
+
+    
+    
+        <div id="statusMessage" style="display: none;"></div>
+    
+
+    
+
+<div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" name="form_remind_list" role="form" action="/page/instructorFeedbackRemindParticularStudents"> 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        Remind Particular Students
+                        <small>(Select the student(s) you want to remind)</small>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="studentList" class="form-group"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" value="Remind" type="submit">
+                    <input name="user" value="CHomeUiT.instructor.tmms.unloaded" type="hidden">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+        
+
+
+
+
+
+
+<div class="row">
+    <div class="col-md-2 pull-left">
+        <a class="btn btn-primary btn-md pull-left" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms.unloaded" id="addNewCourse">Add New Course</a>
+    </div>
+    <div class="col-md-5 pull-right">
+        <h5 class="pull-left"><strong> Sort By: </strong></h5>
+        <div class="btn-group pull-right" data-toggle="buttons">
+            <label class="btn btn-default" name="sortby" data="id" id="sortById">
+                <input type="radio">
+                Course ID
+            </label>
+            <label class="btn btn-default" name="sortby" data="name" id="sortByName">
+                <input name="sortby" value="name" type="radio">
+                Course Name
+            </label>
+            <label class="btn btn-default active" name="sortby" data="createdAt" id="sortByDate">
+                <input type="radio">
+                Creation Date
+            </label>
+        </div>
+    </div>
+</div>
+        <br>
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary" id="course-0">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    [ins.wit-demo1] : Sample Course 101
+                </strong>
+            </div>
+            <div class="col-md-6">
+                <span class="pull-right">
+                    
+                        <a data-original-title="Enroll student into the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=ins.wit-demo1&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Enroll
+                        </a>
+                    
+                        <a data-original-title="View, edit and send invitation emails to the students in the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" href="/page/instructorCourseDetailsPage?courseid=ins.wit-demo1&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            View
+                        </a>
+                    
+                        <a data-original-title="Edit Course information and instructor list" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=ins.wit-demo1&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Edit
+                        </a>
+                    
+                        <a data-original-title="Add a feedback session for the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms.unloaded&amp;courseid=ins.wit-demo1">
+                            Add Session
+                        </a>
+                    
+                        <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleArchiveCourseConfirmation('ins.wit-demo1')" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=ins.wit-demo1&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Archive
+                        </a>
+                    
+                        <a data-original-title="Delete the course and its corresponding students and sessions" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('ins.wit-demo1')" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=ins.wit-demo1&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Delete
+                        </a>
+                    
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+
+
+
+<table class="table-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th id="button_sortname" onclick="toggleSort(this,1);" class="button-sort-none">
+                Session Name<span class="icon-sort unsorted"></span></th>
+            <th>Status</th>
+            <th>
+                <span data-original-title="Number of students submitted / Class size" title="" data-toggle="tooltip" data-placement="top">Response Rate</span>
+            </th>
+            <th class="no-print">Action(s)</th>
+        </tr>
+    </thead>
+    
+        <tbody>
+    
+    
+<tr>
+            <td>
+                <span class="text-muted">
+                    This course does not have any sessions yet.
+                </span>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr></tbody></table>
+
+</div>
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary" id="course-1">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    [ins.wit-demo2] : Sample Course 201
+                </strong>
+            </div>
+            <div class="col-md-6">
+                <span class="pull-right">
+                    
+                        <a data-original-title="Enroll student into the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=ins.wit-demo2&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Enroll
+                        </a>
+                    
+                        <a data-original-title="View, edit and send invitation emails to the students in the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" href="/page/instructorCourseDetailsPage?courseid=ins.wit-demo2&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            View
+                        </a>
+                    
+                        <a data-original-title="Edit Course information and instructor list" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=ins.wit-demo2&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Edit
+                        </a>
+                    
+                        <a data-original-title="Add a feedback session for the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms.unloaded&amp;courseid=ins.wit-demo2">
+                            Add Session
+                        </a>
+                    
+                        <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleArchiveCourseConfirmation('ins.wit-demo2')" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=ins.wit-demo2&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Archive
+                        </a>
+                    
+                        <a data-original-title="Delete the course and its corresponding students and sessions" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('ins.wit-demo2')" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=ins.wit-demo2&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Delete
+                        </a>
+                    
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+
+
+
+<table class="table-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th id="button_sortname" onclick="toggleSort(this,1);" class="button-sort-none">
+                Session Name<span class="icon-sort unsorted"></span></th>
+            <th>Status</th>
+            <th>
+                <span data-original-title="Number of students submitted / Class size" title="" data-toggle="tooltip" data-placement="top">Response Rate</span>
+            </th>
+            <th class="no-print">Action(s)</th>
+        </tr>
+    </thead>
+    
+        <tbody>
+    
+    
+<tr>
+            <td>
+                <span class="text-muted">
+                    This course does not have any sessions yet.
+                </span>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr></tbody></table>
+
+</div>
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary" id="course-2">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    [ins.wit-demo3] : Sample Course 301
+                </strong>
+            </div>
+            <div class="col-md-6">
+                <span class="pull-right">
+                    
+                        <a data-original-title="Enroll student into the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=ins.wit-demo3&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Enroll
+                        </a>
+                    
+                        <a data-original-title="View, edit and send invitation emails to the students in the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" href="/page/instructorCourseDetailsPage?courseid=ins.wit-demo3&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            View
+                        </a>
+                    
+                        <a data-original-title="Edit Course information and instructor list" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=ins.wit-demo3&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Edit
+                        </a>
+                    
+                        <a data-original-title="Add a feedback session for the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms.unloaded&amp;courseid=ins.wit-demo3">
+                            Add Session
+                        </a>
+                    
+                        <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleArchiveCourseConfirmation('ins.wit-demo3')" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=ins.wit-demo3&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Archive
+                        </a>
+                    
+                        <a data-original-title="Delete the course and its corresponding students and sessions" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('ins.wit-demo3')" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=ins.wit-demo3&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms.unloaded">
+                            Delete
+                        </a>
+                    
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+
+
+
+<table class="table-responsive table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th id="button_sortname" onclick="toggleSort(this,1);" class="button-sort-none">
+                Session Name<span class="icon-sort unsorted"></span></th>
+            <th>Status</th>
+            <th>
+                <span data-original-title="Number of students submitted / Class size" title="" data-toggle="tooltip" data-placement="top">Response Rate</span>
+            </th>
+            <th class="no-print">Action(s)</th>
+        </tr>
+    </thead>
+    
+        <tbody>
+    
+    
+<tr>
+            <td>
+                <span class="text-muted">
+                    This course does not have any sessions yet.
+                </span>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr></tbody></table>
+
+</div>
+        
+            
+
+
+
+
+
+<div class="panel panel-primary" id="course-3" style="cursor: pointer;">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    [ins.wit-Unloaded] : Sample Course Unloaded
+                </strong>
+            </div>
+            <div class="col-md-6">
+                <span class="pull-right">
+                    
+                    
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+    
+        <form>
+            <input name="user" value="CHomeUiT.instructor.tmms.unloaded" type="hidden">
+            <input name="coursetoload" value="ins.wit-Unloaded" type="hidden">
+            <input name="index" value="3" type="hidden">
+        </form>
+    
+    
+</div>
+        
+        
+
+<div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" name="form_copy_list" role="form" action="/page/instructorFeedbackEditCopy">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        Copy this feedback session to other courses <br>
+                        <small>(Select the course(s) you want to copy this feedback session to)</small>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="courseList" class="form-group"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" id="fscopy_submit" value="Copy" type="submit">
+                    <input name="user" value="CHomeUiT.instructor.tmms.unloaded" type="hidden">
+               </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+
+    
+    </div>

@@ -21,7 +21,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.logic.api.GateKeeper;
@@ -82,7 +84,7 @@ public class AdminEmailComposeSendAction extends Action {
         if(!addressModeOn && !groupModeOn){
             isError = true;
             statusToAdmin = "Error : No reciver address or file given";
-            statusToUser.add("Error : No reciver address or file given");       
+            statusToUser.add(new StatusMessage("Error : No reciver address or file given", StatusMessageColor.DANGER));       
         }
         
         if(isError){
@@ -124,7 +126,7 @@ public class AdminEmailComposeSendAction extends Action {
            String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
            if(error != null && !error.isEmpty()){
                isError = true;
-               statusToUser.add(error);
+               statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
                throw new InvalidParametersException("<strong>Email Format Error</strong>");
            }
        }

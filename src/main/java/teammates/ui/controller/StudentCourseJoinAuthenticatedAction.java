@@ -11,6 +11,8 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 
 /**
  * This action handles students who attempt to join a course after
@@ -64,18 +66,19 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         CourseAttributes course = logic.getCourse(getStudent().course);
         String courseDisplayText = "[" + course.id + "] " + course.name; 
         
-        statusToUser.add(String.format(
-                Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseDisplayText));
+        statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, 
+                                                           courseDisplayText), StatusMessageColor.SUCCESS));
 
         List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
         if (fsa.isEmpty()) {
-            statusToUser.add(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, courseDisplayText));
+            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, 
+                                                               courseDisplayText), StatusMessageColor.INFO));
             
             StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
             
             String updateProfileMessage = spa.generateUpdateMessageForStudent();
             if (!updateProfileMessage.isEmpty()) {
-                statusToUser.add(updateProfileMessage);
+                statusToUser.add(new StatusMessage(updateProfileMessage, StatusMessageColor.INFO));
             }
         }
         
