@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import teammates.common.util.Assumption;
@@ -228,7 +229,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
     
         responses = getActualResponses(question, bundle);
-
+        
         //List of all teams
         List<String> teamNames = getTeamNames(bundle);
         
@@ -273,8 +274,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
-            String name = bundle.emailNameTable.get(email);
-            String team = bundle.emailTeamNameTable.get(email);
+            String name = bundle.roster.getStudentForEmail(email).name;
+            String team = bundle.roster.getStudentForEmail(email).team;
             
             List<String> teamEmails = teamMembersEmail.get(team);
             TeamEvalResult teamResult = teamResults.get(team);
@@ -288,12 +289,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 displayName = "Anonymous " + displayName + " " + hash;
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
             }
-            
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
             for(int i=0 ; i<incomingPoints.length ; i++){
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
-            
             contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", PageData.sanitizeForHtml(displayTeam),
@@ -434,10 +433,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<String>();
-        for (String teamName : bundle.emailTeamNameTable.values()) {
-            if (!teamNames.contains(teamName)) {
-                teamNames.add(teamName);
-            }
+        for (Set<String> teamNamesForSection : bundle.sectionTeamNameTable.values()) {
+            teamNames.addAll(teamNamesForSection);
         }
         return teamNames;
     }
@@ -572,12 +569,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<String, List<String>>();
         for(String teamName : teamNames){
-            teamMembersEmail.put(teamName, new ArrayList<String>());
-        }
-        for(Map.Entry<String, String> entry : bundle.emailTeamNameTable.entrySet()){
-            if(teamMembersEmail.containsKey(entry.getValue())){
-                teamMembersEmail.get(entry.getValue()).add(entry.getKey());
-            }
+            List<String> memberEmails = new ArrayList<String>(bundle.rosterTeamNameMembersTable.get(teamName));
+            teamMembersEmail.put(teamName, memberEmails);
         }
         return teamMembersEmail;
     }
@@ -616,6 +609,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 continue;
             }
             result.add(getPointsAsColorizedHtml(subs[i]));
+        }
+        
+        if (result.isEmpty()) {
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
+                    + "title=\"Not Available: There is no data for this or the data is not enough\">N/A</span>";
         }
         Collections.sort(result);
         Collections.reverse(result);
