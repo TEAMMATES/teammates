@@ -256,13 +256,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Check visibility of recipient
         boolean hideRecipient = false;
-        List<String> hiddenRecipients = new ArrayList<String>();//List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for(FeedbackResponseAttributes response : responses){
             if (bundle.visibilityTable.get(response.getId())[1] == false &&
                     type != FeedbackParticipantType.SELF &&
                     type != FeedbackParticipantType.NONE) {
-                hiddenRecipients.add(response.recipientEmail);
                 hideRecipient = true;
             }
         }
@@ -283,7 +281,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
-            if(hideRecipient == true && hiddenRecipients.contains(email)){
+            if(hideRecipient == true){
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
