@@ -12,26 +12,22 @@
         "CHomeUiT.Course1":{
             "id":"ins.wit-demo1",
             "name":"Sample Course 101",
-            "createdAt": "2012-04-01 11:59 PM UTC",
-            "isArchived":false
+            "createdAt": "2012-04-01 11:59 PM UTC"
         },
         "CHomeUiT.Course2":{
             "id":"ins.wit-demo2",
             "name":"Sample Course 201",
-            "createdAt": "2012-04-01 11:58 PM UTC",
-            "isArchived":false
+            "createdAt": "2012-04-01 11:58 PM UTC"
         },
         "CHomeUiT.Course3":{
             "id":"ins.wit-demo3",
             "name":"Sample Course 301",
-            "createdAt": "2012-04-01 11:57 PM UTC",
-            "isArchived":false
+            "createdAt": "2012-04-01 11:57 PM UTC"
         },
         "CHomeUiT.Unloaded":{
             "id":"ins.wit-Unloaded",
             "name":"Sample Course Unloaded",
-            "createdAt": "2012-04-01 11:56 PM UTC",
-            "isArchived":false
+            "createdAt": "2012-04-01 11:56 PM UTC"
         }
     },
     "instructors":{
@@ -39,33 +35,25 @@
             "googleId":"CHomeUiT.instructor.tmms.unloaded",
             "courseId":"ins.wit-demo1",
             "name":"Teammates Test Instructor With Many Courses",
-            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
-            "role":"Co-owner",
-            "displayedName":"Co-owner"
+            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt"
         },
         "CHomeUiT.instr.Course2":{
             "googleId":"CHomeUiT.instructor.tmms.unloaded",
             "courseId":"ins.wit-demo2",
             "name":"Teammates Test Instructor With Many Courses",
-            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
-            "role":"Co-owner",
-            "displayedName":"Co-owner"
+            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt"
         },
         "CHomeUiT.instr.Course3":{
             "googleId":"CHomeUiT.instructor.tmms.unloaded",
             "courseId":"ins.wit-demo3",
             "name":"Teammates Test Instructor With Many Courses",
-            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
-            "role":"Co-owner",
-            "displayedName":"Co-owner"
+            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt"
         },
         "CHomeUiT.instr.Unloaded":{
             "googleId":"CHomeUiT.instructor.tmms.unloaded",
             "courseId":"ins.wit-Unloaded",
             "name":"Teammates Test Instructor With Many Courses",
-            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
-            "role":"Co-owner",
-            "displayedName":"Co-owner"
+            "email":"CHomeUiT.instructor.tmms.unloaded@gmail.tmt"
         }
     }
 }
