@@ -97,6 +97,10 @@ a#editUncommonSettingsButton:hover{
     cursor: hand;
 }
 
+.row-answered {
+    background-color: #dff0d8;
+}
+
 .row-selected {
     background-color: #f5f5f5;
 }
