@@ -694,6 +694,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getCourseDetails(courseId);
     }
+    
+    /**
+     * Returns a course data, including its feedback sessions, according to the instructor passed in.<br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public CourseSummaryBundle getCourseSummaryWithFeedbackSessions(InstructorAttributes instructor)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(instructor);
+        return coursesLogic.getCourseSummaryWithFeedbackSessionsForInstructor(instructor);
+    }
 
     /**
      * Preconditions: <br>

@@ -1,27 +1,66 @@
+var COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
+
 $(document).ready(function() {
     setupFsCopyModal();
     
     //Click event binding for radio buttons
-    var radiobuttons = $("label[name='sortby']");
-    $.each(radiobuttons, function() {
+    var $radioButtons = $('label[name="sortby"]');
+    $.each($radioButtons, function() {
         $(this).click(function () {
             var currentPath = window.location.pathname;
             var query = window.location.search.substring(1);
             var params = {};
             
-            var param_values = query.split("&");
-            for (var i = 0; i < param_values.length; i++) {
-                var param_value = param_values[i].split("=");
-                params[param_value[0]] = param_value[1];
+            var paramValues = query.split('&');
+            for (var i = 0; i < paramValues.length; i++) {
+                var paramValue = paramValues[i].split('=');
+                params[paramValue[0]] = paramValue[1];
             }
 
-            if ("user" in params == false) {
-                params["user"] = $("input[name='user']").val();
+            if ('user' in params == false) {
+                params['user'] = $('input[name="user"]').val();
             }
 
-            window.location.href = currentPath + "?user=" + params["user"] + "&sortby=" + $(this).attr("data");
+            window.location.href = currentPath + '?user=' + params['user'] + '&sortby=' + $(this).attr('data');
         });
     });
+    
+    // AJAX loading of course panels
+    var $coursePanels = $('div[id|="course"]');
+    $.each($coursePanels, function() {
+        $(this).filter(function() {
+            var isNotLoaded = $(this).find('form').length;
+            return isNotLoaded;
+        }).click(function() {
+            var $panel = $(this);
+            var formData = $panel.find('form').serialize();
+            var content = $panel.find('.pull-right')[0];
+            
+            $.ajax({
+                type : 'POST',
+                url : '/page/instructorHomePage?' + formData,
+                beforeSend : function() {
+                    $(content).html("<img src='/images/ajax-loader.gif'/>");
+                },
+                error : function() {
+                    var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+                    var errorMsg = '[ Failed to load. Click here to retry. ]';
+                    errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
+                    var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
+                    $(content).html(warningSign + errorMsg + chevronDown);  
+                },
+                success : function(data) {
+                    // .outerHTML is used instead of jQuery's .replaceWith() to avoid the <span>
+                	// for statuses' tooltips from being closed due to the presence of <br>
+                    $panel[0].outerHTML = data;
+                    linkAjaxForResponseRate();
+                }
+            });
+        });
+    });
+    
+    // Automatically load top few course panels
+    $coursePanels.slice(0, COURSE_PANELS_TO_AUTO_LOAD_COUNT).click();
 });
 
 /**

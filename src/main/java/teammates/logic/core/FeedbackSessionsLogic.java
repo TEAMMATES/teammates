@@ -268,6 +268,11 @@ public class FeedbackSessionsLogic {
 
         return fsList;
     }
+    
+    public List<FeedbackSessionAttributes> getFeedbackSessionListForInstructor(
+            InstructorAttributes instructor) throws EntityDoesNotExistException {
+        return getFeedbackSessionsListForCourse(instructor.courseId, instructor.email);
+    }
 
     /**
      * Gets {@code FeedbackQuestions} and previously filled
