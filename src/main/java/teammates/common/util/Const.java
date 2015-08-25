@@ -468,6 +468,7 @@ public class Const {
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
         public static final String HINT = "hint";
+        public static final String FEEDBACK_SESSION_NOT_VISIBLE = "feedbacksessionnotvisible";
     
         public static final String LOGIN_ADMIN = "admin";
         public static final String LOGIN_INSTRUCTOR = "instructor";
@@ -780,6 +781,7 @@ public class Const {
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
+        public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp"; 
         
         public static final String MASHUP = "/dev/mashup.jsp";
     

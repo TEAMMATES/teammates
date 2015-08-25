@@ -237,6 +237,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":false,
             "sentPublishedEmail":false
+        },
+        "Not Yet Visible Session":{
+            "feedbackSessionName":"Fifth Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
+            "instructions":{
+                "value":"Please please fill in the fifth feedback session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2035-04-02 11:59 PM UTC",
+            "endTime":"2035-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2035-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2035-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":false,
+            "sentPublishedEmail":false
         }
     },
     "feedbackQuestions":{
