@@ -9,8 +9,10 @@ import java.util.Set;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -129,6 +131,66 @@ public class InstructorSearchPageAction extends Action {
                 }
             }
         }   
+
+        Set<String> emailList = frCommentSearchResults.instructorEmails;
+        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn = frCommentSearchResults.questions.entrySet().iterator();
+        while (iterQn.hasNext()) {
+            String fsName = (String) iterQn.next().getKey();
+            List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
+
+            for (int i = questionList.size() - 1; i >= 0; i--) {
+                FeedbackQuestionAttributes question = questionList.get(i);
+                List<FeedbackResponseAttributes> responseList = frCommentSearchResults.responses.get(question.getId());
+
+                for (int j = responseList.size() - 1; j >= 0; j--) {
+                    FeedbackResponseAttributes response = responseList.get(j);
+                    List<FeedbackResponseCommentAttributes> commentList = frCommentSearchResults.comments.get(response.getId());
+
+                    for (int k = commentList.size() - 1; k >= 0; k--) {
+                        FeedbackResponseCommentAttributes comment = commentList.get(k);
+
+                        if (emailList.contains(comment.giverEmail)) {
+                            continue;
+                        }
+
+                        boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
+                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true
+                                                 : comment.isVisibleTo(FeedbackParticipantType.GIVER);
+
+                        if (isVisibleToGiver && emailList.contains(response.giverEmail)) {
+                            continue;
+                        }
+
+                        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
+                                                    ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                                    : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+
+                        if (isVisibleToReceiver && emailList.contains(response.recipientEmail)) {
+                            continue;
+                        }
+
+                        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
+                                                      ? question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                                      : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+
+                        if (isVisibleToInstructor) {
+                            continue;
+                        }
+                        commentList.remove(k);
+                    }
+                    if (commentList.isEmpty()) {
+                        responseList.remove(j);
+                    }
+                }
+                if (responseList.isEmpty()) {
+                    questionList.remove(i);
+                }
+            }
+            if (questionList.isEmpty()) {
+                iterQn.remove();
+            }
+        }
+
         return totalResultsSize;
     }
     
