@@ -31,7 +31,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String courseId;
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
-    protected String hasResponses;
+    protected boolean hasValidResponse;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -153,7 +153,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
         }
 
-        if (logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)) {
+        if (isUserRespondentOfSession()) {
             appendRespondant();
         } else {
             removeRespondant();
@@ -203,6 +203,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
             try {
                 logic.updateFeedbackResponse(response);
+                hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
@@ -210,6 +211,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
+                hasValidResponse = true;
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
@@ -303,6 +305,22 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      */
     protected void checkAdditionalConstraints() {
         return;
+    }
+    
+    /**
+     * Note that when overriding this method, this should not use {@code respondingStudentList} 
+     * or {@code respondingInstructorList} of {@code FeedbackSessionAttributes}, because this method 
+     * is used to update {@code respondingStudentList} and {@code respondingInstructorList}
+     * 
+     * @return true if user has responses in the feedback session
+     */
+    protected boolean isUserRespondentOfSession() {
+        // if there is no valid response on the form submission,
+        // we need to use logic to check the database to handle cases where not all questions are displayed
+        // e.g. on FeedbackQuestionSubmissionEditSaveAction, 
+        // or if the submitter can submit both as a student and instructor 
+        return hasValidResponse
+            || logic.hasGiverRespondedForSession(getUserEmailForCourse(), feedbackSessionName, courseId);
     }
     
     protected abstract void appendRespondant();
