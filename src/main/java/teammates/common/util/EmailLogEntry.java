@@ -2,8 +2,11 @@ package teammates.common.util;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
+
+import teammates.googleSendgridJava.Sendgrid;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -22,6 +25,13 @@ public class EmailLogEntry {
             this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
             this.subject = msg.getSubject();
             this.content = (String) msg.getContent(); 
+    }
+    
+    public EmailLogEntry(Sendgrid msg) throws Exception{
+        
+        this.receiver = msg.getTos().get(0);
+        this.subject = msg.getSubject();
+        this.content = msg.getHtml(); 
     }
     
     public EmailLogEntry(AppLogLine appLog){
@@ -98,6 +108,10 @@ public class EmailLogEntry {
     
     public String getContent(){
         return Sanitizer.sanitizeForHtml(this.content);
+    }
+    
+    public String getUnsanitizedContent() {
+        return StringHelper.recoverFromSanitizedText(content);
     }
     
     public String getTimeForDisplay(){

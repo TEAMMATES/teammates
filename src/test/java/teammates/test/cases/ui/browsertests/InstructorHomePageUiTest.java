@@ -88,6 +88,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("persistence check");
         
         loginWithPersistenceProblem();
+
+        // This is the full HTML verification for Instructor Home Page, the rest can all be verifyMainHtml
         homePage.verifyHtml("/InstructorHomeHTMLPersistenceCheck.html");
     }
 
@@ -343,9 +345,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFsCopySubmitButton();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
-        // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
-        
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
@@ -358,8 +357,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.verifyStatus(error);
         
-        homePage.goToPreviousPage(InstructorHomePage.class);
-        
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
@@ -369,8 +366,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFsCopySubmitButton();
         
         homePage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
-        
-        homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("Successful case: Home Page");
         

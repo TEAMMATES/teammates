@@ -71,18 +71,16 @@ $(document).ready(function(){
 	
 	$("input[type=checkbox]").on( "click", visibilityOptionsHandler);
 	
-	String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
-	
 	function visibilityOptionsHandler(e){
 		var visibilityOptions = [];
 		var _target = $(e.target);
 		
-		if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+		if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
     		_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
     		_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
     	}
-    	if ((_target.prop("class").contains("giverCheckbox") || 
-    			_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
+    	if ((_target.prop("class").includes("giverCheckbox") || 
+    			_target.prop("class").includes("recipientCheckbox")) && _target.prop("checked")) {
     		_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
     	}
 		

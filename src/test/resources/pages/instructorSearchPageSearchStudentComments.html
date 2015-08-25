@@ -1,209 +1,415 @@
 <div class="container" id="mainContent">
-            <div id="topOfPage"></div>
-            <h1>Search</h1>
-            <br>
-            <div>
-                <form method="get" action="/page/instructorSearchPage?user=searchUI.idOfInstructor1OfCourse1" name="search_form">
-                    <div class="well well-plain">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input name="searchkey" value="comment" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox" type="text">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">Search</button>
-                                </span>
-                            </div>
-                            <input name="user" value="searchUI.idOfInstructor1OfCourse1" type="hidden">
-                        </div>
-                        <div class="form-group">
-                            <ul class="list-inline">
-                                <li>
-                                    <span data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="" class="glyphicon glyphicon-info-sign"></span>
-                                </li>
-                                <li>
-                                    <input id="comments-for-student-check" name="searchcommentforstudents" value="true" checked="" type="checkbox">
-                                    <label for="comments-for-student-check">Comments for students</label>
-                                </li>
-                                <li>
-                                    <input id="comments-for-responses-check" name="searchcommentforresponses" value="true" type="checkbox">
-                                    <label for="comments-for-responses-check">Comments for responses</label>
-                                </li>
-                                <li>
-                                    <input id="students-check" name="searchstudents" value="true" type="checkbox">
-                                    <label for="students-check">Students</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <br>
-            
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Search</h1>
+    <br>
+
+        
+        
+
+    
 
 
 
-
-        <div id="statusMessage" style="display: none;"></div>
-
-            
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <strong>Comments for students</strong>
+<div>
+    <form method="get" action="/page/instructorSearchPage?user=searchUI.idOfInstructor1OfCourse1" name="search_form">       
+        <div class="well well-plain">
+        
+            <div class="form-group">
+                <div class="input-group">
+                    <input name="searchkey" value="comment" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox" type="text"> 
+                           
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">
+                            Search
+                        </button>
+                    </span>
                 </div>
-                <div class="panel-body">
-                    
-                    <div class="panel panel-info student-record-comments">
-                        <div class="panel-heading">
-                            From <b>Anonymous (searchUI.idOfTypicalCourse1)</b>
-                        </div>
-                        <ul class="list-group comments">
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-1">
-                                <div id="commentBar-1">
-                                    <span class="text-muted">To <b>Anonymous</b> on
-                                        Sat, 02 Jun 2012, 19:21</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText1">Other instructors in this course can see this comment without names</div>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="panel panel-info student-record-comments">
-                        <div class="panel-heading">
-                            From <b>Instructor Instructor1 Course1 (searchUI.idOfTypicalCourse1)</b>
-                        </div>
-                        <ul class="list-group comments">
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-2">
-                                <div id="commentBar-2">
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> on
-                                        Sun, 01 Apr 2012, 23:59</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText2">private comment</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-3">
-                                <div id="commentBar-3">
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> on
-                                        Tue, 01 May 2012, 08:49</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText3">recipient can see this comment with giver and recipient's name</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-4">
-                                <div id="commentBar-4">
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> on
-                                        Wed, 02 May 2012, 08:50</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText4">recipient can see this comment without giver's name</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-5">
-                                <div id="commentBar-5">
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> on
-                                        Thu, 03 May 2012, 08:51</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText5">teammates can see this comment with giver and recipient's name</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-6">
-                                <div id="commentBar-6">
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> on
-                                        Fri, 04 May 2012, 08:52</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText6">teammates can see this comment without giver and recipient's name</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-7">
-                                <div id="commentBar-7">
-                                    <span class="text-muted">To <b>Team 1.1</b> on
-                                        Sat, 05 May 2012, 08:53</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText7">team can see this comment with giver and recipient's name</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-8">
-                                <div id="commentBar-8">
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> on
-                                        Sun, 06 May 2012, 08:55</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText8">Other students in this course can see this comment without giver and recipient's name</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-9">
-                                <div id="commentBar-9">
-                                    <span class="text-muted">To <b>Team 1.1</b> on
-                                        Mon, 07 May 2012, 08:54</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText9">team can see this comment without giver's name</div>
-                            </li>
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-10">
-                                <div id="commentBar-10">
-                                    <span class="text-muted">To <b>All students in Course searchUI.idOfTypicalCourse1</b> on
-                                        Fri, 01 Jun 2012, 19:20</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText10">Students in this course can see this comment</div>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                    
-                    <div class="panel panel-info student-record-comments">
-                        <div class="panel-heading">
-                            From <b>Instructor Instructor2 Course1 (searchUI.idOfTypicalCourse1)</b>
-                        </div>
-                        <ul class="list-group comments">
-                            
-                            <li class="list-group-item list-group-item-warning" id="form_commentedit-11">
-                                <div id="commentBar-11">
-                                    <span class="text-muted">To <b>All students in Course searchUI.idOfTypicalCourse1</b> on
-                                        Sat, 02 Jun 2012, 19:20</span>
-                                    <a type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
-                                        <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-                                    </a>
-                                </div>
-                                <div style="margin-left: 15px;" id="plainCommentText11">Other instructors in this course can see this comment</div>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                    
-                </div>
+                
+                <input name="user" value="searchUI.idOfInstructor1OfCourse1" type="hidden">
             </div>
             
-
-            
-
-            
+            <div class="form-group">
+                <ul class="list-inline">
+                    <li>
+                        <span data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="" class="glyphicon glyphicon-info-sign">
+                        </span>
+                    </li>
+                    <li>
+                        <input id="comments-for-student-check" name="searchcommentforstudents" value="true" checked="checked" type="checkbox">
+                        <label for="comments-for-student-check">
+                            Comments for students
+                        </label>
+                    </li>
+                    <li>
+                        <input id="comments-for-responses-check" name="searchcommentforresponses" value="true" type="checkbox">
+                        <label for="comments-for-responses-check">
+                            Comments for responses
+                        </label>
+                    </li>
+                    <li>
+                        <input id="students-check" name="searchstudents" value="true" type="checkbox">
+                        <label for="students-check">
+                            Students
+                        </label>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </form>
+</div>
+    <br>
+    
+
+
+
+
+
+    
+    
+        <div id="statusMessage" style="display: none;"></div>
+    
+
+    
+    
+        
+
+
+
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <strong>Comments for students</strong>
+    </div>
+    <div class="panel-body">
+        
+        
+        
+            <div class="panel panel-info student-record-comments">
+                <div class="panel-heading">
+                    From <b>Anonymous (searchUI.idOfTypicalCourse1)</b>
+                </div>
+                <ul class="list-group comments"> 
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-1">
+        <span class="text-muted">
+            To <b>Anonymous</b> [Sat, 02 Jun 2012, 19:21:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText1">Other instructors in this course can see this comment without names</div>
+    
+</li>
+                    
+                </ul>
+            </div>
+        
+            <div class="panel panel-info student-record-comments">
+                <div class="panel-heading">
+                    From <b>You (searchUI.idOfTypicalCourse1)</b>
+                </div>
+                <ul class="list-group comments"> 
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-2">
+        <span class="text-muted">
+            To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> [Sun, 01 Apr 2012, 23:59:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText2">private comment</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-3">
+        <span class="text-muted">
+            To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> [Tue, 01 May 2012, 08:49:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText3">recipient can see this comment with giver and recipient's name</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-4">
+        <span class="text-muted">
+            To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> [Wed, 02 May 2012, 08:50:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText4">recipient can see this comment without giver's name</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-5">
+        <span class="text-muted">
+            To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> [Thu, 03 May 2012, 08:51:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText5">teammates can see this comment with giver and recipient's name</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-6">
+        <span class="text-muted">
+            To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> [Fri, 04 May 2012, 08:52:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText6">teammates can see this comment without giver and recipient's name</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-7">
+        <span class="text-muted">
+            To <b>Team 1.1</b> [Sat, 05 May 2012, 08:53:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText7">team can see this comment with giver and recipient's name</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-8">
+        <span class="text-muted">
+            To <b>student1 In Course1 (Team 1.1, searchUI.student1InCourse1@gmail.tmt)</b> [Sun, 06 May 2012, 08:55:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText8">Other students in this course can see this comment without giver and recipient's name</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-9">
+        <span class="text-muted">
+            To <b>Team 1.1</b> [Mon, 07 May 2012, 08:54:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText9">team can see this comment without giver's name</div>
+    
+</li>
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-10">
+        <span class="text-muted">
+            To <b>All students in Course searchUI.idOfTypicalCourse1</b> [Fri, 01 Jun 2012, 19:20:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText10">Students in this course can see this comment</div>
+    
+</li>
+                    
+                </ul>
+            </div>
+        
+            <div class="panel panel-info student-record-comments">
+                <div class="panel-heading">
+                    From <b>Instructor Instructor2 Course1 (searchUI.idOfTypicalCourse1)</b>
+                </div>
+                <ul class="list-group comments"> 
+                    
+                        
+                        
+
+
+
+
+
+<li class="list-group-item list-group-item-warning">
+    <div id="commentBar-11">
+        <span class="text-muted">
+            To <b>All students in Course searchUI.idOfTypicalCourse1</b> [Sat, 02 Jun 2012, 19:20:00 UTC] 
+        </span>
+        
+        
+        
+            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&amp;courseid=searchUI.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
+                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
+            </a>
+        
+        
+    </div>
+    
+    <div style="margin-left: 15px;" id="plainCommentText11">Other instructors in this course can see this comment</div>
+    
+</li>
+                    
+                </ul>
+            </div>
+        
+    </div>
+</div>
+    
+    
+    
+    
+    
+    
+
+    
+    </div>

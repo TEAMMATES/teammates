@@ -805,7 +805,6 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            System.out.println(String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY));
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");

@@ -26,10 +26,6 @@ if (window.addEventListener) {
     window.attachEvent('onload', onLoadFunction);
 }
 
-$(document).on('ajaxComplete ready', function() {
-    $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
-});
-
 //-----------------------------------------------------------------------------
 
 /**
@@ -136,12 +132,15 @@ function setupFsCopyModal() {
         var actionlink = button.data('actionlink');
         var courseid = button.data('courseid');
         var fsname = button.data('fsname');
+        var currentPage = window.location.href;
         
         $.ajax({
             type: 'GET',
-            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname),
+            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname)
+                 + '&currentPage=' + encodeURIComponent(currentPage),
             beforeSend: function() {
-                $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+                $('#fscopy_submit').prop('disabled', true);
+                $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
                 $('#courseList').html('Error retrieving course list.' + 
@@ -149,6 +148,7 @@ function setupFsCopyModal() {
             },
             success: function(data) {
                 $('#courseList').html(data);
+                $('#fscopy_submit').prop('disabled', false);
             }
         });
     });

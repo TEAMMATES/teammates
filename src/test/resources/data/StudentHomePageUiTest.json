@@ -8,10 +8,10 @@
       "institute": "TEAMMATES Test Institute 1"
     },
     "alice.tmms": {
-      "googleId": "{$test.student1}",
+      "googleId": "${test.student1}",
       "name": "Alice B",
       "isInstructor": false,
-      "email": "{$test.student1}@gmail.com",
+      "email": "${test.student1}@gmail.com",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
@@ -79,7 +79,7 @@
   
   "students": {
     "alice.tmms@SHomeUiT.CS2104": {
-      "email": "{$test.student1}@gmail.com",
+      "email": "${test.student1}@gmail.com",
       "course": "SHomeUiT.CS2104",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
@@ -110,8 +110,8 @@
       "team": "Team 2"
     },
     "alice.tmms@SHomeUiT.CS1101": {
-      "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "googleId": "${test.student1}",
+      "email": "${test.student1}@gmail.com",
       "course": "SHomeUiT.CS1101",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
@@ -142,16 +142,16 @@
       "team": "Team 2"
     },
     "alice.tmms@SHomeUiT.CS4215": {
-      "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "googleId": "${test.student1}",
+      "email": "${test.student1}@gmail.com",
       "course": "SHomeUiT.CS4215",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1"
     },
     "alice.tmms@SHomeUiT.CS4221": {
-      "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "googleId": "${test.student1}",
+      "email": "${test.student1}@gmail.com",
       "course": "SHomeUiT.CS4221",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",

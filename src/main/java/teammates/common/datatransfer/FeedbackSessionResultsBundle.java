@@ -108,6 +108,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
+    
 
     /**
      * Hides response names/emails and teams that are not visible to the current user.
@@ -882,10 +883,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getNameForEmail(String email) {
         String name = emailNameTable.get(email);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
+        if (name == null) {
+            return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
+        } else if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
         } else {
             return PageData.sanitizeForHtml(name);
         }
@@ -893,10 +896,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getLastNameForEmail(String email) {
         String name = emailLastNameTable.get(email);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
+        if (name == null) {
+            return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
+        } else if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
         } else {
             return PageData.sanitizeForHtml(name);
         }
@@ -974,8 +979,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return isIdentifierEmail && !(isIdentifierName || isIdentifierTeamName || isIdentifierTeam);
     }
     
-    public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
-                                              FeedbackResponseAttributes response) {
+    public String getRecipientNameForResponse(FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.recipientEmail);
         if (name == null || name.equals(Const.USER_IS_TEAM)) {
             return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
@@ -986,8 +990,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
-    public String getGiverNameForResponse(FeedbackQuestionAttributes question,
-                                          FeedbackResponseAttributes response) {
+    public String getGiverNameForResponse(FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.giverEmail);
         if (name == null || name.equals(Const.USER_IS_TEAM)) {
             return Const.USER_UNKNOWN_TEXT;
@@ -1069,15 +1072,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
-            Collections.sort(responsesForQuestion, compareByRecipientName);
+            Collections.sort(responsesForQuestion, compareByRecipientNameEmailGiverNameEmail);
         }
 
         return sortedMap;
     }
 
-    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+    public LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
+        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient = null;
         List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion = null;
@@ -1129,11 +1132,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sortedMap;
     }
 
-    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+    public LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByGiverTeam() {
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
+        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver = null;
+        LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver = null;
         List<FeedbackResponseAttributes> responsesFromOneGiverOneQuestion = null;
 
         Collections.sort(responses, compareByTeamQuestionGiverTeamRecipient);
@@ -1205,7 +1208,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         String recipient = null;
         String questionId = null;
-        String recipientName = null;
 
         for (FeedbackResponseAttributes response : responses) {
             if (recipient == null || !response.recipientEmail.equals(recipient)) {
@@ -1215,11 +1217,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                                  responsesForOneRecipientOneQuestion);
                 }
                 if (recipient != null && responsesForOneRecipient != null) {
-                    sortedMap.put(recipientName, responsesForOneRecipient);
+                    sortedMap.put(recipient, responsesForOneRecipient);
                 }
                 responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 recipient = response.recipientEmail;
-                recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId), response);
+                
                 questionId = null;
             }
             if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
@@ -1238,7 +1240,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                          responsesForOneRecipientOneQuestion);
         }
         if (recipient != null && responsesForOneRecipient != null) {
-            sortedMap.put(recipientName, responsesForOneRecipient);
+            sortedMap.put(recipient, responsesForOneRecipient);
         }
 
         return sortedMap;
@@ -1262,25 +1264,25 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             getResponsesSortedByRecipient(boolean sortByTeam) {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
-
+        
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamRecipientGiverQuestion);
         } else {
             Collections.sort(responses, compareByRecipientGiverQuestion);
         }
-
+        
         String prevGiver = null;
         String prevRecipient = null;
         String recipientName = null;
         String giverName = null;
         String recipientTeamName = null;
         String giverTeamName = null;
-
+        
         List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
                 new ArrayList<FeedbackResponseAttributes>();
         Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-
+        
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
             if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
@@ -1297,27 +1299,91 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear response list
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
             }
-
+        
             responsesFromOneGiverToOneRecipient.add(response);
-
+        
             prevGiver = response.giverEmail;
             prevRecipient = response.recipientEmail;
-            recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId),
-                                                             response);
+            recipientName = this.getRecipientNameForResponse(response);
             recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
             recipientName = this.appendTeamNameToName(recipientName,
                                                       recipientTeamName);
-            giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId), response);
+            giverName = this.getGiverNameForResponse(response);
             giverTeamName = this.getTeamNameForEmail(response.giverEmail);
             giverName = this.appendTeamNameToName(giverName, giverTeamName);
         }
-
+        
         if (!(responses.isEmpty())) {
             // Put responses for final giver
             responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
             sortedMap.put(recipientName, responsesToOneRecipient);
         }
+        
+        return sortedMap;
+    }
+    
+    /**
+     * Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * <br>The tree is sorted by recipientName > giverName > questionNumber.
+     * <br>The key of each map represents the parent node, while the value represents the leaf.
+     * <br>The top-most parent {@code String recipientName} is the recipient's name of all it's leafs.
+     * <br>The inner parent {@code String giverName} is the giver's name of all it's leafs.
+     * <br>The inner-most child is a {@code List<FeedbackResponseAttributes} of all the responses
+     * <br>with attributes corresponding to it's parents.
+     * @return The responses in this bundle sorted by recipient identifier > giver identifier > question number.
+     * @see {@link getResponsesSortedByRecipient}. 
+     */
+    public LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>
+            getResponsesSortedByRecipientGiverQuestion() {
+        
+        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
+                new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
+        Collections.sort(responses, compareByTeamRecipientGiverQuestion);
+   
+        
+        String prevGiver = null;
+        String prevRecipient = null;
+        String recipient = null;
+        String giver = null;
+        
+        List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
+                new ArrayList<FeedbackResponseAttributes>();
+        LinkedHashMap<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
+                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            // New recipient, add response package to map.
+            if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+                // Put previous giver responses into inner map.
+                responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
+                // Put all responses for previous recipient into outer map.
+                sortedMap.put(recipient, responsesToOneRecipient);
+                // Clear responses
+                responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
+                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
+            } else if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+                // New giver, add giver responses to response package for one recipient
+                responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
+                // Clear response list
+                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
+            }
+        
+            responsesFromOneGiverToOneRecipient.add(response);
+        
+            prevGiver = response.giverEmail;
+            prevRecipient = response.recipientEmail;
+            
+            recipient = response.recipientEmail;
+            giver = response.giverEmail;
+        }
+        
+        if (!(responses.isEmpty())) {
+            // Put responses for final giver
+            responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
+            sortedMap.put(recipient, responsesToOneRecipient);
+        }
+        
         return sortedMap;
     }
 
@@ -1328,7 +1394,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * @return responses sorted by Giver > Question > Recipient
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
-            getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
+                getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver = null;
@@ -1342,7 +1408,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         String giver = null;
         String questionId = null;
-        String giverName = null;
 
         for (FeedbackResponseAttributes response : responses) {
             if (giver == null || !response.giverEmail.equals(giver)) {
@@ -1352,12 +1417,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                               responsesFromOneGiverOneQuestion);
                 }
                 if (giver != null && responsesFromOneGiver != null) {
-                    sortedMap.put(giverName, responsesFromOneGiver);
+                    sortedMap.put(giver, responsesFromOneGiver);
                 }
                 responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 giver = response.giverEmail;
-                giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId),
-                                                         response);
+            
                 questionId = null;
             }
             if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
@@ -1376,7 +1440,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                       responsesFromOneGiverOneQuestion);
         }
         if (giver != null && responsesFromOneGiver != null) {
-            sortedMap.put(giverName, responsesFromOneGiver);
+            sortedMap.put(giver, responsesFromOneGiver);
         }
 
         return sortedMap;
@@ -1400,25 +1464,25 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             getResponsesSortedByGiver(boolean sortByTeam) {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
-
+        
         if (sortByTeam) {
             Collections.sort(responses, compareByTeamGiverRecipientQuestion);
         } else {
             Collections.sort(responses, compareByGiverRecipientQuestion);
         }
-
+        
         String prevRecipient = null;
         String prevGiver = null;
         String recipientName = null;
         String giverName = null;
         String recipientTeamName = null;
         String giverTeamName = null;
-
+        
         List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
                 new ArrayList<FeedbackResponseAttributes>();
         Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
-
+        
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
             if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
@@ -1435,27 +1499,84 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 // Clear response list
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
             }
-
+        
             responsesFromOneGiverToOneRecipient.add(response);
-
+        
             prevRecipient = response.recipientEmail;
             prevGiver = response.giverEmail;
-            recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId),
-                                                             response);
+            recipientName = this.getRecipientNameForResponse(response);
             recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
             recipientName = this.appendTeamNameToName(recipientName, recipientTeamName);
-            giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId),
-                                                     response);
+            giverName = this.getGiverNameForResponse(response);
             giverTeamName = this.getTeamNameForEmail(response.giverEmail);
             giverName = this.appendTeamNameToName(giverName, giverTeamName);
         }
-
+        
         if (!(responses.isEmpty())) {
             // Put responses for final recipient
             responsesFromOneGiver.put(recipientName, responsesFromOneGiverToOneRecipient);
             sortedMap.put(giverName, responsesFromOneGiver);
         }
-
+        
+        return sortedMap;
+    }
+    
+    /**
+     *  Returns the responses in this bundle as a {@code Tree} structure with no base node using a {@code LinkedHashMap} implementation.
+     * <br>The tree is sorted by giverName > recipientName > questionNumber.
+     * <br>The key of each map represents the parent node, while the value represents the leaf.
+     * <br>The top-most parent {@code String giverName} is the recipient's name of all it's leafs.
+     * <br>The inner parent {@code String recipientName} is the giver's name of all it's leafs.
+     * <br>The inner-most child is a {@code List<FeedbackResponseAttributes} of all the responses
+     * <br>with attributes corresponding to it's parents.
+     * @return The responses in this bundle sorted by giver's identifier > recipient's identifier > question number.
+     * @see {@link getResponsesSortedByGiver}. 
+     */
+    public Map<String, Map<String, List<FeedbackResponseAttributes>>>
+                getResponsesSortedByGiverRecipientQuestion() {
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
+                new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
+        Collections.sort(responses, compareByTeamGiverRecipientQuestion);
+        
+        
+        String prevRecipient = null;
+        String prevGiver = null;
+        
+        
+        List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
+                new ArrayList<FeedbackResponseAttributes>();
+        Map<String, List<FeedbackResponseAttributes>> responsesFromOneGiver =
+                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            // New recipient, add response package to map.
+            if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
+                // Put previous recipient responses into inner map.
+                responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
+                // Put all responses for previous giver into outer map.
+                sortedMap.put(prevGiver, responsesFromOneGiver);
+                // Clear responses
+                responsesFromOneGiver = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
+                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
+            } else if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
+                // New recipient, add recipient responses to response package for one giver
+                responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
+                // Clear response list
+                responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
+            }
+        
+            responsesFromOneGiverToOneRecipient.add(response);
+        
+            prevRecipient = response.recipientEmail;
+            prevGiver = response.giverEmail;
+        }
+        
+        if (!(responses.isEmpty())) {
+            // Put responses for final recipient
+            responsesFromOneGiver.put(prevRecipient, responsesFromOneGiverToOneRecipient);
+            sortedMap.put(prevGiver, responsesFromOneGiver);
+        }
+        
         return sortedMap;
     }
 
@@ -1983,18 +2104,43 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     };
 
-    // Sorts by recipientName
-    public final Comparator<FeedbackResponseAttributes> compareByRecipientName =
+    // Sorts by recipientName > recipientEmail > giverName > giverEmail
+    public final Comparator<FeedbackResponseAttributes> compareByRecipientNameEmailGiverNameEmail =
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            return compareByNames(getNameForEmail(o1.recipientEmail),
-                                  getNameForEmail(o2.recipientEmail));
+            // Compare by Recipient Name
+            int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipientEmail),
+                                                            getNameForEmail(o2.recipientEmail));
+            if (recipientNameCompareResult != 0) {
+                return recipientNameCompareResult;
+            }
+            
+            // Compare by Recipient Email
+            int recipientEmailCompareResult = compareByNames(o1.recipientEmail, o2.recipientEmail);
+            if (recipientEmailCompareResult != 0) {
+                return recipientEmailCompareResult;
+            }
+            
+            // Compare by Giver Name            
+            int giverNameCompareResult = compareByNames(getNameForEmail(o1.giverEmail),
+                                                        getNameForEmail(o2.giverEmail));
+            if (giverNameCompareResult != 0) {
+                return giverNameCompareResult;
+            }
+            
+            // Compare by Giver Email
+            int giverEmailCompareResult = compareByNames(o1.giverEmail, o2.giverEmail);
+            if (giverEmailCompareResult != 0) {
+                return giverEmailCompareResult;
+            }
+            
+            return 0;
         }
     };
 
-    // Sorts by recipientName
+    // Sorts by giverName
     public final Comparator<FeedbackResponseAttributes> compareByGiverName =
             new Comparator<FeedbackResponseAttributes>() {
         @Override
@@ -2063,5 +2209,58 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         int order = Integer.compare(n1Priority, n2Priority);
         return order == 0 ? n1.compareTo(n2) : order;
     }
+
+    public FeedbackSessionAttributes getFeedbackSession() {
+        return feedbackSession;
+    }
+
+    public List<FeedbackResponseAttributes> getResponses() {
+        return responses;
+    }
+
+    public Map<String, FeedbackQuestionAttributes> getQuestions() {
+        return questions;
+    }
+
+    public Map<String, String> getEmailNameTable() {
+        return emailNameTable;
+    }
+
+    public Map<String, String> getEmailLastNameTable() {
+        return emailLastNameTable;
+    }
+
+    public Map<String, String> getEmailTeamNameTable() {
+        return emailTeamNameTable;
+    }
+
+    public Map<String, Set<String>> getRosterTeamNameMembersTable() {
+        return rosterTeamNameMembersTable;
+    }
+
+    public Map<String, Set<String>> getRosterSectionTeamNameTable() {
+        return rosterSectionTeamNameTable;
+    }
+
+    public Map<String, boolean[]> getVisibilityTable() {
+        return visibilityTable;
+    }
+
+    public FeedbackSessionResponseStatus getResponseStatus() {
+        return responseStatus;
+    }
+
+    public CourseRoster getRoster() {
+        return roster;
+    }
+
+    public Map<String, List<FeedbackResponseCommentAttributes>> getResponseComments() {
+        return responseComments;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
+    }
+
 
 }

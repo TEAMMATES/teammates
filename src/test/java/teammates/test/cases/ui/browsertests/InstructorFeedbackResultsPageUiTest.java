@@ -78,19 +78,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage.waitForPanelsToCollapse();
+        // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
 
     }
@@ -176,7 +181,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // By question
         resultsPage.displayByQuestion();
+        resultsPage.waitForPanelsToCollapse();
+        
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestion.html");
+        
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
@@ -271,6 +279,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("test sort by question for second session");
         resultsPage.displayByQuestion();
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestion.html");
         
         
@@ -287,7 +296,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "Open Session", true, "question");
 
         resultsPage.clickAjaxPanel(0);
-
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
 
         ______TS("Typical case: test view photo for view by questions");
@@ -394,18 +402,37 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     public void testPanelsCollapseExpand() {
+        
+        ______TS("Test that 'Collapse Student' button is working");
+        resultsPage.clickGroupByTeam();
+        resultsPage.displayByGiverRecipientQuestion();
+        assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
+        resultsPage.clickInstructorPanelCollapseStudentsButton();
+        assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
+        
+        int numOfPanels = resultsPage.getNumOfPanelsInInstructorPanel();
+        resultsPage.verifyParticipantPanelIsCollapsed(4, (numOfPanels * 50));
+
+        resultsPage.clickGroupByTeam();
+        resultsPage.displayByQuestion();
 
         ______TS("Typical case: panels expand/collapse");
 
-        assertEquals(resultsPage.collapseExpandButton.getText(), "Collapse Questions");
+        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
 
         resultsPage.clickCollapseExpand();
-        assertEquals(resultsPage.collapseExpandButton.getText(), "Expand Questions");
+        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
 
         resultsPage.clickCollapseExpand();
-        assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse Questions");
+        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
 
     }
@@ -457,6 +484,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
         resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyContains("id=\"visibility-options-0-1-1-2\"");
+        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
@@ -497,7 +526,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-1-1-2");
-        // change the timestamps in line 365 and 781 to {*}
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
 
     }

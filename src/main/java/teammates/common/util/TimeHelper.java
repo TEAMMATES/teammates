@@ -197,6 +197,15 @@ public class TimeHelper {
             return "";
         return new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(date);
     }
+    
+    public static String formatDateTimeForComments(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm:ss zzz");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.format(date);
+    }
 
     public static String calendarToString(Calendar c) {
         if (c == null)

@@ -25,10 +25,9 @@ $(document).ready(function() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
             },
             error: function() {
-                console.log('Error');
+
             },
             success: function(data) {
-                console.log(data);
                 if (numPanels == 0) {
                     numPanels += $('.panel-collapse').length;
                 }

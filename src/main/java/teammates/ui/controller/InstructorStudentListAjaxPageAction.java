@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -22,8 +23,8 @@ public class InstructorStudentListAjaxPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("null course id", courseId);
 
-        String courseIdx = getRequestParamValue(Const.ParamsNames.COURSE_INDEX);
-        Assumption.assertNotNull("null course index", courseIdx);
+        String courseIndexString = getRequestParamValue(Const.ParamsNames.COURSE_INDEX);
+        Assumption.assertNotNull("null course index", courseIndexString);
 
         new GateKeeper().verifyInstructorPrivileges(account);
 
@@ -32,26 +33,23 @@ public class InstructorStudentListAjaxPageAction extends Action {
 
         new GateKeeper().verifyAccessible(instructor, course);
 
-        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account);
-        data.courseSectionDetails = logic.getSectionsForCourse(courseId);
-        data.course = course;
-        data.courseIdx = Integer.parseInt(courseIdx);
-        data.hasSection = logic.hasIndicatedSections(courseId);
+        List<SectionDetailsBundle> courseSectionDetails = logic.getSectionsForCourse(courseId);
+        int courseIndex = Integer.parseInt(courseIndexString);
+        boolean hasSection = logic.hasIndicatedSections(courseId);
 
         String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
                         + "?" + Const.ParamsNames.STUDENT_EMAIL
                         + "=%s&" + Const.ParamsNames.COURSE_ID
                         + "=%s&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
 
-        data.emailPhotoUrlMapping = new HashMap<String, String>();
-        data.sectionPrivileges = new HashMap<>();
-        for (SectionDetailsBundle sectionDetails : data.courseSectionDetails) {
+        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+        Map<String, Map<String, Boolean>> sectionPrivileges = new HashMap<>();
+        for (SectionDetailsBundle sectionDetails : courseSectionDetails) {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
                 for (StudentAttributes student : teamDetails.students) {
-                    data.emailPhotoUrlMapping.put(student.email,
-                                                  String.format(photoUrl,
-                                                                StringHelper.encrypt(student.email),
-                                                                StringHelper.encrypt(student.course)));
+                    emailPhotoUrlMapping.put(student.email, String.format(photoUrl,
+                                                                          StringHelper.encrypt(student.email),
+                                                                          StringHelper.encrypt(student.course)));
                 }
             }
             Map<String, Boolean> sectionPrivilege = new HashMap<String, Boolean>();
@@ -64,8 +62,13 @@ public class InstructorStudentListAjaxPageAction extends Action {
             sectionPrivilege.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS,
                                  instructor.isAllowedForPrivilege(sectionDetails.name,
                                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
-            data.sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
+            sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
+        
+        InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account, courseId, courseIndex,
+                                                                                       hasSection, courseSectionDetails,
+                                                                                       sectionPrivileges,
+                                                                                       emailPhotoUrlMapping);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST_AJAX, data);
     }

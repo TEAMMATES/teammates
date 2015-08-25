@@ -1,4 +1,4 @@
-<div id="mainContent" class="container">
+<div class="container" id="mainContent">
         <div id="topOfPage"></div>
         <h1>
             student1 In Course1's Records<small class="muted"> - FSQTT.idOfTypicalCourse1</small>
@@ -11,26 +11,6 @@
 
         <div id="statusMessage" style="display: none;"></div>
 
-        
-            <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">student1 In Course1's Profile - More Info</h4>
-                        </div>
-                        <div class="modal-body">
-                            <br>
-                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                            <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        
         <div class="container-fluid">
             
                 <div class="row">
@@ -56,7 +36,7 @@
                                         </tr>
                                         <tr>
                                             <td class="text-bold">
-                                                Email
+                                                Personal Email
                                             </td>
                                             <td>
                                                 <i class="text-muted">Not Specified</i>
@@ -82,16 +62,34 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                        <h5>More Info </h5>
-                                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                        <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">student1 In Course1's Profile - More Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <br>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                                <h5>More Info </h5>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
                             </div>
                         </div>
                     </div>
@@ -99,141 +97,161 @@
             
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-info">
-                        <div id="studentComments" class="panel-heading">
-                            Comments for student1 In Course1
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <strong>Comments for student1 In Course1</strong>
                         </div>
                         <div class="panel-body">
-                            Your comments on this student:
-                            <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="">
-                                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                            </button>
-                            <ul class="list-group" style="margin-top: 15px;">
-                                
-                                    <li class="list-group-item list-group-item-warning">
-                                        You don't have any comments on this student.
+                            <div class="panel panel-info student-record-comments">
+                                <div class="panel-heading">
+                                    From <b>You (FSQTT.idOfTypicalCourse1)</b>
+                                    <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="">
+                                        <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                                    </button>
+                                </div>
+                                <ul class="list-group comments">
+                                    
+                                        <li class="list-group-item list-group-item-warning">
+                                            You don't have any comments on this student.
+                                        </li>
+                                    
+                                    <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
+                                        <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd" class="form_comment">
+                                            <div class="form-group form-inline">
+                                                <div class="form-group text-muted">
+                                                    <p>
+                                                        Comment about student1 In Course1: 
+                                                    </p>
+                                                    The default visibility for your comment is private. You may change it using the visibility options. 
+                                                </div>
+                                                <a id="visibility-options-trigger0" class="btn btn-sm btn-info pull-right">
+                                                    <span class="glyphicon glyphicon-eye-close"></span>
+                                                    Show Visibility Options
+                                                </a>
+                                            </div>
+                                            <div id="visibility-options0" class="panel panel-default" style="display: none;">
+                                                <div class="panel-heading">
+                                                    Visibility Options
+                                                </div>
+                                                <table class="table text-center" style="color: #000;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="text-center">
+                                                                User/Group
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Can see your comment
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Can see giver's name
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Can see recipient's name
+                                                            </th>
+                                                        </tr>
+                                                        <tr id="recipient-person0">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
+                                                                    Recipient(s)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="PERSON" disabled="disabled" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="recipient-team0">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
+                                                                    Recipient's Team
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox answerCheckbox" value="TEAM" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox giverCheckbox" value="TEAM" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox recipientCheckbox" value="TEAM" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="recipient-section0">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
+                                                                    Recipient's Section
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox answerCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox giverCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox recipientCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="recipient-course0">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
+                                                                    Other students in this course
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox answerCheckbox" value="COURSE" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox giverCheckbox" value="COURSE" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox recipientCheckbox" value="COURSE" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                    Instructors
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox answerCheckbox" value="INSTRUCTOR" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox giverCheckbox" value="INSTRUCTOR" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTOR" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="form-group">
+                                                <!-- Do not add whitespace between the opening and closing tags -->
+                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText"></textarea>
+                                            </div>
+                                            <div class="col-sm-offset-5">
+                                                <input class="btn btn-primary" id="button_save_comment" value="Save" type="submit">
+                                                <input class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();" type="button">
+                                                <input name="courseid" value="FSQTT.idOfTypicalCourse1" type="hidden">
+                                                <input name="studentemail" value="student1InCourse1@gmail.tmt" type="hidden">
+                                                <input name="recipienttype" value="PERSON" type="hidden">
+                                                <input name="recipients" value="student1InCourse1@gmail.tmt" type="hidden">
+                                                <input name="showcommentsto" value="" type="hidden">
+                                                <input name="showgiverto" value="" type="hidden">
+                                                <input name="showrecipientto" value="" type="hidden">
+                                                <input name="user" value="FSQTT.idOfInstructor1OfCourse1" type="hidden">
+                                            </div>
+                                        </form>
                                     </li>
-                                
-                                <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
-                                    <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd" class="form_comment">
-                                        <div class="form-group form-inline">
-                                            <div class="form-group text-muted">
-                                                <p>
-                                                    Comment about student1 In Course1: 
-                                                </p>
-                                                The default visibility for your comment is private. You may change it using the visibility options. 
-                                            </div>
-                                            <a id="visibility-options-trigger-1" class="btn btn-sm btn-info pull-right">
-                                                <span class="glyphicon glyphicon-eye-close"></span>
-                                                Show Visibility Options
-                                            </a>
-                                        </div>
-                                        <div id="visibility-options-1" class="panel panel-default" style="display: none;">
-                                            <div class="panel-heading">
-                                                Visibility Options
-                                            </div>
-                                            <table class="table text-center" style="color: #000;">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="text-center">
-                                                            User/Group
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Can see your comment
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Can see giver's name
-                                                        </th>
-                                                        <th class="text-center">
-                                                            Can see recipient's name
-                                                        </th>
-                                                    </tr>
-                                                    <tr id="recipient-person-1">
-                                                        <td class="text-left">
-                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
-                                                                Recipient(s)
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="PERSON" disabled="disabled" type="checkbox">
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="recipient-team-1">
-                                                        <td class="text-left">
-                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
-                                                                Recipient's Team
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox answerCheckbox" value="TEAM" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="TEAM" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" value="TEAM" type="checkbox">
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="recipient-course-1">
-                                                        <td class="text-left">
-                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
-                                                                Other students in this course
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox answerCheckbox" value="COURSE" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="COURSE" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" value="COURSE" type="checkbox">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-left">
-                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                                                                Instructors
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox answerCheckbox" value="INSTRUCTOR" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox giverCheckbox" value="INSTRUCTOR" type="checkbox">
-                                                        </td>
-                                                        <td>
-                                                            <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTOR" type="checkbox">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText"></textarea>
-                                        </div>
-                                        <div class="col-sm-offset-5">
-                                            <input class="btn btn-primary" id="button_save_comment" value="Save" type="submit">
-                                            <input class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();" type="button">
-                                            <input name="courseid" value="FSQTT.idOfTypicalCourse1" type="hidden">
-                                            <input name="studentemail" value="student1InCourse1@gmail.tmt" type="hidden">
-                                            <input name="user" value="FSQTT.idOfInstructor1OfCourse1" type="hidden">
-                                            <input name="recipienttype" value="PERSON" type="hidden">
-                                            <input name="recipients" value="student1InCourse1@gmail.tmt" type="hidden">
-                                            <input name="showcommentsto" value="" type="hidden">
-                                            <input name="showgiverto" value="" type="hidden">
-                                            <input name="showrecipientto" value="" type="hidden">
-                                            <input name="user" value="FSQTT.idOfInstructor1OfCourse1" type="hidden">
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -259,108 +277,109 @@
 
 
 
-
-
-
-
-
-
-
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        To: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2">
-                                    <strong>From: Instructor1 Course1 (Instructors)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 3: How much has each student worked?&nbsp;<span style=" white-space: normal;">
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                From: <strong>Instructor1 Course1 (Instructors)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 3: <span class="text-preserve-space">How much has each student worked?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-3-giver-1-session-0" style="display:none;">Distribute points (among recipients) question<br>Points per recipient: 100</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space">30</span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">30</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                        <br>
-                        
-                            <div class="row border-top-gray">
-                                <div class="col-md-2">
-                                    <strong>From: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
+                        </div>
+                    <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                From: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-2-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-giver-2-session-0" style="display:none;">Distribute points (among options) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>Grades</li><li>Fun</li></ul>Total points: 100</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space"><ul><li>Grades: 19</li><li>Fun: 81</li></ul></span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><ul><li>Grades: 19</li><li>Fun: 81</li></ul></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                        <br>
-                        
-                    </div>
+                        </div>
+                    <br>
+                    
                 </div>
-            
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        From: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2"><strong>
-                                    To: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
+            </div>
+        
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                To: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Distribute points (among options) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>Grades</li><li>Fun</li></ul>Total points: 100</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <ul><li>Grades: 19</li><li>Fun: 81</li></ul>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><ul><li>Grades: 19</li><li>Fun: 81</li></ul></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                    </div>
+                        </div>
+                        <br>
+                    
                 </div>
-             </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
@@ -385,153 +404,161 @@
 
 
 
-
-
-
-
-
-
-
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        To: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2">
-                                    <strong>From: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                From: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-giver-1-session-0" style="display:none;">Team contribution question</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space"><span class="color-negative">Equal Share -5%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">N/A</span>]</span></span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><span class="color-negative">Equal Share -5%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">N/A</span>]</span></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                        <br>
-                        
-                    </div>
+                        </div>
+                    <br>
+                    
                 </div>
-            
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        From: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2"><strong>
-                                    To: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
+            </div>
+        
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                To: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Team contribution question</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <span class="color_neutral">Equal Share</span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><span class="color_neutral">Equal Share</span></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                            <div class="row border-top-gray">
-                                <div class="col-md-2"><strong>
-                                    To: student2 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
+                        </div>
+                        <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                To: <strong>student2 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-2-session-0" style="display:none;">Team contribution question</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <span class="color-negative">Equal Share -20%</span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><span class="color-negative">Equal Share -20%</span></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                            <div class="row border-top-gray">
-                                <div class="col-md-2"><strong>
-                                    To: student3 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
+                        </div>
+                        <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                To: <strong>student3 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-3-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-3-session-0" style="display:none;">Team contribution question</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <span class="color-positive">Equal Share +10%</span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><span class="color-positive">Equal Share +10%</span></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                            <div class="row border-top-gray">
-                                <div class="col-md-2"><strong>
-                                    To: student4 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
+                        </div>
+                        <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                To: <strong>student4 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-4-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-4-session-0" style="display:none;">Team contribution question</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <span class="color-positive">Equal Share +30%</span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><span class="color-positive">Equal Share +30%</span></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                    </div>
+                        </div>
+                        <br>
+                    
                 </div>
-             </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
@@ -556,139 +583,118 @@
 
 
 
-
-
-
-
-
-
-
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        To: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2">
-                                    <strong>From: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: What do you like best about our product?&nbsp;<span style=" white-space: normal;">
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                From: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">What do you like best about our product?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-giver-1-session-0" style="display:none;">Multiple-choice (single answer) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>It's good</li><li>It's perfect</li></ul></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space">It's good</span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">It's good</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                                     <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                       Question 3: What can be improved for this class? 
-                                       <span style=" white-space: normal;">
-                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-giver-1-session-0" onclick="toggleAdditionalQuestionInfo(&#39;3-giver-1-session-0&#39;)">
-                                             [more]
-                                          </a>
-                                          <br/>
-                                                                                    <span id="questionAdditionalInfo-3-giver-1-session-0" style="display:none;">
-                                             Multiple-choice (single answer) question options:
-                                             <ul style="list-style-type: disc;margin-left: 20px;">
-                                                <li>
-                                                   Content
-                                                </li>
-                                                <li>
-                                                   Teaching style
-                                                </li>
-                                                <li>
-                                                   Others
-                                                </li>
-                                             </ul>
-                                          </span>
-                                       </span>
+                                        <div class="panel-heading">
+                                            Question 3: <span class="text-preserve-space">What can be improved for this class?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-3-giver-1-session-0" style="display:none;">Multiple-choice (single answer) question options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>Content</li><li>Teaching style</li><li>Others</li></ul></span>
+</span></span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">Lecture notes</div>
+                                            </div>
+                                            
+                                        </div>
                                     </div>
-                                    <div class="panel-body">
-                                       <span class="text-preserve-space">
-                                          Lecture notes
-                                       </span>
-                                    </div>
-                                 </div>
-                                </div>
+                                
                             </div>
-                        <br>
-                        
-                    </div>
+                        </div>
+                    <br>
+                    
                 </div>
-            
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        From: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2"><strong>
-                                    To: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: What do you like best about our product?&nbsp;<span style=" white-space: normal;">
+            </div>
+        
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                To: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">What do you like best about our product?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Multiple-choice (single answer) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>It's good</li><li>It's perfect</li></ul></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                It's good
-                                                
-                                            </div>
+</span></span>
                                         </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">It's good</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                                     <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                       Question 3: What can be improved for this class? 
-                                       <span style=" white-space: normal;">
-                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-recipient-1-session-0" onclick="toggleAdditionalQuestionInfo(&#39;3-recipient-1-session-0&#39;)">
-                                             [more]
-                                          </a>
-                                          <br/>
-                                                                                    <span id="questionAdditionalInfo-3-recipient-1-session-0" style="display:none;">
-                                             Multiple-choice (single answer) question options:
-                                             <ul style="list-style-type: disc;margin-left: 20px;">
-                                                <li>
-                                                   Content
-                                                </li>
-                                                <li>
-                                                   Teaching style
-                                                </li>
-                                                <li>
-                                                   Others
-                                                </li>
-                                             </ul>
-                                          </span>
-                                       </span>
+                                        <div class="panel-heading">
+                                            Question 3: <span class="text-preserve-space">What can be improved for this class?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-3-recipient-1-session-0" style="display:none;">Multiple-choice (single answer) question options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>Content</li><li>Teaching style</li><li>Others</li></ul></span>
+</span></span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">Lecture notes</div>
+                                            </div>
+                                            
+                                        </div>
                                     </div>
-                                    <div class="panel-body">
-                                       Lecture notes
-                                    </div>
-                                 </div>
-                                </div>
+                                
                             </div>
-                            <br>
-                        
-                    </div>
+                        </div>
+                        <br>
+                    
                 </div>
-             </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
@@ -713,83 +719,186 @@
 
 
 
-
-
-
-
-
-
-
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        To: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2">
-                                    <strong>From: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: What do you like best about our product?&nbsp;<span style=" white-space: normal;">
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                From: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">What do you like best about our product?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-giver-1-session-0" style="display:none;">Multiple-choice (multiple answers) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>It's good</li><li>It's perfect</li></ul></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space"><ul class="selectedOptionsList"><li>It's good</li><li>It's perfect</li></ul></span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><ul class="selectedOptionsList"><li>It's good</li><li>It's perfect</li></ul></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
                                     
-                                </div>
+                                    <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                       Question 3:
+                                       <span class="text-preserve-space">
+                                          Choose all the food you like 
+                                          <span style=" white-space: normal;">
+                                             <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-giver-1-session-0" onclick="toggleAdditionalQuestionInfo(&#39;3-giver-1-session-0&#39;)">
+                                                [more]
+                                             </a>
+                                             <br/>
+                                                                                          <span id="questionAdditionalInfo-3-giver-1-session-0" style="display:none;">
+                                                Multiple-choice (multiple answers) question options:
+                                                <ul style="list-style-type: disc;margin-left: 20px;">
+                                                   <li>
+                                                      Pizza
+                                                   </li>
+                                                   <li>
+                                                      Pasta
+                                                   </li>
+                                                   <li>
+                                                      Chicken rice
+                                                   </li>
+                                                   <li>
+                                                      Other
+                                                   </li>
+                                                </ul>
+                                             </span>
+                                          </span>
+                                       </span>
+                                    </div>
+                                    <div class="panel-body">
+                                       <div style="clear:both; overflow: hidden">
+                                          <div class="pull-left text-preserve-space">
+                                             <ul class="selectedOptionsList">
+                                                <li>
+                                                   Pizza
+                                                </li>
+                                                <li>
+                                                   Pasta
+                                                </li>
+                                                <li>
+                                                   Chicken rice
+                                                </li>
+                                                <li>
+                                                   Hotdog
+                                                </li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                
                             </div>
-                        <br>
-                        
-                    </div>
+                        </div>
+                    <br>
+                    
                 </div>
-            
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        From: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2"><strong>
-                                    To: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: What do you like best about our product?&nbsp;<span style=" white-space: normal;">
+            </div>
+        
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                To: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">What do you like best about our product?&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Multiple-choice (multiple answers) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>It's good</li><li>It's perfect</li></ul></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <ul class="selectedOptionsList"><li>It's good</li><li>It's perfect</li></ul>
-                                                
-                                            </div>
+</span></span>
                                         </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><ul class="selectedOptionsList"><li>It's good</li><li>It's perfect</li></ul></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
                                     
-                                </div>
+                                    <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                       Question 3:
+                                       <span class="text-preserve-space">
+                                          Choose all the food you like 
+                                          <span style=" white-space: normal;">
+                                             <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-recipient-1-session-0" onclick="toggleAdditionalQuestionInfo(&#39;3-recipient-1-session-0&#39;)">
+                                                [more]
+                                             </a>
+                                             <br/>
+                                                                                          <span id="questionAdditionalInfo-3-recipient-1-session-0" style="display:none;">
+                                                Multiple-choice (multiple answers) question options:
+                                                <ul style="list-style-type: disc;margin-left: 20px;">
+                                                   <li>
+                                                      Pizza
+                                                   </li>
+                                                   <li>
+                                                      Pasta
+                                                   </li>
+                                                   <li>
+                                                      Chicken rice
+                                                   </li>
+                                                   <li>
+                                                      Other
+                                                   </li>
+                                                </ul>
+                                             </span>
+                                          </span>
+                                       </span>
+                                    </div>
+                                    <div class="panel-body">
+                                       <div style="clear:both; overflow: hidden">
+                                          <div class="pull-left text-preserve-space">
+                                             <ul class="selectedOptionsList">
+                                                <li>
+                                                   Pizza
+                                                </li>
+                                                <li>
+                                                   Pasta
+                                                </li>
+                                                <li>
+                                                   Chicken rice
+                                                </li>
+                                                <li>
+                                                   Hotdog
+                                                </li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                
                             </div>
-                            <br>
-                        
-                    </div>
+                        </div>
+                        <br>
+                    
                 </div>
-             </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
@@ -814,81 +923,80 @@
 
 
 
-
-
-
-
-
-
-
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        To: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2">
-                                    <strong>From: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: Rate our product.&nbsp;<span style=" white-space: normal;">
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                From: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">Rate our product.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-giver-1-session-0" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space">3.5</span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">3.5</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                        <br>
-                        
-                    </div>
+                        </div>
+                    <br>
+                    
                 </div>
-            
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        From: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2"><strong>
-                                    To: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: Rate our product.&nbsp;<span style=" white-space: normal;">
+            </div>
+        
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                To: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">Rate our product.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                3.5
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">3.5</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                    </div>
+                        </div>
+                        <br>
+                    
                 </div>
-             </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
@@ -913,158 +1021,166 @@
 
 
 
-
-
-
-
-
-
-
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        To: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2">
-                                    <strong>From: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                From: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-giver-1-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space">a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) No <span class="color_neutral"><i>(Choice 2)</i></span><br></span>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) No <span class="color_neutral"><i>(Choice 2)</i></span><br></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                        <br>
-                        
-                    </div>
+                        </div>
+                    <br>
+                    
                 </div>
-            
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        From: <strong>student1 In Course1 (Team 1.1)</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                            <div class="row ">
-                                <div class="col-md-2"><strong>
-                                    To: student1 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
+            </div>
+        
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>student1 In Course1 (Team 1.1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row">
+                            <div class="col-md-2">
+                                To: <strong>student1 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) No <span class="color_neutral"><i>(Choice 2)</i></span><br>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) No <span class="color_neutral"><i>(Choice 2)</i></span><br></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                            <div class="row border-top-gray">
-                                <div class="col-md-2"><strong>
-                                    To: student2 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
+                        </div>
+                        <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                To: <strong>student2 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-2-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                a) No <span class="color_neutral"><i>(Choice 2)</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">a) No <span class="color_neutral"><i>(Choice 2)</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                            <div class="row border-top-gray">
-                                <div class="col-md-2"><strong>
-                                    To: student3 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
+                        </div>
+                        <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                To: <strong>student3 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-3-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-3-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                            <div class="row border-top-gray">
-                                <div class="col-md-2"><strong>
-                                    To: student4 In Course1 (Team 1.1)</strong>
-                                </div>
-                                <div class="col-md-10">
-                                    
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
+                        </div>
+                        <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                To: <strong>student4 In Course1 (Team 1.1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 1: <span class="text-preserve-space">Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-4-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-4-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
-</span>
-                                            </div>
-                                            <div class="panel-body">
-                                                a) <span class="color_neutral"><i>No Response</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>
-                                                
-                                            </div>
+</span></span>
                                         </div>
-                                    
-                                </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">a) <span class="color_neutral"><i>No Response</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br></div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
                             </div>
-                            <br>
-                        
-                    </div>
+                        </div>
+                        <br>
+                    
                 </div>
-             </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         

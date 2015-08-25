@@ -62,7 +62,7 @@ public class StudentProfilePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Student Profile");
+        return getPageSource().contains("<h1>Student Profile</h1>");
     }
 
     public StudentProfilePage submitEditedProfile() {
@@ -79,7 +79,7 @@ public class StudentProfilePage extends AppPage {
 
     public void showPictureEditor() throws Exception {
         uploadPopupButton.click();
-        waitForElementToBecomeVisible("studentPhotoUploader");
+        waitForElementVisibility(browser.driver.findElement(By.id("studentPhotoUploader")));
     }
 
     public void fillShortName(String shortName) {
@@ -157,7 +157,7 @@ public class StudentProfilePage extends AppPage {
 
     public void uploadPicture() {
         uploadPictureSubmit.click();
-        browser.selenium.waitForPageToLoad("10000");
+        waitForPageToLoad();
     }
 
     public void editProfilePhoto() {

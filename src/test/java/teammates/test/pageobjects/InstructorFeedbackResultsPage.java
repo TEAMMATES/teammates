@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
@@ -34,9 +35,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
+    
+    @FindBy(id = "collapse-panels-button-team-0")
+    public WebElement instructorPanelCollapseStudentsButton;
 
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
+    
+    @FindBy(id = "panelBodyCollapse-1")
+    public WebElement instructorPanelBody;
 
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -272,7 +279,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         Actions actions = new Actions(browser.driver);
 
         actions.moveToElement(photoCell).perform();
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         List<WebElement> photos = browser.driver.findElements(By.cssSelector(".popover-content > img"));
         AssertHelper.assertContainsRegex(urlRegex, photos.get(photos.size() - 1).getAttribute("src"));
@@ -288,12 +295,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         jsExecutor.executeScript("arguments[0].scrollIntoView(true);", photoDiv);
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoDiv).perform();
-        waitForElementToAppear(By.cssSelector(".popover-content"));
+        waitForElementPresence(By.cssSelector(".popover-content"));
 
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
                                  + ".getElementsByTagName('a')[0].click();");
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         AssertHelper.assertContainsRegex(urlRegex,
                                          browser.driver.findElements(By.cssSelector(".popover-content > img"))
@@ -312,7 +319,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoLink).perform();
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
         ThreadHelper.waitFor(500);
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
@@ -337,12 +344,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                            ".querySelectorAll('td')['" + tableCol + "']" +
                                            ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
-        waitForElementToAppear(By.cssSelector(".popover-content"));
+        waitForElementPresence(By.cssSelector(".popover-content"));
         
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
                                            ".getElementsByTagName('a')[0].click();");
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
                                                                  .get(0)
@@ -374,6 +381,31 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return browser.driver.findElement(By.id("questionBody-" + (qnNo - 1)))
                              .findElement(By.className("table-responsive"))
                              .findElement(By.xpath("table/tbody/tr[" + responseNo + "]/td[6]/form"));
+    }
+
+    public void clickInstructorPanelCollapseStudentsButton() {
+        instructorPanelCollapseStudentsButton.click();
+    }
+
+    public void verifyParticipantPanelIsCollapsed(int id, int timeToWait) {
+        WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
+
+        // Need to wait for the total duration according to the number of collapse/expand intervals 
+        // between panels before checking final state of the panel
+        ThreadHelper.waitFor(timeToWait);
+        assertFalse(panel.isDisplayed());
+    }
+
+    public int getNumOfPanelsInInstructorPanel() {
+        List<WebElement> participantPanels = instructorPanelBody
+                                                 .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
+        return participantPanels.size();
+    }
+    
+    public void waitForPanelsToCollapse() {
+        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
+        waitForElementsVisibility(panelBodies);
+        ThreadHelper.waitFor(1000);
     }
 
 }

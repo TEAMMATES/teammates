@@ -1,22 +1,86 @@
-<div id="mainContent" class="container">
-        <div id="topOfPage"></div>
-        <h1>Submit Feedback</h1>
-        <br>
+<div class="container" id="mainContent">
         
-        <form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
-            
+
+
+<div id="topOfPage"></div>
+
+    <h1>Submit Feedback</h1>
+    <br>
+
+        
+        
+    
+        
 
 
 
 
+    <script>
+        var motdUrl = window.location.origin + '/test-student-motd.html';
+    </script>
+    <script type="text/javascript" src="/js/studentMotd.js"></script>
+
+    <div class="container theme-showcase" id="student-motd-container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body padding-top-0">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="padding-15px margin-0">
+                                    <b class="text-color-gray">TEAMMATES Message of the day</b>
+                                    &nbsp;
+                                    <button type="button" class="close" aria-label="Close" onclick="closeMotd();">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12" id="student-motd">
 
 
 
+<link rel="shortcut icon" href="/favicon.png">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TEAMMATES</title>
 
+
+	<div class="col-sm-12">
+    	<h1>Test student Message of the day! =)</h1><h1>
+    	<img alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" src="/images/overview.png" width="350px">
+	</h1></div>
+
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     
-    <input name="fsname" value="Second Session" type="hidden">
-    <input name="courseid" value="SFSubmitUiT.CS2104" type="hidden">
+       
+    
+    
+    
+
+
+
+
+
+
+<form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
+    
+
+
+
+
+
+<input name="fsname" value="Second Session" type="hidden">
+<input name="courseid" value="SFSubmitUiT.CS2104" type="hidden">
+
+
     
         <input name="user" value="SFSubmitUiT.alice.b" type="hidden">
     
@@ -25,133 +89,265 @@
 
 
 
+
+
+
+
+    
         <div id="statusMessage" class="alert alert-warning">
             You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
         </div>
-        
-        <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
-        </script>
-
-    <div class="well well-plain" id="course1">
-            <div class="panel-body">
-                <div class="form-horizontal">
-                    <div class="panel-heading">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Course ID:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">SFSubmitUiT.CS2104</p>
-                            </div>
-                        </div> 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Session:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">Second Session</p>
-                            </div>
-                        </div>  
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Opening time:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">Mon, 02 Apr 2012, 23:59</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Closing time:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">Mon, 30 Apr 2012, 23:59</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Instructions:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static text-preserve-space">Please please fill in the second feedback session</p>
-                            </div>
-                        </div> 
-                    </div> 
-                </div>
-            </div>
-        </div>
-    <br>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
+    
     
 
-        <input name="questiontype-1" value="TEXT" type="hidden">
-        <input name="questionid-1" value="{*}" type="hidden">
-        <input name="questionresponsetotal-1" value="2" type="hidden">
+
+
+
+
+<div class="well well-plain" id="course1">
+    <div class="panel-body">
         <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 1:<br>
-                    <span class="text-preserve-space">Give feedback to your instructors</span></div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                    
-                            <li class="unordered">The receiving instructors can see your response, and your name.</li>
-                    
-                    </ul>
-        
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
-
-                        </select><span> Teammates Test</span>
-                    </div>
+            <div class="panel-heading">               
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Course ID:</label>
                     <div class="col-sm-10">
-                    <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-1-0"></textarea>
+                        <p class="form-control-static">SFSubmitUiT.CS2104</p>
                     </div>
                 </div>
-        
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
-
-                        </select><span> Teammates Test2</span>
-                    </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Session:</label>
                     <div class="col-sm-10">
-                    <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-1-1"></textarea>
+                        <p class="form-control-static">Second Session</p>
                     </div>
                 </div>
-        </div></div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Opening time:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">Mon, 02 Apr 2012, 23:59</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Closing time:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">Mon, 30 Apr 2012, 23:59</p>
+                    </div>
+                </div>             
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Instructions:</label>
+                    <div class="col-sm-10">                   
+                        <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+                        <p class="form-control-static text-preserve-space">Please please fill in the second feedback session</p>
+                    </div>
+                </div>             
+            </div>
         </div>
-        <br><br>
+    </div>
+</div>
+<br>
 
-        <input name="questiontype-2" value="MCQ" type="hidden">
-        <input name="questionid-2" value="{*}" type="hidden">
-        <input name="questionresponsetotal-2" value="2" type="hidden">
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 2:<br>
-                    <span class="text-preserve-space">What do you like best about our product?</span></div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                    
-                            <li class="unordered">The receiving instructors can see your response, and your name.</li>
-                    
-                    </ul>
+
+
+
+
+    
         
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
 
-                        </select><span> Teammates Test</span>
-                    </div>
-                    <div class="col-sm-10">
-                    <table>
+
+
+
+
+
+
+
+<input name="questiontype-1" value="TEXT" type="hidden">
+                     
+<input name="questionid-1" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-1" value="2" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 1:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">Give feedback to your instructors</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">The receiving instructors can see your response, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-1-0"></textarea>
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test2</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-1-1"></textarea>
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br><br>
+    
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-2" value="MCQ" type="hidden">
+                     
+<input name="questionid-2" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-2" value="2" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 2:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">What do you like best about our product?</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">The receiving instructors can see your response, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test</span>
+    </div>
+    <div class="col-sm-10">
+        <table>
     <tbody><tr>
     <td>
         <label><input name="responsetext-2-0" disabled="disabled" value="It's good" type="radio"> It's good</label>
@@ -164,22 +360,46 @@
 </tr>
 
 </tbody></table>
-                    </div>
-                </div>
-        
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                                            
+    </div>
+</div>
+            
+                
 
-                        </select><span> Teammates Test2</span>
-                    </div>
-                    <div class="col-sm-10">
-                    <table>
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test2</span>
+    </div>
+    <div class="col-sm-10">
+        <table>
     <tbody><tr>
     <td>
         <label><input name="responsetext-2-1" disabled="disabled" value="It's good" type="radio"> It's good</label>
@@ -192,40 +412,88 @@
 </tr>
 
 </tbody></table>
-                    </div>
-                </div>
-        </div></div>
+                                            
+    </div>
+</div>
+                         
         </div>
-        <br><br>
+    </div>
+</div>
+<br><br>
+    
 
-        <input name="questiontype-3" value="MSQ" type="hidden">
-        <input name="questionid-3" value="{*}" type="hidden">
-        <input name="questionresponsetotal-3" value="2" type="hidden">
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 3:<br>
-                    <span class="text-preserve-space">What do you like best about our product?</span></div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                    
-                            <li class="unordered">The receiving instructors can see your response, and your name.</li>
-                    
-                    </ul>
+    
         
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
 
-                        </select><span> Teammates Test</span>
-                    </div>
-                    <div class="col-sm-10">
-                    <table>
+
+
+
+
+
+
+
+<input name="questiontype-3" value="MSQ" type="hidden">
+                     
+<input name="questionid-3" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-3" value="2" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 3:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">What do you like best about our product?</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">The receiving instructors can see your response, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test</span>
+    </div>
+    <div class="col-sm-10">
+        <table>
     <tbody><tr>
     <td>
         <label><input name="responsetext-3-0" disabled="disabled" value="It's good" type="checkbox"> It's good</label>
@@ -243,22 +511,46 @@
 </tr>
 
 </tbody></table>
-                    </div>
-                </div>
-        
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-1" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                                            
+    </div>
+</div>
+            
+                
 
-                        </select><span> Teammates Test2</span>
-                    </div>
-                    <div class="col-sm-10">
-                    <table>
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-1" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test2</span>
+    </div>
+    <div class="col-sm-10">
+        <table>
     <tbody><tr>
     <td>
         <label><input name="responsetext-3-1" disabled="disabled" value="It's good" type="checkbox"> It's good</label>
@@ -276,40 +568,88 @@
 </tr>
 
 </tbody></table>
-                    </div>
-                </div>
-        </div></div>
+                                            
+    </div>
+</div>
+                         
         </div>
-        <br><br>
+    </div>
+</div>
+<br><br>
+    
 
-        <input name="questiontype-4" value="NUMSCALE" type="hidden">
-        <input name="questionid-4" value="{*}" type="hidden">
-        <input name="questionresponsetotal-4" value="2" type="hidden">
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 4:<br>
-                    <span class="text-preserve-space">Rate our product.</span></div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                    
-                            <li class="unordered">The receiving instructors can see your response, and your name.</li>
-                    
-                    </ul>
+    
         
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
 
-                        </select><span> Teammates Test</span>
-                    </div>
-                    <div class="col-sm-10">
-                    <div class="col-sm-3"><input class="numScaleAnswerBox form-control col-sm-2" disabled="disabled" onchange="validateNumScaleAnswer(4, 0)" min="1" max="5" step="0.5" value="" name="responsetext-4-0" type="number"> 
+
+
+
+
+
+
+
+<input name="questiontype-4" value="NUMSCALE" type="hidden">
+                     
+<input name="questionid-4" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-4" value="2" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 4:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">Rate our product.</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">The receiving instructors can see your response, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test</span>
+    </div>
+    <div class="col-sm-10">
+        <div class="col-sm-3"><input class="numScaleAnswerBox form-control col-sm-2" disabled="disabled" onchange="validateNumScaleAnswer(4, 0)" min="1" max="5" step="0.5" value="" name="responsetext-4-0" type="number"> 
 <input name="numscalemin-4-0" value="1" type="hidden">
 <input name="numscalemax-4-0" value="5" type="hidden">
 <input name="numscalestep-4-0" value="0.5" type="hidden">
@@ -317,22 +657,46 @@
 <div class="text-muted form-control-static">
 [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
 </div>
-                    </div>
-                </div>
-        
-                <br>
-                <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px" disabled="disabled">
-                        <option value="" selected="selected"></option>
-<option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
-<option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                                            
+    </div>
+</div>
+            
+                
 
-                        </select><span> Teammates Test2</span>
-                    </div>
-                    <div class="col-sm-10">
-                    <div class="col-sm-3"><input class="numScaleAnswerBox form-control col-sm-2" disabled="disabled" onchange="validateNumScaleAnswer(4, 1)" min="1" max="5" step="0.5" value="" name="responsetext-4-1" type="number"> 
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value="" selected="selected"></option>
+                
+                    <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">Teammates Test</option>
+                
+                    <option value="SFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+        </select><span>Teammates Test2</span>
+    </div>
+    <div class="col-sm-10">
+        <div class="col-sm-3"><input class="numScaleAnswerBox form-control col-sm-2" disabled="disabled" onchange="validateNumScaleAnswer(4, 1)" min="1" max="5" step="0.5" value="" name="responsetext-4-1" type="number"> 
 <input name="numscalemin-4-1" value="1" type="hidden">
 <input name="numscalemax-4-1" value="5" type="hidden">
 <input name="numscalestep-4-1" value="0.5" type="hidden">
@@ -340,18 +704,32 @@
 <div class="text-muted form-control-static">
 [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
 </div>
-                    </div>
-                </div>
-        </div></div>
+                                            
+    </div>
+</div>
+                         
         </div>
-        <br><br>
+    </div>
+</div>
+<br><br>
+    
 
+
+    
+    <div class="bold align-center"> 
+        
+
+        
             
-            <div class="bold align-center">
             
-                    <input data-original-title="You can save your responses at any time and come back later to continue." disabled="disabled" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="" value="Submit Feedback" style="background: #66727A;" type="submit">
+                <input data-original-title="You can save your responses at any time and come back later to continue." class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="" value="Submit Feedback" disabled="disabled" style="background: #66727A;" type="submit">
             
-            </div>
-            <br><br>
-        </form>
+        
+    </div>
+    <br> 
+    <br>
+</form>
+    
+
+    
     </div>

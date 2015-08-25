@@ -81,7 +81,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
                 + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
                 + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE, 
-                ((StudentCourseJoinConfirmationPageData) pageResult.data).confirmUrl);
+                ((StudentCourseJoinConfirmationPageData) pageResult.data).getConfirmUrl());
         assertEquals("", pageResult.getStatusMessage());
         
         ______TS("skip confirmation");

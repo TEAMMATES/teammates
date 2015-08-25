@@ -276,14 +276,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String courseId = "idOfTypicalCourse1";
         
         List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForCourse(courseId);
-        assertEquals(4, retrieved.size());
+        assertEquals(5, retrieved.size());
         
         List<String> idList = new ArrayList<String>();
         idList.add("idOfInstructor1OfCourse1");
         idList.add("idOfInstructor2OfCourse1");
         idList.add("idOfInstructor3");
         idList.add("idOfHelperOfCourse1");
-        
+        idList.add(null);
         for (InstructorAttributes instructor : retrieved) {
             if (idList.contains(instructor.googleId)) {
             } else {

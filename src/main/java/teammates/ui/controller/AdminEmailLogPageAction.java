@@ -27,36 +27,34 @@ public class AdminEmailLogPageAction extends Action {
         
         new GateKeeper().verifyAdminPrivileges(account);
         
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account);
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("offset"),
+                                        getRequestParamValue("filterQuery"), getRequestParamAsBoolean("all"));
         
-        data.offset = getRequestParamValue("offset");
-        data.filterQuery = getRequestParamValue("filterQuery");
-        data.shouldShowAll = getRequestParamAsBoolean("all");
         String pageChange = getRequestParamValue("pageChange");
        
-        if(pageChange != null && pageChange.equals("true")){
+        if (pageChange != null && pageChange.equals("true")) {
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
-            data.offset = null;
+            data.setOffset(null);
         }
         
-        if(data.filterQuery == null){
-            data.filterQuery = "";
+        if (data.getFilterQuery() == null) {
+            data.setFilterQuery("");
         }
         
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
-        data.generateQueryParameters(data.filterQuery);
+        data.generateQueryParameters(data.getFilterQuery());
         
-        LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
-        data.logs = getEmailLogs(query, data);
+        LogQuery query = buildQuery(data.getOffset(), includeAppLogs, data.getVersions());
+        data.setLogs(getEmailLogs(query, data));
         
         
         statusToAdmin = "adminEmailLogPage Page Load";
         
-        if(data.offset == null){
+        if (data.getOffset() == null) {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
         }
         
-        return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
+        return createAjaxResult(data);
     }
     
     
@@ -77,15 +75,17 @@ public class AdminEmailLogPageAction extends Action {
         if (offset != null && !offset.equals("null")) {
             query.offset(offset);
         }
+        
         return query;
     }
     
     private List<String> getVersionIdsForQuery(List<String> versions){
         
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
-        if(isVersionSpecifiedInRequest){   
+        if (isVersionSpecifiedInRequest) {   
             return versions;        
         }       
+        
         return getDefaultVersionIdsForQuery();
     }
     
@@ -149,9 +149,10 @@ public class AdminEmailLogPageAction extends Action {
             lastOffset = record.getOffset();
             
             //End the search if we hit limits
-            if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
+            if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
                 break;
             }
+            
             if (currentLogsInPage >= LOGS_PER_PAGE) {
                 break;
             }
@@ -184,7 +185,7 @@ public class AdminEmailLogPageAction extends Action {
             status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";              
         }
         
-        data.statusForAjax = status;
+        data.setStatusForAjax(status);
         statusToUser.add(status);
         
         return emailLogs;

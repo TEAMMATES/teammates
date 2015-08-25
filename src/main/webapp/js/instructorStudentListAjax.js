@@ -71,7 +71,6 @@ var seeMoreRequest = function(e) {
                     },
                     error: function() {
                         numStudents -= courseNumStudents;
-                        console.log('Error');
                     },
                     success: function(data) {
                         $(panelBody[0]).html(data);
@@ -84,10 +83,6 @@ var seeMoreRequest = function(e) {
                         if ($(panelCollapse[0]).attr('class').indexOf("in") == -1) {
                             $(panelHeading).trigger('click');
                         }
-                        $('[data-toggle="tooltip"]').tooltip({
-                            html: true,
-                            container: 'body'
-                        });
                     }
                 });
             }

@@ -24,15 +24,14 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
         Assumption.assertNotNull(instructors);
         
-        InstructorFeedbackEditCopyPageData data = new InstructorFeedbackEditCopyPageData(account);
-        data.courses = new ArrayList<CourseAttributes>();
-        data.courseId = courseId;
-        data.fsName = feedbackSessionName;
+        String currentPage = getRequestParamValue(Const.ParamsNames.CURRENT_PAGE);
         
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
+        List<CourseAttributes> allCourses = logic.getCoursesForInstructor(account.googleId);
+        
+        List<CourseAttributes> coursesToAddToData = new ArrayList<CourseAttributes>();
         
         // Only add courses to data if the course is not archived and instructor has sufficient permissions
-        for (CourseAttributes course : courses) {
+        for (CourseAttributes course : allCourses) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
             
             boolean isAllowedToMakeSession =
@@ -40,11 +39,15 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
             boolean isArchived = Logic.isCourseArchived(course.id, account.googleId);
 
             if (!isArchived && isAllowedToMakeSession) {
-                data.courses.add(course);
+                coursesToAddToData.add(course);
             }
         }
         
-        CourseAttributes.sortByCreatedDate(data.courses);
+        CourseAttributes.sortByCreatedDate(coursesToAddToData);
+        
+        InstructorFeedbackEditCopyPageData data = 
+            new InstructorFeedbackEditCopyPageData(account, coursesToAddToData, courseId, 
+                                                   feedbackSessionName, currentPage);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_COPY_MODAL, data);
     }

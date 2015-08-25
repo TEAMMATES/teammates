@@ -64,6 +64,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
         detailsPage = getCourseDetailsPage();
         detailsPage.verifyIsCorrectPage(courseId);
+
+        // This is the full HTML verification for Instructor Course Details Page, the rest can all be verifyMainHtml
         detailsPage.verifyHtml("/InstructorCourseDetailsEmptyCourse.html");
         
         ______TS("content: multiple students with sections");
@@ -106,19 +108,19 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         //the first table is the hidden table used for comments' visibility options
         String patternString = "Joined{*}Joined{*}Yet to join{*}Yet to join";
-        detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
         patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
-        detailsPage.sortByStatus().verifyTablePattern(1, 2, patternString);
+        detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
         
         patternString = "Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
-        detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
+        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
-        detailsPage.sortByName().verifyTablePattern(1, 1, patternString);
+        detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         
         patternString = "Team 1{*}Team 1{*}Team 2{*}Team 2";
-        detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
         patternString = "Team 2{*}Team 2{*}Team 1{*}Team 1";
-        detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
+        detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
     }
     
     public void testLinks() {
@@ -128,32 +130,31 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         InstructorCourseStudentDetailsViewPage studentDetailsPage = detailsPage.clickViewStudent(alice.name);
         studentDetailsPage.verifyIsCorrectPage(alice.email);
-        detailsPage = studentDetailsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+        studentDetailsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: edit");
         
         StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
         InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(charlie.name);
         studentEditPage.verifyIsCorrectPage(charlie.email);
-        detailsPage = studentEditPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+        studentEditPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: all records");
         
         InstructorStudentRecordsPage studentAllRecordsPage = detailsPage.clickAllRecordsLink(charlie.name);
         studentAllRecordsPage.verifyIsCorrectPage(charlie.email);
-        detailsPage = studentAllRecordsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+        studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         studentAllRecordsPage = detailsPage.clickAllRecordsLink(alice.name);
         studentAllRecordsPage.verifyIsCorrectPage(alice.email);
-        detailsPage = studentAllRecordsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
-        
+        studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: add comment");
         
         StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name);
         studentCommentsPage.verifyIsCorrectPage(aliceBetsy.email);
-        detailsPage = studentCommentsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+        studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: download student list");
         
@@ -218,7 +219,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickDeleteAndCancel(studentName);
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
-        //Use {$test.student1} etc. 
+        //Use ${test.student1} etc. 
         detailsPage.clickDeleteAndConfirm(studentName)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
         

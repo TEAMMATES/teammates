@@ -23,6 +23,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -43,10 +45,13 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
+import teammates.googleSendgridJava.Sendgrid;
 
 public class EmailsTest extends BaseComponentTestCase {
     
-    private String from;
+    private String from; // For MimeMessage testing
+    private String fromEmail; // For Sendgrid testing
+    private String fromName;  // For Sendgrid testing
     private String replyTo;
     
     @BeforeClass
@@ -59,34 +64,45 @@ public class EmailsTest extends BaseComponentTestCase {
 
     @BeforeMethod
     public void caseSetUp() throws ServletException, IOException {
-        
-        InternetAddress internetAddress = new InternetAddress("Admin@"
-                + Config.inst().getAppId() + ".appspotmail.com",
-                "TEAMMATES Admin");
-        from = internetAddress.toString();
+        /* For Sendgrid testing */
+        fromEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
+        fromName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
+        
+        /* For MimeMessage testing */
+        InternetAddress internetAddress = new InternetAddress(fromEmail, fromName);
+        from = internetAddress.toString();
     }
 
     @Test
-    public void testGetEmailInfo() throws MessagingException {
-
-        Session session = Session.getDefaultInstance(new Properties(), null);
-        MimeMessage message = new MimeMessage(session);
-
+    public void testGetEmailInfo() throws MessagingException, JSONException {
         String email = "receiver@gmail.tmt";
         String from = "sender@gmail.tmt";
-
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                email));
-
-        message.setFrom(new InternetAddress(from));
         String subject = "email subject";
-        message.setSubject(subject);
-        message.setContent("<h1>email body</h1>", "text/html");
 
-        assertEquals(
-                "[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
-                Emails.getEmailInfo(message));
+        ______TS("Sendgrid message");
+        Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
+
+        message.addTo(email);
+        message.setFrom(from);
+        message.setSubject(subject);
+        message.setHtml("<h1>email body</h1>");
+
+        assertEquals("[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
+                                        Emails.getEmailInfo(message));
+
+        ______TS("MimeMessage");
+        Session session = Session.getDefaultInstance(new Properties(), null);
+        MimeMessage mimeMessage = new MimeMessage(session);
+
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+        mimeMessage.setFrom(new InternetAddress(from));
+        mimeMessage.setSubject(subject);
+        mimeMessage.setContent("<h1>email body</h1>", "text/html");
+
+        assertEquals("[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
+                                        Emails.getEmailInfo(mimeMessage));
+
     }
     
     @Test
@@ -332,7 +348,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         List<MimeMessage> emails = new Emails()
                 .generateFeedbackSessionOpeningEmails(fsa);
-        assertEquals(9, emails.size());
+        assertEquals(10, emails.size());
 
         String prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
         String status = "is now open";
@@ -342,7 +358,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session reminders");
 
         emails = new Emails().generateFeedbackSessionReminderEmails(c, fsa, students, instructors, instructors);
-        assertEquals(13, emails.size());
+        assertEquals(15, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
         status = "is still open for submissions";
@@ -352,7 +368,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session closing alerts");
 
         emails = new Emails().generateFeedbackSessionClosingEmails(fsa);
-        assertEquals(7, emails.size());
+        assertEquals(8, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
         status = "is closing soon";
@@ -365,7 +381,7 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session published alerts");
 
         emails = new Emails().generateFeedbackSessionPublishedEmails(fsa);
-        assertEquals(9, emails.size());
+        assertEquals(10, emails.size());
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
         status = "The feedback responses for the following feedback session is now open for viewing.";
@@ -435,6 +451,73 @@ public class EmailsTest extends BaseComponentTestCase {
     @Test
     public void testNoExceptionThrownWhenNoMessagesToSend() {
         new Emails().sendEmails(new ArrayList<MimeMessage>());
+    }
+    
+    @Test
+    public void testParseMimeMessageToSendgrid() throws MessagingException, JSONException, IOException {
+        FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
+        fsa.feedbackSessionName = "Feedback Session Name";
+        fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+
+        CourseAttributes c = new CourseAttributes();
+        c.id = "course-id";
+        c.name = "Course Name";
+
+        StudentAttributes s = new StudentAttributes();
+        s.name = "Student Name";
+        s.key = "skxxxxxxxxxks";
+        s.email = "student@email.tmt";
+
+        ______TS("Generate feedback email base");
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+        MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForStudents(
+                                        c, fsa, s, template);
+        Sendgrid sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
+
+        testEmailAttributes(email, sendgridEmail);
+
+        ______TS("Generate student course join email");
+        email = new Emails().generateStudentCourseJoinEmail(c, s);
+        sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
+
+        testEmailAttributes(email, sendgridEmail);
+
+        ______TS("System crash report email");
+        AssertionError error = new AssertionError("invalid parameter");
+        StackTraceElement s1 = new StackTraceElement(
+                                        SystemErrorEmailReportTest.class.getName(),
+                                        "testSystemCrashReportEmailContent",
+                                        "SystemErrorEmailReportTest.java",
+                                        89);
+        error.setStackTrace(new StackTraceElement[] { s1 });
+        String requestPath = "/page/studentHome";
+        String requestParam = "{}";
+
+        email = new Emails().generateSystemErrorEmail(
+                                        error, requestPath, requestParam,
+                                        TestProperties.inst().TEAMMATES_VERSION);
+        sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
+
+        testEmailAttributes(email, sendgridEmail);
+    }
+
+    private void testEmailAttributes(MimeMessage email, Sendgrid sendgridEmail) throws MessagingException,
+                                    IOException {
+        // check receiver
+        assertEquals(email.getAllRecipients()[0].toString(), sendgridEmail.getTos().get(0));
+
+        // check sender
+        assertEquals(new Emails().extractSenderEmail(email.getFrom()[0].toString()), sendgridEmail.getFrom());
+        
+        //check replyTo
+        assertEquals(email.getReplyTo()[0].toString(), sendgridEmail.getReplyTo());
+
+        // check subject
+        assertEquals(email.getSubject(), sendgridEmail.getSubject());
+
+        // check email body
+        assertEquals(email.getContent().toString(), sendgridEmail.getHtml());
     }
 
     @AfterClass()

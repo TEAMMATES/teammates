@@ -156,7 +156,10 @@ function updateResultsFilter() {
 }
 
 function toggleCollapse(e, panels) {
-    if ($(e).html().indexOf('Expand') != -1) {
+    var expand = 'Expand';
+    var collapse = 'Collapse';
+    
+    if ($(e).html().trim().startsWith(expand)) {
         panels = panels || $('div.panel-collapse');
         isExpandingAll = true;
         var i = 0;
@@ -164,14 +167,17 @@ function toggleCollapse(e, panels) {
             if ($(panels[idx]).attr('class').indexOf('in') == -1) {
 
                 // The timeout value '50' is being used in InstructorFeedbackResultsPage.verifyAllResultsPanelBodyVisibility()
-                // Therefore, when changing this timeout value, please update the waiting time accordingly
+                // and InstructorFeedbackResultsPageUiTest.testPanelsCollapseExpand()
+                // Therefore, when changing this timeout value, please update the waiting times accordingly
                 setTimeout(showSingleCollapse, 50 * i, panels[idx]);
                 i++;
             }
         }
         var htmlString = $(e).html();
-        htmlString = htmlString.replace('Expand', 'Collapse');
+        htmlString = htmlString.replace(expand, collapse);
         $(e).html(htmlString);
+        var tooltipString = $(e).attr('data-original-title').replace(expand, collapse);
+        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     } else {
         panels = panels || $('div.panel-collapse');
         isCollapsingAll = true;
@@ -183,8 +189,10 @@ function toggleCollapse(e, panels) {
             }
         }
         var htmlString = $(e).html();
-        htmlString = htmlString.replace('Collapse', 'Expand');
+        htmlString = htmlString.replace(collapse, expand);
         $(e).html(htmlString);
+        var tooltipString = $(e).attr('data-original-title').replace(collapse, expand);
+        $(e).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
     }
 }
 
@@ -245,24 +253,22 @@ function bindCollapseEvents(panels, numPanels) {
 }
 
 window.onload = function() {
-    var panels = $('div.panel');
-    var numPanels = 0;
+    var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
-    bindCollapseEvents(panels, numPanels);
     $('a[id^="collapse-panels-button-section-"]').on('click', function() {
         var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
         var childPanelType;
         if (isGroupByTeam) {
             childPanelType = 'div.panel.panel-warning';
         } else {
-            childPanelType = 'div.panel.panel-primary';
+            childPanelType = participantPanelType;
         }
         var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 
     $('a[id^="collapse-panels-button-team-"]').on('click', function() {
-        var panels = $(this).closest('.panel-warning').children('.panel-collapse').find('div.panel.panel-primary').children('.panel-collapse');
+        var panels = $(this).closest('.panel-warning').children('.panel-collapse').find(participantPanelType).children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 };
@@ -294,4 +300,7 @@ $(document).ready(function() {
     $('#fsResultsTableWindow').on('shown.bs.modal', function (e) {
         selectElementContents(document.getElementById('fsModalTable'));
     });
+
+    var panels = $('div.panel');
+    bindCollapseEvents(panels, 0);
 });

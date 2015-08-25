@@ -17,7 +17,9 @@ Important: When a version is specified, please install that version instead of t
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
 7. Install Google App Engine SDK version 1.9.4 (this is not the latest version)<br>
    Download link to the SDK is https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/194/appengine-java-sdk-1.9.4.zip.<br>
-   Instructions for installing are at https://developers.google.com/eclipse/docs/using_sdks.
+   Go to `Window → Preferences → Google → App Engine`, click the `Add` button,
+   and point it to where you extracted the SDK zip file. <br>
+   Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/eclipse.html).
 
 ##Setting up the dev server
@@ -44,13 +46,14 @@ Important: When a version is specified, please install that version instead of t
    Use `build.template.properties` (in the same folder) 
    as the template (i.e. `copy → paste → rename`).
    For now, property values can remain as they are.
+   If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
    Create it using `test.template.properties`. 
    For now, property values can remain as they are.<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
-4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.46.zip)
+4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.47.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
    which is what we want. If you unzipped it into the right location, you should now see
@@ -94,14 +97,18 @@ Important: When a version is specified, please install that version instead of t
     Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
    
 2. Before running the test suite, both the server and the test environment 
-   should be using the UTC time zone. Here is the procedure.
+   should be using the UTC time zone. The server and the test environment should 
+   also serve the CDN files (files that we off-load to servers such as Google's servers)
+   locally instead. In our case, these are files such as jQuery.min.js.
+   
+   Here is the procedure:
     
     a. Stop the dev server, if it is running already.
 
     b. Specify timezone as a VM argument: 
        * Go to the `run configuration` Eclipse created when you started the dev server
         (`Run → Run configurations ...` and select the appropriate one).
-       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
+       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` and '-DisDevEnvironment="true"' to the `VM arguments` text box.
        * Save the configuration for future use: Go to the `Common` tab (the last one) 
        and make sure you have selected `Save as → Local file` and 
        `Display in favorites menu →  Run, Debug`.
@@ -223,7 +230,8 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
   jQuery is a JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development.
 * **JSON** (JavaScript Object Notation): JSON is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript.
 * **Gson** [version 2.2.2] Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java object.
-* **Java Server Pages (JSP)**: JSP technology provides a simplified way to create dynamic web content. A JSP page can be thought as an HTML page with embedded Java code snippets.
+* **JavaServer Pages (JSP)**: JSP technology provides a simplified way to create dynamic web content. A JSP page can be thought as an HTML page with embedded Java code snippets.
+* **JavaServer Pages Standard Tag Library (JSTL)**: JSTL extends the JSP specification by providing a standard set of JSP tags for common tasks, and allows creation of custom tags for use in JSP files.
 * **Java Servlets**: Java Servlet technology provides a simple, consistent mechanism for extending the functionality of a Web server and for accessing existing business systems. A servlet can almost be thought of as an applet that runs on the server side--without a face.
 * **Java Data Objects (JDO)** [version 2.3; while GAE supports JDO 3.0 as well, we continue to use JDO 2.3 because it is easier to set up.]
   JDO is a standard interface for storing objects containing data into a database. The standard defines interfaces for annotating Java objects, retrieving objects with queries, and interacting with a database using transactions. An application that uses the JDO interface can work with different kinds of databases without using any database-specific code, including relational databases, hierarchical databases, and object databases.
@@ -231,6 +239,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
   The DataNucleus Access Platform provides persistence and retrieval of data to a range of datastores using a range of APIs, with a range of query languages.
   Comes with App Engine SDK.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
+* **SendGrid** Alternative framework to JavaMail for sending emails.
 
 ####Tools used in testing
 

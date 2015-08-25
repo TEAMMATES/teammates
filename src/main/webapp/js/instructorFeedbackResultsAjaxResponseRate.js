@@ -1,5 +1,4 @@
 function getAppendedResponseRateData(data) {
-    console.log(data);
     var appendedResponseStatus = $(data).find('#responseStatus').html();
     $(data).remove();
     return appendedResponseStatus;
@@ -21,7 +20,7 @@ $(document).ready(function() {
                 // submitButton.html('<img src="/images/ajax-loader.gif">');
             },
             error: function() {
-                console.log('Error');
+
             },
             success: function(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
@@ -33,5 +32,10 @@ $(document).ready(function() {
             }
         });
     };
-    $('.ajax_response_rate_submit').click(responseRateRequest);
+
+    //ajax_response_rate_submit requires the user to click on it to load the noResponsePanel,
+    //ajax_response_rate_auto automatically loads the noResponsePanel when the page is loaded
+    $responseRatePanel = $('.ajax_response_rate_submit,.ajax_response_rate_auto');
+    $responseRatePanel.click(responseRateRequest);
+    $('.ajax_response_rate_auto').click();
 });

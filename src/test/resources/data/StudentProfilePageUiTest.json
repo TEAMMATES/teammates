@@ -15,13 +15,13 @@
       "institute": "TEAMMATES Test Institute 1"
     },
     "studentWithExistingProfile": {
-      "googleId": "{$test.student2}",
+      "googleId": "${test.student2}",
       "name": "Benny C",
       "isInstructor": false,
-      "email": "{$test.student2}@gmail.com",
+      "email": "${test.student2}@gmail.com",
       "institute": "TEAMMATES Test Institute 7",
       "studentProfile":{
-          "googleId":"{$test.student2}",
+          "googleId":"${test.student2}",
           "shortName":"Ben",
           "email":"i.m.benny@gmail.tmt",
           "institute":"TEAMMATES Test Institute 4",
@@ -62,8 +62,8 @@
   },
   "students": {
     "studentWithExistingProfile": {
-      "googleId": "{$test.student2}",
-      "email": "{$test.student2}@gmail.com",
+      "googleId": "${test.student2}",
+      "email": "${test.student2}@gmail.com",
       "course": "SHomeUiT.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
