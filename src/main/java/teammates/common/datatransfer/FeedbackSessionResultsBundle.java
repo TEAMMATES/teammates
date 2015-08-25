@@ -206,8 +206,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return anonName + "@@" + anonName + ".com";
     }
 
-    public String getAnonEmailFromEmail(String email) {
-        String name = roster.getStudentForEmail(email).name;
+    public String getAnonEmailFromStudentEmail(String studentEmail) {
+        String name = roster.getStudentForEmail(studentEmail).name;
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
     }
 
