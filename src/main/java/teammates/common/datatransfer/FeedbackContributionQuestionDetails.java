@@ -610,8 +610,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
         
         if (result.isEmpty()) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
-                    + "title=\"Not Available: There is no data for this or the data is not enough\">N/A</span>";
+            return getPointsAsColorizedHtml(Const.POINTS_NOT_SUBMITTED);
         }
         Collections.sort(result);
         Collections.reverse(result);
