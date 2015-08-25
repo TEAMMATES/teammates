@@ -175,7 +175,6 @@ public class InstructorSearchPageAction extends Action {
                             continue;
                         }
                         commentList.remove(k);
-                        totalResultsSize -= 1;
                     }
                     if (commentList.isEmpty()) {
                         responseList.remove(j);
