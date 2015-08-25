@@ -30,7 +30,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Map<String, String> emailNameTable = null;
     public Map<String, String> emailLastNameTable = null;
     public Map<String, String> emailTeamNameTable = null;
-    public Map<String, Set<String>> sectionTeamNameTable = null;
     public Map<String, Set<String>> rosterTeamNameMembersTable = null;
     public Map<String, Set<String>> rosterSectionTeamNameTable = null;
     public Map<String, boolean[]> visibilityTable = null;
@@ -54,6 +53,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     // Key is questionId, value is a map of team name to TeamEvalResult
     public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults =
             new HashMap<String, Map<String, TeamEvalResult>>();
+    
+    /* 
+     * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor 
+     * whereas rosterSectionTeamNameTable doesn't. 
+     * As a result, sectionTeamNameTable only contains sections viewable to the logged-in instructor 
+     * whereas rosterSectionTeamNameTable contains all sections in the course.
+     * As sectionTeamNameTable is dependent on instructor privileges, 
+     * it can only be used for instructor pages and not for student pages 
+    */
+    public Map<String, Set<String>> sectionTeamNameTable = null;
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         List<FeedbackResponseAttributes> responses,
