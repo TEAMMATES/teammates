@@ -30,6 +30,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Map<String, String> emailNameTable = null;
     public Map<String, String> emailLastNameTable = null;
     public Map<String, String> emailTeamNameTable = null;
+    public Map<String, Set<String>> sectionTeamNameTable = null;
     public Map<String, Set<String>> rosterTeamNameMembersTable = null;
     public Map<String, Set<String>> rosterSectionTeamNameTable = null;
     public Map<String, boolean[]> visibilityTable = null;
@@ -60,12 +61,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                         Map<String, String> emailNameTable,
                                         Map<String, String> emailLastNameTable,
                                         Map<String, String> emailTeamNameTable,
+                                        Map<String, Set<String>> sectionTeamNameTable,
                                         Map<String, boolean[]> visibilityTable,
                                         FeedbackSessionResponseStatus responseStatus,
                                         CourseRoster roster,
                                         Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
         this(feedbackSession, responses, questions, emailNameTable, emailLastNameTable,
-             emailTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
+             emailTeamNameTable, sectionTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
     }
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
@@ -74,6 +76,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                         Map<String, String> emailNameTable,
                                         Map<String, String> emailLastNameTable,
                                         Map<String, String> emailTeamNameTable,
+                                        Map<String, Set<String>> sectionTeamNameTable,
                                         Map<String, boolean[]> visibilityTable,
                                         FeedbackSessionResponseStatus responseStatus,
                                         CourseRoster roster,
@@ -85,6 +88,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
+        this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
         this.roster = roster;
@@ -194,7 +198,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     public String getAnonEmailFromEmail(String email) {
-        String name = emailNameTable.get(email);
+        String name = roster.getStudentForEmail(email).name;
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
     }
 
