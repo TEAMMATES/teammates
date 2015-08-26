@@ -631,6 +631,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
             result.add(Integer.toString(subs[i]));
         }
+        if (result.isEmpty()) {
+            return Integer.toString(Const.INT_UNINITIALIZED);
+        }
         Collections.sort(result);
         Collections.reverse(result);
         String resultString = "";
