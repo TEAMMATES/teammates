@@ -12,6 +12,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction {
@@ -46,7 +48,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
                                            courseId,
                                            instructor.email);
             
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> " +
                     "for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
@@ -79,7 +81,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
         
         if (feedbackSessions.isEmpty()) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
         }
         
         Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);

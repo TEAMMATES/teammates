@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
@@ -33,14 +34,13 @@ public abstract class ActionResult {
     protected AccountAttributes account;
     
     /** A list of status messages to be shown to the user */
-    protected List<String> statusToUser = new ArrayList<String>();
-    // TODO: List<StatusMessage> instead of List<String>?
+    protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
     
     public ActionResult(
             String destination, 
             AccountAttributes account, 
             Map<String, String[]> parametersFromPreviousRequest,
-            List<String> status){
+            List<StatusMessage> status){
         
         this.destination = destination;
         this.account = account;
@@ -53,7 +53,17 @@ public abstract class ActionResult {
      * execution of the action. Messages are separated by {@code '<br>'}
      */
     public String getStatusMessage() {
-        return StringHelper.toString(statusToUser, "<br />");
+        List<String> statusMessageTexts = new ArrayList<String>();
+        
+        for (StatusMessage msg : statusToUser) {
+            statusMessageTexts.add(msg.getText());
+        }
+        
+        return StringHelper.toString(statusMessageTexts, "<br />");
+    }
+    
+    public String getStatusMessageColor() {
+        return (statusToUser == null || statusToUser.isEmpty()) ? "info" : statusToUser.get(0).getColor();
     }
     
     /**

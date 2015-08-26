@@ -11,7 +11,9 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -57,7 +59,7 @@ public class InstructorCoursesPageAction extends Action {
         
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (allCourses.size() == 0 ){
-            statusToUser.add(Const.StatusMessages.COURSE_EMPTY);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
         
         /* Explanation: We must set this variable. It is the text that will 

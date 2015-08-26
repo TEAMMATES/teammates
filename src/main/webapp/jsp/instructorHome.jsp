@@ -18,9 +18,7 @@
         <home:sort isSortButtonsDisabled="${data.unarchivedCoursesCount <= 1}"/>
         <br />
         <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
-            <home:coursePanel courseTable="${courseTable}" index="${i.index}">
-                <home:courseTable sessionRows="${courseTable.rows}" />
-            </home:coursePanel>
+            <home:coursePanel courseTable="${courseTable}" index="${i.index}" />
         </c:forEach>
         <ti:copyModal />
     </c:if>

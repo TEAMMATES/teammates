@@ -294,7 +294,12 @@ function prepareRubricQuestions() {
         $($rubricRadioInputs[i]).on('change', function() {
                 // Update all radio inputs in the same row.
                 var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
+                var tableRow = $(this).closest('tr');
 
+                if (tableRow.hasClass('row-answered')) {
+                    tableRow.removeClass('row-answered');
+                }
+                
                 for (var j = 0; j < $rowRadioInputs.length; j++) {
                     updateRubricCellSelectedColor($rowRadioInputs[j]);
                 }
@@ -312,11 +317,16 @@ function prepareRubricQuestions() {
  *  Updates the colour of a rubric cell if it is checked.
  */
 function updateRubricCellSelectedColor(radioInput) {
+
+    var cell = $(radioInput).parent();
+    var tableRow = cell.parent();
+
     if ($(radioInput).prop('checked')) {
-        $(radioInput).parent().addClass('cell-selected');
+        cell.addClass('cell-selected');
+        tableRow.addClass('row-answered');
     } else {
-        if ($(radioInput).parent().hasClass('cell-selected')) {
-            $(radioInput).parent().removeClass('cell-selected');
+        if (cell.hasClass('cell-selected')) {
+            cell.removeClass('cell-selected');
         }
     }
 }

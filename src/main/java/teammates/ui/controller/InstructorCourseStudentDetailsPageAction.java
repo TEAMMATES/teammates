@@ -6,6 +6,8 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesPageAction {
@@ -23,7 +25,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
         if (student == null) {
-            statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_COURSE_DETAILS);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_COURSE_DETAILS, StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
@@ -61,12 +63,12 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         if (student.googleId.isEmpty()) {
             if (!hasExistingStatus) {
-                statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS, StatusMessageColor.WARNING));
             }
         } else if (!currentInstructor.isAllowedForPrivilege(student.section, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
             if (!hasExistingStatus) {
-                statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR, StatusMessageColor.WARNING));
             }
         } else {
             studentProfile = logic.getStudentProfile(student.googleId);

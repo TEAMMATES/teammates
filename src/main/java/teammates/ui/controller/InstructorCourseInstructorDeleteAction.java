@@ -6,6 +6,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -41,12 +43,12 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         if (!lastCanModifyInstructor) {
             logic.deleteInstructor(courseId, instructorEmail);
             
-            statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> deleted.<br>";
         } else {
             isError = true;
-            statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, StatusMessageColor.DANGER));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorEmail + "</span>"
                     + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
                     + "as there is only one instructor left to be able to modify instructors.<br>";

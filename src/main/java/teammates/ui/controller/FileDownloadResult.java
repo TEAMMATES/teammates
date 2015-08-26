@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.StatusMessage;
 
 public class FileDownloadResult extends ActionResult {
     
@@ -17,13 +18,13 @@ public class FileDownloadResult extends ActionResult {
 
     public FileDownloadResult(String destination, AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
-            List<String> status) {
+            List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
     }
     
     public FileDownloadResult(
             String destination, AccountAttributes account,
-            Map<String, String[]> parametersFromPreviousRequest, List<String> status, 
+            Map<String, String[]> parametersFromPreviousRequest, List<StatusMessage> status, 
             String fileName, String fileContent) {
         super(destination, account, parametersFromPreviousRequest, status);
         this.fileName = fileName;

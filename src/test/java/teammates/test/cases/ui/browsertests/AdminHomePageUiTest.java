@@ -204,7 +204,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         feedbackEditPage.editFeedbackSession(feedbackSession.startTime, 
                                              feedbackSession.endTime,
                                              new Text("updated instructions"),
-                                             feedbackSession.gracePeriod);        
+                                             feedbackSession.gracePeriod);
+        feedbackEditPage.reloadPage();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
         
         

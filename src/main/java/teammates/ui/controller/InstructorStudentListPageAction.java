@@ -11,6 +11,8 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
@@ -43,7 +45,7 @@ public class InstructorStudentListPageAction extends Action {
         });
 
         if (courses.size() == 0) {
-            statusToUser.add(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
         }
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();

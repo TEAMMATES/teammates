@@ -47,7 +47,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     
     @Test 
     public void allTests() throws Exception {
-        testConent();
+        testContent();
         testCommentToWholeCourse();
         testTableSort();
         //No input validation required
@@ -56,7 +56,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testDeleteAction();
     }
 
-    public void testConent() throws Exception {
+    public void testContent() throws Exception {
         
         ______TS("content: no students");
         

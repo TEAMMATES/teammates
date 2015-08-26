@@ -7,6 +7,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.controller.InstructorFeedbackResultsPageData.ViewType;
@@ -120,7 +122,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                    && !sortType.equals("question");
         if (selectedSection.equals(ALL_SECTION_OPTION) && (isShowSectionWarningForParticipantView
                                                            || isShowSectionWarningForQuestionView)) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING, StatusMessageColor.WARNING));
             isError = true;
         }
         

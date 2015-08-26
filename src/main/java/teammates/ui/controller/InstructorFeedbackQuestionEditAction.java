@@ -16,6 +16,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackQuestionEditAction extends Action {
@@ -64,7 +66,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
     private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
         logic.deleteFeedbackQuestionWithResponseRateCheck(updatedQuestion.getId());
-        statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">("
                         + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                         + updatedQuestion.courseId + "]</span> deleted.<br>";
@@ -75,31 +77,41 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
         
         if (!err.isEmpty()) {
-            statusToUser.add(err);
+            statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
             isError = true;
         }
         
         if (updatedQuestion.questionNumber != 0) { // Question number was updated
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
+            List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
+            
+            for (String error : questionDetailsErrors) {
+                questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
+            }
             
             // if error is not empty not tested as extractFeedbackQuestionData method uses Assumptions to cover it
             if (!questionDetailsErrors.isEmpty()) {
-                statusToUser.addAll(questionDetailsErrors);
+                statusToUser.addAll(questionDetailsErrorsMessages);
                 isError = true;
             } else {
                 logic.updateFeedbackQuestionNumber(updatedQuestion);
-                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
             }
         } else {
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
+            List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
+            
+            for (String error : questionDetailsErrors) {
+                questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
+            }
             
             // if error is not empty not tested as extractFeedbackQuestionData method uses Assumptions to cover it
             if (!questionDetailsErrors.isEmpty()) {
-                statusToUser.addAll(questionDetailsErrors);
+                statusToUser.addAll(questionDetailsErrorsMessages);
                 isError = true;
             } else {
                 logic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);    
-                statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
                 statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber 
                                 + " for session:<span class=\"bold\">("
                                 + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["

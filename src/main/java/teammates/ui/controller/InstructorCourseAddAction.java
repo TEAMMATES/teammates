@@ -14,7 +14,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -51,7 +53,14 @@ public class InstructorCourseAddAction extends Action {
         if (isError) { // there is error in adding the course
             CourseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.id);
             CourseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.name);
-            statusToAdmin = StringHelper.toString(statusToUser, "<br>");
+            
+            List<String> statusMessageTexts = new ArrayList<String>();
+            
+            for (StatusMessage msg : statusToUser) {
+                statusMessageTexts.add(msg.getText());
+            }
+            
+            statusToAdmin = StringHelper.toString(statusMessageTexts, "<br>");
         } else {
             statusToAdmin = "Course added : " + newCourse.id;
             statusToAdmin += "<br>Total courses: " + allCourses.size();
@@ -74,7 +83,7 @@ public class InstructorCourseAddAction extends Action {
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
                     data.getInstructorCourseEnrollLink(course.id)).replace("${courseEditLink}",
                     data.getInstructorCourseEditLink(course.id));
-            statusToUser.add(statusMessage);
+            statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             isError = false;
             
         } catch (EntityAlreadyExistsException e) {

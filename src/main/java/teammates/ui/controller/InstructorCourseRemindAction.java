@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -17,7 +18,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -58,18 +61,18 @@ public class InstructorCourseRemindAction extends Action {
                 MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
                 emailsSent.add(emailSent);
                 
-                statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO+studentEmail);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO+studentEmail, StatusMessageColor.SUCCESS));
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
             } else if (instructorEmail != null) {
                 MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
                 emailsSent.add(emailSent);
                 
-                statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail, StatusMessageColor.SUCCESS));
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
             } else {
                 emailsSent = logic.sendRegistrationInviteForCourse(courseId);
                 
-                statusToUser.add(Const.StatusMessages.COURSE_REMINDERS_SENT);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
             }
             

@@ -13,6 +13,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseInstructorEditSaveAction extends Action {
@@ -41,7 +43,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
             }
             
-            statusToUser.add(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                     + "New Name: " + instructorName + "<br>New Email: " + instructorEmail;
