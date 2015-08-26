@@ -328,12 +328,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         responses = getActualResponses(question, bundle);
 
-        //List of teams with at least one response
-        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
-
+        //List of all teams
+        List<String> teamNames = getTeamNames(bundle);
+        
         //Each team's member(email) list
         Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
-        
+
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
                 responses, bundle, teamNames);
@@ -353,13 +353,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         
         //Check visibility of recipient
         boolean hideRecipient = false;
-        List<String> hiddenRecipients = new ArrayList<String>();//List of recipients to hide
+        
         FeedbackParticipantType type = question.recipientType;
         for(FeedbackResponseAttributes response : responses){
             if (bundle.visibilityTable.get(response.getId())[1] == false &&
                     type != FeedbackParticipantType.SELF &&
                     type != FeedbackParticipantType.NONE) {
-                hiddenRecipients.add(response.recipientEmail);
                 hideRecipient = true;
             }
         }
@@ -371,8 +370,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
-            String name = bundle.emailNameTable.get(email);
-            String team = bundle.emailTeamNameTable.get(email);
+            String name = bundle.roster.getStudentForEmail(email).name;
+            String team = bundle.roster.getStudentForEmail(email).team;
             
             List<String> teamEmails = teamMembersEmail.get(team);
             TeamEvalResult teamResult = teamResults.get(team);
@@ -381,7 +380,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayName = name;
             String displayTeam = team;
             String displayEmail = email;
-            if(hideRecipient == true && hiddenRecipients.contains(email)){
+            if (hideRecipient == true) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
@@ -631,6 +630,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 continue;
             }
             result.add(Integer.toString(subs[i]));
+        }
+        if (result.isEmpty()) {
+            return Integer.toString(Const.INT_UNINITIALIZED);
         }
         Collections.sort(result);
         Collections.reverse(result);
