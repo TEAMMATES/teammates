@@ -41,10 +41,6 @@ import teammates.ui.template.InstructorFeedbackResultsModerationButton;
 
 
 public class InstructorFeedbackResultsPageData extends PageData {
-    private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
-
-    private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
-    private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
     
     // TODO find out why it's 500
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
@@ -464,7 +460,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             moderationButton 
                     = isAllowedToModerate ? buildModerationButtonForGiver(null, normalisedIdentifier, 
                                                     "btn btn-primary btn-xs", 
-                                                    MODERATE_RESPONSES_FOR_GIVER)
+                                                    Const.MODERATE_RESPONSES_FOR_GIVER)
                                           : null;
         } else {
             moderationButton = null;
@@ -520,7 +516,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 secondaryParticipantPanel.setModerationButton(isShowingModerationButton
                                                             ? buildModerationButtonForGiver(null, secondaryParticipantIdentifier, 
                                                                                             "btn btn-default btn-xs", 
-                                                                                            MODERATE_RESPONSES_FOR_GIVER)
+                                                                                            Const.MODERATE_RESPONSES_FOR_GIVER)
                                                             : null);
             }
             
@@ -627,7 +623,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsModerationButton moderationButton 
                                                    = buildModerationButtonForGiver(
                                                          null, participantIdentifier, "btn btn-primary btn-xs", 
-                                                         MODERATE_RESPONSES_FOR_GIVER);
+                                                         Const.MODERATE_RESPONSES_FOR_GIVER);
             participantPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
                                             participantIdentifier, bundle.getNameForEmail(participantIdentifier),
                                             questionTables, 
@@ -666,7 +662,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 sectionPanel.setDisplayingTeamStatistics(true);
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
-                                                    ? DISPLAY_NAME_FOR_DEFAULT_SECTION 
+                                                    ? Const.USER_NOT_IN_A_SECTION 
                                                     : sectionName);
                 break;
             case RECIPIENT_GIVER_QUESTION:
@@ -674,7 +670,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 sectionPanel.setDisplayingTeamStatistics(false);
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
-                                                    ? DISPLAY_NAME_FOR_DEFAULT_SECTION
+                                                    ? Const.USER_NOT_IN_A_SECTION
                                                     : sectionName);
                 break;
             default:
@@ -821,7 +817,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
         sectionPanel.setSectionName(Const.DEFAULT_SECTION);
-        sectionPanel.setSectionNameForDisplay(DISPLAY_NAME_FOR_DEFAULT_SECTION);
+        sectionPanel.setSectionNameForDisplay(Const.USER_NOT_IN_A_SECTION);
         sectionPanel.setLoadSectionResponsesByAjax(true);
         
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);  
@@ -851,7 +847,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         for (String teamMember : teamMembers) {
             InstructorFeedbackResultsModerationButton moderationButton 
                                                    = buildModerationButtonForGiver(null, teamMember, "btn btn-default btn-xs",
-                                                                                   MODERATE_RESPONSES_FOR_GIVER);
+                                                                                   Const.MODERATE_RESPONSES_FOR_GIVER);
             InstructorFeedbackResultsParticipantPanel giverPanel;
             
             if (!viewType.isSecondaryGroupingOfParticipantType()) {
@@ -1335,7 +1331,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 
                 InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForGiver(
                                                                          question, giverIdentifier, 
-                                                                         "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
+                                                                         "btn btn-default btn-xs", Const.MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse 
                     = new InstructorFeedbackResultsResponseRow(giverName, giverTeam, 
                                                                possibleRecipientName, possibleRecipientTeam, 
@@ -1375,7 +1371,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForGiver(
                                                                                  question, possibleGiver, 
                                                                                  "btn btn-default btn-xs", 
-                                                                                 MODERATE_SINGLE_RESPONSE);
+                                                                                 Const.MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse = new InstructorFeedbackResultsResponseRow(
                                                                                     possibleGiverName, possibleGiverTeam, 
                                                                                     recipientName, recipientTeam, 
@@ -1444,7 +1440,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private InstructorFeedbackResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                                       FeedbackResponseAttributes response) {
-        return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
+        return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", Const.MODERATE_SINGLE_RESPONSE);
     }
     
     private InstructorFeedbackResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,

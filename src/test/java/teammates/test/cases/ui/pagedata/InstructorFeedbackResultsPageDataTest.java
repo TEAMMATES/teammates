@@ -44,8 +44,6 @@ import teammates.ui.template.InstructorFeedbackResultsQuestionTable;
 public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase {
     private static final String CHECKBOX_CHECKED_VALUE = "on";
 
-    private static final String NOT_IN_A_SECTION = "Not in a section";
-
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     // logic is used in this page data test, but not other page data tests, because
@@ -283,7 +281,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         ______TS("GQR typical case - verify 'None' Section");
         InstructorFeedbackResultsSectionPanel sectionPanel = sectionPanels.get("None");
-        assertEquals(NOT_IN_A_SECTION, sectionPanel.getSectionNameForDisplay());
+        assertEquals(Const.USER_NOT_IN_A_SECTION, sectionPanel.getSectionNameForDisplay());
         assertEquals("Detailed Responses", sectionPanel.getDetailedResponsesHeaderText());
         verifyKeysOfMap(sectionPanel.getIsTeamWithResponses(), Arrays.asList("Instructors"));
         assertEquals("panel-success", sectionPanel.getPanelClass());
@@ -919,7 +917,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         InstructorFeedbackResultsSectionPanel noneSectionPanel = sectionPanels.get("None");
         
         assertEquals("panel-success", noneSectionPanel.getPanelClass());
-        assertEquals(NOT_IN_A_SECTION, noneSectionPanel.getSectionNameForDisplay());
+        assertEquals(Const.USER_NOT_IN_A_SECTION, noneSectionPanel.getSectionNameForDisplay());
         assertEquals(Const.DEFAULT_SECTION, noneSectionPanel.getSectionName());
         
         Map<String, List<InstructorFeedbackResultsParticipantPanel>> noneSectionprimaryParticipantPanelsMap = noneSectionPanel.getParticipantPanels();
@@ -1084,7 +1082,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         InstructorFeedbackResultsSectionPanel notGroupedByTeamNoneSectionPanel = sectionPanels.get("None");
         
         assertEquals("panel-success", notGroupedByTeamNoneSectionPanel.getPanelClass());
-        assertEquals(NOT_IN_A_SECTION, notGroupedByTeamNoneSectionPanel.getSectionNameForDisplay());
+        assertEquals(Const.USER_NOT_IN_A_SECTION, notGroupedByTeamNoneSectionPanel.getSectionNameForDisplay());
         assertEquals("None", notGroupedByTeamNoneSectionPanel.getSectionName());
         
         Map<String, List<InstructorFeedbackResultsParticipantPanel>> notGroupedByTeamNoneSectionPrimaryParticipantPanelsMap = notGroupedByTeamNoneSectionPanel.getParticipantPanels();
@@ -1233,7 +1231,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         InstructorFeedbackResultsSectionPanel noneSectionPanel = sectionPanels.get("None");
         
         assertEquals("panel-success", noneSectionPanel.getPanelClass());
-        assertEquals(NOT_IN_A_SECTION, noneSectionPanel.getSectionNameForDisplay());
+        assertEquals(Const.USER_NOT_IN_A_SECTION, noneSectionPanel.getSectionNameForDisplay());
         assertEquals(Const.DEFAULT_SECTION, noneSectionPanel.getSectionName());
         
         Map<String, List<InstructorFeedbackResultsParticipantPanel>> noneSectionprimaryParticipantPanelsMap = noneSectionPanel.getParticipantPanels();
@@ -1398,7 +1396,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         InstructorFeedbackResultsSectionPanel notGroupedByTeamNoneSectionPanel = sectionPanels.get("None");
         
         assertEquals("panel-success", notGroupedByTeamNoneSectionPanel.getPanelClass());
-        assertEquals(NOT_IN_A_SECTION, notGroupedByTeamNoneSectionPanel.getSectionNameForDisplay());
+        assertEquals(Const.USER_NOT_IN_A_SECTION, notGroupedByTeamNoneSectionPanel.getSectionNameForDisplay());
         assertEquals("None", notGroupedByTeamNoneSectionPanel.getSectionName());
         
         Map<String, List<InstructorFeedbackResultsParticipantPanel>> notGroupedByTeamNoneSectionPrimaryParticipantPanelsMap = notGroupedByTeamNoneSectionPanel.getParticipantPanels();
