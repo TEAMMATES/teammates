@@ -281,7 +281,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
-            if(hideRecipient == true){
+            if (hideRecipient == true) {
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
