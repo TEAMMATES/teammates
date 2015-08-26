@@ -26,10 +26,10 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
     
     @Test 
     public void allTests() throws Exception {
-        testConent();
+        testContent();
     }
 
-    private void testConent() {
+    private void testContent() {
         
         ______TS("content: typical case");
         

@@ -4,6 +4,8 @@ import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailTrashDeleteAction extends Action {
@@ -19,10 +21,10 @@ public class AdminEmailTrashDeleteAction extends Action {
             try {
                 logic.deleteAllEmailsInTrashBin();
                 statusToAdmin = "All emails in trash bin has been deleted";
-                statusToUser.add("All emails in trash bin has been deleted");
+                statusToUser.add(new StatusMessage("All emails in trash bin has been deleted", StatusMessageColor.SUCCESS));
             } catch (BlobstoreFailureException e){
                 statusToAdmin = "Blobstore connection failure";
-                statusToUser.add("Blobstore connection failure");
+                statusToUser.add(new StatusMessage("Blobstore connection failure", StatusMessageColor.DANGER));
             }
         }     
         

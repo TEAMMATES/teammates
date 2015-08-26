@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailTrashAction extends Action {
@@ -27,7 +29,7 @@ public class AdminEmailTrashAction extends Action {
         
         if(emailId == null || emailId.isEmpty()){
             statusToAdmin = "Invalid parameter : email id cannot be null or empty";
-            statusToUser.add("Invalid parameter : email id cannot be null or empty");
+            statusToUser.add(new StatusMessage("Invalid parameter : email id cannot be null or empty", StatusMessageColor.DANGER));
             return createRedirectResult(redirect);     
         }
         
@@ -35,7 +37,7 @@ public class AdminEmailTrashAction extends Action {
             try {
                 logic.moveAdminEmailToTrashBin(emailId);
                 statusToAdmin = "Email with id" + emailId + " has been moved to trash bin";
-                statusToUser.add("The item has been moved to trash bin");
+                statusToUser.add(new StatusMessage("The item has been moved to trash bin", StatusMessageColor.SUCCESS));
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 setStatusForException(e, "An error has occurred when moving email to trash bin");
             }
@@ -46,7 +48,7 @@ public class AdminEmailTrashAction extends Action {
             try {
                 logic.moveAdminEmailOutOfTrashBin(emailId);
                 statusToAdmin = "Email with id" + emailId + " has been moved out of trash bin";
-                statusToUser.add("The item has been moved out of trash bin");
+                statusToUser.add(new StatusMessage("The item has been moved out of trash bin", StatusMessageColor.SUCCESS));
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 setStatusForException(e, "An error has occurred when moving email out of trash bin");
             }

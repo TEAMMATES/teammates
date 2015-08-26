@@ -447,6 +447,13 @@ public class CoursesLogic {
         
         return cdd;
     }
+    
+    public CourseSummaryBundle getCourseSummaryWithFeedbackSessionsForInstructor(
+            InstructorAttributes instructor) throws EntityDoesNotExistException {
+        CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(instructor.courseId);
+        courseSummary.feedbackSessions.addAll(feedbackSessionsLogic.getFeedbackSessionListForInstructor(instructor));
+        return courseSummary;
+    }
 
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
@@ -573,19 +580,7 @@ public class CoursesLogic {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, 
                                                                                                omitArchived);
-        
         HashMap<String, CourseSummaryBundle> courseList = getCourseSummaryWithoutStatsForInstructor(instructorList);
-        
-
-        List<FeedbackSessionAttributes> feedbackSessionList = 
-                feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
-        
-        for (FeedbackSessionAttributes fsb : feedbackSessionList) {
-            CourseSummaryBundle courseSummary = courseList.get(fsb.courseId);
-            if (courseSummary != null) {
-                courseSummary.feedbackSessions.add(fsb);
-            }
-        }
         return courseList;
     }
     

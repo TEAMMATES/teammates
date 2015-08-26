@@ -61,6 +61,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public String getFeedbackSessionName() {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
+    
+    @Override
+    public void waitForPageToLoad() {
+        super.waitForPageToLoad();
+        // results page has panels that are loaded by ajax,
+        // and these panels collapse when their contents are loaded
+        waitForPanelsToCollapse();
+    }
+    
+    /**
+     * Waits until the page structure is loaded. 
+     * Does not wait for all the content that are loaded by ajax to load.
+     */
+    public void waitForPageStructureToLoad() {
+        super.waitForPageToLoad();
+    }
 
     public boolean isCorrectPage(String courseId, String feedbackSessionName) {
         boolean isCorrectCourseId = this.getCourseId().equals(courseId);
@@ -133,8 +149,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public InstructorFeedbackEditPage clickEditLink() {
         WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
         button.click();
-        waitForPageToLoad();
-        return changePageType(InstructorFeedbackEditPage.class);
+        
+        InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class); 
+        editPage.waitForPageToLoad();
+        return editPage;
     }
 
     public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
@@ -400,6 +418,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<WebElement> participantPanels = instructorPanelBody
                                                  .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
         return participantPanels.size();
+    }
+    
+    public void waitForPanelsToCollapse() {
+        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
+        waitForElementsVisibility(panelBodies);
+        ThreadHelper.waitFor(1000);
     }
 
 }

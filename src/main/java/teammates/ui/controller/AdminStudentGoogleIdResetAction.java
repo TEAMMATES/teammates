@@ -4,6 +4,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
@@ -34,7 +36,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
                 logic.sendRegistrationInviteToStudentAfterGoogleIdReset(studentCourseId, studentEmail);
             } catch (InvalidParametersException e) {
-                statusToUser.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL, StatusMessageColor.DANGER));
                 statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>" +
                                 "Email: " + studentEmail + "<br>" +
                                 "CourseId: " + studentCourseId + "<br>" + 
@@ -47,9 +49,9 @@ public class AdminStudentGoogleIdResetAction extends Action {
      
             if(updatedStudent.googleId == null || updatedStudent.googleId.isEmpty()){
                 
-                statusToUser.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET);
-                statusToUser.add("Email : " + studentEmail);
-                statusToUser.add("CourseId : " + studentCourseId);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET, StatusMessageColor.SUCCESS));
+                statusToUser.add(new StatusMessage("Email : " + studentEmail, StatusMessageColor.SUCCESS));
+                statusToUser.add(new StatusMessage("CourseId : " + studentCourseId, StatusMessageColor.SUCCESS));
                 
                 statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>" +
                                 "Email: " + studentEmail + "<br>" +
@@ -63,7 +65,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
                 deleteAccountIfNeeded(wrongGoogleId);
             } else {
                 data.isGoogleIdReset = false;
-                statusToUser.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL, StatusMessageColor.DANGER));
                 statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>" +
                                 "Email: " + studentEmail + "<br>" +
                                 "CourseId: " + studentCourseId + "<br>";

@@ -7,5 +7,9 @@
 </c:set>
 
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
-    <results:byQuestionResults isShowingAll="${data.bundle.complete}" isPanelsCollapsed="${data.shouldCollapsed}" questionPanels="${data.questionPanels}" />    
+    <%-- Responses are displayed when only a single question is loaded, 
+         otherwise it is loaded through ajax. See /js/instructorFeedbackResultsAjaxByQuestion.js --%>
+    <results:byQuestionResults isShowingResponses="${!data.largeNumberOfRespondents}" 
+                               isPanelsCollapsed="${data.shouldCollapsed}" 
+                               questionPanels="${data.questionPanels}" />    
 </results:resultsPage>

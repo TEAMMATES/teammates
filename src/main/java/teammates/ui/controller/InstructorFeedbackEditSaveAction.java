@@ -10,7 +10,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails.EmailType;
 
@@ -42,7 +44,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
         
         try {
             logic.updateFeedbackSession(feedbackSession);
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "Updated Feedback Session "
                     + "<span class=\"bold\">(" + feedbackSession.feedbackSessionName + ")</span> for Course "
@@ -52,11 +54,14 @@ public class InstructorFeedbackEditSaveAction extends Action {
                     + "<br><span class=\"bold\">Session visible from:</span> " + feedbackSession.sessionVisibleFromTime
                     + "<br><span class=\"bold\">Results visible from:</span> " + feedbackSession.resultsVisibleFromTime
                     + "<br><br><span class=\"bold\">Instructions:</span> " + feedbackSession.instructions;
+            data.setStatusForAjax(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+            data.setHasError(false);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
+            data.setStatusForAjax(e.getMessage());
+            data.setHasError(true);
         }
-        
-        return createRedirectResult(data.getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        return createAjaxResult(data);
     }
     
     private FeedbackSessionAttributes extractFeedbackSessionData() {

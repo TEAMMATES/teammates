@@ -284,16 +284,16 @@ public class InstructorHomePage extends AppPage {
     }
     
     private WebElement getCourseLinkInRow(String elementClassNamePrefix, int rowId){
-        return browser.driver.findElement(By.id("course" + rowId)).findElement(By.className(elementClassNamePrefix));
+        return browser.driver.findElement(By.id("course-" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
 
     private int getEvaluationRowId(String courseId, String evalName) {
         int courseRowID = getCourseRowId(courseId);
         if (courseRowID == -1)
             return -2;
-        String template = "//div[@id='course%d']//tr[@id='session%d']";
+        String template = "//div[@id='course-%d']//tr[@id='session%d']";
         int max = (Integer) (browser.selenium)
-                .getXpathCount("//div[starts-with(@id, 'course')]//tr");
+                .getXpathCount("//div[starts-with(@id, 'course-')]//tr");
         for (int id = 0; id < max; id++) {
             if (getElementText(
                     By.xpath(String.format(template + "//td[1]", courseRowID,
@@ -306,9 +306,9 @@ public class InstructorHomePage extends AppPage {
     
     private int getCourseRowId(String courseId) {
         int id = 0;
-        while (isElementPresent(By.id("course" + id))) {
+        while (isElementPresent(By.id("course-" + id))) {
             if (getElementText(
-                    By.xpath("//div[@id='course" + id
+                    By.xpath("//div[@id='course-" + id
                             + "']//strong"))
                     .startsWith("[" + courseId + "]")) {
                 return id;

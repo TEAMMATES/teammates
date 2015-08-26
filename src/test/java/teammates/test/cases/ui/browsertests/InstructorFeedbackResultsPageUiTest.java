@@ -78,21 +78,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-
+        resultsPage.waitForPanelsToCollapse();
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
+        resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
 
     }
@@ -178,7 +181,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         // By question
         resultsPage.displayByQuestion();
+        
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestion.html");
+        
 
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
@@ -289,7 +294,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "Open Session", true, "question");
 
         resultsPage.clickAjaxPanel(0);
-
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
 
         ______TS("Typical case: test view photo for view by questions");
@@ -412,15 +416,21 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: panels expand/collapse");
 
-        assertEquals(resultsPage.collapseExpandButton.getText(), "Collapse Questions");
+        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
 
         resultsPage.clickCollapseExpand();
-        assertEquals(resultsPage.collapseExpandButton.getText(), "Expand Questions");
+        assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
 
         resultsPage.clickCollapseExpand();
-        assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse Questions");
+        assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
+        assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
+                     resultsPage.collapseExpandButton.getAttribute("data-original-title"));
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
 
     }
@@ -566,31 +576,40 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        Url resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+        resultsPage.waitForPageToLoad();
+        return resultsPage;
     }
 
     private InstructorFeedbackResultsPage
             loginToInstructorFeedbackResultsPageWithViewType(String instructorName, String fsName,
                                                              boolean needAjax, String viewType) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        Url resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
 
         if (needAjax) {
-            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,
+            resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,
                                         String.valueOf(needAjax));
         }
 
         if (viewType != null) {
-            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
+            resultsUrl = resultsUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
+        InstructorFeedbackResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorFeedbackResultsPage.class);
+        if (needAjax) {
+            resultsPage.waitForPageStructureToLoad();
+        } else {
+            resultsPage.waitForPageToLoad();
+        }
+        
+        return resultsPage;
     }
 
     private void verifySortingOrder(By sortIcon, String... values) {

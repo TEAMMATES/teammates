@@ -314,6 +314,7 @@ public class Const {
         public static final String SHOW_COMMENT_BOX = "addComment";
         
         public static final String COURSE_SORTING_CRITERIA = "sortby";
+        public static final String COURSE_TO_LOAD = "coursetoload";
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
@@ -463,10 +464,12 @@ public class Const {
         public static final String TEAMMATES = "teammates";
     
         public static final String STATUS_MESSAGE = "message";
+        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
         public static final String HINT = "hint";
+        public static final String FEEDBACK_SESSION_NOT_VISIBLE = "feedbacksessionnotvisible";
     
         public static final String LOGIN_ADMIN = "admin";
         public static final String LOGIN_INSTRUCTOR = "instructor";
@@ -722,6 +725,7 @@ public class Const {
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
         public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp";
+        public static final String INSTRUCTOR_HOME_AJAX_COURSE_TABLE = "/jsp/instructorHomeAjaxCourse.jsp";
         public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD = "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/jsp/instructorFeedbackResponseCommentsLoad.jsp";
@@ -779,6 +783,7 @@ public class Const {
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
+        public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp"; 
         
         public static final String MASHUP = "/dev/mashup.jsp";
     
@@ -1173,6 +1178,7 @@ public class Const {
     
     
     public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
+    public static enum StatusMessageColor{INFO, SUCCESS, WARNING, DANGER};
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
     

@@ -41,12 +41,18 @@ import teammates.ui.template.InstructorFeedbackResultsModerationButton;
 
 
 public class InstructorFeedbackResultsPageData extends PageData {
+    private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "Not in a section";
+
+    private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
+    private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
     
     // TODO find out why it's 500
     private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
+    private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
-    public static final String ALL_SECTION_OPTION = "All";
-
+    // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
+    private boolean isLargeNumberOfRespondents = false;
+    
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
     private List<String> sections = null;
@@ -80,7 +86,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type, 
     // rather than an enum determining behavior in many methods
     private ViewType viewType;
-    public enum ViewType {
+    enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER, RECIPIENT_GIVER_QUESTION, GIVER_RECIPIENT_QUESTION;
         
         public String toString() {
@@ -131,11 +137,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
         questionPanels = new ArrayList<InstructorFeedbackResultsQuestionTable>();
         
+        // if there is more than one question, we omit generation of responseRows,
+        // and load them by ajax question by question
+        boolean isLoadingStructureOnly = questionToResponseMap.size() > 1;
+                                        
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionToResponseMap.entrySet()) {
             FeedbackQuestionAttributes question = entry.getKey();
             List<FeedbackResponseAttributes> responses = entry.getValue();
             
-            questionPanels.add(buildQuestionTableAndResponseRows(question, responses, ""));
+            InstructorFeedbackResultsQuestionTable questionPanel;
+            if (isLoadingStructureOnly) {
+                questionPanel = buildQuestionTableWithoutResponseRows(question, responses, ""); 
+                questionPanel.setHasResponses(false);
+            } else {
+                questionPanel = buildQuestionTableAndResponseRows(question, responses, "");
+            }
+            
+            questionPanels.add(questionPanel);
         }
         
     }
@@ -460,7 +478,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             moderationButton 
                     = isAllowedToModerate ? buildModerationButtonForGiver(null, normalisedIdentifier, 
                                                     "btn btn-primary btn-xs", 
-                                                    Const.MODERATE_RESPONSES_FOR_GIVER)
+                                                    MODERATE_RESPONSES_FOR_GIVER)
                                           : null;
         } else {
             moderationButton = null;
@@ -516,7 +534,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 secondaryParticipantPanel.setModerationButton(isShowingModerationButton
                                                             ? buildModerationButtonForGiver(null, secondaryParticipantIdentifier, 
                                                                                             "btn btn-default btn-xs", 
-                                                                                            Const.MODERATE_RESPONSES_FOR_GIVER)
+                                                                                            MODERATE_RESPONSES_FOR_GIVER)
                                                             : null);
             }
             
@@ -623,7 +641,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsModerationButton moderationButton 
                                                    = buildModerationButtonForGiver(
                                                          null, participantIdentifier, "btn btn-primary btn-xs", 
-                                                         Const.MODERATE_RESPONSES_FOR_GIVER);
+                                                         MODERATE_RESPONSES_FOR_GIVER);
             participantPanel = new InstructorFeedbackResultsGroupByQuestionPanel(
                                             participantIdentifier, bundle.getNameForEmail(participantIdentifier),
                                             questionTables, 
@@ -662,7 +680,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 sectionPanel.setDisplayingTeamStatistics(true);
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
-                                                    ? Const.USER_NOT_IN_A_SECTION 
+                                                    ? DISPLAY_NAME_FOR_DEFAULT_SECTION 
                                                     : sectionName);
                 break;
             case RECIPIENT_GIVER_QUESTION:
@@ -670,7 +688,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 sectionPanel.setDisplayingTeamStatistics(false);
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
-                                                    ? Const.USER_NOT_IN_A_SECTION
+                                                    ? DISPLAY_NAME_FOR_DEFAULT_SECTION
                                                     : sectionName);
                 break;
             default:
@@ -817,7 +835,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
         sectionPanel.setSectionName(Const.DEFAULT_SECTION);
-        sectionPanel.setSectionNameForDisplay(Const.USER_NOT_IN_A_SECTION);
+        sectionPanel.setSectionNameForDisplay(DISPLAY_NAME_FOR_DEFAULT_SECTION);
         sectionPanel.setLoadSectionResponsesByAjax(true);
         
         sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);  
@@ -847,7 +865,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         for (String teamMember : teamMembers) {
             InstructorFeedbackResultsModerationButton moderationButton 
                                                    = buildModerationButtonForGiver(null, teamMember, "btn btn-default btn-xs",
-                                                                                   Const.MODERATE_RESPONSES_FOR_GIVER);
+                                                                                   MODERATE_RESPONSES_FOR_GIVER);
             InstructorFeedbackResultsParticipantPanel giverPanel;
             
             if (!viewType.isSecondaryGroupingOfParticipantType()) {
@@ -1003,9 +1021,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                               List<FeedbackResponseAttributes> responses,
                                                               String additionalInfoId, 
                                                               String participantIdentifier, boolean isShowingResponseRows) {
-        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
-        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, this, 
-                                                                                 bundle, viewType.toString());
 
         List<ElementTag> columnTags = new ArrayList<ElementTag>();
         Map<String, Boolean> isSortable = new HashMap<String, Boolean>();
@@ -1035,10 +1050,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
         
-        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(this, 
-                                                                        responses, statisticsTable, 
-                                                                        responseRows, question, additionalInfoId, 
+        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
+        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, this, 
+                                                                                 bundle, viewType.toString());
+        
+        String questionText = questionDetails.getQuestionText();
+        String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
+        
+        InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable( 
+                                                                        !responses.isEmpty(), statisticsTable, 
+                                                                        responseRows, question, 
+                                                                        questionText, additionalInfoText, 
                                                                         columnTags, isSortable);
+        if (viewType == ViewType.QUESTION) {
+            // setup classes, for loading responses by ajax
+            // ajax_submit: user needs to click on the panel to load
+            // ajax_auto: responses are loaded automatically
+            questionTable.setAjaxClass(isLargeNumberOfResponses()
+                                     ? " ajax_submit" 
+                                     : " ajax_auto");
+        }
         questionTable.setShowResponseRows(isShowingResponseRows);
         questionTable.setCollapsible(isCollapsible);
         
@@ -1331,7 +1362,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 
                 InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForGiver(
                                                                          question, giverIdentifier, 
-                                                                         "btn btn-default btn-xs", Const.MODERATE_SINGLE_RESPONSE);
+                                                                         "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse 
                     = new InstructorFeedbackResultsResponseRow(giverName, giverTeam, 
                                                                possibleRecipientName, possibleRecipientTeam, 
@@ -1371,7 +1402,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForGiver(
                                                                                  question, possibleGiver, 
                                                                                  "btn btn-default btn-xs", 
-                                                                                 Const.MODERATE_SINGLE_RESPONSE);
+                                                                                 MODERATE_SINGLE_RESPONSE);
                 InstructorFeedbackResultsResponseRow missingResponse = new InstructorFeedbackResultsResponseRow(
                                                                                     possibleGiverName, possibleGiverTeam, 
                                                                                     recipientName, recipientTeam, 
@@ -1440,7 +1471,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private InstructorFeedbackResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                                       FeedbackResponseAttributes response) {
-        return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", Const.MODERATE_SINGLE_RESPONSE);
+        return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
     }
     
     private InstructorFeedbackResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
@@ -1629,8 +1660,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
-    private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtons(
-                                                                       Map<String, String> emailNameTable) {
+    private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtons() {
         Map<String, InstructorFeedbackResultsModerationButton> moderationButtons = new HashMap<>();
         for (String giverIdentifier : bundle.responseStatus.emailNameTable.keySet()) {
             boolean isStudent = bundle.isParticipantIdentifierStudent(giverIdentifier);
@@ -1751,7 +1781,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public boolean isAllSectionsSelected() {
-        return ALL_SECTION_OPTION.equals(selectedSection);
+        return "All".equals(selectedSection);
     }
     
     // TODO: place below getter methods for template objects in some init method common to all views
@@ -1769,7 +1799,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
-                                        buildModerateButtons(bundle.emailNameTable));
+                                                            buildModerateButtons());
     }
 
     public void setSections(List<String> sections) {
@@ -1787,4 +1817,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public void setSessionResultsHtmlTableAsString(String sessionResultsHtmlTableAsString) {
         this.sessionResultsHtmlTableAsString = sessionResultsHtmlTableAsString;
     }
+    
+    public boolean isLargeNumberOfResponses() {
+        return (viewType == ViewType.QUESTION && isLargeNumberOfRespondents() && isAllSectionsSelected())
+             || !bundle.isComplete;
+    }
+    
+    public boolean isLargeNumberOfRespondents() {
+        int numRespondents = (bundle.feedbackSession.respondingInstructorList.size() 
+                           + bundle.feedbackSession.respondingStudentList.size());
+        return isLargeNumberOfRespondents 
+            || numRespondents > RESPONDENTS_LIMIT_FOR_AUTOLOADING;
+    }
+
+    
+    // Only used for testing the ui
+    public void setLargeNumberOfRespondents(boolean needAjax) {
+        this.isLargeNumberOfRespondents = needAjax;
+    }
+    
 }

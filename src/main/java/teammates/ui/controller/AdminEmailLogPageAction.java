@@ -14,6 +14,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailLogPageAction extends Action {
@@ -69,7 +71,7 @@ public class AdminEmailLogPageAction extends Action {
             query.majorVersionIds(getVersionIdsForQuery(versions));
         } catch (Exception e) {
             isError = true;
-            statusToUser.add(e.getMessage());
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
         }
         
         if (offset != null && !offset.equals("null")) {
@@ -186,7 +188,8 @@ public class AdminEmailLogPageAction extends Action {
         }
         
         data.setStatusForAjax(status);
-        statusToUser.add(status);
+        statusToUser.add(new StatusMessage(status, 
+                           totalLogsSearched >= MAX_LOGSEARCH_LIMIT ? StatusMessageColor.WARNING : StatusMessageColor.INFO));
         
         return emailLogs;
     }

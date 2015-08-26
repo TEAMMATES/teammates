@@ -30,6 +30,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
@@ -121,6 +122,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEmpty.html");
+        
+        ______TS("Not yet visible session");
+        
+        FeedbackSessionNotVisiblePage fsNotVisiblePage;
+        fsNotVisiblePage = loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible("Alice", "Not Yet Visible Session");
+        fsNotVisiblePage.verifyHtmlMainContent("/studentFeedbackSubmitPageNotYetVisible.html");
+        
     }
 
     private void testSubmitAction() {
@@ -509,7 +517,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         return AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
     }
-
+    
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
         Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
@@ -517,6 +525,15 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
 
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+    }
+    
+    private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
+        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                        .withUserId(testData.students.get(studentName).googleId)
+                                        .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                                        .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+
+        return loginAdminToPage(browser, editUrl, FeedbackSessionNotVisiblePage.class);
     }
 
     private void moveToTeam(StudentAttributes student, String newTeam) {

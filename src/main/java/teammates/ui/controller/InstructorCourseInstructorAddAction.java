@@ -14,6 +14,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -43,8 +45,8 @@ public class InstructorCourseInstructorAddAction extends Action {
             InstructorAttributes newInstructor = logic.createInstructor(instructorToAdd);
             logic.sendRegistrationInviteToInstructor(courseId, newInstructor);
 
-            statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
-                    instructorName, instructorEmail));
+            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
+                                                               instructorName, instructorEmail), StatusMessageColor.SUCCESS));
             statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
         } catch (EntityAlreadyExistsException e) {
