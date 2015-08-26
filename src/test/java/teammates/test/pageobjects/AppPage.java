@@ -744,7 +744,8 @@ public abstract class AppPage {
     }
     
     public static String processPageSourceForFailureCase(String content) {
-        return processPageSourceForGodMode(content)// jQuery local
+        return processPageSourceForGodMode(content)
+                // jQuery local
                 .replace("&#x2f;js&#x2f;lib&#x2f;jquery.min.js", "{*}&#x2f;jquery.min.js")
                 // jQuery CDN
                 .replace("https:&#x2f;&#x2f;ajax.googleapis.com&#x2f;ajax&#x2f;libs&#x2f;jquery&#x2f;1.11.3&#x2f;jquery.min.js", "{*}&#x2f;jquery.min.js")
