@@ -684,6 +684,31 @@
             "showRecipientNameTo":[
                 "RECEIVER"
             ]
+        },
+        "qn10InSession2": {
+            "feedbackSessionName": "Second Session",
+            "courseId": "CFResultsUiT.CS2104",
+            "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                  "value":"{\"questionText\":\"Rate the contribution of ideas from yourself and your team members in the last meeting.\",
+                            \"questionType\":\"CONTRIB\"}"
+            },
+            "questionNumber": 10,
+            "questionType": "CONTRIB",
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo": -100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "RECEIVER_TEAM_MEMBERS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo": [
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+            ]
         }
     },
     "feedbackResponses":{
@@ -1091,6 +1116,32 @@
             },
             "giverSection":"Section A",
             "recipientSection":"None"
+        },
+        "response20.1":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"10",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 150}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "repsonse20.2":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"10",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 120}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         }
     }
 }

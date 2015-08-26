@@ -1720,6 +1720,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, String>();
         Map<String, String> emailTeamNameTable =
                 new HashMap<String, String>();
+        Map<String, Set<String>> sectionTeamNameTable = 
+                new HashMap<String, Set<String>>();
         Map<String, boolean[]> visibilityTable =
                 new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
@@ -1732,8 +1734,8 @@ public class FeedbackSessionsLogic {
         if (isPrivateSessionNotCreatedByThisUser) {
             // return empty result set
             return new FeedbackSessionResultsBundle(
-                    session, responses, relevantQuestions,
-                    emailNameTable, emailLastNameTable, emailTeamNameTable,
+                    session, responses, relevantQuestions, emailNameTable, 
+                    emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                     visibilityTable, responseStatus, roster, responseComments);
         }
 
@@ -1814,11 +1816,13 @@ public class FeedbackSessionsLogic {
             Collections.sort(responseCommentList,
                     new ResponseCommentCreationDateComparator());
         }
+        
+        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName);
 
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
-                        session, responses, relevantQuestions,
-                        emailNameTable, emailLastNameTable, emailTeamNameTable,
+                        session, responses, relevantQuestions, emailNameTable, 
+                        emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                         visibilityTable, responseStatus, roster, responseComments);
 
         return results;
@@ -1831,7 +1835,6 @@ public class FeedbackSessionsLogic {
         
         boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get("isIncludeResponseStatus"));
         boolean isComplete = (params.get("range") != null) ? false : true;
-
         boolean isFromSection = Boolean.parseBoolean(params.get("fromSection"));
         boolean isToSection = Boolean.parseBoolean(params.get("toSection"));
         boolean isInSection = Boolean.parseBoolean(params.get("inSection"));
@@ -1860,6 +1863,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, String>();
         Map<String, String> emailTeamNameTable =
                 new HashMap<String, String>();
+        Map<String, Set<String>> sectionTeamNameTable = 
+                new HashMap<String, Set<String>>();
         Map<String, boolean[]> visibilityTable =
                 new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
@@ -1879,8 +1884,8 @@ public class FeedbackSessionsLogic {
         if (isPrivateSessionNotCreatedByThisUser) {
             // return empty result set
             return new FeedbackSessionResultsBundle(
-                    session, responses, relevantQuestions,
-                    emailNameTable, emailLastNameTable, emailTeamNameTable,
+                    session, responses, relevantQuestions, emailNameTable, 
+                    emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                     visibilityTable, responseStatus, roster, responseComments);
         }
         
@@ -1953,7 +1958,6 @@ public class FeedbackSessionsLogic {
                         }
                         isVisibleResponse = false;
                     }
-
                 }
             }
             boolean needResponseStatus = questionNumber == QUESTION_NUM_FOR_RESPONSE_RATE;
@@ -1962,10 +1966,13 @@ public class FeedbackSessionsLogic {
                               ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
                               : null;
             }
+            
+            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName);
+            
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
-                            session, responses, relevantQuestions,
-                            emailNameTable, emailLastNameTable, emailTeamNameTable,
+                            session, responses, relevantQuestions, emailNameTable, 
+                            emailLastNameTable, emailTeamNameTable, sectionTeamNameTable, 
                             visibilityTable, responseStatus, roster, responseComments, true);
 
             return results;
@@ -2094,14 +2101,59 @@ public class FeedbackSessionsLogic {
                         new ResponseCommentCreationDateComparator());
             }
         }
-
+        
+        addSectionTeamNamesToTable(sectionTeamNameTable, emailNameTable, roster);
+        
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
-                        session, responses, relevantQuestions,
-                        emailNameTable, emailLastNameTable, emailTeamNameTable,
+                        session, responses, relevantQuestions, emailNameTable, 
+                        emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                         visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
+    }
+    
+    private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
+                                            Map<String, String> emailNameTable, CourseRoster roster) {
+        
+        for (String email : emailNameTable.keySet()) {
+            StudentAttributes student = roster.getStudentForEmail(email);
+            if (student != null) {
+                String section = student.section;
+                if (!sectionTeamNameTable.containsKey(section)) {
+                    Set<String> teamNames = new HashSet<String>();
+                    sectionTeamNameTable.put(section, teamNames);
+                }
+                sectionTeamNameTable.get(section).add(student.team);
+            }
+        }
+    }
+
+    private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
+                                    CourseRoster roster, String courseId, String userEmail, Role role,
+                                    String feedbackSessionName) {
+        InstructorAttributes instructor = null;
+        if (role == Role.INSTRUCTOR) {
+            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        }
+        if (instructor != null) {
+            for (StudentAttributes student : roster.getStudents()) {
+                boolean isVisibleResponse = 
+                        instructor.isAllowedForPrivilege(
+                                           student.section,
+                                           feedbackSessionName, 
+                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                if (isVisibleResponse) {
+                    String section = student.section;
+                    if (!sectionTeamNameTable.containsKey(section)) {
+                        Set<String> teamNames = new HashSet<String>();
+                        sectionTeamNameTable.put(section, teamNames);
+                    }
+                    
+                    sectionTeamNameTable.get(section).add(student.team);
+                }
+            }
+        }
     }
 
     private boolean isResponseVisibleForUser(String userEmail, String courseId,
