@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.util.Sanitizer;
 
 public class InstructorFeedbackResultsQuestionTable {
 
@@ -53,7 +54,7 @@ public class InstructorFeedbackResultsQuestionTable {
         
         this.question = question;
         
-        this.questionText = questionText;
+        this.questionText = Sanitizer.sanitizeForHtml(questionText);
         
         this.panelClass = "panel-info";
         

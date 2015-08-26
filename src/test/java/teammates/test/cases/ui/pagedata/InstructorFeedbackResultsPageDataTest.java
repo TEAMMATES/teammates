@@ -70,7 +70,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String showStats = CHECKBOX_CHECKED_VALUE;
         String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = InstructorFeedbackResultsPageData.ViewType.QUESTION.toString();
-        String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        String selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
@@ -82,7 +82,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         // Verify that the first question table is correct
         InstructorFeedbackResultsQuestionTable questionPanel = questionPanels.get(0);
-        verifyQuestionTableForQuestionView(questionPanel, dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue());
+        verifyQuestionTableStructure(questionPanel);
         
         List<InstructorFeedbackResultsResponseRow> responseRows = questionPanel.getResponses();
         assertEquals(5, responseRows.size());
@@ -159,11 +159,11 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = InstructorFeedbackResultsPageData.ViewType.QUESTION.toString();
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         data.setBundle(logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                instructor.email, 2));
         
-        data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, 
+        data.initForViewByQuestion(instructor, "All", 
                                    CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE);
             
         List<InstructorFeedbackResultsQuestionTable> singleQuestionPanelList = data.getQuestionPanels();
@@ -203,12 +203,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = InstructorFeedbackResultsPageData.ViewType.QUESTION.toString();
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1, "question"));
-        data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE);
+        data.initForViewByQuestion(instructor, "All", CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE);
         assertFalse(data.getBundle().isComplete());
         
         List<InstructorFeedbackResultsQuestionTable> ajaxQuestionPanels = data.getQuestionPanels();
@@ -217,7 +217,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("panel-default", ajaxQuestionPanel.getPanelClass());
         assertTrue(ajaxQuestionPanel.isCollapsible());
         
-        verifyHtmlClass(ajaxQuestionPanel.getResponsesBodyClass(), "panel-collapse", "collapse");
+        verifyHtmlClass(ajaxQuestionPanel.getAjaxClass(), "ajax-submit");
     }
 
     private void verifyModerateButton(InstructorFeedbackResultsModerationButton modButton, String moderateButtonText,
@@ -233,13 +233,18 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         verifyHtmlClass(modButton.getClassName(), "btn", "btn-default", "btn-xs");
     }
+    
+    private void verifyQuestionTableStructure(InstructorFeedbackResultsQuestionTable questionPanel) {
+        verifyHtmlClass(questionPanel.getAjaxClass(), "ajax_auto");
+        assertTrue(questionPanel.getColumns().isEmpty());
+    }
 
     private void verifyQuestionTableForQuestionView(InstructorFeedbackResultsQuestionTable questionPanel, String questionText) {
         assertEquals("panel-info", questionPanel.getPanelClass());
         assertEquals(Sanitizer.sanitizeForHtml(questionText), 
                                         questionPanel.getQuestionText());
         
-        verifyHtmlClass(questionPanel.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        verifyHtmlClass(questionPanel.getAjaxClass(), "ajax_auto");
         assertEquals(6, questionPanel.getColumns().size());
         
         verifyColumns(questionPanel.getColumns(), "Giver", "Team", "Recipient", "Team", "Feedback", "Actions");
@@ -268,7 +273,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String showStats = CHECKBOX_CHECKED_VALUE;
         String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = InstructorFeedbackResultsPageData.ViewType.GIVER_QUESTION_RECIPIENT.toString();
-        String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        String selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
@@ -349,7 +354,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         InstructorFeedbackResultsQuestionTable singleSectionQuestionTable = singleSectionQuestionTables.get(1);
         assertEquals(Sanitizer.sanitizeForHtml("Rate 1 other student's product"), 
                      singleSectionQuestionTable.getQuestionText());
-        verifyHtmlClass(singleSectionQuestionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        assertNull(singleSectionQuestionTable.getAjaxClass());
         
         assertEquals(1, singleSectionQuestionTable.getResponses().size());
         
@@ -404,7 +409,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("panel-info", questionPanel.getPanelClass());
         assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue()), 
                                         questionPanel.getQuestionText());
-        verifyHtmlClass(questionPanel.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        assertNull(questionPanel.getAjaxClass());
         
         verifyColumns(questionPanel.getColumns(), "Photo", "Recipient", "Team", "Feedback");
         verifyKeysOfMap(questionPanel.getIsColumnSortable(),
@@ -434,12 +439,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1000, sortType));
         
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       CHECKBOX_CHECKED_VALUE, null, ViewType.GIVER_QUESTION_RECIPIENT);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupByTeamPanels = data.getSectionPanels();
@@ -490,7 +495,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("panel-info", notGroupByTeamQuestionTable.getPanelClass());
         assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue()), 
                                         notGroupByTeamQuestionTable.getQuestionText());
-        verifyHtmlClass(notGroupByTeamQuestionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        assertNull(questionPanel.getAjaxClass());
         
         verifyColumns(notGroupByTeamQuestionTable.getColumns(), "Photo", "Recipient", "Team", "Feedback");
         verifyKeysOfMap(notGroupByTeamQuestionTable.getIsColumnSortable(),
@@ -531,12 +536,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = CHECKBOX_CHECKED_VALUE;
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1, sortType));
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_QUESTION_RECIPIENT);
         assertFalse(data.getBundle().isComplete());
         
@@ -576,18 +581,18 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
 
     }
 
-    private void verifyQuestionTableForGQR(InstructorFeedbackResultsQuestionTable firstQuestionTable, String dataQuestionId) {
-        assertEquals("panel-info", firstQuestionTable.getPanelClass());
+    private void verifyQuestionTableForGQR(InstructorFeedbackResultsQuestionTable questionTable, String dataQuestionId) {
+        assertEquals("panel-info", questionTable.getPanelClass());
         assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get(dataQuestionId).questionMetaData.getValue()), 
-                                        firstQuestionTable.getQuestionText());
-        verifyHtmlClass(firstQuestionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+                                        questionTable.getQuestionText());
+        assertNull(questionTable.getAjaxClass());
         
-        verifyColumns(firstQuestionTable.getColumns(), "Photo", "Recipient", "Team", "Feedback");
-        verifyKeysOfMap(firstQuestionTable.getIsColumnSortable(),
+        verifyColumns(questionTable.getColumns(), "Photo", "Recipient", "Team", "Feedback");
+        verifyKeysOfMap(questionTable.getIsColumnSortable(),
                         Arrays.asList("Photo", "Recipient", "Team", "Feedback"));
-        verifyTrueValuesInMap(firstQuestionTable.getIsColumnSortable(), 
+        verifyTrueValuesInMap(questionTable.getIsColumnSortable(), 
                               Arrays.asList("Recipient", "Team", "Feedback"));
-        verifyFalseValuesInMap(firstQuestionTable.getIsColumnSortable(), 
+        verifyFalseValuesInMap(questionTable.getIsColumnSortable(), 
                                Arrays.asList("Photo"));
     }
     
@@ -607,13 +612,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String showStats = CHECKBOX_CHECKED_VALUE;
         String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = "recipient-question-giver";
-        String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        String selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1000, sortType));
         
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       showStats, groupByTeam, ViewType.RECIPIENT_QUESTION_GIVER);
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
@@ -648,7 +653,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyFalseValuesInMap(questionPanel.getIsColumnSortable(), 
                                Arrays.asList("Photo", "Actions"));
 
-        verifyHtmlClass(questionPanel.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        assertNull(questionPanel.getAjaxClass());
         
         List<InstructorFeedbackResultsResponseRow> responseRows =  questionPanel.getResponses();
         assertEquals(1, responseRows.size());
@@ -710,7 +715,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("panel-info", singleSectionQuestionTable.getPanelClass());
         assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue()), 
                                         singleSectionQuestionTable.getQuestionText());
-        verifyHtmlClass(singleSectionQuestionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        assertNull(singleSectionQuestionTable.getAjaxClass());
         
         verifyColumns(singleSectionQuestionTable.getColumns(), "Photo", "Giver", "Team", "Feedback", "Actions");
         verifyKeysOfMap(singleSectionQuestionTable.getIsColumnSortable(),
@@ -738,12 +743,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
         sortType = "recipient-question-giver";
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1000, "recipient-question-giver"));
         
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       CHECKBOX_CHECKED_VALUE, null, ViewType.RECIPIENT_QUESTION_GIVER);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupByTeamPanels = data.getSectionPanels();
@@ -794,12 +799,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "recipient-question-giver";
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         // force load by ajax by setting the responses range to 1
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1, "recipient-question-giver"));
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                         CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.RECIPIENT_QUESTION_GIVER);
         assertFalse(data.getBundle().isComplete());
         
@@ -845,7 +850,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("panel-info", questionPanel.getPanelClass());
         assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get(dataQuestionKey).questionMetaData.getValue()), 
                                         questionPanel.getQuestionText());
-        verifyHtmlClass(questionPanel.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        assertNull(questionPanel.getAjaxClass());
         
         verifyColumns(questionPanel.getColumns(), "Photo", "Giver", "Team", "Feedback", "Actions");
         verifyKeysOfMap(questionPanel.getIsColumnSortable(),
@@ -901,12 +906,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String showStats = CHECKBOX_CHECKED_VALUE;
         String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = "recipient-giver-question";
-        String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        String selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1000, sortType));
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       showStats, groupByTeam, ViewType.RECIPIENT_GIVER_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
@@ -1065,12 +1070,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
         sortType = "recipient-giver-question";
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1000, "recipient-giver-question"));
         
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       CHECKBOX_CHECKED_VALUE, null, ViewType.RECIPIENT_GIVER_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupedByTeamSectionPanels = data.getSectionPanels();
@@ -1151,13 +1156,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "recipient-giver-question";
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1, sortType));
         
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                         showStats, groupByTeam, ViewType.RECIPIENT_GIVER_QUESTION);
         assertFalse(data.getBundle().isComplete());
         
@@ -1215,12 +1220,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         String showStats = CHECKBOX_CHECKED_VALUE;
         String groupByTeam = CHECKBOX_CHECKED_VALUE;
         String sortType = "giver-recipient-question";
-        String selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        String selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1000, sortType));
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                         showStats, groupByTeam, ViewType.GIVER_RECIPIENT_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
@@ -1379,12 +1384,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = null;
         sortType = "giver-recipient-question";
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1000, "recipient-giver-question"));
         
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       CHECKBOX_CHECKED_VALUE, null, ViewType.GIVER_RECIPIENT_QUESTION);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupedByTeamSectionPanels = data.getSectionPanels();
@@ -1465,13 +1470,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         showStats = CHECKBOX_CHECKED_VALUE;
         groupByTeam = CHECKBOX_CHECKED_VALUE;
         sortType = "giver-recipient-question";
-        selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        selectedSection = "All";
         
         data.setBundle(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         feedbackSessionName, courseId, instructor.email, 
                                         1, "recipient-giver-question"));
         
-        data.initForSectionPanelViews(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION,
+        data.initForSectionPanelViews(instructor, "All",
                                       CHECKBOX_CHECKED_VALUE, CHECKBOX_CHECKED_VALUE, ViewType.GIVER_RECIPIENT_QUESTION);
         assertFalse(data.getBundle().isComplete());
         
@@ -1566,7 +1571,9 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
     
     private void verifyHtmlClass(String actualHtmlClasses, String... expectedHtmlClasses) {
         for (String expectedHtmlClass : expectedHtmlClasses) {
-            assertTrue(actualHtmlClasses.matches(".*\\b" + expectedHtmlClass + "\\b.*"));
+            if (!actualHtmlClasses.matches(".*\\b" + expectedHtmlClass + "\\b.*")) {
+                assertEquals(expectedHtmlClass, actualHtmlClasses);
+            }
         }
     }
 }
