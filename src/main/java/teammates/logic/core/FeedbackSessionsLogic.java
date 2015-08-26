@@ -2102,7 +2102,7 @@ public class FeedbackSessionsLogic {
             }
         }
         
-        addSectionTeamNamesToTable(sectionTeamNameTable, emailNameTable, roster);
+        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName);
         
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
@@ -2111,22 +2111,6 @@ public class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
-    }
-    
-    private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
-                                            Map<String, String> emailNameTable, CourseRoster roster) {
-        
-        for (String email : emailNameTable.keySet()) {
-            StudentAttributes student = roster.getStudentForEmail(email);
-            if (student != null) {
-                String section = student.section;
-                if (!sectionTeamNameTable.containsKey(section)) {
-                    Set<String> teamNames = new HashSet<String>();
-                    sectionTeamNameTable.put(section, teamNames);
-                }
-                sectionTeamNameTable.get(section).add(student.team);
-            }
-        }
     }
 
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,

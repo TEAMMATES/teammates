@@ -328,12 +328,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         responses = getActualResponses(question, bundle);
 
-        //List of teams with at least one response
+        //List of all teams
         List<String> teamNames = getTeamNames(bundle);
-
+        
         //Each team's member(email) list
         Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
-        
+
         //Each team's responses
         Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
                 responses, bundle, teamNames);
