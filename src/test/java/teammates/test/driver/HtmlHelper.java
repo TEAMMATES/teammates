@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
 import teammates.common.util.Sanitizer;
+import teammates.test.pageobjects.AppPage;
 
 public class HtmlHelper {
 
@@ -32,6 +33,8 @@ public class HtmlHelper {
         String processedActualHtml = convertToStandardHtml(actualString, false);
         
         if(!AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml)){
+            processedActualHtml = AppPage.processPageSourceForFailureCase(processedActualHtml);
+            processedExpectedHtml = AppPage.processPageSourceForFailureCase(processedExpectedHtml);
             assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
         }
     }

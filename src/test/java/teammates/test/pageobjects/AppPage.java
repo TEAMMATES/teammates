@@ -742,8 +742,20 @@ public abstract class AppPage {
             return false;
         }
     }
-
-    private String processPageSourceForGodMode(String content) {
+    
+    public static String processPageSourceForFailureCase(String content) {
+        return processPageSourceForGodMode(content)// jQuery local
+                .replace("&#x2f;js&#x2f;lib&#x2f;jquery.min.js", "{*}&#x2f;jquery.min.js")
+                // jQuery CDN
+                .replace("https:&#x2f;&#x2f;ajax.googleapis.com&#x2f;ajax&#x2f;libs&#x2f;jquery&#x2f;1.11.3&#x2f;jquery.min.js", "{*}&#x2f;jquery.min.js")
+                // jQuery-ui local
+                .replace("&#x2f;js&#x2f;lib&#x2f;jquery-ui.min.js", "{*}&#x2f;jquery-ui.min.js")
+                // jQuery-ui CDN
+                .replace("https:&#x2f;&#x2f;ajax.googleapis.com&#x2f;ajax&#x2f;libs&#x2f;jqueryui&#x2f;1.10.4&#x2f;jquery-ui.min.js", "{*}&#x2f;jquery-ui.min.js");
+    }
+    
+    
+    private static String processPageSourceForGodMode(String content) {
         Date now = new Date();
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
