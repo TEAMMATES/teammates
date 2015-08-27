@@ -57,8 +57,8 @@ Important: When a version is specified, please install that version instead of t
    For now, property values can remain as they are.
    * `.settings/com.google.gdt.eclipse.core.prefs`<br>
    Create it using `com.google.gdt.eclipse.core.template.prefs`.
-   Change all `*` in `jarsExcludedFromWebInfLib` to your TEAMMATES project folder, e.g. `C:/TEAMMATES`.
-   For this example, `*/src/test/resources/lib/appengine/appengine-api-labs.jar` becomes `C:/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar`.
+   In the newly created `com.google.gdt.eclipse.core.prefs` file, replace all the `*` in the value of `jarsExcludedFromWebInfLib` to your TEAMMATES project folder,
+   e.g. `jarsExcludedFromWebInfLib=*/src/test/resources/lib/appengine/appengine-api-labs.jar` becomes `jarsExcludedFromWebInfLib=C:/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if your TEAMMATES project folder is `C:/TEAMMATES`.
 4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.47.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
