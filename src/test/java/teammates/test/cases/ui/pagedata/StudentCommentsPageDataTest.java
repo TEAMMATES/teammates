@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -170,6 +171,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         Map<String, String> emailNameTable = new HashMap<String, String>();
         Map<String, String> emailLastNameTable = new HashMap<String, String>();
         Map<String, String> emailTeamNameTable = new HashMap<String, String>();
+        Map<String, Set<String>> sectionTeamNameTable = new HashMap<String, Set<String>>();
         Map<String, boolean[]> visibilityTable = new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
@@ -187,8 +189,8 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         responseComments.put(response.getId(), responseCommentsList);
         boolean isComplete = true;
         return new FeedbackSessionResultsBundle(
-                session, responses, relevantQuestions,
-                emailNameTable, emailLastNameTable, emailTeamNameTable,
+                session, responses, relevantQuestions, emailNameTable, 
+                emailLastNameTable, emailTeamNameTable, sectionTeamNameTable,
                 visibilityTable, responseStatus, roster, responseComments, isComplete);
     }
 

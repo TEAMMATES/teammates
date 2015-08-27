@@ -53,6 +53,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     // Key is questionId, value is a map of team name to TeamEvalResult
     public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults =
             new HashMap<String, Map<String, TeamEvalResult>>();
+    
+    /* 
+     * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor 
+     * whereas rosterSectionTeamNameTable doesn't. 
+     * As a result, sectionTeamNameTable only contains sections viewable to the logged-in instructor 
+     * whereas rosterSectionTeamNameTable contains all sections in the course.
+     * As sectionTeamNameTable is dependent on instructor privileges, 
+     * it can only be used for instructor pages and not for student pages 
+    */
+    public Map<String, Set<String>> sectionTeamNameTable = null;
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         List<FeedbackResponseAttributes> responses,
@@ -60,12 +70,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                         Map<String, String> emailNameTable,
                                         Map<String, String> emailLastNameTable,
                                         Map<String, String> emailTeamNameTable,
+                                        Map<String, Set<String>> sectionTeamNameTable,
                                         Map<String, boolean[]> visibilityTable,
                                         FeedbackSessionResponseStatus responseStatus,
                                         CourseRoster roster,
                                         Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
         this(feedbackSession, responses, questions, emailNameTable, emailLastNameTable,
-             emailTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
+             emailTeamNameTable, sectionTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
     }
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
@@ -74,6 +85,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                         Map<String, String> emailNameTable,
                                         Map<String, String> emailLastNameTable,
                                         Map<String, String> emailTeamNameTable,
+                                        Map<String, Set<String>> sectionTeamNameTable,
                                         Map<String, boolean[]> visibilityTable,
                                         FeedbackSessionResponseStatus responseStatus,
                                         CourseRoster roster,
@@ -85,6 +97,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
+        this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
         this.roster = roster;
@@ -193,8 +206,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return anonName + "@@" + anonName + ".com";
     }
 
-    public String getAnonEmailFromEmail(String email) {
-        String name = emailNameTable.get(email);
+    public String getAnonEmailFromStudentEmail(String studentEmail) {
+        String name = roster.getStudentForEmail(studentEmail).name;
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
     }
 
