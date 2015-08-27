@@ -16,6 +16,6 @@ $(document).ready(function() {
     var scrolledY = window.scrollY;
 
     if (scrolledY) {
-        window.scroll(0, scrolledY - (parseInt(navbarHeight) + extraPadding));
+        window.scroll(0, scrolledY - (navbarHeight + extraPadding));
     }
 });
