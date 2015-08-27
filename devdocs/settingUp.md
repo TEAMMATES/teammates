@@ -40,8 +40,6 @@ Important: When a version is specified, please install that version instead of t
     `Web → HTML Files → Editor`, `XML Files → Editor`, and
     `JavaScript → Code Style → Formatter → Edit → Tab Policy → Spaces Only`
     to indent using 4 spaces instead of tabs.
-    * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
-    To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` and uncheck the `Build` option.
 3. Create main config files {These are not under revision control because their 
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
@@ -55,9 +53,6 @@ Important: When a version is specified, please install that version instead of t
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
-   * `.settings/com.google.gdt.eclipse.core.prefs`<br>
-   Create it using `com.google.gdt.eclipse.core.template.prefs`.
-   Change all `*` in `jarsExcludedFromWebInfLib` to your TEAMMATES project folder, e.g. `C:/TEAMMATES`.
 4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.47.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
