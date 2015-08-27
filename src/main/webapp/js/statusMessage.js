@@ -1,7 +1,13 @@
 $(document).ready(function() {
     var statusMessage = document.getElementById('statusMessage');
-    var navbarHeight = document.getElementsByClassName('navbar')[0].offsetHeight;
+    var navbarHeight = 0;
     var extraPadding = 15;
+    
+    var navbar = document.getElementsByClassName('navbar')[0];
+    
+    if (navbar != null) {
+        navbarHeight = navbar.offsetHeight;
+    }    
 
     // scroll to element
     statusMessage.scrollIntoView(true);
@@ -10,6 +16,6 @@ $(document).ready(function() {
     var scrolledY = window.scrollY;
 
     if (scrolledY) {
-        window.scroll(0, scrolledY - (parseInt(navbarHeight) + extraPadding));
+        window.scroll(0, scrolledY - (navbarHeight + extraPadding));
     }
 });
