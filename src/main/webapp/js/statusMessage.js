@@ -1,7 +1,13 @@
 $(document).ready(function() {
     var statusMessage = document.getElementById('statusMessage');
-    var navbarHeight = document.getElementsByClassName('navbar')[0].offsetHeight;
+    var navbarHeight = 0;
     var extraPadding = 15;
+    
+    var navbar = document.getElementsByClassName('navbar')[0];
+    
+    if (navbar != null) {
+        navbarHeight = navbar.offsetHeight;
+    }    
 
     // scroll to element
     statusMessage.scrollIntoView(true);
