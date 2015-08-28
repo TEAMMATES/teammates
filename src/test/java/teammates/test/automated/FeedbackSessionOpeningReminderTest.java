@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -151,36 +152,17 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         fsLogic.updateFeedbackSession(session2);
         
-        HashMap<String, String> paramMap = createParamMapForAction(session1);
-        EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
         int course1StudentCount = 5; 
         int course1InstructorCount = 5;
         
-        List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
-        assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
-
-        for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session1.feedbackSessionName));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
-        }
+        prepareAndSendOpeningMailForSession(session1, course1StudentCount, course1InstructorCount);
         
         ______TS("testing whether session2 still requires opening mails even though it's already disabled");
         FeedbackSessionOpeningCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionOpeningEmails();
         assertTrue(FeedbackSessionOpeningCallback.verifyTaskCount(1));
 
-        paramMap = createParamMapForAction(session2);
-        fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
-
-        preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
-        assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
-
-        for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session2.feedbackSessionName));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
-        }
+        prepareAndSendOpeningMailForSession(session2, course1StudentCount, course1InstructorCount);
 
         ______TS("testing whether no more mails are sent");
         FeedbackSessionOpeningCallback.resetTaskCount();
@@ -190,6 +172,21 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         }
     }
     
+    private void prepareAndSendOpeningMailForSession(FeedbackSessionAttributes session, int studentCount,
+                                                     int instructorCount) throws MessagingException {
+        HashMap<String, String> paramMap = createParamMapForAction(session);
+        EmailAction fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
+
+        List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
+        assertEquals(studentCount + instructorCount, preparedEmails.size());
+
+        for (MimeMessage m : preparedEmails) {
+            String subject = m.getSubject();
+            assertTrue(subject.contains(session.feedbackSessionName));
+            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+        }
+    }
+
     private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
         //Prepare parameter map to be used with FeedbackSessionOpeningMailAction
         HashMap<String, String> paramMap = new HashMap<String, String>();
