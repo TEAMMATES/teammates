@@ -98,7 +98,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         // Modify session to set emails as unsent but still open
         // by closing and opening the session. Also disable sending
-        // open emails.
+        // open emails, but in the current implementation open emails
+        // will still be sent regardless.
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
                 .get("session2InCourse1");
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
@@ -139,7 +140,8 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         
         // Modify session to set emails as unsent but still open
         // by closing and opening the session. Also disable sending
-        // open emails.
+        // open emails, but in the current implementation open emails
+        // will still be sent regardless.
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
                 .get("session2InCourse1");
         session2.startTime = TimeHelper.getDateOffsetToCurrentTime(2);
