@@ -487,8 +487,6 @@ function prepareQuestionForm(type) {
             hideAllNewQuestionForms();
             
             $('#constSumForm').show();
-            $('#questionTypeChoice').find('option').prop('disabled', false);
-            $('#questionTypeChoice').val('CONSTSUM_OPTION');
             break;
         case 'CONSTSUM_RECIPIENT':
             $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
@@ -499,8 +497,6 @@ function prepareQuestionForm(type) {
             hideAllNewQuestionForms();
             
             $('#constSumForm').show();
-            $('#questionTypeChoice').find('option').prop('disabled', false);
-            $('#questionTypeChoice').val('CONSTSUM_RECIPIENT');
             var optionText = $('#constSum_labelText-' + '-1').text();
             $('#constSum_labelText-' + '-1').text(optionText.replace('option', 'recipient'));
             var tooltipText = $('#constSum_tooltipText-' + '-1').attr('data-original-title');
