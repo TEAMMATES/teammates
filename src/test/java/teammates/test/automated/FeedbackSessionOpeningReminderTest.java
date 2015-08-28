@@ -114,12 +114,12 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         while(counter != 10){
             FeedbackSessionOpeningCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionOpeningEmails();
-            if(FeedbackSessionOpeningCallback.verifyTaskCount(1)){
+            if (FeedbackSessionOpeningCallback.verifyTaskCount(2)) {
                 break;
             }
             counter++;
         }
-        assertEquals(1, FeedbackSessionOpeningCallback.taskCount);
+        assertEquals(2, FeedbackSessionOpeningCallback.taskCount);
     }
 
     @Test
@@ -163,6 +163,23 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
         }
         
+        ______TS("testing whether session2 still requires opening mails even though it's already disabled");
+        FeedbackSessionOpeningCallback.resetTaskCount();
+        fsLogic.scheduleFeedbackSessionOpeningEmails();
+        assertTrue(FeedbackSessionOpeningCallback.verifyTaskCount(1));
+
+        paramMap = createParamMapForAction(session2);
+        fsOpeningAction = new FeedbackSessionOpeningMailAction(paramMap);
+
+        preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
+        assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
+
+        for (MimeMessage m : preparedEmails) {
+            String subject = m.getSubject();
+            assertTrue(subject.contains(session2.feedbackSessionName));
+            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+        }
+
         ______TS("testing whether no more mails are sent");
         FeedbackSessionOpeningCallback.resetTaskCount();
         fsLogic.scheduleFeedbackSessionOpeningEmails();
