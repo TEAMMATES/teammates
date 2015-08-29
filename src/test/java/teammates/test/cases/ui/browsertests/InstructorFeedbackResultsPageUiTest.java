@@ -395,6 +395,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.filterResponsesForSection("Section B");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionB.html");
 
+        ______TS("Typical case: filter by 'Not in a section', no responses");
+
+        resultsPage.filterResponsesForSection("Not in a section");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
+
         resultsPage.filterResponsesForAllSections();
 
     }
