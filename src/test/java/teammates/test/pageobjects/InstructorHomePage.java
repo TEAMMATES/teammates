@@ -325,8 +325,9 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        WebElement fsCopyButton = browser.driver.findElement(By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName));
-        
+        By element = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
+        waitForElementPresence(element);
+        WebElement fsCopyButton = browser.driver.findElement(element);
         fsCopyButton.click();
     }
     
