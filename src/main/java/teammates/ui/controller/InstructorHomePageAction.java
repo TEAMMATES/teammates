@@ -62,15 +62,8 @@ public class InstructorHomePageAction extends Action {
         String sortCriteria = getSortCriteria(courseList,
                                               getRequestParamValue(Const.ParamsNames.COURSE_SORTING_CRITERIA));
         
-        HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
-        for (CourseSummaryBundle course : courseList) {
-            String courseId = course.course.id;
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            instructors.put(courseId, instructor);
-        }
-        
         InstructorHomePageData data = new InstructorHomePageData(account);
-        data.init(courseList, sortCriteria, instructors);
+        data.init(courseList, sortCriteria);
         
         if (logic.isNewInstructor(account.googleId)) {
             statusToUser.add(new StatusMessage(StatusMessages.HINT_FOR_NEW_INSTRUCTOR, StatusMessageColor.INFO));

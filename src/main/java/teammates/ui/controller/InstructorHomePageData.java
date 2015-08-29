@@ -2,16 +2,14 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.ui.template.CourseTable;
 
 public class InstructorHomePageData extends PageData {
     
-    private int unarchivedCoursesCount;
+    private boolean isSortingDisabled;
     private List<CourseTable> courseTables;
     private String sortCriteria;
 
@@ -20,10 +18,9 @@ public class InstructorHomePageData extends PageData {
         super(account);
     }
     
-    public void init(List<CourseSummaryBundle> courseList, String sortCriteria,
-            Map<String,InstructorAttributes> instructors) {
+    public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
         this.sortCriteria = sortCriteria;
-        setUnarchivedCoursesCount(courseList, instructors);
+        this.isSortingDisabled = courseList.size() < 2;
         setCourseTables(courseList);
     }
     
@@ -31,24 +28,12 @@ public class InstructorHomePageData extends PageData {
         return sortCriteria;
     }
     
-    public int getUnarchivedCoursesCount() {
-        return unarchivedCoursesCount;
+    public boolean isSortingDisabled() {
+        return isSortingDisabled;
     }
     
     public List<CourseTable> getCourseTables() {
         return courseTables;
-    }
-    
-    private void setUnarchivedCoursesCount(List<CourseSummaryBundle> courses,
-                                           Map<String, InstructorAttributes> instructors) {
-        unarchivedCoursesCount = 0;
-        for (CourseSummaryBundle courseDetails : courses) {
-            InstructorAttributes instructor = instructors.get(courseDetails.course.id);
-            boolean notArchived = instructor.isArchived == null || !instructor.isArchived;
-            if (notArchived) {
-                unarchivedCoursesCount++;
-            }
-        }
     }
     
     private void setCourseTables(List<CourseSummaryBundle> courses) {
