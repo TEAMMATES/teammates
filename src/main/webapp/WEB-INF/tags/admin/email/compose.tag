@@ -1,7 +1,10 @@
 <%@ tag description="adminEmail.jsp - Compose email" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.common.util.Config" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="emailToEdit" required="true" type="teammates.common.datatransfer.AdminEmailAttributes" %>
+
+<c:set var="APP_URL" value="<%=Config.APP_URL%>"/>
 
 <div id="adminEmailCompose">
     <form id="adminEmailMainForm" action="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_SEND%>" method="post">
@@ -66,7 +69,7 @@
             </span>
         </form>
 
-        <div id="documentBaseUrl">${emailToEdit.appUrl}</div>
+        <div id="documentBaseUrl">${APP_URL}</div>
     </div>
 
 </div>
