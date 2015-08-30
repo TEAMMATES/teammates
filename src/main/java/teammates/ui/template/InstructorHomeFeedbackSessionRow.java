@@ -1,41 +1,24 @@
 package teammates.ui.template;
 
-public class InstructorHomeFeedbackSessionRow {
-    private String name;
-    private String tooltip;
-    private String status;
-    private String href;
+public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     private String recent;
+    private String href;
     private InstructorFeedbackSessionActions actions;
     
     public InstructorHomeFeedbackSessionRow(String name, String tooltip, String status,
             String href, String recent, InstructorFeedbackSessionActions actions) {
-        this.name = name;
-        this.tooltip = tooltip;
-        this.status = status;
-        this.href = href;
+        super(name, tooltip, status);
         this.recent = recent;
+        this.href = href;
         this.actions = actions;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getTooltip() {
-        return tooltip;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
+    
     public String getRecent() {
         return recent;
+    }
+    
+    public String getHref() {
+        return href;
     }
 
     public InstructorFeedbackSessionActions getActions() {

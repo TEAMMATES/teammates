@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.InstructorHomeFeedbackSessionRow;
 
 public class InstructorHomeCourseAjaxPageData extends PageData {
@@ -125,9 +126,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         return Arrays.asList(enroll, view, edit, add, archive, pending, delete);
     }
     
-    private List<InstructorHomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
+    private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
             InstructorAttributes instructor, String courseId) {
-        List<InstructorHomeFeedbackSessionRow> rows = new ArrayList<>();
+        List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         int displayedStatsCount = 0;
 
         Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
