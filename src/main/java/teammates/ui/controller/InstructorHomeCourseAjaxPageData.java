@@ -105,21 +105,23 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         addAttributeIf(true, delete, "onclick", "return toggleDeleteCourseConfirmation('" + courseId + "')");
         
         if (pendingCommentsCount <= 0) {
-            return Arrays.asList(enroll, view, edit,add, archive, delete);
-        } else {
-            String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span>"
-                                    + "<span class=\"glyphicon glyphicon-comment\"></span>"
-                                    + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
-                                    + "<span class=\"glyphicon glyphicon-envelope\"></span>";
-            ElementTag pending = createButton(
-                    pendingGraphic,
-                    className + "notify-pending-comments-for-test",
-                    getInstructorStudentCommentClearPendingLink(courseId),
-                    "Send email notification to recipients of " + pendingCommentsCount
-                        + " pending " + (pendingCommentsCount > 1 ? "comments" : "comment"));
-    
-            return Arrays.asList(enroll, view, edit,add, archive, pending, delete);
+            return Arrays.asList(enroll, view, edit, add, archive, delete);
         }
+        
+        String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span>"
+                                + "<span class=\"glyphicon glyphicon-comment\"></span>"
+                                + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
+                                + "<span class=\"glyphicon glyphicon-envelope\"></span>";
+        String plural = pendingCommentsCount > 1 ? "s" : "";
+        
+        ElementTag pending = createButton(
+                pendingGraphic,
+                className + "notify-pending-comments-for-test",
+                getInstructorStudentCommentClearPendingLink(courseId),
+                String.format(Const.Tooltips.COURSE_EMAIL_PENDING_COMMENTS,
+                              pendingCommentsCount, plural));
+
+        return Arrays.asList(enroll, view, edit, add, archive, pending, delete);
     }
     
     private List<Map<String, Object>> createSessionRows(List<FeedbackSessionAttributes> sessions,

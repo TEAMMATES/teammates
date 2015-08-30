@@ -91,6 +91,7 @@ public class Const {
         public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
         public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_FEEDBACKSESSION = "Add a feedback session for the course";
+        public static final String COURSE_EMAIL_PENDING_COMMENTS = "Send email notification to recipients of %s pending comment%s";
         public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
