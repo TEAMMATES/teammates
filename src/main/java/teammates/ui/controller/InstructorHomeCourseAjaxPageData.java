@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.InstructorHomeFeedbackSessionRow;
 
 public class InstructorHomeCourseAjaxPageData extends PageData {
 
@@ -124,9 +125,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         return Arrays.asList(enroll, view, edit, add, archive, pending, delete);
     }
     
-    private List<Map<String, Object>> createSessionRows(List<FeedbackSessionAttributes> sessions,
+    private List<InstructorHomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
             InstructorAttributes instructor, String courseId) {
-        List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+        List<InstructorHomeFeedbackSessionRow> rows = new ArrayList<>();
         int displayedStatsCount = 0;
 
         Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
@@ -142,25 +143,26 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         }
         
         for (FeedbackSessionAttributes session : sessions) {
-            Map<String, Object> columns = new HashMap<String, Object>();
-            
-            columns.put("name", sanitizeForHtml(session.feedbackSessionName));
-            columns.put("tooltip", getInstructorHoverMessageForFeedbackSession(session));
-            columns.put("status", getInstructorStatusForFeedbackSession(session));
-            columns.put("href", getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName));
+            String recent = "";
             
             if (session.isOpened() || session.isWaitingToOpen()) {
-                columns.put("recent", " recent");
+                recent = " recent";
             } else if (displayedStatsCount < MAX_CLOSED_SESSION_STATS
                        && !TimeHelper.isOlderThanAYear(session.createdTime)) {
-                columns.put("recent", " recent");
+                recent = " recent";
                 ++displayedStatsCount;
             }
             
-            columns.put("actions", getInstructorFeedbackSessionActions(session, false, instructor,
-                                                                       courseIdSectionNamesMap.get(courseId)));
-            
-            rows.add(columns);
+            InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
+                    sanitizeForHtml(session.feedbackSessionName),
+                    getInstructorHoverMessageForFeedbackSession(session),
+                    getInstructorStatusForFeedbackSession(session),
+                    getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
+                    recent,
+                    getInstructorFeedbackSessionActions(
+                            session, false, instructor, courseIdSectionNamesMap.get(courseId)));
+
+            rows.add(row);
         }
         
         return rows;
