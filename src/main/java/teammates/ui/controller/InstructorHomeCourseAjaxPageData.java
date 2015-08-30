@@ -129,8 +129,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
             InstructorAttributes instructor, String courseId) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
-        int displayedStatsCount = 0;
-
+        
         Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
         try {
             courseIdSectionNamesMap = getCourseIdSectionNamesMap(sessions);
@@ -143,15 +142,14 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             Assumption.fail("Course that should exist is found to be non-existent");
         }
         
+        int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;
         for (FeedbackSessionAttributes session : sessions) {
-            String recent = "";
             
-            if (session.isOpened() || session.isWaitingToOpen()) {
-                recent = " recent";
-            } else if (displayedStatsCount < MAX_CLOSED_SESSION_STATS
-                       && !TimeHelper.isOlderThanAYear(session.createdTime)) {
-                recent = " recent";
-                ++displayedStatsCount;
+            boolean isRecent = session.isOpened() || session.isWaitingToOpen();
+            if (!isRecent && statsToDisplayLeft > 0
+                          && !TimeHelper.isOlderThanAYear(session.createdTime)) {
+                isRecent = true;
+                --statsToDisplayLeft;
             }
             
             InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
@@ -159,7 +157,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     getInstructorHoverMessageForFeedbackSession(session),
                     getInstructorStatusForFeedbackSession(session),
                     getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
-                    recent,
+                    isRecent,
                     getInstructorFeedbackSessionActions(
                             session, false, instructor, courseIdSectionNamesMap.get(courseId)));
 
