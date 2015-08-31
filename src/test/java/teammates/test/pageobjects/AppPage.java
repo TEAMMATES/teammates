@@ -47,6 +47,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -746,13 +747,17 @@ public abstract class AppPage {
     public static String processPageSourceForFailureCase(String content) {
         return processPageSourceForGodMode(content)
                 // jQuery local
-                .replace("&#x2f;js&#x2f;lib&#x2f;jquery.min.js", "{*}&#x2f;jquery.min.js")
+                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery-ui.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
                 // jQuery CDN
-                .replace("https:&#x2f;&#x2f;ajax.googleapis.com&#x2f;ajax&#x2f;libs&#x2f;jquery&#x2f;1.11.3&#x2f;jquery.min.js", "{*}&#x2f;jquery.min.js")
+                .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery.min.js"))
                 // jQuery-ui local
-                .replace("&#x2f;js&#x2f;lib&#x2f;jquery-ui.min.js", "{*}&#x2f;jquery-ui.min.js")
+                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery-ui.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
                 // jQuery-ui CDN
-                .replace("https:&#x2f;&#x2f;ajax.googleapis.com&#x2f;ajax&#x2f;libs&#x2f;jqueryui&#x2f;1.10.4&#x2f;jquery-ui.min.js", "{*}&#x2f;jquery-ui.min.js");
+                .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"));
     }
     
     
