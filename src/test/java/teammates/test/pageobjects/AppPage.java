@@ -823,13 +823,12 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) {
+        WebElement element = browser.driver.findElement(by);
         if (filePath.startsWith("/")) {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
-        String actualPageSource = browser.driver.getPageSource();
-        String actual = "";
+        String actual = element.getAttribute("outerHTML");
         try {
-            actual = extractHtmlPartFromPageSource(by, actualPageSource);
             String expected = extractHtmlPartFromFile(by, filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
         } catch (AssertionError ae) { 
