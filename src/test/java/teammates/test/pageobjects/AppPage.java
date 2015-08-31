@@ -2,13 +2,9 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -24,7 +20,6 @@ import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
-import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -40,8 +35,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -829,7 +822,7 @@ public abstract class AppPage {
         }
         String actual = element.getAttribute("outerHTML");
         try {
-            String expected = extractHtmlPartFromFile(by, filePath);
+            String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
         } catch (AssertionError ae) { 
             if(!testAndRunGodMode(filePath, actual)) {
@@ -842,35 +835,6 @@ public abstract class AppPage {
             
         }
         return this;
-    }
-    
-    private String extractHtmlPartFromPageSource(By by, String pageSource) throws SAXException, IOException {
-        InputSource inputSource = new InputSource();
-        inputSource.setCharacterStream(new StringReader(pageSource));
-        return extractHtmlPartFromInputSource(by, inputSource);
-    }
-    
-    private String extractHtmlPartFromFile(By by, String filePath) throws SAXException, IOException {
-        InputSource inputSource = new InputSource(new BufferedReader(new FileReader(filePath)));
-        return extractHtmlPartFromInputSource(by, inputSource);
-    }
-    
-    private String extractHtmlPartFromInputSource(By by, InputSource inputSource)
-            throws SAXException, IOException {
-        String byId = by.toString().split(":")[1].trim();
-        
-        DOMParser parser = new DOMParser();
-        parser.parse(inputSource);
-        org.w3c.dom.Document htmlDoc = parser.getDocument();
-        org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
-        StringBuilder expectedHtml = new StringBuilder();
-        HtmlHelper.convertToStandardHtmlRecursively(expectedElement, "", expectedHtml, true);
-        
-        return expectedHtml.toString().replace("%20", " ")
-                .replace("%27", "'")
-                .replace("<#document", "")
-                .replace("   <html   </html>", "")
-                .replace("</#document>", "");
     }
     
     /**
@@ -914,7 +878,7 @@ public abstract class AppPage {
         String actual = "";
         
         try {
-            expectedString = extractHtmlPartFromFile(By.id("mainContent"), filePath);
+            expectedString = FileHelper.readFile(filePath);
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
