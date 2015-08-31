@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,6 +134,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
     
+    @FindBy(id = "fs_copy_modal_error")
+    private WebElement fscopyErrorMessage;
+    
     @FindBy(id = "fscopy_submit")
     private WebElement fscopySubmitButton;
     
@@ -151,9 +155,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questiongetlink-1")
     private WebElement getLinkButton;
     
+    public InstructorCopyFsToModal fsCopyToModal;
     
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
+        fsCopyToModal = new InstructorCopyFsToModal(browser);
     }
 
     @Override
@@ -367,20 +373,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         addMsqOtherOptionCheckboxForNewQuestion.click();
     }
     
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
     
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        fillTextBox(fsNameInput, newName);
-    }
     
     public WebElement getDeleteSessionLink() {
         return fsDeleteLink;

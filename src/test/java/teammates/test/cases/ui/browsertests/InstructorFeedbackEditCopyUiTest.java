@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -39,7 +41,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyPage.html");
@@ -48,25 +50,31 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         
-        ______TS("Copying fails due to fs with same name in course selected");
+        ______TS("Copying fails due to fs with same name getting copied to the original course");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
         
         feedbackEditPage.clickFsCopySubmitButton();
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
-                                     feedbackSessionName, testData.courses.get("course").id);
-        feedbackEditPage.verifyStatus(error);
-
-        // Full HTML verification already done in InstructorFeedbackEditPageUiTest
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
+        assertTrue(feedbackEditPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyErrorMessage();
+        
+        
+        feedbackEditPage.fsCopyToModal.resetCoursesCheckbox();
+        feedbackEditPage.fsCopyToModal.checkCourse("FeedbackEditCopy.CS2104");
+        
+        feedbackEditPage.clickFsCopySubmitButton();
+        assertTrue(feedbackEditPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyErrorMessage();
         
         
         ______TS("Copying fails due to fs with invalid name");
+        feedbackEditPage = getFeedbackEditPage();
+        
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
         feedbackEditPage.clickFsCopySubmitButton();
         
@@ -79,8 +87,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Successful case");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm("New name!");
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("New name!");
         
         feedbackEditPage.clickFsCopySubmitButton();
         
@@ -90,6 +98,19 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopySuccess.html");
         
+        
+        ______TS("Copying fails due to fs with same name in course selected");
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickFsCopyButton();
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        
+        feedbackEditPage.fsCopyToModal.fillFsName("New name!");
+        feedbackEditPage.fsCopyToModal.checkCourse("FeedbackEditCopy.CS2105");
+        
+        feedbackEditPage.clickFsCopySubmitButton();
+
+        // Full HTML verification already done in InstructorFeedbackEditPageUiTest
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
     }
 
 

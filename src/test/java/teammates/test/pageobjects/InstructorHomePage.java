@@ -7,7 +7,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 
@@ -30,8 +29,15 @@ public class InstructorHomePage extends AppPage {
     @FindBy(id = "sortByDate")
     private WebElement sortByDateButton;
     
+    public InstructorCopyFsToModal fsCopyModal;
+    
     public InstructorHomePage(Browser browser){
         super(browser);
+        if (browser.driver.findElements(By.id("fsCopyModal")).size() != 0) {
+            // initialize fsCopyModal only if the element is present
+            // the modal will not be present if the instructor's account has not been created
+            fsCopyModal = new InstructorCopyFsToModal(browser);
+        }
     }
 
     @Override
@@ -323,34 +329,5 @@ public class InstructorHomePage extends AppPage {
         if (!isElementPresent(locator))
             return "";
         return browser.driver.findElement(locator).getText();
-    }
-    
-    public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        WebElement fsCopyButton = browser.driver.findElement(By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName));
-        
-        fsCopyButton.click();
-    }
-    
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
-    
-    public void clickFsCopySubmitButton() {
-        WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
-        
-        fsCopySubmitButton.click();
-    }
-    
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        
-        fillTextBox(fsNameInput, newName);
     }
 }
