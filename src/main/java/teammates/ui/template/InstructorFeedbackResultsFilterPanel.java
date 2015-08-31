@@ -58,6 +58,10 @@ public class InstructorFeedbackResultsFilterPanel {
     public boolean isAllSectionsSelected() {
         return isAllSectionsSelected;
     }
+    
+    public boolean isNoneSectionSelected() {
+        return "None".equals(selectedSection);
+    }
 
     public String getSelectedSection() {
         return selectedSection;

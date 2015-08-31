@@ -70,7 +70,7 @@
                            <input name="user" type="hidden" value="CFResultsUiT.instr"/>
                                                       <input name="fsname" type="hidden" value="First Session"/>
                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="sectionname" type="hidden" value="Section B"/>
+                                                      <input name="sectionname" type="hidden" value="None"/>
                                                    </form>
                         <br/>
                                                 <div>
@@ -97,7 +97,7 @@
       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
             <input name="fsname" type="hidden" value="First Session"/>
             <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-            <input name="frgroupbysection" type="hidden" value="Section B"/>
+            <input name="frgroupbysection" type="hidden" value="None"/>
             <input name="csvtohtmltable" type="hidden" value="true"/>
          </form>
    <div class="modal fade align-center" id="fsResultsTableWindow">
@@ -216,10 +216,10 @@
                            <option value="Section A">
                               Section A
                            </option>
-                           <option selected="selected" value="Section B">
+                           <option value="Section B">
                               Section B
                            </option>
-                           <option value="None">
+                           <option selected="selected" value="None">
                               Not in a section
                            </option>
                         </select>
@@ -253,7 +253,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-1" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="1"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -288,7 +288,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-2" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="2"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -323,7 +323,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-3" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="3"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -339,11 +339,77 @@
          </div>
       </div>
       <div class="panel-collapse collapse in" id="panelBodyCollapse-3" style="height: auto;">
-         <div class="panel-body" id="questionBody-2">
-            <div class="col-sm-12">
-               <i class="text-muted">
-                  There are no responses for this question.
-               </i>
+         <div class="panel-body padding-0" id="questionBody-2">
+            <div class="resultStatistics">
+            </div>
+            <div class="table-responsive">
+               <table class="table table-striped table-bordered dataTable margin-0">
+                  <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                     <tr>
+                        <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                           Giver
+                           <span class="icon-sort unsorted">
+                           </span>
+                        </th>
+                        <th class="button-sort-none" id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                           Team
+                           <span class="icon-sort unsorted">
+                           </span>
+                        </th>
+                        <th class="button-sort-none" id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                           Recipient
+                           <span class="icon-sort unsorted">
+                           </span>
+                        </th>
+                        <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
+                           Team
+                           <span class="icon-sort unsorted">
+                           </span>
+                        </th>
+                        <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this,5)">
+                           Feedback
+                           <span class="icon-sort unsorted">
+                           </span>
+                        </th>
+                        <th>
+                           Actions
+                        </th>
+                     </tr>
+                  </thead>
+                  <thead>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td class="middlealign">
+                           <div class="profile-pic-icon-hover" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              Teammates Test
+                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
+                                                         </div>
+                        </td>
+                        <td class="middlealign">
+                           Instructors
+                        </td>
+                        <td class="middlealign">
+                           -
+                        </td>
+                        <td class="middlealign">
+                           -
+                        </td>
+                        <td class="text-preserve-space">
+                           This is for nobody specific.
+                        </td>
+                        <td>
+                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                            <input name="fsname" type="hidden" value="First Session"/>
+                                                            <input name="moderatedquestion" type="hidden" value="3"/>
+                                                            <input name="moderatedstudent" type="hidden" value="CFResultsUiT.instr@gmail.tmt"/>
+                                                         </form>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
             </div>
          </div>
       </div>
@@ -358,7 +424,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-4" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="4"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -393,7 +459,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-5" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="5"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -428,7 +494,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-6" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="6"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -463,7 +529,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-7" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="7"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -521,7 +587,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-8" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="8"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -579,7 +645,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-9" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="9"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -625,7 +691,7 @@
                         <input name="frsorttype" type="hidden" value="question"/>
                         <input id="showStats-10" name="frshowstats" type="hidden" value="on"/>
                         <input name="questionnum" type="hidden" value="10"/>
-                        <input name="frgroupbysection" type="hidden" value="Section B"/>
+                        <input name="frgroupbysection" type="hidden" value="None"/>
                      </form>
          <div class="display-icon pull-right">
             <span class="glyphicon pull-right glyphicon-chevron-up">

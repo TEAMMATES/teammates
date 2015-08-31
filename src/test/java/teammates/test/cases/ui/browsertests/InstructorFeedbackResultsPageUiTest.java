@@ -395,6 +395,18 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.filterResponsesForSection("Section B");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredBySectionB.html");
 
+        ______TS("Typical case: filter by 'Not in a section'");
+
+        resultsPage.filterResponsesForSection("Not in a section");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsFilteredByNoSection.html");
+        
+        
+        ______TS("Verify that 'Not in a section' has a section panel on a non-question view");
+        resultsPage.displayByRecipientGiverQuestion();
+        assertTrue(resultsPage.isSectionPanelExist("Not in a section"));
+        assertFalse(resultsPage.isSectionPanelExist("Section A"));
+
+        resultsPage.displayByQuestion();
         resultsPage.filterResponsesForAllSections();
 
     }

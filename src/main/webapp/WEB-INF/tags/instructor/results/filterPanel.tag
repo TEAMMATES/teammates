@@ -80,6 +80,9 @@
                                             ${section}
                                         </option>
                                     </c:forEach>
+                                    <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected="selected"</c:if>>
+                                        Not in a section
+                                    </option>
                                 </select>
                             </div>
                         </div>
