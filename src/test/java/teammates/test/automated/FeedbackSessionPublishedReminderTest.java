@@ -1,6 +1,7 @@
 package teammates.test.automated;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
@@ -49,15 +50,10 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             assertEquals(EmailType.FEEDBACK_PUBLISHED, typeOfMail);
             
             assertTrue(paramMap.containsKey(ParamsNames.EMAIL_FEEDBACK));
-            String fsName = (String) paramMap.get(ParamsNames.EMAIL_FEEDBACK); 
-            boolean isExpectedName = fsName.equals("First feedback session") ||
-                                     fsName.equals("Empty session") ||
-                                     fsName.equals("Second feedback session");
-            assertTrue(isExpectedName);
+            assertNotNull(paramMap.get(ParamsNames.EMAIL_FEEDBACK));
             
             assertTrue(paramMap.containsKey(ParamsNames.EMAIL_COURSE));
-            String courseId = (String) paramMap.get(ParamsNames.EMAIL_COURSE);
-            assertEquals("idOfTypicalCourse1", courseId);
+            assertNotNull(paramMap.get(ParamsNames.EMAIL_COURSE));
             
             FeedbackSessionPublishedCallback.taskCount++;
             return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;

@@ -194,17 +194,6 @@ public class InstructorSearchPageAction extends Action {
         return totalResultsSize;
     }
     
-    private FeedbackQuestionAttributes getRelatedQuestionOfResponse(FeedbackResponseCommentSearchResultBundle frCommentSearchResults, 
-                                                                        FeedbackResponseAttributes fra) {      
-        List<FeedbackQuestionAttributes> fqs = frCommentSearchResults.questions.get(fra.feedbackSessionName);
-        for (FeedbackQuestionAttributes fq : fqs) {
-            if (fq.getId().equals(fra.feedbackQuestionId)) {
-                return fq;
-            }
-        }
-        return null;
-    }
-    
     private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
         Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter = frCommentSearchResults.questions.entrySet().iterator();
         

@@ -292,6 +292,7 @@ public class InstructorHomePage extends AppPage {
         if (courseRowID == -1)
             return -2;
         String template = "//div[@id='course-%d']//tr[@id='session%d']";
+        @SuppressWarnings("deprecation")
         int max = (Integer) (browser.selenium)
                 .getXpathCount("//div[starts-with(@id, 'course-')]//tr");
         for (int id = 0; id < max; id++) {
