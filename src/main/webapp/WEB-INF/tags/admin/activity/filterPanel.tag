@@ -1,4 +1,5 @@
 <%@ tag description="Filter Panel in Admin Activity Log Page" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="excludedLogRequestURIs" required="true" %>
 <%@ attribute name="actionListAsHtml" required="true" %>
 <%@ attribute name="ifShowAll" required="true" %>
