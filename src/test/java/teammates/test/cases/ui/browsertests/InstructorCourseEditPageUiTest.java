@@ -395,8 +395,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
         assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-        courseEditPage.selectRoleForInstructor(instructorIndex, "Co-owner");
         
+        ______TS("verify that session level checkboxes are accessible");
+        
+        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 1);
+        assertTrue(courseEditPage.isTuneSessionPermissionsDivVisible(instructorIndex, 0));
+        
+        
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Co-owner");
     }
     
     private void testDeleteInstructorAction() {
