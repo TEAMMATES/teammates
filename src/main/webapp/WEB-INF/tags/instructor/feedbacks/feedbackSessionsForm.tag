@@ -127,7 +127,7 @@
                                     rows="4" cols="100%"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
-                                    placeholder="e.g. Please answer all the given questions."><c:out value="${fsForm.instructions}"/></textarea>
+                                    placeholder="e.g. Please answer all the given questions.">${fsForm.instructions}</textarea>
                             </div>
                         </div>
                     </div>
