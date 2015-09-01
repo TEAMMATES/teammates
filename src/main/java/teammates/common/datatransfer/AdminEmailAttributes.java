@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
@@ -161,9 +160,5 @@ public class AdminEmailAttributes extends EntityAttributes {
     
     public String getFirstGroupReceiver(){
         return getGroupReceiver().get(0);
-    }
-    
-    public String getAppUrl() {
-        return Config.APP_URL;
     }
 }

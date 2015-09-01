@@ -426,4 +426,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ThreadHelper.waitFor(1000);
     }
 
+    public boolean isSectionPanelExist(String section) {
+        List<WebElement> panels = browser.driver.findElements(By.cssSelector("div[id^='panelHeading-']"));
+        for (WebElement panel : panels) {
+            String panelSectionName = panel.findElement(By.className("panel-heading-text")).getText();
+            if (panelSectionName.equals(section)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

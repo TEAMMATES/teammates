@@ -107,13 +107,13 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isSessionVisibleDateButtonChecked = false;
         additionalSettings.sessionVisibleDateValue = "";
         additionalSettings.isSessionVisibleDateDisabled = true;
-        additionalSettings.sessionVisibleTimeOptions = data.getTimeOptionsAsElementTags(null);
+        additionalSettings.sessionVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(null);
         additionalSettings.isSessionVisiblePrivateChecked = false;
         
         additionalSettings.isResponseVisibleDateChecked = false;
         additionalSettings.responseVisibleDateValue = "";
         additionalSettings.isResponseVisibleDateDisabled = true;
-        additionalSettings.responseVisibleTimeOptions = data.getTimeOptionsAsElementTags(null);
+        additionalSettings.responseVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(null);
         additionalSettings.isResponseVisibleImmediatelyChecked = false;
         additionalSettings.isResponseVisiblePublishManuallyChecked = true;
         additionalSettings.isResponseVisibleNeverChecked = false;
@@ -156,7 +156,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
                                                     ? TimeHelper.formatDate(feedbackSession.resultsVisibleFromTime) 
                                                     : "";
         additionalSettings.responseVisibleTimeOptions =
-                                        data.getTimeOptionsAsElementTags(
+                                        PageData.getTimeOptionsAsElementTags(
                                                   hasResultVisibleDate 
                                                 ? feedbackSession.resultsVisibleFromTime 
                                                 : null);
@@ -191,7 +191,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
                                                    ? TimeHelper.formatDate(feedbackSession.sessionVisibleFromTime) 
                                                    : "";
         additionalSettings.isSessionVisibleDateDisabled = !hasSessionVisibleDate;
-        additionalSettings.sessionVisibleTimeOptions = data.getTimeOptionsAsElementTags(
+        additionalSettings.sessionVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(
                                                             hasSessionVisibleDate 
                                                             ? feedbackSession.sessionVisibleFromTime 
                                                             : null);

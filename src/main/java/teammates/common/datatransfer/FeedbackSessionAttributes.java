@@ -132,7 +132,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     public String getInstructionsString() {
-        return instructions.getValue();
+        return Sanitizer.sanitizeForHtml(instructions.getValue());
     }
 
     @Override

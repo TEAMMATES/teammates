@@ -1,11 +1,9 @@
 package teammates.common.util;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TimeZone;
 
 import com.google.appengine.api.datastore.Text;
 

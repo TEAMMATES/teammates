@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +12,9 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
+import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
 public class StudentHomePageData extends PageData {
     
@@ -54,23 +55,22 @@ public class StudentHomePageData extends PageData {
         return links;
     }
     
-    private List<Map<String, Object>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
+    private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
             Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
-        List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+        List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
             String sessionName = feedbackSession.feedbackSessionName;
             boolean hasSubmitted = sessionSubmissionStatusMap.get(feedbackSession);
             
-            Map<String, Object> columns = new HashMap<String, Object>();
-            columns.put("name", PageData.sanitizeForHtml(sessionName));
-            columns.put("endTime", TimeHelper.formatTime(feedbackSession.endTime));
-            columns.put("tooltip", getStudentHoverMessageForSession(feedbackSession, hasSubmitted));
-            columns.put("status", getStudentStatusForSession(feedbackSession, hasSubmitted));
-            columns.put("actions", getStudentFeedbackSessionActions(feedbackSession, hasSubmitted));
-            columns.put("index", Integer.toString(sessionIdx));
-            rows.add(columns);
+            rows.add(new StudentHomeFeedbackSessionRow(
+                    PageData.sanitizeForHtml(sessionName),
+                    getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
+                    getStudentStatusForSession(feedbackSession, hasSubmitted),
+                    TimeHelper.formatTime(feedbackSession.endTime),
+                    getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
+                    sessionIdx));
             
             ++sessionIdx;
         }
