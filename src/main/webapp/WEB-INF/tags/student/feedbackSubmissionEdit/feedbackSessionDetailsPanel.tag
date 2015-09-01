@@ -38,7 +38,7 @@
                     <label class="col-sm-2 control-label">Instructions:</label>
                     <div class="col-sm-10">                   
                         <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-                        <p class="form-control-static text-preserve-space"><c:out value="${feedbackSession.instructionsString}"/></p>
+                        <p class="form-control-static text-preserve-space">${feedbackSession.instructionsString}</p>
                     </div>
                 </div>             
             </div>

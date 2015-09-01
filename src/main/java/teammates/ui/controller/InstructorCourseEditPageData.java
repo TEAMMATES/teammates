@@ -28,9 +28,15 @@ public class InstructorCourseEditPageData extends PageData {
         this.instructorToShowIndex = instructorToShowIndex;
         
         createButtons(currentInstructor);
-        
-        instructorPanelList = createInstructorPanelList(currentInstructor, instructorList, sectionNames,
-                                                        feedbackNames);
+        boolean isShowingAllInstructors = instructorToShowIndex == -1; 
+        if (isShowingAllInstructors) {
+            instructorPanelList = createInstructorPanelList(currentInstructor, instructorList, sectionNames,
+                                                            feedbackNames);
+        } else {
+            instructorPanelList = createInstructorPanelForSingleInstructor(
+                                            currentInstructor, instructorList.get(0), instructorToShowIndex, 
+                                            sectionNames, feedbackNames);
+        }
         addInstructorPanel = createInstructorPanel(currentInstructor, instructorPanelList.size() + 1, null, 
                                                    sectionNames, feedbackNames);
     }
@@ -49,6 +55,19 @@ public class InstructorCourseEditPageData extends PageData {
         }
         return panelList;
     }
+    
+    private List<CourseEditInstructorPanel> createInstructorPanelForSingleInstructor(InstructorAttributes currentInstructor,
+                                    InstructorAttributes instructorForPanel, int instructorIndex,
+                                    List<String> sectionNames, List<String> feedbackNames) {
+         List<CourseEditInstructorPanel> panelList = new ArrayList<CourseEditInstructorPanel>();
+         CourseEditInstructorPanel instructorPanel = createInstructorPanel(
+                                                             currentInstructor, 
+                                                             instructorIndex, instructorForPanel, 
+                                                             sectionNames, feedbackNames); 
+         panelList.add(instructorPanel);
+     
+         return panelList;
+     }
 
     private void createButtons(InstructorAttributes currentInstructor) {
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(

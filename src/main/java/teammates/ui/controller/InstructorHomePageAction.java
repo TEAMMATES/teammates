@@ -59,18 +59,11 @@ public class InstructorHomePageAction extends Action {
         
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
         
-        String sortCriteria = getSortCriteria(courseList,
-                                              getRequestParamValue(Const.ParamsNames.COURSE_SORTING_CRITERIA));
-        
-        HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
-        for (CourseSummaryBundle course : courseList) {
-            String courseId = course.course.id;
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            instructors.put(courseId, instructor);
-        }
+        String sortCriteria = getSortCriteria();
+        sortCourse(courseList, sortCriteria);
         
         InstructorHomePageData data = new InstructorHomePageData(account);
-        data.init(courseList, sortCriteria, instructors);
+        data.init(courseList, sortCriteria);
         
         if (logic.isNewInstructor(account.googleId)) {
             statusToUser.add(new StatusMessage(StatusMessages.HINT_FOR_NEW_INSTRUCTOR, StatusMessageColor.INFO));
@@ -81,10 +74,16 @@ public class InstructorHomePageAction extends Action {
         return response;
     }
 
-    private String getSortCriteria(ArrayList<CourseSummaryBundle> courseList, String sortCriteria) {
+    private String getSortCriteria() {
+        String sortCriteria = getRequestParamValue(Const.ParamsNames.COURSE_SORTING_CRITERIA);
         if (sortCriteria == null) {
             sortCriteria = Const.DEFAULT_SORT_CRITERIA;
         }
+        
+        return sortCriteria;
+    }
+    
+    private void sortCourse(ArrayList<CourseSummaryBundle> courseList, String sortCriteria) {
         switch (sortCriteria) {
             case Const.SORT_BY_COURSE_ID:
                 CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);
@@ -98,6 +97,5 @@ public class InstructorHomePageAction extends Action {
             default:
                 throw new RuntimeException("Invalid course sorting criteria.");
         }
-        return sortCriteria;
     }    
 }

@@ -8,6 +8,7 @@
         <!--These can be run without starting the server. Should be run often. -->
         <packages>
             <package name="teammates.test.cases.common" />
+            <package name="teammates.test.cases.logic" />
             <package name="teammates.test.cases.pageobjects" />
             <package name="teammates.test.cases" />
             <package name="teammates.test.cases.storage" />
@@ -19,21 +20,6 @@
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
 
-            <class name="teammates.test.cases.logic.AccountsLogicTest"/>
-            <class name="teammates.test.cases.logic.InstructorsLogicTest" />
-            <class name="teammates.test.cases.logic.BackDoorLogicTest"/>
-            <class name="teammates.test.cases.logic.CommentsLogicTest"/>
-            <class name="teammates.test.cases.logic.CoursesLogicTest"/>
-            <class name="teammates.test.cases.logic.EmailsTest" />
-            <class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
-            <class name="teammates.test.cases.logic.FeedbackQuestionsLogicTest" />
-            <class name="teammates.test.cases.logic.FeedbackResponsesLogicTest" />
-            <class name="teammates.test.cases.logic.LogicTest" />
-            <class name="teammates.test.cases.logic.StudentsLogicTest" />
-            <class name="teammates.test.cases.logic.SubmissionsAdjustmentTest" />
-   
-            <class name="teammates.test.cases.logic.FeedbackSessionEmailTaskQueueTest" />
-            
             <!-- The tests below use logic functions to test automated reminders -->
             <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
@@ -112,6 +98,8 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminEmailPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminSessionsPageUiTest" />
         </classes>
     </test>
     

@@ -570,10 +570,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public String getQuestionTypeChoiceOption() {
-        // Constant sum has two options for user to select, and one hidden option.
-        return "<option value = \"CONSTSUM_OPTION\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION+"</option>" +
-               "<option value = \"CONSTSUM_RECIPIENT\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT+"</option>" + 
-               "<option value = \"CONSTSUM\" disabled=\"disabled\" style=\"display:none\"></option>";
+        // Constant sum has two options for user to select.
+        return "<option value=\"CONSTSUM_OPTION\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + "</option>" +
+               "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
     }
 
     final int MIN_NUM_OF_CONST_SUM_OPTIONS = 2;
