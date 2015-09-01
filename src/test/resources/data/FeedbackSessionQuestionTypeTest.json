@@ -42,6 +42,13 @@
             "email":"instr4@coursenoevals.tmt",
             "institute":"TEAMMATES Test Institute 1"
         },
+        "instructor1OfCourseWithSections":{
+            "googleId":"FSQTT.idOfInstructor1OfCourseWithSections",
+            "name":"Instructor 1 of Course With Sections",
+            "isInstructor":true,
+            "email":"instr1@coursewithsections.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
         "instructorWithoutCourses":{
             "googleId":"FSQTT.instructorWithoutCourses",
             "name":"Instructor Without Courses",
@@ -74,6 +81,11 @@
         "typicalCourse2":{
             "id":"FSQTT.idOfTypicalCourse2",
             "name":"Typical Course 2 with 1 Evals",
+            "isArchived": false
+        },
+        "courseWithSections":{
+            "id":"FSQTT.idOfCourseWithSections",
+            "name":"Course With Sections with 1 Evals",
             "isArchived": false
         }
         
@@ -132,7 +144,17 @@
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourseWithSections":{
+            "googleId":"FSQTT.idOfInstructor1OfCourseWithSections",
+            "courseId":"FSQTT.idOfCourseWithSections",
+            "name":"Instructor1 Course1",
+            "email":"instructor1@coursewithsections.tmt",
+            "role":"Custom",
+            "displayedName":"Custom",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {\n    \"Section 1\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": false,\n      \"canmodifysessioncommentinsection\": false,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": false,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {}\n}"
         }
+        
         
     },
     "students":{
@@ -192,6 +214,42 @@
             "team":"Team 2.1",
             "comments":"",
             "course":"FSQTT.idOfTypicalCourse2"
+        },
+        "student1InCourseWithSections":{
+            "email":"student1InCourseWithSections@gmail.tmt",
+            "name":"student1 In Course With Sections",
+            "team":"Team 1",
+            "section": "Section 1",
+            "googleId":"FSQTT.student1InCourseWithSections",
+            "comments":"comment for student1InCourseWithSeections",
+            "course":"FSQTT.idOfCourseWithSections"
+        },
+        "student2InCourseWithSections":{
+            "email":"student2InCourseWithSections@gmail.tmt",
+            "name":"student2 In Course With Sections",
+            "team":"Team 1",
+            "section": "Section 1",
+            "googleId":"FSQTT.student2InCourseWithSections",
+            "comments":"comment for student2InCourseWithSeections",
+            "course":"FSQTT.idOfCourseWithSections"
+        },
+        "student3InCourseWithSections":{
+            "email":"student3InCourseWithSections@gmail.tmt",
+            "name":"student3 In Course With Sections",
+            "team":"Team 2",
+            "section": "Section 2",
+            "googleId":"FSQTT.student3InCourseWithSections",
+            "comments":"comment for student3InCourseWithSeections",
+            "course":"FSQTT.idOfCourseWithSections"
+        },
+        "student4InCourseWithSections":{
+            "email":"student4InCourseWithSections@gmail.tmt",
+            "name":"student4 In Course With Sections",
+            "team":"Team 3",
+            "section": "Section 3",
+            "googleId":"FSQTT.student4InCourseWithSections",
+            "comments":"comment for student4InCourseWithSeections",
+            "course":"FSQTT.idOfCourseWithSections"
         },
         "unregisteredStudentInCourse1":{
             "email":"unregisteredStudentInCourse2@gmail.tmt",
@@ -328,6 +386,42 @@
             "gracePeriod":10,
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":false,
+            "sentPublishedEmail":false
+        },
+        "contribSessionStudentAnonymised":{
+            "feedbackSessionName":"CONTRIB Session Student Anonymised",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please answer the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
+        "contribSessionInstructorSectionRestricted":{
+            "feedbackSessionName":"CONTRIB Session Section Restricted",
+            "courseId":"FSQTT.idOfCourseWithSections",
+            "creatorEmail":"instructor1@coursewithsections.tmt",
+            "instructions":{
+                "value":"Please answer the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
             "sentPublishedEmail":false
         }
     },
@@ -639,6 +733,27 @@
                 "INSTRUCTORS"
             ]            
         },
+        "qn1InSession7InCourse1":{
+            "feedbackSessionName":"CONTRIB Session Student Anonymised",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
+            },
+            "questionNumber":"1",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+            ]
+        },
         "qn1InSession1InCourse2":{
             "feedbackSessionName":"Unregistered Student Session",
             "courseId":"FSQTT.idOfTypicalCourse2",
@@ -651,6 +766,28 @@
             "giverType":"STUDENTS",
             "recipientType":"SELF",
             "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn1InSession1InCourseWithSections":{
+            "feedbackSessionName":"CONTRIB Session Section Restricted",
+            "courseId":"FSQTT.idOfCourseWithSections",
+            "creatorEmail":"instructor1@coursewithsections.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
+            },
+            "questionNumber":"1",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
             "showResponsesTo":[
                 "INSTRUCTORS"
             ],
@@ -1069,6 +1206,17 @@
                 "value":"{\"questionType\" : \"RUBRIC\", \"answer\" : [-1,0]}"
             }
         },
+        "response1ForQ1S7C1":{
+            "feedbackSessionName":"CONTRIB Session Student Anonymised",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
+            }
+        },
         "response1ForQ1S1C2":{
             "feedbackSessionName":"Unregistered Student Session",
             "courseId":"FSQTT.idOfTypicalCourse2",
@@ -1079,6 +1227,45 @@
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 2}"
             }
+        },
+        "response1ForQ1S1CWS":{
+            "feedbackSessionName":"CONTRIB Session Section Restricted",
+            "courseId":"FSQTT.idOfCourseWithSections",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student1InCourseWithSections@gmail.tmt",
+            "recipientEmail":"student2InCourseWithSections@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1"
+        },
+        "response2ForQ1S1CWS":{
+            "feedbackSessionName":"CONTRIB Session Section Restricted",
+            "courseId":"FSQTT.idOfCourseWithSections",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student2InCourseWithSections@gmail.tmt",
+            "recipientEmail":"student1InCourseWithSections@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1"
+        },
+        "response3ForQ1S1CWS":{
+            "feedbackSessionName":"CONTRIB Session Section Restricted",
+            "courseId":"FSQTT.idOfCourseWithSections",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student3InCourseWithSections@gmail.tmt",
+            "recipientEmail":"student3InCourseWithSections@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
+            },
+            "giverSection":"Section 2",
+            "recipientSection":"Section 2"
         }
     }
 }

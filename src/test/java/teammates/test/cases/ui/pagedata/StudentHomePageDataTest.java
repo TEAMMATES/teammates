@@ -20,7 +20,9 @@ import teammates.common.util.TimeHelper;
 import teammates.ui.controller.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.HomeFeedbackSessionRow;
 import teammates.ui.template.StudentFeedbackSessionActions;
+import teammates.ui.template.StudentHomeFeedbackSessionRow;
 
 public class StudentHomePageDataTest {
     private List<CourseDetailsBundle> courses;
@@ -75,10 +77,10 @@ public class StudentHomePageDataTest {
 
     private void testNewCourseTable(CourseDetailsBundle newCourse, CourseTable courseTable) {
         assertEquals(newCourse.feedbackSessions.size(), courseTable.getRows().size());
-        List<Map<String, Object>> sessions = courseTable.getRows();
-        Map<String, Object> submittedRow = sessions.get(0);
-        Map<String, Object> pendingRow = sessions.get(1);
-        Map<String, Object> awaitingRow = sessions.get(2);
+        List<HomeFeedbackSessionRow> sessions = courseTable.getRows();
+        HomeFeedbackSessionRow submittedRow = sessions.get(0);
+        HomeFeedbackSessionRow pendingRow = sessions.get(1);
+        HomeFeedbackSessionRow awaitingRow = sessions.get(2);
         
         int index = 0;
         
@@ -93,10 +95,10 @@ public class StudentHomePageDataTest {
     private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
         // Sessions in old course have multiple messages in tooltip as their end dates have passed.
         assertEquals(oldCourse.feedbackSessions.size(), courseTable.getRows().size());
-        List<Map<String, Object>> sessions = courseTable.getRows();
-        Map<String, Object> publishedRow = sessions.get(0);
-        Map<String, Object> closedRow = sessions.get(1);
-        Map<String, Object> submittedClosedRow = sessions.get(2);
+        List<HomeFeedbackSessionRow> sessions = courseTable.getRows();
+        HomeFeedbackSessionRow publishedRow = sessions.get(0);
+        HomeFeedbackSessionRow closedRow = sessions.get(1);
+        HomeFeedbackSessionRow submittedClosedRow = sessions.get(2);
         
         int accumlativeOffset = courses.get(0).feedbackSessions.size();
         int index = 0 + accumlativeOffset;
@@ -116,14 +118,15 @@ public class StudentHomePageDataTest {
                             "Closed");
     }
     
-    private void testFeedbackSession(int index, Map<String, Object> row, FeedbackSessionAttributes session,
+    private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
             String expectedTooltip, String expectedStatus) {
-        assertEquals(session.feedbackSessionName, row.get("name"));
-        assertEquals(TimeHelper.formatTime(session.endTime), row.get("endTime"));
-        assertEquals(expectedTooltip, row.get("tooltip"));
-        assertEquals(expectedStatus, row.get("status"));
-        assertEquals(String.valueOf(index), row.get("index"));
-        testActions((StudentFeedbackSessionActions) row.get("actions"), session);
+        StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
+        assertEquals(session.feedbackSessionName, studentRow.getName());
+        assertEquals(TimeHelper.formatTime(session.endTime), studentRow.getEndTime());
+        assertEquals(expectedTooltip, studentRow.getTooltip());
+        assertEquals(expectedStatus, studentRow.getStatus());
+        assertEquals(index, studentRow.getIndex());
+        testActions(studentRow.getActions(), session);
     }
     
     private void testActions(StudentFeedbackSessionActions actions, FeedbackSessionAttributes session) {
