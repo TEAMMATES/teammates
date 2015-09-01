@@ -166,6 +166,10 @@ public class CoursesDb extends EntitiesDb {
     }
     
     private List<Course> getCourseEntities(List<String> courseIds) {
+        if (courseIds.size() == 0) {
+            return new ArrayList<Course>();
+        }
+        
         Query q = getPM().newQuery(Course.class);
         q.setFilter(":p.contains(ID)");
 
