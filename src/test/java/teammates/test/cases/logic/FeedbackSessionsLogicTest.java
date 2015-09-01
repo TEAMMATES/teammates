@@ -1611,7 +1611,134 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[32], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
         assertEquals(exportLines[33], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
         assertEquals(exportLines[34], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[35], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
+        
+        ______TS("CONTRIB summary visibility variations");
+        
+        // instructor not allowed to see student
+        session = newDataBundle.feedbackSessions.get("contribSessionStudentAnonymised");
+        instructor = newDataBundle.instructors.get("instructor1OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        System.out.println(export);
+        
+        /*This is how the export should look like
+        =======================================
+        Course,"FSQTT.idOfTypicalCourse1"
+        Session Name,"CONTRIB Session Student Anonymised"
+        
+        
+        Question 1,"How much has each team member including yourself, contributed to the project?"
+        
+        Summary Statistics,
+        In the points given below, an equal share is equal to 100 points. e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".
+        Claimed Contribution (CC) = the contribution claimed by the student.
+        Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
+        Team, Name, Email, CC, PC, Ratings Recieved
+        "Anonymous student 283462789's Team","Anonymous student 283462789","-","100","N/A","N/A, N/A, N/A"
+        "Anonymous student 412545508's Team","Anonymous student 412545508","-","Not Submitted","N/A","N/A, N/A, N/A"
+        "Anonymous student 541628227's Team","Anonymous student 541628227","-","Not Submitted","N/A","N/A, N/A, N/A"
+        "Anonymous student 670710946's Team","Anonymous student 670710946","-","Not Submitted","N/A","N/A, N/A, N/A"
+        "Anonymous student 799793665's Team","Anonymous student 799793665","-","Not Submitted","N/A","N/A"
+        
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Anonymous student 283462789&#39;s Team","Anonymous student 283462789","Unknown user","-",""
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
+        
+        */
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        assertEquals(exportLines[2], "");
+        assertEquals(exportLines[3], "");
+        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
+        assertEquals(exportLines[5], "");
+        assertEquals(exportLines[6], "Summary Statistics,");
+        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
+        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
+        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
+        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
+        assertEquals(exportLines[11], "\"Anonymous student 283462789's Team\",\"Anonymous student 283462789\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[12], "\"Anonymous student 412545508's Team\",\"Anonymous student 412545508\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[13], "\"Anonymous student 541628227's Team\",\"Anonymous student 541628227\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[14], "\"Anonymous student 670710946's Team\",\"Anonymous student 670710946\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[15], "\"Anonymous student 799793665's Team\",\"Anonymous student 799793665\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"");
+        assertEquals(exportLines[16], "");
+        assertEquals(exportLines[17], "");
+        assertEquals(exportLines[18], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
+        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Anonymous student 283462789&#39;s Team\",\"Anonymous student 283462789\",\"Unknown user\",\"-\",\"\"");
+        assertEquals(exportLines[20], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[21], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[22], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[23], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
 
+        // instructor not allowed to view student responses in section
+        session = newDataBundle.feedbackSessions.get("contribSessionInstructorSectionRestricted");
+        instructor = newDataBundle.instructors.get("instructor1OfCourseWithSections");
+
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        System.out.println(export);
+        
+        /*This is how the export should look like
+        =======================================
+        Course,"FSQTT.idOfCourseWithSections"
+        Session Name,"CONTRIB Session Section Restricted"
+        
+        
+        Question 1,"How much has each team member including yourself, contributed to the project?"
+        
+        Summary Statistics,
+        In the points given below, an equal share is equal to 100 points. e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".
+        Claimed Contribution (CC) = the contribution claimed by the student.
+        Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
+        Team, Name, Email, CC, PC, Ratings Recieved
+        "Team 2","student3 In Course With Sections","student3InCourseWithSections@gmail.tmt","100","N/A","N/A"
+        "Team 3","student4 In Course With Sections","student4InCourseWithSections@gmail.tmt","Not Submitted","N/A","N/A"
+        
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Team 2","student3 In Course With Sections","Sections","student3InCourseWithSections@gmail.tmt","Team 2","student3 In Course With Sections","Sections","student3InCourseWithSections@gmail.tmt","Equal share"
+        "Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","No Response"
+        "Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","No Response"
+        "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","No Response"
+        "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","No Response"
+        "Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","No Response"
+
+        */
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        assertEquals(exportLines[2], "");
+        assertEquals(exportLines[3], "");
+        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
+        assertEquals(exportLines[5], "");
+        assertEquals(exportLines[6], "Summary Statistics,");
+        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
+        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
+        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
+        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
+        assertEquals(exportLines[11], "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",\"N/A\"");
+        assertEquals(exportLines[12], "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"");
+        assertEquals(exportLines[13], "");
+        assertEquals(exportLines[14], "");
+        assertEquals(exportLines[15], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
+        assertEquals(exportLines[16], "\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Equal share\"");
+        assertEquals(exportLines[17], "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[18], "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[19], "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[20], "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[21], "\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"No Response\"");
+        
         ______TS("RUBRIC results");
         
         session = newDataBundle.feedbackSessions.get("rubricSession");
@@ -1694,7 +1821,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[30], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
         assertEquals(exportLines[31], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
         assertEquals(exportLines[32], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-
+        
         
         ______TS("Non-existent Course/Session");
         
