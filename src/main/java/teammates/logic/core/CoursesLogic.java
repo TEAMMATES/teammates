@@ -240,6 +240,8 @@ public class CoursesLogic {
         return sectionDetails;
     }
 
+
+    // TODO: modify to take in course attributes instead of courseId to remove need of verifyCourseIsPresent
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId, CourseDetailsBundle cdd) 
             throws EntityDoesNotExistException {
         
@@ -435,17 +437,24 @@ public class CoursesLogic {
         return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
     }
 
+    public CourseDetailsBundle getCourseSummary(CourseAttributes cd) throws EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null\n", cd);
+        
+        CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd.id, cdd);
+        
+        return cdd;
+    }
+    
+    // TODO: reduce calls to this function, use above function instead.
     public CourseDetailsBundle getCourseSummary(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
 
         if (cd == null) {
             throw new EntityDoesNotExistException("The course does not exist: " + courseId);
         }
-
-        CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseId, cdd);
         
-        return cdd;
+        return getCourseSummary(cd);
     }
     
     public CourseSummaryBundle getCourseSummaryWithFeedbackSessionsForInstructor(
@@ -455,6 +464,13 @@ public class CoursesLogic {
         return courseSummary;
     }
 
+    public CourseSummaryBundle getCourseSummaryWithoutStats(CourseAttributes course) throws EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null\n", course);
+
+        CourseSummaryBundle cdd = new CourseSummaryBundle(course);
+        return cdd;
+    }
+    
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
 
@@ -462,8 +478,7 @@ public class CoursesLogic {
             throw new EntityDoesNotExistException("The course does not exist: " + courseId);
         }
 
-        CourseSummaryBundle cdd = new CourseSummaryBundle(cd);
-        return cdd;
+        return getCourseSummaryWithoutStats(cd);
     }
     
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
@@ -549,7 +564,7 @@ public class CoursesLogic {
         }
         
         for (CourseAttributes ca : courseList) {
-            courseSummaryList.put(ca.id, getCourseSummary(ca.id));
+            courseSummaryList.put(ca.id, getCourseSummary(ca));
         }
         
         return courseSummaryList;
@@ -663,7 +678,7 @@ public class CoursesLogic {
         }
         
         for (CourseAttributes ca : courseAttributesList) {
-            courseSummaryList.put(ca.id, getCourseSummaryWithoutStats(ca.id));
+            courseSummaryList.put(ca.id, getCourseSummaryWithoutStats(ca));
         }
         
         return courseSummaryList;
