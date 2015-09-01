@@ -4,7 +4,10 @@
 
 
             <h1>
-                Ongoing Sessions<small> Total: {*}
+                Ongoing Sessions
+            </h1>
+      <br/>
+            <h1><small> Total: {*}
                     <br> {*}&nbsp;&nbsp;<span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;{*}
                 </small><br> <a href="#" class="btn btn-info" onclick="openAllSections({*})">
                     Open All</a> <a href="#" class="btn btn-warning" onclick="closeAllSections({*})">
@@ -22,7 +25,7 @@
             <div style="display: block;" class="panel panel-primary" id="timeFramePanel">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-4" title="Please select the date and time for which users can start submitting responses for the feedback session." data-toggle="tooltip" data-placement="top">
+                        <div class="col-md-4" data-original-title="Please select the date and time for which users can start submitting responses for the feedback session." data-placement="top" data-toggle="tooltip" title="">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="startdate" class="label-control">
@@ -46,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 border-left-gray" title="Please select the date and time after which the feedback session will no longer accept submissions from users." data-toggle="tooltip" data-placement="top">
+                        <div class="col-md-4 border-left-gray" data-original-title="Please select the date and time after which the feedback session will no longer accept submissions from users." data-placement="top" data-toggle="tooltip" title="">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="enddate" class="label-control">To</label>
@@ -87,7 +90,7 @@
 
                                 <div class="col-sm-6">
                                     <button type="submit" class="btn btn-primary btn-block">Filter
-                                        by Range</button>
+                                by Range</button>
                                 </div>
                             </div>
                         </div>

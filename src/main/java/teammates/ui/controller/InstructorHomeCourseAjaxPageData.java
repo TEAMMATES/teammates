@@ -17,6 +17,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.HomeFeedbackSessionRow;
+import teammates.ui.template.InstructorHomeFeedbackSessionRow;
 
 public class InstructorHomeCourseAjaxPageData extends PageData {
 
@@ -105,28 +107,29 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         addAttributeIf(true, delete, "onclick", "return toggleDeleteCourseConfirmation('" + courseId + "')");
         
         if (pendingCommentsCount <= 0) {
-            return Arrays.asList(enroll, view, edit,add, archive, delete);
-        } else {
-            String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span>"
-                                    + "<span class=\"glyphicon glyphicon-comment\"></span>"
-                                    + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
-                                    + "<span class=\"glyphicon glyphicon-envelope\"></span>";
-            ElementTag pending = createButton(
-                    pendingGraphic,
-                    className + "notify-pending-comments-for-test",
-                    getInstructorStudentCommentClearPendingLink(courseId),
-                    "Send email notification to recipients of " + pendingCommentsCount
-                        + " pending " + (pendingCommentsCount > 1 ? "comments" : "comment"));
-    
-            return Arrays.asList(enroll, view, edit,add, archive, pending, delete);
+            return Arrays.asList(enroll, view, edit, add, archive, delete);
         }
+        
+        String pendingGraphic = "<span class=\"badge\">" + pendingCommentsCount + "</span>"
+                                + "<span class=\"glyphicon glyphicon-comment\"></span>"
+                                + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
+                                + "<span class=\"glyphicon glyphicon-envelope\"></span>";
+        String plural = pendingCommentsCount > 1 ? "s" : "";
+        
+        ElementTag pending = createButton(
+                pendingGraphic,
+                className + "notify-pending-comments-for-test",
+                getInstructorStudentCommentClearPendingLink(courseId),
+                String.format(Const.Tooltips.COURSE_EMAIL_PENDING_COMMENTS,
+                              pendingCommentsCount, plural));
+
+        return Arrays.asList(enroll, view, edit, add, archive, pending, delete);
     }
     
-    private List<Map<String, Object>> createSessionRows(List<FeedbackSessionAttributes> sessions,
+    private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
             InstructorAttributes instructor, String courseId) {
-        List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
-        int displayedStatsCount = 0;
-
+        List<HomeFeedbackSessionRow> rows = new ArrayList<>();
+        
         Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
         try {
             courseIdSectionNamesMap = getCourseIdSectionNamesMap(sessions);
@@ -139,26 +142,26 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             Assumption.fail("Course that should exist is found to be non-existent");
         }
         
+        int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;
         for (FeedbackSessionAttributes session : sessions) {
-            Map<String, Object> columns = new HashMap<String, Object>();
             
-            columns.put("name", sanitizeForHtml(session.feedbackSessionName));
-            columns.put("tooltip", getInstructorHoverMessageForFeedbackSession(session));
-            columns.put("status", getInstructorStatusForFeedbackSession(session));
-            columns.put("href", getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName));
-            
-            if (session.isOpened() || session.isWaitingToOpen()) {
-                columns.put("recent", " recent");
-            } else if (displayedStatsCount < MAX_CLOSED_SESSION_STATS
-                       && !TimeHelper.isOlderThanAYear(session.createdTime)) {
-                columns.put("recent", " recent");
-                ++displayedStatsCount;
+            boolean isRecent = session.isOpened() || session.isWaitingToOpen();
+            if (!isRecent && statsToDisplayLeft > 0
+                          && !TimeHelper.isOlderThanAYear(session.createdTime)) {
+                isRecent = true;
+                --statsToDisplayLeft;
             }
             
-            columns.put("actions", getInstructorFeedbackSessionActions(session, false, instructor,
-                                                                       courseIdSectionNamesMap.get(courseId)));
-            
-            rows.add(columns);
+            InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
+                    sanitizeForHtml(session.feedbackSessionName),
+                    getInstructorHoverMessageForFeedbackSession(session),
+                    getInstructorStatusForFeedbackSession(session),
+                    getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
+                    isRecent,
+                    getInstructorFeedbackSessionActions(
+                            session, false, instructor, courseIdSectionNamesMap.get(courseId)));
+
+            rows.add(row);
         }
         
         return rows;
