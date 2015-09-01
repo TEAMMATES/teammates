@@ -263,6 +263,11 @@ public class InstructorCourseEditPage extends AppPage {
         browser.driver.findElement(By.id(linkId)).click();
     }
     
+    public boolean isTuneSessionPermissionsDivVisible(int instrNum, int sectionLevelNum) {
+        By sessionPermissionsDiv = By.id("tuneSessionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum);
+        return isElementVisible(sessionPermissionsDiv);
+    }
+    
     public boolean clickShowNewInstructorFormButton() {
         showNewInstructorFormButton.click();
         
