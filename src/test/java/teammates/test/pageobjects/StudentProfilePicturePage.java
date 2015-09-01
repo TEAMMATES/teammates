@@ -20,8 +20,8 @@ public class StudentProfilePicturePage extends AppPage {
         // First test is for the actual pages, the tests for after the first || is meant for tests that
         // results in error pages or entity not found pages, note that some of them do not have tags,
         // have no closing tags and those are intentional
-        return pageSource.contains("<h1>Student Profile</h1>")
-               || pageSource.contains("<title>studentProfilePic")
+        return pageSource.contains("<title>studentProfilePic")
+               || pageSource.contains("<body></body>")
                || pageSource.contains("The page you are looking for is not there.")
                || pageSource.contains("You are not authorized to view this page.")
                || pageSource.contains("TEAMMATES could not locate what you were trying to access.");
