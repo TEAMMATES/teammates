@@ -1,5 +1,6 @@
 <%@ tag description="adminEmail.jsp - Compose email" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ tag import="teammates.common.util.Config" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="emailToEdit" required="true" type="teammates.common.datatransfer.AdminEmailAttributes" %>
 
@@ -66,7 +67,7 @@
             </span>
         </form>
 
-        <div id="documentBaseUrl">${emailToEdit.appUrl}</div>
+        <div id="documentBaseUrl"><%=Config.APP_URL%></div>
     </div>
 
 </div>
