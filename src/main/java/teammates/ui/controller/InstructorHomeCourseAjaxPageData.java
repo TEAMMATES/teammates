@@ -2,17 +2,13 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CourseTable;
@@ -31,10 +27,12 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         super(account);
     }
     
-    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor, int pendingComments) {
+    public void init(int tableIndex, CourseSummaryBundle courseSummary, InstructorAttributes instructor, int pendingComments,
+                     List<String> sectionNames) {
         this.index = tableIndex;
         this.courseTable = createCourseTable(
-                courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments);
+                courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments,
+                sectionNames);
     }
     
     public CourseTable getCourseTable() {
@@ -46,11 +44,12 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
     
     private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
-            List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
+            List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount,
+            List<String> sectionNames) {
         String courseId = course.id;
         return new CourseTable(course,
                                createCourseTableLinks(instructor, courseId, pendingCommentsCount),
-                               createSessionRows(feedbackSessions, instructor, courseId));
+                               createSessionRows(feedbackSessions, instructor, courseId, sectionNames));
     }
     
     private ElementTag createButton(String text, String className, String href, String tooltip) {
@@ -127,20 +126,8 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
     
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
-            InstructorAttributes instructor, String courseId) {
+            InstructorAttributes instructor, String courseId, List<String> sectionNames) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
-        
-        Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
-        try {
-            courseIdSectionNamesMap = getCourseIdSectionNamesMap(sessions);
-        } catch (EntityDoesNotExistException wonthappen) {
-            /*
-             * EDNEE is thrown if the courseId of any of the sessions is not valid.
-             * However, the sessions passed to this method come from course objects which are
-             * retrieved through database query, thus impossible for the courseId to be invalid.
-             */
-            Assumption.fail("Course that should exist is found to be non-existent");
-        }
         
         int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;
         for (FeedbackSessionAttributes session : sessions) {
@@ -159,7 +146,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
                     isRecent,
                     getInstructorFeedbackSessionActions(
-                            session, false, instructor, courseIdSectionNamesMap.get(courseId)));
+                            session, false, instructor, sectionNames));
 
             rows.add(row);
         }

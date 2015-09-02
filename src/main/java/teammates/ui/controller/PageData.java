@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -787,25 +785,6 @@ public class PageData {
         msg += ".";
         
         return msg;
-    }
-    
-    /**
-     * Gets a Map with courseId as key and List of sectionNames as value
-     * @param fsaList
-     * @return
-     * @throws EntityDoesNotExistException
-     */
-    public Map<String, List<String>> getCourseIdSectionNamesMap(List<FeedbackSessionAttributes> fsaList) throws EntityDoesNotExistException {
-        Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
-        
-        for (FeedbackSessionAttributes fsa : fsaList) {
-            String courseId = fsa.courseId;
-            if (courseIdSectionNamesMap.get(courseId) == null) {
-                List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(courseId);
-                courseIdSectionNamesMap.put(courseId, sectionsInCourse);
-            }
-        }
-        return courseIdSectionNamesMap;
     }
     
     /**
