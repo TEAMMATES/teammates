@@ -166,7 +166,7 @@ public class CoursesDb extends EntitiesDb {
     }
     
     private List<Course> getCourseEntities(List<String> courseIds) {
-        if (courseIds.size() == 0) {
+        if (courseIds.isEmpty()) {
             return new ArrayList<Course>();
         }
         
