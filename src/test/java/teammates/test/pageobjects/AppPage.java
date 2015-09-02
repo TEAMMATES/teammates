@@ -745,6 +745,7 @@ public abstract class AppPage {
     }
     
     public static String processPageSourceForFailureCase(String content) {
+        Date now = new Date();
         return processPageSourceForGodMode(content)
                 // jQuery local
                 .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery-ui.min.js"), 
@@ -757,7 +758,9 @@ public abstract class AppPage {
                          Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
                 // jQuery-ui CDN
                 .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"), 
-                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"));
+                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
+                // today's date
+                .replace(TimeHelper.formatDate(now), "{*}");
     }
     
     
