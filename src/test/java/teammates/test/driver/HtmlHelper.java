@@ -44,6 +44,8 @@ public class HtmlHelper {
         String processedActualHtmlPart = convertToStandardHtml(actualString, true);
         
         if(!AssertHelper.isContainsRegex(processedExpectedHtmlPart, processedActualHtmlPart)){
+            processedActualHtmlPart = AppPage.processPageSourceForFailureCase(processedActualHtmlPart);
+            processedExpectedHtmlPart = AppPage.processPageSourceForFailureCase(processedExpectedHtmlPart);
             assertEquals("<expected>\n"+processedExpectedHtmlPart+"</expected>", "<actual>\n"+processedActualHtmlPart+"</actual>");
         }
     }
