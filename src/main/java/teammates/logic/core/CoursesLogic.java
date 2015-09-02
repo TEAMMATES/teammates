@@ -520,11 +520,11 @@ public class CoursesLogic {
         courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
-        for (CourseAttributes ca : courseList) {
-            courseIdList.remove(ca.id);
-        }
-        if (courseIdList.size() > 0) {
-            log.warning("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+        if (courseIdList.size() > courseList.size()) {
+            for (CourseAttributes ca : courseList) {
+                courseIdList.remove(ca.id);
+            }
+            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
         
         return courseList;
@@ -556,11 +556,11 @@ public class CoursesLogic {
         courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
-        for (CourseAttributes ca : courseList) {
-            courseIdList.remove(ca.id);
-        }
-        if (courseIdList.size() > 0) {
-            log.warning("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+        if (courseIdList.size() > courseList.size()) {
+            for (CourseAttributes ca : courseList) {
+                courseIdList.remove(ca.id);
+            }
+            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
         
         for (CourseAttributes ca : courseList) {
@@ -662,22 +662,22 @@ public class CoursesLogic {
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
         
         List<String> courseIdList = new ArrayList<String>();
-        List<CourseAttributes> courseAttributesList = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
         for (InstructorAttributes ia : instructorAttributesList) {
             courseIdList.add(ia.courseId);
         }
-        courseAttributesList = coursesDb.getCourses(courseIdList);
+        courseList = coursesDb.getCourses(courseIdList);
         
         // Check that all courseIds queried returned a course.
-        for (CourseAttributes ca : courseAttributesList) {
-            courseIdList.remove(ca.id);
-        }
-        if (courseIdList.size() > 0) {
-            log.warning("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+        if (courseIdList.size() > courseList.size()) {
+            for (CourseAttributes ca : courseList) {
+                courseIdList.remove(ca.id);
+            }
+            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
         
-        for (CourseAttributes ca : courseAttributesList) {
+        for (CourseAttributes ca : courseList) {
             courseSummaryList.put(ca.id, getCourseSummaryWithoutStats(ca));
         }
         
