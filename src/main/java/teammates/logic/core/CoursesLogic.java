@@ -17,9 +17,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -239,15 +239,11 @@ public class CoursesLogic {
         }
         return sectionDetails;
     }
-
-
-    // TODO: modify to take in course attributes instead of courseId to remove need of verifyCourseIsPresent
-    public List<SectionDetailsBundle> getSectionsForCourse(String courseId, CourseDetailsBundle cdd) 
-            throws EntityDoesNotExistException {
+    
+    public List<SectionDetailsBundle> getSectionsForCourse(CourseAttributes course, CourseDetailsBundle cdd) {
+        Assumption.assertNotNull("Course is null", course);
         
-        verifyCourseIsPresent(courseId);
-        
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(course.id);
         StudentAttributes.sortBySectionName(students);
         
         List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
@@ -441,7 +437,8 @@ public class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd.id, cdd);
+        //TODO: Can optimize multiple calls to getCourseSummary by querying once and passing in list of student attributes for the course.
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
         
         return cdd;
     }
