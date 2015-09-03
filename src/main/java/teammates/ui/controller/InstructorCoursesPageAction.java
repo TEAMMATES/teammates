@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
-import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -40,22 +39,36 @@ public class InstructorCoursesPageAction extends Action {
          * prepare the matching PageData object, accessing the Logic 
          * component if necessary.*/
         
-        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(
-                logic.getCourseSummariesForInstructor(account.googleId).values());
-        
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(allCourses);
-        List<CourseDetailsBundle> activeCourses = logic.extractActiveCourses(allCourses, account.googleId);
-        List<CourseDetailsBundle> archivedCourses = logic.extractArchivedCourses(allCourses, account.googleId);
-        
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
         
-        List<CourseAttributes> courseList = logic.getCoursesForInstructor(data.account.googleId);
+        // Get list of InstructorAttributes that belong to the user.
+        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
+        
+        // Get corresponding courses of the instructors.
+        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructors(instructorList).values());
+        List<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
+        List<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
+        
+        List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorList);
+        for (CourseDetailsBundle cdb : allCourses) {
+            if (archivedCourseIds.contains(cdb.course.id)) {
+                archivedCourses.add(cdb);
+            } else {
+                activeCourses.add(cdb);
+            }
+        }
+        
+        // Sort CourseDetailsBundle lists by course id
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(activeCourses);
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(archivedCourses);
+        
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        for (CourseAttributes course : courseList) {
-            instructorsForCourses.put(course.id, logic.getInstructorForGoogleId(course.id, data.account.googleId));
+        for (InstructorAttributes instructor : instructorList) {
+            instructorsForCourses.put(instructor.courseId, instructor);
         }
         
         data.init(activeCourses, archivedCourses, instructorsForCourses);
+        
         
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (allCourses.size() == 0 ){

@@ -545,6 +545,20 @@ public class CoursesLogic {
 
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId, 
                                                                                                          omitArchived);
+        
+        return getCourseSummariesForInstructor(instructorAttributesList);
+    }
+    
+    /**
+     * Gets course summaries for instructors.<br>
+     * 
+     * @param instructorAttributesList
+     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
+     * Does not include details within the course, such as feedback sessions.
+     */
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(List<InstructorAttributes> instructorAttributesList) 
+            throws EntityDoesNotExistException {
+        
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
         List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
@@ -782,4 +796,20 @@ public class CoursesLogic {
         }
         return result;
     }
+    
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+        List<String> activeCourseIds = new ArrayList<String>();
+        for (CourseDetailsBundle cdb : allCourses) {
+            if (cdb.course.isArchived) {
+                activeCourseIds.add(cdb.course.id);
+            }
+        }
+        for (InstructorAttributes instructor : instructorList) {
+            if (instructor.isArchived != null && instructor.isArchived == true) {
+                activeCourseIds.add(instructor.courseId);
+            }
+        }
+        return activeCourseIds;
+    }
+    
 }
