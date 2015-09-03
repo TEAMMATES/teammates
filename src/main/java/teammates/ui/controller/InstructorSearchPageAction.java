@@ -68,7 +68,7 @@ public class InstructorSearchPageAction extends Action {
                 frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, "", instructors);
             }
             if (isSearchForStudents) {
-                studentSearchResults = logic.searchStudents(searchKey, account.googleId, "");
+                studentSearchResults = logic.searchStudents(searchKey, "", instructors);
             }
             
             totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() 

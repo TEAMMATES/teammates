@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
-import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.search.Cursor;
@@ -26,20 +25,20 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     
     public StudentSearchResultBundle(){}
     
-    public StudentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
+    public StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
+                                                 List<InstructorAttributes> instructorRoles) {
         if(results == null){
             return this;
         }
         
         cursor = results.getCursor();
-        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
         List<String> giverEmailList = new ArrayList<String>();
         for(InstructorAttributes ins:instructorRoles){
             giverEmailList.add(ins.email);
             instructors.put(ins.courseId, ins);
         }
         
-        List<ScoredDocument> filteredResults = filterOutCourseId(results, googleId);
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructorRoles);
         for(ScoredDocument doc:filteredResults){
             StudentAttributes student = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 

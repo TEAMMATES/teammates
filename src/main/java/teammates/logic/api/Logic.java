@@ -925,12 +925,12 @@ public class Logic {
      * 
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
+    public StudentSearchResultBundle searchStudents(String queryString, String cursorString,
+                                                    List<InstructorAttributes> instructorRoles) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        
-        return studentsLogic.searchStudents(queryString, googleId, cursorString);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorRoles);
+        return studentsLogic.searchStudents(queryString, cursorString, instructorRoles);
     }
     
     /**
