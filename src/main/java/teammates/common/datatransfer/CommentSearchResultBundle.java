@@ -8,7 +8,6 @@ import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.logic.core.CommentsLogic;
-import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
@@ -32,17 +31,17 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     /**
      * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection
      */
-    public CommentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
+    public CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
+                                                 List<InstructorAttributes> instructorRoles) {
         if(results == null) return this;
         
         cursor = results.getCursor();
-        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
         List<String> giverEmailList = new ArrayList<String>();
         for(InstructorAttributes ins:instructorRoles){
             giverEmailList.add(ins.email);
         }
         
-        List<ScoredDocument> filteredResults = filterOutCourseId(results, googleId);
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructorRoles);
         for(ScoredDocument doc:filteredResults){
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 

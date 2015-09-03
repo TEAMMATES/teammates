@@ -2383,10 +2383,12 @@ public class Logic {
      * @param cursorString, used to support the pagination
      * @return
      */
-    public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
+    public CommentSearchResultBundle searchComment(String queryString, String cursorString,
+                                                   List<InstructorAttributes> instructorRoles) {
         Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(googleId);
-        return commentsLogic.searchComment(queryString, googleId, cursorString);
+        Assumption.assertNotNull(cursorString);
+        Assumption.assertNotNull(instructorRoles);
+        return commentsLogic.searchComment(queryString, cursorString, instructorRoles);
     }
     
     /**

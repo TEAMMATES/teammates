@@ -19,6 +19,7 @@ import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -477,17 +478,17 @@ public class CommentsDb extends EntitiesDb {
      * Search for comments
      * @return {@link CommentSearchResultBundle}
      */
-    public CommentSearchResultBundle search(String queryString, String googleId, String cursorString) {
+    public CommentSearchResultBundle search(String queryString, String cursorString,
+                                            List<InstructorAttributes> instructorRoles) {
         if (queryString.trim().isEmpty()) {
             return new CommentSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 
-                                                          new CommentSearchQuery(googleId,
-                                                                                 queryString,
-                                                                                 cursorString));
+                                                          new CommentSearchQuery(queryString, cursorString,
+                                                                                 instructorRoles));
         
-        return new CommentSearchResultBundle().fromResults(results, googleId);
+        return new CommentSearchResultBundle().fromResults(results, instructorRoles);
     }
     
     /**
