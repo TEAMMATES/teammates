@@ -437,7 +437,6 @@ public class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        //TODO: Can optimize multiple calls to getCourseSummary by querying once and passing in list of student attributes for the course.
         cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
         
         return cdd;
