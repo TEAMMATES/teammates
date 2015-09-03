@@ -391,6 +391,17 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         
         homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("Failure case: Ajax error");
+        
+        // Change action link so that ajax will fail
+        homePage.changeFsCopyButtonActionLink(courseId, feedbackSessionName, "/page/nonExistentPage?");
+        // Click copy
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
+        // Wait for modal to appear and show error.
+        homePage.waitForModalErrorToLoad();
+        
+        
     }
 
     public void testDeleteCourseAction() throws Exception{
