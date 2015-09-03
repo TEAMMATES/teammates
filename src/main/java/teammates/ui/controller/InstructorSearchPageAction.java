@@ -65,7 +65,7 @@ public class InstructorSearchPageAction extends Action {
                 commentSearchResults = logic.searchComment(searchKey, "", instructors);
             }
             if (isSearchCommentForResponses) {
-                frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, account.googleId, "");
+                frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, "", instructors);
             }
             if (isSearchForStudents) {
                 studentSearchResults = logic.searchStudents(searchKey, account.googleId, "");
