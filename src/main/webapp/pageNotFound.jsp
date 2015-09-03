@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.util.Const"%>
+<% response.setStatus(404);%>
 <!DOCTYPE html>
 
 <html>
