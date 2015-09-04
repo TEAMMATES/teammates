@@ -1,7 +1,6 @@
 package teammates.test.automated;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
@@ -13,12 +12,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.EmailAction;
@@ -27,37 +22,12 @@ import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
 import teammates.test.util.TestHelper;
 
 public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final DataBundle dataBundle = getTypicalDataBundle();
-    
-    @SuppressWarnings("serial")
-    public static class FeedbackSessionClosingCallback extends BaseTaskQueueCallback {
-        
-        @Override
-        public int execute(URLFetchRequest request) {
-            
-            HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
-            
-            assertTrue(paramMap.containsKey(ParamsNames.EMAIL_TYPE));
-            
-            EmailType typeOfMail = EmailType.valueOf((String) paramMap.get(ParamsNames.EMAIL_TYPE));
-            assertEquals(EmailType.FEEDBACK_CLOSING, typeOfMail);
-            
-            assertTrue(paramMap.containsKey(ParamsNames.EMAIL_FEEDBACK));
-            assertNotNull(paramMap.get(ParamsNames.EMAIL_FEEDBACK));
-            
-            assertTrue(paramMap.containsKey(ParamsNames.EMAIL_COURSE));
-            assertNotNull(paramMap.get(ParamsNames.EMAIL_COURSE));
-            
-            FeedbackSessionClosingCallback.taskCount++;
-            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
-        }
-    }
     
     @BeforeClass
     public static void classSetUp() throws Exception {
