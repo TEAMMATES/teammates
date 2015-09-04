@@ -23,7 +23,6 @@ import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.automated.FeedbackSessionPublishedCallback;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.util.Priority;
 import teammates.test.util.TestHelper;
 

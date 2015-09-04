@@ -22,7 +22,6 @@ import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.automated.FeedbackSessionClosingCallback;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.util.TestHelper;
 
 public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQueueTestCase {

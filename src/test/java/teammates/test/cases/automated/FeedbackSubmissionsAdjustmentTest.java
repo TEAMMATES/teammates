@@ -38,7 +38,6 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.automated.FeedbackSubmissionsAdjustmentCallback;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.util.TestHelper;
 
 public class FeedbackSubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {

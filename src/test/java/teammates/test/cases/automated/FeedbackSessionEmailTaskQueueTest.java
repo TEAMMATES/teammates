@@ -15,7 +15,6 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.automated.FeedbackSessionsEmailTaskQueueCallback;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 
 /**
  *  Tests feedback session reminder and publish emails.
