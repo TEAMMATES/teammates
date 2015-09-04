@@ -1,4 +1,4 @@
-package teammates.test.cases.logic;
+package teammates.test.cases.automated;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;

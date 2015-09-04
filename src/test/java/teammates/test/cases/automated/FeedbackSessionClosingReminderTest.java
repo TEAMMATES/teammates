@@ -1,4 +1,4 @@
-package teammates.test.automated;
+package teammates.test.cases.automated;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -21,6 +21,7 @@ import teammates.logic.automated.FeedbackSessionClosingMailAction;
 import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.test.automated.FeedbackSessionClosingCallback;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.util.TestHelper;
 
