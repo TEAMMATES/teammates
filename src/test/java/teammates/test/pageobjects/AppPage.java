@@ -727,6 +727,7 @@ public abstract class AppPage {
             }
             try {
                 String processedPageSource = processPageSourceForGodMode(content);                
+                processedPageSource = HtmlHelper.convertToStandardHtml(processedPageSource, false);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
