@@ -9,7 +9,6 @@
         <packages>
             <package name="teammates.test.cases.common" />
             <package name="teammates.test.cases.logic" />
-            <package name="teammates.test.cases.pageobjects" />
             <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.ui" />
             <package name="teammates.test.cases.ui.pagedata" />
