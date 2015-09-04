@@ -13,7 +13,7 @@ import teammates.test.cases.BaseTaskQueueCallback;
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 @SuppressWarnings("serial")
-public class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallback {
+public class FeedbackSubmissionsAdjustmentCallback extends BaseTaskQueueCallback {
     
     @Override
     public int execute(URLFetchRequest request) {
@@ -28,7 +28,7 @@ public class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallbac
         assertTrue(paramMap.containsKey(ParamsNames.FEEDBACK_SESSION_NAME));
         assertNotNull(paramMap.get(ParamsNames.FEEDBACK_SESSION_NAME));
         
-        SubmissionsAdjustmentTaskQueueCallback.taskCount++;
+        FeedbackSubmissionsAdjustmentCallback.taskCount++;
         return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
     }
 
