@@ -10,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.Emails.EmailType;
-import teammates.test.cases.BaseTaskQueueCallback;
 
 import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
