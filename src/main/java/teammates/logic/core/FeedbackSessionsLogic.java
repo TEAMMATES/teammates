@@ -2244,6 +2244,13 @@ public class FeedbackSessionsLogic {
                         getNameTeamNamePairForEmail(question.giverType,
                                 response.giverEmail, roster)[pairType]);
             }
+            
+            String actualGiverTeam = roster.getStudentForEmail(response.giverEmail).team;
+            if (!emailNameTable.containsKey(actualGiverTeam)) {
+                emailNameTable.put(actualGiverTeam, getNameTeamNamePairForEmail(
+                                                        question.giverType,
+                                                        response.giverEmail, roster)[pairType]);
+            }
         } else if (emailNameTable.containsKey(response.giverEmail) == false) {
             emailNameTable.put(
                     response.giverEmail,
