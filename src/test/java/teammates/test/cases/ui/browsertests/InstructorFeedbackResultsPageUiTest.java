@@ -114,7 +114,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: test moderate responses button for team response");
 
-        verifyModerateResponsesButton(4, "CFResultsUiT.alice.b@gmail.tmt");
+        verifyModerateResponsesButton(4, "Team 1");
 
     }
 
