@@ -1,4 +1,4 @@
-package teammates.test.automated;
+package teammates.test.cases.automated;
 
 import java.util.Map;
 

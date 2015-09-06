@@ -27,7 +27,6 @@ import teammates.logic.automated.FeedbackSessionOpeningMailAction;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
-import teammates.test.automated.BaseTaskQueueCallback;
 import teammates.test.util.TestHelper;
 
 public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
