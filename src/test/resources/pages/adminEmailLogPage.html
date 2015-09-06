@@ -22,8 +22,8 @@
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <noscript>
-
+    
+<noscript>
     &lt;div id="noscript-warning"&gt;
         &lt;h1&gt;
             TEAMMATES works best with JavaScript enabled. &lt;br&gt; You may
@@ -181,25 +181,20 @@
             &lt;/div&gt;
         &lt;/div&gt;
         &lt;p&gt;
-            As taken from:  
+            As taken from:
+        &lt;/p&gt;
         &lt;ol&gt;
             &lt;li&gt;&lt;a href="http://activatejavascript.org/en/instructions/"&gt;http://activatejavascript.org/en/instructions/&lt;/a&gt;&lt;/li&gt;
             &lt;li&gt;&lt;a href="http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages"&gt;
                          http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page&lt;/a&gt;&lt;/li&gt;
         &lt;/ol&gt;
-        
-        &lt;/p&gt;
     &lt;/div&gt;
 </noscript>
 
 
-
     <script src="/js/adminEmailLog.js" type="text/javascript"></script>
 </head>
-
 <body>
-    <div id="dhtmltooltip"></div>
-
     
 
 
@@ -219,32 +214,30 @@
         <div id="contentLinks" class="collapse navbar-collapse">
 
             <ul class="nav navbar-nav">
-                <li class="">
-                    <a href="/admin/adminHomePage">Create
-                        Instructor</a>
+                <li>
+                    <a href="/admin/adminHomePage">Create Instructor</a>
                 </li>
                 
-                <li class="">
-                    <a href="/admin/adminAccountManagementPage">Account
-                        Management</a>
+                <li>
+                    <a href="/admin/adminAccountManagementPage">Account Management</a>
                 </li>
                 
-                <li class="">
+                <li>
                     <a href="/admin/adminSearchPage">Search</a>
                 </li>
                 
-                <li class="">
-                    <a href="/admin/adminActivityLogPage">Activity
-                        Log</a>
+                <li>
+                    <a href="/admin/adminActivityLogPage">Activity Log</a>
                 </li>
                 
-                <li class="">
+                <li>
                     <a href="/admin/adminSessionsPage">Sessions</a>
                 </li>
-
+                
                 <li class="active dropdown">
-
-                    <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Email <span class="caret"></span></a> 
+                    <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        Email <span class="caret"></span>
+                    </a> 
                     <ul role="menu" class="dropdown-menu">
                         <li>
                              <a href="/admin/adminEmailComposePage">Email</a>
@@ -256,197 +249,192 @@
                     </ul>
                 </li>
             </ul>
-
             <ul class="nav navbar-nav pull-right">
-                <li>                
+                <li>
                     <a href="/logout.jsp" class="nav logout">
-                        <span class="glyphicon glyphicon-user"></span>
-                        Logout  (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="defaultAdmin"> defaultAdmin
-                        </span>) 
+                        <span class="glyphicon glyphicon-user"></span> Logout
+                        
+                        (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="defaultAdmin">
+                                defaultAdmin
+                        </span>)
                     </a>  
                 </li>
             </ul>
-
         </div>
     </div>
 </div>
-
     <div id="mainContent" class="container">
-                <div id="topOfPage"></div>
-                <h1>Admin Email Log</h1>
-                <br />
+        
 
-                <div class="well well-plain">
-                    <form role="form" id="activityLogFilter" action="/admin/adminEmailLogPage" method="post" class="form-horizontal">
 
-                        <div id="filterForm" class="panel-heading">
+<div id="topOfPage"></div>
 
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="input-group">
-                                            <span class="input-group-btn">
-                                                <button name="search_submit" type="submit" class="btn btn-default">Filter</button>
-                                            </span> 
-                                            
-                                                    <input type="text" value="" name="filterQuery" id="filterQuery" class="form-control" />
-                                                
-                                                    <input type="text" style="display:none;" value="true" name="pageChange" />
-                                                    
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <h1>Admin Email Log</h1>
+    <br />
+
+        
+        
+    
+
+
+<div class="well well-plain">
+    <form role="form" id="activityLogFilter" action="/admin/adminEmailLogPage" method="post" class="form-horizontal">
+
+        <div id="filterForm" class="panel-heading">
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button name="search_submit" type="submit" class="btn btn-default">Filter</button>
+                            </span> 
                             
-                            <div class="form-group">
-                                <a onclick="toggleReference()" class="btn btn-link center-block" href="#"><span id="referenceText"> Show
-                                        Reference</span><br /> <span id="detailButton" class="glyphicon glyphicon-chevron-down"></span> </a>
-
-                            </div>
-
-                            <div id="filterReference" style="display: none;">
-                                <div class="form-group">
-
-                                    <div class="col-md-12">
-                                                                         
-                                        <div class="alert alert-success">
-                                            <p class="text-center">
-                                                <span class="glyphicon glyphicon-filter"></span>
-                                                A query is formed by a
-                                                list of filters. Each
-                                                filter is in the format
-                                                <strong> [filter
-                                                    label]: [value1,
-                                                    value2, value3....]</strong><br />
-                                            </p>
-                                        </div>
-
-
-                                        <p class="text-center">
-                                            <span class="glyphicon glyphicon-hand-right"></span>
-                                            Combine filters with the <span class="label label-warning">
-                                                AND</span> keyword or the <span class="label label-warning">|</span>
-                                            separator.
-
-                                        </p>
-                                    </div>
-
-                                </div>
-                                <small>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-
-                                            <div class="form-control-static">
-                                                <strong>Sample
-                                                    Queries:</strong> <br />
-                                                <ul>
-                                                    <li>E.g. receiver:
-                                                        alice@gmail.com AND
-                                                        subject:
-                                                        welcome,TEAMMATES
-                                                        AND after:
-                                                        15/03/15</li>
-                                                    <li>E.g. after:
-                                                        13/3/15 AND before:
-                                                        17/3/15 AND
-                                                        Receiver:
-                                                        teammates@test.com
-                                                        AND info:click,join link</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-
-                                            <div class="form-control-static">
-
-                                                <strong>
-                                                    Possible Labels:</strong> after,
-                                                    before, receiver, subject,
-                                                    info, version<br />
-                                                <ul>
-
-                                                    <li>E.g. after: 13/03/15</li>
-                                                    <li>E.g. before: 13/03/15</li>
-                                                    <li>E.g. receiver: alice@gmail.com</li>
-                                                    <li>E.g. subject: Welcome,teammates</li>
-                                                    <li>E.g. info: you can click the link below </li>                                      
-                                                    <li>E.g. info: link,cs1010 (Use "," to search multiple key strings)</li> 
-                                                    <li>E.g. version: 4.15,4.16</li>
-                                                    <li>E.g. version: 4-15,4.16 (both "." and "-" are acceptable)</li>
-                                                    
-                                                                                                                                             
-                                                     
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                            <input type="text" value="" name="filterQuery" id="filterQuery" class="form-control" />
+                        
+                            <input type="text" style="display:none;" value="true" name="pageChange" />
                                     
-                                </small>
-                            </div>
-
                         </div>
-                    </form>
-                </div>
-                
-                <!-- this form is used to store parameters for ajaxloader only -->
-                   <form id="ajaxLoaderDataForm">
-                      <input type="hidden" value="null" name="offset" />
-                       <!-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
-                        in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
-                        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
-                        or simply reloaded with this parameter omitted. -->
-                        
-                        <input type="hidden" value="" name="filterQuery" id="filterQuery" />
-                    </form> 
-                
-                 
-                
-                
-                <br />
-                <br />
-                
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <strong>Email Log</strong>
-                    </div>
-                    <div class="table-responsive">
-                        
-                        <table id="emailLogsTable" class="table dataTable">
-                            <thead>
-                                <tr>
-                                    <td><strong>Receiver</strong></td>
-                                    <td><strong>Subject</strong></td>
-                                    <td><strong>Date</strong></td>     
-                                </tr>
-                            </thead>
-                            
-                            {*}
-                            
-                        </table>  
                     </div>
                 </div>
-            
-            
-
-
-
-
-    <div class="alert alert-warning" id="statusMessage">
-          Total Logs gone through in last search: {*}<br /></div>
-
-            
             </div>
-                    
-            <a class="back-to-top-left" href="#"><span class="glyphicon glyphicon-arrow-up"></span> Top</a> <a class="back-to-top-right" href="#">Top <span class="glyphicon glyphicon-arrow-up"></span></a> <br /> <br />
+            
+            <div class="form-group">
+                <a onclick="toggleReference()" class="btn btn-link center-block" href="#">      
+                    <span id="referenceText"> Show Reference</span><br /> 
+                    <span id="detailButton" class="glyphicon glyphicon-chevron-down"></span> 
+                </a>
+            </div>
 
+            <div id="filterReference" style="display: none;">
+                <div class="form-group">
+                    <div class="col-md-12">                                
+                        <div class="alert alert-success">
+                            <p class="text-center">
+                                <span class="glyphicon glyphicon-filter"></span>
+                                A query is formed by a
+                                list of filters. Each
+                                filter is in the format
+                                <strong> [filter label]: [value1, value2, value3....]</strong><br />
+                            </p>
+                        </div>
+
+                        <p class="text-center">
+                            <span class="glyphicon glyphicon-hand-right"></span>
+                            Combine filters with the <span class="label label-warning">AND</span> keyword or the 
+                            <span class="label label-warning">|</span> separator.
+                        </p>
+                    </div>
+                </div>
+                <small>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="form-control-static">
+                                <strong>Sample Queries:</strong> <br />
+                                <ul>
+                                    <li>E.g. receiver:
+                                        alice@gmail.com AND
+                                        subject:
+                                        welcome,TEAMMATES
+                                        AND after:
+                                        15/03/15</li>
+                                    <li>E.g. after:
+                                        13/3/15 AND before:
+                                        17/3/15 AND
+                                        Receiver:
+                                        teammates@test.com
+                                        AND info:click,join link</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="form-control-static">
+                                <strong>
+                                    Possible Labels:</strong> after,
+                                    before, receiver, subject,
+                                    info, version<br />
+                                <ul>
+
+                                    <li>E.g. after: 13/03/15</li>
+                                    <li>E.g. before: 13/03/15</li>
+                                    <li>E.g. receiver: alice@gmail.com</li>
+                                    <li>E.g. subject: Welcome,teammates</li>
+                                    <li>E.g. info: you can click the link below </li>                                      
+                                    <li>E.g. info: link,cs1010 (Use "," to search multiple key strings)</li> 
+                                    <li>E.g. version: 4.15,4.16</li>
+                                    <li>E.g. version: 4-15,4.16 (both "." and "-" are acceptable)</li>
+                              
+                                </ul>
+                            </div>
+                        </div>
+                    </div>               
+                </small>
+            </div>
+        </div>
+    </form>
+</div>
+    
+    
+    <form id="ajaxLoaderDataForm">
+        <input type="hidden" value="{*}" name="offset" />
+        
+        
+        <input type="hidden" value="" name="filterQuery" id="filterQuery" />
+    </form>
+    
+    
+
+    <br />
+    <br />
+    
     
 
 
 
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <strong>Email Log</strong>
+    </div>
+    
+    <div class="table-responsive">  
+        <table id="emailLogsTable" class="table dataTable">
+            <thead>
+                <tr>
+                    <td><strong>Receiver</strong></td>
+                    <td><strong>Subject</strong></td>
+                    <td><strong>Date</strong></td>     
+                </tr>
+            </thead>
+            
+            {*}
+        </table>  
+    </div>
+</div>                       
+    
+
+
+
+
+
+
+
+    
+        <div class="alert alert-info" id="statusMessage">
+              Total Logs gone through in last search: {*}
+        </div>
+        
+    
+    
+
+
+    
+    </div>
+    
 
 
 <div class="container-fluid" id="footerComponent">
@@ -464,6 +452,5 @@
         </div>
     </div>
 </div>
-
 
 </body></html>
