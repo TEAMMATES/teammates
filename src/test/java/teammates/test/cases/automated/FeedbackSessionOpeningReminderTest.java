@@ -35,7 +35,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @SuppressWarnings("serial")
-    private static class FeedbackSessionOpeningCallback extends BaseTaskQueueCallback {
+    public static class FeedbackSessionOpeningCallback extends BaseTaskQueueCallback {
         
         @Override
         public int execute(URLFetchRequest request) {

@@ -52,7 +52,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
     
     
     @SuppressWarnings("serial")
-    private static class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallback {
+    public static class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallback {
         
         @Override
         public int execute(URLFetchRequest request) {

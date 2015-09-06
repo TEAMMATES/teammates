@@ -36,7 +36,7 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     private static final DataBundle dataBundle = getTypicalDataBundle();
 
     @SuppressWarnings("serial")
-    private static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
+    public static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
         
         @Override
         public int execute(URLFetchRequest request) {            
