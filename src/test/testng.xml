@@ -65,6 +65,7 @@
             <class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminActivityLogPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminEmailLogPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumOptionQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumRecipientQuestionUiTest" />
@@ -95,6 +96,7 @@
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminSessionsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" />
         </classes>
     </test>
     
