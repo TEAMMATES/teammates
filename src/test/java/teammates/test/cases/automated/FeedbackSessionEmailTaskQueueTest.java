@@ -1,20 +1,28 @@
 package teammates.test.cases.automated;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+
+import java.util.HashMap;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.automated.FeedbackSessionsEmailTaskQueueCallback;
+import teammates.test.automated.BaseTaskQueueCallback;
 
 /**
  *  Tests feedback session reminder and publish emails.
@@ -22,13 +30,31 @@ import teammates.test.automated.FeedbackSessionsEmailTaskQueueCallback;
  *  
  */
 @Test(sequential=true)
-public class FeedbackSessionEmailTaskQueueTest extends
-        BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQueueTestCase {
     
     private static final Logic logic = new Logic();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     private static final DataBundle dataBundle = getTypicalDataBundle();
 
+    @SuppressWarnings("serial")
+    private static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
+        
+        @Override
+        public int execute(URLFetchRequest request) {            
+            HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
+            
+            assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_FEEDBACK));
+            assertNotNull(paramMap.get(ParamsNames.SUBMISSION_FEEDBACK));
+
+            assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_COURSE));
+            assertNotNull(paramMap.get(ParamsNames.SUBMISSION_COURSE));
+            
+            FeedbackSessionsEmailTaskQueueCallback.taskCount++;
+             
+            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+        }
+    }
+    
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();

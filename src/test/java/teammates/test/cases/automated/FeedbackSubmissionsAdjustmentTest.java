@@ -13,6 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -28,6 +29,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
@@ -37,7 +39,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.automated.FeedbackSubmissionsAdjustmentCallback;
+import teammates.test.automated.BaseTaskQueueCallback;
 import teammates.test.util.TestHelper;
 
 public class FeedbackSubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {
@@ -49,6 +51,28 @@ public class FeedbackSubmissionsAdjustmentTest extends BaseComponentUsingTaskQue
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
+    
+    @SuppressWarnings("serial")
+    private static class FeedbackSubmissionsAdjustmentCallback extends BaseTaskQueueCallback {
+        
+        @Override
+        public int execute(URLFetchRequest request) {
+            HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
+            
+            assertTrue(paramMap.containsKey(ParamsNames.COURSE_ID));
+            assertNotNull(paramMap.get(ParamsNames.COURSE_ID));
+            
+            assertTrue(paramMap.containsKey(ParamsNames.ENROLLMENT_DETAILS));
+            assertNotNull(paramMap.get(ParamsNames.ENROLLMENT_DETAILS));
+            
+            assertTrue(paramMap.containsKey(ParamsNames.FEEDBACK_SESSION_NAME));
+            assertNotNull(paramMap.get(ParamsNames.FEEDBACK_SESSION_NAME));
+            
+            FeedbackSubmissionsAdjustmentCallback.taskCount++;
+            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
+        }
+
+    }
     
     @BeforeClass
     public static void classSetUp() throws Exception {
