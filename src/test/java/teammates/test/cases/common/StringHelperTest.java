@@ -233,6 +233,13 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("", StringHelper.convertToEmptyStringIfNull(empty));
         assertEquals(" ", StringHelper.convertToEmptyStringIfNull(whitespace));
     }
+    
+    @Test
+    public void testTruncate() {
+        assertEquals("1234567...", StringHelper.truncate("1234567890xxxx", 10));
+        assertEquals("1234567890", StringHelper.truncate("1234567890", 10));
+        assertEquals("123456789", StringHelper.truncate("123456789", 10));
+    }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
         for(String str : stringsToMatch){

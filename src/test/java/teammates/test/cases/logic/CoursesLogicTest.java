@@ -352,7 +352,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseSummary(null);
+            coursesLogic.getCourseSummary((CourseAttributes) null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+        
+        try {
+            coursesLogic.getCourseSummary((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -400,7 +407,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseSummaryWithoutStats(null);
+            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes)null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+        
+        try {
+            coursesLogic.getCourseSummaryWithoutStats((String)null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());

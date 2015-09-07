@@ -2,13 +2,9 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -24,7 +20,6 @@ import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
-import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -40,13 +35,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -742,8 +736,28 @@ public abstract class AppPage {
             return false;
         }
     }
-
-    private String processPageSourceForGodMode(String content) {
+    
+    public static String processPageSourceForFailureCase(String content) {
+        Date now = new Date();
+        return processPageSourceForGodMode(content)
+                // jQuery local
+                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery.min.js"))
+                // jQuery CDN
+                .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery.min.js"))
+                // jQuery-ui local
+                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery-ui.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
+                // jQuery-ui CDN
+                .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
+                // today's date
+                .replace(Sanitizer.sanitizeForHtml(TimeHelper.formatDate(now)), "{*}");
+    }
+    
+    
+    private static String processPageSourceForGodMode(String content) {
         Date now = new Date();
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
@@ -823,14 +837,13 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) {
+        WebElement element = browser.driver.findElement(by);
         if (filePath.startsWith("/")) {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
-        String actualPageSource = browser.driver.getPageSource();
-        String actual = "";
+        String actual = element.getAttribute("outerHTML");
         try {
-            actual = extractHtmlPartFromPageSource(by, actualPageSource);
-            String expected = extractHtmlPartFromFile(by, filePath);
+            String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
         } catch (AssertionError ae) { 
             if(!testAndRunGodMode(filePath, actual)) {
@@ -843,35 +856,6 @@ public abstract class AppPage {
             
         }
         return this;
-    }
-    
-    private String extractHtmlPartFromPageSource(By by, String pageSource) throws SAXException, IOException {
-        InputSource inputSource = new InputSource();
-        inputSource.setCharacterStream(new StringReader(pageSource));
-        return extractHtmlPartFromInputSource(by, inputSource);
-    }
-    
-    private String extractHtmlPartFromFile(By by, String filePath) throws SAXException, IOException {
-        InputSource inputSource = new InputSource(new BufferedReader(new FileReader(filePath)));
-        return extractHtmlPartFromInputSource(by, inputSource);
-    }
-    
-    private String extractHtmlPartFromInputSource(By by, InputSource inputSource)
-            throws SAXException, IOException {
-        String byId = by.toString().split(":")[1].trim();
-        
-        DOMParser parser = new DOMParser();
-        parser.parse(inputSource);
-        org.w3c.dom.Document htmlDoc = parser.getDocument();
-        org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
-        StringBuilder expectedHtml = new StringBuilder();
-        HtmlHelper.convertToStandardHtmlRecursively(expectedElement, "", expectedHtml, true);
-        
-        return expectedHtml.toString().replace("%20", " ")
-                .replace("%27", "'")
-                .replace("<#document", "")
-                .replace("   <html   </html>", "")
-                .replace("</#document>", "");
     }
     
     /**
@@ -915,7 +899,7 @@ public abstract class AppPage {
         String actual = "";
         
         try {
-            expectedString = extractHtmlPartFromFile(By.id("mainContent"), filePath);
+            expectedString = FileHelper.readFile(filePath);
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {

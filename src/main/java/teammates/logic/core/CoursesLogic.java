@@ -240,6 +240,8 @@ public class CoursesLogic {
         return sectionDetails;
     }
 
+
+    // TODO: modify to take in course attributes instead of courseId to remove need of verifyCourseIsPresent
     public List<SectionDetailsBundle> getSectionsForCourse(String courseId, CourseDetailsBundle cdd) 
             throws EntityDoesNotExistException {
         
@@ -435,17 +437,24 @@ public class CoursesLogic {
         return studentsLogic.getUnregisteredStudentsForCourse(courseId).size();
     }
 
+    public CourseDetailsBundle getCourseSummary(CourseAttributes cd) throws EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null\n", cd);
+        
+        CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd.id, cdd);
+        
+        return cdd;
+    }
+    
+    // TODO: reduce calls to this function, use above function instead.
     public CourseDetailsBundle getCourseSummary(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
 
         if (cd == null) {
             throw new EntityDoesNotExistException("The course does not exist: " + courseId);
         }
-
-        CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseId, cdd);
         
-        return cdd;
+        return getCourseSummary(cd);
     }
     
     public CourseSummaryBundle getCourseSummaryWithFeedbackSessionsForInstructor(
@@ -455,6 +464,13 @@ public class CoursesLogic {
         return courseSummary;
     }
 
+    public CourseSummaryBundle getCourseSummaryWithoutStats(CourseAttributes course) throws EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null\n", course);
+
+        CourseSummaryBundle cdd = new CourseSummaryBundle(course);
+        return cdd;
+    }
+    
     public CourseSummaryBundle getCourseSummaryWithoutStats(String courseId) throws EntityDoesNotExistException {
         CourseAttributes cd = coursesDb.getCourse(courseId);
 
@@ -462,8 +478,7 @@ public class CoursesLogic {
             throw new EntityDoesNotExistException("The course does not exist: " + courseId);
         }
 
-        CourseSummaryBundle cdd = new CourseSummaryBundle(cd);
-        return cdd;
+        return getCourseSummaryWithoutStats(cd);
     }
     
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
@@ -495,17 +510,21 @@ public class CoursesLogic {
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
-        ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+        List<String> courseIdList = new ArrayList<String>();
 
         for (InstructorAttributes instructor : instructorList) {
-            CourseAttributes course = coursesDb.getCourse(instructor.courseId);
-            
-            if (course == null) {
-                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
-                            + instructor.toString());
-            } else {
-                courseList.add(course);
+            courseIdList.add(instructor.courseId);
+        }
+        
+        courseList = coursesDb.getCourses(courseIdList);
+        
+        // Check that all courseIds queried returned a course.
+        if (courseIdList.size() > courseList.size()) {
+            for (CourseAttributes ca : courseList) {
+                courseIdList.remove(ca.id);
             }
+            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
         }
         
         return courseList;
@@ -526,21 +545,26 @@ public class CoursesLogic {
 
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId, 
                                                                                                          omitArchived);
-    
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
+        List<String> courseIdList = new ArrayList<String>();
+        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
-        for (InstructorAttributes ia : instructorAttributesList) {
-            CourseAttributes course = coursesDb.getCourse(ia.courseId);
-            
-            try {
-                if (course != null) {
-                    courseSummaryList.put(course.id, getCourseSummary(course.id));
-                } else {
-                    log.warning("Course was deleted but the Instructor still exists: " + Const.EOL + ia.toString());
-                }
-            } catch (EntityDoesNotExistException e) {
-                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL + ia.toString());
+        for (InstructorAttributes instructor : instructorAttributesList) {
+            courseIdList.add(instructor.courseId);
+        }
+        
+        courseList = coursesDb.getCourses(courseIdList);
+        
+        // Check that all courseIds queried returned a course.
+        if (courseIdList.size() > courseList.size()) {
+            for (CourseAttributes ca : courseList) {
+                courseIdList.remove(ca.id);
             }
+            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+        }
+        
+        for (CourseAttributes ca : courseList) {
+            courseSummaryList.put(ca.id, getCourseSummary(ca));
         }
         
         return courseSummaryList;
@@ -584,6 +608,7 @@ public class CoursesLogic {
         return courseList;
     }
     
+    // TODO: batch retrieve courses?
     public List<CourseAttributes> getArchivedCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
@@ -636,14 +661,24 @@ public class CoursesLogic {
         
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
         
+        List<String> courseIdList = new ArrayList<String>();
+        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+        
         for (InstructorAttributes ia : instructorAttributesList) {
-            CourseAttributes course = coursesDb.getCourse(ia.courseId);
-            
-            try {
-                courseSummaryList.put(course.id, getCourseSummaryWithoutStats(course.id));
-            } catch (EntityDoesNotExistException e) {
-                log.warning("Course was deleted but the Instructor still exists: " + Const.EOL + ia.toString());
+            courseIdList.add(ia.courseId);
+        }
+        courseList = coursesDb.getCourses(courseIdList);
+        
+        // Check that all courseIds queried returned a course.
+        if (courseIdList.size() > courseList.size()) {
+            for (CourseAttributes ca : courseList) {
+                courseIdList.remove(ca.id);
             }
+            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+        }
+        
+        for (CourseAttributes ca : courseList) {
+            courseSummaryList.put(ca.id, getCourseSummaryWithoutStats(ca));
         }
         
         return courseSummaryList;

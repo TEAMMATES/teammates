@@ -1,4 +1,4 @@
-package teammates.test.cases.ui;
+package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.*;
 
@@ -9,7 +9,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.test.cases.BaseTestCase;
 
-public class ActivityLogTest extends BaseTestCase{
+public class ActivityLogEntryTest extends BaseTestCase{
 
     @Test
     public void testActivityLogEntryClass() {

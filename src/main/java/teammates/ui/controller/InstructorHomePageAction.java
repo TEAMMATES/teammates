@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -45,9 +46,10 @@ public class InstructorHomePageAction extends Action {
                 logic.getFeedbackResponseCommentsForSendingState(courseToLoad, CommentSendingState.PENDING)
                      .size();
         int pendingCommentsCount = commentsForSendingStateCount + feedbackResponseCommentsForSendingStateCount;
+        List<String> sectionNames = logic.getSectionNamesForCourse(course.course.id);
         
         InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
-        data.init(index, course, instructor, pendingCommentsCount);
+        data.init(index, course, instructor, pendingCommentsCount, sectionNames);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
     }
