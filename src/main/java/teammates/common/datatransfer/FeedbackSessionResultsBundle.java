@@ -782,6 +782,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                     Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
                     possibleRecipients = new ArrayList<String>(studentEmailsToNames);
+                    Collections.sort(possibleRecipients);
                 }
                 break;
             case NONE:
