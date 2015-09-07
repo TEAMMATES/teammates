@@ -6,31 +6,32 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.FileHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class TestngTest extends BaseTestCase {
 
-    private Scanner scanner;
     List<String> tests = new ArrayList<String>();
     List<String> directoriesTested = new ArrayList<String>();
+    String testngXmlAsString;
 
     @Test
-    public void checksTestsInTestNg() {
+    public void checksTestsInTestNg() throws FileNotFoundException {
         
         // Verify that testng.xml exists
         File f = new File("./src/test/testng.xml");   
         assertTrue(f.exists() && !f.isDirectory());
+        testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
         
         updateDirectoriesTested();
         getTestFiles("./src/test/java/teammates/test");
         excludeFilesNotInTestng();
 
         for (int i = 0; i < tests.size(); i++) {
-            verifyTestngContainsTest(f, tests.get(i));
+            assertTrue(testngXmlAsString.contains(tests.get(i)));
         }
     }
 
@@ -64,29 +65,6 @@ public class TestngTest extends BaseTestCase {
         }
     }
 
-    /**
-     * Verify that testng.xml contains the test file
-     */
-    private void verifyTestngContainsTest(File f, String test) {
-        try {
-            scanner = new Scanner(f);
-            boolean foundFile = false;
-            
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                
-                if (line.contains(test)) { 
-                    foundFile = true;
-                    break;
-                }
-            }
-            
-            assertTrue(foundFile);
-            
-        } catch(FileNotFoundException e) { 
-            assert false;
-        }
-    }
     
     private void updateDirectoriesTested() {
         directoriesTested.add("cases");
