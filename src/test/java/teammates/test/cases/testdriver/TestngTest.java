@@ -30,8 +30,8 @@ public class TestngTest extends BaseTestCase {
         getTestFiles("./src/test/java/teammates/test");
         excludeFilesNotInTestng();
 
-        for (int i = 0; i < tests.size(); i++) {
-            assertTrue(testngXmlAsString.contains(tests.get(i)));
+        for (String test : tests) {
+            assertTrue(testngXmlAsString.contains(test));
         }
     }
 
@@ -43,13 +43,13 @@ public class TestngTest extends BaseTestCase {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();      
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            String name = listOfFiles[i].getName();
+        for (File file : listOfFiles) {
+            String name = file.getName();
             
-            if (listOfFiles[i].isFile() && name.endsWith(".java")) {
+            if (file.isFile() && name.endsWith(".java")) {
                 tests.add(name.replace(".java", ""));
                 
-            } else if (listOfFiles[i].isDirectory()) {
+            } else if (file.isDirectory()) {
             
                 if (directoriesTested.contains(name)) {
                     getTestFiles(path + "/" + name);
@@ -57,8 +57,8 @@ public class TestngTest extends BaseTestCase {
                     
                     List<String> nestedDirs = getAllNestedDirectories(name);
                     
-                    for (int j = 0; j < nestedDirs.size(); j++) {
-                        getTestFiles(path + "/" + nestedDirs.get(j));
+                    for (String nestedDir : nestedDirs) {
+                        getTestFiles(path + "/" + nestedDir);
                     }
                 }
             }
@@ -85,9 +85,7 @@ public class TestngTest extends BaseTestCase {
      * contains a sub-directory which should be tested
      */
     private boolean containsNestedDirectory(String currentDirectory) {
-        for (int i = 0; i < directoriesTested.size(); i++) {
-            String dir = directoriesTested.get(i);
-            
+        for (String dir : directoriesTested) {
             if (dir.contains(currentDirectory+"/")) {
                 return true;
             }
@@ -103,9 +101,7 @@ public class TestngTest extends BaseTestCase {
     private List<String> getAllNestedDirectories(String currentDirectory) {
         List<String> nestedDirs = new ArrayList<String>();
         
-        for (int i = 0; i < directoriesTested.size(); i++) {
-            String dir = directoriesTested.get(i);
-            
+        for (String dir : directoriesTested) {     
             if (dir.contains(currentDirectory + "/")) {
                 nestedDirs.add(dir);
             }
