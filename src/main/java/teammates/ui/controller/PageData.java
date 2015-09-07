@@ -18,7 +18,6 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
@@ -122,36 +121,6 @@ public class PageData {
      * class (posDiff and negDiff).
      * Positive points will be green, negative will be red, 0 will be black.
      * This will also put N/A or Not Sure for respective points representation.
-     * The output will be E+x% for positive points, E-x% for negative points,
-     * and just E for equal share.
-     * Zero contribution will be printed as 0%
-     * @param points
-     *         In terms of full percentage, so equal share will be 100, 20% more
-     *         from equal share will be 120, etc.
-     */
-    public static String getPointsAsColorizedHtml(int points) {
-        if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + 
-                   Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
-        } else if (points == Const.POINTS_NOT_SURE) {
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + 
-                   Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S</span>";
-        } else if (points == 0) {
-            return "<span class=\"color-negative\">0%</span>";
-        } else if (points > 100) {
-            return "<span class=\"color-positive\">E +" + (points - 100) + "%</span>";
-        } else if (points < 100) {
-            return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
-        } else {
-            return "<span class=\"color_neutral\">E</span>";
-        }
-    }
-    
-    /**
-     * Method to color the points by adding <code>span</code> tag with appropriate
-     * class (posDiff and negDiff).
-     * Positive points will be green, negative will be red, 0 will be black.
-     * This will also put N/A or Not Sure for respective points representation.
      * The output will be Equal Share + x% for positive points,
      * Equal Share - x% for negative points,
      * and just Equal Share for equal share.
@@ -186,31 +155,6 @@ public class PageData {
             return "<span class=\"badge background-color-white color-positive\"> E </span>";
         }
     }
-    
-    
-    public static String getPointsDiffAsHtml(StudentResultSummary summary) {
-        int claimed = summary.claimedToInstructor;
-        int perceived = summary.perceivedToInstructor;
-        int diff = perceived - claimed;
-        if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
-                || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
-                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE 
-                   + "\">N/A</span>";
-        } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" "
-                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S"
-                   + "</span>";
-        } else if (diff > 0) {
-            return "<span class=\"color-positive\">+" + diff + "%</span>";
-        } else if (diff < 0) {
-            return "<span class=\"color-negative\">" + diff + "%</span>";
-        } else {
-            return "<span>" + diff + "</span>";
-        }
-    }
-    
-
     
     /**
      * Formats P2P feedback.
