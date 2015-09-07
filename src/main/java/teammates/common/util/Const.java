@@ -874,8 +874,10 @@ public class Const {
         public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
         public static final String STUDENT_GOOGLEID_RESET_FAIL = "An error occurred when trying to reset student's google id";
         
+        public static final String STUDENT_EVENTUAL_CONSISTENCY = "If the student was created during the last few minutes, try again in a few more minutes as the student may be being saved.";
+        
         public static final String STUDENT_EDITED = "The student has been edited successfully";
-        public static final String STUDENT_NOT_FOUND = "The student you tried to edit does not exist. If the student was created during the last few minutes, try again in a few more minutes as the student may be being saved.";
+        public static final String STUDENT_NOT_FOUND_EDIT = "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
