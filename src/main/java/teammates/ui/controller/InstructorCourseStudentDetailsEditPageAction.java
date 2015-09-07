@@ -27,7 +27,7 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
         if (student == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_EDIT,
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT,
                                                StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);

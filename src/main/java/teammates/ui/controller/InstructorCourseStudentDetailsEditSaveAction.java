@@ -35,7 +35,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         
         boolean studentNotFound = student == null;
         if (studentNotFound) {
-            return redirectWithError(Const.StatusMessages.STUDENT_NOT_FOUND_EDIT, courseId);
+            return redirectWithError(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT, courseId);
         }
         
         student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
