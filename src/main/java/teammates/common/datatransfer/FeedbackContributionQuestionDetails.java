@@ -15,7 +15,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
-import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
@@ -145,13 +144,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
         if(view.equals("question")){//for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
         } else if(view.equals("student")){//Student view of stats.
-            return getQuestionResultStatisticsHtmlStudentView(responses, question, pageData, bundle);
+            return getQuestionResultStatisticsHtmlStudentView(responses, question, studentEmail, bundle);
         } else {
             return "";
         }
@@ -159,15 +158,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle) {
     
         if(responses.size() == 0 ){
             return "";
         }
     
-        String currentUserEmail = pageData.student.email;
-        String currentUserTeam = bundle.emailTeamNameTable.get(pageData.student.email);
+        String currentUserEmail = studentEmail;
+        String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
         
         responses = getActualResponses(question, bundle);
 
