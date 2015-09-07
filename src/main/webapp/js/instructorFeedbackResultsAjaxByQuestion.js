@@ -50,6 +50,12 @@ $(document).ready(function() {
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
 
+                // look for .no-response in panel body that is set by the backend
+                // switch panel from panel-info to panel-default (gray), if found.
+                if ($(panelBody[0]).find('.no-response').length !== 0) {
+                    $(panelBody[0]).parent().parent().removeClass('panel-info').addClass('panel-default');
+                }
+
                 showHideStats();
             }
         });
