@@ -5,6 +5,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsEditPageAction extends InstructorCoursesPageAction {
@@ -23,6 +25,14 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        
+        if (student == null) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_EDIT,
+                                               StatusMessageColor.DANGER));
+            isError = true;
+            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        }
+        
         boolean hasSection = logic.hasIndicatedSections(courseId);
         
         InstructorCourseStudentDetailsEditPageData data =
@@ -36,6 +46,4 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
 
     }
-
-
 }
