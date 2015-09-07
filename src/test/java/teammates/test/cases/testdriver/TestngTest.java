@@ -27,7 +27,7 @@ public class TestngTest extends BaseTestCase {
         testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
         
         updateDirectoriesTested();
-        getTestFiles("./src/test/java/teammates/test");
+        getTestFiles("./src/test/java/teammates/test/cases");
         excludeFilesNotInTestng();
 
         for (String test : tests) {
@@ -67,7 +67,6 @@ public class TestngTest extends BaseTestCase {
 
     
     private void updateDirectoriesTested() {
-        directoriesTested.add("cases");
         directoriesTested.add("testdriver");
         directoriesTested.add("ui/browsertests"); // ui not tested but browsertests is tested
     }
