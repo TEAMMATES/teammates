@@ -35,7 +35,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         
         boolean studentNotFound = student == null;
         if (studentNotFound) {
-            return redirectWithError(Const.StatusMessages.STUDENT_NOT_FOUND, courseId);
+            return redirectWithError(Const.StatusMessages.STUDENT_NOT_FOUND,
+                                     "Student <span class=\"bold\">" + studentEmail + "</span> in "
+                                     + "Course <span class=\"bold\">[" + courseId + "]</span> not found.",
+                                     courseId);
         }
         
         student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
@@ -75,8 +78,9 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         
     }
 
-    private RedirectResult redirectWithError(String errorMessage, String courseId) {
-        statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
+    private RedirectResult redirectWithError(String errorToUser, String errorToAdmin, String courseId) {
+        statusToUser.add(new StatusMessage(errorToUser, StatusMessageColor.DANGER));
+        statusToAdmin = errorToAdmin;
         isError = true;
         
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
