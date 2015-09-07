@@ -204,6 +204,41 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
         
         
+        ______TS("Error case, student does not exist");
+        
+        String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
+                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
+                Const.ParamsNames.NEW_STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.COMMENTS, student1InCourse1.comments,
+                Const.ParamsNames.TEAM_NAME, student1InCourse1.team
+        };
+        
+        gaeSimulation.loginAsInstructor(instructorId);
+        a = getAction(submissionParams);
+        RedirectResult redirectResult = getRedirectResult(a);
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE +
+                "?error=" + "true" +
+                "&user=" + instructorId +
+                "&courseid=" + instructor1OfCourse1.courseId,
+                redirectResult.getDestinationWithParams());
+        
+        assertEquals(true, redirectResult.isError);
+        assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND, redirectResult.getStatusMessage());
+        
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
+                "Student <span class=\"bold\">" + nonExistentEmailForStudent + "</span> in " +
+                "Course <span class=\"bold\">[" + instructor1OfCourse1.courseId + "]</span> not found." +
+                "|||/page/instructorCourseStudentDetailsEditSave";
+        
+        assertEquals(expectedLogMessage, a.getLogMessage());
+        
+        
         ______TS("Unsuccessful case: test null student email parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
