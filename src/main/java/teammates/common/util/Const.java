@@ -1005,8 +1005,8 @@ public class Const {
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
-        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
-        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist.";
+        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
+        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "Normally, we would show the student’s profile here. "
