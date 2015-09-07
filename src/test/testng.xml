@@ -7,23 +7,18 @@
         </listeners>
         <!--These can be run without starting the server. Should be run often. -->
         <packages>
+            <package name="teammates.test.cases.automated" />
             <package name="teammates.test.cases.common" />
             <package name="teammates.test.cases.logic" />
-            <package name="teammates.test.cases.pageobjects" />
-            <package name="teammates.test.cases" />
             <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.ui" />
             <package name="teammates.test.cases.ui.pagedata" />
         </packages>
         <classes>
+            <class name="teammates.test.cases.testdriver.AssertHelperTest" />
             <class name="teammates.test.cases.testdriver.DataBundleTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
-
-            <!-- The tests below use logic functions to test automated reminders -->
-            <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
-            <class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
         </classes>
     </test>
 
@@ -70,6 +65,7 @@
             <class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminActivityLogPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminEmailLogPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumOptionQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumRecipientQuestionUiTest" />
@@ -100,6 +96,7 @@
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminSessionsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" />
         </classes>
     </test>
     

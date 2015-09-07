@@ -69,7 +69,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
         assertNotNull(logPage.getFirstActivityLogRow());
-        logPage.verifyHtmlPart(logPage.getFirstActivityLogRow(), "/adminActivityLogPageTemp.html");
+        logPage.verifyHtml("/adminActivityLogPage.html");
     }
     
     
