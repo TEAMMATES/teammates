@@ -1051,7 +1051,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
-        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, this.student.email, 
+        String studentEmail;
+        try {
+            studentEmail = this.student.email;
+        } catch (NullPointerException e) {
+            studentEmail = null;
+        }
+        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, studentEmail, 
                                                                                  bundle, viewType.toString());
         
         String questionText = questionDetails.getQuestionText();
