@@ -18,6 +18,7 @@
             <class name="teammates.test.cases.testdriver.AssertHelperTest" />
             <class name="teammates.test.cases.testdriver.DataBundleTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
+            <class name="teammates.test.cases.testdriver.TestngTest" />
             <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
         </classes>
     </test>
