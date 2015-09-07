@@ -15,97 +15,76 @@ import teammates.test.cases.BaseTestCase;
 public class TestngTest extends BaseTestCase {
 
     List<String> tests = new ArrayList<String>();
-    List<String> directoriesTested = new ArrayList<String>();
     String testngXmlAsString;
 
     @Test
-    public void checksTestsInTestNg() throws FileNotFoundException {
+    public void checkTestsInTestng() throws FileNotFoundException {
+        verifyTestngXmlExists();
+        readTestngAsString();
         
-        // Verify that testng.xml exists
-        File f = new File("./src/test/testng.xml");   
-        assertTrue(f.exists() && !f.isDirectory());
-        testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
-        
-        updateDirectoriesTested();
-        getTestFiles("./src/test/java/teammates/test/cases");
+        getTestFiles();
         excludeFilesNotInTestng();
 
+        verifyTestngContainsTests();
+    }
+    
+    private void verifyTestngXmlExists() {
+        File f = new File("./src/test/testng.xml");   
+        assertTrue(f.exists() && !f.isDirectory());
+    }
+    
+    private void readTestngAsString() throws FileNotFoundException {
+        testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
+    }
+
+    /**
+     * Files to be checked in testng.xml are stored in tests
+     */
+    private void getTestFiles() {
+        getTestFiles("./src/test/java/teammates/test/cases", true); // BaseComponentTestCase, BaseTestCase excluded
+    }
+    
+    private void excludeFilesNotInTestng() {
+        tests.remove("BaseUiTestCase");
+        tests.remove("FeedbackQuestionUiTest");
+        tests.remove("GodModeTest");
+    }
+
+    private void verifyTestngContainsTests() {
         for (String test : tests) {
             assertTrue(testngXmlAsString.contains(test));
         }
     }
 
     /**
-     * Get all Java test files from directories which are included in directories tested
-     * @param path  path to search in
+     * Files to be checked in testng.xml are stored in tests
+     * 
+     * @param path  check files and directories in the current path
+     * @param areFilesInCurrentDirExcluded  if true, files in the current path are not
+     *                                      added to tests but sub-directories are checked
      */
-    private void getTestFiles(String path) {
+    private void getTestFiles(String path, boolean areFilesInCurrentDirExcluded) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();      
 
         for (File file : listOfFiles) {
             String name = file.getName();
             
-            if (file.isFile() && name.endsWith(".java")) {
+            if (file.isFile() && name.endsWith(".java") && !areFilesInCurrentDirExcluded) {
                 tests.add(name.replace(".java", ""));
                 
             } else if (file.isDirectory()) {
-            
-                if (directoriesTested.contains(name)) {
-                    getTestFiles(path + "/" + name);
-                } else if (containsNestedDirectory(name)) {
-                    
-                    List<String> nestedDirs = getAllNestedDirectories(name);
-                    
-                    for (String nestedDir : nestedDirs) {
-                        getTestFiles(path + "/" + nestedDir);
-                    }
-                }
+                getTestFiles(path + "/" + name, isPackageNameinTestng(name));
             }
         }
     }
-
     
-    private void updateDirectoriesTested() {
-        directoriesTested.add("testdriver");
-        directoriesTested.add("ui/browsertests"); // ui not tested but browsertests is tested
+    private boolean isPackageNameinTestng(String dir) {
+        return getPackagesInTestng().contains("." + dir + "\" />");
     }
     
-    private void excludeFilesNotInTestng() {
-        tests.remove("BaseComponentTestCase");
-        tests.remove("BaseTestCase");
-        tests.remove("BaseUiTestCase");
-        tests.remove("FeedbackQuestionUiTest");
-        tests.remove("GodModeTest");
-    }
-    
-    /**
-     * If the current directory is not to be tested but the current directory 
-     * contains a sub-directory which should be tested
-     */
-    private boolean containsNestedDirectory(String currentDirectory) {
-        for (String dir : directoriesTested) {
-            if (dir.contains(currentDirectory+"/")) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Return a list of nested sub-directories inside the current directory
-     * which should be tested
-     */
-    private List<String> getAllNestedDirectories(String currentDirectory) {
-        List<String> nestedDirs = new ArrayList<String>();
-        
-        for (String dir : directoriesTested) {     
-            if (dir.contains(currentDirectory + "/")) {
-                nestedDirs.add(dir);
-            }
-        }
-        
-        return nestedDirs;
+    private String getPackagesInTestng() {
+        return testngXmlAsString.substring(testngXmlAsString.indexOf("<packages>") + "<packages>".length(), 
+                                           testngXmlAsString.indexOf("</packages>"));
     }
 }
