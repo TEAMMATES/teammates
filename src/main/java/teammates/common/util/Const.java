@@ -874,8 +874,10 @@ public class Const {
         public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
         public static final String STUDENT_GOOGLEID_RESET_FAIL = "An error occurred when trying to reset student's google id";
         
+        public static final String STUDENT_EVENTUAL_CONSISTENCY = "If the student was created during the last few minutes, try again in a few more minutes as the student may still be being saved.";
+        
         public static final String STUDENT_EDITED = "The student has been edited successfully";
-        public static final String STUDENT_NOT_FOUND = "The student you tried to edit does not exist. If the student was created during the last few minutes, try again in a few more minutes as the student may be being saved.";
+        public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
@@ -1003,8 +1005,8 @@ public class Const {
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
-        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
-        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist.";
+        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
+        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "Normally, we would show the student’s profile here. "
