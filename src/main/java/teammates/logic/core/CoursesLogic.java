@@ -17,9 +17,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -239,15 +239,11 @@ public class CoursesLogic {
         }
         return sectionDetails;
     }
-
-
-    // TODO: modify to take in course attributes instead of courseId to remove need of verifyCourseIsPresent
-    public List<SectionDetailsBundle> getSectionsForCourse(String courseId, CourseDetailsBundle cdd) 
-            throws EntityDoesNotExistException {
+    
+    public List<SectionDetailsBundle> getSectionsForCourse(CourseAttributes course, CourseDetailsBundle cdd) {
+        Assumption.assertNotNull("Course is null", course);
         
-        verifyCourseIsPresent(courseId);
-        
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(course.id);
         StudentAttributes.sortBySectionName(students);
         
         List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
@@ -441,7 +437,7 @@ public class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null\n", cd);
         
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd.id, cdd);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
         
         return cdd;
     }
@@ -545,6 +541,20 @@ public class CoursesLogic {
 
         List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId, 
                                                                                                          omitArchived);
+        
+        return getCourseSummariesForInstructor(instructorAttributesList);
+    }
+    
+    /**
+     * Gets course summaries for instructors.<br>
+     * 
+     * @param instructorAttributesList
+     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
+     * Does not include details within the course, such as feedback sessions.
+     */
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(List<InstructorAttributes> instructorAttributesList) 
+            throws EntityDoesNotExistException {
+        
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         List<String> courseIdList = new ArrayList<String>();
         List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
@@ -782,4 +792,20 @@ public class CoursesLogic {
         }
         return result;
     }
+    
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+        List<String> archivedCourseIds = new ArrayList<String>();
+        for (CourseDetailsBundle cdb : allCourses) {
+            if (cdb.course.isArchived) {
+                archivedCourseIds.add(cdb.course.id);
+            }
+        }
+        for (InstructorAttributes instructor : instructorList) {
+            if (instructor.isArchived != null && instructor.isArchived == true) {
+                archivedCourseIds.add(instructor.courseId);
+            }
+        }
+        return archivedCourseIds;
+    }
+    
 }

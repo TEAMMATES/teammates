@@ -14,7 +14,8 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCommentsPageAction;
 import teammates.ui.controller.StudentCommentsPageData;
 
-//Priority added due to conflict between StudentHomePageActionTest and StudentCommentsPageActionTest
+// Priority added due to conflict between InstructorStudentListPageActionTest,
+// StudentHomePageActionTest, and StudentCommentsPageActionTest.
 @Priority(-1)
 public class StudentCommentsPageActionTest extends BaseActionTest {
 
