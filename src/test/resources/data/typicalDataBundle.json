@@ -748,6 +748,29 @@
             ]
             
         },
+        "graceperiod.session.feedbackFromTeamToSelf":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"Give feedback as a team to own team."
+            },
+            "questionNumber":"3",
+            "questionType":"TEXT",
+            "giverType":"TEAMS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
+        },
         "closed.session.feedback":{
             "feedbackSessionName":"Closed Session",
             "courseId":"idOfTypicalCourse1",
