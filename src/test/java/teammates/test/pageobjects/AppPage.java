@@ -742,8 +742,8 @@ public abstract class AppPage {
         Date now = new Date();
         return processPageSourceForGodMode(content)
                 // jQuery local
-                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery-ui.min.js"), 
-                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
+                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery.min.js"), 
+                         Sanitizer.sanitizeForHtml("{*}/jquery.min.js"))
                 // jQuery CDN
                 .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"), 
                          Sanitizer.sanitizeForHtml("{*}/jquery.min.js"))

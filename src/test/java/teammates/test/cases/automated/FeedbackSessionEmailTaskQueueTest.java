@@ -1,4 +1,4 @@
-package teammates.test.cases.logic;
+package teammates.test.cases.automated;
 
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
@@ -22,8 +22,6 @@ import teammates.common.util.Const.SystemParams;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
 
 /**
  *  Tests feedback session reminder and publish emails.
@@ -31,8 +29,7 @@ import teammates.test.cases.BaseTaskQueueCallback;
  *  
  */
 @Test(sequential=true)
-public class FeedbackSessionEmailTaskQueueTest extends
-        BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQueueTestCase {
     
     private static final Logic logic = new Logic();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();

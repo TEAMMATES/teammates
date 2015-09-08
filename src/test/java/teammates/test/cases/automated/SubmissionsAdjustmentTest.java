@@ -1,4 +1,4 @@
-package teammates.test.cases.logic;
+package teammates.test.cases.automated;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -39,12 +39,9 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
 import teammates.test.util.TestHelper;
 
-public class SubmissionsAdjustmentTest extends
-        BaseComponentUsingTaskQueueTestCase {
+public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {
     
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
     protected static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -55,8 +52,7 @@ public class SubmissionsAdjustmentTest extends
     
     
     @SuppressWarnings("serial")
-    public static class SubmissionsAdjustmentTaskQueueCallback 
-                extends BaseTaskQueueCallback {
+    public static class SubmissionsAdjustmentTaskQueueCallback extends BaseTaskQueueCallback {
         
         @Override
         public int execute(URLFetchRequest request) {
@@ -74,6 +70,7 @@ public class SubmissionsAdjustmentTest extends
             SubmissionsAdjustmentTaskQueueCallback.taskCount++;
             return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
         }
+
     }
     
     @BeforeClass
