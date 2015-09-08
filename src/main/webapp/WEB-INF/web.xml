@@ -309,7 +309,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
           </user-data-constraint>
     </security-constraint>
     <error-page>
-        <error-code>403</error-code>
+        <error-code>401</error-code>
         <location>/unauthorized.jsp</location>
     </error-page>
     <error-page>
