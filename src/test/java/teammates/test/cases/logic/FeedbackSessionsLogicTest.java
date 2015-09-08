@@ -39,9 +39,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Const.ParamsNames;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
@@ -50,16 +50,14 @@ import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.automated.FeedbackSessionPublishedReminderTest.FeedbackSessionPublishedCallback;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.logic.core.Emails.EmailType;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
-public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -70,25 +68,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackSessionsLogic.class);
-        gaeSimulation.setupWithTaskQueueCallbackClass(PublishUnpublishSessionCallback.class);
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
     }
     
-    @SuppressWarnings("serial")
-    public static class PublishUnpublishSessionCallback extends BaseTaskQueueCallback {
-        
-        @Override
-        public int execute(URLFetchRequest request) {
-            
-            HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
-            
-            EmailAction action = new FeedbackSessionPublishedMailAction(paramMap);
-            action.getPreparedEmailsAndPerformSuccessOperations();
-            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
-        }
-    }
-
     @Test
     public void testAll() throws Exception{
         
@@ -1894,9 +1877,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     public void testPublishUnpublishFeedbackSession() throws Exception {
-        
-        PublishUnpublishSessionCallback.resetTaskCount();
-        
+
         ______TS("success: publish");
         FeedbackSessionAttributes
             sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -1908,7 +1889,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-        FeedbackSessionPublishedCallback.waitForTaskQueueExecution(1,0);
+
+        HashMap<String, String> paramMap = createParamMapForAction(sessionUnderTest);
+        EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
+        fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        
         sessionUnderTest.sentPublishedEmail = true;
 
         // Set real time of publishing
@@ -1928,7 +1913,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             assertEquals("Session is already published.", e.getMessage());
         }
         
-        ______TS("success: publish");
+        ______TS("success: unpublish");
         
         fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
@@ -2303,4 +2288,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         printTestClassFooter();
         turnLoggingDown(FeedbackSessionsLogic.class);
     }
+
+    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
+        // Prepare parameter map to be used with FeedbackSessionPublishedMailAction
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+
+        paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_PUBLISHED.toString());
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.feedbackSessionName);
+        paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
+
+        return paramMap;
+    }
+
 }
