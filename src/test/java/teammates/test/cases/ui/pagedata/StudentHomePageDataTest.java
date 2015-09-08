@@ -147,7 +147,7 @@ public class StudentHomePageDataTest {
         awaitingSession = createFeedbackSession("awaiting session", 1, 2, 1);
         publishedSession = createFeedbackSession("published session", -1, -1, -1);
         closedSession = createFeedbackSession("closed session", -2, -1, 1);
-        submittedClosedSession = createFeedbackSession("submitted closed session", -1, 0, 1);
+        submittedClosedSession = createFeedbackSession("submitted closed session", -2, -1, 1);
         
         // Submission status
         Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
