@@ -313,6 +313,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <location>/unauthorized.jsp</location>
     </error-page>
     <error-page>
+        <error-code>403</error-code>
+        <location>/unauthorized.jsp</location>
+    </error-page>
+    <error-page>
         <error-code>404</error-code>
         <location>/pageNotFound.jsp</location>
     </error-page>
