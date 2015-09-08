@@ -34,7 +34,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
         if (student == null) {
-            return redirectWithError(Const.StatusMessages.STUDENT_NOT_FOUND,
+            return redirectWithError(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT,
                                      "Student <span class=\"bold\">" + studentEmail + "</span> in "
                                      + "Course <span class=\"bold\">[" + courseId + "]</span> not found.",
                                      courseId);

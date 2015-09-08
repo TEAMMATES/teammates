@@ -228,7 +228,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 redirectResult.getDestinationWithParams());
         
         assertEquals(true, redirectResult.isError);
-        assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND, redirectResult.getStatusMessage());
+        assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT, redirectResult.getStatusMessage());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
