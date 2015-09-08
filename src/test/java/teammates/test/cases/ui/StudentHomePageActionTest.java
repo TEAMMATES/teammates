@@ -19,7 +19,8 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentHomePageAction;
 import teammates.ui.controller.StudentHomePageData;
 
-// Priority added due to conflict between StudentHomePageActionTest and StudentCommentsPageActionTest
+// Priority added due to conflict between InstructorStudentListPageActionTest,
+// StudentHomePageActionTest, and StudentCommentsPageActionTest.
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
