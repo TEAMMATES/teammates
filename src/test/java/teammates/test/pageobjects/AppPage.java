@@ -704,11 +704,11 @@ public abstract class AppPage {
             HtmlHelper.assertSameHtml(actual, expected);
             
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!testAndRunGodMode(filePath, actual, false)) {
                 throw new RuntimeException(e);
             }
         } catch (AssertionError ae) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!testAndRunGodMode(filePath, actual, false)) {
                 throw ae;
             }
         } 
@@ -716,7 +716,7 @@ public abstract class AppPage {
         return this;
     }
 
-    private boolean testAndRunGodMode(String filePath, String content) {
+    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
         if (content != null && !content.isEmpty() && 
                 System.getProperty("godmode") != null && 
                 System.getProperty("godmode").equals("true")) {
@@ -727,7 +727,7 @@ public abstract class AppPage {
             }
             try {
                 String processedPageSource = processPageSourceForGodMode(content);                
-                processedPageSource = HtmlHelper.convertToStandardHtml(processedPageSource, false);
+                processedPageSource = HtmlHelper.convertToStandardHtml(processedPageSource, isPart);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -847,11 +847,11 @@ public abstract class AppPage {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
         } catch (AssertionError ae) { 
-            if(!testAndRunGodMode(filePath, actual)) {
+            if(!testAndRunGodMode(filePath, actual, true)) {
                 throw ae;
             }
         } catch (Exception e) {
-            if(!testAndRunGodMode(filePath, actual)) {
+            if(!testAndRunGodMode(filePath, actual, true)) {
                 throw new RuntimeException(e);
             }
             
@@ -906,14 +906,14 @@ public abstract class AppPage {
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {
-                    testAndRunGodMode(filePath, actual);
+                    testAndRunGodMode(filePath, actual, false);
                 }
                 ThreadHelper.waitFor(waitDuration);
             }
         } catch (NoSuchElementException nse) {
             throw new RuntimeException(nse);
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!testAndRunGodMode(filePath, actual, false)) {
                 throw new RuntimeException(e);
             }
         }
