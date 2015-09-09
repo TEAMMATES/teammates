@@ -4,8 +4,8 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -14,13 +14,13 @@ import teammates.test.cases.BaseTestCase;
 
 public class TestngTest extends BaseTestCase {
 
-    List<String> tests = new ArrayList<String>();
+    HashMap<String, String> tests = new HashMap<String, String>(); // <class name, package name>
     String testngXmlAsString;
 
     @Test
     public void checkTestsInTestng() throws FileNotFoundException {
-        verifyTestngXmlExists();
-        testngXmlAsString = getTestngAsString();
+        assertTrue(FileHelper.isFileExists("./src/test/testng.xml"));
+        testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
         
         addFilesToTestsRecursively();
         excludeFilesNotInTestng();
@@ -28,20 +28,11 @@ public class TestngTest extends BaseTestCase {
         verifyTestngContainsTests();
     }
     
-    private void verifyTestngXmlExists() {
-        File f = new File("./src/test/testng.xml");   
-        assertTrue(f.exists() && !f.isDirectory());
-    }
-    
-    private String getTestngAsString() throws FileNotFoundException {
-        return FileHelper.readFile("./src/test/testng.xml");
-    }
-
     /**
      * Files to be checked in testng.xml are stored in tests
      */
     private void addFilesToTestsRecursively() {
-        addFilesToTestsRecursively("./src/test/java/teammates/test/cases", true); // BaseComponentTestCase, BaseTestCase excluded
+        addFilesToTestsRecursively("./src/test/java/teammates/test/cases", true, ""); // BaseComponentTestCase, BaseTestCase excluded
     }
     
     private void excludeFilesNotInTestng() {
@@ -51,8 +42,9 @@ public class TestngTest extends BaseTestCase {
     }
 
     private void verifyTestngContainsTests() {
-        for (String test : tests) {
-            assertTrue(testngXmlAsString.contains(test));
+        for (Map.Entry<String, String> test : tests.entrySet()) {
+            assertTrue(testngXmlAsString.contains("<class name=\"teammates.test.cases" + test.getValue() 
+                                                      + "." + test.getKey() + "\" />"));
         }
     }
 
@@ -62,8 +54,9 @@ public class TestngTest extends BaseTestCase {
      * @param path  check files and directories in the current path
      * @param areFilesInCurrentDirExcluded  if true, files in the current path are not
      *                                      added to tests but sub-directories are checked
+     * @param packageName   package name of the current file                                     
      */
-    private void addFilesToTestsRecursively(String path, boolean areFilesInCurrentDirExcluded) {
+    private void addFilesToTestsRecursively(String path, boolean areFilesInCurrentDirExcluded, String packageName) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();      
 
@@ -71,20 +64,17 @@ public class TestngTest extends BaseTestCase {
             String name = file.getName();
             
             if (file.isFile() && name.endsWith(".java") && !areFilesInCurrentDirExcluded) {
-                tests.add(name.replace(".java", ""));
+                tests.put(name.replace(".java", ""), packageName);
                 
             } else if (file.isDirectory()) {
-                addFilesToTestsRecursively(path + "/" + name, isPackageNameinTestng(name));
+                addFilesToTestsRecursively(path + "/" + name, isPackageNameinTestng(packageName + "." + name),
+                                                packageName + "." + name);
             }
         }
     }
     
-    private boolean isPackageNameinTestng(String dir) {
-        return getPackagesInTestng().contains("." + dir + "\" />");
+    private boolean isPackageNameinTestng(String packageName) {
+        return testngXmlAsString.contains("<package name=\"teammates.test.cases" + packageName + "\" />");
     }
     
-    private String getPackagesInTestng() {
-        return testngXmlAsString.substring(testngXmlAsString.indexOf("<packages>") + "<packages>".length(), 
-                                           testngXmlAsString.indexOf("</packages>"));
-    }
 }
