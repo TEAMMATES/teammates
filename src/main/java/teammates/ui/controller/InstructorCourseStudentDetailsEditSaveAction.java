@@ -33,6 +33,13 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         boolean hasSection = logic.hasIndicatedSections(courseId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
+        if (student == null) {
+            return redirectWithError(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT,
+                                     "Student <span class=\"bold\">" + studentEmail + "</span> in "
+                                     + "Course <span class=\"bold\">[" + courseId + "]</span> not found.",
+                                     courseId);
+        }
+        
         student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
         student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
         student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
@@ -70,5 +77,14 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         
     }
 
+    private RedirectResult redirectWithError(String errorToUser, String errorToAdmin, String courseId) {
+        statusToUser.add(new StatusMessage(errorToUser, StatusMessageColor.DANGER));
+        statusToAdmin = errorToAdmin;
+        isError = true;
+        
+        RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
+        result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+        return result;
+    }
 
 }
