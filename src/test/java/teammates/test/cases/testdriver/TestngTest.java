@@ -20,9 +20,9 @@ public class TestngTest extends BaseTestCase {
     @Test
     public void checkTestsInTestng() throws FileNotFoundException {
         verifyTestngXmlExists();
-        readTestngAsString();
+        testngXmlAsString = getTestngAsString();
         
-        getTestFiles();
+        addFilesToTestsRecursively();
         excludeFilesNotInTestng();
 
         verifyTestngContainsTests();
@@ -33,15 +33,15 @@ public class TestngTest extends BaseTestCase {
         assertTrue(f.exists() && !f.isDirectory());
     }
     
-    private void readTestngAsString() throws FileNotFoundException {
-        testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
+    private String getTestngAsString() throws FileNotFoundException {
+        return FileHelper.readFile("./src/test/testng.xml");
     }
 
     /**
      * Files to be checked in testng.xml are stored in tests
      */
-    private void getTestFiles() {
-        getTestFiles("./src/test/java/teammates/test/cases", true); // BaseComponentTestCase, BaseTestCase excluded
+    private void addFilesToTestsRecursively() {
+        addFilesToTestsRecursively("./src/test/java/teammates/test/cases", true); // BaseComponentTestCase, BaseTestCase excluded
     }
     
     private void excludeFilesNotInTestng() {
@@ -63,7 +63,7 @@ public class TestngTest extends BaseTestCase {
      * @param areFilesInCurrentDirExcluded  if true, files in the current path are not
      *                                      added to tests but sub-directories are checked
      */
-    private void getTestFiles(String path, boolean areFilesInCurrentDirExcluded) {
+    private void addFilesToTestsRecursively(String path, boolean areFilesInCurrentDirExcluded) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();      
 
@@ -74,7 +74,7 @@ public class TestngTest extends BaseTestCase {
                 tests.add(name.replace(".java", ""));
                 
             } else if (file.isDirectory()) {
-                getTestFiles(path + "/" + name, isPackageNameinTestng(name));
+                addFilesToTestsRecursively(path + "/" + name, isPackageNameinTestng(name));
             }
         }
     }
