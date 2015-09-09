@@ -325,6 +325,16 @@ public class InstructorHomePage extends AppPage {
         return browser.driver.findElement(locator).getText();
     }
     
+    public void changeFsCopyButtonActionLink(String courseId, String feedbackSessionName, String newActionLink) {
+        String id = "button_fscopy" + "-" + courseId + "-" + feedbackSessionName;
+        By element = By.id(id);
+        waitForElementPresence(element);
+        
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("document.getElementById('"+id+"').setAttribute('data-actionlink', '"+newActionLink+"')");
+        
+    }
+    
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {
         By element = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
         waitForElementPresence(element);
@@ -334,6 +344,10 @@ public class InstructorHomePage extends AppPage {
     
     public void waitForModalToLoad() {
         waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
+    }
+    
+    public void waitForModalErrorToLoad() {
+        waitForElementPresence(By.id("fs-copy-modal-error"));
     }
     
     public void clickFsCopySubmitButton() {
