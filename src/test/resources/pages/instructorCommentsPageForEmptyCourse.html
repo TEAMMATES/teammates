@@ -1,433 +1,283 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <title>TEAMMATES - Instructor</title>
 
-    <link href="/favicon.png" rel="shortcut icon" />
-
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" />
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" />
-
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script src="{*}/jquery.min.js" type="text/javascript"></script>
-    <script src="{*}/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
-    
-<noscript>
-    &lt;div id="noscript-warning"&gt;
-        &lt;h1&gt;
-            TEAMMATES works best with JavaScript enabled. &lt;br&gt; You may
-            enable it in your browser by following steps below.
-        &lt;/h1&gt;
-
-        &lt;div&gt;
-            &lt;ul id="nav"&gt;
-                &lt;li&gt;&lt;a href="#ie"&gt;Internet Explorer&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#firefox"&gt;Mozilla Firefox&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#safari"&gt;Safari&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#opera"&gt;Opera&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#chrome"&gt;Chrome&lt;/a&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-        &lt;/div&gt;
-
-        &lt;div id=content&gt;
-            &lt;div id=ie&gt;
-                &lt;h1&gt;Internet Explorer&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Internet Explorer.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Tools drop-down menu, select Internet Options.&lt;/li&gt;
-                    &lt;li&gt;Next, select the Security tab.&lt;/li&gt;
-                    &lt;li&gt;Then, select the earth (Internet) icon.&lt;/li&gt;
-                    &lt;li&gt;Then select the Custom Level button.&lt;/li&gt;
-                    &lt;li&gt;Locate Scripting near the bottom of the list.&lt;/li&gt;
-                    &lt;li&gt;Under Active Scripting, select Enable, then hit OK.&lt;/li&gt;
-                    &lt;li&gt;Answer yes to the following conformation box.&lt;/li&gt;
-                    &lt;li&gt;Hit OK to close the Internet Options window.&lt;/li&gt;
-                    &lt;li&gt;Finally, hit refresh on your browser window to enjoy the
-                        javascript.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=firefox&gt;
-                &lt;h1&gt;Firefox&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Firefox
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Tools drop-down menu, select Options.&lt;/li&gt;
-                    &lt;li&gt;Next, select the Content icon/tab at the top on the
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox under the Web
-                        Content category.&lt;/li&gt;
-                    &lt;li&gt;Hit OK to close the Options window and save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, Refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Firefox menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Content icon/tab at the top on the window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Close the Options window to save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=safari&gt;
-                &lt;h1&gt;Safari&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Safari.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Edit drop-down menu at the top of the window,
-                        select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Security icon/tab at the top on the window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Close the window to save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, Refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Safari menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences.&lt;/li&gt;
-                    &lt;li&gt;Select the Content icon/tab at the top of the window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Close the window to save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
-               &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=opera&gt;
-                &lt;h1&gt;Opera&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Opera.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Tools drop-down menu at the top of the window,
-                        select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Advanced tab at the top on the Preferences
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Find the Content item in the list on the left-side of the
-                        window and select it.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Click OK to save your changes and close the Preferences
-                        window. Finally, Refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Safari menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences.&lt;/li&gt;
-                    &lt;li&gt;Select the Content icon/tab at the top of the Preferences
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Click OK to save your changes and close the Preferences
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=chrome&gt;
-                &lt;h1&gt;Chrome&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Chrome.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select Customize and control Google Chrome (wrench Icon)
-                        to the right of the address bar.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Options Select the Under
-                        the Hood tab at the top of the window.&lt;/li&gt;
-                    &lt;li&gt;Under the Privacy heading, select the Content settings
-                        button.&lt;/li&gt;
-                    &lt;li&gt;On the left, under the features heading, select
-                        JavaScript.&lt;/li&gt;
-                    &lt;li&gt;Select the Allow all sites to run JavaScript radio button.&lt;/li&gt;
-                    &lt;li&gt;Finally, close both preference windows, and refresh the
-                        browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Chrome menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Under the Hood tab at the top of the window.&lt;/li&gt;
-                    &lt;li&gt;Under the Privacy heading, select the Content settings
-                        button.&lt;/li&gt;
-                    &lt;li&gt;On the left, under the features heading, select
-                        JavaScript.&lt;/li&gt;
-                    &lt;li&gt;Select the Allow all sites to run JavaScript radio button.&lt;/li&gt;
-                    &lt;li&gt;Finally, close both preference windows, and refresh the
-                        browser.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;p&gt;
-            As taken from:
-        &lt;/p&gt;
-        &lt;ol&gt;
-            &lt;li&gt;&lt;a href="http://activatejavascript.org/en/instructions/"&gt;http://activatejavascript.org/en/instructions/&lt;/a&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;a href="http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages"&gt;
-                         http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page&lt;/a&gt;&lt;/li&gt;
-        &lt;/ol&gt;
-    &lt;/div&gt;
-</noscript>
-
-
-    <link rel="stylesheet" href="/stylesheets/omniComment.css" />
-    <script src="/js/additionalQuestionInfo.js" type="text/javascript"></script>
-    <script src="/js/instructor.js" type="text/javascript"></script>
-    <script src="/js/feedbackResponseComments.js" type="text/javascript"></script>
-    <script src="/js/omniComment.js"></script>
-</head>
-<body>
-    
-
-
-<div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button data-target="#contentLinks" data-toggle="collapse" class="navbar-toggle" type="button">
-                 <span class="sr-only">Toggle navigation</span>
-                 <span class="icon-bar"></span>
-                 <span class="icon-bar"></span>
-                 <span class="icon-bar"></span>
-            </button>
-            <a href="/index.html" class="navbar-brand">TEAMMATES</a>
-        </div>
-        <div id="contentLinks" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/page/instructorHomePage?user=comments.instructorWithoutCourses" data-link="instructorHome" class="nav home">Home</a>
-                </li>
-                <li>
-                    <a href="/page/instructorCoursesPage?user=comments.instructorWithoutCourses" data-link="instructorCourse" class="nav courses">Courses</a>
-                </li>
-                <li>
-                    <a href="/page/instructorFeedbacksPage?user=comments.instructorWithoutCourses" data-link="instructorEval" class="nav evaluations">Sessions</a>
-                </li>
-                <li>
-                    <a href="/page/instructorStudentListPage?user=comments.instructorWithoutCourses" data-link="instructorStudent" class="nav students">Students</a>
-                </li>
-                <li class="active">
-                    <a href="/page/instructorCommentsPage?user=comments.instructorWithoutCourses" data-link="instructorComments" class="nav comments">Comments</a>
-                </li>
-                <li>
-                    <a href="/page/instructorSearchPage?user=comments.instructorWithoutCourses" data-link="instructorSearch" class="nav search">
-                        Search
-                    </a>
-                </li>
-                <li>
-                    <a target="_blank" href="/instructorHelp.html" class="nav help">Help</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav pull-right">
-                <li><a href="/logout.jsp" class="nav logout">Logout
+   <html>
+      <head>
+         <title>
+            TEAMMATES - Instructor
+         </title>
+         <link href="&#x2f;favicon.png" rel="shortcut icon"/>
+                  <meta content="text&#x2f;html; charset=UTF-8" http-equiv="Content-Type"/>
+                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+                  <link href="&#x2f;bootstrap&#x2f;css&#x2f;bootstrap.min.css" rel="stylesheet" type="text&#x2f;css"/>
+                  <link href="&#x2f;bootstrap&#x2f;css&#x2f;bootstrap-theme.min.css" rel="stylesheet" type="text&#x2f;css"/>
+                  <link href="&#x2f;stylesheets&#x2f;teammatesCommon.css" rel="stylesheet" type="text&#x2f;css"/>
+                  <!---->
+         <script async="" src="https:&#x2f;&#x2f;ssl.google-analytics.com&#x2f;ga.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;js&#x2f;googleAnalytics.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;js&#x2f;lib&#x2f;jquery.min.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;js&#x2f;lib&#x2f;jquery-ui.min.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;js&#x2f;common.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;bootstrap&#x2f;js&#x2f;bootstrap.min.js" type="text&#x2f;javascript">
+         </script>
+         <link href="&#x2f;stylesheets&#x2f;omniComment.css" rel="stylesheet"/>
+                  <script src="&#x2f;js&#x2f;additionalQuestionInfo.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;js&#x2f;instructor.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;js&#x2f;feedbackResponseComments.js" type="text&#x2f;javascript">
+         </script>
+         <script src="&#x2f;js&#x2f;omniComment.js">
+         </script>
+      </head>
+      <body>
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                  </button>
+                  <a class="navbar-brand" href="&#x2f;index.html">
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li>
+                        <a class="nav home" data-link="instructorHome" href="&#x2f;page&#x2f;instructorHomePage?user=comments.instructorWithoutCourses">
+                           Home
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav courses" data-link="instructorCourse" href="&#x2f;page&#x2f;instructorCoursesPage?user=comments.instructorWithoutCourses">
+                           Courses
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav evaluations" data-link="instructorEval" href="&#x2f;page&#x2f;instructorFeedbacksPage?user=comments.instructorWithoutCourses">
+                           Sessions
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav students" data-link="instructorStudent" href="&#x2f;page&#x2f;instructorStudentListPage?user=comments.instructorWithoutCourses">
+                           Students
+                        </a>
+                     </li>
+                     <li class="active">
+                        <a class="nav comments" data-link="instructorComments" href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.instructorWithoutCourses">
+                           Comments
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav search" data-link="instructorSearch" href="&#x2f;page&#x2f;instructorSearchPage?user=comments.instructorWithoutCourses">
+                           Search
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav help" href="&#x2f;instructorHelp.html" target="_blank">
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right">
+                     <li>
+                        <a class="nav logout" href="&#x2f;logout.jsp">
+                           Logout
                         
-                        (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="comments.instructorWithoutCourses">
-                                comments.instructorW...
-                        </span>)
-                    </a>
-                </li>
-            </ul>            
-        </div>
-    </div>
-</div>
-    <div id="mainContent" class="container">
-        
-
-
-<div id="topOfPage"></div>
-
-    <h1>Comments from Instructors</h1>
-    <br />
-
-        
-        
-    
-
-
-
-
-<div class="well well-plain">
-    <div class="row">
-        <div class="col-md-12">
-			<form name="search_form" action="/page/instructorSearchPage?user=comments.instructorWithoutCourses" method="get">
-			    <div class="input-group">
-			        <input type="text" id="searchBox" placeholder="Any info related to comments" class="form-control" title="Search for comment" name="searchkey" /> 
-			        <span class="input-group-btn">
-			            <button id="buttonSearch" value="Search" type="submit" class="btn btn-default">
-			                Search
-			            </button>
-			        </span>
-			    </div>
-			    <input type="hidden" value="true" name="searchcommentforstudents" />
-			    <input type="hidden" value="true" name="searchcommentforresponses" />
-			    <input type="hidden" value="comments.instructorWithoutCourses" name="user" />
-			</form>
-			
-
-
-
-
-
-<div class="well well-plain">
-    <div class="row">
-        <div class="col-md-2">
-            <div class="checkbox">
-                <input type="checkbox" id="option-check" />
-                <label for="option-check">
-                    Show More Options
-                </label>
+                        (
+                           <span class="text-info" data-original-title="comments.instructorWithoutCourses" data-placement="bottom" data-toggle="tooltip" title="">
+                              comments.instructorW...
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox">
-                <input type="checkbox" id="displayArchivedCourses_check" />
-                <label for="displayArchivedCourses_check">
-                    Include Archived Courses
-                </label>
-                <div style="display:none;" id="displayArchivedCourses_link">
-                    <a href="/page/instructorCommentsPage?user=comments.instructorWithoutCourses">link back to the page</a>
-                </div>
+         </div>
+         <div class="container" id="mainContent">
+            <div id="topOfPage">
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="well well-plain" id="more-options">
-            <form role="form" class="form-horizontal">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="text-color-primary">
-                            <strong>Show comments for: </strong>
+            <h1>
+               Comments from Instructors
+            </h1>
+            <br/>
+                        <div class="well well-plain">
+               <div class="row">
+                  <div class="col-md-12">
+                     <form action="&#x2f;page&#x2f;instructorSearchPage?user=comments.instructorWithoutCourses" method="get" name="search_form">
+                        <div class="input-group">
+                           <input class="form-control" id="searchBox" name="searchkey" placeholder="Any info related to comments" title="Search for comment" type="text"/>
+                                                      <span class="input-group-btn">
+                              <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
+                                 Search
+                              </button>
+                           </span>
                         </div>
-                        <br />
-                        <div class="checkbox">
-                            <input type="checkbox" checked="checked" id="panel_all" />
-                            <label for="panel_all"><strong>All</strong></label>
+                        <input name="searchcommentforstudents" type="hidden" value="true"/>
+                                                <input name="searchcommentforresponses" type="hidden" value="true"/>
+                                                <input name="user" type="hidden" value="comments.instructorWithoutCourses"/>
+                                             </form>
+                     <div class="well well-plain">
+                        <div class="row">
+                           <div class="col-md-2">
+                              <div class="checkbox">
+                                 <input id="option-check" type="checkbox"/>
+                                                                  <label for="option-check">
+                                    Show More Options
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col-md-3">
+                              <div class="checkbox">
+                                 <input id="displayArchivedCourses_check" type="checkbox"/>
+                                                                  <label for="displayArchivedCourses_check">
+                                    Include Archived Courses
+                                 </label>
+                                 <div id="displayArchivedCourses_link" style="display:none;">
+                                    <a href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.instructorWithoutCourses">
+                                       link back to the page
+                                    </a>
+                                 </div>
+                              </div>
+                           </div>
                         </div>
-                        <br />
-                        
-                        
-                        
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="text-color-primary">
-                            <strong>Show comments from: </strong>
+                        <div class="row">
+                           <div class="well well-plain" id="more-options">
+                              <form class="form-horizontal" role="form">
+                                 <div class="row">
+                                    <div class="col-sm-4">
+                                       <div class="text-color-primary">
+                                          <strong>
+                                             Show comments for:
+                                          </strong>
+                                       </div>
+                                       <br/>
+                                                                              <div class="checkbox">
+                                          <input checked="checked" id="panel_all" type="checkbox"/>
+                                                                                    <label for="panel_all">
+                                             <strong>
+                                                All
+                                             </strong>
+                                          </label>
+                                       </div>
+                                       <br/>
+                                                                           </div>
+                                    <div class="col-sm-4">
+                                       <div class="text-color-primary">
+                                          <strong>
+                                             Show comments from:
+                                          </strong>
+                                       </div>
+                                       <br/>
+                                                                              <div class="checkbox">
+                                          <input checked="checked" id="giver_all" type="checkbox" value=""/>
+                                                                                    <label for="giver_all">
+                                             <strong>
+                                                All
+                                             </strong>
+                                          </label>
+                                       </div>
+                                       <br/>
+                                                                              <div class="checkbox">
+                                          <input checked="checked" id="giver_check-by-you" type="checkbox"/>
+                                                                                    <label for="giver_check-by-you">
+                                             You
+                                          </label>
+                                       </div>
+                                       <div class="checkbox">
+                                          <input checked="checked" id="giver_check-by-others" type="checkbox"/>
+                                                                                    <label for="giver_check-by-others">
+                                             Others
+                                          </label>
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                       <div class="text-color-primary">
+                                          <strong>
+                                             Show comments with status:
+                                          </strong>
+                                       </div>
+                                       <br/>
+                                                                              <div class="checkbox">
+                                          <input checked="checked" id="status_all" type="checkbox" value=""/>
+                                                                                    <label for="status_all">
+                                             <strong>
+                                                All
+                                             </strong>
+                                          </label>
+                                       </div>
+                                       <br/>
+                                                                              <div class="checkbox">
+                                          <input checked="checked" id="status_check-public" type="checkbox"/>
+                                                                                    <label for="status_check-public">
+                                             Public
+                                          </label>
+                                       </div>
+                                       <div class="checkbox">
+                                          <input checked="checked" id="status_check-private" type="checkbox"/>
+                                                                                    <label for="status_check-private">
+                                             Private
+                                          </label>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
                         </div>
-                        <br />
-                        <div class="checkbox">
-                            <input type="checkbox" checked="checked" id="giver_all" value="" /> 
-                            <label for="giver_all">
-                                <strong>All</strong>
-                            </label>
-                        </div>
-                        <br />
-                        <div class="checkbox">
-                            <input type="checkbox" checked="checked" id="giver_check-by-you" />
-                            <label for="giver_check-by-you">
-                                You
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" checked="checked" id="giver_check-by-others" />
-                            <label for="giver_check-by-others">
-                                Others
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="text-color-primary">
-                            <strong>Show comments with status: </strong>
-                        </div>
-                        <br />
-                        <div class="checkbox">
-                            <input type="checkbox" checked="checked" id="status_all" value="" /> 
-                            <label for="status_all">
-                                <strong>All</strong>
-                            </label>
-                        </div>
-                        <br />
-                        <div class="checkbox">
-                            <input type="checkbox" checked="checked" id="status_check-public" />
-                            <label for="status_check-public">
-                                Public
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" checked="checked" id="status_check-private" />
-                            <label for="status_check-private">
-                                Private
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-		</div>
-	</div>
-</div>
-    <br />
-    
-
-
-
-
-
-    
-    
-        <div style="display: none;" id="statusMessage"></div>
-    
-
-    
-    
-    
-        <div class="alert alert-warning" id="statusMessage">
-            There is no comment to display
-        </div>
-    
-    
-
-    
-    </div>
-    
-
-
-<div class="container-fluid" id="footerComponent">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
+                     </div>
+                  </div>
+               </div>
             </div>
-            <div class="col-md-8">
-                [for <span class="highlight-white">TEAMMATES Test Institute 7</span>]
+            <br/>
+                        <div id="statusMessage" style="display: none;">
             </div>
-            <div class="col-md-2">
-                <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
+            <div class="alert alert-warning" id="statusMessage">
+               There is no comment to display
             </div>
-        </div>
-    </div>
-</div>
+         </div>
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-2">
+                     <span>
+                        [
+                        <a href="&#x2f;index.html">
+                           TEAMMATES
+                        </a>
+                        V${version}]
+                     </span>
+                  </div>
+                  <div class="col-md-8">
+                     [for
+                     <span class="highlight-white">
+                        TEAMMATES Test Institute 7
+                     </span>
+                     ]
+                  </div>
+                  <div class="col-md-2">
+                     <span>
+                        [Send
+                        <a class="link" href="..&#x2f;contact.html" target="_blank">
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </html>
 
-
-</body></html>

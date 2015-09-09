@@ -1,301 +1,214 @@
-<div class="container" id="mainContent">
-        
-
-
-<div id="topOfPage"></div>
-
-    <h1>Search</h1>
-    <br>
-
-        
-        
-
-    
-
-
-
-<div>
-    <form method="get" action="/page/instructorSearchPage?user=comments.idOfInstructor1OfCourse1" name="search_form">       
-        <div class="well well-plain">
-        
-            <div class="form-group">
-                <div class="input-group">
-                    <input name="searchkey" value="comments" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox" type="text"> 
-                           
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">
-                            Search
+   <div class="container" id="mainContent">
+      <div id="topOfPage">
+      </div>
+      <h1>
+         Search
+      </h1>
+      <br/>
+            <div>
+         <form action="&#x2f;page&#x2f;instructorSearchPage?user=comments.idOfInstructor1OfCourse1" method="get" name="search_form">
+            <div class="well well-plain">
+               <div class="form-group">
+                  <div class="input-group">
+                     <input class="form-control" id="searchBox" name="searchkey" placeholder="Your search keyword" title="Search for comment" type="text" value="comments"/>
+                                          <span class="input-group-btn">
+                        <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                           Search
                         </button>
-                    </span>
-                </div>
-                
-                <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
-            </div>
-            
-            <div class="form-group">
-                <ul class="list-inline">
-                    <li>
-                        <span data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="" class="glyphicon glyphicon-info-sign">
+                     </span>
+                  </div>
+                  <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1"/>
+                                 </div>
+               <div class="form-group">
+                  <ul class="list-inline">
+                     <li>
+                        <span class="glyphicon glyphicon-info-sign" data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="">
                         </span>
-                    </li>
-                    <li>
-                        <input id="comments-for-student-check" name="searchcommentforstudents" value="true" checked="" type="checkbox">
-                        <label for="comments-for-student-check">
-                            Comments for students
+                     </li>
+                     <li>
+                        <input checked="" id="comments-for-student-check" name="searchcommentforstudents" type="checkbox" value="true"/>
+                                                <label for="comments-for-student-check">
+                           Comments for students
                         </label>
-                    </li>
-                    <li>
-                        <input id="comments-for-responses-check" name="searchcommentforresponses" value="true" checked="" type="checkbox">
-                        <label for="comments-for-responses-check">
-                            Comments for responses
+                     </li>
+                     <li>
+                        <input checked="" id="comments-for-responses-check" name="searchcommentforresponses" type="checkbox" value="true"/>
+                                                <label for="comments-for-responses-check">
+                           Comments for responses
                         </label>
-                    </li>
-                    <li>
-                        <input id="students-check" name="searchstudents" value="true" type="checkbox">
-                        <label for="students-check">
-                            Students
+                     </li>
+                     <li>
+                        <input id="students-check" name="searchstudents" type="checkbox" value="true"/>
+                                                <label for="students-check">
+                           Students
                         </label>
-                    </li>
-                </ul>
+                     </li>
+                  </ul>
+               </div>
             </div>
-        </div>
-    </form>
-</div>
-    <br>
-    
-
-
-
-
-
-    
-    
-        <div id="statusMessage" style="display: none;"></div>
-    
-
-    
-    
-        
-
-
-
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <strong>
-            Comments for students
-        </strong>
-    </div>
-                
-    <div class="panel-body">
-        
-        
-             
-            <div class="panel panel-info student-record-comments">
-                <div class="panel-heading">
-                    From <b>Anonymous (comments.idOfTypicalCourse1)</b>
-                </div>
-                
-                <ul class="list-group comments"> 
-                    
-                        
-                        
-                        <li class="list-group-item list-group-item-warning">
-                                    
-                            <div id="commentBar-1">
-                                <span class="text-muted">
-                                    To <b>Anonymous</b> [Sat, 02 Jun 2012, 19:21:00 UTC] (last edited at {*})
-                                </span>
-                                            
-                                <a data-original-title="Edit comment in the Comments page" type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" style="display:none;" title="" href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}">
-                                    <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
-                                </a>                                    
-                            </div>
-                            <div style="margin-left: 15px;" id="plainCommentText1">Other instructors in this course can see this comment without names</div>                                   
-                        </li>                      
-                                                
-                </ul>
-                
-            </div>                                        
-             
-            <div class="panel panel-info student-record-comments">
-                <div class="panel-heading">
-                    From <b>You (comments.idOfTypicalCourse1)</b>
-                </div>
-                
-                <ul class="list-group comments"> 
-                    
-                        
-                        
-                        <li class="list-group-item list-group-item-warning">
-                                    
-                            <div id="commentBar-2">
-                                <span class="text-muted">
-                                    To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Sun, 06 May 2012, 08:55:00 UTC] (last edited by comments.instructor1@course1.tmt at {*})
-                                </span>
-                                            
-                                <a data-original-title="Edit comment in the Comments page" type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" style="display:none;" title="" href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}">
-                                    <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
-                                </a>                                    
-                            </div>
-                            <div style="margin-left: 15px;" id="plainCommentText2">Other students in this course can see this comment without giver and recipient's name</div>                                   
-                        </li>                      
-                    
-                        
-                        
-                        <li class="list-group-item list-group-item-warning">
-                                    
-                            <div id="commentBar-3">
-                                <span class="text-muted">
-                                    To <b>Team 1.1</b> [Mon, 07 May 2012, 08:54:00 UTC] (last edited by comments.instructor1@course1.tmt at {*})
-                                </span>
-                                            
-                                <a data-original-title="Edit comment in the Comments page" type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" style="display:none;" title="" href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}">
-                                    <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
-                                </a>                                    
-                            </div>
-                            <div style="margin-left: 15px;" id="plainCommentText3">team can see this comment without giver's name</div>                                   
-                        </li>                      
-                                                
-                </ul>
-                
-            </div>                                        
-                          
-    </div>
-</div>
-
-    
-    
-    
-        
-
-
-
-
-<br>
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <strong>
-            Comments for responses
-        </strong>
-    </div>
-    
-    
-        
-                        
-            
-
-
-
-
-
-<div class="panel-body">
-    <div class="row ">
-        <div class="col-md-2">
+         </form>
+      </div>
+      <br/>
+            <div id="statusMessage" style="display: none;">
+      </div>
+      <div class="panel panel-primary">
+         <div class="panel-heading">
             <strong>
-                Session: comments.First feedback session (comments.idOfTypicalCourse1)
+               Comments for students
             </strong>
-        </div>
-        <div class="col-md-10">         
-            
-                
+         </div>
+         <div class="panel-body">
+            <div class="panel panel-info student-record-comments">
+               <div class="panel-heading">
+                  From
+                  <b>
+                     Anonymous (comments.idOfTypicalCourse1)
+                  </b>
+               </div>
+               <ul class="list-group comments">
+                  <li class="list-group-item list-group-item-warning">
+                     <div id="commentBar-1">
+                        <span class="text-muted">
+                           To
+                           <b>
+                              Anonymous
+                           </b>
+                           [Sat, 02 Jun 2012, 19:21:00 UTC] (last edited at {*})
+                        </span>
+                        <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}" style="display:none;" target="_blank" title="" type="button">
+                           <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                           </span>
+                        </a>
+                     </div>
+                     <div id="plainCommentText1" style="margin-left: 15px;">
+                        Other instructors in this course can see this comment without names
+                     </div>
+                  </li>
+               </ul>
+            </div>
+            <div class="panel panel-info student-record-comments">
+               <div class="panel-heading">
+                  From
+                  <b>
+                     You (comments.idOfTypicalCourse1)
+                  </b>
+               </div>
+               <ul class="list-group comments">
+                  <li class="list-group-item list-group-item-warning">
+                     <div id="commentBar-2">
+                        <span class="text-muted">
+                           To
+                           <b>
+                              student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)
+                           </b>
+                           [Sun, 06 May 2012, 08:55:00 UTC] (last edited by comments.instructor1@course1.tmt at {*})
+                        </span>
+                        <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}" style="display:none;" target="_blank" title="" type="button">
+                           <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                           </span>
+                        </a>
+                     </div>
+                     <div id="plainCommentText2" style="margin-left: 15px;">
+                        Other students in this course can see this comment without giver and recipient&#39;s name
+                     </div>
+                  </li>
+                  <li class="list-group-item list-group-item-warning">
+                     <div id="commentBar-3">
+                        <span class="text-muted">
+                           To
+                           <b>
+                              Team 1.1
+                           </b>
+                           [Mon, 07 May 2012, 08:54:00 UTC] (last edited by comments.instructor1@course1.tmt at {*})
+                        </span>
+                        <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}" style="display:none;" target="_blank" title="" type="button">
+                           <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                           </span>
+                        </a>
+                     </div>
+                     <div id="plainCommentText3" style="margin-left: 15px;">
+                        team can see this comment without giver&#39;s name
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <br/>
+            <div class="panel panel-primary">
+         <div class="panel-heading">
+            <strong>
+               Comments for responses
+            </strong>
+         </div>
+         <div class="panel-body">
+            <div class="row ">
+               <div class="col-md-2">
+                  <strong>
+                     Session: comments.First feedback session (comments.idOfTypicalCourse1)
+                  </strong>
+               </div>
+               <div class="col-md-10">
+                  <div class="panel panel-info">
+                     <div class="panel-heading">
+                        <b>
+                           Question 1
+                        </b>
+                        : What is the best selling point of your product?
+                     </div>
+                     <table class="table">
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <b>
+                                    From:
+                                 </b>
+                                 student1 In Course1 (Team 1.1)
+                                 <b>
+                                    To:
+                                 </b>
+                                 student1 In Course1 (Team 1.1)
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <strong>
+                                    Response:
+                                 </strong>
+                                 Student 1 self feedback.
+                              </td>
+                           </tr>
+                           <tr class="active">
+                              <td>
+                                 Comment(s):
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <ul class="list-group comments" id="responseCommentTable-1-1-1">
+                                    <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-1-1-1">
+                                       <div id="commentBar-1-1-1-1">
+                                          <span class="text-muted">
+                                             From: comments.instructor1@course1.tmt [Tue Mar 01 23:59:00 UTC 2016] (last edited by comments.instructor1@course1.tmt at {*})
+                                          </span>
+                                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}" style="display:none;" target="_blank" title="" type="button">
+                                             <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                                             </span>
+                                          </a>
+                                       </div>
+                                       <div id="plainCommentText-1-1-1-1" style="margin-left: 15px;">
+                                          Instructor 1 comment to student 1 self feedback
+                                       </div>
+                                    </li>
+                                 </ul>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 
-
-
-
-
-
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <b>Question 1</b>: What is the best selling point of your product? 
-    </div>
-    <table class="table">
-        <tbody>       
-            
-                
-
-
-
-
-
-
-
-<tr>
-    <td>
-        <b>From:</b> student1 In Course1 (Team 1.1)
-        <b>To:</b> student1 In Course1 (Team 1.1)
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>Response:</strong> Student 1 self feedback.
-    </td>
-</tr>
-
-<tr class="active">
-    <td>Comment(s):</td>
-</tr>
-
-<tr>
-    <td>
-        <ul class="list-group comments" id="responseCommentTable-1-1-1">
-            
-            
-                
-
-
-
-
-
-
-
-
-
-    
-        
-        
-    
-    
-
-<li class="list-group-item list-group-item-warning" id="responseCommentRow-1-1-1-1">
-    <div id="commentBar-1-1-1-1">
-        <span class="text-muted">
-            From: comments.instructor1@course1.tmt [Tue Mar 01 23:59:00 UTC 2016] (last edited by comments.instructor1@course1.tmt at {*})
-        </span>
-        
-        
-        
-            <a data-original-title="Edit comment in the Comments page" type="button" href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1&amp;courseid=comments.idOfTypicalCourse1#{*}" target="_blank" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="" style="display:none;">
-                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
-            </a>
-        
-        
-    </div>
-    <!-- do not add whitespace between the opening and closing tags -->
-    <div id="plainCommentText-1-1-1-1" style="margin-left: 15px;">Instructor 1 comment to student 1 self feedback</div>
-    
-</li>
-
-              
-
-        </ul>
-    </td>
-</tr>
-                
-        </tbody>
-    </table>
-</div>
-              
-        </div>
-    </div>
-</div>
-        
-    
-</div>
-    
-    
-    
-    
-
-    
-    </div>

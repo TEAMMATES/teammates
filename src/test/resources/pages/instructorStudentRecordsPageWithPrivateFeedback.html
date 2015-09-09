@@ -1,338 +1,349 @@
-<div class="container" id="mainContent">
-        <div id="topOfPage"></div>
-        <h1>
-            Teammates Test's Records<small class="muted"> - ISR.CS1101</small>
-        </h1>
-        <br>
-        
-
-
-
-
-        <div id="statusMessage" style="display: none;"></div>
-
-        <div class="container-fluid">
-            
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="row" id="studentProfile">
-                            <div class="col-md-2 col-xs-3 block-center">
-                                <img src="/images/profile_picture_default.png" class="profile-pic pull-right">
-                            </div>
-                            <div class="col-md-10 col-sm-9 col-xs-8">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2"> Profile </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-bold">
-                                                Short Name (Gender)</td>
-                                            <td>
-                                                <i class="text-muted">Not Specified</i> (<i><span class="text-muted">Not Specified</span></i>)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-bold">
-                                                Personal Email
-                                            </td>
-                                            <td>
-                                                <i class="text-muted">Not Specified</i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-bold">
-                                                Institution
-                                            </td>
-                                            <td>
-                                                <i class="text-muted">Not Specified</i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-bold">
-                                                Nationality
-                                            </td>
-                                            <td>
-                                                <i class="text-muted">Not Specified</i>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title">Teammates Test's Profile - More Info</h4>
-                            </div>
-                            <div class="modal-body">
-                                <br>
-                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                <h5>More Info </h5>
-                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-primary">
+   <div class="container" id="mainContent">
+      <div id="topOfPage">
+      </div>
+      <h1>
+         Teammates Test&#39;s Records
+         <small class="muted">
+            - ISR.CS1101
+         </small>
+      </h1>
+      <br/>
+            <div id="statusMessage" style="display: none;">
+      </div>
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-xs-12">
+               <div class="row" id="studentProfile">
+                  <div class="col-md-2 col-xs-3 block-center">
+                     <img class="profile-pic pull-right" src="&#x2f;images&#x2f;profile_picture_default.png"/>
+                                       </div>
+                  <div class="col-md-10 col-sm-9 col-xs-8">
+                     <table class="table table-striped">
+                        <thead>
+                           <tr>
+                              <th colspan="2">
+                                 Profile
+                              </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="text-bold">
+                                 Short Name (Gender)
+                              </td>
+                              <td>
+                                 <i class="text-muted">
+                                    Not Specified
+                                 </i>
+                                 (
+                                 <i>
+                                    <span class="text-muted">
+                                       Not Specified
+                                    </span>
+                                 </i>
+                                 )
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-bold">
+                                 Personal Email
+                              </td>
+                              <td>
+                                 <i class="text-muted">
+                                    Not Specified
+                                 </i>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-bold">
+                                 Institution
+                              </td>
+                              <td>
+                                 <i class="text-muted">
+                                    Not Specified
+                                 </i>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-bold">
+                                 Nationality
+                              </td>
+                              <td>
+                                 <i class="text-muted">
+                                    Not Specified
+                                 </i>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentProfileMoreInfo" role="dialog">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                        ×
+                     </button>
+                     <h4 class="modal-title">
+                        Teammates Test&#39;s Profile - More Info
+                     </h4>
+                  </div>
+                  <div class="modal-body">
+                     <br/>
+                                          <p class="text-preserve-space height-fixed-md">
+                        <i class="text-muted">
+                           Not Specified
+                        </i>
+                     </p>
+                  </div>
+                  <div class="modal-footer">
+                     <button class="btn btn-primary" data-dismiss="modal" type="button">
+                        Close
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-xs-12">
+               <div class="panel panel-default">
+                  <div class="panel-body">
+                     <span class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer" data-target="#studentProfileMoreInfo" data-toggle="modal">
+                     </span>
+                     <h5>
+                        More Info
+                     </h5>
+                     <p class="text-preserve-space height-fixed-md">
+                        <i class="text-muted">
+                           Not Specified
+                        </i>
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <div class="panel panel-primary">
+                  <div class="panel-heading">
+                     <strong>
+                        Comments for Teammates Test
+                     </strong>
+                  </div>
+                  <div class="panel-body">
+                     <div class="panel panel-info student-record-comments">
                         <div class="panel-heading">
-                            <strong>Comments for Teammates Test</strong>
+                           From
+                           <b>
+                              You (ISR.CS1101)
+                           </b>
+                           <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showAddCommentBox();" title="" type="button">
+                              <span class="glyphicon glyphicon-comment glyphicon-primary">
+                              </span>
+                           </button>
                         </div>
+                        <ul class="list-group comments">
+                           <li class="list-group-item list-group-item-warning">
+                              You don&#39;t have any comments on this student.
+                           </li>
+                           <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
+                              <form action="&#x2f;page&#x2f;instructorStudentCommentAdd" class="form_comment" method="post" name="form_commentadd">
+                                 <div class="form-group form-inline">
+                                    <div class="form-group text-muted">
+                                       <p>
+                                          Comment about Teammates Test:
+                                       </p>
+                                       The default visibility for your comment is private. You may change it using the visibility options.
+                                    </div>
+                                    <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger0">
+                                       <span class="glyphicon glyphicon-eye-close">
+                                       </span>
+                                       Show Visibility Options
+                                    </a>
+                                 </div>
+                                 <div class="panel panel-default" id="visibility-options0" style="display: none;">
+                                    <div class="panel-heading">
+                                       Visibility Options
+                                    </div>
+                                    <table class="table text-center" style="color: #000;">
+                                       <tbody>
+                                          <tr>
+                                             <th class="text-center">
+                                                User&#x2f;Group
+                                             </th>
+                                             <th class="text-center">
+                                                Can see your comment
+                                             </th>
+                                             <th class="text-center">
+                                                Can see giver&#39;s name
+                                             </th>
+                                             <th class="text-center">
+                                                Can see recipient&#39;s name
+                                             </th>
+                                          </tr>
+                                          <tr id="recipient-person0">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Recipient(s)
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="PERSON"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr id="recipient-team0">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Recipient&#39;s Team
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr id="recipient-section0">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Recipient&#39;s Section
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="SECTION"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="SECTION"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr id="recipient-course0">
+                                             <td class="text-left">
+                                                <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Other students in this course
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE"/>
+                                                                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td class="text-left">
+                                                <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                   Instructors
+                                                </div>
+                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                             <td>
+                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
+                                                                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                                 <div class="form-group">
+                                    <textarea class="form-control" id="commentText" name="commenttext" placeholder="Your comment about this student" rows="3">
+                                    </textarea>
+                                 </div>
+                                 <div class="col-sm-offset-5">
+                                    <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save"/>
+                                                                        <input class="btn btn-default" onclick="hideAddCommentBox();" type="button" value="Cancel"/>
+                                                                        <input name="courseid" type="hidden" value="ISR.CS1101"/>
+                                                                        <input name="studentemail" type="hidden" value="teammates.test@gmail.tmt"/>
+                                                                        <input name="recipienttype" type="hidden" value="PERSON"/>
+                                                                        <input name="recipients" type="hidden" value="teammates.test@gmail.tmt"/>
+                                                                        <input name="showcommentsto" type="hidden" value=""/>
+                                                                        <input name="showgiverto" type="hidden" value=""/>
+                                                                        <input name="showrecipientto" type="hidden" value=""/>
+                                                                        <input name="user" type="hidden" value="ISR.teammates.test"/>
+                                                                     </div>
+                              </form>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="well well-plain student_feedback" id="studentFeedback-0">
+                  <div class="text-primary">
+                     <h2 id="feedback_name-0">
+                        <strong>
+                           Feedback Session : Instructor feedback session
+                        </strong>
+                     </h2>
+                  </div>
+                  <div class="placeholder-img-loading">
+                  </div>
+                  <div id="target-feedback-0">
+                     <br/>
+                                          <div class="panel panel-info">
                         <div class="panel-body">
-                            <div class="panel panel-info student-record-comments">
-                                <div class="panel-heading">
-                                    From <b>You (ISR.CS1101)</b>
-                                    <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="">
-                                        <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                    </button>
-                                </div>
-                                <ul class="list-group comments">
-                                    
-                                        <li class="list-group-item list-group-item-warning">
-                                            You don't have any comments on this student.
-                                        </li>
-                                    
-                                    <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
-                                        <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd" class="form_comment">
-                                            <div class="form-group form-inline">
-                                                <div class="form-group text-muted">
-                                                    <p>
-                                                        Comment about Teammates Test: 
-                                                    </p>
-                                                    The default visibility for your comment is private. You may change it using the visibility options. 
-                                                </div>
-                                                <a id="visibility-options-trigger0" class="btn btn-sm btn-info pull-right">
-                                                    <span class="glyphicon glyphicon-eye-close"></span>
-                                                    Show Visibility Options
-                                                </a>
-                                            </div>
-                                            <div id="visibility-options0" class="panel panel-default" style="display: none;">
-                                                <div class="panel-heading">
-                                                    Visibility Options
-                                                </div>
-                                                <table class="table text-center" style="color: #000;">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th class="text-center">
-                                                                User/Group
-                                                            </th>
-                                                            <th class="text-center">
-                                                                Can see your comment
-                                                            </th>
-                                                            <th class="text-center">
-                                                                Can see giver's name
-                                                            </th>
-                                                            <th class="text-center">
-                                                                Can see recipient's name
-                                                            </th>
-                                                        </tr>
-                                                        <tr id="recipient-person0">
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
-                                                                    Recipient(s)
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="PERSON" disabled="disabled" type="checkbox">
-                                                            </td>
-                                                        </tr>
-                                                        <tr id="recipient-team0">
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
-                                                                    Recipient's Team
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox answerCheckbox" value="TEAM" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox giverCheckbox" value="TEAM" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox recipientCheckbox" value="TEAM" type="checkbox">
-                                                            </td>
-                                                        </tr>
-                                                        <tr id="recipient-section0">
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
-                                                                    Recipient's Section
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox answerCheckbox" value="SECTION" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox giverCheckbox" value="SECTION" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox recipientCheckbox" value="SECTION" type="checkbox">
-                                                            </td>
-                                                        </tr>
-                                                        <tr id="recipient-course0">
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
-                                                                    Other students in this course
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox answerCheckbox" value="COURSE" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox giverCheckbox" value="COURSE" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox recipientCheckbox" value="COURSE" type="checkbox">
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="text-left">
-                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                                                                    Instructors
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox answerCheckbox" value="INSTRUCTOR" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox giverCheckbox" value="INSTRUCTOR" type="checkbox">
-                                                            </td>
-                                                            <td>
-                                                                <input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTOR" type="checkbox">
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="form-group">
-                                                <!-- Do not add whitespace between the opening and closing tags -->
-                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText"></textarea>
-                                            </div>
-                                            <div class="col-sm-offset-5">
-                                                <input class="btn btn-primary" id="button_save_comment" value="Save" type="submit">
-                                                <input class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();" type="button">
-                                                <input name="courseid" value="ISR.CS1101" type="hidden">
-                                                <input name="studentemail" value="teammates.test@gmail.tmt" type="hidden">
-                                                <input name="recipienttype" value="PERSON" type="hidden">
-                                                <input name="recipients" value="teammates.test@gmail.tmt" type="hidden">
-                                                <input name="showcommentsto" value="" type="hidden">
-                                                <input name="showgiverto" value="" type="hidden">
-                                                <input name="showrecipientto" value="" type="hidden">
-                                                <input name="user" value="ISR.teammates.test" type="hidden">
-                                            </div>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
+                           No feedback for Teammates Test (Team 1) found
                         </div>
-                    </div>
-                    <br>
-                    
-                            <div class="well well-plain student_feedback" id="studentFeedback-0">
-                                <div class="text-primary">
-                                    <h2 id="feedback_name-0">
-                                        <strong>Feedback Session : Instructor feedback session</strong>
-                                    </h2>
-                                </div>
-                                <div class="placeholder-img-loading"></div>
-                                <div id="target-feedback-0">
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <br>
-            <div class="panel panel-info">
-                <div class="panel-body">
-                    No feedback for Teammates Test (Team 1) found
-                </div>
-            </div>
-        
-            <br>
-            <div class="panel panel-info">
-                <div class="panel-body">
-                    No feedback by Teammates Test (Team 1) found
-                </div>
-            </div>
+                     </div>
+                     <br/>
+                                          <div class="panel panel-info">
+                        <div class="panel-body">
+                           No feedback by Teammates Test (Team 1) found
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                              <div class="well well-plain student_feedback" id="studentFeedback-1">
+                  <div class="text-primary">
+                     <h2 id="feedback_name-1">
+                        <strong>
+                           Feedback Session : Private feedback session
+                        </strong>
+                     </h2>
+                  </div>
+                  <div class="placeholder-img-loading">
+                  </div>
+                  <div id="target-feedback-1">
+                     <br/>
+                                          <div class="panel panel-info">
+                        <div class="panel-body">
+                           No feedback for Teammates Test (Team 1) found
+                        </div>
+                     </div>
+                     <br/>
+                                          <div class="panel panel-info">
+                        <div class="panel-body">
+                           No feedback by Teammates Test (Team 1) found
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+                           </div>
          </div>
-                            </div>
-                        <br>
-                        
-                            <div class="well well-plain student_feedback" id="studentFeedback-1">
-                                <div class="text-primary">
-                                    <h2 id="feedback_name-1">
-                                        <strong>Feedback Session : Private feedback session</strong>
-                                    </h2>
-                                </div>
-                                <div class="placeholder-img-loading"></div>
-                                <div id="target-feedback-1">
+      </div>
+   </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-            <br>
-            <div class="panel panel-info">
-                <div class="panel-body">
-                    No feedback for Teammates Test (Team 1) found
-                </div>
-            </div>
-        
-            <br>
-            <div class="panel panel-info">
-                <div class="panel-body">
-                    No feedback by Teammates Test (Team 1) found
-                </div>
-            </div>
-         </div>
-                            </div>
-                        <br>
-                        
-                </div>
-            </div>
-        </div>
-    </div>

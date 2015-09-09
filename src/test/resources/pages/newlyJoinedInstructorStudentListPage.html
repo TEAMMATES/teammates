@@ -1,166 +1,168 @@
-<div class="container" id="mainContent">
-        
-
-
-<div id="topOfPage"></div>
-
-    <h1>Student List</h1>
-    <br>
-
-        
-        
-    
-
-
-
-<div class="well well-plain">
-    <div class="row">
-        <div class="col-md-12">
-            <form method="get" action="/page/instructorSearchPage?user=${test.instructor}" name="search_form">
-                <div class="row">
-                    <div class="col-md-10">
+   <div class="container" id="mainContent">
+      <div id="topOfPage">
+      </div>
+      <h1>
+         Student List
+      </h1>
+      <br/>
+            <div class="well well-plain">
+         <div class="row">
+            <div class="col-md-12">
+               <form action="&#x2f;page&#x2f;instructorSearchPage?user=${test.instructor}" method="get" name="search_form">
+                  <div class="row">
+                     <div class="col-md-10">
                         <div class="form-group">
-                            <input data-original-title="Search for student's information, e.g. name, email" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz" value="" type="text">
-                        </div>
-                    </div>
-                    <div class="col-md-2 nav">
+                           <input class="form-control" data-original-title="Search for student&#39;s information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz" title="" type="text" value=""/>
+                                                   </div>
+                     </div>
+                     <div class="col-md-2 nav">
                         <div class="form-group">
-                            <button id="buttonSearch" class="btn btn-primary" type="submit" value="Search">
-                                <span class="glyphicon glyphicon-search"></span> Find students
-                            </button>
+                           <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                              <span class="glyphicon glyphicon-search">
+                              </span>
+                              Find students
+                           </button>
                         </div>
-                    </div>
-                </div>
-                <input name="searchstudents" value="true" type="hidden">
-                <input name="searchcommentforstudents" value="false" type="hidden">
-                <input name="searchcommentforresponses" value="false" type="hidden">
-                <input name="user" value="${test.instructor}" type="hidden">
-            </form>
-        </div>
-    </div>
-</div>
-    <br>
-    <h2>Filter Students</h2>
-    
-
-
-<div id="moreOptionsDiv" class="well well-plain">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="checkbox">
-                <input id="displayArchivedCourses_check" type="checkbox">
-                <label for="displayArchivedCourses_check">Display Archived Courses</label>
+                     </div>
+                  </div>
+                  <input name="searchstudents" type="hidden" value="true"/>
+                                    <input name="searchcommentforstudents" type="hidden" value="false"/>
+                                    <input name="searchcommentforresponses" type="hidden" value="false"/>
+                                    <input name="user" type="hidden" value="${test.instructor}"/>
+                                 </form>
             </div>
-        </div>
-    </div>
-    <form class="form-horizontal" role="form">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="text-color-primary">
-                    <strong>Courses</strong>
-                </div>
-                <br>
-                <div class="checkbox">
-                    <input value="" id="course_all" type="checkbox"> 
-                    <label for="course_all"><strong>Select all</strong></label>
-                </div>
-                <br>
-                
-                    <div class="checkbox">
-                        <input id="course_check-0" type="checkbox">
-                        <label for="course_check-0">
-                            [AHPUiT.instr1.gma-demo] : Sample Course 101
-                        </label>
-                    </div>
-                
+         </div>
+      </div>
+      <br/>
+            <h2>
+         Filter Students
+      </h2>
+      <div class="well well-plain" id="moreOptionsDiv">
+         <div class="row">
+            <div class="col-md-3">
+               <div class="checkbox">
+                  <input id="displayArchivedCourses_check" type="checkbox"/>
+                                    <label for="displayArchivedCourses_check">
+                     Display Archived Courses
+                  </label>
+               </div>
             </div>
-            <div class="col-sm-3">
-                <div class="text-color-primary">
-                    <strong>Sections</strong>
-                </div>
-                <br>
-                <div class="checkbox" style="display:none;">
-                    <input value="" id="section_all" type="checkbox"> 
-                    <label for="section_all"><strong>Select all</strong></label>
-                </div>
-                <br>
-                <div id="sectionChoices">
-                </div>
+         </div>
+         <form class="form-horizontal" role="form">
+            <div class="row">
+               <div class="col-sm-3">
+                  <div class="text-color-primary">
+                     <strong>
+                        Courses
+                     </strong>
+                  </div>
+                  <br/>
+                                    <div class="checkbox">
+                     <input id="course_all" type="checkbox" value=""/>
+                                          <label for="course_all">
+                        <strong>
+                           Select all
+                        </strong>
+                     </label>
+                  </div>
+                  <br/>
+                                    <div class="checkbox">
+                     <input id="course_check-0" type="checkbox"/>
+                                          <label for="course_check-0">
+                        [AHPUiT.instr1.gma-demo] : Sample Course 101
+                     </label>
+                  </div>
+               </div>
+               <div class="col-sm-3">
+                  <div class="text-color-primary">
+                     <strong>
+                        Sections
+                     </strong>
+                  </div>
+                  <br/>
+                                    <div class="checkbox" style="display:none;">
+                     <input id="section_all" type="checkbox" value=""/>
+                                          <label for="section_all">
+                        <strong>
+                           Select all
+                        </strong>
+                     </label>
+                  </div>
+                  <br/>
+                                    <div id="sectionChoices">
+                  </div>
+               </div>
+               <div class="col-sm-3">
+                  <div class="text-color-primary">
+                     <strong>
+                        Teams
+                     </strong>
+                  </div>
+                  <br/>
+                                    <div class="checkbox" style="display:none;">
+                     <input id="team_all" type="checkbox"/>
+                                          <label for="team_all">
+                        <strong>
+                           Select All
+                        </strong>
+                     </label>
+                  </div>
+                  <br/>
+                                    <div id="teamChoices">
+                  </div>
+               </div>
+               <div class="col-sm-3">
+                  <div class="text-color-primary">
+                     <strong>
+                        Emails
+                     </strong>
+                  </div>
+                  <br/>
+                                    <div class="checkbox" style="display:none;">
+                     <input checked="checked" id="show_email" type="checkbox"/>
+                                          <label for="show_email">
+                        <strong>
+                           Show Emails
+                        </strong>
+                     </label>
+                  </div>
+                  <br/>
+                                    <div id="emails">
+                  </div>
+               </div>
             </div>
-            <div class="col-sm-3">
-                <div class="text-color-primary">
-                    <strong>Teams</strong>
-                </div>
-                <br>
-                <div class="checkbox" style="display:none;">
-                    <input id="team_all" type="checkbox">
-                    <label for="team_all"><strong>Select All</strong></label>
-                </div>
-                <br>
-                <div id="teamChoices">
-                </div>
+         </form>
+      </div>
+      <div id="statusMessage" style="display: none;">
+      </div>
+      <br/>
+            <div class="text-muted">
+         Click on the panels below to expand
+      </div>
+      <br/>
+            <div class="panel panel-info">
+         <div class="panel-heading ajax_submit" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
+            <form action="&#x2f;page&#x2f;instructorStudentListAjaxPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
+               <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                              <input name="user" type="hidden" value="${test.instructor}"/>
+                              <input id="numStudents-0" type="hidden" value="9"/>
+                           </form>
+            <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}" id="enroll-0" title="">
+               <span class="glyphicon glyphicon-list">
+               </span>
+               Enroll
+            </a>
+            <div class="display-icon pull-right">
             </div>
-            <div class="col-sm-3">
-                <div class="text-color-primary">
-                    <strong>Emails</strong>
-                </div>
-                <br>
-                <div class="checkbox" style="display:none;">
-                    <input id="show_email" checked="checked" type="checkbox">
-                    <label for="show_email"><strong>Show Emails</strong></label>
-                </div>
-                <br>
-                <div id="emails">
-                </div>
+            <strong>
+               [AHPUiT.instr1.gma-demo] :
+            </strong>
+            Sample Course 101
+         </div>
+         <div class="panel-collapse collapse" id="panelBodyCollapse-0">
+            <div class="panel-body padding-0">
             </div>
-        </div>
-    </form>
-</div>
-    
+         </div>
+      </div>
+   </div>
 
-
-
-
-
-    
-    
-        <div id="statusMessage" style="display: none;"></div>
-    
-
-    
-        <br>
-        <div class="text-muted">
-            Click on the panels below to expand
-        </div>
-        <br>
-    
-    
-        
-
-
-
-
-
-<div class="panel panel-info">
-    <div style="cursor: pointer;" id="panelHeading-0" data-target="#panelBodyCollapse-0" class="panel-heading ajax_submit">
-        <form style="display:none;" id="seeMore-0" class="seeMoreForm-0" action="/page/instructorStudentListAjaxPage">
-            <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-            <input name="user" value="${test.instructor}" type="hidden">
-            <input id="numStudents-0" value="9" type="hidden">
-        </form>
-        <a data-original-title="Enroll student into the course" class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" id="enroll-0" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}" title="" data-toggle="tooltip" data-placement="top">
-            <span class="glyphicon glyphicon-list"></span> Enroll
-        </a>
-        <div class="display-icon pull-right">
-        </div>
-        <strong>[AHPUiT.instr1.gma-demo] : </strong>Sample Course 101
-    </div>
-    <div id="panelBodyCollapse-0" class="panel-collapse collapse">
-        <div class="panel-body padding-0">
-        </div>
-    </div>
-</div>
-    
-
-    
-    </div>

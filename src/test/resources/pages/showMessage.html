@@ -1,31 +1,34 @@
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <script>
-        if(typeof opener != 'undefined' || typeof opener != null){
-            opener.setStatusMessage("null",null);
+
+   <html>
+      <head>
+         <script>
+            if(typeof opener != &#39;undefined&#39; || typeof opener != null){
+            opener.setStatusMessage(&quot;null&quot;,null);
             top.close();
             opener.scrollToTop();
         } else {
             var curURL = window.location.href;
-            var splitted = curURL.split("?");
+            var splitted = curURL.split(&quot;?&quot;);
             var user = null;
             if(splitted.length&gt;1){
-                var param = splitted[1].split("&amp;");
+                var param = splitted[1].split(&quot;&amp;&quot;);
                 for(var i=0; i&lt;param.length; i++){
-                    var pair = param[i].split("=");
-                    if(pair[0]=="user"){
+                    var pair = param[i].split(&quot;=&quot;);
+                    if(pair[0]==&quot;user&quot;){
                         user = pair[1];
                     }
                 }
             }
-            var nextUrl = "/page/instructorFeedbacksPage";
+            var nextUrl = &quot;&#x2f;page&#x2f;instructorFeedbacksPage&quot;;
             if(user!==null){
-                nextUrl += "?user="+user;
+                nextUrl += &quot;?user=&quot;+user;
             }
             window.location.href = nextUrl;
         }
-    </script>
-</head>
-<body>
-This browser window is expected to close automatically (if JavaSrcipt is enabled). If it doesn't, you may close it manually.
+         </script>
+      </head>
+      <body>
+         This browser window is expected to close automatically (if JavaSrcipt is enabled). If it doesn&#39;t, you may close it manually.
+      </body>
+   </html>
 
-</body></html>
