@@ -14,7 +14,6 @@ import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.PageData;
 
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
@@ -152,12 +151,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
         
         if (view.equals("student")) {
-            return getStudentQuestionResultsStatisticsHtml(responses, pageData, question, bundle);
+            return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
         } else {
             return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
         }
@@ -240,7 +239,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
 
     private String getStudentQuestionResultsStatisticsHtml(
-            List<FeedbackResponseAttributes> responses, PageData pageData,
+            List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
         String html = "";
        
@@ -280,9 +279,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                     (question.recipientType == FeedbackParticipantType.OWN_TEAM);
         boolean isRecipientTypeStudent = !isRecipientTypeGeneral && !isRecipientTypeTeam;
         
-        String currentUserTeam = bundle.getTeamNameForEmail(pageData.student.email);
+        String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
         String currentUserIdentifier = getCurrentUserIdentifier(numResponses,
-                                                                isRecipientTypeStudent, pageData.student.email, 
+                                                                isRecipientTypeStudent, studentEmail, 
                                                                 isRecipientTypeTeam, currentUserTeam);  
         
         Set<String> recipientSet = numResponses.keySet();

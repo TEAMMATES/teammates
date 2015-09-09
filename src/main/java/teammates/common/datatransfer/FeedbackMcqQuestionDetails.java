@@ -18,7 +18,6 @@ import teammates.common.util.Sanitizer;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.controller.PageData;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMcqChoices;
@@ -358,7 +357,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
         
