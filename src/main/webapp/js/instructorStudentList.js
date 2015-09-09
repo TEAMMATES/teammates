@@ -46,11 +46,11 @@ $(document).ready(function() {
 
         // Check/hide all teams that is in this section
         if (this.checked) {
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '"]').prop('checked', true);
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '"]').parent().show();
+            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').prop('checked', true);
+            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').parent().show();
         } else {
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '"]').prop('checked', false);
-            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '"]').parent().hide();
+            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').prop('checked', false);
+            $('input[id^="team_check-' + courseIdx + '-' + sectionIdx + '-"]').parent().hide();
         }
 
         // If none of of the sections are selected, hide the team's 'Select All' option
@@ -177,15 +177,15 @@ function checkCourseBinding(e) {
 
     // Check/hide all section that is in this course
     if ($(e).prop('checked')) {
-        $('input[id^="section_check-'  + courseIdx + '"]').prop('checked', true);
-        $('input[id^="section_check-' + courseIdx + '"]').parent().show();
-        $('input[id^="team_check-' + courseIdx + '"]').prop('checked', true);
-        $('input[id^="team_check-' + courseIdx + '"]').parent().show();
+        $('input[id^="section_check-'  + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="section_check-' + courseIdx + '-"]').parent().show();
+        $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', true);
+        $('input[id^="team_check-' + courseIdx + '-"]').parent().show();
     } else {
-        $('input[id^="section_check-' + courseIdx + '"]').prop('checked', false);
-        $('input[id^="section_check-' + courseIdx + '"]').parent().remove();
-        $('input[id^="team_check-' + courseIdx + '"]').prop('checked', false);
-        $('input[id^="team_check-' + courseIdx + '"]').parent().remove();
+        $('input[id^="section_check-' + courseIdx + '-"]').prop('checked', false);
+        $('input[id^="section_check-' + courseIdx + '-"]').parent().remove();
+        $('input[id^="team_check-' + courseIdx + '-"]').prop('checked', false);
+        $('input[id^="team_check-' + courseIdx + '-"]').parent().remove();
         $('div[id^="student_email-c' + courseIdx + '"]').remove();
     }
     
