@@ -1051,12 +1051,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
-        String studentEmail;
-        try {
-            studentEmail = this.student.email;
-        } catch (NullPointerException e) {
-            studentEmail = null;
-        }
+        String studentEmail = (student != null) ? student.email : null;
         String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, studentEmail, 
                                                                                  bundle, viewType.toString());
         
