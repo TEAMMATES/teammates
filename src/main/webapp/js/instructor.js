@@ -143,8 +143,8 @@ function setupFsCopyModal() {
                 $('#courseList').html("Loading possible destination courses. Please wait ...<br><img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
             error: function() {
-                $('#courseList').html('Error retrieving course list.' + 
-                    'Please close the dialog window and try again.');
+                $('#courseList').html("<p id='fs-copy-modal-error'>Error retrieving course list." + 
+                    "Please close the dialog window and try again.</p>");
             },
             success: function(data) {
                 $('#courseList').html(data);

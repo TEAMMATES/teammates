@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import teammates.common.util.Const;
@@ -766,6 +767,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 possibleRecipients = getSortedListOfTeams();
                 possibleRecipients.remove(givingTeam);
                 break;
+            case SELF: 
             case OWN_TEAM:
                 possibleRecipients.add(givingTeam);
                 break;
@@ -775,7 +777,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             case STUDENTS:
                 possibleRecipients = getSortedListOfStudentEmails();
                 break;
-            case SELF: //TODO: SELF should give same behaviour to OWN_TEAM 
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                     Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
@@ -1619,7 +1620,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             if (teamNameToEmails.containsKey(studentTeam)) {
                 studentEmails = teamNameToEmails.get(studentTeam);
             } else {
-                studentEmails = new HashSet<String>();
+                studentEmails = new TreeSet<String>();
             }
 
             studentEmails.add(student.email);

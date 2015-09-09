@@ -1,8 +1,9 @@
-package teammates.test.cases;
+package teammates.test.cases.automated;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
+import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.GaeSimulation;
 
 /** Base class for tests pertaining to Automated tasks.
