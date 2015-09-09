@@ -726,8 +726,8 @@ public abstract class AppPage {
                         + "eg: change test.student1.account from alice.tmms to alice.tmms.example");
             }
             try {
-                String processedPageSource = processPageSourceForGodMode(content);                
-                processedPageSource = HtmlHelper.convertToStandardHtml(processedPageSource, isPart);
+                String processedPageSource = HtmlHelper.convertToStandardHtml(content, isPart);
+                processedPageSource = processPageSourceForGodMode(processedPageSource);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
