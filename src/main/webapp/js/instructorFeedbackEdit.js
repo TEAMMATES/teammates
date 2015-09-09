@@ -79,7 +79,7 @@ function bindFeedbackSessionEditFormSubmission() {
                 	$statusMessage.addClass("alert alert-danger");
                 } else {
                     disableEditFS();
-                    $statusMessage.addClass("alert alert-warning");
+                    $statusMessage.addClass("alert alert-success");
                 }
                 $statusMessage.show();
                 
