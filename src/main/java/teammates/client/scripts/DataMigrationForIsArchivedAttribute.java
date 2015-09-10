@@ -1,7 +1,10 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CourseAttributes;
@@ -12,6 +15,7 @@ import teammates.common.util.Assumption;
 import teammates.logic.api.Logic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Course;
 
 /**
  * Script to set the isArchived attribute of instructors if the course's isArchived 
@@ -26,7 +30,8 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
     private Logic logic = new Logic();
     private CoursesDb coursesDb = new CoursesDb();
-    private final boolean isPreview = true;
+    private final boolean isPreview = false;
+    private final boolean isModifyingOnlyArchivedCourses = true;
     
     public static void main(String[] args) throws IOException {
         DataMigrationForIsArchivedAttribute migrator = new DataMigrationForIsArchivedAttribute();
@@ -37,10 +42,11 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     protected void doOperation() {
         Datastore.initialize();
         
-        List<CourseAttributes> allCourses = getAllCourses();
+        List<CourseAttributes> courses = isModifyingOnlyArchivedCourses ? getArchivedCourses() 
+                                                                        : getAllCourses();
         
         try {
-            for (CourseAttributes course : allCourses) {
+            for (CourseAttributes course : courses) {
                 migrateCourse(course);
             }
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
@@ -63,6 +69,22 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
     @SuppressWarnings("deprecation")
     private List<CourseAttributes> getAllCourses() {
         return coursesDb.getAllCourses();
+    }
+    
+    private List<CourseAttributes> getArchivedCourses() {
+        Query query = Datastore.getPersistenceManager().newQuery(Course.class);
+        query.declareParameters("Boolean archiveStatusParam");
+        query.setFilter("archiveStatus == archiveStatusParam");
+
+        @SuppressWarnings("unchecked")
+        List<Course> courseList = (List<Course>) Datastore.getPersistenceManager()
+                .newQuery(query).execute(true);
+        List<CourseAttributes> courseAttributesList = new ArrayList<CourseAttributes>();
+        for (Course c : courseList) {
+            courseAttributesList.add(new CourseAttributes(c));
+        }
+        
+        return courseAttributesList;
     }
 
     /**
