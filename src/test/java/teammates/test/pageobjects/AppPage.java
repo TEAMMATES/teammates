@@ -1,18 +1,15 @@
 package teammates.test.pageobjects;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -23,7 +20,6 @@ import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
-import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -39,8 +35,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -209,55 +203,34 @@ public abstract class AppPage {
     /**
      * Waits until the page is fully loaded. Times out after 15 seconds.
      */
-    protected void waitForPageToLoad() {
-        browser.selenium.waitForPageToLoad("15000");
+    public void waitForPageToLoad() {
+        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
-    protected void waitForElementToBecomeVisible(String elementId) throws Exception {
-        int timeOut = 3000;
-        while (!browser.driver.findElement(By.id(elementId)).isDisplayed()
-                && timeOut > 0) {
-            Thread.sleep(100);
-            timeOut -= 100;
-        }
-        return;
-    }
-    
-    protected void waitForElementToAppear(By by) throws Exception {
-        int timeOut = 3000;
-        while (timeOut > 0) {
-            try {
-                if (browser.driver.findElement(by).isDisplayed()) {
-                    break;
-                }
-            } catch (NoSuchElementException e) {
-                // ignore exception
-            }
-            Thread.sleep(100);
-            timeOut -= 100;
-        }
-        return;
-    }
-    
-    public void waitForElementVisible(WebElement element){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+    public void waitForElementVisibility(WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+    
+    public void waitForElementsVisibility(List<WebElement> elements) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
     
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
-    public void waitForElementPresence(By element, int timeOutInSeconds){
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
-        wait.until(presenceOfElementLocated(element));
+    public void waitForElementPresence(By by){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
     
     /**
@@ -422,9 +395,9 @@ public abstract class AppPage {
      * This can be used to save pages which can later be used as the 'expected'
      * in UI test cases. After saving the file, remember to edit it manually and
      *  replace the version number in the page footer with the string 
-     * "{$version}". so that the test can insert the correct version number 
+     * "${version}". so that the test can insert the correct version number 
      * before comparing the 'expected' with the 'actual.
-     *  e.g., replace "V4.55" in the page footer by "V{$version}".
+     *  e.g., replace "V4.55" in the page footer by "V${version}".
      *  @param filePath If the full path is not given, it will be saved in the
      *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
@@ -762,14 +735,19 @@ public abstract class AppPage {
             return false;
         }
     }
-
-    private String processPageSourceForGodMode(String content) {
+    
+    public static String processPageSourceForFailureCase(String content) {
+        return processPageSourceForGodMode(content);
+    }
+    
+    
+    private static String processPageSourceForGodMode(String content) {
         Date now = new Date();
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
-                .replace(Config.APP_URL, "{$app.url}")
-                .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
+                .replace(Config.APP_URL, "${app.url}")
+                .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
@@ -791,21 +769,39 @@ public abstract class AppPage {
                 .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                // comment div ids (added after standardization)
+                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-{*}")
+                .replaceAll("commentBar-[0-9]{16}", "commentBar-{*}")
+                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-{*}")
+                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-{*}")
+                // tooltip style
+                .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
+                            "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#{*}")
                 // the test accounts/ email
-                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
-                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
-                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "{$test.instructor}")
-                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "{$test.admin}")
-                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
-                .replace(Config.SUPPORT_EMAIL, "{$support.email}")
+                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
+                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
+                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
+                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
+                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
+                .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now), "{*}")
+                // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "{*}")
                 // now (used in opening time/closing time Grace period)
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
-                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}");
+                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}")
+                // jQuery local
+                .replace("/js/lib/jquery.min.js", "{*}/jquery.min.js")
+                // jQuery CDN
+                .replace("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "{*}/jquery.min.js")
+                // jQuery-ui local
+                .replace("/js/lib/jquery-ui.min.js", "{*}/jquery-ui.min.js")
+                // jQuery-ui CDN
+                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "{*}/jquery-ui.min.js");
     }
 
     private boolean areTestAccountsDefaultValues() {
@@ -826,15 +822,14 @@ public abstract class AppPage {
      */
     public AppPage verifyHtmlPart(By by, String filePath) {
         WebElement element = browser.driver.findElement(by);
-        if(filePath.startsWith("/")){
+        if (filePath.startsWith("/")) {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = element.getAttribute("outerHTML");
-        
         try {
-            String expected = extractHtmlPartFromFile(by, filePath);
+            String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
-        } catch(AssertionError ae) { 
+        } catch (AssertionError ae) { 
             if(!testAndRunGodMode(filePath, actual)) {
                 throw ae;
             }
@@ -846,27 +841,9 @@ public abstract class AppPage {
         }
         return this;
     }
-
-    private String extractHtmlPartFromFile(By by, String filePath)
-            throws SAXException, IOException {
-        String byId = by.toString().split(":")[1].trim();
-        
-        DOMParser parser = new DOMParser();
-        parser.parse(new InputSource(new BufferedReader(new FileReader(filePath))));
-        org.w3c.dom.Document htmlDoc = parser.getDocument();
-        org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
-        StringBuilder expectedHtml = new StringBuilder();
-        HtmlHelper.convertToStandardHtmlRecursively(expectedElement, "", expectedHtml, true);
-        
-        return expectedHtml.toString().replace("%20", " ")
-                .replace("%27", "'")
-                .replace("<#document", "")
-                .replace("   <html   </html>", "")
-                .replace("</#document>", "");
-    }
     
     /**
-     * Verifies that main content specified id "frameBodyWrapper" in currently 
+     * Verifies that main content specified id "mainContent" in currently 
      * loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence. 
@@ -876,7 +853,7 @@ public abstract class AppPage {
      */
     public AppPage verifyHtmlMainContent(String filePath) {
         waitForAjaxLoaderGifToDisappear();
-        verifyHtmlPart(By.id("frameBodyWrapper"), filePath);
+        verifyHtmlPart(By.id("mainContent"), filePath);
         
         return this;
     }
@@ -906,9 +883,9 @@ public abstract class AppPage {
         String actual = "";
         
         try {
-            expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
+            expectedString = FileHelper.readFile(filePath);
             for(int i =0; i < maxRetryCount; i++) {
-                actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
+                actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {
@@ -946,9 +923,9 @@ public abstract class AppPage {
             assertEquals(expectedStatus, this.getStatus());
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"), 15);
+                this.waitForElementPresence(By.id("statusMessage"));
                 if(!statusMessage.isDisplayed()){
-                    this.waitForElementVisible(statusMessage);
+                    this.waitForElementVisibility(statusMessage);
                 }
             }
         }
@@ -974,7 +951,7 @@ public abstract class AppPage {
 
         while (currentRetryCount < maxRetryCount) {
             if (!statusMessage.isDisplayed()) {
-                this.waitForElementVisible(statusMessage);
+                this.waitForElementVisibility(statusMessage);
             }
 
             if (expectedStatus.equals(this.getStatus())) {
@@ -1102,7 +1079,7 @@ public abstract class AppPage {
 
     public void waitForAjaxLoaderGifToDisappear() {
         try {
-            waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif']"));
+            waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));
         } catch (NoSuchElementException alreadydisappears) {
             // ok to ignore
         }

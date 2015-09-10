@@ -1,5 +1,3 @@
-jQuery.fn.reverse = Array.prototype.reverse;
-
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
@@ -14,6 +12,7 @@ $(document).ready(function() {
         validationStatus &= validateAllAnswersHaveRecipient();
         
         updateMcqOtherOptionField();
+        updateMsqOtherOptionField();
         
         if (!validationStatus) {
             return false;
@@ -81,6 +80,21 @@ function updateMcqOtherOptionField() {
         for (var j = 0; j < numResponses; j++) {
         	$('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
         	     .val($('#otherOptionText-' + qnNum + '-' + j).val());
+        }
+    }
+}
+
+//Saves the value in the other option textbox for MSQ questions
+function updateMsqOtherOptionField() {
+    var msqQuestionNums = getQuestionTypeNumbers('MSQ');
+    
+    for (var i = 0; i < msqQuestionNums.length; i++) {
+        var qnNum = msqQuestionNums[i];
+        var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+
+        for (var j = 0; j < numResponses; j++) {
+            $('[data-text="msqOtherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
+                 .val($('#msqOtherOptionText-' + qnNum + '-' + j).val());
         }
     }
 }
@@ -158,7 +172,7 @@ function prepareContribQuestions() {
         var qnNum = contribQuestionNums[i];
 
         // Get number of options for the specified question number of contribution question type
-        var optionNums = $('[name^="responsetext-' + qnNum + '"]').length;
+        var optionNums = $('[name^="responsetext-' + qnNum + '-"]').length;
 
         for (var k = 0; k < optionNums; k++) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
@@ -183,25 +197,66 @@ function prepareMSQQuestions() {
     for (var i = 0; i < msqQuestionNums.length; i++) {
         var qnNum = msqQuestionNums[i];
 
-        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '"][value=""]');
+        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '-"][value=""]:not([data-text])');
+        var otherOption = $('input[name^="responsetext-' + qnNum + '-"][data-text="msqOtherOptionText"]');
+
+        // If 'other' is enabled for the question
+        if (otherOption.length > 0) {
+            // checkbox corresponding to 'other' is clicked
+            otherOption.click(function() {
+                var name = $(this).attr('name');
+                var indexSuffix = name.substring(name.indexOf("-"));
+                updateOtherOptionAttributes($(this), indexSuffix);
+            });
+        }
+        
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
-            var $options = $(this).closest('table').find('input[name^="responsetext-"][value!=""]');
-
+            var $options = $(this).closest('table').find(
+                           'input[name^="responsetext-"][value!=""], input[name^="responsetext-"][data-text]'); // includes 'other'
+            var name = $(this).attr('name');
+            var indexSuffix = name.substring(name.indexOf("-"));
+            
             $options.each(function() {
                 $(this).prop('checked', false);
+                
+                // 'other' option is clicked
+                if ($(this).attr('data-text') !== undefined) {
+                    updateOtherOptionAttributes($(this), indexSuffix);
+                }
             });
+            
         });
 
         // reset "none of the above" if any option is clicked
-        var $options = $('input[name^="responsetext-' + qnNum + '"][value!=""]');
+        var $options = $('input[name^="responsetext-' + qnNum + '-"][value!=""], '
+                        +'input[name^="responsetext-' + qnNum + '-"][data-text]'); // includes 'other'
 
         $options.click(function() {
-            var noneOfTheAboveOption = $(this).closest('table').find('input[name^="responsetext-"][value=""]');
+            var noneOfTheAboveOption = $(this).closest('table').find(
+                                           'input[name^="responsetext-"][value=""]:not([data-text])');
+            var name = $(this).attr('name');
+            var indexSuffix = name.substring(name.indexOf("-"));
+            
             noneOfTheAboveOption.prop('checked', false);
+            
+            // 'other' option is clicked
+            if ($(this).attr('data-text') !== undefined) {
+                updateOtherOptionAttributes($(this), indexSuffix);
+            }
         });
 
+    }
+}
+
+function updateOtherOptionAttributes(otherOption, indexSuffix) {   
+    if (otherOption.is(':checked')) {
+        $('#msqOtherOptionText' + indexSuffix).removeAttr("disabled"); // enable textbox
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");                    
+    } else {
+        $('#msqOtherOptionText' + indexSuffix).attr("disabled", "disabled"); // disable textbox
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
     }
 }
 
@@ -239,7 +294,12 @@ function prepareRubricQuestions() {
         $($rubricRadioInputs[i]).on('change', function() {
                 // Update all radio inputs in the same row.
                 var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
+                var tableRow = $(this).closest('tr');
 
+                if (tableRow.hasClass('row-answered')) {
+                    tableRow.removeClass('row-answered');
+                }
+                
                 for (var j = 0; j < $rowRadioInputs.length; j++) {
                     updateRubricCellSelectedColor($rowRadioInputs[j]);
                 }
@@ -257,11 +317,16 @@ function prepareRubricQuestions() {
  *  Updates the colour of a rubric cell if it is checked.
  */
 function updateRubricCellSelectedColor(radioInput) {
+
+    var cell = $(radioInput).parent();
+    var tableRow = cell.parent();
+
     if ($(radioInput).prop('checked')) {
-        $(radioInput).parent().addClass('cell-selected');
+        cell.addClass('cell-selected');
+        tableRow.addClass('row-answered');
     } else {
-        if ($(radioInput).parent().hasClass('cell-selected')) {
-            $(radioInput).parent().removeClass('cell-selected');
+        if (cell.hasClass('cell-selected')) {
+            cell.removeClass('cell-selected');
         }
     }
 }
@@ -528,7 +593,7 @@ function formatRecipientLists() {
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display === 'none') {
-            $(this).children().reverse().each(function() {
+            $($(this).children().get().reverse()).each(function() {
                 if (this.style.display !== 'none' && $(this).val() !== '') {
                     firstUnhidden = this;
                 }

@@ -113,7 +113,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("fresh new page");
 
-        // Verify Html instead of main content to verify copy panel and preview panel
+        // This is the full HTML verification for Instructor Feedback Edit Page, the rest can all be verifyMainHtml
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
 
     }
@@ -129,6 +129,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("typical success case");
 
+        feedbackEditPage.clickEndDateBox();
+        assertTrue(feedbackEditPage.verifyEndDatesBeforeTodayAreDisabled());
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
         
@@ -139,10 +141,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
+        feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
 
-        ______TS("test edit page after manual publish");
+        ______TS("test edit page not changed after manual publish");
 
         // Do a backdoor 'manual' publish.
         editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
@@ -150,15 +153,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON
-                                           + "_atvisible");
-        //feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPublished.html");
+
+        // Ensuring that the settings did not default back to original values after manual publishing
+        feedbackEditPage.verifyHtml("/instructorFeedbackEditManuallyPublished.html");
+
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
 
         feedbackEditPage.clickEditUncommonSettingsButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
+        
+        ______TS("test end time earlier than start time");
+        feedbackEditPage.clickEditSessionButton();
+        editedSession.instructions = new Text("Made some changes");
+        feedbackEditPage.editFeedbackSession(editedSession.endTime, editedSession.startTime,
+                                        editedSession.instructions, editedSession.gracePeriod);
+        
+        String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
+        feedbackEditPage.verifyFieldValue("instructions", "Made some changes");
+        feedbackEditPage.verifyStatus(expectedString);
     }
 
     private void testNewQuestionLink() {
@@ -231,7 +245,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test visibility preview of question 1");
         feedbackEditPage.clickVisibilityPreviewForQuestion1();
         WebElement visibilityMessage = browser.driver.findElement(By.id("visibilityMessage-1"));
-        feedbackEditPage.waitForElementVisible(visibilityMessage);
+        feedbackEditPage.waitForElementVisibility(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
         
@@ -399,7 +413,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("preview as instructor");
 
-        previewPage.waitForElementPresence(By.id("button_preview_instructor"), 15);
+        previewPage.waitForElementPresence(By.id("button_preview_instructor"));
         previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
         previewPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
@@ -415,13 +429,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                      + Const.ParamsNames.USER_ID + "=" + instructorId + "&"
                                      + Const.ParamsNames.COURSE_ID + "=" + courseId + "&"
                                      + Const.ParamsNames.FEEDBACK_SESSION_NAME + "="
-                                     + feedbackSessionName.replaceAll(" ", "%20");
+                                     + feedbackSessionName.replaceAll(" ", "+");
         assertEquals(expectedRedirectUrl, feedbackPage.getPageUrl());
         
         
         ______TS("Check for highlight on last modified row");
         
-        feedbackPage.verifyHtmlMainContent("/instructorFeedbackDoneEditing.html");
+        String idOfModifiedSession = "session0";
+        String idOfModifiedSession2 = "session1";
+        assertTrue(feedbackPage.isContainingCssClass(By.id(idOfModifiedSession), "warning"));
+        assertFalse(feedbackPage.isContainingCssClass(By.id(idOfModifiedSession2), "warning"));
         
         // restore feedbackeditpage
         feedbackEditPage = getFeedbackEditPage();
@@ -442,16 +459,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED,
                                     feedbackPage.getStatus());
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
-    }
-
-    public static void printTestClassHeader() {
-        print("[============================="
-              + Thread.currentThread().getStackTrace()[2].getClassName()
-              + "=============================]");
-    }
-
-    protected static void print(String message) {
-        System.out.println(message);
     }
 
     private static InstructorFeedbackEditPage getFeedbackEditPage() {

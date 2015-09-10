@@ -44,6 +44,8 @@ var FEEDBACK_QUESTION_MCQCHOICE = 'mcqOption';
 var FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";
 var FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
 var FEEDBACK_QUESTION_MSQCHOICE = 'msqOption';
+var FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
+var FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
 var FEEDBACK_QUESTION_CONSTSUMOPTION = 'constSumOption';
 var FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE = 'constSumOptionTable';
 var FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = 'constSumToRecipients';
@@ -128,6 +130,10 @@ var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish dat
 var TEAMNAME_MAX_LENGTH = 60;
 var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
+
+$(document).on('ajaxComplete ready', function() {
+    $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
+});
 
 /**
  * Sorts a table
@@ -435,11 +441,7 @@ function setStatusMessage(message, error) {
         $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-warning');
     }
 
-    Element.prototype.documentOffsetTop = function() {
-        return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);
-    }
-
-    var positionToScrollTo = document.getElementById('statusMessage').documentOffsetTop() - (window.innerHeight / 2);
+    var positionToScrollTo = $(DIV_STATUS_MESSAGE).offset().top - (window.innerHeight / 2);
     
     window.scrollTo(0, positionToScrollTo);
 }
@@ -609,4 +611,15 @@ function sanitizeForJs(string) {
     string = replaceAll(string, '\\', '\\\\');
     string = replaceAll(string, '\'', '\\\'');
     return string;
+}
+
+/**
+ * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
+ * the function.
+ */
+if (!String.prototype.includes) {
+    String.prototype.includes = function() {
+        'use strict';
+        return String.prototype.indexOf.apply(this, arguments) !== -1;
+    }
 }

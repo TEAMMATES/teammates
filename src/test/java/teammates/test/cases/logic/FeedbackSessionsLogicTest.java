@@ -39,9 +39,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Const.ParamsNames;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
@@ -50,16 +50,14 @@ import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.automated.FeedbackSessionPublishedReminderTest.FeedbackSessionPublishedCallback;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.logic.core.Emails.EmailType;
+import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
-public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCase {
+public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -70,25 +68,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackSessionsLogic.class);
-        gaeSimulation.setupWithTaskQueueCallbackClass(PublishUnpublishSessionCallback.class);
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
     }
     
-    @SuppressWarnings("serial")
-    public static class PublishUnpublishSessionCallback extends BaseTaskQueueCallback {
-        
-        @Override
-        public int execute(URLFetchRequest request) {
-            
-            HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
-            
-            EmailAction action = new FeedbackSessionPublishedMailAction(paramMap);
-            action.getPreparedEmailsAndPerformSuccessOperations();
-            return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
-        }
-    }
-
     @Test
     public void testAll() throws Exception{
         
@@ -1591,26 +1574,154 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[12], "\"Team 1.1\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"");
         assertEquals(exportLines[13], "\"Team 1.1\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"");
         assertEquals(exportLines[14], "\"Team 1.1\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"");
-        assertEquals(exportLines[15], "");
+        assertEquals(exportLines[15], "\"Team 1.2\",\"student5 In Course1\",\"student5InCourse1@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"");
         assertEquals(exportLines[16], "");
-        assertEquals(exportLines[17], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"");
-        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"");
-        assertEquals(exportLines[20], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"");
-        assertEquals(exportLines[21], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"");
-        assertEquals(exportLines[22], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[23], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[24], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[25], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[26], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[27], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[28], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[29], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[30], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[31], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[32], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[33], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[17], "");
+        assertEquals(exportLines[18], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
+        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"");
+        assertEquals(exportLines[20], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"");
+        assertEquals(exportLines[21], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"");
+        assertEquals(exportLines[22], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"");
+        assertEquals(exportLines[23], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[24], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[25], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[26], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[27], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[28], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[29], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[30], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[31], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[32], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[33], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[34], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[35], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
+        
+        ______TS("CONTRIB summary visibility variations");
+        
+        // instructor not allowed to see student
+        session = newDataBundle.feedbackSessions.get("contribSessionStudentAnonymised");
+        instructor = newDataBundle.instructors.get("instructor1OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        System.out.println(export);
+        
+        /*This is how the export should look like
+        =======================================
+        Course,"FSQTT.idOfTypicalCourse1"
+        Session Name,"CONTRIB Session Student Anonymised"
+        
+        
+        Question 1,"How much has each team member including yourself, contributed to the project?"
+        
+        Summary Statistics,
+        In the points given below, an equal share is equal to 100 points. e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".
+        Claimed Contribution (CC) = the contribution claimed by the student.
+        Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
+        Team, Name, Email, CC, PC, Ratings Recieved
+        "Anonymous student 283462789's Team","Anonymous student 283462789","-","100","N/A","N/A, N/A, N/A"
+        "Anonymous student 412545508's Team","Anonymous student 412545508","-","Not Submitted","N/A","N/A, N/A, N/A"
+        "Anonymous student 541628227's Team","Anonymous student 541628227","-","Not Submitted","N/A","N/A, N/A, N/A"
+        "Anonymous student 670710946's Team","Anonymous student 670710946","-","Not Submitted","N/A","N/A, N/A, N/A"
+        "Anonymous student 799793665's Team","Anonymous student 799793665","-","Not Submitted","N/A","N/A"
+        
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Anonymous student 283462789&#39;s Team","Anonymous student 283462789","Unknown user","-",""
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
+        
+        */
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        assertEquals(exportLines[2], "");
+        assertEquals(exportLines[3], "");
+        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
+        assertEquals(exportLines[5], "");
+        assertEquals(exportLines[6], "Summary Statistics,");
+        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
+        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
+        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
+        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
+        assertEquals(exportLines[11], "\"Anonymous student 283462789's Team\",\"Anonymous student 283462789\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[12], "\"Anonymous student 412545508's Team\",\"Anonymous student 412545508\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[13], "\"Anonymous student 541628227's Team\",\"Anonymous student 541628227\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[14], "\"Anonymous student 670710946's Team\",\"Anonymous student 670710946\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[15], "\"Anonymous student 799793665's Team\",\"Anonymous student 799793665\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"");
+        assertEquals(exportLines[16], "");
+        assertEquals(exportLines[17], "");
+        assertEquals(exportLines[18], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
+        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Anonymous student 283462789&#39;s Team\",\"Anonymous student 283462789\",\"Unknown user\",\"-\",\"\"");
+        assertEquals(exportLines[20], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[21], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[22], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[23], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
 
+        // instructor not allowed to view student responses in section
+        session = newDataBundle.feedbackSessions.get("contribSessionInstructorSectionRestricted");
+        instructor = newDataBundle.instructors.get("instructor1OfCourseWithSections");
+
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        System.out.println(export);
+        
+        /*This is how the export should look like
+        =======================================
+        Course,"FSQTT.idOfCourseWithSections"
+        Session Name,"CONTRIB Session Section Restricted"
+        
+        
+        Question 1,"How much has each team member including yourself, contributed to the project?"
+        
+        Summary Statistics,
+        In the points given below, an equal share is equal to 100 points. e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".
+        Claimed Contribution (CC) = the contribution claimed by the student.
+        Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
+        Team, Name, Email, CC, PC, Ratings Recieved
+        "Team 2","student3 In Course With Sections","student3InCourseWithSections@gmail.tmt","100","N/A","N/A"
+        "Team 3","student4 In Course With Sections","student4InCourseWithSections@gmail.tmt","Not Submitted","N/A","N/A"
+        
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Team 2","student3 In Course With Sections","Sections","student3InCourseWithSections@gmail.tmt","Team 2","student3 In Course With Sections","Sections","student3InCourseWithSections@gmail.tmt","Equal share"
+        "Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","No Response"
+        "Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","No Response"
+        "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","No Response"
+        "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","No Response"
+        "Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","No Response"
+
+        */
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        assertEquals(exportLines[2], "");
+        assertEquals(exportLines[3], "");
+        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
+        assertEquals(exportLines[5], "");
+        assertEquals(exportLines[6], "Summary Statistics,");
+        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
+        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
+        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
+        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
+        assertEquals(exportLines[11], "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",\"N/A\"");
+        assertEquals(exportLines[12], "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"");
+        assertEquals(exportLines[13], "");
+        assertEquals(exportLines[14], "");
+        assertEquals(exportLines[15], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
+        assertEquals(exportLines[16], "\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Equal share\"");
+        assertEquals(exportLines[17], "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[18], "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[19], "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[20], "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(exportLines[21], "\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"No Response\"");
+        
         ______TS("RUBRIC results");
         
         session = newDataBundle.feedbackSessions.get("rubricSession");
@@ -1693,7 +1804,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[30], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
         assertEquals(exportLines[31], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
         assertEquals(exportLines[32], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-
+        
         
         ______TS("Non-existent Course/Session");
         
@@ -1766,9 +1877,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     public void testPublishUnpublishFeedbackSession() throws Exception {
-        
-        PublishUnpublishSessionCallback.resetTaskCount();
-        
+
         ______TS("success: publish");
         FeedbackSessionAttributes
             sessionUnderTest = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -1780,7 +1889,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         fsLogic.publishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
-        FeedbackSessionPublishedCallback.waitForTaskQueueExecution(1,0);
+
+        HashMap<String, String> paramMap = createParamMapForAction(sessionUnderTest);
+        EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
+        fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        
         sessionUnderTest.sentPublishedEmail = true;
 
         // Set real time of publishing
@@ -1800,7 +1913,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
             assertEquals("Session is already published.", e.getMessage());
         }
         
-        ______TS("success: publish");
+        ______TS("success: unpublish");
         
         fsLogic.unpublishFeedbackSession(
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
@@ -1899,21 +2012,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         
-        ______TS("failure: non-existent feedback session for student");
-        
-        try {
-            fsLogic.isFeedbackSessionCompletedByStudent(fs.courseId, "nonExistentFSName","random.student@email");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a feedback session that does not exist.",
-                         edne.getMessage());
-        }
-        
         ______TS("success: empty session");
         
         fs = dataBundle.feedbackSessions.get("empty.session");
         
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, student.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
     }
     
     public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
@@ -1963,13 +2066,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
         List<MimeMessage> emailsSent = 
                 fsLogic.sendReminderForFeedbackSession(fs.courseId, fs.feedbackSessionName);
-        assertEquals(9, emailsSent.size());
+        assertEquals(11, emailsSent.size());
+
+        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
             MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
-            
-            if(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, s.email)) {
+            if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
                 assertNull(errorMessage, emailToStudent);
             } else {
@@ -2042,7 +2146,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         List<MimeMessage> emailsSent =
                 fsLogic.sendReminderForFeedbackSessionParticularUsers(
                         fs.courseId, fs.feedbackSessionName, usersToRemind);
-        assertEquals(6, emailsSent.size());
+        assertEquals(7, emailsSent.size());
 
         MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
@@ -2175,7 +2279,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     public void testDeleteFeedbackSessionsForCourse() throws Exception {
         
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
-        fsLogic.deleteFeedbackSessionsForCourse("idOfTypicalCourse1");
+        fsLogic.deleteFeedbackSessionsForCourseCascade("idOfTypicalCourse1");
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
     
@@ -2184,4 +2288,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         printTestClassFooter();
         turnLoggingDown(FeedbackSessionsLogic.class);
     }
+
+    private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {
+        // Prepare parameter map to be used with FeedbackSessionPublishedMailAction
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+
+        paramMap.put(ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_PUBLISHED.toString());
+        paramMap.put(ParamsNames.EMAIL_FEEDBACK, fs.feedbackSessionName);
+        paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
+
+        return paramMap;
+    }
+
 }

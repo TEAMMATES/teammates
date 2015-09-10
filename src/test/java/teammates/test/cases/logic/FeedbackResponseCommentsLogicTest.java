@@ -1,11 +1,14 @@
 package teammates.test.cases.logic;
 
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -35,6 +38,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     public void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponseCommentsLogic.class);
+    }
+    
+    @BeforeMethod
+    public void refreshTestData() throws Exception {
         removeAndRestoreTypicalDataInDatastore();
     }
     
@@ -90,13 +97,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("typical successful case: frComment already exists");
         frcLogic.createFeedbackResponseComment(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments = 
-                frcLogic.getFeedbackResponseCommentForSession(
-                        frComment.courseId, 
-                        frComment.feedbackSessionName);
+                frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes actualFrComment = null;
-        for(int i = 0; i < actualFrComments.size(); i++){
-            if(actualFrComments.get(i).commentText.equals(frComment.commentText)){
+        for (int i = 0; i < actualFrComments.size(); i++) {
+            if (actualFrComments.get(i).commentText.equals(frComment.commentText)) {
                 actualFrComment = actualFrComments.get(i);
                 break;
             }
@@ -111,6 +116,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetFeedbackResponseComments() throws Exception {
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
+        List<FeedbackResponseCommentAttributes> expectedFrComments = 
+                new ArrayList<FeedbackResponseCommentAttributes>();
         this.restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("fail: invalid parameters");
@@ -126,32 +133,74 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         List<FeedbackResponseCommentAttributes> actualFrComments = 
                 frcLogic.getFeedbackResponseCommentForSession(
-                        frComment.courseId, frComment.feedbackSessionName);
+                                 frComment.courseId, frComment.feedbackSessionName);
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
-        
+
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        
+        ______TS("Typical successful case by feedback response comment details");
         
         actualFrComment = 
                 frcLogic.getFeedbackResponseComment(
-                        frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
+                                 frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
         
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        
+        ______TS("Typical successful case by feedback response id");
+        
+        actualFrComments = frcLogic.getFeedbackResponseCommentForResponse(frComment.feedbackResponseId);
+        actualFrComment = actualFrComments.get(0);
+        
+        assertEquals(frComment.courseId, actualFrComment.courseId);
+        assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
+        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        
+        ______TS("Typical successful case by feedback response comment id");
+        
+        actualFrComment = frcLogic.getFeedbackResponseComment(frComment.getId());
+        
+        assertEquals(frComment.courseId, actualFrComment.courseId);
+        assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
+        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        
+        ______TS("Typical successful case for giver");
+        
+        actualFrComments = frcLogic.getFeedbackResponseCommentsForGiver(
+                                            frComment.courseId, frComment.giverEmail);
+        FeedbackResponseCommentAttributes tempFrComment = new FeedbackResponseCommentAttributes();
+        this.restoreFrCommentFromDataBundle(tempFrComment, "comment1FromT1C1ToR1Q1S1C1");
+        expectedFrComments.add(tempFrComment);
+        tempFrComment = new FeedbackResponseCommentAttributes();
+        this.restoreFrCommentFromDataBundle(tempFrComment, "comment1FromT1C1ToR1Q2S1C1");
+        expectedFrComments.add(tempFrComment);
+        tempFrComment = new FeedbackResponseCommentAttributes();
+        this.restoreFrCommentFromDataBundle(tempFrComment, "comment1FromT1C1ToR1Q3S1C1");
+        expectedFrComments.add(tempFrComment);
+        
+        assertEquals(expectedFrComments.size(), actualFrComments.size());
+        
+        for (int i = 0; i < expectedFrComments.size(); i++) {
+            assertEquals(expectedFrComments.get(i).courseId, actualFrComments.get(i).courseId);
+            assertEquals(expectedFrComments.get(i).giverEmail, actualFrComments.get(i).giverEmail);
+            assertEquals(expectedFrComments.get(i).feedbackSessionName, 
+                         actualFrComments.get(i).feedbackSessionName);
+        }
+        
     }
     
     @Test
-    public void testUpdateFeedbackResponseComment() throws Exception{
+    public void testUpdateFeedbackResponseComment() throws Exception {
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("fail: invalid params");
         
         frComment.courseId = "invalid course name";
-        verifyExceptionThrownWhenUpdateFrComment(frComment,
-                "not acceptable to TEAMMATES as a Course ID");
+        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a Course ID");
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("typical success case");
@@ -160,8 +209,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         frcLogic.updateFeedbackResponseComment(frComment);
         TestHelper.verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments = 
-                frcLogic.getFeedbackResponseCommentForSession(
-                        frComment.courseId, frComment.feedbackSessionName);
+                frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes actualFrComment = null;
         for(int i = 0; i < actualFrComments.size(); i++){
@@ -171,10 +219,26 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
             }
         }
         assertTrue(actualFrComment != null);
+        
+        ______TS("typical success case update feedback response comment giver email");
+        
+        String oldEmail = frComment.giverEmail;
+        String updatedEmail = "newEmail@gmail.tmt";
+        frcLogic.updateFeedbackResponseCommentsGiverEmail(frComment.courseId, oldEmail, updatedEmail);
+        
+        actualFrComment = frcLogic.getFeedbackResponseComment(
+                                           frComment.feedbackResponseId, updatedEmail, frComment.createdAt);
+
+        assertEquals(frComment.courseId, actualFrComment.courseId);
+        assertEquals(updatedEmail, actualFrComment.giverEmail);
+        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        
+        // reset email
+        frcLogic.updateFeedbackResponseCommentsGiverEmail(frComment.courseId, updatedEmail, oldEmail);
     }
     
     @Test
-    public void testDeleteFeedbackResponseComment() throws Exception{
+    public void testDeleteFeedbackResponseComment() throws Exception {
         //create a frComment to delete
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
@@ -193,48 +257,73 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
         FeedbackResponseCommentAttributes actualFrComment = 
                 frcLogic.getFeedbackResponseCommentForSession(
-                        frComment.courseId, frComment.feedbackSessionName).get(0);
+                                 frComment.courseId, frComment.feedbackSessionName).get(0);
         TestHelper.verifyPresentInDatastore(actualFrComment);
         
         ______TS("typical success case");
         
         frcLogic.deleteFeedbackResponseComment(actualFrComment);
         TestHelper.verifyAbsentInDatastore(actualFrComment);
+        
+
+        ______TS("typical success case for response");
+        
+        FeedbackResponseCommentAttributes anotherFrComment = new FeedbackResponseCommentAttributes();
+        restoreFrCommentFromDataBundle(anotherFrComment, "comment1FromT1C1ToR1Q2S1C1");
+        TestHelper.verifyPresentInDatastore(anotherFrComment);
+        frcLogic.deleteFeedbackResponseCommentsForResponse(anotherFrComment.feedbackResponseId);
+        TestHelper.verifyAbsentInDatastore(anotherFrComment);
+        
+    }
+    
+
+    @Test
+    public void testDeleteFeedbackResponseCommentFromCourse() throws Exception {
+        
+        ______TS("typical case");
+        String courseId = "idOfTypicalCourse1";
+        
+        List<FeedbackResponseCommentAttributes> frcList 
+            = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        assertNotEquals(0, frcList.size());
+        
+        frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
+        
+        frcList = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        assertEquals(0, frcList.size());
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
             FeedbackResponseCommentAttributes frComment, String expectedMessage) 
             throws InvalidParametersException {
-        try{
+        try {
             frcLogic.createFeedbackResponseComment(frComment);
             signalFailureToDetectException();
-        } catch(EntityDoesNotExistException e){
+        } catch (EntityDoesNotExistException e) {
             assertEquals(expectedMessage, e.getMessage());
         }
     }
     
-    private void verifyNullFromGetFrCommentForSession(
-            FeedbackResponseCommentAttributes frComment) {
+    private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
         List<FeedbackResponseCommentAttributes> frCommentsGot = 
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
         assertEquals(0, frCommentsGot.size());
     }
     
-    private void verifyNullFromGetFrComment(
-            FeedbackResponseCommentAttributes frComment) {
+    private void verifyNullFromGetFrComment(FeedbackResponseCommentAttributes frComment) {
         FeedbackResponseCommentAttributes frCommentGot = 
                 frcLogic.getFeedbackResponseComment(
-                        frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
+                                 frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
         assertEquals(null, frCommentGot);
     }
     
     private void verifyExceptionThrownWhenUpdateFrComment(
             FeedbackResponseCommentAttributes frComment, String expectedString)
             throws EntityDoesNotExistException {
-        try{
+        try {
             frcLogic.updateFeedbackResponseComment(frComment);
             signalFailureToDetectException();
-        } catch(InvalidParametersException e){
+        } catch (InvalidParametersException e) {
             AssertHelper.assertContains(expectedString, e.getMessage());
         }
     }
@@ -259,12 +348,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         List<FeedbackResponseCommentAttributes> existingFrComments = 
                 frcLogic.getFeedbackResponseCommentForSession(
-                        existingFrComment.courseId, 
-                        existingFrComment.feedbackSessionName);
+                                 existingFrComment.courseId, 
+                                 existingFrComment.feedbackSessionName);
         
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
-        for(FeedbackResponseCommentAttributes c: existingFrComments){
-            if(c.commentText.equals(existingFrComment.commentText)){
+        for (FeedbackResponseCommentAttributes c: existingFrComments) {
+            if (c.commentText.equals(existingFrComment.commentText)) {
                 existingFrCommentWithId = c;
                 break;
             }
@@ -276,16 +365,16 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     private String getQuestionIdInDataBundle(String questionInDataBundle) {
         FeedbackQuestionAttributes question = dataBundle.feedbackQuestions.get(questionInDataBundle);
         question = fqLogic.getFeedbackQuestion(
-                question.feedbackSessionName, question.courseId, question.questionNumber);
+                                   question.feedbackSessionName, question.courseId, question.questionNumber);
         return question.getId();
     }
     
     private String getResponseIdInDataBundle(String responseInDataBundle, String questionInDataBundle) {
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get(responseInDataBundle);
         response = frLogic.getFeedbackResponse(
-                getQuestionIdInDataBundle(questionInDataBundle), 
-                response.giverEmail, 
-                response.recipientEmail);
+                                   getQuestionIdInDataBundle(questionInDataBundle), 
+                                   response.giverEmail, 
+                                   response.recipientEmail);
         return response.getId();
     }
 }

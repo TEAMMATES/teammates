@@ -1,68 +1,128 @@
-<div id="frameBodyWrapper" class="container">
-            <div id="topOfPage"></div>
-            <h1>Feedback Results - Student</h1>
-            <br>
+<div class="container" id="mainContent">
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Feedback Results - Student</h1>
+    <br>
+
+        
+        
+    
+    
+    
+
+
+
+
+<div class="well well-plain">
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="panel-heading">         
+                
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">
+        Course ID:
+    </label>
+    <div class="col-sm-10">
+        <p class="form-control-static">
             
-            <div class="well well-plain">
-                <div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="panel-heading">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Course ID:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">SFResultsUiT.CS2104</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Session:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">CONTRIB Session</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Opening time:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">Sun, 01 Apr 2012, 23:59</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Closing time:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">Sat, 30 Apr 2016, 23:59</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    SFResultsUiT.CS2104
+                
+        </p>
+    </div>
+</div>
+                
+                
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">
+        Session:
+    </label>
+    <div class="col-sm-10">
+        <p class="form-control-static">
+            
+                    CONTRIB Session
+                
+        </p>
+    </div>
+</div>
+                
+                
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">
+        Opening time:
+    </label>
+    <div class="col-sm-10">
+        <p class="form-control-static">
+            
+                    Sun, 01 Apr 2012, 23:59
+                
+        </p>
+    </div>
+</div>
+                
+                
+
+
+<div class="form-group">
+    <label class="col-sm-2 control-label">
+        Closing time:
+    </label>
+    <div class="col-sm-10">
+        <p class="form-control-static">
+            
+                    Sat, 30 Apr 2016, 23:59
+                
+        </p>
+    </div>
+</div>
             </div>
-            <br>
-            
+        </div>
+    </div>
+</div>
+<br>
+    
 
 
 
 
+
+    
         <div id="statusMessage" class="alert alert-warning">
             You have not received any new feedback but you may review your own submissions below.
         </div>
-        
-        <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
-        </script>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
+    
+    
 
-            <br>
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                        <h4>Question 1: <span class="text-preserve-space">Rate the contribution by yourself and your team members.&nbsp;<span style=" white-space: normal;">
+    <br>
+    
+    
+        
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">            
+        <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+        <h4>Question 1: <span class="text-preserve-space">Rate the contribution by yourself and your team members.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
 </span></span></h4>
-                        <div class="panel panel-primary">
+    
+        <div class="panel panel-primary">
     <div class="panel-heading">
         Comparison of work distribution &nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-contributionInfo" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-contributionInfo')" data-more="[how to interpret, etc..]" data-less="[less]">[how to interpret, etc..]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-1-contributionInfo" class="small link-in-dark-bg" onclick="toggleAdditionalQuestionInfo('1-contributionInfo')" data-more="[how to interpret, etc..]" data-less="[less]">[how to interpret, etc..]</a>
     <br>
     <span id="questionAdditionalInfo-1-contributionInfo" style="display:none;"><h4 id="interpret">How do I interpret these results? </h4>
 <ul class="bulletedList">
@@ -111,7 +171,7 @@ Here are the important things to note:
     </li>
 </ul>
 The actual calculation is a bit complex and the finer details can be found 
-<a href="/dev/spec.html#supplementaryrequirements-pointcalculationscheme">here</a>.</span>
+<a href="https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true#h.n5u2xs6z9y0g">here</a>.</span>
 </span>
     </div>
     <table class="table table-striped">
@@ -144,9 +204,14 @@ The actual calculation is a bit complex and the finer details can be found
         </tbody>
     </table>
 </div>
-                    
-                    </div>
-                </div>
-                <br>
-            
-        </div>
+        
+                  
+    </div>
+</div>
+<br>
+    
+    
+    
+
+    
+    </div>

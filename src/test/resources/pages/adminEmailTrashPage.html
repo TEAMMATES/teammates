@@ -1,0 +1,70 @@
+<div class="container" id="mainContent">
+                <div id="topOfPage"></div>
+                <h1>Admin Email</h1>
+                <br>
+
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="">
+                        <a href="/admin/adminEmailComposePage">Compose</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/admin/adminEmailSentPage">Sent</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/admin/adminEmailDraftPage">Draft</a>
+                    </li>
+                    <li role="presentation" class="active">
+                        <a href="/admin/adminEmailTrashPage">Trash</a>
+                    </li>
+                </ul>
+                
+                <br>
+                <br>
+                
+                
+                
+                    <div id="adminEmailTrash">
+                    <div class="panel panel-danger">
+                            <div class="panel-heading">
+                            <strong>
+                                    <span id="trashEmailsCount">
+                                        {*}
+                                    </span>
+                            </strong>
+                            <span class="pull-right">
+                                <a class="btn btn-danger btn-xs" href="/admin/adminEmailTrashDelete?emptytrashbin=true">
+                                    <strong>
+                                        <span class="glyphicon glyphicon-floppy-remove">                                           
+                                        </span>&nbsp;Empty Trash
+                                    </strong>
+                                 </a>
+                            </span>
+                            </div>
+                            <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>      
+                                        <th>Action</th>          
+                                        <th>Address Receiver</th>
+                                        <th>Group Receiver</th>
+                                        <th>Subject</th>
+                                        <th onclick="toggleSort(this,5);" class="button-sort-descending">Date <span class="icon-sort sorted-descending" id="button_sort_date"></span></th>
+                                    </tr>
+                                </thead>
+                                {*}
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                
+               
+                
+
+
+
+
+        <div id="statusMessage" style="display: none;"></div>
+
+            </div>

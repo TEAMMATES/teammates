@@ -9,14 +9,18 @@ import java.util.Set;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -80,23 +84,16 @@ public class InstructorSearchPageAction extends Action {
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
             if (totalResultsSize == 0) {
-                statusToUser.add(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS, StatusMessageColor.WARNING));
             }
         } else {
             //display search tips and tutorials
-            statusToUser.add(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS, StatusMessageColor.INFO));
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
-        data.searchKey = searchKey;
-        data.commentSearchResultBundle = commentSearchResults;
-        data.feedbackResponseCommentSearchResultBundle = frCommentSearchResults;
-        data.studentSearchResultBundle = studentSearchResults;
-        data.totalResultsSize = totalResultsSize;
-        //TODO: put the followings into a map
-        data.isSearchCommentForStudents = isSearchCommentForStudents;
-        data.isSearchCommentForResponses = isSearchCommentForResponses;
-        data.isSearchForStudents = isSearchForStudents;
+        data.init(commentSearchResults, frCommentSearchResults, studentSearchResults, searchKey, 
+                      isSearchCommentForStudents, isSearchCommentForResponses, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }
@@ -134,18 +131,67 @@ public class InstructorSearchPageAction extends Action {
                 }
             }
         }   
-        return totalResultsSize;
-    }
-    
-    private FeedbackQuestionAttributes getRelatedQuestionOfResponse(FeedbackResponseCommentSearchResultBundle frCommentSearchResults, 
-                                                                        FeedbackResponseAttributes fra) {      
-        List<FeedbackQuestionAttributes> fqs = frCommentSearchResults.questions.get(fra.feedbackSessionName);
-        for (FeedbackQuestionAttributes fq : fqs) {
-            if (fq.getId().equals(fra.feedbackQuestionId)) {
-                return fq;
+
+        Set<String> emailList = frCommentSearchResults.instructorEmails;
+        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> iterQn = frCommentSearchResults.questions.entrySet().iterator();
+        while (iterQn.hasNext()) {
+            String fsName = (String) iterQn.next().getKey();
+            List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
+
+            for (int i = questionList.size() - 1; i >= 0; i--) {
+                FeedbackQuestionAttributes question = questionList.get(i);
+                List<FeedbackResponseAttributes> responseList = frCommentSearchResults.responses.get(question.getId());
+
+                for (int j = responseList.size() - 1; j >= 0; j--) {
+                    FeedbackResponseAttributes response = responseList.get(j);
+                    List<FeedbackResponseCommentAttributes> commentList = frCommentSearchResults.comments.get(response.getId());
+
+                    for (int k = commentList.size() - 1; k >= 0; k--) {
+                        FeedbackResponseCommentAttributes comment = commentList.get(k);
+
+                        if (emailList.contains(comment.giverEmail)) {
+                            continue;
+                        }
+
+                        boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
+                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion ? true
+                                                 : comment.isVisibleTo(FeedbackParticipantType.GIVER);
+
+                        if (isVisibleToGiver && emailList.contains(response.giverEmail)) {
+                            continue;
+                        }
+
+                        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
+                                                    ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                                    : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+
+                        if (isVisibleToReceiver && emailList.contains(response.recipientEmail)) {
+                            continue;
+                        }
+
+                        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
+                                                      ? question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                                      : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+
+                        if (isVisibleToInstructor) {
+                            continue;
+                        }
+                        commentList.remove(k);
+                    }
+                    if (commentList.isEmpty()) {
+                        responseList.remove(j);
+                    }
+                }
+                if (responseList.isEmpty()) {
+                    questionList.remove(i);
+                }
+            }
+            if (questionList.isEmpty()) {
+                iterQn.remove();
             }
         }
-        return null;
+
+        return totalResultsSize;
     }
     
     private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {

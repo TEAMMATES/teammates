@@ -10,6 +10,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -162,7 +163,9 @@ public class GateKeeper {
         }
 
         if (!feedbacksession.isVisible()) {
-            throw new UnauthorizedAccessException("This feedback session is not yet visible.");
+            throw new FeedbackSessionNotVisibleException(
+                                            "This feedback session is not yet visible.",
+                                            feedbacksession.getStartTimeString());
         }
     }
 

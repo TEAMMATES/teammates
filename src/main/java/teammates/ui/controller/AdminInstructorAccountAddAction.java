@@ -19,10 +19,12 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
 
@@ -74,10 +76,10 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
-            statusToUser.add("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>");
+            statusToUser.add(new StatusMessage("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>", StatusMessageColor.DANGER));
             String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>";
             message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";           
-            statusToUser.add("<br>" + message);
+            statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
             statusToAdmin = message;
             return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
         }
@@ -85,8 +87,8 @@ public class AdminInstructorAccountAddAction extends Action {
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
         joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
 
-        statusToUser.add("Instructor " + data.instructorName
-                + " has been successfully created with join link:<br>" + joinLink);
+        statusToUser.add(new StatusMessage("Instructor " + data.instructorName
+                + " has been successfully created with join link:<br>" + joinLink, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
                 + "<span class=\"bold\">Id: </span>" + "ID will be assigned when the verification link was clicked and confirmed"
@@ -145,7 +147,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 }
                 
                 backdoor.persistDataBundle(data);   
-                statusToUser.add("<br>Data Persistence was Checked Twice in This Request<br>");         
+                statusToUser.add(new StatusMessage("<br>Data Persistence was Checked Twice in This Request<br>", StatusMessageColor.WARNING));         
             }
         }
         

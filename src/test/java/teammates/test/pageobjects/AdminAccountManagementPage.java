@@ -62,5 +62,4 @@ public class AdminAccountManagementPage extends AppPage {
     private WebElement getDeleteAccountLink(String googleId) {
         return browser.driver.findElement(By.id(googleId + "_deleteAccount"));
     }
-
 }

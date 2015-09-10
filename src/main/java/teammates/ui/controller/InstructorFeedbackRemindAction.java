@@ -2,6 +2,8 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageAction {
@@ -18,7 +20,7 @@ public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageActio
         
         logic.sendReminderForFeedbackSession(courseId,feedbackSessionName);
         
-        statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to all students who have not completed " +
                         "Feedback Session <span class=\"bold\">(" + feedbackSessionName + 
                         ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";

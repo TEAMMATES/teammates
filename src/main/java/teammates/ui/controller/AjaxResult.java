@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 
 public class AjaxResult extends ActionResult {
 
@@ -20,17 +21,15 @@ public class AjaxResult extends ActionResult {
     public AjaxResult(String destination, 
                       AccountAttributes account, 
                       Map<String, String[]> parametersFromPreviousRequest, 
-                      List<String> status) {
+                      List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
     }
 
-    //TODO: remove destination parameter and use empty string instead? It is not used for ajax results.
-    public AjaxResult(String destination, 
-                      AccountAttributes account,
+    public AjaxResult(AccountAttributes account,
                       Map<String, String[]> parametersFromPreviousRequest,
-                      List<String> status, 
+                      List<StatusMessage> status, 
                       PageData data) {
-        super(destination, account, parametersFromPreviousRequest, status);
+        super("", account, parametersFromPreviousRequest, status);
         this.data = data;
     }
     
@@ -49,9 +48,15 @@ public class AjaxResult extends ActionResult {
     
     private void clearStatusMessageForRequest(HttpServletRequest req) {
         String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
+        String statusMessageColor = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR); 
+        
         if (statusMessageInSession != null) {
             //Remove status message in session, thus it becomes an one-time message
             req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        }
+        
+        if (statusMessageColor != null) {
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
         }
     }
 }

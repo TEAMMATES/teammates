@@ -20,6 +20,7 @@ import com.thoughtworks.selenium.DefaultSelenium;
 /**
  * A programmatic interface to the Browser used to test the app.
  */
+@SuppressWarnings("deprecation")
 public class Browser {
     
     protected ChromeDriverService chromeService = null;

@@ -518,4 +518,60 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     private Class<? extends FeedbackQuestionDetails> getFeedbackQuestionDetailsClass() {
         return questionType.getQuestionDetailsClass();
     }
+
+    public String getFeedbackQuestionId() {
+        return feedbackQuestionId;
+    }
+
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+
+    public Text getQuestionMetaData() {
+        return questionMetaData;
+    }
+
+    public int getQuestionNumber() {
+        return questionNumber;
+    }
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public FeedbackParticipantType getGiverType() {
+        return giverType;
+    }
+
+    public FeedbackParticipantType getRecipientType() {
+        return recipientType;
+    }
+
+    public int getNumberOfEntitiesToGiveFeedbackTo() {
+        return numberOfEntitiesToGiveFeedbackTo;
+    }
+
+    public List<FeedbackParticipantType> getShowResponsesTo() {
+        return showResponsesTo;
+    }
+
+    public List<FeedbackParticipantType> getShowGiverNameTo() {
+        return showGiverNameTo;
+    }
+
+    public List<FeedbackParticipantType> getShowRecipientNameTo() {
+        return showRecipientNameTo;
+    }
+
+    public String getQuestionAdditionalInfoHtml() {
+        return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
+    }
 }

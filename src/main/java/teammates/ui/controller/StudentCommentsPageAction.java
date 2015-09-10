@@ -29,8 +29,6 @@ public class StudentCommentsPageAction extends Action {
     
     private StudentCommentsPageData data;
     private String courseId;
-    private String previousPageLink = "javascript:;";
-    private String nextPageLink = "javascript:;";
     private String studentEmail;
     
     @Override
@@ -41,7 +39,7 @@ public class StudentCommentsPageAction extends Action {
         
         //COURSE_ID can be null, if viewed by default
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if(courseId == null){
+        if (courseId == null) {
             courseId = "";
         }
         
@@ -56,9 +54,10 @@ public class StudentCommentsPageAction extends Action {
         
         studentEmail = logic.getStudentForGoogleId(courseId, account.googleId).email;
         CourseRoster roster = null;
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
+                new HashMap<String, FeedbackSessionResultsBundle>();
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
-        if(coursePaginationList.size() > 0){
+        if (coursePaginationList.size() > 0) {
             roster = new CourseRoster(
                     logic.getStudentsForCourse(courseId),
                     logic.getInstructorsForCourse(courseId));
@@ -70,15 +69,8 @@ public class StudentCommentsPageAction extends Action {
         }
         
         data = new StudentCommentsPageData(account);
-        data.courseId = courseId;
-        data.courseName = courseName;
-        data.coursePaginationList = coursePaginationList;
-        data.comments = comments;
-        data.roster = roster;
-        data.previousPageLink = previousPageLink;
-        data.nextPageLink = nextPageLink;
-        data.studentEmail = studentEmail;
-        data.feedbackResultBundles = feedbackResultBundles;
+        data.init(courseId, courseName, coursePaginationList, comments, roster,
+                  studentEmail, feedbackResultBundles);
         
         statusToAdmin = "studentComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -89,7 +81,7 @@ public class StudentCommentsPageAction extends Action {
     
     private void verifyBasicAccessibility() {
         new GateKeeper().verifyLoggedInUserPrivileges();
-        if(regkey != null) { 
+        if (regkey != null) { 
             // unregistered users cannot view the page
             throw new UnauthorizedAccessException("User is not registered");
         }
@@ -106,38 +98,21 @@ public class StudentCommentsPageAction extends Action {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForStudentAccount(account.googleId);
         java.util.Collections.sort(courses);
-        for(int i = 0; i < courses.size(); i++){
+        for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             coursePaginationList.add(course.id);
-            if(courseId == ""){
+            if (courseId.isEmpty()) {
                 //if courseId not provided, select the newest course
                 courseId = course.id;
             }
-            if(course.id.equals(courseId)){
+            if (course.id.equals(courseId)) {
                 courseName = course.id + " : " + course.name;
-                setPreviousPageLink(courses, i);
-                setNextPageLink(courses, i);
             }
         }
-        if(courseName.equals("")){
-            throw new EntityDoesNotExistException(
-                    "Trying to access a course that does not exist.");
+        if (courseName.equals("")) {
+            throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
         }
         return courseName;
-    }
-    
-    private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex){
-        if(currentIndex - 1 >= 0){
-            CourseAttributes course = courses.get(currentIndex - 1);
-            previousPageLink = new PageData(account).getStudentCommentsLink(false) + "&courseid=" + course.id;
-        }
-    }
-    
-    private void setNextPageLink(List<CourseAttributes> courses, int currentIndex){
-        if(currentIndex + 1 < courses.size()){
-            CourseAttributes course = courses.get(currentIndex + 1);
-            nextPageLink = new PageData(account).getStudentCommentsLink(false) + "&courseid=" + course.id;
-        }
     }
     
     /*
@@ -146,17 +121,21 @@ public class StudentCommentsPageAction extends Action {
      */
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
             throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new LinkedHashMap<String, FeedbackSessionResultsBundle>();
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
+                new LinkedHashMap<String, FeedbackSessionResultsBundle>();
         List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         Collections.sort(fsList, SessionAttributes.DESCENDING_ORDER);
-        for(FeedbackSessionAttributes fs : fsList){
-            if(!fs.isPublished()) continue;
+        for(FeedbackSessionAttributes fs : fsList) {
+            if (!fs.isPublished()) {
+                continue;
+            }
             
             FeedbackSessionResultsBundle bundle = 
-                    logic.getFeedbackSessionResultsForStudent(fs.feedbackSessionName, courseId, studentEmail, roster);
-            if(bundle != null){
+                    logic.getFeedbackSessionResultsForStudent(
+                                  fs.feedbackSessionName, courseId, studentEmail, roster);
+            if (bundle != null) {
                 removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-                if(bundle.questions.size() != 0){
+                if (bundle.questions.size() != 0) {
                     feedbackResultBundles.put(fs.feedbackSessionName, bundle);
                 }
             }
@@ -165,17 +144,19 @@ public class StudentCommentsPageAction extends Action {
     }
 
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
-        for(FeedbackResponseAttributes fr: bundle.responses){
+        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = 
+                new ArrayList<FeedbackResponseAttributes>();
+        for (FeedbackResponseAttributes fr: bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if(frComment != null && frComment.size() != 0){
+            if (frComment != null && frComment.size() != 0) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
-        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = new HashMap<String, FeedbackQuestionAttributes>();
-        for(FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment){
+        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = 
+                new HashMap<String, FeedbackQuestionAttributes>();
+        for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
-            if(questionsWithFeedbackResponseComment.get(qn.getId()) == null){
+            if (questionsWithFeedbackResponseComment.get(qn.getId()) == null) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);
             }
         }

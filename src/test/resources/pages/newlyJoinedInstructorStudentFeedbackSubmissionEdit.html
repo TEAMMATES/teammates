@@ -1,0 +1,1027 @@
+<div class="container" id="mainContent">
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Submit Feedback</h1>
+    <br>
+
+        
+        
+    
+        
+
+
+
+
+    <script>
+        var motdUrl = window.location.origin + '/test-student-motd.html';
+    </script>
+    <script type="text/javascript" src="/js/studentMotd.js"></script>
+
+    <div class="container theme-showcase" id="student-motd-container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body padding-top-0">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="padding-15px margin-0">
+                                    <b class="text-color-gray">TEAMMATES Message of the day</b>
+                                    &nbsp;
+                                    <button type="button" class="close" aria-label="Close" onclick="closeMotd();">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12" id="student-motd">
+
+
+
+<link rel="shortcut icon" href="/favicon.png">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TEAMMATES</title>
+
+
+	<div class="col-sm-12">
+    	<h1>Test student Message of the day! =)</h1><h1>
+    	<img alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" src="/images/overview.png" width="350px">
+	</h1></div>
+
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+       
+    
+    
+    
+
+
+
+
+
+
+<form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
+    
+
+
+
+
+
+<input name="fsname" value="First team feedback session" type="hidden">
+<input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+
+
+    
+        <input name="user" value="${test.instructor}" type="hidden">
+    
+    
+
+
+
+
+
+
+
+
+    
+        <div id="statusMessage" class="alert alert-warning">
+            You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+        </div>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
+    
+    
+
+
+
+
+
+<div class="well well-plain" id="course1">
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="panel-heading">               
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Course ID:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">AHPUiT.instr1.gma-demo</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Session:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">First team feedback session</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Opening time:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">Sun, 01 Apr 2012, 23:59</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Closing time:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">Mon, 02 Apr 2012, 23:59</p>
+                    </div>
+                </div>             
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Instructions:</label>
+                    <div class="col-sm-10">                   
+                        <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+                        <p class="form-control-static text-preserve-space">Please give your feedback based on the following questions.</p>
+                    </div>
+                </div>             
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+
+
+
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-1" value="CONTRIB" type="hidden">
+                     
+<input name="questionid-1" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-1" value="4" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 1:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">Please rate the estimated contribution of your team members and yourself.</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">The receiving students can see your response, but not your name.</li>
+                
+                    <li class="unordered">Your team members can see your response, but not the name of the recipient, or your name.</li>
+                
+                    <li class="unordered">The recipient's team members can see your response, but not the name of the recipient, or your name.</li>
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="AHPUiT.instr1@gmail.tmt" selected="selected">AHPUiT Instrúctör</option>
+                
+                    <option style="display: none;" value="charlie.d.tmms@gmail.tmt">Charlie Davis</option>
+                
+                    <option style="display: none;" value="francis.g.tmms@gmail.tmt">Francis Gabriel</option>
+                
+                    <option style="display: none;" value="gene.h.tmms@gmail.tmt">Gene Hudson</option>
+                
+        </select><span>AHPUiT Instrúctör</span>
+    </div>
+    <div class="col-sm-10">
+        <div class="col-sm-3">
+	<select class="form-control color-positive" name="responsetext-1-0" disabled="disabled">
+		<option class="color_neutral" value="-999"></option><option class="color-positive" value="200">Equal share + 100%</option>
+<option class="color-positive" value="190">Equal share + 90%</option>
+<option class="color-positive" value="180">Equal share + 80%</option>
+<option class="color-positive" value="170">Equal share + 70%</option>
+<option class="color-positive" value="160">Equal share + 60%</option>
+<option class="color-positive" value="150">Equal share + 50%</option>
+<option class="color-positive" value="140">Equal share + 40%</option>
+<option class="color-positive" value="130">Equal share + 30%</option>
+<option class="color-positive" value="120">Equal share + 20%</option>
+<option class="color-positive" value="110" selected="selected">Equal share + 10%</option>
+<option class="color_neutral" value="100">Equal share</option>
+<option class="color-negative" value="90">Equal share - 10%</option>
+<option class="color-negative" value="80">Equal share - 20%</option>
+<option class="color-negative" value="70">Equal share - 30%</option>
+<option class="color-negative" value="60">Equal share - 40%</option>
+<option class="color-negative" value="50">Equal share - 50%</option>
+<option class="color-negative" value="40">Equal share - 60%</option>
+<option class="color-negative" value="30">Equal share - 70%</option>
+<option class="color-negative" value="20">Equal share - 80%</option>
+<option class="color-negative" value="10">Equal share - 90%</option>
+<option class="color-negative" value="0">0%</option>
+<option class="color_neutral" value="-101">Not Sure</option>
+	</select>
+</div>
+        
+            <input name="responseid-1-0" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-1-1" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option style="display: none;" value="AHPUiT.instr1@gmail.tmt">AHPUiT Instrúctör</option>
+                
+                    <option value="charlie.d.tmms@gmail.tmt" selected="selected">Charlie Davis</option>
+                
+                    <option style="display: none;" value="francis.g.tmms@gmail.tmt">Francis Gabriel</option>
+                
+                    <option style="display: none;" value="gene.h.tmms@gmail.tmt">Gene Hudson</option>
+                
+        </select><span>Charlie Davis</span>
+    </div>
+    <div class="col-sm-10">
+        <div class="col-sm-3">
+	<select class="form-control color-negative" name="responsetext-1-1" disabled="disabled">
+		<option class="color_neutral" value="-999"></option><option class="color-positive" value="200">Equal share + 100%</option>
+<option class="color-positive" value="190">Equal share + 90%</option>
+<option class="color-positive" value="180">Equal share + 80%</option>
+<option class="color-positive" value="170">Equal share + 70%</option>
+<option class="color-positive" value="160">Equal share + 60%</option>
+<option class="color-positive" value="150">Equal share + 50%</option>
+<option class="color-positive" value="140">Equal share + 40%</option>
+<option class="color-positive" value="130">Equal share + 30%</option>
+<option class="color-positive" value="120">Equal share + 20%</option>
+<option class="color-positive" value="110">Equal share + 10%</option>
+<option class="color_neutral" value="100">Equal share</option>
+<option class="color-negative" value="90">Equal share - 10%</option>
+<option class="color-negative" value="80" selected="selected">Equal share - 20%</option>
+<option class="color-negative" value="70">Equal share - 30%</option>
+<option class="color-negative" value="60">Equal share - 40%</option>
+<option class="color-negative" value="50">Equal share - 50%</option>
+<option class="color-negative" value="40">Equal share - 60%</option>
+<option class="color-negative" value="30">Equal share - 70%</option>
+<option class="color-negative" value="20">Equal share - 80%</option>
+<option class="color-negative" value="10">Equal share - 90%</option>
+<option class="color-negative" value="0">0%</option>
+<option class="color_neutral" value="-101">Not Sure</option>
+	</select>
+</div>
+        
+            <input name="responseid-1-1" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-1-2" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option style="display: none;" value="AHPUiT.instr1@gmail.tmt">AHPUiT Instrúctör</option>
+                
+                    <option style="display: none;" value="charlie.d.tmms@gmail.tmt">Charlie Davis</option>
+                
+                    <option value="francis.g.tmms@gmail.tmt" selected="selected">Francis Gabriel</option>
+                
+                    <option style="display: none;" value="gene.h.tmms@gmail.tmt">Gene Hudson</option>
+                
+        </select><span>Francis Gabriel</span>
+    </div>
+    <div class="col-sm-10">
+        <div class="col-sm-3">
+	<select class="form-control color-positive" name="responsetext-1-2" disabled="disabled">
+		<option class="color_neutral" value="-999"></option><option class="color-positive" value="200">Equal share + 100%</option>
+<option class="color-positive" value="190">Equal share + 90%</option>
+<option class="color-positive" value="180">Equal share + 80%</option>
+<option class="color-positive" value="170">Equal share + 70%</option>
+<option class="color-positive" value="160">Equal share + 60%</option>
+<option class="color-positive" value="150">Equal share + 50%</option>
+<option class="color-positive" value="140">Equal share + 40%</option>
+<option class="color-positive" value="130">Equal share + 30%</option>
+<option class="color-positive" value="120">Equal share + 20%</option>
+<option class="color-positive" value="110" selected="selected">Equal share + 10%</option>
+<option class="color_neutral" value="100">Equal share</option>
+<option class="color-negative" value="90">Equal share - 10%</option>
+<option class="color-negative" value="80">Equal share - 20%</option>
+<option class="color-negative" value="70">Equal share - 30%</option>
+<option class="color-negative" value="60">Equal share - 40%</option>
+<option class="color-negative" value="50">Equal share - 50%</option>
+<option class="color-negative" value="40">Equal share - 60%</option>
+<option class="color-negative" value="30">Equal share - 70%</option>
+<option class="color-negative" value="20">Equal share - 80%</option>
+<option class="color-negative" value="10">Equal share - 90%</option>
+<option class="color-negative" value="0">0%</option>
+<option class="color_neutral" value="-101">Not Sure</option>
+	</select>
+</div>
+        
+            <input name="responseid-1-2" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-1-3" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option style="display: none;" value="AHPUiT.instr1@gmail.tmt">AHPUiT Instrúctör</option>
+                
+                    <option style="display: none;" value="charlie.d.tmms@gmail.tmt">Charlie Davis</option>
+                
+                    <option style="display: none;" value="francis.g.tmms@gmail.tmt">Francis Gabriel</option>
+                
+                    <option value="gene.h.tmms@gmail.tmt" selected="selected">Gene Hudson</option>
+                
+        </select><span>Gene Hudson</span>
+    </div>
+    <div class="col-sm-10">
+        <div class="col-sm-3">
+	<select class="form-control color-positive" name="responsetext-1-3" disabled="disabled">
+		<option class="color_neutral" value="-999"></option><option class="color-positive" value="200">Equal share + 100%</option>
+<option class="color-positive" value="190">Equal share + 90%</option>
+<option class="color-positive" value="180">Equal share + 80%</option>
+<option class="color-positive" value="170">Equal share + 70%</option>
+<option class="color-positive" value="160">Equal share + 60%</option>
+<option class="color-positive" value="150">Equal share + 50%</option>
+<option class="color-positive" value="140">Equal share + 40%</option>
+<option class="color-positive" value="130">Equal share + 30%</option>
+<option class="color-positive" value="120">Equal share + 20%</option>
+<option class="color-positive" value="110" selected="selected">Equal share + 10%</option>
+<option class="color_neutral" value="100">Equal share</option>
+<option class="color-negative" value="90">Equal share - 10%</option>
+<option class="color-negative" value="80">Equal share - 20%</option>
+<option class="color-negative" value="70">Equal share - 30%</option>
+<option class="color-negative" value="60">Equal share - 40%</option>
+<option class="color-negative" value="50">Equal share - 50%</option>
+<option class="color-negative" value="40">Equal share - 60%</option>
+<option class="color-negative" value="30">Equal share - 70%</option>
+<option class="color-negative" value="20">Equal share - 80%</option>
+<option class="color-negative" value="10">Equal share - 90%</option>
+<option class="color-negative" value="0">0%</option>
+<option class="color_neutral" value="-101">Not Sure</option>
+	</select>
+</div>
+        
+            <input name="responseid-1-3" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br><br>
+    
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-2" value="TEXT" type="hidden">
+                     
+<input name="questionid-2" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-2" value="1" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 2:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">Comments about my contribution (shown to other teammates)</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">You can see your own feedback in the results page later on.</li>
+                
+                    <li class="unordered">Your team members can see your response, the name of the recipient, and your name.</li>
+                
+                    <li class="unordered">The recipient's team members can see your response, the name of the recipient, and your name.</li>
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="display:none">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="AHPUiT.instr1@gmail.tmt" selected="selected">Myself</option>
+                
+        </select><span>Myself</span>
+    </div>
+    <div class="col-sm-12">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-2-0">I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time.</textarea>
+        
+            <input name="responseid-2-0" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br><br>
+    
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-3" value="TEXT" type="hidden">
+                     
+<input name="questionid-3" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-3" value="3" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 3:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">My comments about this teammate(confidential and only shown to instructor)</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-3-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="charlie.d.tmms@gmail.tmt" selected="selected">Charlie Davis</option>
+                
+                    <option style="display: none;" value="francis.g.tmms@gmail.tmt">Francis Gabriel</option>
+                
+                    <option style="display: none;" value="gene.h.tmms@gmail.tmt">Gene Hudson</option>
+                
+        </select><span>Charlie Davis</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-3-0">A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good.</textarea>
+        
+            <input name="responseid-3-0" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-3-1" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option style="display: none;" value="charlie.d.tmms@gmail.tmt">Charlie Davis</option>
+                
+                    <option value="francis.g.tmms@gmail.tmt" selected="selected">Francis Gabriel</option>
+                
+                    <option style="display: none;" value="gene.h.tmms@gmail.tmt">Gene Hudson</option>
+                
+        </select><span>Francis Gabriel</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-3-1">Francis is the designer of the project. He did a good job!</textarea>
+        
+            <input name="responseid-3-1" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-3-2" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option style="display: none;" value="charlie.d.tmms@gmail.tmt">Charlie Davis</option>
+                
+                    <option style="display: none;" value="francis.g.tmms@gmail.tmt">Francis Gabriel</option>
+                
+                    <option value="gene.h.tmms@gmail.tmt" selected="selected">Gene Hudson</option>
+                
+        </select><span>Gene Hudson</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-3-2">Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project.</textarea>
+        
+            <input name="responseid-3-2" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br><br>
+    
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-4" value="TEXT" type="hidden">
+                     
+<input name="questionid-4" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-4" value="1" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 4:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">Comments about team dynamics(confidential and only shown to instructor)</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="Team 2" selected="selected">Team 2</option>
+                
+        </select><span>Team 2</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-4-0">I had a great time with this team. Thanks for all the support from the members.</textarea>
+        
+            <input name="responseid-4-0" value="{*}%AHPUiT.instr1@gmail.tmt%Team 2" type="hidden">
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br><br>
+    
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-5" value="TEXT" type="hidden">
+                     
+<input name="questionid-5" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-5" value="3" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 5:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">My feedback to this teammate(shown anonymously to the teammate)</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">The receiving students can see your response, but not your name.</li>
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+            </ul>
+                
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-5-0" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="charlie.d.tmms@gmail.tmt" selected="selected">Charlie Davis</option>
+                
+                    <option style="display: none;" value="francis.g.tmms@gmail.tmt">Francis Gabriel</option>
+                
+                    <option style="display: none;" value="gene.h.tmms@gmail.tmt">Gene Hudson</option>
+                
+        </select><span>Charlie Davis</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-5-0">Good try Charlie! Thanks for showing great effort in picking up the skills.</textarea>
+        
+            <input name="responseid-5-0" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-5-1" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option style="display: none;" value="charlie.d.tmms@gmail.tmt">Charlie Davis</option>
+                
+                    <option value="francis.g.tmms@gmail.tmt" selected="selected">Francis Gabriel</option>
+                
+                    <option style="display: none;" value="gene.h.tmms@gmail.tmt">Gene Hudson</option>
+                
+        </select><span>Francis Gabriel</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-5-1">Nice work Francis!</textarea>
+        
+            <input name="responseid-5-1" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="text-align:right">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-5-2" style="display:none;max-width:125px" disabled="disabled">
+                
+                
+                    <option value=""></option>
+                
+                    <option style="display: none;" value="charlie.d.tmms@gmail.tmt">Charlie Davis</option>
+                
+                    <option style="display: none;" value="francis.g.tmms@gmail.tmt">Francis Gabriel</option>
+                
+                    <option value="gene.h.tmms@gmail.tmt" selected="selected">Gene Hudson</option>
+                
+        </select><span>Gene Hudson</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea rows="4" cols="100%" class="form-control" disabled="disabled" name="responsetext-5-2">Keep up the good work Gene!</textarea>
+        
+            <input name="responseid-5-2" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br><br>
+    
+
+
+    
+    <div class="bold align-center"> 
+        
+
+        
+            
+            
+                <input data-original-title="You can save your responses at any time and come back later to continue." class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="" value="Submit Feedback" disabled="disabled" style="background: #66727A;" type="submit">
+            
+        
+    </div>
+    <br> 
+    <br>
+</form>
+    
+
+    
+    </div>

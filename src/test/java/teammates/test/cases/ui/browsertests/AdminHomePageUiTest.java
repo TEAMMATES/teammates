@@ -109,6 +109,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
                                       + expectedjoinUrl);
+        homePage.verifyHtml("/adminHomePageCreateInstructorSuccess.html");
+        
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(BackDoor.getCourse(demoCourseId));
@@ -167,7 +169,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         ______TS("new instructor can archive sample course");
         instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
         instructorHomePage.clickArchiveCourseLinkAndConfirm(demoCourseId);
-        instructorHomePage.verifyHtmlMainContent("/NJIHomePageSampleCourseArchived.html");
+        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePageSampleCourseArchived.html");
         
         ______TS("new instructor can unarchive sample course");
         String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
@@ -176,7 +178,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         browser.driver.get(url);
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
         coursesPage.unarchiveCourse(demoCourseId);
-        coursesPage.verifyHtmlMainContent("/NJICoursesPageSampleCourseUnarhived.html");
+        coursesPage.verifyHtmlMainContent("/newlyJoinedInstructorCoursesPageSampleCourseUnarhived.html");
         
         ______TS("new instructor can access sample course students page");
         coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
@@ -187,7 +189,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHomePage.clickFeedbackSessionViewResultsLink("AHPUiT.instr1.gma-demo", "Second team feedback session")
-                          .verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
+                          .waitForPageToLoad();
+        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
         
         ______TS("new instructor can edit feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
@@ -201,8 +204,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         feedbackEditPage.editFeedbackSession(feedbackSession.startTime, 
                                              feedbackSession.endTime,
                                              new Text("updated instructions"),
-                                             feedbackSession.gracePeriod);        
-        instructorHomePage.verifyHtmlMainContent("/NJIfeedbackSessionSuccessEdited.html");
+                                             feedbackSession.gracePeriod);
+        feedbackEditPage.reloadPage();
+        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionSuccessEdited.html");
         
         
         
@@ -210,25 +214,25 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructorHomePage.loadInstructorHomeTab();
         FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink("AHPUiT.instr1.gma-demo", 
                                                                                     "Second team feedback session");
-        fbsp.verifyHtmlMainContent("/NJIfeedbackSubmissionEditPage.html");
+        fbsp.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSubmissionEditPage.html");
         
         ______TS("new instructor can send reminder of sample course");
         instructorHomePage.loadInstructorHomeTab();
         feedbacksPage = instructorHomePage.clickFeedbackSessionRemindLink("AHPUiT.instr1.gma-demo", 
                                                                           "Second team feedback session");
-        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionRemind.html");
+        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionRemind.html");
         
         ______TS("new instructor can unpublish feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
         feedbacksPage = instructorHomePage.clickFeedbackSessionUnpublishLink("AHPUiT.instr1.gma-demo", 
                                                                              "Second team feedback session");
-        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionUnpublished.html");
+        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionUnpublished.html");
         
         ______TS("new instructor can publish feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
         feedbacksPage = instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", 
                                                                            "Second team feedback session");
-        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionPublished.html");
+        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionPublished.html");
         
         feedbacksPage.logout();
         
@@ -261,21 +265,21 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         studentHomePage.clickViewTeam();
         
         StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
-        courseDetailsPage.verifyHtmlMainContent("/NJIstudentCourseDetailsPage.html");
+        courseDetailsPage.verifyHtmlMainContent("/newlyJoinedInstructorStudentCourseDetailsPage.html");
         
         studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
         studentHomePage.getViewFeedbackButton("First team feedback session").click();
         StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
-        sfrp.verifyHtmlMainContent("/NJIstudentFeedbackResultsPage.html");
+        sfrp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackResultsPage.html");
         
         studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
         studentHomePage.getEditFeedbackButton("First team feedback session").click();
         FeedbackSubmitPage fsp = AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
-        fsp.verifyHtmlMainContent("/NJIstudentFeedbackSubmissionEdit.html");
+        fsp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackSubmissionEdit.html");
         
         studentHomePage = fsp.loadStudentHomeTab();
         StudentCommentsPage scp = studentHomePage.loadStudentCommentsTab();    
-        scp.verifyHtmlMainContent("/NJIstudentCommentsPage.html");
+        scp.verifyHtmlMainContent("/newlyJoinedInstructorStudentCommentsPage.html");
         
         studentHomePage = scp.loadStudentHomeTab();
         

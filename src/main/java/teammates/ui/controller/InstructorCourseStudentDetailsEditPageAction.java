@@ -1,13 +1,15 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsEditPageAction extends InstructorCoursesPageAction {
-    
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -22,21 +24,26 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
-        InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
-        data.student = logic.getStudentForEmail(courseId, studentEmail);
-        data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
-        data.hasSection = logic.hasIndicatedSections(courseId);
-        data.newEmail = data.student.email;
+        if (student == null) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT,
+                                               StatusMessageColor.DANGER));
+            isError = true;
+            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        }
+        
+        boolean hasSection = logic.hasIndicatedSections(courseId);
+        
+        InstructorCourseStudentDetailsEditPageData data =
+                new InstructorCourseStudentDetailsEditPageData(account, student, student.email, hasSection);
 
-        statusToAdmin = "instructorCourseStudentEdit Page Load<br>" + 
-                "Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details " +
-                "in Course <span class=\"bold\">[" + courseId + "]</span>"; 
+        statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
+                        + "Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details "
+                        + "in Course <span class=\"bold\">[" + courseId + "]</span>"; 
         
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
 
     }
-
-
 }

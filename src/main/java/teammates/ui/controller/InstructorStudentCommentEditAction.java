@@ -19,6 +19,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -50,7 +52,7 @@ public class InstructorStudentCommentEditAction extends Action {
                 //TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
                 
-                statusToUser.add(Const.StatusMessages.COMMENT_EDITED);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_EDITED, StatusMessageColor.SUCCESS));
                 statusToAdmin = "Edited Comment for Student:<span class=\"bold\">(" +
                         comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
@@ -58,7 +60,7 @@ public class InstructorStudentCommentEditAction extends Action {
             } else if (editType.equals("delete")) {
                 logic.deleteDocument(comment);
                 logic.deleteComment(comment);
-                statusToUser.add(Const.StatusMessages.COMMENT_DELETED);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_DELETED, StatusMessageColor.SUCCESS));
                 statusToAdmin = "Deleted Comment for Student:<span class=\"bold\">(" +
                         comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
@@ -66,7 +68,7 @@ public class InstructorStudentCommentEditAction extends Action {
             }
         } catch (InvalidParametersException e) {
             // TODO: add a test to cover this path
-            statusToUser.add(e.getMessage());
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
             statusToAdmin = e.getMessage();
             isError = true;
         }

@@ -10,6 +10,15 @@
                         <span class="glyphicon glyphicon-plus">
                         </span> add more options
                     </a>
+                    
+                    <div class="control-label">
+                        <label>
+                            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}"
+                                   id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}-${questionNumber}"
+                                   ${checkedOtherOptionEnabled} onchange="toggleMsqOtherOptionEnabled(this, ${questionNumber})">
+                                Add 'Other' option (Allows respondents to type in their own answer)
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

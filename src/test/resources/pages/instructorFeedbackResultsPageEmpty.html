@@ -1,172 +1,168 @@
-<div id="frameBodyWrapper" class="container">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
-                <h1>Session Results</h1>
-            </div>            
-            
-
-
-
-
-
-
-<div class="well well-plain padding-0">
-    <div class="form-horizontal">
-        <div class="panel-heading">
-          <div class="row">
-          <div class="col-sm-4">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Course ID:</label>
-                <div class="col-sm-10">
-                  <p class="form-control-static">CFResultsUiT.CS2104</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Session:</label>
-                <div class="col-sm-10">
-                  <p class="form-control-static">Third Session 
-                      
-                          <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&amp;fsname=Third+Session&amp;user=CFResultsUiT.instr">
-                          [Edit]</a>
-                      
-                  </p>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-6">
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Session duration:</label>
-                <div class="col-sm-8">
-                  <p class="form-control-static">Mon, 02 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;Sat, 30 Apr 2016, 23:59</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Results visible from:</label>
-                <div class="col-sm-8">
-                  <p class="form-control-static">
-                    Tue, 01 May 2012, 23:59
-                    
-                    </p>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-2">
-              
-              <div class="form-group">
-                  <div class="col-sm-12">
-                    <form method="post" action="/page/instructorFeedbackResultsDownload">
-                    <div id="feedbackDataButtons">
-                        <input id="button_download" class="btn btn-primary btn-block" name="fruploaddownloadbtn" value="Download results" type="submit">
-                    </div>
-                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                    <input name="fsname" value="Third Session" type="hidden">
-                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                    <input name="sectionname" value="All" type="hidden">
-                    </form><br>
-                    
-                    <div>
-                    <a data-original-title="Make responses no longer visible" class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=Third+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('Third Session');">Unpublish results</a> 
-                    </div>
-                  </div>
-              </div>
-              
-          </div>
-        </div>
-
+<div class="container" id="mainContent">
+   <div id="topOfPage">
+   </div>
+   <h1>
+      Session Results
+   </h1>
+   <br/>
+      <div class="well well-plain padding-0">
+      <div class="form-horizontal">
+         <div class="panel-heading">
             <div class="row">
-                <span class="help-block align-center">
-
-                    Non-English characters not displayed properly in the
-                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
-            </span></div>
-
-        </div>
+               <div class="col-sm-4">
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label">
+                        Course ID:
+                     </label>
+                     <div class="col-sm-10">
+                        <p class="form-control-static">
+                           CFResultsUiT.CS2104
+                        </p>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label">
+                        Session:
+                     </label>
+                     <div class="col-sm-10">
+                        <p class="form-control-static">
+                           Third Session
+                           <a href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&amp;fsname=Third+Session&amp;user=CFResultsUiT.instr">
+                              [Edit]
+                           </a>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6">
+                  <div class="form-group">
+                     <label class="col-sm-4 control-label">
+                        Session duration:
+                     </label>
+                     <div class="col-sm-8">
+                        <p class="form-control-static">
+                           Mon, 02 Apr 2012, 23:59   
+                           <b>
+                              to
+                           </b>
+                              Sat, 30 Apr 2016, 23:59
+                        </p>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="col-sm-4 control-label">
+                        Results visible from:
+                     </label>
+                     <div class="col-sm-8">
+                        <p class="form-control-static">
+                           Tue, 01 May 2012, 23:59
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-2">
+                  <div class="form-group">
+                     <div class="col-sm-12">
+                        <form action="&#x2f;page&#x2f;instructorFeedbackResultsDownload" method="post">
+                           <div id="feedbackDataButtons">
+                              <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
+                                                         </div>
+                           <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                                                      <input name="fsname" type="hidden" value="Third Session"/>
+                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                      <input name="sectionname" type="hidden" value="All"/>
+                                                   </form>
+                        <br/>
+                                                <div>
+                           <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=Third+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation(&#39;Third Session&#39;);" title="">
+                              Unpublish Results
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <span class="help-block align-center">
+                  Non-English characters not displayed properly in the downloaded file?
+                  <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
+                     click here
+                  </span>
+               </span>
+            </div>
+         </div>
       </div>
-    
-</div>
-
-<form id="csvToHtmlForm">
-<input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-<input name="fsname" value="Third Session" type="hidden">
-<input name="user" value="CFResultsUiT.instr" type="hidden">
-<input name="frgroupbysection" value="All" type="hidden">
-<input name="csvtohtmltable" value="true" type="hidden">
-</form>
-
-<div class="modal fade align-center" id="fsResultsTableWindow">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+   </div>
+   <form id="csvToHtmlForm">
+      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+            <input name="fsname" type="hidden" value="Third Session"/>
+            <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+            <input name="frgroupbysection" type="hidden" value="All"/>
+            <input name="csvtohtmltable" type="hidden" value="true"/>
+         </form>
+   <div class="modal fade align-center" id="fsResultsTableWindow">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
             <div class="modal-header">
-                 <span class="help-block" style="display:inline;"> Tips: After
-                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
-                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
-                </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
-                    Select Table</button>
+               <span class="help-block" style="display:inline;">
+                  Tips: After selecting the table,
+                  <kbd>
+                     Ctrl + C
+                  </kbd>
+                  to COPY and
+                  <kbd>
+                     Ctrl + V
+                  </kbd>
+                  to PASTE to your Excel Workbook.
+               </span>
+                    
+               <button class="btn btn-default" data-dismiss="modal" type="button">
+                  Close
+               </button>
+               <button class="btn btn-primary" onclick="selectElementContents(document.getElementById(&#39;fsModalTable&#39;));" type="button">
+                  Select Table
+               </button>
             </div>
             <div class="modal-body">
-            <div class="table-responsive">
-            <div id="fsModalTable">
-               
-            </div>
-            <br>
-             <div id="ajaxStatus"></div>      
-            </div>
+               <div class="table-responsive">
+                  <div id="fsModalTable">
+                  </div>
+                  <br/>
+                                    <div id="ajaxStatus">
+                  </div>
+               </div>
             </div>
             <div class="modal-footer">
-               
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+      <div id="statusMessage" style="display: none;">
+   </div>
+   <br/>
+      <div class="bold color_red align-center">
+      There are no responses for this feedback session yet or you do not have access to the responses collected so far.
+   </div>
+   <br/>
+      <div class="panel panel-warning">
+      <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
+         <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                        <input name="fsname" type="hidden" value="Third Session"/>
+                        <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                        <input name="questionnum" type="hidden" value="-1"/>
+                     </form>
+         <div class="display-icon pull-right">
+            <span class="glyphicon pull-right glyphicon-chevron-up">
+            </span>
+         </div>
+         Participants who have not responded to any question
+      </div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
+         <div class="panel-body">
+            All students have responded to some questions in this session.
+         </div>
+      </div>
+   </div>
 </div>
-
-
-<br>
-
-
-
-
-
-        <div id="statusMessage" style="display: none;"></div>
-
-<br>
-
-    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
-
-
-            <br>
-            
-            
-
-
-
-
-
-
-
-
-
-  <div class="panel panel-warning">
-      <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
-          <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsPage">
-              <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-              <input name="fsname" value="Third Session" type="hidden">
-              <input name="user" value="CFResultsUiT.instr" type="hidden">
-              <input name="questionnum" value="-1" type="hidden">
-          </form>
-          <div class="display-icon pull-right">
-          <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-          </div>
-          Participants who have not responded to any question</div>
-      <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
-  
-          <div class="panel-body">
-              All students have responded to some questions in this session.
-          </div>
-  
-      </div>
-      </div>
-  
-            </div>

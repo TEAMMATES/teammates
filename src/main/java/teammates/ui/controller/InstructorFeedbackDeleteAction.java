@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackDeleteAction extends Action {
@@ -23,7 +25,7 @@ public class InstructorFeedbackDeleteAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         logic.deleteFeedbackSession(feedbackSessionName, courseId);
-        statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_DELETED);
+        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span> "
                         + "from Course: <span class=\"bold\">[" + courseId + " deleted.";
         

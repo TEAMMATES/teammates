@@ -15,7 +15,16 @@ public class StudentProfilePicturePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return true;
+        String pageSource = getPageSource();
+
+        // First test is for the actual pages, the tests for after the first || is meant for tests that
+        // results in error pages or entity not found pages, note that some of them do not have tags,
+        // have no closing tags and those are intentional
+        return pageSource.contains("<title>studentProfilePic")
+               || pageSource.contains("<body></body>")
+               || pageSource.contains("The page you are looking for is not there.")
+               || pageSource.contains("You are not authorized to view this page.")
+               || pageSource.contains("TEAMMATES could not locate what you were trying to access.");
     }
 
     public void verifyHasPicture() {
@@ -25,18 +34,18 @@ public class StudentProfilePicturePage extends AppPage {
 
     public void verifyIsErrorPage(String expectedFilename) {
         if (TestProperties.inst().isDevServer()) {
-            verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+            verifyHtmlPart(By.id("mainContent"), expectedFilename);
         } else {
             assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
         }
     }
 
     public void verifyIsUnauthorisedErrorPage(String expectedFilename) {
-        verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+        verifyHtmlPart(By.id("mainContent"), expectedFilename);
     }
 
     public void verifyIsEntityNotFoundErrorPage(String expectedFilename) {
-        verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+        verifyHtmlPart(By.id("mainContent"), expectedFilename);
     }
 
 }

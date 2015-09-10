@@ -23,7 +23,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
                 new InstructorFeedbackQuestionVisibilityMessagePageData(account);
         data.visibilityMessage = message;
 
-        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
+        return createAjaxResult(data);
     }
 
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(
@@ -82,6 +82,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
 
         Assumption.assertNotNull("Null question type", questionType);
+        questionType = FeedbackQuestionType.standardizeIfConstSum(questionType);
 
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
         newQuestion.removeIrrelevantVisibilityOptions();

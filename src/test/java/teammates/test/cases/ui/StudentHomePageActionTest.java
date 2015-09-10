@@ -19,7 +19,8 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentHomePageAction;
 import teammates.ui.controller.StudentHomePageData;
 
-// Priority added due to conflict between StudentHomePageActionTest and StudentCommentsPageActionTest
+// Priority added due to conflict between InstructorStudentListPageActionTest,
+// StudentHomePageActionTest, and StudentCommentsPageActionTest.
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
@@ -52,7 +53,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                                         r.getStatusMessage());
         
         StudentHomePageData data = (StudentHomePageData) r.data;
-        assertEquals(0, data.courses.size());
+        assertEquals(0, data.getCourseTables().size());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" 
                                     + "|||true|||Unregistered|||null|||unreg.user|||null" 
@@ -90,7 +91,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                                           r.getStatusMessage());
         
         data = (StudentHomePageData) r.data;
-        assertEquals(0, data.courses.size());
+        assertEquals(0, data.getCourseTables().size());
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" 
                              + "|||Unregistered|||Student Without Courses|||googleId.without.courses"
@@ -115,7 +116,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
         
         data = (StudentHomePageData) r.data;
-        assertEquals(2, data.courses.size());
+        assertEquals(2, data.getCourseTables().size());
         
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true"
@@ -134,8 +135,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
         data = (StudentHomePageData)r.data;
-        assertEquals(1, data.courses.size());
-        assertEquals("idOfTypicalCourse1", data.courses.get(0).course.id);
+        assertEquals(1, data.getCourseTables().size());
+        assertEquals("idOfTypicalCourse1", data.getCourseTables().get(0).getCourseId());
         
         
         ______TS("Registered student with existing courses, course join affected by eventual consistency");
@@ -147,8 +148,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
         data = (StudentHomePageData) r.data;
-        assertEquals(2, data.courses.size());
-        assertEquals("idOfTypicalCourse2", data.courses.get(1).course.id);
+        assertEquals(2, data.getCourseTables().size());
+        assertEquals("idOfTypicalCourse2", data.getCourseTables().get(1).getCourseId());
         
         
         ______TS("Just joined course, course join not affected by eventual consistency and appears in list");
@@ -160,7 +161,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
         data = (StudentHomePageData) r.data;
-        assertEquals(1, data.courses.size());
+        assertEquals(1, data.getCourseTables().size());
         
         
         // Delete additional sessions that were created

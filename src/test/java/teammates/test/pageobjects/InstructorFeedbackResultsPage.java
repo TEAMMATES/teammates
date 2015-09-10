@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
@@ -34,9 +35,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @FindBy(id = "collapse-panels-button")
     public WebElement collapseExpandButton;
+    
+    @FindBy(id = "collapse-panels-button-team-0")
+    public WebElement instructorPanelCollapseStudentsButton;
 
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
+    
+    @FindBy(id = "panelBodyCollapse-1")
+    public WebElement instructorPanelBody;
 
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -53,6 +60,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public String getFeedbackSessionName() {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
+    }
+    
+    @Override
+    public void waitForPageToLoad() {
+        super.waitForPageToLoad();
+        // results page has panels that are loaded by ajax,
+        // and these panels collapse when their contents are loaded
+        waitForPanelsToCollapse();
+    }
+    
+    /**
+     * Waits until the page structure is loaded. 
+     * Does not wait for all the content that are loaded by ajax to load.
+     */
+    public void waitForPageStructureToLoad() {
+        super.waitForPageToLoad();
     }
 
     public boolean isCorrectPage(String courseId, String feedbackSessionName) {
@@ -126,8 +149,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public InstructorFeedbackEditPage clickEditLink() {
         WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
         button.click();
-        waitForPageToLoad();
-        return changePageType(InstructorFeedbackEditPage.class);
+        
+        InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class); 
+        editPage.waitForPageToLoad();
+        return editPage;
     }
 
     public boolean clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {
@@ -272,7 +297,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         Actions actions = new Actions(browser.driver);
 
         actions.moveToElement(photoCell).perform();
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         List<WebElement> photos = browser.driver.findElements(By.cssSelector(".popover-content > img"));
         AssertHelper.assertContainsRegex(urlRegex, photos.get(photos.size() - 1).getAttribute("src"));
@@ -288,12 +313,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         jsExecutor.executeScript("arguments[0].scrollIntoView(true);", photoDiv);
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoDiv).perform();
-        waitForElementToAppear(By.cssSelector(".popover-content"));
+        waitForElementPresence(By.cssSelector(".popover-content"));
 
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
                                  + ".getElementsByTagName('a')[0].click();");
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         AssertHelper.assertContainsRegex(urlRegex,
                                          browser.driver.findElements(By.cssSelector(".popover-content > img"))
@@ -312,7 +337,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoLink).perform();
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
         ThreadHelper.waitFor(500);
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
@@ -337,12 +362,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                            ".querySelectorAll('td')['" + tableCol + "']" +
                                            ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
-        waitForElementToAppear(By.cssSelector(".popover-content"));
+        waitForElementPresence(By.cssSelector(".popover-content"));
         
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
                                            ".getElementsByTagName('a')[0].click();");
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
                                                                  .get(0)
@@ -376,4 +401,40 @@ public class InstructorFeedbackResultsPage extends AppPage {
                              .findElement(By.xpath("table/tbody/tr[" + responseNo + "]/td[6]/form"));
     }
 
+    public void clickInstructorPanelCollapseStudentsButton() {
+        instructorPanelCollapseStudentsButton.click();
+    }
+
+    public void verifyParticipantPanelIsCollapsed(int id, int timeToWait) {
+        WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
+
+        // Need to wait for the total duration according to the number of collapse/expand intervals 
+        // between panels before checking final state of the panel
+        ThreadHelper.waitFor(timeToWait);
+        assertFalse(panel.isDisplayed());
+    }
+
+    public int getNumOfPanelsInInstructorPanel() {
+        List<WebElement> participantPanels = instructorPanelBody
+                                                 .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
+        return participantPanels.size();
+    }
+    
+    public void waitForPanelsToCollapse() {
+        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
+        waitForElementsVisibility(panelBodies);
+        ThreadHelper.waitFor(1000);
+    }
+
+    public boolean isSectionPanelExist(String section) {
+        List<WebElement> panels = browser.driver.findElements(By.cssSelector("div[id^='panelHeading-']"));
+        for (WebElement panel : panels) {
+            String panelSectionName = panel.findElement(By.className("panel-heading-text")).getText();
+            if (panelSectionName.equals(section)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

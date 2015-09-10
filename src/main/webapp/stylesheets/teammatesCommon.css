@@ -97,6 +97,10 @@ a#editUncommonSettingsButton:hover{
     cursor: hand;
 }
 
+.row-answered {
+    background-color: #dff0d8;
+}
+
 .row-selected {
     background-color: #f5f5f5;
 }
@@ -382,14 +386,6 @@ Apply to thead to make headers not bold.
     .navbar-collapse {
         max-height: 360px;
     }
-}
-
-/*////////////////////////////////////////////////////////////
-///////////////////////// Header ////////////////////////////
-//////////////////////////////////////////////////////////*/
-.instructor-header-bar {
-    /* TODO: find a stable solution to vertical middle align the columns */
-    margin-top: 20px;
 }
 
 /*////////////////////////////////////////////////////////////

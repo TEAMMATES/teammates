@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -96,7 +98,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement questionTextBox;
     
     @FindBy(id = "mcqOtherOptionFlag--1")
-    private WebElement addOtherOptionCheckboxForNewQuestion;
+    private WebElement addMcqOtherOptionCheckboxForNewQuestion;
+    
+    @FindBy(id = "msqOtherOptionFlag--1")
+    private WebElement addMsqOtherOptionCheckboxForNewQuestion;
     
     @FindBy(id = "givertype")
     private WebElement giverDropdown;
@@ -334,6 +339,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
+    public void clickEndDateBox() {
+        endDateBox.click();
+    }
+    
     public void clickFsCopyButton() {
         fscopyButton.click();
     }
@@ -350,12 +359,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         copySubmitButton.click();
     }
     
-    public void clickAddOtherOptionCheckboxForNewQuestion() {
-        addOtherOptionCheckboxForNewQuestion.click();
+    public void clickAddMcqOtherOptionCheckboxForNewQuestion() {
+        addMcqOtherOptionCheckboxForNewQuestion.click();
+    }
+    
+    public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
+        addMsqOtherOptionCheckboxForNewQuestion.click();
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 5);
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
     }
     
     public void fillCopyToOtherCoursesForm(String newName) {
@@ -499,6 +512,53 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
     
+    public boolean verifyEndDatesBeforeTodayAreDisabled() {
+        Calendar cal = Calendar.getInstance();
+        
+        // if today is the 1st day of the month, the datepicker cannot navigate to the previous month (yesterday) 
+        if (cal.get(Calendar.DATE) != 1) {
+            cal.add(Calendar.DATE, -1);       
+
+            // get month names
+            DateFormatSymbols dfs = new DateFormatSymbols();
+            String[] months = dfs.getMonths();        
+
+            // yesterday's day, month and year
+            String day = Integer.toString(cal.get(Calendar.DATE));
+            String month = months[cal.get(Calendar.MONTH)];
+            String year = Integer.toString(cal.get(Calendar.YEAR));
+
+            // go to previous month
+            while (!(getDatepickerMonth().equals(month) && getDatepickerYear().equals(year))) {
+                browser.driver.findElement(By.className("ui-datepicker-prev")).click();
+            }
+
+            // different months with the same day (e.g. first week or last week of the month) in the datepicker
+            List<WebElement> daysWithSameDayAsYesterday = browser.driver.findElements(By.xpath("//td[a[text() = \"" + day + "\"]]"));
+            
+            for (WebElement yesterday : daysWithSameDayAsYesterday) {
+                // yesterday is enabled
+                if (!yesterday.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled")) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    private String getDatepickerYear() {
+        By by = By.className("ui-datepicker-year");
+        waitForElementPresence(by);
+        return browser.driver.findElement(by).getText();
+    }
+
+    private String getDatepickerMonth() {
+        By by = By.className("ui-datepicker-month");
+        waitForElementPresence(by);
+        return browser.driver.findElement(by).getText();
+    }
+    
     public void selectNewQuestionType(String questionType) {
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
     }
@@ -571,8 +631,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");        
     
         fsSaveLink.click();
-        
-        waitForPageToLoad();
+        waitForElementVisibility(statusMessage);
     }
     
     public InstructorFeedbacksPage deleteSession() {

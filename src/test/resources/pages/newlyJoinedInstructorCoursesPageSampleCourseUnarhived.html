@@ -1,0 +1,138 @@
+<div class="container" id="mainContent">
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Add New Course</h1>
+    <br>
+
+        
+        
+    
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+    <div class="panel-body fill-plain">
+        <form method="get" action="/page/instructorCourseAdd" name="form_addcourse" class="form form-horizontal">
+            <input id="instructorid" name="instructorid" value="${test.instructor}" type="hidden">
+            <input name="user" value="${test.instructor}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Course ID:</label>
+                <div class="col-sm-3">
+                    <input data-original-title="Enter the identifier of the course, e.g.CS3215-2013Semester1." class="form-control" name="courseid" id="courseid" value="" data-toggle="tooltip" data-placement="top" title="" maxlength="40" tabindex="1" placeholder="e.g. CS3215-2013Semester1" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Course Name:</label>
+                <div class="col-sm-9">
+                    <input data-original-title="Enter the name of the course, e.g. Software Engineering." class="form-control" name="coursename" id="coursename" value="" data-toggle="tooltip" data-placement="top" title="" maxlength="64" tabindex="2" placeholder="e.g. Software Engineering" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <input id="btnAddCourse" class="btn btn-primary" onclick="return verifyCourseData();" value="Add Course" tabindex="3" type="submit">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <br>
+    
+
+
+
+
+
+    
+        <div id="statusMessage" class="alert alert-success">
+            The course AHPUiT.instr1.gma-demo has been unarchived.
+        </div>
+        <script type="text/javascript" src="/js/statusMessage.js"></script>
+    
+    
+
+    <br>
+    
+    
+
+
+
+<h2>Active courses</h2>
+<table class="table table-bordered table-striped">
+    <thead class="fill-primary">
+        <tr>
+            <th onclick="toggleSort(this,1);" id="button_sortcourseid" class="button-sort-ascending">
+                Course ID<span class="icon-sort sorted-ascending"></span>
+            </th>
+            <th onclick="toggleSort(this,2);" id="button_sortcoursename" class="button-sort-none">
+                Course Name<span class="icon-sort unsorted"></span>
+            </th>
+            <th>
+                Sections
+            </th>
+            <th>
+                Teams
+            </th>
+            <th>
+                Total Students
+            </th>
+            <th>
+                Total Unregistered
+            </th>
+            <th class="align-center no-print">
+                Action(s)
+            </th>
+        </tr>
+    </thead>
+    
+        <tbody>
+    
+    
+    
+<tr>
+            <td id="courseid0">AHPUiT.instr1.gma-demo</td>
+            <td id="coursename0">Sample Course 101</td>
+            <td class="align-center">2</td>
+            <td class="t_course_teams align-center">3</td>
+            <td class="align-center">9</td>
+            <td class="align-center">1</td>
+            <td class="align-center no-print">
+                
+                    <a data-original-title="Enroll student into the course" data-placement="top" title="" class="btn btn-default btn-xs t_course_enroll0" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}">
+                        Enroll
+                    </a>
+                
+                    <a data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" title="" class="btn btn-default btn-xs t_course_view0" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}">
+                        View
+                    </a>
+                
+                    <a data-original-title="Edit Course information and instructor list" data-placement="top" title="" class="btn btn-default btn-xs t_course_edit0" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=AHPUiT.instr1.gma-demo&amp;user=${test.instructor}">
+                        Edit
+                    </a>
+                
+                    <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" title="" class="btn btn-default btn-xs t_course_archive0" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=AHPUiT.instr1.gma-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=${test.instructor}">
+                        Archive
+                    </a>
+                
+                    <a data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('AHPUiT.instr1.gma-demo');" class="btn btn-default btn-xs t_course_delete0" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=${test.instructor}">
+                        Delete
+                    </a>
+                
+            </td>
+        </tr></tbody></table>
+    <br>
+    <br>
+    
+    <br>
+    <br>
+    
+    
+
+    
+    </div>

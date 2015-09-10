@@ -29,6 +29,7 @@ public class Const {
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
+
         /** Number to trim the Google ID when displaying to the user*/
         public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
         /** Maximum number to do Batching puts/delete documents from a index in the appengine  */
@@ -90,6 +91,7 @@ public class Const {
         public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
         public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_FEEDBACKSESSION = "Add a feedback session for the course";
+        public static final String COURSE_EMAIL_PENDING_COMMENTS = "Send email notification to recipients of %s pending comment%s";
         public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
@@ -235,9 +237,10 @@ public class Const {
         
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
+        public static final String COMMENT_EDIT_IN_COMMENTS_PAGE = "Edit comment in the Comments page";
         public static final String COMMENT_DELETE = "Delete this comment";
         
-        public static final String SEARCH_STUDENT = "Search for student's name";
+        public static final String SEARCH_STUDENT = "Search for student's information, e.g. name, email";
     }
     
     public class FeedbackQuestionTypeNames{
@@ -279,6 +282,7 @@ public class Const {
         
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
+        public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
@@ -311,8 +315,11 @@ public class Const {
         public static final String SHOW_COMMENT_BOX = "addComment";
         
         public static final String COURSE_SORTING_CRITERIA = "sortby";
+        public static final String COURSE_TO_LOAD = "coursetoload";
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
+        
+        public static final String CURRENT_PAGE = "currentPage";
         
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
@@ -371,6 +378,9 @@ public class Const {
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER = "mcqIsOtherOptionAnswer";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
+        public static final String FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
+        public static final String FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
+        public static final String FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER = "msqIsOtherOptionAnswer";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
@@ -455,10 +465,12 @@ public class Const {
         public static final String TEAMMATES = "teammates";
     
         public static final String STATUS_MESSAGE = "message";
+        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
         public static final String HINT = "hint";
+        public static final String FEEDBACK_SESSION_NOT_VISIBLE = "feedbacksessionnotvisible";
     
         public static final String LOGIN_ADMIN = "admin";
         public static final String LOGIN_INSTRUCTOR = "instructor";
@@ -702,12 +714,21 @@ public class Const {
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
     
+    public class PageNames {
+        public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
+        public static final String INSTRUCTOR_FEEDBACKS_PAGE = "instructorFeedbacksPage";
+        public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
+        public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
+    }
+    
     public class ViewURIs{
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
-        public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; 
+        public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp";
+        public static final String INSTRUCTOR_HOME_AJAX_COURSE_TABLE = "/jsp/instructorHomeAjaxCourse.jsp";
         public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD = "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/jsp/instructorFeedbackResponseCommentsLoad.jsp";
         public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp"; 
         public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; 
@@ -718,6 +739,8 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL = "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
@@ -728,9 +751,9 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
-        public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
+        public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
         
@@ -742,7 +765,6 @@ public class Const {
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/studentFeedbackQuestionSubmissionEdit.jsp"; 
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
         public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
-        public static final String STUDENT_MOTD = "/jsp/studentMotd.jsp";
             
         public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
         public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
@@ -761,8 +783,8 @@ public class Const {
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
-        public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp"; 
-        public static final String MAINTENANCE_PAGE = "/maintenance.jsp";
+        public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
+        public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp"; 
         
         public static final String MASHUP = "/dev/mashup.jsp";
     
@@ -772,7 +794,6 @@ public class Const {
         public static final String ADMIN_HEADER = "/jsp/adminHeader.jsp"; 
         public static final String FOOTER = "/jsp/footer.jsp"; 
         public static final String STATUS_MESSAGE = "/jsp/statusMessage.jsp";
-        public static final String STATUS_MESSAGE_WITHOUT_FOCUS = "/jsp/statusMessageWithoutFocusingToStatus.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         
         public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
@@ -853,7 +874,10 @@ public class Const {
         public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
         public static final String STUDENT_GOOGLEID_RESET_FAIL = "An error occurred when trying to reset student's google id";
         
+        public static final String STUDENT_EVENTUAL_CONSISTENCY = "If the student was created during the last few minutes, try again in a few more minutes as the student may still be being saved.";
+        
         public static final String STUDENT_EDITED = "The student has been edited successfully";
+        public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
@@ -902,7 +926,9 @@ public class Const {
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";
-        public static final String FEEDBACK_RESULTS_SECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one section at at time.";
+        public static final String FEEDBACK_RESULTS_SECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. " 
+                                                                       + "To view responses for a particular question, click on the question below. "
+                                                                       + "To view response for a particular section, choose the section from the drop-down box above.";
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
@@ -979,8 +1005,8 @@ public class Const {
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
-        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist.";
-        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist.";
+        public static final String STUDENT_NOT_FOUND_FOR_RECORDS = "The student you tried to view records for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
+        public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "Normally, we would show the student’s profile here. "
@@ -1153,6 +1179,7 @@ public class Const {
     
     
     public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
+    public static enum StatusMessageColor{INFO, SUCCESS, WARNING, DANGER};
     public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
     public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
     

@@ -22,22 +22,23 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
     private InstructorAttributes instructor = null;
-    private InstructorFeedbackResponseCommentsLoadPageData data;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String fsname = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String fsindexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
-        Assumption.assertNotNull(fsindexString);
-        int fsindex = 0;
+        
+        String fsName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertNotNull(fsName);
+        
+        String fsIndexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
+        Assumption.assertNotNull(fsIndexString);
+        int fsIndex = 0;
         try {
-            fsindex = Integer.parseInt(fsindexString);
+            fsIndex = Integer.parseInt(fsIndexString);
         } catch (NumberFormatException e) {
-            Assumption.fail("Invalid request parameter value for feedback session index: " + fsindexString);
+            Assumption.fail("Invalid request parameter value for feedback session index: " + fsIndexString);
         }
-        Assumption.assertNotNull(fsname);
         
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
@@ -46,32 +47,26 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
                                                logic.getInstructorsForCourse(courseId));
         
-        data = new InstructorFeedbackResponseCommentsLoadPageData(account);
-        data.feedbackResultBundles = getFeedbackResultBundles(courseId, fsname, roster);
-        data.instructorEmail = instructor.email;
-        data.currentInstructor = instructor;
-        data.roster = roster;
-        data.feedbackSessionIndex = fsindex;
-        data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+        int numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size()
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
+        FeedbackSessionResultsBundle bundle = getFeedbackResultBundle(courseId, fsName, roster);
+        InstructorFeedbackResponseCommentsLoadPageData data =
+                new InstructorFeedbackResponseCommentsLoadPageData(
+                        account, fsIndex, numberOfPendingComments, instructor, bundle);
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 
-    private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(String courseId, String fsname,
+    private FeedbackSessionResultsBundle getFeedbackResultBundle(String courseId, String fsname,
             CourseRoster roster) throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
-                new HashMap<String, FeedbackSessionResultsBundle>();
         FeedbackSessionResultsBundle bundle = 
                 logic.getFeedbackSessionResultsForInstructor(
                         fsname, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
         if (bundle != null) {
             removeQuestionsAndResponsesIfNotAllowed(bundle);
             removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-            if (bundle.questions.size() != 0) {
-                feedbackResultBundles.put(fsname, bundle);
-            }
         }
-        return feedbackResultBundles;
+        
+        return bundle.questions.isEmpty() ? null : bundle;
     }
 
     private void removeQuestionsAndResponsesIfNotAllowed(FeedbackSessionResultsBundle bundle) {
@@ -85,8 +80,8 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                     instructor.isAllowedForPrivilege(fdr.recipientSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             
-            boolean instructorHasSessionViewingPrivileges = (canInstructorViewSessionInGiverSection
-                                                                    && canInstructorViewSessionInRecipientSection);
+            boolean instructorHasSessionViewingPrivileges = canInstructorViewSessionInGiverSection
+                                                            && canInstructorViewSessionInRecipientSection;
             if (!instructorHasSessionViewingPrivileges) {
                 iter.remove();
             }
@@ -98,7 +93,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                 new ArrayList<FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes fr : bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if (frComment != null && frComment.size() != 0) {
+            if (frComment != null && !frComment.isEmpty()) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
@@ -106,7 +101,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
                 new HashMap<String, FeedbackQuestionAttributes>();
         for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
-            if (questionsWithFeedbackResponseComment.get(qn.getId()) == null) {
+            if (!questionsWithFeedbackResponseComment.containsKey(qn.getId())) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);
             }
         }

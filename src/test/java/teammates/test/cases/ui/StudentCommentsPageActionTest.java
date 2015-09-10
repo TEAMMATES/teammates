@@ -14,7 +14,8 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCommentsPageAction;
 import teammates.ui.controller.StudentCommentsPageData;
 
-//Priority added due to conflict between StudentHomePageActionTest and StudentCommentsPageActionTest
+// Priority added due to conflict between InstructorStudentListPageActionTest,
+// StudentHomePageActionTest, and StudentCommentsPageActionTest.
 @Priority(-1)
 public class StudentCommentsPageActionTest extends BaseActionTest {
 
@@ -44,8 +45,8 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(false, result.isError);
         
         StudentCommentsPageData data = (StudentCommentsPageData) result.data;
-        assertEquals(2, data.comments.size());
-        assertEquals(1, data.coursePaginationList.size());
+        assertEquals(2, data.getCommentsForStudentsTables().size());
+        assertEquals(1, data.getCoursePagination().getCoursePaginationList().size());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student"
                 + "|||Student 1 in course 1|||student1InCourse1|||student1InCourse1@gmail.tmt|||studentComments "
@@ -64,8 +65,8 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(false, result.isError);
         
         data = (StudentCommentsPageData) result.data;
-        assertEquals(0, data.comments.size());
-        assertEquals(2, data.coursePaginationList.size());
+        assertEquals(0, data.getCommentsForStudentsTables().size());
+        assertEquals(2, data.getCoursePagination().getCoursePaginationList().size());
         
         expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student(M)|||"
                 + "Student in two courses|||student2InCourse1|||student2InCourse1@gmail.tmt|||studentComments "

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
 
 /** A 'redirect' type result. That is, the Browser will be required to make 
@@ -21,7 +22,7 @@ public class RedirectResult extends ActionResult {
             String destination, 
             AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
-            List<String> status) {
+            List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
     }
 

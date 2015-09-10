@@ -4,8 +4,10 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,6 +23,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -75,6 +78,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         testHasIndicatedSections();
         testCreateCourse();
         testCreateCourseAndInstructor();
+        testGetCourseIdToSectionNamesMap();
         testDeleteCourse() ;
     }
 
@@ -348,7 +352,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseSummary(null);
+            coursesLogic.getCourseSummary((CourseAttributes) null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+        
+        try {
+            coursesLogic.getCourseSummary((String) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -396,7 +407,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            coursesLogic.getCourseSummaryWithoutStats(null);
+            coursesLogic.getCourseSummaryWithoutStats((CourseAttributes)null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+        
+        try {
+            coursesLogic.getCourseSummaryWithoutStats((String)null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -1136,6 +1154,28 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
+    }
+    
+    public void testGetCourseIdToSectionNamesMap() {
+        ______TS("typical case");
+        
+        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
+        List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
+        courses.add(course);
+        try {
+            Map<String, List<String>> map = CoursesLogic.inst().getCourseIdToSectionNamesMap(courses);
+            
+            assertEquals(1, map.keySet().size());
+            assertTrue(map.containsKey("idOfTypicalCourse1"));
+            
+            assertEquals(2, map.get("idOfTypicalCourse1").size());
+            assertTrue(map.get("idOfTypicalCourse1").contains("Section 1"));
+            assertTrue(map.get("idOfTypicalCourse1").contains("Section 2"));
+        } catch (EntityDoesNotExistException e) {
+            e.printStackTrace();
+            Assumption.fail("course could not be found");
+        }
+        
     }
 
     public void testDeleteCourse() throws Exception {

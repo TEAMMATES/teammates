@@ -1,0 +1,1439 @@
+<div class="container" id="mainContent">
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Session Results</h1>
+    <br>
+
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="well well-plain padding-0">
+    <div class="form-horizontal">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Course ID:</label>
+                      <div class="col-sm-10">
+                        <p class="form-control-static">CFResultsUiT.CS2104</p>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label">Session:</label>
+                      <div class="col-sm-10">
+                        <p class="form-control-static">First Session 
+                            
+                        </p>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Session duration:</label>
+                    <div class="col-sm-8">
+                      <p class="form-control-static">Sun, 01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;Sat, 30 Apr 2016, 23:59</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Results visible from:</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">
+                            Tue, 01 May 2012, 23:59
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <form method="post" action="/page/instructorFeedbackResultsDownload">
+                            <div id="feedbackDataButtons">
+                                <input id="button_download" class="btn btn-primary btn-block" name="fruploaddownloadbtn" value="Download Results" type="submit">
+                            </div>
+                            <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                            <input name="fsname" value="First Session" type="hidden">
+                            <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                            <input name="sectionname" value="All" type="hidden">
+                        </form>
+                        <br>
+                        <div>
+                            
+
+
+
+
+
+    
+        <a data-original-title="Make responses no longer visible" class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.helper2&amp;user=CFResultsUiT.helper2" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('First Session');" disabled="disabled">
+            Unpublish Results
+        </a>
+    
+    
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <span class="help-block align-center">
+                    Non-English characters not displayed properly in the downloaded file?
+                    <span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()">click here</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<form id="csvToHtmlForm">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    <input name="user" value="CFResultsUiT.helper2" type="hidden">
+    <input name="frgroupbysection" value="All" type="hidden">
+    <input name="csvtohtmltable" value="true" type="hidden">
+</form>
+<div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="help-block" style="display:inline;">
+                    Tips: After selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));">
+                    Select Table</button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <div id="fsModalTable"></div>
+                    <br>
+                    <div id="ajaxStatus"></div>      
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+
+    
+
+
+
+
+<form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;user=CFResultsUiT.helper2">
+    <div class="panel panel-info margin-0">
+        <div class="panel-body">
+            <div class="row">
+                <div data-original-title="View results in different formats" class="col-sm-5" data-toggle="tooltip" title="">
+                    <div class="form-group">
+                        <label for="viewSelect" class="col-sm-2 control-label">
+                            View:
+                        </label>
+                        <div class="col-sm-10">
+                            <select id="viewSelect" class="form-control" name="frsorttype" onchange="this.form.submit()">
+                                <option value="question" selected="selected">
+                                    Group by - Question
+                                </option>
+                                <option value="giver-recipient-question">
+                                    Group by - Giver &gt; Recipient &gt; Question
+                                </option>
+                                <option value="recipient-giver-question">
+                                    Group by - Recipient &gt; Giver &gt; Question
+                                </option>
+                                <option value="giver-question-recipient">
+                                    Group by - Giver &gt; Question &gt; Recipient
+                                </option>
+                                <option value="recipient-question-giver">
+                                    Group by - Recipient &gt; Question &gt; Giver
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div data-original-title="Filter the results in the current view" class="col-sm-5" data-toggle="tooltip" title="">
+                    <div class="form-group">
+                        <label for="viewSelect" class="col-sm-2 control-label">
+                            Filter:
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input id="results-search-box" class="form-control" placeholder="Type keywords from the question to filter" onchange="updateResultsFilter()" type="text">
+                                <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 pull-right">
+                  <div data-original-title="Group results in the current view by team" class="col-sm-12" data-toggle="tooltip" title="">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <label class="text-strike">
+                              <input name="frgroupbyteam" id="frgroupbyteam" type="checkbox"> Group by Teams
+                          </label>
+                      </div>
+                  </div>
+                  <div data-original-title="Show statistics" class="col-sm-12" data-toggle="tooltip" title="">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <label>
+                              <input id="show-stats-checkbox" name="frshowstats" type="checkbox"> Show Statistics
+                          </label>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                
+                    <div data-original-title="View results by sections" class="col-sm-5" data-toggle="tooltip" title="">
+                        <div class="form-group">
+                            <label for="sectionSelect" class="col-sm-2 control-label">
+                                Section:
+                            </label>
+                            <div class="col-sm-10">
+                                <select id="sectionSelect" class="form-control" name="frgroupbysection" onchange="this.form.submit()">
+                                    <option value="All" selected="selected">
+                                        All
+                                    </option>
+                                    
+                                        <option value="Section A">
+                                            Section A
+                                        </option>
+                                    
+                                        <option value="Section B">
+                                            Section B
+                                        </option>
+                                    
+                                    <option value="None">
+                                        Not in a section
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="col-sm-7 pull-right" style="padding-top:8px;">
+                    
+                        
+                            <div data-original-title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below." style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="">
+                                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" disabled="disabled">
+                                    Expand Questions
+                                </a>
+                            </div>
+                        
+                        
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <input name="fsname" value="First Session" type="hidden">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="user" value="CFResultsUiT.helper2" type="hidden">
+</form>
+
+<br>
+
+
+
+
+
+
+
+
+    
+        <div id="statusMessage" class="alert alert-danger">
+            This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
+        </div>
+        
+            <script type="text/javascript" src="/js/statusMessage.js"></script>
+        
+    
+    
+
+<br>
+
+
+        
+    
+    
+
+
+
+
+
+
+
+
+
+<br>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
+        
+            <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="off" id="showStats-1" type="hidden">
+                <input name="questionnum" value="1" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right"><span class="glyphicon pull-right glyphicon-chevron-up"></span></div>
+            
+        
+        
+            
+                <strong>Question 1: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">Rate 3 other students' products</span>
+                </div>
+            
+            
+        
+    </div>
+    <div style="height: auto;" id="panelBodyCollapse-1" class="panel-collapse collapse in">
+        <div class="panel-body padding-0" id="questionBody-0">
+            
+            
+            
+            
+                <div style="display: none;" class="resultStatistics">
+                    
+                </div>
+                
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered dataTable margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                    
+                                        <th id="button_sortFromName" style="width: 15%;" onclick="toggleSort(this,1)" class="button-sort-none"> 
+                                            Giver
+                                            <span class="icon-sort unsorted"></span>
+                                        </th>
+                                    
+                                        <th id="button_sortFromTeam" style="width: 15%;" onclick="toggleSort(this,2)" class="button-sort-none"> 
+                                            Team
+                                            <span class="icon-sort unsorted"></span>
+                                        </th>
+                                    
+                                        <th id="button_sortToName" style="width: 15%;" onclick="toggleSort(this,3)" class="button-sort-none"> 
+                                            Recipient
+                                            <span class="icon-sort unsorted"></span>
+                                        </th>
+                                    
+                                        <th id="button_sortToTeam" style="width: 15%;" onclick="toggleSort(this,4)" class="button-sort-ascending"> 
+                                            Team
+                                            <span class="icon-sort unsorted"></span>
+                                        </th>
+                                    
+                                        <th id="button_sortFeedback" onclick="toggleSort(this,5)" class="button-sort-none"> 
+                                            Feedback
+                                            <span class="icon-sort unsorted"></span>
+                                        </th>
+                                    
+                                        <th> 
+                                            Actions
+                                            
+                                        </th>
+                                    
+                                </tr>
+                            </thead><thead>
+                            </thead><tbody>
+                                
+                                    
+
+
+
+
+
+
+
+<tr>
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Alice Betsy
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 1</td>
+    
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Benny Charles
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 1</td>
+    
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <td class="text-preserve-space">2 Response to Benny.</td>
+    
+        <td>
+            
+                
+
+
+
+
+
+
+<form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
+    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    
+        <input name="moderatedquestion" value="1" type="hidden">
+    
+    <input name="moderatedstudent" value="CFResultsUiT.alice.b@gmail.tmt" type="hidden">
+</form>
+
+
+            
+        </td>
+    
+
+</tr>
+                                
+                                    
+
+
+
+
+
+
+
+<tr>
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Alice Betsy
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 1</td>
+    
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Drop out
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 2</td>
+    
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <td class="text-preserve-space">Response to Dropout.</td>
+    
+        <td>
+            
+                
+
+
+
+
+
+
+<form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
+    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    
+        <input name="moderatedquestion" value="1" type="hidden">
+    
+    <input name="moderatedstudent" value="CFResultsUiT.alice.b@gmail.tmt" type="hidden">
+</form>
+
+
+            
+        </td>
+    
+
+</tr>
+                                
+                                    
+
+
+
+
+
+
+
+<tr>
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Benny Charles
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 1</td>
+    
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Charlie Dávis
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 2</td>
+    
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <td class="text-preserve-space">4 Response to Charlie.</td>
+    
+        <td>
+            
+                
+
+
+
+
+
+
+<form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
+    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    
+        <input name="moderatedquestion" value="1" type="hidden">
+    
+    <input name="moderatedstudent" value="CFResultsUiT.benny.c@gmail.tmt" type="hidden">
+</form>
+
+
+            
+        </td>
+    
+
+</tr>
+                                
+                                    
+
+
+
+
+
+
+
+<tr>
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Benny Charles
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 1</td>
+    
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Danny Engrid
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 2</td>
+    
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <td class="text-preserve-space">1 Response to Danny.</td>
+    
+        <td>
+            
+                
+
+
+
+
+
+
+<form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
+    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    
+        <input name="moderatedquestion" value="1" type="hidden">
+    
+    <input name="moderatedstudent" value="CFResultsUiT.benny.c@gmail.tmt" type="hidden">
+</form>
+
+
+            
+        </td>
+    
+
+</tr>
+                                
+                                    
+
+
+
+
+
+
+
+<tr>
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Drop out
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 2</td>
+    
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Alice Betsy
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 1</td>
+    
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <td class="text-preserve-space">Response to Alice from Dropout.</td>
+    
+        <td>
+            
+                
+
+
+
+
+
+
+<form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
+    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    
+        <input name="moderatedquestion" value="1" type="hidden">
+    
+    <input name="moderatedstudent" value="drop.out@gmail.tmt" type="hidden">
+</form>
+
+
+            
+        </td>
+    
+
+</tr>
+                                
+                                    
+
+
+
+
+
+
+
+<tr>
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Drop out
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 2</td>
+    
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Benny Charles
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 1</td>
+    
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <td class="text-preserve-space">Response to Benny from Dropout.</td>
+    
+        <td>
+            
+                
+
+
+
+
+
+
+<form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
+    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    
+        <input name="moderatedquestion" value="1" type="hidden">
+    
+    <input name="moderatedstudent" value="drop.out@gmail.tmt" type="hidden">
+</form>
+
+
+            
+        </td>
+    
+
+</tr>
+                                
+                                    
+
+
+
+
+
+
+
+<tr>
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Drop out
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 2</td>
+    
+    
+        
+        <td class="middlealign">
+        
+            
+                <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                    Danny Engrid
+                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                </div>             
+            
+            
+           
+        </td>
+        <td class="middlealign">Team 2</td>
+    
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+    <td class="text-preserve-space">Response to Danny from Dropout.</td>
+    
+        <td>
+            
+                
+
+
+
+
+
+
+<form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
+    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+    <input name="fsname" value="First Session" type="hidden">
+    
+        <input name="moderatedquestion" value="1" type="hidden">
+    
+    <input name="moderatedstudent" value="drop.out@gmail.tmt" type="hidden">
+</form>
+
+
+            
+        </td>
+    
+
+</tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-2" data-target="#panelBodyCollapse-2" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-2" type="hidden">
+                <input name="questionnum" value="2" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 2: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">What is the best selling point of your product?</span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-2" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-1">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-3" class="seeMoreForm-3" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-3" type="hidden">
+                <input name="questionnum" value="3" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 3: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">My comments on the class</span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-3" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-2">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-4" type="hidden">
+                <input name="questionnum" value="4" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 4: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">Give feedback to 3 other teams.</span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-4" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-3">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-5" data-target="#panelBodyCollapse-5" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-5" class="seeMoreForm-5" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-5" type="hidden">
+                <input name="questionnum" value="5" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 5: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">Give feedback to your team mates</span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-5" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-4">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-6" data-target="#panelBodyCollapse-6" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-6" class="seeMoreForm-6" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-6" type="hidden">
+                <input name="questionnum" value="6" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 6: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">This question should be hidden.</span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-6" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-5">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-7" data-target="#panelBodyCollapse-7" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-7" class="seeMoreForm-7" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-7" type="hidden">
+                <input name="questionnum" value="7" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 7: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-7-" class="color_gray" onclick="toggleAdditionalQuestionInfo('7-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-7-" style="display:none;">Multiple-choice (single answer) question options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
+</span></span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-7" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-6">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-8" data-target="#panelBodyCollapse-8" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-8" class="seeMoreForm-8" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-8" type="hidden">
+                <input name="questionnum" value="8" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 8: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-8-" class="color_gray" onclick="toggleAdditionalQuestionInfo('8-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-8-" style="display:none;">Multiple-choice (multiple answers) question options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
+</span></span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-8" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-7">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-9" data-target="#panelBodyCollapse-9" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-9" class="seeMoreForm-9" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-9" type="hidden">
+                <input name="questionnum" value="9" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 9: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">Who do you think is the most hardworking student?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-9-" style="display:none;">Multiple-choice (single answer) question options:
+<br>The options for this question is automatically generated from the list of all students in this course.</span>
+</span></span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-9" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-8">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-info">
+    <div style="cursor: pointer;" id="panelHeading-10" data-target="#panelBodyCollapse-10" class="panel-heading ajax_submit">
+        
+            <form style="display:none;" id="seeMore-10" class="seeMoreForm-10" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="frgroupbyteam" value="null" type="hidden">
+                <input name="frsorttype" value="question" type="hidden">
+                <input name="frshowstats" value="on" id="showStats-10" type="hidden">
+                <input name="questionnum" value="10" type="hidden">
+                <input name="frgroupbysection" value="All" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            
+        
+        
+            
+                <strong>Question 10: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-10-" class="color_gray" onclick="toggleAdditionalQuestionInfo('10-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-10-" style="display:none;">Multiple-choice (single answer) question options:
+<br>The options for this question is automatically generated from the list of all teams in this course.</span>
+</span></span>
+                </div>
+            
+            
+        
+    </div>
+    <div id="panelBodyCollapse-10" class="panel-collapse collapse">
+        <div class="panel-body padding-0" id="questionBody-9">
+            
+            
+                <div class="col-sm-12">
+                    <i class="text-muted">There are no responses for this question.</i>
+                </div>
+            
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+    
+
+        
+
+
+
+
+
+
+
+
+
+
+    <div class="panel panel-warning">
+        
+        <div style="cursor: pointer;" id="panelHeading-11" data-target="#panelBodyCollapse-11" class="panel-heading ajax_response_rate_submit">
+            <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsPage">
+                <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="user" value="CFResultsUiT.helper2" type="hidden">
+                <input name="questionnum" value="-1" type="hidden">
+            </form>
+            <div class="display-icon pull-right">
+                <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </div>
+            Participants who have not responded to any question
+        </div>
+        <div class="panel-collapse collapse" id="panelBodyCollapse-11">
+            
+        </div>
+    </div>
+
+    
+    
+    </div>

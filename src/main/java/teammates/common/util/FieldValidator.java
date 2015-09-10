@@ -1,11 +1,9 @@
 package teammates.common.util;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -805,7 +803,6 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            System.out.println(String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY));
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");

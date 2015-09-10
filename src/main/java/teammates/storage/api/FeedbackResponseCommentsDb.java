@@ -218,6 +218,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().flush();
     }
     
+    public void deleteFeedbackResponseCommentsForCourse(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<String> courseIds = new ArrayList<String>();
+        courseIds.add(courseId);
+        deleteFeedbackResponseCommentsForCourses(courseIds);
+    }
+    
     /*
      * Get response comments for the course Ids
      */

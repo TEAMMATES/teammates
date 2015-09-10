@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.util.Const"%>
+<% response.setStatus(404);%>
 <!DOCTYPE html>
 
 <html>
@@ -25,7 +26,7 @@
         </div>
     </div>
 
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
         <div class="row">
             <div class="alert alert-warning col-md-4 col-md-offset-4">
                 <img src="/images/error.png" style="float: left; margin: 0 10px 10px 0; height: 90px;">

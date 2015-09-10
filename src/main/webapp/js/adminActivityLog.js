@@ -41,13 +41,11 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry){
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {   	
-                	$(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime) + "<mark>";
+                	$(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime) + "</mark>";
                 } else {
                 	$(localTimeDisplay).html("Loading error, please retry");      	
                 }
-            	               
                 $("#statusMessage").html(data.statusForAjax);
-
             },500);
         }
     });
@@ -68,24 +66,24 @@ function submitFormAjax(offset) {
         },
         error : function() {
             setFormErrorMessage(olderButton, "Failed to load older logs. Please try again.");
-            button.html("Retry");        	
+            button.html("Retry");
         },
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                    // Inject new log row              	
-                	var logs = data.logs;                	
-                	jQuery.each(logs, function(i, value){                		
-                	lastLogRow.after(value.logInfoAsHtml);
-                	lastLogRow = $('#logsTable tr:last');	                		
-                	});
-                	
-                	updateInfoForRecentActionButton();
-                	clickOlderButtonIfNeeded();
+                    // Inject new log row
+                    var logs = data.logs;
+                    jQuery.each(logs, function(i, value) {
+                        lastLogRow.after(value.logInfoAsHtml);
+                        lastLogRow = $('#logsTable tr:last');
+                    });
+                    
+                    updateInfoForRecentActionButton();
+                    clickOlderButtonIfNeeded();
                 } else {
                     setFormErrorMessage(button, data.errorMessage);
                 }
-            	               
+
                 $("#statusMessage").html(data.statusForAjax);
 
             },500);
@@ -95,30 +93,30 @@ function submitFormAjax(offset) {
 
 
 function setFormErrorMessage(button, msg){
-	button.after("&nbsp;&nbsp;&nbsp;"+ msg);
+    button.after("&nbsp;&nbsp;&nbsp;"+ msg);
 }
 
 function updateInfoForRecentActionButton(){
-	var isShowAll = $("#ifShowAll").val();	
-	$(".ifShowAll_for_person").val(isShowAll);
-	
-	var isShowTestData = $("#ifShowTestData").val();
-	$(".ifShowTestData_for_person").val(isShowTestData);
+    var isShowAll = $("#ifShowAll").val();
+    $(".ifShowAll_for_person").val(isShowAll);
+
+    var isShowTestData = $("#ifShowTestData").val();
+    $(".ifShowTestData_for_person").val(isShowTestData);
 }
 
 function clickOlderButtonIfNeeded(){
-	if(retryTimes >= 20){
-		return;
-	}
-	
-	var curNumOfEntries = $("#logsTable tbody tr").length;
-	
-	if(curNumOfEntries < numOfEntriesPerPage){
-		if($("#button_older").length){
-			$("#button_older").click();
-			retryTimes ++;
-		}
-	}
+    if(retryTimes >= 20){
+        return;
+    }
+
+    var curNumOfEntries = $("#logsTable tbody tr").length;
+    
+    if(curNumOfEntries < numOfEntriesPerPage){
+        if($("#button_older").length){
+            $("#button_older").click();
+            retryTimes ++;
+        }
+    }
 }
 
 $(document).ready(function(){

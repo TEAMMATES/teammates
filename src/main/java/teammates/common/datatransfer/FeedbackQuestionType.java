@@ -104,11 +104,16 @@ public enum FeedbackQuestionType {
 
         try {
             switch (this) {
-            case MCQ:
-                ((FeedbackMcqResponseDetails) feedbackResponseDetails).extractResponseDetails(
-                                                                           this, questionDetails, answer, requestParameters,
-                                                                               questionIndx, responseIndx);
-                break;
+                case MCQ:
+                    ((FeedbackMcqResponseDetails) feedbackResponseDetails).extractResponseDetails(
+                                                                               this, questionDetails, answer, requestParameters,
+                                                                                   questionIndx, responseIndx);
+                    break;
+                case MSQ:
+                    ((FeedbackMsqResponseDetails) feedbackResponseDetails).extractResponseDetails(
+                                                                               this, questionDetails, answer, requestParameters,
+                                                                                   questionIndx, responseIndx);
+                    break;
             default:
                 feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
             }
@@ -153,4 +158,17 @@ public enum FeedbackQuestionType {
     public Class<? extends FeedbackResponseDetails> getResponseDetailsClass() {
         return responseDetailsClass;
     }
+
+    /**
+     * Returns CONSTSUM if passed CONSTSUM_OPTION or CONSTSUM_RECIPIENT as argument.
+     * Any other string is returned as is.
+     */
+    public static String standardizeIfConstSum(String questionType) {
+        if (questionType.equals("CONSTSUM_OPTION") || questionType.equals("CONSTSUM_RECIPIENT")) {
+            return "CONSTSUM";
+        } else {
+            return questionType;
+        }
+    }
+
 }

@@ -31,14 +31,14 @@ public class InstructorCommentsPage extends AppPage {
         browser.driver.findElement(By.xpath("//*[@id=\"panel_display-2\"]/div/div[1]")).click();
         waitForPageToLoad();
         try{
-            waitForElementToAppear(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div"));
+            waitForElementPresence(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div"));
         } catch (StaleElementReferenceException e){
             ;//do nothing
         }
     }
-    
+
     public void clickSendEmailNotificationButton(){
-        browser.driver.findElement(By.xpath("//*[@id=\"frameBodyWrapper\"]/div[5]/div[1]/div/a")).click();
+        browser.driver.findElement(By.xpath("//*[@id=\"mainContent\"]/div[4]/div[1]/div/a")).click();
         waitForPageToLoad();
     }
     
@@ -98,12 +98,12 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public WebElement getNextCourseLink() {
-        String xpathExp = "//*[@id=\"frameBodyWrapper\"]/ul[1]/li[4]/a";
+        String xpathExp = "//*[@id=\"mainContent\"]/ul[1]/li[4]/a";
         return browser.driver.findElement(By.xpath(xpathExp));
     }
     
     public WebElement getPreviousCourseLink() {
-        String xpathExp = "//*[@id=\"frameBodyWrapper\"]/ul[1]/li[1]/a";
+        String xpathExp = "//*[@id=\"mainContent\"]/ul[1]/li[1]/a";
         return browser.driver.findElement(By.xpath(xpathExp));
     }
     
@@ -206,13 +206,13 @@ public class InstructorCommentsPage extends AppPage {
             WebElement commentRow = browser.driver.findElement(By.id("responseCommentEditForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
-            waitForElementPresence(errorSpan, 5);
+            waitForElementPresence(errorSpan);
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
         } else if(idNumber == 3){
             WebElement commentRow = browser.driver.findElement(By.id("showResponseCommentAddForm-" + commentTableIdSuffix));
             waitForPageToLoad();
             By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
-            waitForElementPresence(errorSpan, 5);
+            waitForElementPresence(errorSpan);
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
         }
     }
@@ -221,11 +221,11 @@ public class InstructorCommentsPage extends AppPage {
         WebElement searchBox = browser.driver.findElement(By.id("searchBox"));
         //This click somehow causes an error.
         //searchBox.click();
-        this.waitForElementPresence(By.id("searchBox"), 10);
+        this.waitForElementPresence(By.id("searchBox"));
         //searchBox.clear();
-        this.waitForElementPresence(By.id("searchBox"), 10);
+        this.waitForElementPresence(By.id("searchBox"));
         searchBox.sendKeys(text);
-        this.waitForElementPresence(By.id("buttonSearch"), 10);
+        this.waitForElementPresence(By.id("buttonSearch"));
         browser.driver.findElement(By.id("buttonSearch")).click();
     }
 }

@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -693,6 +694,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getCourseDetails(courseId);
     }
+    
+    /**
+     * Returns a course data, including its feedback sessions, according to the instructor passed in.<br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public CourseSummaryBundle getCourseSummaryWithFeedbackSessions(InstructorAttributes instructor)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(instructor);
+        return coursesLogic.getCourseSummaryWithFeedbackSessionsForInstructor(instructor);
+    }
 
     /**
      * Preconditions: <br>
@@ -743,6 +755,19 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         return coursesLogic.getCourseSummariesForInstructor(googleId, false);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return A less detailed version of courses for the specified instructor attributes. 
+     *   Returns an empty list if none found.
+     */
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructors(List<InstructorAttributes> instructorList) 
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorList);
+        return coursesLogic.getCourseSummariesForInstructor(instructorList);
     }
     
     /**
@@ -1043,6 +1068,16 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
+    }
+    
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     * @throws EntityDoesNotExistException 
+     */    
+    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courses);
+        return coursesLogic.getCourseIdToSectionNamesMap(courses);
     }
 
     /** 
@@ -1587,15 +1622,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(String courseId, String feedbackSessionName, String studentEmail)
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
     
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(
-                feedbackSessionName, courseId, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
     }
     
     /**
@@ -1987,6 +2020,28 @@ public class Logic {
        
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                         userEmail, questionNumber);
+    }
+    
+    /**
+     * Gets a question+response bundle for questions with responses that
+     * is visible to the instructor for a feedback session from a given question number
+     * in a given section.
+     * This will not retrieve the list of comments for this question
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                    String feedbackSessionName, String courseId, String userEmail, 
+                                    int questionNumber, String selectedSection)
+            throws UnauthorizedAccessException, EntityDoesNotExistException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+       
+        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                            feedbackSessionName, courseId, userEmail, 
+                                            questionNumber, selectedSection);
     }
 
     /**
@@ -2622,4 +2677,23 @@ public class Logic {
     @SuppressWarnings("unused")
     private void ____helper_methods________________________________________() {
     }
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractActiveCourses(courseBundles, googleId);
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractArchivedCourses(courseBundles, googleId);
+    }
+    
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(allCourses);
+        Assumption.assertNotNull(instructorList);
+        return coursesLogic.getArchivedCourseIds(allCourses, instructorList);
+    }
+    
 }

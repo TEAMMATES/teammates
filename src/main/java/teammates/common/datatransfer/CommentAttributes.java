@@ -77,6 +77,22 @@ public class CommentAttributes extends EntityAttributes
     public Long getCommentId() {
         return this.commentId;
     }
+    
+    public String getCommentText() {
+        return commentText.getValue();
+    }
+    
+    public CommentParticipantType getRecipientType() {
+        return this.recipientType;
+    }
+
+    public List<CommentParticipantType> getShowCommentTo() {
+        return showCommentTo;
+    }
+
+    public boolean isPendingNotification() {
+        return sendingState.equals(CommentSendingState.PENDING);
+    }
 
     // Use only to match existing and known Comment
     public void setCommentId(Long commentId) {
@@ -307,24 +323,14 @@ public class CommentAttributes extends EntityAttributes
         return o.createdAt.compareTo(createdAt);
     }
 
-    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
-            String displayTimeAs) {
+    public String getEditedAtText(Boolean isGiverAnonymous) {
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+            String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
             return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
+                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
                     "at " + displayTimeAs + ")";
         } else {
             return "";
         }
-    }
-
-    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
-        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                TimeHelper.formatTime(this.lastEditedAt));
-    }
-
-    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
-        return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                TimeHelper.formatDate(this.lastEditedAt));
     }
 }

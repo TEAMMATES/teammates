@@ -5,6 +5,8 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 
 public abstract class FeedbackSubmissionEditPageAction extends Action {
     protected String courseId;
@@ -18,6 +20,9 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        
         if (!isSpecificUserJoinedCourse()) {
             return createPleaseJoinCourseResponse(courseId);
         }
@@ -25,7 +30,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         
         if (feedbackSession == null) {
-            statusToUser.add("The feedback session has been deleted and is no longer accessible.");
+            statusToUser.add(new StatusMessage("The feedback session has been deleted and is no longer accessible.", StatusMessageColor.WARNING));
                        
             return createSpecificRedirectResult();
         }
@@ -36,13 +41,15 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);
         
-        data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
+        data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
         
         setStatusToAdmin();
         
-        if (!data.isSessionOpenForSubmission) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+        if (!data.isSessionOpenForSubmission()) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
         }
+        
+        data.init(regKey, email, courseId);
         
         return createSpecificShowPageResult();
     }

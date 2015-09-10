@@ -178,13 +178,13 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
-        browser.selenium.waitForPageToLoad("15000");
+        waitForPageToLoad();
     }
     
     
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId,sessionName).click();
-        browser.selenium.waitForPageToLoad("15000");
+        waitForPageToLoad();
     }
     
     public void toggleSendOpenEmailCheckbox() {
@@ -243,26 +243,35 @@ public class InstructorFeedbacksPage extends AppPage {
         clickSubmitButton();
     }
     
-    public void copyFeedbackSession(String feedbackSessionName, String courseId) {
-        
-        clickCopyButton();
-        
-        this.waitForElementVisible(copiedFsNameTextBox);
-        
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
-        
+    public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
+        clickCopyButton();        
+        this.waitForElementVisibility(copiedFsNameTextBox);        
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
-        clickCopyTableAtRow(0);
-        
+        clickCopyTableAtRow(0);       
         clickCopySubmitButton();
     }
     
+    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
+        clickCopyButton();       
+        this.waitForElementVisibility(copiedFsNameTextBox);       
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
+        selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
+    }
+
     public void clickCopyTableAtRow(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                        .findElements(By.tagName("tr"))
                                        .get(rowIndex + 1);
         row.click();
+    }
+    
+    public void clickCopyTableRadioButtonAtRow(int rowIndex) {
+        WebElement button = browser.driver.findElement(By.id("copyTableModal"))
+                                       .findElements(By.tagName("tr"))
+                                       .get(rowIndex + 1).findElement(By.tagName("input"));
+        button.click();
     }
     
     public void fillStartTime (Date startTime) {
@@ -285,11 +294,13 @@ public class InstructorFeedbacksPage extends AppPage {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
     }
     
-    public void fillTimeValueIfNotNull(String timeId, Date timeValue, WebElement timeDropdown, JavascriptExecutor js) {
-        if (timeValue != null) {
-            js.executeScript("$('#" + timeId + "')[0].value='" + TimeHelper.formatDate(timeValue) + "';");
-            selectDropdownByVisibleValue(timeDropdown,
-                                         TimeHelper.convertToDisplayValueInTimeDropDown(timeValue));
+    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown, JavascriptExecutor js) {
+        if (datetimeValue != null) {
+            js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
+            
+            String timeDropdownId = timeDropdown.getAttribute("id");
+            String timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
     
@@ -346,6 +357,26 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public String getTimeZone() {
         return timezoneDropdown.getAttribute("value");
+    }
+    
+    public boolean isRowSelected(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal"))
+                                        .findElements(By.tagName("tr"))
+                                        .get(rowIndex + 1);
+        
+        return row.getAttribute("class").contains("row-selected");
+    }
+    
+    public boolean isRadioButtonChecked(int rowIndex) {
+        WebElement button = browser.driver.findElement(By.id("copyTableModal"))
+                                        .findElements(By.tagName("tr"))
+                                        .get(rowIndex + 1).findElement(By.tagName("input"));
+        
+        return button.isSelected();
+    }
+    
+    public boolean isCopySubmitButtonEnabled() {
+        return copySubmitButton.isEnabled();
     }
     
     public String getClientTimeZone() {
@@ -454,6 +485,11 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.driver.findElement(locator).isDisplayed();
     }
     
+    public boolean isContainingCssClass(By locator, String className) {
+        return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
+    }
+    
+    
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";
@@ -507,10 +543,12 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.driver.findElements(By.className("sessionsRow")).size();
     }
     
+    @SuppressWarnings("deprecation")
     private String getFeedbackSessionCourseId(int rowId) {
         return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".0");
     }
 
+    @SuppressWarnings("deprecation")
     private String getFeedbackSessionName(int rowId) {
         return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".1");
     }
@@ -525,7 +563,7 @@ public class InstructorFeedbacksPage extends AppPage {
         By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
         
         // give it some time to load as it is loaded via AJAX
-        waitForElementPresence(fsCopyButtonElement, 5);
+        waitForElementPresence(fsCopyButtonElement);
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         
@@ -533,7 +571,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 5);
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
     }
     
     public void clickFsCopySubmitButton() {

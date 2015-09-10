@@ -2,7 +2,9 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -10,6 +12,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction {
@@ -36,15 +40,15 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         
+        FeedbackSessionAttributes fs = null;
         try {
-            FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
-                                                                     copiedCourseId,
-                                                                     feedbackSessionName,
-                                                                     courseId,
-                                                                     instructor.email);
-            data.newFeedbackSession = fs;
+            fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
+                                           copiedCourseId,
+                                           feedbackSessionName,
+                                           courseId,
+                                           instructor.email);
             
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> " +
                     "for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
@@ -57,7 +61,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
             return createRedirectResult(
-                    new PageData(account).getInstructorFeedbackSessionEditLink(
+                    new PageData(account).getInstructorFeedbackEditLink(
                             fs.courseId, fs.feedbackSessionName));
             
         } catch (EntityAlreadyExistsException e) {
@@ -68,18 +72,22 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         // isError == true if an exception occurred above
         
         boolean omitArchived = true;
-        data.instructors = loadCourseInstructorMap(omitArchived);
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         List<InstructorAttributes> instructorList =
-                new ArrayList<InstructorAttributes>(data.instructors.values());
-        data.courses = loadCoursesList(instructorList);
-        data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
+                new ArrayList<InstructorAttributes>(instructors.values());
+        List<CourseAttributes> courses = loadCoursesList(instructorList);
         
-        if (data.existingFeedbackSessions.isEmpty()) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
+        List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
+        
+        if (feedbackSessions.isEmpty()) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY, StatusMessageColor.WARNING));
         }
         
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+        Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);
         
+        data.initWithoutHighlightedRow(courses, null, feedbackSessions, instructors, fs, null, courseIdToSectionName);
+       
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
 

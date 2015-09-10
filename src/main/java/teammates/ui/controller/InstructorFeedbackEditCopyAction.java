@@ -11,7 +11,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackEditCopyAction extends Action {
@@ -27,11 +29,14 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
         
+        String currentPage = getRequestParamValue(Const.ParamsNames.CURRENT_PAGE);
+        
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
-            return createRedirectToEditPageWithErrorMsg(
+            return createRedirectWithErrorMsg(
                     originalFeedbackSessionName,
                     originalCourseId,
-                    Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+                    Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED,
+                    currentPage);
         }
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId); 
@@ -60,9 +65,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
                                                    newFeedbackSessionName,
                                                    commaSeparatedListOfCourses);
                 
-                return createRedirectToEditPageWithErrorMsg(originalFeedbackSessionName,
+                return createRedirectWithErrorMsg(originalFeedbackSessionName,
                                                             originalCourseId,
-                                                            errorToUser);
+                                                            errorToUser, currentPage);
             }
             
             FeedbackSessionAttributes fs = null;
@@ -83,7 +88,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             List<String> courses = Arrays.asList(coursesIdToCopyTo);
             String commaSeparatedListOfCourses = StringHelper.toString(courses, ",");
             
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPIED, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "Copying to multiple feedback sessions.<br>"
                     + "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> "
@@ -103,10 +108,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             // If conflicts are checked above, this will only occur via race condition
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
+            return createRedirectWithError(originalFeedbackSessionName, originalCourseId, currentPage);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
+            return createRedirectWithError(originalFeedbackSessionName, originalCourseId, currentPage);
         }
         
     }
@@ -133,10 +138,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return courses;
     }    
     
-    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName, String courseId) {
-        isError = true;
-        
-        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
+    private RedirectResult createRedirectWithError(String feedbackSessionName, String courseId, String currentPage) {
+        isError = true;      
+        String redirectUrl = getRedirectUrl(currentPage);
+
+        RedirectResult redirectResult = createRedirectResult(redirectUrl);
         redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
         redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         redirectResult.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
@@ -144,10 +150,20 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return redirectResult;
     }
     
-    private RedirectResult createRedirectToEditPageWithErrorMsg(
-            String feedbackSessionName, String courseId, String errorToUser) {
-        statusToUser.add(errorToUser);
-        return createRedirectToEditPageWithError(feedbackSessionName, courseId);
+    private RedirectResult createRedirectWithErrorMsg(
+            String feedbackSessionName, String courseId, String errorToUser, String currentPage) {
+        statusToUser.add(new StatusMessage(errorToUser, StatusMessageColor.DANGER));
+        return createRedirectWithError(feedbackSessionName, courseId, currentPage);
     }
-
+    
+    private String getRedirectUrl(String currentPage) {
+        if (currentPage.contains(Const.PageNames.INSTRUCTOR_HOME_PAGE)) {
+            return Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+        } else if (currentPage.contains(Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE)
+                      || currentPage.contains(Const.PageNames.INSTRUCTOR_FEEDBACK_COPY)) {
+            return Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        } else {
+            return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
+        }
+    }
 }

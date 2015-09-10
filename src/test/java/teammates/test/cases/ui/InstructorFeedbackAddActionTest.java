@@ -216,7 +216,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                          e.getMessage());
         }
         // remove the sessions that were added
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
     }
     
     private InstructorFeedbackAddAction getAction (String... params) throws Exception {

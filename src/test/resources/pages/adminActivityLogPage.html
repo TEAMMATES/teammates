@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <title>TEAMMATES - Administrator</title>
+
+    <link href="/favicon.png" rel="shortcut icon" />
+
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" />
+    
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
+    <script src="{*}/jquery.min.js" type="text/javascript"></script>
+    <script src="{*}/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <noscript>
+
+    &lt;div id="noscript-warning"&gt;
+        &lt;h1&gt;
+            TEAMMATES works best with JavaScript enabled. &lt;br&gt; You may
+            enable it in your browser by following steps below.
+        &lt;/h1&gt;
+
+        &lt;div&gt;
+            &lt;ul id="nav"&gt;
+                &lt;li&gt;&lt;a href="#ie"&gt;Internet Explorer&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#firefox"&gt;Mozilla Firefox&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#safari"&gt;Safari&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#opera"&gt;Opera&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#chrome"&gt;Chrome&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+
+        &lt;div id=content&gt;
+            &lt;div id=ie&gt;
+                &lt;h1&gt;Internet Explorer&lt;/h1&gt;
+                Please complete the following instructions to activate and enable
+                JavaScript in Internet Explorer.
+
+                &lt;h3&gt;PC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;In the Tools drop-down menu, select Internet Options.&lt;/li&gt;
+                    &lt;li&gt;Next, select the Security tab.&lt;/li&gt;
+                    &lt;li&gt;Then, select the earth (Internet) icon.&lt;/li&gt;
+                    &lt;li&gt;Then select the Custom Level button.&lt;/li&gt;
+                    &lt;li&gt;Locate Scripting near the bottom of the list.&lt;/li&gt;
+                    &lt;li&gt;Under Active Scripting, select Enable, then hit OK.&lt;/li&gt;
+                    &lt;li&gt;Answer yes to the following conformation box.&lt;/li&gt;
+                    &lt;li&gt;Hit OK to close the Internet Options window.&lt;/li&gt;
+                    &lt;li&gt;Finally, hit refresh on your browser window to enjoy the
+                        javascript.&lt;/li&gt;
+                &lt;/ol&gt;
+            &lt;/div&gt;
+
+            &lt;div id=firefox&gt;
+                &lt;h1&gt;Firefox&lt;/h1&gt;
+                Please complete the following instructions to activate and enable
+                JavaScript in Firefox
+
+                &lt;h3&gt;PC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;In the Tools drop-down menu, select Options.&lt;/li&gt;
+                    &lt;li&gt;Next, select the Content icon/tab at the top on the
+                        window.&lt;/li&gt;
+                    &lt;li&gt;Then, check the Enable JavaScript checkbox under the Web
+                        Content category.&lt;/li&gt;
+                    &lt;li&gt;Hit OK to close the Options window and save your changes.&lt;/li&gt;
+                    &lt;li&gt;Finally, Refresh your browser.&lt;/li&gt;
+                &lt;/ol&gt;
+                &lt;h3&gt;MAC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;Select the Firefox menu item from the Apple/System bar at
+                        the top of the screen.&lt;/li&gt;
+                    &lt;li&gt;From the drop-down menu, select Preferences...&lt;/li&gt;
+                    &lt;li&gt;Select the Content icon/tab at the top on the window.&lt;/li&gt;
+                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
+                    &lt;li&gt;Close the Options window to save your changes.&lt;/li&gt;
+                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
+                &lt;/ol&gt;
+            &lt;/div&gt;
+
+            &lt;div id=safari&gt;
+                &lt;h1&gt;Safari&lt;/h1&gt;
+                Please complete the following instructions to activate and enable
+                JavaScript in Safari.
+
+                &lt;h3&gt;PC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;In the Edit drop-down menu at the top of the window,
+                        select Preferences...&lt;/li&gt;
+                    &lt;li&gt;Select the Security icon/tab at the top on the window.&lt;/li&gt;
+                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
+                    &lt;li&gt;Close the window to save your changes.&lt;/li&gt;
+                    &lt;li&gt;Finally, Refresh your browser.&lt;/li&gt;
+                &lt;/ol&gt;
+                &lt;h3&gt;MAC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;Select the Safari menu item from the Apple/System bar at
+                        the top of the screen.&lt;/li&gt;
+                    &lt;li&gt;From the drop-down menu, select Preferences.&lt;/li&gt;
+                    &lt;li&gt;Select the Content icon/tab at the top of the window.&lt;/li&gt;
+                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
+                    &lt;li&gt;Close the window to save your changes.&lt;/li&gt;
+                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
+               &lt;/ol&gt;
+            &lt;/div&gt;
+
+            &lt;div id=opera&gt;
+                &lt;h1&gt;Opera&lt;/h1&gt;
+                Please complete the following instructions to activate and enable
+                JavaScript in Opera.
+
+                &lt;h3&gt;PC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;In the Tools drop-down menu at the top of the window,
+                        select Preferences...&lt;/li&gt;
+                    &lt;li&gt;Select the Advanced tab at the top on the Preferences
+                        window.&lt;/li&gt;
+                    &lt;li&gt;Find the Content item in the list on the left-side of the
+                        window and select it.&lt;/li&gt;
+                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
+                    &lt;li&gt;Click OK to save your changes and close the Preferences
+                        window. Finally, Refresh your browser.&lt;/li&gt;
+                &lt;/ol&gt;
+                &lt;h3&gt;MAC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;Select the Safari menu item from the Apple/System bar at
+                        the top of the screen.&lt;/li&gt;
+                    &lt;li&gt;From the drop-down menu, select Preferences.&lt;/li&gt;
+                    &lt;li&gt;Select the Content icon/tab at the top of the Preferences
+                        window.&lt;/li&gt;
+                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
+                    &lt;li&gt;Click OK to save your changes and close the Preferences
+                        window.&lt;/li&gt;
+                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
+                &lt;/ol&gt;
+            &lt;/div&gt;
+
+            &lt;div id=chrome&gt;
+                &lt;h1&gt;Chrome&lt;/h1&gt;
+                Please complete the following instructions to activate and enable
+                JavaScript in Chrome.
+
+                &lt;h3&gt;PC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;Select Customize and control Google Chrome (wrench Icon)
+                        to the right of the address bar.&lt;/li&gt;
+                    &lt;li&gt;From the drop-down menu, select Options Select the Under
+                        the Hood tab at the top of the window.&lt;/li&gt;
+                    &lt;li&gt;Under the Privacy heading, select the Content settings
+                        button.&lt;/li&gt;
+                    &lt;li&gt;On the left, under the features heading, select
+                        JavaScript.&lt;/li&gt;
+                    &lt;li&gt;Select the Allow all sites to run JavaScript radio button.&lt;/li&gt;
+                    &lt;li&gt;Finally, close both preference windows, and refresh the
+                        browser.&lt;/li&gt;
+                &lt;/ol&gt;
+                &lt;h3&gt;MAC&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;Select the Chrome menu item from the Apple/System bar at
+                        the top of the screen.&lt;/li&gt;
+                    &lt;li&gt;From the drop-down menu, select Preferences...&lt;/li&gt;
+                    &lt;li&gt;Select the Under the Hood tab at the top of the window.&lt;/li&gt;
+                    &lt;li&gt;Under the Privacy heading, select the Content settings
+                        button.&lt;/li&gt;
+                    &lt;li&gt;On the left, under the features heading, select
+                        JavaScript.&lt;/li&gt;
+                    &lt;li&gt;Select the Allow all sites to run JavaScript radio button.&lt;/li&gt;
+                    &lt;li&gt;Finally, close both preference windows, and refresh the
+                        browser.&lt;/li&gt;
+                &lt;/ol&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;p&gt;
+            As taken from:  
+        &lt;ol&gt;
+            &lt;li&gt;&lt;a href="http://activatejavascript.org/en/instructions/"&gt;http://activatejavascript.org/en/instructions/&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages"&gt;
+                         http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page&lt;/a&gt;&lt;/li&gt;
+        &lt;/ol&gt;
+        
+        &lt;/p&gt;
+    &lt;/div&gt;
+</noscript>
+
+
+
+    <script src="/js/administrator.js" type="text/javascript"></script>
+    <script src="/js/adminActivityLog.js" type="text/javascript"></script>
+</head>
+
+<body>
+    
+
+
+
+<div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                <span class="sr-only">Toggle navigation</span> 
+                <span class="icon-bar"></span> 
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/index.html" class="navbar-brand">TEAMMATES</a>
+        </div>
+
+        <div id="contentLinks" class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/admin/adminHomePage">Create Instructor</a>
+                </li>
+                
+                <li>
+                    <a href="/admin/adminAccountManagementPage">Account Management</a>
+                </li>
+                
+                <li>
+                    <a href="/admin/adminSearchPage">Search</a>
+                </li>
+                
+                <li class="active">
+                    <a href="/admin/adminActivityLogPage">Activity Log</a>
+                </li>
+                
+                <li>
+                    <a href="/admin/adminSessionsPage">Sessions</a>
+                </li>
+
+                <li class="dropdown">
+
+                    <a aria-expanded="false" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">Email <span class="caret"></span></a> 
+                    <ul role="menu" class="dropdown-menu">
+                        <li>
+                             <a href="/admin/adminEmailComposePage">Email</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/admin/adminEmailLogPage">Email Log</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav pull-right">
+                <li>                
+                    <a href="/logout.jsp" class="nav logout">
+                        <span class="glyphicon glyphicon-user"></span> Logout
+                        
+                        (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="defaultAdmin">
+                                defaultAdmin
+                        </span>)
+                    </a>  
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+    <div id="mainContent" class="container">
+                <div id="topOfPage"></div>
+                <h1>Admin Activity Log</h1>
+                <br />
+
+                <div class="well well-plain">
+                    <form role="form" id="activityLogFilter" action="/admin/adminActivityLogPage" method="post" class="form-horizontal">
+
+                        <div id="filterForm" class="panel-heading">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <button name="search_submit" type="submit" class="btn btn-default">Filter</button>
+                                            </span> <input type="text" value="" name="filterQuery" id="filterQuery" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <a onclick="toggleReference()" class="btn btn-link center-block" href="#"><span id="referenceText"> Show Reference</span><br /> <span id="detailButton" class="glyphicon glyphicon-chevron-down"></span> </a>
+
+                            </div>
+
+                            <div id="filterReference" style="display: none;">
+                                <div class="form-group">
+
+                                    <div class="col-md-12">
+                                        <h4 class="text-center">
+                                            <span class="label label-primary">Append "?all=true" to URL to show all logs, omit to exclude following requests.
+                                                
+                                            </span> </h4>                                          
+                                            <div class="text-center">                                          
+                                            <ul class="list-group">
+                                            
+                                            
+                                             <li class="list-group-item">
+                                                    [feedbackSessionStatsPage
+                                              </li>
+                                            
+                                             <li class="list-group-item">
+                                                    logCompilation]
+                                              </li>
+                                            
+                                                
+                                            </ul>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
+                                        <div class="alert alert-success">
+                                            <p class="text-center">
+                                                <span class="glyphicon glyphicon-filter"></span>
+                                                A query is formed by a list of filters. Each filter is in the format
+                                                <strong> [filter label]: [value1, value2, value3....]</strong><br />
+                                            </p>
+                                        </div>
+
+
+                                        <p class="text-center">
+                                            <span class="glyphicon glyphicon-hand-right"></span>
+                                            Combine filters with the <span class="label label-warning">
+                                                AND</span> keyword or the <span class="label label-warning">|</span>
+                                            separator.
+
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <small>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+
+                                            <div class="form-control-static">
+                                                <strong>Sample Queries:</strong> <br />
+                                                <ul>
+                                                    <li>E.g. role: Instructor AND request: InstructorCourse, InstructorEval AND from: 15/03/13</li>
+                                                    <li>E.g. from: 13/3/13 AND to: 17/3/13 AND person: teammates.test AND response: Pageload, System Error Report, Servlet Action Failure</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+
+                                            <div class="form-control-static">
+
+                                                <strong>Possible Labels:</strong> from, to, person, role, request, response, version,time,info
+                                                <br />
+                                                <ul>
+
+                                                    <li>E.g. from: 13/03/13</li>
+                                                    <li>E.g. to: 13/03/13</li>
+                                                    <li>E.g. person: teammates.coord</li>
+                                                    <li>E.g. role: Instructor, Student, Unregistered</li>
+                                                    <li>E.g. request: InstructorEval, StudentHome, evaluationclosingreminders</li>
+                                                    <li>E.g. response: Pageload, System Error Report, Delete Course</li>
+                                                    <li>E.g. version: 4.15, 4.16</li>
+                                                    <li>E.g. version: 4-15, 4.16 (both "." and "-" are acceptable)</li>
+                                                     <li>E.g. time: 1000 (means 1000ms) </li>
+                                                     <li>E.g. info: Admin Account Management Page Load </li> 
+                                                     <li>E.g. info: Admin Account Management Page Load, Total, 90 (Use "," to search multiple key strings)
+                                                     </li>
+                                                                                                                                             
+                                                     
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <p class="form-control-static">
+                                                <strong>Possible Roles: </strong> Instructor, Student, Unknown
+
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <p class="form-control-static">
+                                                <strong>
+                                                    Possible Servlets Requests: </strong> <br />
+                                                <br />
+                                            </p><div class="table-responsive">
+                                                <table class="table table-condensed">
+                                                    <tbody><tr><td><ul class="list-group"><li class="list-group-item list-group-item-danger">login</li><li class="list-group-item list-group-item">instructorHomePage</li><li class="list-group-item list-group-item">instructorCoursesPage</li><li class="list-group-item list-group-item">instructorCourseAdd</li><li class="list-group-item list-group-item">instructorCourseDelete</li><li class="list-group-item list-group-item">instructorCourseArchive</li><li class="list-group-item list-group-item">instructorCourseDetailsPage</li><li class="list-group-item list-group-item">instructorCourseEditPage</li><li class="list-group-item list-group-item">instructorCourseEditSave</li><li class="list-group-item list-group-item">instructorCourseStudentDetailsPage</li><li class="list-group-item list-group-item">instructorCourseStudentDetailsEdit</li><li class="list-group-item list-group-item">instructorCourseStudentDetailsEditSave</li><li class="list-group-item list-group-item">instructorCourseStudentDelete</li><li class="list-group-item list-group-item">instructorCourseStudentListDownload</li><li class="list-group-item list-group-item">instructorCourseEnrollPage</li><li class="list-group-item list-group-item">instructorCourseEnrollSave</li><li class="list-group-item list-group-item">instructorCourseRemind</li><li class="list-group-item list-group-item">instructorCourseInstructorAdd</li><li class="list-group-item list-group-item">instructorCourseInstructorEditSave</li><li class="list-group-item list-group-item">instructorCourseInstructorDelete</li><li class="list-group-item list-group-item">instructorCourseJoin</li><li class="list-group-item list-group-item">instructorCourseJoinAuthenticated</li><li class="list-group-item list-group-item">instructorSearchPage</li><li class="list-group-item list-group-item">instructorStudentListPage</li><li class="list-group-item list-group-item">instructorStudentListAjaxPage</li><li class="list-group-item list-group-item">instructorStudentRecordsPage</li><li class="list-group-item list-group-item">instructorStudentRecordsAjaxPage</li><li class="list-group-item list-group-item">instructorStudentCommentAdd</li><li class="list-group-item list-group-item">instructorStudentCommentEdit</li><li class="list-group-item list-group-item">instructorStudentCommentClearPending</li></ul></td><td><ul class="list-group"><li class="list-group-item list-group-item">instructorCommentsPage</li><li class="list-group-item list-group-item">instructorEditStudentFeedbackPage</li><li class="list-group-item list-group-item">instructorEditStudentFeedbackSave</li><li class="list-group-item list-group-item">instructorFeedbacksPage</li><li class="list-group-item list-group-item">instructorFeedbackAdd</li><li class="list-group-item list-group-item">instructorFeedbackCopy</li><li class="list-group-item list-group-item">instructorFeedbackDelete</li><li class="list-group-item list-group-item">instructorFeedbackRemind</li><li class="list-group-item list-group-item">instructorFeedbackRemindParticularStudentsPage</li><li class="list-group-item list-group-item">instructorFeedbackRemindParticularStudents</li><li class="list-group-item list-group-item">instructorFeedbackPublish</li><li class="list-group-item list-group-item">instructorFeedbackUnpublish</li><li class="list-group-item list-group-item">instructorFeedbackEditCopyPage</li><li class="list-group-item list-group-item">instructorFeedbackEditCopy</li><li class="list-group-item list-group-item">instructorFeedbackEditPage</li><li class="list-group-item list-group-item">instructorFeedbackEditSave</li><li class="list-group-item list-group-item">instructorFeedbackResultsPage</li><li class="list-group-item list-group-item">instructorFeedbackResultsDownload</li><li class="list-group-item list-group-item">instructorFeedbackPreviewAsStudent</li><li class="list-group-item list-group-item">instructorFeedbackPreviewAsInstructor</li><li class="list-group-item list-group-item">instructorFeedbackResultsAjaxResponseRate</li><li class="list-group-item list-group-item">instructorFeedbackQuestionAdd</li><li class="list-group-item list-group-item">instructorFeedbackQuestionCopy</li><li class="list-group-item list-group-item">instructorFeedbackQuestionEdit</li><li class="list-group-item list-group-item">instructorFeedbackQuestionvisibilityMessage</li><li class="list-group-item list-group-item">instructorFeedbackResponseCommentAdd</li><li class="list-group-item list-group-item">instructorFeedbackResponseCommentEdit</li><li class="list-group-item list-group-item">instructorFeedbackResponseCommentDelete</li><li class="list-group-item list-group-item">instructorFeedbackResponseCommentsLoad</li><li class="list-group-item list-group-item-danger">feedbackSessionStatsPage</li></ul></td><td><ul class="list-group"><li class="list-group-item list-group-item">instructorFeedbackSubmissionEditPage</li><li class="list-group-item list-group-item">instructorFeedbackSubmissionEditSave</li><li class="list-group-item list-group-item">instructorFeedbackQuestionSubmissionEditPage</li><li class="list-group-item list-group-item">instructorFeedbackQuestionSubmissionEditSave</li><li class="list-group-item list-group-item-success">studentHomePage</li><li class="list-group-item list-group-item-success">studentCourseJoin</li><li class="list-group-item list-group-item-success">studentCourseJoinAuthentication</li><li class="list-group-item list-group-item-success">studentCourseJoinAuthenticated</li><li class="list-group-item list-group-item-success">studentCommentsPage</li><li class="list-group-item list-group-item-success">studentCourseDetailsPage</li><li class="list-group-item list-group-item-success">studentFeedbackSubmissionEditPage</li><li class="list-group-item list-group-item-success">studentFeedbackSubmissionEditSave</li><li class="list-group-item list-group-item-success">studentFeedbackQuestionSubmissionEditPage</li><li class="list-group-item list-group-item-success">studentFeedbackQuestionSubmissionEditSave</li><li class="list-group-item list-group-item-success">studentFeedbackResultsPage</li><li class="list-group-item list-group-item-success">studentProfilePage</li><li class="list-group-item list-group-item-success">studentProfileEditSave</li><li class="list-group-item list-group-item-success">studentProfilePic</li><li class="list-group-item list-group-item-success">studentProfilePictureUpload</li><li class="list-group-item list-group-item-success">studentProfilePictureEdit</li><li class="list-group-item list-group-item-success">studentProfileCreateFormUrl</li><li class="list-group-item list-group-item-warning">adminEmailLogPage</li><li class="list-group-item list-group-item-warning">adminHomePage</li><li class="list-group-item list-group-item-warning">adminInstructorAccountAdd</li><li class="list-group-item list-group-item-warning">adminAccountManagementPage</li><li class="list-group-item list-group-item-warning">adminAccountDetailsPage</li><li class="list-group-item list-group-item-warning">adminAccountDelete</li><li class="list-group-item list-group-item-warning">adminExceptionTest</li><li class="list-group-item list-group-item-warning">adminActivityLogPage</li><li class="list-group-item list-group-item-warning">adminSessionsPage</li></ul></td><td><ul class="list-group"><li class="list-group-item list-group-item-warning">adminSearchPage</li><li class="list-group-item list-group-item-warning">adminEmailComposePage</li><li class="list-group-item list-group-item-warning">adminEmailComposeSave</li><li class="list-group-item list-group-item-warning">adminEmailComposeSend</li><li class="list-group-item list-group-item-warning">adminEmailSentPage</li><li class="list-group-item list-group-item-warning">adminEmailTrashPage</li><li class="list-group-item list-group-item-warning">adminEmailTrashDelete</li><li class="list-group-item list-group-item-warning">adminEmailDraftPage</li><li class="list-group-item list-group-item-warning">adminEmailMoveToTrash</li><li class="list-group-item list-group-item-warning">adminEmailMoveOutTrash</li><li class="list-group-item list-group-item-warning">adminEmailImageUpload</li><li class="list-group-item list-group-item-warning">adminEmailCreateImageUploadUrl</li><li class="list-group-item list-group-item-warning">adminEmailGroupReceiverListUpload</li><li class="list-group-item list-group-item-warning">adminEmailCreateGroupReceiverListUploadUrl</li><li class="list-group-item list-group-item-danger">publicEmailImageServe</li><li class="list-group-item list-group-item-warning">adminStudentGoogleIdReset</li><li class="list-group-item list-group-item-danger">feedbackSessionOpeningReminders</li><li class="list-group-item list-group-item-danger">feedbackSessionClosingReminders</li><li class="list-group-item list-group-item-danger">feedbackSessionPublishedReminders</li><li class="list-group-item list-group-item-danger">compileLogs</li><li class="list-group-item list-group-item-danger">backdoor</li><li class="list-group-item list-group-item-danger">emailWorker</li><li class="list-group-item list-group-item-warning">adminEmailWorker</li><li class="list-group-item list-group-item-warning">adminEmailPrepareTaskQueueWorker</li><li class="list-group-item list-group-item-danger">submissionWorker</li><li class="list-group-item list-group-item-danger">feedbackSubmissionAdjustmentWorker</li><li class="list-group-item list-group-item-danger">feedbackRemindEmailWorker</li><li class="list-group-item list-group-item-danger">feedbackRemindEmailParticularUsersWorker</li><li class="list-group-item list-group-item-danger">sendEmailWorker</li></ul></td>
+                                                </tr></tbody></table>
+                                            </div>
+                                            <p></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <p class="form-control-static">
+                                                <strong>
+                                                    Possible Responses:
+                                                </strong> <br /> <br />
+                                            </p><div class="table-responsive">
+
+
+                                                <table class="table table-condensed">
+
+                                                    <tbody><tr>
+                                                        <td>
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Remind Students About Evaluation</li>
+                                                                <li class="list-group-item">Send Evaluation Closing reminders</li>
+                                                                <li class="list-group-item">Send Evaluation Opening reminders</li>
+                                                            </ul>
+                                                        </td>
+
+                                                        <td>
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Publish Evaluation</li>
+                                                                <li class="list-group-item">Unpublish Evaluation</li>
+                                                                <li class="list-group-item">Send Registration</li>
+
+
+                                                            </ul>
+                                                        </td>
+
+                                                        <td>
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Pageload</li>
+                                                                <li class="list-group-item">System Error Report</li>
+                                                                <li class="list-group-item">Servlet Action Failure</li>
+                                                            </ul>
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Add New Course</li>
+                                                                <li class="list-group-item">Delete Course</li>
+                                                                <li class="list-group-item">Edit Course Info</li>
+                                                            </ul>
+                                                        </td>
+
+                                                        <td>
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Enroll Students</li>
+                                                                <li class="list-group-item">Edit Student Details</li>
+                                                                <li class="list-group-item">Delete Student</li>
+                                                                <li class="list-group-item">Student Joining Course</li>
+                                                            </ul>
+                                                        </td>
+
+                                                        <td>
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">Create New Evaluation</li>
+                                                                <li class="list-group-item">Edit Evaluation Info</li>
+                                                                <li class="list-group-item">Delete Evaluation</li>
+                                                                <li class="list-group-item">Edit Submission</li>
+                                                            </ul>
+                                                        </td>
+                                                </tr></tbody></table>
+                                            </div>
+
+                                            <p></p>
+
+                                        </div>
+
+                                    </div>
+                                </small>
+                            </div>
+
+                        </div>
+                        
+                        <input type="hidden" value="true" name="pageChange" />
+                        
+                        <input type="hidden" value="false" name="all" />
+
+                        <input type="hidden" value="false" name="testdata" /> 
+                    </form>
+                    
+                     
+                   <form id="ajaxLoaderDataForm">
+                      <input type="hidden" value="" name="offset" />
+                        <input type="hidden" value="false" name="all" />
+
+                        <input type="hidden" value="false" name="testdata" />
+                        
+                        <input type="hidden" value="" name="filterQuery" id="filterQuery" />
+                    </form> 
+
+                </div>
+
+                
+
+
+            <br /> <br />
+           
+            
+            
+                 
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <strong>Activity Log</strong>
+                </div>
+                <div class="table-responsive">
+                    <table id="logsTable" class="table table-condensed dataTable">
+
+                        <thead>
+                            <tr>
+                                <th width="10%">Date [Timing]</th>
+                                <th>[Role][Action][Google ID][Name][Email]</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            
+                            
+                            
+                            
+                            
+                            <tr id="first-row"> <td style="vertical-align: middle;" class=""><span><a onclick="submitLocalTimeAjaxRequest('{*}','{*}','{*}',this);">{*}</a><p class="localTime"></p></span><p class=""><strong>{*}</strong></p> </td> <td class=""><form action="/admin/adminActivityLogPage" method="get"> <h4 class="list-group-item-heading"><span style="color:#E61E1E;" class="glyphicon glyphicon-user"></span> <a target="_blank" class="text-success bold" href="{*}">{*}</a> <small>{*} <button class="btn btn-info btn-xs" type="submit"><span class="glyphicon glyphicon-zoom-in"></span></button> <input type="hidden" value="{*}" name="filterQuery" /><input type="hidden" value="false" name="all" class="ifShowAll_for_person" /><input type="hidden" value="false" name="testdata" class="ifShowTestData_for_person" /></small> </h4> <div>{*}</div> </form> </td> </tr>
+                            {*}
+                            
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            
+            
+            
+            
+
+
+
+
+    <div class="alert alert-info" id="statusMessage">
+          Total Logs gone through in last search: {*}<input type="hidden" value="false" id="ifShowAll" /><input type="hidden" value="false" id="ifShowTestData" /></div>
+
+                
+            <br />
+
+
+            <a class="back-to-top-left" href="#"><span class="glyphicon glyphicon-arrow-up"></span> Top</a> 
+            
+            <a class="back-to-top-right" href="#">Top <span class="glyphicon glyphicon-arrow-up"></span></a>
+            
+            <br /> <br />
+    </div>
+
+    
+
+
+
+
+
+<div class="container-fluid" id="footerComponent">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
+            </div>
+            <div class="col-md-8">
+                
+            </div>
+            <div class="col-md-2">
+                <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body></html>

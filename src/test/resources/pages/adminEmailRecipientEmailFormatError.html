@@ -1,0 +1,96 @@
+<div class="container" id="mainContent">
+                <div id="topOfPage"></div>
+                <h1>Admin Email</h1>
+                <br>
+
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active">
+                        <a href="/admin/adminEmailComposePage">Compose</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/admin/adminEmailSentPage">Sent</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/admin/adminEmailDraftPage">Draft</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="/admin/adminEmailTrashPage">Trash</a>
+                    </li>
+                </ul>
+                
+                <br>
+                <br>
+                
+                
+                          
+                
+                      <div id="adminEmailCompose">
+    
+                        <form id="adminEmailMainForm" action="/admin/adminEmailComposeSend" method="post">
+                            
+                              
+                            To :
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <input id="addressReceiverEmails" class="form-control" name="adminemailaddressreceivers" placeholder="example1@email.com,example2@email.com..." maxlength="500" value="recipient" type="text">
+                                                         
+                                        
+                                               
+                                        <input style="display:none;" id="groupReceiverListFileKey" class="form-control" name="adminemailgroupreceiverlistfilekey" value="" type="text">
+                                     </div>
+                                     <div class="col-md-1 border-left-gray">
+                                        <button type="button" class="btn btn-info" id="adminEmailGroupReceiverListUploadButton">
+                                            <strong>
+                                            Upload
+                                            </strong>
+                                        </button>
+                                     </div>
+                                </div>
+                                
+                            <br>
+                            Subject : <input class="form-control" name="emailsubject" value="Email Subject" type="text">
+                            <br>
+                            <p>
+                                <div style="visibility: hidden; border-width: 1px;" id="mceu_24" class="mce-tinymce mce-container mce-panel" hidefocus="1" tabindex="-1" role="application"><div id="mceu_24-body" class="mce-container-body mce-stack-layout"><div style="border-width: 0px 0px 1px;" id="mceu_25" class="mce-container mce-menubar mce-toolbar mce-first mce-stack-layout-item" role="menubar"><div id="mceu_25-body" class="mce-container-body mce-flow-layout"><div aria-haspopup="true" role="menuitem" id="mceu_26" class="mce-widget mce-btn mce-menubtn mce-first mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_26"><button id="mceu_26-open" role="presentation" type="button" tabindex="-1"><span>File</span> <i class="mce-caret"></i></button></div><div aria-haspopup="true" role="menuitem" id="mceu_27" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_27"><button id="mceu_27-open" role="presentation" type="button" tabindex="-1"><span>Edit</span> <i class="mce-caret"></i></button></div><div aria-haspopup="true" role="menuitem" id="mceu_28" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_28"><button id="mceu_28-open" role="presentation" type="button" tabindex="-1"><span>Insert</span> <i class="mce-caret"></i></button></div><div aria-haspopup="true" role="menuitem" id="mceu_29" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_29"><button id="mceu_29-open" role="presentation" type="button" tabindex="-1"><span>View</span> <i class="mce-caret"></i></button></div><div aria-haspopup="true" role="menuitem" id="mceu_30" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_30"><button id="mceu_30-open" role="presentation" type="button" tabindex="-1"><span>Format</span> <i class="mce-caret"></i></button></div><div aria-haspopup="true" role="menuitem" id="mceu_31" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_31"><button id="mceu_31-open" role="presentation" type="button" tabindex="-1"><span>Table</span> <i class="mce-caret"></i></button></div><div aria-haspopup="true" role="menuitem" id="mceu_32" class="mce-widget mce-btn mce-menubtn mce-last mce-flow-layout-item" tabindex="-1" aria-labelledby="mceu_32"><button id="mceu_32-open" role="presentation" type="button" tabindex="-1"><span>Tools</span> <i class="mce-caret"></i></button></div></div></div><div id="mceu_33" class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group"><div id="mceu_33-body" class="mce-container-body mce-stack-layout"><div id="mceu_34" class="mce-container mce-toolbar mce-first mce-stack-layout-item" role="toolbar"><div id="mceu_34-body" class="mce-container-body mce-flow-layout"><div role="group" id="mceu_35" class="mce-container mce-first mce-flow-layout-item mce-btn-group"><div id="mceu_35-body"><div aria-disabled="true" aria-label="Undo" role="button" id="mceu_0" class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby="mceu_0"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-undo"></i></button></div><div aria-disabled="true" aria-label="Redo" role="button" id="mceu_1" class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby="mceu_1"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-redo"></i></button></div></div></div><div role="group" id="mceu_36" class="mce-container mce-flow-layout-item mce-btn-group"><div id="mceu_36-body"><div aria-haspopup="true" role="button" id="mceu_2" class="mce-widget mce-btn mce-menubtn mce-first mce-last" tabindex="-1" aria-labelledby="mceu_2"><button id="mceu_2-open" role="presentation" type="button" tabindex="-1"><span>Formats</span> <i class="mce-caret"></i></button></div></div></div><div role="group" id="mceu_37" class="mce-container mce-flow-layout-item mce-btn-group"><div id="mceu_37-body"><div aria-label="Bold" role="button" id="mceu_3" class="mce-widget mce-btn mce-first" tabindex="-1" aria-labelledby="mceu_3"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bold"></i></button></div><div aria-label="Italic" role="button" id="mceu_4" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_4"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-italic"></i></button></div><div aria-label="Underline" role="button" id="mceu_5" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_5"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-underline"></i></button></div></div></div><div role="group" id="mceu_38" class="mce-container mce-flow-layout-item mce-btn-group"><div id="mceu_38-body"><div aria-label="Align left" role="button" id="mceu_6" class="mce-widget mce-btn mce-first" tabindex="-1" aria-labelledby="mceu_6"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignleft"></i></button></div><div aria-label="Align center" role="button" id="mceu_7" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_7"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-aligncenter"></i></button></div><div aria-label="Align right" role="button" id="mceu_8" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_8"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignright"></i></button></div><div aria-label="Justify" role="button" id="mceu_9" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_9"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignjustify"></i></button></div></div></div><div role="group" id="mceu_39" class="mce-container mce-flow-layout-item mce-btn-group"><div id="mceu_39-body"><div aria-haspopup="true" aria-label="Bullet list" id="mceu_10" class="mce-widget mce-btn mce-splitbtn mce-menubtn mce-first" role="button" tabindex="-1"><button type="button" hidefocus="1" tabindex="-1"><i class="mce-ico mce-i-bullist"></i></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div><div aria-haspopup="true" aria-label="Numbered list" id="mceu_11" class="mce-widget mce-btn mce-splitbtn mce-menubtn" role="button" tabindex="-1"><button type="button" hidefocus="1" tabindex="-1"><i class="mce-ico mce-i-numlist"></i></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div><div aria-label="Decrease indent" role="button" id="mceu_12" class="mce-widget mce-btn" tabindex="-1" aria-labelledby="mceu_12"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-outdent"></i></button></div><div aria-disabled="false" aria-label="Increase indent" role="button" id="mceu_13" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_13"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-indent"></i></button></div></div></div><div role="group" id="mceu_40" class="mce-container mce-last mce-flow-layout-item mce-btn-group"><div id="mceu_40-body"><div aria-label="Insert/edit link" role="button" id="mceu_14" class="mce-widget mce-btn mce-first" tabindex="-1" aria-labelledby="mceu_14"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-link"></i></button></div><div aria-label="Insert/edit image" role="button" id="mceu_15" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_15"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-image"></i></button></div></div></div></div></div><div id="mceu_41" class="mce-container mce-toolbar mce-last mce-stack-layout-item" role="toolbar"><div id="mceu_41-body" class="mce-container-body mce-flow-layout"><div role="group" id="mceu_42" class="mce-container mce-first mce-flow-layout-item mce-btn-group"><div id="mceu_42-body"><div aria-label="Print" role="button" id="mceu_16" class="mce-widget mce-btn mce-first" tabindex="-1" aria-labelledby="mceu_16"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-print"></i></button></div><div aria-label="Preview" role="button" id="mceu_17" class="mce-widget mce-btn mce-last" tabindex="-1" aria-labelledby="mceu_17"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-preview"></i></button></div></div></div><div role="group" id="mceu_43" class="mce-container mce-flow-layout-item mce-btn-group"><div id="mceu_43-body"><div aria-label="Text color" id="mceu_18" class="mce-widget mce-btn mce-colorbutton mce-first" role="button" tabindex="-1" aria-haspopup="true"><button role="presentation" hidefocus="1" type="button" tabindex="-1"><i class="mce-ico mce-i-forecolor"></i><span id="mceu_18-preview" class="mce-preview"></span></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div><div aria-label="Background color" id="mceu_19" class="mce-widget mce-btn mce-colorbutton mce-last" role="button" tabindex="-1" aria-haspopup="true"><button role="presentation" hidefocus="1" type="button" tabindex="-1"><i class="mce-ico mce-i-backcolor"></i><span id="mceu_19-preview" class="mce-preview"></span></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div></div></div><div role="group" id="mceu_44" class="mce-container mce-flow-layout-item mce-btn-group"><div id="mceu_44-body"><div aria-haspopup="true" aria-label="Font Sizes" role="button" id="mceu_20" class="mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-first" tabindex="-1" aria-labelledby="mceu_20"><button id="mceu_20-open" role="presentation" type="button" tabindex="-1"><span>Font Sizes</span> <i class="mce-caret"></i></button></div><div aria-haspopup="true" aria-label="Font Family" role="button" id="mceu_21" class="mce-widget mce-btn mce-menubtn mce-fixed-width mce-listbox mce-last" tabindex="-1" aria-labelledby="mceu_21"><button id="mceu_21-open" role="presentation" type="button" tabindex="-1"><span>Font Family</span> <i class="mce-caret"></i></button></div></div></div><div role="group" id="mceu_45" class="mce-container mce-flow-layout-item mce-btn-group"><div id="mceu_45-body"><div aria-haspopup="true" aria-label="Emoticons" role="button" id="mceu_22" class="mce-widget mce-btn mce-first mce-last" tabindex="-1" aria-labelledby="mceu_22"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-emoticons"></i></button></div></div></div><div role="group" id="mceu_46" class="mce-container mce-last mce-flow-layout-item mce-btn-group"><div id="mceu_46-body"><div aria-label="Fullscreen" role="button" id="mceu_23" class="mce-widget mce-btn mce-first mce-last" tabindex="-1" aria-labelledby="mceu_23"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-fullscreen"></i></button></div></div></div></div></div></div></div><div style="border-width: 1px 0px 0px;" id="mceu_47" class="mce-edit-area mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group"><iframe src="javascript:&quot;&quot;" style="width: 100%; height: {*}; display: block;" title="Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help" allowtransparency="true" id="adminEmailBox_ifr" frameborder="0"></iframe></div><div style="border-width: 1px 0px 0px;" id="mceu_48" class="mce-statusbar mce-container mce-panel mce-last mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group"><div id="mceu_48-body" class="mce-container-body mce-flow-layout"><div id="mceu_49" class="mce-path mce-flow-layout-item mce-first"><div role="button" class="mce-path-item mce-last" data-index="0" tabindex="-1" id="mceu_49-0" aria-level="0">p</div></div><label id="mceu_51" class="mce-wordcount mce-widget mce-label mce-flow-layout-item">Words: 2</label><div id="mceu_50" class="mce-flow-layout-item mce-resizehandle mce-last"><i class="mce-ico mce-i-resize"></i></div></div></div></div></div><textarea aria-hidden="true" style="display: none;" cols="80" id="adminEmailBox" name="emailcontent" rows="10">&lt;p&gt;Email Content{*}</textarea>
+                            </p>
+                            <p>
+                                <button type="button" id="composeSubmitButton" onclick="$('#adminEmailMainForm').submit();">Send</button>
+                                <button type="button" id="composeSaveButton">save</button>
+                            </p>
+                        </form>
+                        
+                        <div id="adminEmailGroupReceiverListUploadBox" style="display:none;">
+                                    <form id="adminEmailReceiverListForm" action="" method="POST" enctype="multipart/form-data">
+                                        <span id="adminEmailGroupReceiverListInput"> <input name="emailgroupreceiverlisttoupload" id="adminEmailGroupReceiverList" type="file">
+                                        </span>
+                                    </form>
+                        </div>
+        
+    
+                        <div style="display: none;">
+                            <form id="adminEmailFileForm" action="" method="POST" enctype="multipart/form-data">
+                                <span id="adminEmailFileInput"> <input name="emailimagetoupload" id="adminEmailFile" type="file">
+                                </span>
+                            </form>
+    
+                            <div id="documentBaseUrl">${app.url}</div>
+                        </div>
+    
+                    </div>
+                
+                
+                
+               
+                
+
+
+
+
+        <div id="statusMessage" class="alert alert-danger">
+            "recipient" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces.<br><strong>Email Format Error</strong>
+        </div>
+        
+        <script src="&#x2f;js&#x2f;statusMessage.js" type="text&#x2f;javascript">
+        </script>
+
+            </div>

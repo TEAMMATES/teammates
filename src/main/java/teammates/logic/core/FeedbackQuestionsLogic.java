@@ -374,7 +374,11 @@ public class FeedbackQuestionsLogic {
         
         switch (recipientType) {
         case SELF:
-            recipients.put(giver, Const.USER_NAME_FOR_SELF);
+            if (question.giverType == FeedbackParticipantType.TEAMS) {
+                recipients.put(studentGiver.team, studentGiver.team);
+            } else {
+                recipients.put(giver, Const.USER_NAME_FOR_SELF);
+            }
             break;
         case STUDENTS:
             List<StudentAttributes> studentsInCourse =
@@ -665,6 +669,16 @@ public class FeedbackQuestionsLogic {
             // Silently fail if question does not exist.
         }
         
+    }
+    
+    /**
+     * Deletes all feedback questions in all sessions of the course specified. This is 
+     * a non-cascade delete. The responses to the questions and the comments of these responses
+     * should be handled.
+     * 
+     */
+    public void deleteFeedbackQuestionsForCourse(String courseId) {
+        fqDb.deleteFeedbackQuestionsForCourse(courseId);
     }
     
     /**

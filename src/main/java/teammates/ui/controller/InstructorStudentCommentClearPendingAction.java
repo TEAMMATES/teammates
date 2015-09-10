@@ -7,7 +7,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
@@ -28,14 +30,14 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 logic.getCourse(courseId));
         
         logic.updateCommentsSendingState(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
-        logic.updateFeedbackResponseCommentsSendingState(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
+        logic.updateFeedbackResponseCommentsSendingState(
+                      courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
         
         // Wait for the operation to persist
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             int pendingCommentsSize = getPendingCommentsSize(courseId);
-            while ((pendingCommentsSize != 0)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while ((pendingCommentsSize != 0) && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
                 ThreadHelper.waitBriefly();
                 pendingCommentsSize = getPendingCommentsSize(courseId);
                 //check before incrementing to avoid boundary case problem
@@ -53,18 +55,19 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             }
         }
         
-        if(!isError){
-            statusToUser.add(Const.StatusMessages.COMMENT_CLEARED);
+        if (!isError) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
         } else {
-            statusToUser.add(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COMMENT_CLEARED_UNSUCCESSFULLY, StatusMessageColor.DANGER));
             statusToAdmin = "Unsuccessful: " + account.googleId + " cleared pending comments for course " + courseId;
         }
         
-        return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" 
+                                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
     
-    private int getPendingCommentsSize(String courseId) throws EntityDoesNotExistException{
+    private int getPendingCommentsSize(String courseId) throws EntityDoesNotExistException {
         return logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size()
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
     }

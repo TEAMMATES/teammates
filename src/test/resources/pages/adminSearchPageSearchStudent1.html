@@ -1,0 +1,88 @@
+<div class="container" id="mainContent">
+                <div id="topOfPage"></div>
+                <h1>Admin Search</h1>
+                <br>
+
+
+                <div class="well well-plain">
+                    <form class="form-horizontal" method="get" action="" id="activityLogFilter" role="form">
+
+                        <div class="panel-heading" id="filterForm">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="help-block">Tips:
+                            Surround key word to search
+                            a whole string or string
+                            contains punctuation like
+                            &quot;-&quot; &quot;.&quot;</span>
+                                        <div class="input-group">
+
+                                            <input class="form-control" id="filterQuery" name="searchkey" value="student1" type="text">
+
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit" name="searchbuttonhit" id="searchButton" value="true">Search</button>
+                                            </span>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                
+
+
+
+                
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong>Students Found </strong> <span class="pull-right"><button class="btn btn-primary btn-xs" type="button" onclick="adminSearchDiscloseAllStudents()">Disclose All</button>
+                            <button class="btn btn-primary btn-xs" type="button" onclick="adminSearchCollapseAllStudents()">Collapse All</button></span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped dataTable" id="search_table">
+
+                            <thead>
+                                <tr>
+                                    <th>Institute </th>
+                                    <th>Course[Section](Team)</th>
+                                    <th>Name</th>
+                                    <th>Google ID[Details]</th>
+                                    <th>Comments</th>
+                                    <th>Options</th>
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+
+                                {*}
+
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                
+
+
+
+
+        <div id="statusMessage" class="alert alert-info">
+            Total results found: {*}
+        </div>
+        
+        <script src="&#x2f;js&#x2f;statusMessage.js" type="text&#x2f;javascript">
+        </script>
+
+
+            </div>

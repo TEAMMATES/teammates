@@ -8,7 +8,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.PageData;
 
 /**
  * A class holding the details for a specific question type.
@@ -47,7 +46,7 @@ public abstract class FeedbackQuestionDetails {
 
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
                                                            FeedbackQuestionAttributes question,
-                                                           PageData pageData,
+                                                           String studentEmail,
                                                            FeedbackSessionResultsBundle bundle,
                                                            String view);
 
@@ -95,6 +94,10 @@ public abstract class FeedbackQuestionDetails {
                                       + Const.EOL;
 
         return detailedResponsesRow;
+    }
+    
+    public String getQuestionText() {
+        return questionText;
     }
 
     /**

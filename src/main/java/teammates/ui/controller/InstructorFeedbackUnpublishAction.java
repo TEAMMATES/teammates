@@ -6,6 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAction {
@@ -27,7 +29,7 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
 
         try {
             logic.unpublishFeedbackSession(feedbackSessionName, courseId);
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "
                             + "for Course <span class=\"bold\">[" + courseId + "]</span> unpublished.";
         } catch (InvalidParametersException e) {

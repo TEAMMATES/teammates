@@ -10,9 +10,6 @@ function readyFeedbackEditPage() {
     $('.visibilityOptions').hide();
     
     // Bind submit text links
-    $('#fsSaveLink').click(function() {
-        $('#form_editfeedbacksession').submit();
-    });
     $('a[id|=questionsavechangestext]').click(function() {
         $(this).parents('form.form_question').submit();
     });
@@ -53,6 +50,44 @@ function readyFeedbackEditPage() {
     collapseIfPrivateSession();
     
     setupFsCopyModal();
+    
+    // Bind feedback session edit form submission
+    bindFeedbackSessionEditFormSubmission();
+}
+
+function bindFeedbackSessionEditFormSubmission() {
+    $('#form_feedbacksession').submit(function( event ) {
+        // Prevent form submission
+        event.preventDefault();
+        
+        var $form = $(event.target);
+        // Use Ajax to submit form data
+        $.ajax({
+            url: '/page/instructorFeedbackEditSave',
+            type: 'POST',
+            data: $form.serialize(),
+            beforeSend: function() {
+                $('#statusMessage').hide();
+            },
+            success: function(result) {
+            	$statusMessage = $('#statusMessage');
+            		
+            	$statusMessage.text(result.statusForAjax);
+                
+            	$statusMessage.removeClass("alert alert-danger alert-warning");
+                if (result.hasError) {
+                	$statusMessage.addClass("alert alert-danger");
+                } else {
+                    disableEditFS();
+                    $statusMessage.addClass("alert alert-success");
+                }
+                $statusMessage.show();
+                
+                // focus on status message
+                $(document).scrollTop($statusMessage.offset().top - $('.navbar').height() - 30);
+            }
+        });
+    });
 }
 
 /**
@@ -63,8 +98,11 @@ function disableEditFS() {
     getCustomDateTimeFields().each(function() {
         $(this).data('last', $(this).prop('disabled'));
     });
-    $('#form_editfeedbacksession').find('text,input,button,textarea,select')
+    $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
+    $('#fsEditLink').show();
+    $('#fsSaveLink').hide();
+    $('#button_submit').hide();
 }
 
 /**
@@ -91,14 +129,14 @@ function enableEditFS() {
     // as students without accounts need to receive the session opening email to respond
     var $sessionOpeningReminder = $('#sendreminderemail_open');
     
-    $('#form_editfeedbacksession').find('text,input,button,textarea,select')
-                                  .not($customDateTimeFields)
-                                  .not($sessionOpeningReminder)
-                                  .not('.disabled')
-                                  .prop('disabled', false);
+    $('#form_feedbacksession').find('text,input,button,textarea,select')
+                              .not($customDateTimeFields)
+                              .not($sessionOpeningReminder)
+                              .not('.disabled')
+                              .prop('disabled', false);
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
-    $('#button_submit_edit').show();
+    $('#button_submit').show();
 }
 
 function getCustomDateTimeFields() {
@@ -176,12 +214,14 @@ function enableQuestion(number) {
         $('#mcqChoiceTable-' + number).hide();
         $('#msqChoiceTable-' + number).hide();
         $("#mcqOtherOptionFlag-" + number).parent().hide();
+        $("#msqOtherOptionFlag-" + number).parent().hide();
         $('#mcqGenerateForSelect-' + number).prop('disabled', false);
         $('#msqGenerateForSelect-' + number).prop('disabled', false);
     } else {
         $('#mcqChoiceTable-' + number).show();
         $('#msqChoiceTable-' + number).show();
         $("#mcqOtherOptionFlag-" + number).parent().show();
+        $("#msqOtherOptionFlag-" + number).parent().show();
         $('#mcqGenerateForSelect-' + number).prop('disabled', true);
         $('#msqGenerateForSelect-' + number).prop('disabled', true);
     }
@@ -266,8 +306,10 @@ function disableQuestion(number) {
        If so, hide 'add Other option' */
     if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
         $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().hide();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().hide();
     } else {
         $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().show();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().show();
     }
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
@@ -445,8 +487,6 @@ function prepareQuestionForm(type) {
             hideAllNewQuestionForms();
             
             $('#constSumForm').show();
-            $('#questionTypeChoice').find('option').prop('disabled', false);
-            $('#questionTypeChoice').val('CONSTSUM');
             break;
         case 'CONSTSUM_RECIPIENT':
             $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
@@ -457,8 +497,6 @@ function prepareQuestionForm(type) {
             hideAllNewQuestionForms();
             
             $('#constSumForm').show();
-            $('#questionTypeChoice').find('option').prop('disabled', false);
-            $('#questionTypeChoice').val('CONSTSUM');
             var optionText = $('#constSum_labelText-' + '-1').text();
             $('#constSum_labelText-' + '-1').text(optionText.replace('option', 'recipient'));
             var tooltipText = $('#constSum_tooltipText-' + '-1').attr('data-original-title');
@@ -790,7 +828,7 @@ function getVisibilityMessage(buttonElem) {
             $formOptions.hide();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log('AJAX request failed');
+
         }
     });    
 }
@@ -986,12 +1024,14 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#msqChoiceTable' + idSuffix).hide();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
+        $("#msqOtherOptionFlag" + idSuffix).parent().hide();
         $('#generatedOptions' + idSuffix).attr('value',
                                                $('#msqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#msqChoiceTable' + idSuffix).show();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', true);
+        $("#msqOtherOptionFlag" + idSuffix).parent().show();
         $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }

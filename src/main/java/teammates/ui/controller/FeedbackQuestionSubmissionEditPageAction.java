@@ -5,6 +5,8 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.Const.StatusMessageColor;
 
 public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
     protected String courseId;
@@ -23,6 +25,10 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Assumption.assertNotNull(feedbackQuestionId);
         
+
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);      
+        String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        
         if (!isSpecificUserJoinedCourse()) {
             return createPleaseJoinCourseResponse(courseId);
         }
@@ -31,16 +37,18 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         
         String userEmailForCourse = getUserEmailForCourse();        
         data = new FeedbackSubmissionEditPageData(account, student);
-        data.isShowRealQuestionNumber = true;
-        data.isHeaderHidden = true;
+        data.setShowRealQuestionNumber(true);
+        data.setHeaderHidden(true);
         data.bundle = getDataBundle(userEmailForCourse);
-        data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
+        data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
         
-        if (!data.isSessionOpenForSubmission) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
+        if (!data.isSessionOpenForSubmission()) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, StatusMessageColor.WARNING));
         }
         
         setStatusToAdmin();
+        
+        data.init(regKey, email, courseId);
         
         return createSpecificShowPageResult();
     }

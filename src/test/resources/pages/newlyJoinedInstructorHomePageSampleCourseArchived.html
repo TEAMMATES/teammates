@@ -1,0 +1,138 @@
+<div class="container" id="mainContent">
+   <div id="topOfPage">
+   </div>
+   <h1>
+      Instructor Home
+   </h1>
+   <br/>
+      <div class="well well-plain">
+      <div class="row">
+         <div class="col-md-12">
+            <form action="&#x2f;page&#x2f;instructorSearchPage?user=${test.instructor}" method="get" name="search_form">
+               <div class="input-group">
+                  <input class="form-control" data-original-title="Search for student&#39;s information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text"/>
+                                    <span class="input-group-btn">
+                     <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
+                        Search
+                     </button>
+                  </span>
+               </div>
+               <input name="searchstudents" type="hidden" value="true"/>
+                              <input name="searchcommentforstudents" type="hidden" value="false"/>
+                              <input name="searchcommentforresponses" type="hidden" value="false"/>
+                              <input name="user" type="hidden" value="${test.instructor}"/>
+                           </form>
+         </div>
+      </div>
+   </div>
+   <br/>
+      <div class="alert alert-success" id="statusMessage">
+      The course AHPUiT.instr1.gma-demo has been archived. It will not appear in the home page any more. You can access archived courses from the &#39;Courses&#39; tab.
+      <br/>
+            Go there to undo the archiving and bring the course back to the home page.
+      <br/>
+            New to TEAMMATES? You may wish to have a look at our
+      <a href="&#x2f;instructorHelp.html#gs" target="_blank">
+         Getting Started Guide
+      </a>
+      .
+      <br/>
+            A video tour is also available in our
+      <a href="&#x2f;index.html" target="_blank">
+         home page
+      </a>
+      .
+   </div>
+   <script src="&#x2f;js&#x2f;statusMessage.js" type="text&#x2f;javascript">
+   </script>
+   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <form action="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
+               <div class="modal-header">
+                  <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                     ×
+                  </button>
+                  <h4 class="modal-title">
+                     Remind Particular Students
+                     <small>
+                        (Select the student(s) you want to remind)
+                     </small>
+                  </h4>
+               </div>
+               <div class="modal-body">
+                  <div class="form-group" id="studentList">
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal" type="button">
+                     Cancel
+                  </button>
+                  <input class="btn btn-primary" type="submit" value="Remind"/>
+                                    <input name="user" type="hidden" value="${test.instructor}"/>
+                                 </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-2 pull-left">
+         <a class="btn btn-primary btn-md pull-left" href="&#x2f;page&#x2f;instructorCoursesPage?user=${test.instructor}" id="addNewCourse">
+            Add New Course
+         </a>
+      </div>
+      <div class="col-md-5 pull-right">
+         <h5 class="pull-left">
+            <strong>
+               Sort By:
+            </strong>
+         </h5>
+         <div class="btn-group pull-right" data-toggle="buttons">
+            <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
+               <input type="radio"/>
+                              Course ID
+            </label>
+            <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
+               <input name="sortby" type="radio" value="name"/>
+                              Course Name
+            </label>
+            <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
+               <input type="radio"/>
+                              Creation Date
+            </label>
+         </div>
+      </div>
+   </div>
+   <br/>
+      <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <form action="&#x2f;page&#x2f;instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+               <div class="modal-header">
+                  <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                     ×
+                  </button>
+                  <h4 class="modal-title">
+                     Copy this feedback session to other courses
+                     <br/>
+                                          <small>
+                        (Select the course(s) you want to copy this feedback session to)
+                     </small>
+                  </h4>
+               </div>
+               <div class="modal-body">
+                  <div class="form-group" id="courseList">
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal" type="button">
+                     Cancel
+                  </button>
+                  <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
+                                    <input name="user" type="hidden" value="${test.instructor}"/>
+                                 </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

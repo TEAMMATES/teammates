@@ -19,7 +19,6 @@ import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.controller.PageData;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMsqChoices;
@@ -42,7 +41,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackQuestionType questionType) {
         int numOfMsqChoices = 0;
         List<String> msqChoices = new LinkedList<String>();
-        boolean msqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
+        boolean msqOtherEnabled = false; 
+        
+        String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
+        
+        if (otherOptionFlag != null && otherOptionFlag.equals("on")) {
+            msqOtherEnabled = true;
+        }
             
         String generatedMsqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
         if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
@@ -92,6 +97,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return Const.FeedbackQuestionTypeNames.MSQ;
     }
     
+    public boolean getOtherEnabled() {
+        return otherEnabled;
+    }
+    
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
@@ -103,6 +112,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
         
         if (this.generateOptionsFor != newMsqDetails.generateOptionsFor) {
+            return true;
+        }
+        
+        if (this.otherEnabled != newMsqDetails.otherEnabled) {
             return true;
         }
         
@@ -119,6 +132,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+        Boolean isOtherSelected = existingMsqResponse.isOtherOptionAnswer();
+        
         for(int i = 0; i < choices.size(); i++) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
@@ -130,6 +145,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
                             "${msqChoiceText}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
+        }
+        
+        if (otherEnabled) {
+            String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragment = 
+                    FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
+                            "${qnIdx}", Integer.toString(qnIdx),
+                            "${responseIdx}", Integer.toString(responseIdx),
+                            "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                            "${text-disabled}", (sessionIsOpen && isOtherSelected) ? "" : "disabled=\"disabled\"",
+                            "${checked}", isOtherSelected ? "checked=\"checked\"" : "",
+                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            "${msqChoiceValue}", Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
+                            "${msqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
+            optionListHtml.append(otherOptionFragment + Const.EOL);
         }
         
         // additional checkbox for user to submit a blank response ("None of the above")
@@ -170,6 +201,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${msqChoiceText}", Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
+        
+        if (otherEnabled) {
+            String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragment = 
+                       FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
+                            "${qnIdx}", Integer.toString(qnIdx),
+                            "${responseIdx}", Integer.toString(responseIdx),
+                            "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                            "${text-disabled}", "disabled=\"disabled\"",
+                            "${checked}", "",
+                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            "${msqChoiceValue}", "",
+                            "${msqOtherOptionAnswer}", "0");
+            optionListHtml.append(otherOptionFragment + Const.EOL);
+        } 
         
         // additional checkbox for user to submit a blank response ("None of the above")
         String optionFragment = 
@@ -261,6 +308,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfMsqChoices}", Integer.toString(numOfMsqChoices),
+                "${checkedOtherOptionEnabled}", ((otherEnabled) ? "checked=\"checked\"" : ""),
+                "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}", Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked=\"checked\"", 
                 "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 "${generateOptionsForValue}", generateOptionsFor.toString(),
@@ -307,6 +357,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 
                 optionListHtml.append(optionFragment);
             }
+            
+            if (otherEnabled) {
+                String optionFragment = 
+                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,"${msqChoiceValue}", "Other");
+                optionListHtml.append(optionFragment);
+            }
+            
             optionListHtml.append("</ul>");
         }
         
@@ -329,7 +386,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
         
@@ -350,20 +407,47 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put(option, 0);
         }
         
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+        
         int numChoicesSelected = 0;
         for(FeedbackResponseAttributes response : responses){
-            List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
+            List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings(); 
+            Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            String otherAnswer = "";
+            
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 1);
+                } else {
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+                }
+                
+                numChoicesSelected++;
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+            
             for(String answerString : answerStrings){
                 if (answerString.equals("")) {
                     continue;
                 }
+                
                 isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
+                
                 if(!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
                 } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
-                }
+                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                }               
+            }
+            
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
             }
         }
         
@@ -405,9 +489,30 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put(option, 0);
         }
         
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+        
         int numChoicesSelected = 0;
+        
         for(FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
+            Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            String otherAnswer = "";
+            
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 1);
+                } else {
+                    answerFrequency.put("Other", answerFrequency.get("Other") + 1);
+                }
+                
+                numChoicesSelected++;
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+            
             for(String answerString : answerStrings){
                 if (answerString.equals("")) {
                     continue;
@@ -417,8 +522,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 if(!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
                 } else {
-                    answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
                 }
+            }
+            
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
             }
         }
         

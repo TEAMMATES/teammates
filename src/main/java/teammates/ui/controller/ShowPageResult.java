@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
 
 /**
  * A result that shows a page in the Browser. These are usually implemented as 
@@ -24,7 +25,7 @@ public class ShowPageResult extends ActionResult{
             String destination, 
             AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
-            List<String> status) {
+            List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
     }
     
@@ -33,7 +34,7 @@ public class ShowPageResult extends ActionResult{
             AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
             PageData data,
-            List<String> status) {
+            List<StatusMessage> status) {
         super(destination, account, parametersFromPreviousRequest, status);
         this.data = data;
     }
@@ -59,12 +60,21 @@ public class ShowPageResult extends ActionResult{
 
     private void addStatusMessageToRequest(HttpServletRequest req) {
         String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
+        String statusMessageColor = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+        
         if(statusMessageInSession != null && !statusMessageInSession.isEmpty()){
             //Remove status message in session, thus it becomes an one-time message
-            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);            
             req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession);
         } else {
             req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
+        }
+        
+        if(statusMessageColor != null && !statusMessageColor.isEmpty()){
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
+        } else {
+            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, "info");
         }
     }
 }

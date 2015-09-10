@@ -1,19 +1,18 @@
 package teammates.ui.controller;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.logic.api.Logic;
+import teammates.ui.template.Comment;
+import teammates.ui.template.CommentsForStudentsTable;
+import teammates.ui.template.CoursePagination;
 
 /**
  * PageData: the data to be used in the InstructorCommentsPage
@@ -21,109 +20,168 @@ import teammates.logic.api.Logic;
 public class InstructorCommentsPageData extends PageData {
     public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
     
-    public Boolean isViewingDraft;
-    public Boolean isDisplayArchive;
-    public String courseId;
-    public String courseName;
-    public List<String> coursePaginationList;
-    public Map<String, List<CommentAttributes>> comments;
-    // TODO: remove this field
-    public String instructorEmail;
-    public InstructorAttributes currentInstructor;
-    public CourseRoster roster;
-    public List<FeedbackSessionAttributes> feedbackSessions;
-    public String previousPageLink;
-    public String nextPageLink;
-    public int numberOfPendingComments = 0;
+    private boolean isViewingDraft;
+    private boolean isDisplayArchive;
+    private String courseId;
+    private String courseName;
+    private CoursePagination coursePagination;
+    private List<FeedbackSessionAttributes> feedbackSessions;
+    private int numberOfPendingComments = 0;
+    
+    private List<CommentsForStudentsTable> commentsForStudentsTables;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
     }
     
-    public String getGiverName(String giverEmail) {
-        InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
-        String giverDisplay = giverEmail;
-        if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
-            giverDisplay = "You";
-        } else if (instructor != null) {
-            String title = instructor.displayedName;
-            giverDisplay = title + " " + instructor.name;
-        }
-        return giverDisplay;
-    }
-    
-    public String getRecipientNames(Set<String> recipients) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("<b>All students in this course</b>, ");
-            } else if (student != null) {
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append("<b>" + student.name + "</b>" 
-                            + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
-                } else {
-                    namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
-                }
-            } else {
-                namesStringBuilder.append("<b>" + recipient + "</b>" + ", ");
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return removeEndComma(namesString);
-    }
-    
-    public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.showCommentTo.size() > 0;
-    }
+    public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
+                     List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
+                     Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster, 
+                     List<FeedbackSessionAttributes> feedbackSessions, int numberOfPendingComments) {
+        this.isViewingDraft = isViewingDraft;
+        this.isDisplayArchive = isDisplayArchive;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.feedbackSessions = feedbackSessions;
+        this.numberOfPendingComments = numberOfPendingComments;
         
-    public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName) {
-        // TODO: remember to come back and change this if later CommentAttributes.recipients can have multiple later!!!
-        Logic logic = new Logic();
-        if (this.currentInstructor == null) {
-            return false;
-        }
-        if (comment.recipientType == CommentParticipantType.COURSE) {
-            return this.currentInstructor.isAllowedForPrivilege(privilegeName);          
-        } else if (comment.recipientType == CommentParticipantType.SECTION) {
-            String section = "";
-            if (!comment.recipients.isEmpty()) {
-                Iterator<String> iterator = comment.recipients.iterator();
-                section = iterator.next();
+        setCoursePagination(coursePaginationList);
+        setCommentsForStudentsTables(comments, commentModifyPermissions, roster);
+                                        
+    }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public String getCourseName() {
+        return courseName;
+    }
+    
+    public CoursePagination getCoursePagination() {
+        return coursePagination;
+    }
+    
+    public List<FeedbackSessionAttributes> getFeedbackSessions() {
+        return feedbackSessions;
+    }
+    
+    public int getNumberOfPendingComments() {
+        return numberOfPendingComments;
+    }
+    
+    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
+        return commentsForStudentsTables;
+    }
+    
+    public boolean isDisplayArchive() {
+        return isDisplayArchive;
+    }
+    
+    public boolean isViewingDraft() {
+        return isViewingDraft;
+    }
+    
+    private void setCoursePagination(List<String> coursePaginationList) {
+        String previousPageLink = retrievePreviousPageLink(coursePaginationList);
+        String nextPageLink = retrieveNextPageLink(coursePaginationList);
+        String activeCourse = coursePaginationList.contains(courseId) ? courseId : "";
+        String activeCourseClass = isViewingDraft ? "" : "active";
+        String userCommentsLink = getInstructorCommentsLink();
+        coursePagination = new CoursePagination(previousPageLink, nextPageLink, coursePaginationList,
+                                                activeCourse, activeCourseClass, userCommentsLink);
+    }
+
+    private void setCommentsForStudentsTables(
+            Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions,
+            CourseRoster roster) {
+        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(comments, roster);
+        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
+          
+        for (String giverEmail : comments.keySet()) {
+            String giverName = giverEmailToGiverNameMap.get(giverEmail);
+            CommentsForStudentsTable table = 
+                    new CommentsForStudentsTable(
+                            giverName, createCommentRows(giverEmail, giverName, comments.get(giverEmail), 
+                                                         commentModifyPermissions, roster));
+            String extraClass;
+            if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                extraClass = "giver_display-by-you";
+            } else {
+                extraClass = "giver_display-by-others";
             }
-            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
-        } else if (comment.recipientType == CommentParticipantType.TEAM) {
-            String team = "";
-            String section = "";
-            if (!comment.recipients.isEmpty()) {
-                Iterator<String> iterator = comment.recipients.iterator();
-                team = iterator.next();
-            }
-            List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
-            if (!students.isEmpty()) {
-                section = students.get(0).section;
-            }
-            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
-        } else if (comment.recipientType == CommentParticipantType.PERSON) {
-            String studentEmail = "";
-            String section = "";
-            if (!comment.recipients.isEmpty()) {
-                Iterator<String> iterator = comment.recipients.iterator();
-                studentEmail = iterator.next();
-            }
-            StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-            if (student != null) {
-                section = student.section;
-            }
-            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
-        } else {
-            // TODO: implement this if instructor is later allowed to be added to recipients
-            return false;
+            table.withExtraClass(extraClass);
+            commentsForStudentsTables.add(table);
         }
     }
+    
+    private List<Comment> createCommentRows(
+            String giverEmail, String giverName, List<CommentAttributes> commentsForGiver,
+            Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster) {
+        
+        List<Comment> rows = new ArrayList<Comment>();
+        for (int i = 0; i < commentsForGiver.size(); i++) {            
+            CommentAttributes comment = commentsForGiver.get(i);
+            String recipientDetails = getRecipientNames(comment.recipients, courseId, null, roster);
+            Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
+            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
+            Comment commentDiv = new Comment(comment, giverName, recipientDetails);
+            String extraClass;
+            if (comment.showCommentTo.isEmpty()) {
+                extraClass = "status_display-private";
+            } else {
+                extraClass = "status_display-public";
+            }
+            commentDiv.withExtraClass(extraClass);
+            commentDiv.setVisibilityIcon(typeOfPeopleCanViewComment);
+            commentDiv.setNotificationIcon(comment.isPendingNotification());
+            if (isInstructorAllowedToModifyCommentInSection) {
+                commentDiv.setEditDeleteEnabled(true);
+                commentDiv.setFromCommentsPage();
+                commentDiv.setPlaceholderNumComments();
+            }
+            
+            rows.add(commentDiv);
+        }       
+        return rows;
+    }
+    
+    private String retrievePreviousPageLink(List<String> coursePaginationList) {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String previousPageLink = "javascript:;";
+        if (courseIdx >= 1) {
+            previousPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx - 1);
+        }
+        return previousPageLink;
+    }
+
+    private String retrieveNextPageLink(List<String> coursePaginationList) {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String nextPageLink = "javascript:;";
+        if (courseIdx < coursePaginationList.size() - 1) {
+            nextPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx + 1);
+        }
+        return nextPageLink;
+    }
+
+    private Map<String, String> getGiverEmailToGiverNameMap(
+            Map<String, List<CommentAttributes>> comments, CourseRoster roster) {
+        
+        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
+        for (String giverEmail : comments.keySet()) {
+            
+            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+            String giverDisplay = giverEmail;
+            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                giverDisplay = "You";
+            } else if (instructor != null) {
+                String title = instructor.displayedName;
+                giverDisplay = title + " " + instructor.name;
+            }
+            
+            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
+        }
+        return giverEmailToGiverNameMap;
+    }
+
 }

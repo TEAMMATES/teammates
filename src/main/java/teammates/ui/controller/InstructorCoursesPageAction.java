@@ -3,16 +3,17 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
@@ -37,53 +38,51 @@ public class InstructorCoursesPageAction extends Action {
         /* Explanation: This is a 'show page' type action. Therefore, we 
          * prepare the matching PageData object, accessing the Logic 
          * component if necessary.*/
+        
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
-        data.newCourse = null;
-        data.courseIdToShow = "";
-        data.courseNameToShow = "";
         
-        data.allCourses = new ArrayList<CourseDetailsBundle>(
-                logic.getCourseSummariesForInstructor(account.googleId).values());
-        data.archivedCourses = extractArchivedCourses(data.allCourses);
+        // Get list of InstructorAttributes that belong to the user.
+        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
         
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
-        data.instructors = new HashMap<String, InstructorAttributes>();
+        // Get corresponding courses of the instructors.
+        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructors(instructorList).values());
+        List<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
+        List<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
         
-        for (CourseDetailsBundle courseDetails : data.allCourses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
-            data.instructors.put(courseDetails.course.id, instructor);
+        List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorList);
+        for (CourseDetailsBundle cdb : allCourses) {
+            if (archivedCourseIds.contains(cdb.course.id)) {
+                archivedCourses.add(cdb);
+            } else {
+                activeCourses.add(cdb);
+            }
         }
         
+        // Sort CourseDetailsBundle lists by course id
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(activeCourses);
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(archivedCourses);
+        
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
+        for (InstructorAttributes instructor : instructorList) {
+            instructorsForCourses.put(instructor.courseId, instructor);
+        }
+        
+        data.init(activeCourses, archivedCourses, instructorsForCourses);
+        
+        
         /* Explanation: Set any status messages that should be shown to the user.*/
-        if (data.allCourses.size() == 0 ){
-            statusToUser.add(Const.StatusMessages.COURSE_EMPTY);
+        if (allCourses.size() == 0 ){
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
         
         /* Explanation: We must set this variable. It is the text that will 
          * represent this particular execution of this action in the
          * 'admin activity log' page.*/
-        statusToAdmin = "instructorCourse Page Load<br>" 
-                + "Total courses: " + data.allCourses.size();
+        statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
         
         /* Explanation: Create the appropriate result object and return it.*/
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
         return response;
     }
     
-    private List<CourseAttributes> extractArchivedCourses(List<CourseDetailsBundle> courseBundles) {
-        ArrayList<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
-        
-        for (CourseDetailsBundle courseBundle : courseBundles) {
-            CourseAttributes course = courseBundle.course;
-            
-            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-
-            if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
-                archivedCourses.add(course);
-            }
-        }
-        
-        return archivedCourses;
-    }
-
 }

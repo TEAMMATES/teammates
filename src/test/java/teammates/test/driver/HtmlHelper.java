@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
-import teammates.common.util.Sanitizer;
+import teammates.test.pageobjects.AppPage;
 
 public class HtmlHelper {
 
@@ -32,6 +32,8 @@ public class HtmlHelper {
         String processedActualHtml = convertToStandardHtml(actualString, false);
         
         if(!AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml)){
+            processedActualHtml = AppPage.processPageSourceForFailureCase(processedActualHtml);
+            processedExpectedHtml = AppPage.processPageSourceForFailureCase(processedExpectedHtml);
             assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
         }
     }
@@ -41,6 +43,8 @@ public class HtmlHelper {
         String processedActualHtmlPart = convertToStandardHtml(actualString, true);
         
         if(!AssertHelper.isContainsRegex(processedExpectedHtmlPart, processedActualHtmlPart)){
+            processedActualHtmlPart = AppPage.processPageSourceForFailureCase(processedActualHtmlPart);
+            processedExpectedHtmlPart = AppPage.processPageSourceForFailureCase(processedExpectedHtmlPart);
             assertEquals("<expected>\n"+processedExpectedHtmlPart+"</expected>", "<actual>\n"+processedActualHtmlPart+"</actual>");
         }
     }
@@ -109,14 +113,14 @@ public class HtmlHelper {
     }
 
     private static String replaceInRawHtmlString(String htmlString) {
-        htmlString = htmlString.replace("{$version}", TestProperties.inst().TEAMMATES_VERSION);
-        htmlString = htmlString.replace("{$test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT);
-        htmlString = htmlString.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
-        htmlString = htmlString.replace("{$test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        htmlString = htmlString.replace("{$test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
-        htmlString = htmlString.replace("{$test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
-        htmlString = htmlString.replace("{$support.email}", Config.SUPPORT_EMAIL);
-        htmlString = htmlString.replace("{$app.url}", Config.APP_URL);
+        htmlString = htmlString.replace("${version}", TestProperties.inst().TEAMMATES_VERSION);
+        htmlString = htmlString.replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT);
+        htmlString = htmlString.replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
+        htmlString = htmlString.replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        htmlString = htmlString.replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
+        htmlString = htmlString.replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
+        htmlString = htmlString.replace("${support.email}", Config.SUPPORT_EMAIL);
+        htmlString = htmlString.replace("${app.url}", Config.APP_URL);
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
         htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
         htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
@@ -134,7 +138,7 @@ public class HtmlHelper {
         StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
         
         if(currentNode.getNodeType() == Node.TEXT_NODE){
-            String text = Sanitizer.sanitizeForHtml(currentNode.getNodeValue());
+            String text = currentNode.getNodeValue();
             if(!text.trim().isEmpty()){
                 currentHtmlText.append(indentation + text.trim() + "\n");
             }
@@ -144,6 +148,8 @@ public class HtmlHelper {
             if(!tooltip.trim().isEmpty()){
                 //ignore tool tip
             }
+            return;
+        } else if (isMotdComponent(currentNode)) {
             return;
         }
 
@@ -163,7 +169,7 @@ public class HtmlHelper {
                 
                 for (int i = 0; i < actualAttributeList.getLength(); i++){
                     Node actualAttribute = actualAttributeList.item(i);
-                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + Sanitizer.sanitizeForHtml(actualAttribute.getNodeValue()) + "\"");
+                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\"");
                 }
                 //close the tag
                 currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
@@ -219,7 +225,46 @@ public class HtmlHelper {
         
         return false;
     }
-
+    
+    private static boolean isMotdComponent(Node currentNode) {      
+        if (currentNode.getNodeName().equalsIgnoreCase("script")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            
+            if (attributes != null) { 
+                for (int i = 0; i < attributes.getLength(); i++) {
+                    Node attribute = attributes.item(i);
+                    
+                    // script to include studentMotd.js
+                    if (attribute.getNodeName().equalsIgnoreCase("src")
+                          && attribute.getNodeValue().contains("studentMotd.js")) {
+                        return true;
+                    }
+                }
+            }
+                
+            // script with variable motdUrl
+            return currentNode.getTextContent().contains("motdUrl");
+            
+        } else if (currentNode.getNodeName().equalsIgnoreCase("div")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            
+            if (attributes == null) { 
+                return false;
+            }
+                
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                
+                // Motd container
+                if (attribute.getNodeName().equalsIgnoreCase("id")
+                      && attribute.getNodeValue().contains("student-motd-container")) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
 
     private static List<Node> getAttributesAsNodeList(NamedNodeMap actualAttributeList) {
         List<Node> nodesList= new ArrayList<Node>();
