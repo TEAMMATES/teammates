@@ -30,7 +30,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
     private Logic logic = new Logic();
     private CoursesDb coursesDb = new CoursesDb();
-    private final boolean isPreview = false;
+    private final boolean isPreview = true;
     private final boolean isModifyingOnlyArchivedCourses = true;
     
     public static void main(String[] args) throws IOException {
