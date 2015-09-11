@@ -19,7 +19,6 @@ public class TestngTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestng() throws FileNotFoundException {
-        assertTrue(FileHelper.isFileExists("./src/test/testng.xml"));
         testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
         
         addFilesToTestsRecursively();
