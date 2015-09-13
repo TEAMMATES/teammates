@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.FileHelper;
 import teammates.test.cases.BaseTestCase;
 
-public class TestngTest extends BaseTestCase {
+public class TestNgTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestng() throws FileNotFoundException {        
