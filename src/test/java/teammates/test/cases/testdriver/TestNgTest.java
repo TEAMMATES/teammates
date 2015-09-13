@@ -37,7 +37,7 @@ public class TestNgTest extends BaseTestCase {
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because 
         // base classes are extended by the actual tests
         
-        return addFilesToTestsRecursively(rootPath, true, "", testNgXml); 
+        return addFilesToTestsRecursively(rootPath, true, "teammates.test.cases", testNgXml); 
     }
     
     /**
@@ -60,8 +60,7 @@ public class TestNgTest extends BaseTestCase {
     }
     
     private boolean isTestFileIncluded(String testNgXml, String packageName, String testClassName) {
-        return testNgXml.contains("<class name=\"teammates.test.cases" 
-                                       + packageName + "." + testClassName + "\" />");
+        return testNgXml.contains("<class name=\"" + packageName + "." + testClassName + "\" />");
     }
 
     /**
@@ -105,7 +104,7 @@ public class TestNgTest extends BaseTestCase {
     }
     
     private boolean isPackageNameInTestNg(String packageName, String testNgXml) {
-        return testNgXml.contains("<package name=\"teammates.test.cases" + packageName + "\" />");
+        return testNgXml.contains("<package name=\"" + packageName + "\" />");
     }
     
 }
