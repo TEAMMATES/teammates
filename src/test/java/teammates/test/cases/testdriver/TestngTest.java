@@ -22,7 +22,7 @@ public class TestngTest extends BaseTestCase {
         
         testFiles = excludeFiles(testFiles);
         
-        for(Map.Entry<String, String> testFileName : testFiles.entrySet()){
+        for (Map.Entry<String, String> testFileName : testFiles.entrySet()) {
             assertTrue(isTestFileIncluded(testNgXml, testFileName));
         }
     }
