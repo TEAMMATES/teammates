@@ -97,6 +97,9 @@ public class TestngTest extends BaseTestCase {
                 testFiles.put(name.replace(".java", ""), packageName);
                 
             } else if (file.isDirectory()) {
+                // If package name is in testng in the form <package name="teammates.test.cases.packageName" />
+                // then files in the current directory are excluded
+                
                 testFiles = addFilesToTestsRecursively(testFiles, path + "/" + name, 
                                                        isPackageNameinTestng(packageName + "." + name, testNgXml),
                                                        packageName + "." + name, testNgXml);
