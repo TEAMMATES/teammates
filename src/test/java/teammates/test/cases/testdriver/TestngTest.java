@@ -96,7 +96,7 @@ public class TestngTest extends BaseTestCase {
                 // then files in the current directory are excluded
                 
                 testFiles = addFilesToTestsRecursively(testFiles, path + "/" + name, 
-                                                       isPackageNameinTestng(packageName + "." + name, testNgXml),
+                                                       isPackageNameInTestNg(packageName + "." + name, testNgXml),
                                                        packageName + "." + name, testNgXml);
             }
         }
@@ -104,7 +104,7 @@ public class TestngTest extends BaseTestCase {
         return testFiles;
     }
     
-    private boolean isPackageNameinTestng(String packageName, String testNgXml) {
+    private boolean isPackageNameInTestNg(String packageName, String testNgXml) {
         return testNgXml.contains("<package name=\"teammates.test.cases" + packageName + "\" />");
     }
     
