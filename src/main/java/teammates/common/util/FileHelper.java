@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -45,11 +44,6 @@ public class FileHelper {
     public static String readResourseFile(String file) {
         return readStream(Config.class.getClassLoader()
                 .getResourceAsStream(file));
-    }
-
-    public static boolean isFileExists(String fileName) {
-        File f = new File(fileName);
-        return f.exists() && !f.isDirectory();
     }
 
 }
