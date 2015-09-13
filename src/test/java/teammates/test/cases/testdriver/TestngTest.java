@@ -37,7 +37,7 @@ public class TestngTest extends BaseTestCase {
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because 
         // base classes are extended by the actual tests
         
-        return addFilesToTestsRecursively(new HashMap<String, String>(), rootPath, true, "", testNgXml); 
+        return addFilesToTestsRecursively(rootPath, true, "", testNgXml); 
     }
     
     /**
@@ -67,7 +67,6 @@ public class TestngTest extends BaseTestCase {
     /**
      * Recursively add files from testng.xml which are to be checked
      * 
-     * @param testFiles                       HashMap containing <class name, package name>
      * @param path                            Check files and directories in the current path
      * 
      * @param areFilesInCurrentDirExcluded    If true, files in the current path are not
@@ -79,9 +78,11 @@ public class TestngTest extends BaseTestCase {
      * @return                                HashMap containing <class name, package name> including 
      *                                        current file or tests in the current directory
      */
-    private HashMap<String, String> addFilesToTestsRecursively(HashMap<String, String> testFiles, String path, 
+    private HashMap<String, String> addFilesToTestsRecursively(String path, 
                                                                boolean areFilesInCurrentDirExcluded, 
                                                                String packageName, String testNgXml) {
+        
+        HashMap<String, String> testFiles = new HashMap<String, String>();
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();      
 
@@ -95,9 +96,8 @@ public class TestngTest extends BaseTestCase {
                 // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
                 // then files in the current directory are excluded because the whole package would be tested by TestNG.
                 
-                testFiles = addFilesToTestsRecursively(testFiles, path + "/" + name, 
-                                                       isPackageNameInTestNg(packageName + "." + name, testNgXml),
-                                                       packageName + "." + name, testNgXml);
+                testFiles.putAll(addFilesToTestsRecursively(path + "/" + name, isPackageNameInTestNg(packageName + "." + name, testNgXml),
+                                                            packageName + "." + name, testNgXml));
             }
         }
         
