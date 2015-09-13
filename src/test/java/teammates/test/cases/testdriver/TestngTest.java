@@ -16,7 +16,7 @@ public class TestngTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestng() throws FileNotFoundException {        
-        String testNgXml = getFileContent("./src/test/testng.xml");
+        String testNgXml = FileHelper.readFile("./src/test/testng.xml");
         HashMap<String, String> testFiles = getTestFiles(testNgXml); // <class name, package name>
         
         testFiles = excludeFiles(testFiles);
@@ -24,10 +24,6 @@ public class TestngTest extends BaseTestCase {
         for (Entry<String, String> testFileName : testFiles.entrySet()) {
             assertTrue(isTestFileIncluded(testNgXml, testFileName));
         }
-    }
-    
-    private String getFileContent(String file) throws FileNotFoundException {
-        return FileHelper.readFile(file);
     }
     
     /**
