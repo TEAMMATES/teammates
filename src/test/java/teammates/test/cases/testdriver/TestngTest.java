@@ -17,7 +17,7 @@ public class TestngTest extends BaseTestCase {
     @Test
     public void checkTestsInTestng() throws FileNotFoundException {        
         String testNgXml = FileHelper.readFile("./src/test/testng.xml");
-        HashMap<String, String> testFiles = getTestFiles(testNgXml); // <class name, package name>
+        HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases"); // <class name, package name>
         
         testFiles = excludeFilesNotInTestNg(testFiles);
         
@@ -30,14 +30,14 @@ public class TestngTest extends BaseTestCase {
      * Files to be checked in testng.xml are added to testFiles
      * 
      * @param testNgXml    Contents of testng.xml
+     * @param rootPath     Root path of test files
      * @return             HashMap containing <class name, package name>
      */
-    private HashMap<String, String> getTestFiles(String testNgXml) {       
+    private HashMap<String, String> getTestFiles(String testNgXml, String rootPath) {       
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because 
         // base classes are extended by the actual tests
         
-        return addFilesToTestsRecursively(new HashMap<String, String>(), 
-                                              "./src/test/java/teammates/test/cases", true, "", testNgXml); 
+        return addFilesToTestsRecursively(new HashMap<String, String>(), rootPath, true, "", testNgXml); 
     }
     
     /**
