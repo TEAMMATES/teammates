@@ -19,7 +19,7 @@ public class TestngTest extends BaseTestCase {
         String testNgXml = FileHelper.readFile("./src/test/testng.xml");
         HashMap<String, String> testFiles = getTestFiles(testNgXml); // <class name, package name>
         
-        testFiles = excludeFiles(testFiles);
+        testFiles = excludeFilesNotInTestNg(testFiles);
         
         for (Entry<String, String> testFileName : testFiles.entrySet()) {
             assertTrue(isTestFileIncluded(testNgXml, testFileName));
@@ -41,12 +41,12 @@ public class TestngTest extends BaseTestCase {
     }
     
     /**
-     * Exclude files which do not have tests
+     * Exclude files which do not have tests in TestNG
      * 
      * @param testFiles    Files to be checked before excluding tests
      * @return             Files to be checked after excluding tests
      */
-    private HashMap<String, String> excludeFiles(HashMap<String, String> testFiles) {
+    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles) {
         // Base*TestCase are base classes to be extended by the actual tests
         testFiles.remove("BaseUiTestCase");
         
