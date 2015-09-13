@@ -22,7 +22,7 @@ public class TestngTest extends BaseTestCase {
         testFiles = excludeFilesNotInTestNg(testFiles);
         
         for (Entry<String, String> testFileName : testFiles.entrySet()) {
-            assertTrue(isTestFileIncluded(testNgXml, testFileName));
+            assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));
         }
     }
     
@@ -59,9 +59,9 @@ public class TestngTest extends BaseTestCase {
         return testFiles;
     }
     
-    private boolean isTestFileIncluded(String testNgXml, Entry<String, String> testFileName) {
+    private boolean isTestFileIncluded(String testNgXml, String packageName, String testClassName) {
         return testNgXml.contains("<class name=\"teammates.test.cases" 
-                                       + testFileName.getValue() + "." + testFileName.getKey() + "\" />");
+                                       + packageName + "." + testClassName + "\" />");
     }
 
     /**
