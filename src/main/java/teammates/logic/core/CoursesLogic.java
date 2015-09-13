@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -182,22 +184,28 @@ public class CoursesLogic {
     }
 
     public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
+        return getSectionsNameForCourse(courseId, true);
+    }
 
-        verifyCourseIsPresent(courseId);
-        
+    private List<String> getSectionsNameForCourse(
+        String courseId, boolean checkExists) throws EntityDoesNotExistException {
+        if (checkExists) {
+            verifyCourseIsPresent(courseId);    
+        }
+                
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
-
-        List<String> sectionNameList = new ArrayList<String>();
-
+        
+        Set<String> sectionNameSet = new HashSet<String>();
         for(StudentAttributes sd: studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
-                sectionNameList.add(sd.section);
+            if (!sd.section.equals(Const.DEFAULT_SECTION)) {
+                sectionNameSet.add(sd.section);
             }
         }
-
+        
+        List<String> sectionNameList = new ArrayList<String>(sectionNameSet);
         Collections.sort(sectionNameList);
 
-        return sectionNameList;
+        return sectionNameList;   
     }
 
     public SectionDetailsBundle getSectionForCourse(String section, String courseId)
@@ -763,7 +771,7 @@ public class CoursesLogic {
                                     throws EntityDoesNotExistException {
         Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
         for (CourseAttributes course : courses) {
-            List<String> sections = getSectionsNameForCourse(course.id);
+            List<String> sections = getSectionsNameForCourse(course.id, false);
             courseIdToSectionName.put(course.id, sections);
         }
         
