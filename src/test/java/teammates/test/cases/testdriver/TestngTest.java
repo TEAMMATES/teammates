@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
@@ -22,7 +21,7 @@ public class TestngTest extends BaseTestCase {
         
         testFiles = excludeFiles(testFiles);
         
-        for (Map.Entry<String, String> testFileName : testFiles.entrySet()) {
+        for (Entry<String, String> testFileName : testFiles.entrySet()) {
             assertTrue(isTestFileIncluded(testNgXml, testFileName));
         }
     }
