@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
 
@@ -15,43 +16,77 @@ import teammates.test.cases.BaseTestCase;
 public class TestngTest extends BaseTestCase {
 
     @Test
-    public void checkTestsInTestng() throws FileNotFoundException {
-        HashMap<String, String> tests = new HashMap<String, String>(); // <class name, package name>     
-        String testngXmlAsString = FileHelper.readFile("./src/test/testng.xml");
+    public void checkTestsInTestng() throws FileNotFoundException {        
+        String testNgXml = getFileContent("./src/test/testng.xml");
+        HashMap<String, String> testFiles = getTestFiles(testNgXml); // <class name, package name>
         
-        addFilesToTestsRecursively(tests, "./src/test/java/teammates/test/cases", true, "", 
-                                       testngXmlAsString); // BaseComponentTestCase, BaseTestCase (files in current directory) excluded
+        testFiles = excludeFiles(testFiles);
         
-        tests = excludeFile(tests, "BaseUiTestCase");
-        tests = excludeFile(tests, "FeedbackQuestionUiTest");
-        tests = excludeFile(tests, "GodModeTest");
-
-        verifyTestngContainsTests(tests, testngXmlAsString);
+        for(Map.Entry<String, String> testFileName : testFiles.entrySet()){
+            assertTrue(isTestFileIncluded(testNgXml, testFileName));
+        }
     }
     
-    private HashMap<String, String> excludeFile(HashMap<String, String> tests, String file) {
-        tests.remove(file);
-        return tests;
+    private String getFileContent(String file) throws FileNotFoundException {
+        return FileHelper.readFile(file);
     }
-
-    private void verifyTestngContainsTests(HashMap<String, String> tests, String testngXmlAsString) {
-        for (Map.Entry<String, String> test : tests.entrySet()) {
-            assertTrue(testngXmlAsString.contains("<class name=\"teammates.test.cases" + test.getValue() 
-                                                      + "." + test.getKey() + "\" />"));
-        }
+    
+    /**
+     * Files to be checked in testng.xml are added to testFiles
+     * 
+     * @param testNgXml    Contents of testng.xml
+     * @return             HashMap containing <class name, package name>
+     */
+    private HashMap<String, String> getTestFiles(String testNgXml) {       
+        // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because 
+        // base classes are extended by the actual tests
+        
+        return addFilesToTestsRecursively(new HashMap<String, String>(), 
+                                              "./src/test/java/teammates/test/cases", true, "", testNgXml); 
+    }
+    
+    /**
+     * Exclude files which do not have tests
+     * 
+     * @param testFiles    Files to be checked before excluding tests
+     * @return             Files to be checked after excluding tests
+     */
+    private HashMap<String, String> excludeFiles(HashMap<String, String> testFiles) {
+        // Base*TestCase are base classes to be extended by the actual tests
+        testFiles.remove("BaseUiTestCase");
+        
+        // FeedbackQuestionUiTest is the base class for all Feedback*QuestionUiTest (different question types)
+        testFiles.remove("FeedbackQuestionUiTest");
+        
+        // Needs to be run only when changes are made to GodMode
+        testFiles.remove("GodModeTest");
+        
+        return testFiles;
+    }
+    
+    private boolean isTestFileIncluded(String testNgXml, Entry<String, String> testFileName) {
+        return testNgXml.contains("<class name=\"teammates.test.cases" 
+                                       + testFileName.getValue() + "." + testFileName.getKey() + "\" />");
     }
 
     /**
-     * Files to be checked in testng.xml are stored in tests
+     * Recursively add files from testng.xml which are to be checked
      * 
-     * @param path  check files and directories in the current path
-     * @param areFilesInCurrentDirExcluded  if true, files in the current path are not
-     *                                      added to tests but sub-directories are checked
-     * @param packageName   package name of the current file                                     
-     * @param testngXmlAsString 
+     * @param testFiles                       HashMap containing <class name, package name>
+     * @param path                            Check files and directories in the current path
+     * 
+     * @param areFilesInCurrentDirExcluded    If true, files in the current path are not
+     *                                        added to tests but sub-directories are checked
+     *                                        
+     * @param packageName                     Package name of the current file
+     * @param testNgXml                       Contents of testng.xml
+     * 
+     * @return                                HashMap containing <class name, package name> including 
+     *                                        current file or tests in the current directory
      */
-    private void addFilesToTestsRecursively(HashMap<String, String> tests, String path, boolean areFilesInCurrentDirExcluded, 
-                                                String packageName, String testngXmlAsString) {
+    private HashMap<String, String> addFilesToTestsRecursively(HashMap<String, String> testFiles, String path, 
+                                                               boolean areFilesInCurrentDirExcluded, 
+                                                               String packageName, String testNgXml) {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();      
 
