@@ -59,17 +59,20 @@ public class TestngTest extends BaseTestCase {
             String name = file.getName();
             
             if (file.isFile() && name.endsWith(".java") && !areFilesInCurrentDirExcluded) {
-                tests.put(name.replace(".java", ""), packageName);
+                testFiles.put(name.replace(".java", ""), packageName);
                 
             } else if (file.isDirectory()) {
-                addFilesToTestsRecursively(tests, path + "/" + name, isPackageNameinTestng(packageName + "." + name, testngXmlAsString),
-                                                packageName + "." + name, testngXmlAsString);
+                testFiles = addFilesToTestsRecursively(testFiles, path + "/" + name, 
+                                                       isPackageNameinTestng(packageName + "." + name, testNgXml),
+                                                       packageName + "." + name, testNgXml);
             }
         }
+        
+        return testFiles;
     }
     
-    private boolean isPackageNameinTestng(String packageName, String testngXmlAsString) {
-        return testngXmlAsString.contains("<package name=\"teammates.test.cases" + packageName + "\" />");
+    private boolean isPackageNameinTestng(String packageName, String testNgXml) {
+        return testNgXml.contains("<package name=\"teammates.test.cases" + packageName + "\" />");
     }
     
 }
