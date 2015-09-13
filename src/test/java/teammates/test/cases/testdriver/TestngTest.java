@@ -71,7 +71,7 @@ public class TestngTest extends BaseTestCase {
      * @param path                            Check files and directories in the current path
      * 
      * @param areFilesInCurrentDirExcluded    If true, files in the current path are not
-     *                                        added to tests but sub-directories are checked
+     *                                        added to tests but sub-directories are still checked
      *                                        
      * @param packageName                     Package name of the current file
      * @param testNgXml                       Contents of testng.xml
@@ -92,8 +92,8 @@ public class TestngTest extends BaseTestCase {
                 testFiles.put(name.replace(".java", ""), packageName);
                 
             } else if (file.isDirectory()) {
-                // If package name is in testng in the form <package name="teammates.test.cases.packageName" />
-                // then files in the current directory are excluded
+                // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
+                // then files in the current directory are excluded because the whole package would be tested by TestNG.
                 
                 testFiles = addFilesToTestsRecursively(testFiles, path + "/" + name, 
                                                        isPackageNameInTestNg(packageName + "." + name, testNgXml),
