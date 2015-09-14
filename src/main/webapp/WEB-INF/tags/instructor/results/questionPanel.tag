@@ -48,7 +48,7 @@
         <div class="panel-body padding-0" <c:if test="${questionIndex != null}">id="questionBody-${questionIndex}"</c:if>>
             
             <c:if test="${!questionPanel.hasResponses}">
-                <div class="col-sm-12">
+                <div class="col-sm-12 no-response">
                     <i class="text-muted">There are no responses for this question.</i>
                 </div>
             </c:if>
