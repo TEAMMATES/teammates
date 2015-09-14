@@ -920,10 +920,12 @@ public class Logic {
     }
     
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return Null if no match found.
+     * Search for students. Preconditions: all parameters are non-null.
+     * @param queryString
+     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     *                      used for filtering of search result
+     * @param cursorString  used to support the pagination
+     * @return Null if no match found
      */
     public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
                                                     String cursorString) {
@@ -2277,11 +2279,12 @@ public class Logic {
     }
     
     /**
-     * Search for FeedbackResponseComment
+     * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
      * @param queryString
-     * @param instructors
-     * @param cursorString, used to support the pagination
-     * @return
+     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     *                      used for filtering of search result
+     * @param cursorString  used to support the pagination
+     * @return Null if no match found
      */
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString, 
                                                                          List<InstructorAttributes> instructors,
@@ -2377,11 +2380,12 @@ public class Logic {
     }
     
     /**
-     * Search for comment
+     * Search for Comment. Preconditions: all parameters are non-null.
      * @param queryString
-     * @param instructors
-     * @param cursorString, used to support the pagination
-     * @return
+     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     *                      used for filtering of search result
+     * @param cursorString  used to support the pagination
+     * @return Null if no match found
      */
     public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors,
                                                    String cursorString) {

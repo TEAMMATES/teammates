@@ -29,7 +29,8 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     public CommentSearchResultBundle(){}
     
     /**
-     * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection
+     * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection.
+     * The list of InstructorAttributes is used to filter out the search result.
      */
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {

@@ -25,6 +25,10 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     
     public StudentSearchResultBundle(){}
     
+    /**
+     * Produce a StudentSearchResultBundle from the Results<ScoredDocument> collection.
+     * The list of InstructorAttributes is used to filter out the search result.
+     */
     public StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                  List<InstructorAttributes> instructors) {
         if(results == null){

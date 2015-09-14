@@ -47,6 +47,10 @@ public class StudentsDb extends EntitiesDb {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
     
+    /**
+     * Search for students
+     * @return {@link StudentSearchResultBundle}
+     */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
                                             String cursorString) {
         if(queryString.trim().isEmpty())

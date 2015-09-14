@@ -51,7 +51,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     }
 
     /**
-     * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection
+     * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection.
+     * The list of InstructorAttributes is used to filter out the search result.
      */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                                  List<InstructorAttributes> instructors) {
