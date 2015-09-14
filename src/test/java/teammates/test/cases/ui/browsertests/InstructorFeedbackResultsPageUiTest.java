@@ -344,12 +344,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
         
+        ______TS("Failure case: ajax error for giver > recipient > question");
+        // Change fs name so that the ajax request will fail
+        resultsPage.changeFsNameInAjaxForm(1, "invalidFsName");
+        resultsPage.clickAjaxPanel(1);
+        resultsPage.waitForAjaxError(1);
+        
         ______TS("Typical case: ajax for view by giver > question > recipient");
         
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxPanel(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
+        
         
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         

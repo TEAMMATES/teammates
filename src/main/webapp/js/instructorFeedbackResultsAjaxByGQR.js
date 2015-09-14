@@ -25,7 +25,13 @@ $(document).ready(function() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
             },
             error: function() {
-
+                var ajaxErrorStart = '<div class="ajax-error">';
+                var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+                var errorMsg = '[ Failed to load. Click here to retry. ]';
+                errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
+                var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
+                var ajaxErrorEnd = '</div>';
+                displayIcon.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
             },
             success: function(data) {
                 if (numPanels == 0) {
