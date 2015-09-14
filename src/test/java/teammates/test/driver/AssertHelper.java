@@ -82,9 +82,21 @@ public class AssertHelper {
     }
 
     /**
-     * Checks that the stringActual contains the occurence regexExpected.
-     * Replaces occurences of {*} at regexExpected to match anything in
-     * stringActual.
+     * Checks that the stringActual contains the occurrence regexExpected.<br>
+     * Occurrences of {*} at regexExpected can match anything (as defined by the regex .*)
+     * in stringActual, however, in its usage with {@link HtmlHelper}, please refrain from these
+     * usages as they will not pass:
+     * <ol>
+     * <li>Empty contents right after an HTML tag, e.g <code>&lt;p&gt;{*}&lt;/p&gt;</code> will not match
+     *     <code>&lt;p&gt;&lt;/p&gt;</code> and neither will <code>&lt;p&gt;content&lt;br&gt;{*}&lt;/p&gt;</code>
+     *     match <code>&lt;p&gt;content&lt;br&gt;&lt;/p&gt;</code>.</li>
+     * <li>HTML attribute-value pair without the = separator, e.g <code>&lt;div class{*}&gt;</code>
+     *     will not match <code>&lt;div class="test"&gt;</code> but <code>&lt;div class={*}&gt;</code>
+     *     or <code>&lt;div class="{*}"&gt;</code> will.</li>
+     * <li>Non-empty HTML attribute-value pairs, e.g <code>&lt;div {*}&gt;</code> will not match
+     *     <code>&lt;div class="test"&gt;</code> but will match <code>&lt;div class=""&gt;</code>.
+     *     <code>&lt;div class="{*}"&gt;</code>, however, will match both.</li>
+     * </ol>
      */
     public static boolean isContainsRegex(String regexExpected,    String stringActual) {
         String processedActual = stringActual.replaceAll("[\t\r\n]", "");
