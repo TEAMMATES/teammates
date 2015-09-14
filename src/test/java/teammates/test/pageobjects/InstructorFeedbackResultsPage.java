@@ -438,10 +438,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void changeFsNameInAjaxForm(int indexOfForm, String newFsName) {
-   
-        String id = "seeMore" + "-" + indexOfForm;
-        By element = By.id(id);
-        waitForElementPresence(element);
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("$('.ajax_submit:eq(" + indexOfForm 
