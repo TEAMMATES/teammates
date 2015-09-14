@@ -295,6 +295,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxPanel(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
+        
+        ______TS("Failure case: Ajax error");
+        
+        // Change fs name so that the ajax request will fail
+        resultsPage.changeFsNameInAjaxForm(1, "invalidFsName");
+        resultsPage.clickAjaxPanel(1);
+        resultsPage.waitForAjaxError(1);
 
         ______TS("Typical case: test view photo for view by questions");
 

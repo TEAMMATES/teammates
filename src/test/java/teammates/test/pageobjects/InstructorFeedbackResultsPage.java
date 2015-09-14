@@ -437,4 +437,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return false;
     }
     
+    public void changeFsNameInAjaxForm(int indexOfForm, String newFsName) {
+   
+        String id = "seeMore" + "-" + indexOfForm;
+        By element = By.id(id);
+        waitForElementPresence(element);
+        
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('.ajax_submit:eq(" + indexOfForm 
+                         + ") [name=\"fsname\"]').val('" + newFsName + "')");     
+    }
+    
+    public void waitForAjaxError(int indexOfForm) {
+        By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm 
+                                        + ") .ajax-error");
+        waitForElementPresence(ajaxErrorSelector);
+        WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);
+        
+        assertEquals("[ Failed to load. Click here to retry. ]", ajaxError.getText());
+    }
+    
 }
