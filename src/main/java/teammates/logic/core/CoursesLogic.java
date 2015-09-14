@@ -191,7 +191,14 @@ public class CoursesLogic {
         Assumption.assertNotNull("Course is null", course);
         return getSectionsNameForCourse(course.id, false);
     }
-
+    
+    /**
+     * Get list of section names for a course with or without a need to check if the course is existent
+     * @param courseId Course ID of the course
+     * @param hasCheckIsPresent Determine whether it is necessary to check if the course exists
+     * @return list of sections names from the specified course
+     * @throws EntityDoesNotExistException
+     */
     private List<String> getSectionsNameForCourse(String courseId, boolean hasCheckIsPresent) 
         throws EntityDoesNotExistException {
         if (hasCheckIsPresent) {
