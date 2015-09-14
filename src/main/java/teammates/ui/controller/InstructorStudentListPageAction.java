@@ -30,19 +30,31 @@ public class InstructorStudentListPageAction extends Action {
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
         Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
         Map<String, String> numStudents = new HashMap<String, String>();
+        
+        // Get courses for instructor
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
-        for (CourseAttributes course : courses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-            instructors.put(course.id, instructor);
-            int numStudentsInCourse = logic.getStudentsForCourse(course.id).size();
-            numStudents.put(course.id, String.valueOf(numStudentsInCourse));
-        }
+        // Sort by creation date
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
             public int compare(CourseAttributes c1, CourseAttributes c2) {
                 return c1.createdAt.compareTo(c2.createdAt);
             }
         });
+        
+        // Get instructor attributes
+        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(account.googleId);
+        
+        //TODO: Remove need to find number of students in each course.
+        //      This is used to restrict the total number of students that can be displayed
+        //      on the page. Querying the number of students in each course is costly.
+        
+        // Get number of students for each course
+        for (InstructorAttributes instructor : instructorList) {
+            instructors.put(instructor.courseId, instructor);
+            int numStudentsInCourse = logic.getStudentsForCourse(instructor.courseId).size();
+            numStudents.put(instructor.courseId, String.valueOf(numStudentsInCourse));
+        }
+        
 
         if (courses.size() == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
