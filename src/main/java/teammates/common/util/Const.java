@@ -1102,6 +1102,9 @@ public class Const {
 
     public static final String DEFAULT_SECTION = "None";
     
+    public static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
+    public static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
+    
     public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
     /* These constants are used as variable values to mean that the variable 
      * is in a 'special' state.
