@@ -32,16 +32,16 @@ public class CommentSearchResultBundle extends SearchResultBundle {
      * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection
      */
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results,
-                                                 List<InstructorAttributes> instructorRoles) {
+                                                 List<InstructorAttributes> instructors) {
         if(results == null) return this;
         
         cursor = results.getCursor();
         List<String> giverEmailList = new ArrayList<String>();
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             giverEmailList.add(ins.email);
         }
         
-        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructorRoles);
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for(ScoredDocument doc:filteredResults){
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 

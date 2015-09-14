@@ -26,9 +26,9 @@ public abstract class SearchResultBundle {
      * This method must be called to filter out the search result for course Id.
      */
     protected List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
-                                                     List<InstructorAttributes> instructorRoles) {
+                                                     List<InstructorAttributes> instructors) {
         Set<String> courseIdSet = new HashSet<String>();
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             courseIdSet.add(ins.courseId);
         }
         

@@ -13,7 +13,7 @@ import com.google.appengine.api.search.QueryOptions;
  * The SearchQuery object that defines how we query {@link Document} for response comments
  */
 public class FeedbackResponseCommentSearchQuery extends SearchQuery {
-    public FeedbackResponseCommentSearchQuery(List<InstructorAttributes> instructorRoles, String queryString,
+    public FeedbackResponseCommentSearchQuery(List<InstructorAttributes> instructors, String queryString,
                                               String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
@@ -24,14 +24,14 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
                 .setCursor(cursor)
                 .build();
         setOptions(options);
-        prepareVisibilityQueryString(instructorRoles);
+        prepareVisibilityQueryString(instructors);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
 
-    private void prepareVisibilityQueryString(List<InstructorAttributes> instructorRoles) {
+    private void prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             courseIdLimit.append(delim).append(ins.courseId);
             delim = OR;
         }

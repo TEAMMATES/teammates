@@ -289,7 +289,7 @@ public class InstructorSearchPageData extends PageData {
             sections.add(sdb);
         }
         for (SectionDetailsBundle section : sections) {
-            InstructorAttributes instructor = studentSearchResultBundle.instructors.get(courseId);
+            InstructorAttributes instructor = studentSearchResultBundle.courseIdInstructorMap.get(courseId);
             boolean isAllowedToViewStudentInSection =
                                             instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
             boolean isAllowedToModifyStudent =

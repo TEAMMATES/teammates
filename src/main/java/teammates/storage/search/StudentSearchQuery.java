@@ -10,7 +10,7 @@ import com.google.appengine.api.search.QueryOptions;
 
 public class StudentSearchQuery extends SearchQuery {
     
-    public StudentSearchQuery(List<InstructorAttributes> instructorRoles, String queryString, String cursorString) {
+    public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);
@@ -19,7 +19,7 @@ public class StudentSearchQuery extends SearchQuery {
                 .setCursor(cursor)
                 .build();
         setOptions(options);
-        prepareVisibilityQueryString(instructorRoles);
+        prepareVisibilityQueryString(instructors);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
     
@@ -44,10 +44,10 @@ public class StudentSearchQuery extends SearchQuery {
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
     
-    private void prepareVisibilityQueryString(List<InstructorAttributes> instructorRoles) {
+    private void prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             courseIdLimit.append(delim).append(ins.courseId);
             delim = OR;
         }

@@ -130,9 +130,9 @@ public class StudentsLogic {
         studentsDb.deleteDocument(student);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructorRoles,
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
                                                     String cursorString) {
-        return studentsDb.search(queryString, instructorRoles, cursorString);
+        return studentsDb.search(queryString, instructors, cursorString);
     }
 
     /**

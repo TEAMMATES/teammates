@@ -54,19 +54,19 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
      * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection
      */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
-                                                                 List<InstructorAttributes> instructorRoles) {
+                                                                 List<InstructorAttributes> instructors) {
         if(results == null) return this;
         
         //get instructor's information
         instructorEmails = new HashSet<String>();
         instructorCourseIdList = new HashSet<String>();
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
         }
         
         cursor = results.getCursor();
-        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructorRoles);
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for(ScoredDocument doc:filteredResults){
             //get FeedbackResponseComment from results
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(

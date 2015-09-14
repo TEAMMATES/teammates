@@ -925,12 +925,12 @@ public class Logic {
      * 
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructorRoles,
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
                                                     String cursorString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorRoles);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        return studentsLogic.searchStudents(queryString, instructorRoles, cursorString);
+        return studentsLogic.searchStudents(queryString, instructors, cursorString);
     }
     
     /**
@@ -2279,17 +2279,17 @@ public class Logic {
     /**
      * Search for FeedbackResponseComment
      * @param queryString
-     * @param instructorRoles
+     * @param instructors
      * @param cursorString, used to support the pagination
      * @return
      */
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString, 
-                                                                         List<InstructorAttributes> instructorRoles,
+                                                                         List<InstructorAttributes> instructors,
                                                                          String cursorString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorRoles);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructorRoles, cursorString);
+        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors, cursorString);
     }
     
     /**
@@ -2379,16 +2379,16 @@ public class Logic {
     /**
      * Search for comment
      * @param queryString
-     * @param instructorRoles
+     * @param instructors
      * @param cursorString, used to support the pagination
      * @return
      */
-    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructorRoles,
+    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors,
                                                    String cursorString) {
         Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(instructorRoles);
+        Assumption.assertNotNull(instructors);
         Assumption.assertNotNull(cursorString);
-        return commentsLogic.searchComment(queryString, instructorRoles, cursorString);
+        return commentsLogic.searchComment(queryString, instructors, cursorString);
     }
     
     /**

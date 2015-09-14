@@ -407,16 +407,16 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
      * @return {@link FeedbackResponseCommentSearchResultBundle}
      */
     public FeedbackResponseCommentSearchResultBundle search(String queryString,
-                                                            List<InstructorAttributes> instructorRoles,
+                                                            List<InstructorAttributes> instructors,
                                                             String cursorString) {
         if (queryString.trim().isEmpty()) {
             return new FeedbackResponseCommentSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
-                new FeedbackResponseCommentSearchQuery(instructorRoles, queryString, cursorString));
+                new FeedbackResponseCommentSearchQuery(instructors, queryString, cursorString));
         
-        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, instructorRoles);
+        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, instructors);
     }
     
     /**

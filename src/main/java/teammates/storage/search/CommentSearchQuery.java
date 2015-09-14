@@ -13,7 +13,7 @@ import com.google.appengine.api.search.QueryOptions;
  * The SearchQuery object that defines how we query {@link Document} for student comments
  */
 public class CommentSearchQuery extends SearchQuery {
-    public CommentSearchQuery(List<InstructorAttributes> instructorRoles, String queryString, String cursorString) {
+    public CommentSearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);
@@ -22,15 +22,15 @@ public class CommentSearchQuery extends SearchQuery {
                 .setCursor(cursor)
                 .build();
         setOptions(options);
-        prepareVisibilityQueryString(instructorRoles);
+        prepareVisibilityQueryString(instructors);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
     
-    private void prepareVisibilityQueryString(List<InstructorAttributes> instructorRoles) {
+    private void prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
         StringBuilder giverEmailLimit = new StringBuilder("(");
         String delim = "";
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             courseIdLimit.append(delim).append(ins.courseId);
             giverEmailLimit.append(delim).append(ins.email);
             delim = OR;
