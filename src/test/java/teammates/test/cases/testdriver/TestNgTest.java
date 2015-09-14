@@ -4,9 +4,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.testng.annotations.Test;
@@ -20,14 +18,12 @@ public class TestNgTest extends BaseTestCase {
     public void checkTestsInTestNg() throws FileNotFoundException {        
         String testNgXml = FileHelper.readFile("./src/test/testng.xml");
         HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases"); // <class name, package name>
-        
-        List<String> filesExcludedFromTestNg = new ArrayList<String>();
              
-        filesExcludedFromTestNg.add("BaseUiTestCase");         // Base*TestCase are base classes to be extended by the actual tests  
-        filesExcludedFromTestNg.add("FeedbackQuestionUiTest"); // Base class for all Feedback*QuestionUiTest (different question types)       
-        filesExcludedFromTestNg.add("GodModeTest");            // Needs to be run only when changes are made to GodMode
-        
-        testFiles = excludeFilesNotInTestNg(testFiles, filesExcludedFromTestNg);
+        testFiles = excludeFilesNotInTestNg(testFiles, 
+                                           "BaseUiTestCase",         // Base*TestCase are base classes to be extended by the actual tests  
+                                           "FeedbackQuestionUiTest", // Base class for all Feedback*QuestionUiTest (different question types)
+                                           "GodModeTest"             // Needs to be run only when changes are made to GodMode
+                                           );
         
         for (Entry<String, String> testFileName : testFiles.entrySet()) {
             assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));
@@ -55,7 +51,7 @@ public class TestNgTest extends BaseTestCase {
      * @param filesExcludedFromTestNg    Files to be excluded
      * @return                           Files to be checked after excluding tests
      */
-    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles, List<String> filesExcludedFromTestNg) {
+    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles, String... filesExcludedFromTestNg) {
         for (String test : filesExcludedFromTestNg) {
             testFiles.remove(test);
         }
