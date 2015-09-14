@@ -30,6 +30,11 @@ function bindPhotos(courseIdx) {
     });
 }
 
+function numStudentsRetrieved() {
+    var emailChoices = $('.email-to-be-transported');
+    return emailChoices.length
+}
+
 var seeMoreRequest = function(e) {
     var panelHeading = $(this);
     var panelCollapse = $(this).parent().children('.panel-collapse');
@@ -55,7 +60,6 @@ var seeMoreRequest = function(e) {
         }
         checkCourseBinding(courseCheck);
     } else {
-        numStudents += courseNumStudents;
         if (numStudents < STUDENT_LIMIT) {
             setStatusMessage('', false);
             var formObject = $(this).children('form');
@@ -70,14 +74,40 @@ var seeMoreRequest = function(e) {
                         displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
                     },
                     error: function() {
-                        numStudents -= courseNumStudents;
+                        // Handle error and allow retry
                     },
                     success: function(data) {
+                        console.log('s');
                         $(panelBody[0]).html(data);
+
+                        // Count number of students retrieved
+                        courseNumStudents = numStudentsRetrieved();
+                        $('#numStudents-' + courseIdx).val(courseNumStudents);
+
+                        // If number of students shown is already more than the limit
+                        // Do not show more, even if we can retrieve it.
+                        if (numStudents >= STUDENT_LIMIT) {
+                            // Fail to load
+                            courseCheck.prop('checked', false);
+                            setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
+                            displayIcon.html('');
+                            var sectionChoices = $('.section-to-be-transported');
+                            sectionChoices.remove();
+                            var teamChoices = $('.team-to-be-transported');
+                            teamChoices.remove();
+                            var emailChoices = $('.email-to-be-transported');
+                            emailChoices.remove();
+                            return;
+                        }
+
+                        // Show newly retreved students
+                        numStudents += courseNumStudents;
+
                         transportSectionChoices();
                         transportTeamChoices();
                         transportEmailChoices();
                         bindPhotos(courseIdx);
+
                         $(panelHeading).removeClass('ajax_submit');
                         displayIcon.html('');
                         if ($(panelCollapse[0]).attr('class').indexOf("in") == -1) {
@@ -87,7 +117,7 @@ var seeMoreRequest = function(e) {
                 });
             }
         } else {
-            numStudents -= courseNumStudents;
+            // Fail to load
             courseCheck.prop('checked', false);
             setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
             displayIcon.html('');

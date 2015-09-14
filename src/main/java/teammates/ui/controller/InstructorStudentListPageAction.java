@@ -44,14 +44,11 @@ public class InstructorStudentListPageAction extends Action {
         // Get instructor attributes
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(account.googleId);
         
-        //TODO: Remove need to find number of students in each course.
-        //      This is used to restrict the total number of students that can be displayed
-        //      on the page. Querying the number of students in each course is costly.
-        
+        // TODO: remove
         // Get number of students for each course
         for (InstructorAttributes instructor : instructorList) {
             instructors.put(instructor.courseId, instructor);
-            int numStudentsInCourse = logic.getStudentsForCourse(instructor.courseId).size();
+            int numStudentsInCourse = 0;
             numStudents.put(instructor.courseId, String.valueOf(numStudentsInCourse));
         }
         
