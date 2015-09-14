@@ -156,6 +156,10 @@ function setupFsCopyModal() {
 
 // For ajax failure handling
 
+/**
+ * Given an element, replaces the HTML content of the element with an error message prompting 
+ * the user to retry.
+ */
 function displayAjaxRetryMessage($element) {
     var ajaxErrorStart = '<div class="ajax-error">';
     var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
