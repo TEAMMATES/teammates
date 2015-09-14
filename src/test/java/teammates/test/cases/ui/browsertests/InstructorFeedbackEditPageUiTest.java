@@ -142,6 +142,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
         assertEquals("alert alert-success", feedbackEditPage.getStatusMessage().getAttribute("class"));
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, feedbackEditPage.getStatus());
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
