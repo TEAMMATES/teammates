@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -26,10 +25,10 @@ public abstract class SearchResultBundle {
     /**
      * This method must be called to filter out the search result for course Id.
      */
-    protected List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results, String googleId){
-        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
+    protected List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
+                                                     List<InstructorAttributes> instructors) {
         Set<String> courseIdSet = new HashSet<String>();
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             courseIdSet.add(ins.courseId);
         }
         

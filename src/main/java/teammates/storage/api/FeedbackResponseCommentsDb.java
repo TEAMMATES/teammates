@@ -18,6 +18,7 @@ import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -405,15 +406,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
      * Search for response comments
      * @return {@link FeedbackResponseCommentSearchResultBundle}
      */
-    public FeedbackResponseCommentSearchResultBundle search(String queryString, String googleId, String cursorString) {
+    public FeedbackResponseCommentSearchResultBundle search(String queryString,
+                                                            List<InstructorAttributes> instructors,
+                                                            String cursorString) {
         if (queryString.trim().isEmpty()) {
             return new FeedbackResponseCommentSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
-                new FeedbackResponseCommentSearchQuery(googleId, queryString, cursorString));
+                new FeedbackResponseCommentSearchQuery(instructors, queryString, cursorString));
         
-        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, googleId);
+        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, instructors);
     }
     
     /**

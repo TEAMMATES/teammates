@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -129,8 +130,9 @@ public class StudentsLogic {
         studentsDb.deleteDocument(student);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
-        return studentsDb.search(queryString, googleId, cursorString);
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
+                                                    String cursorString) {
+        return studentsDb.search(queryString, instructors, cursorString);
     }
 
     /**
