@@ -548,11 +548,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getDatepickerYear() {
-        return browser.driver.findElement(By.className("ui-datepicker-year")).getText();
+        By by = By.className("ui-datepicker-year");
+        waitForElementPresence(by);
+        return browser.driver.findElement(by).getText();
     }
 
     private String getDatepickerMonth() {
-        return browser.driver.findElement(By.className("ui-datepicker-month")).getText();
+        By by = By.className("ui-datepicker-month");
+        waitForElementPresence(by);
+        return browser.driver.findElement(by).getText();
     }
     
     public void selectNewQuestionType(String questionType) {

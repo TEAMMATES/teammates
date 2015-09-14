@@ -6,7 +6,6 @@
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/adminSearch.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 </c:set>
 
 <ta:adminPage bodyTitle="Admin Search" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">

@@ -88,6 +88,16 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         email = typicalBundle.students.get("student5InCourse1").email;
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 0);
+        
+        ______TS("response from team to itself");
+
+        question = getQuestionFromDatastore("graceperiod.session.feedbackFromTeamToSelf");
+        email = typicalBundle.students.get("student1InCourse1").email;
+        String teamName = typicalBundle.students.get("student1InCourse1").team;
+        recipients = fqLogic.getRecipientsForQuestion(question, email);
+        assertEquals(recipients.size(), 1);
+        assertTrue(recipients.containsKey(teamName));
+        assertEquals(recipients.get(teamName), teamName);
                         
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatastore("team.feedback");

@@ -1,4 +1,4 @@
-package teammates.test.automated;
+package teammates.test.cases.automated;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -26,8 +26,6 @@ import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
-import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
-import teammates.test.cases.BaseTaskQueueCallback;
 import teammates.test.util.Priority;
 import teammates.test.util.TestHelper;
 
@@ -152,7 +150,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     }
 
     @Test
-    public void testFeedbackSessionOpeningMailAction() throws Exception{
+    public void testFeedbackSessionPublishedMailAction() throws Exception{
 
         ______TS("MimeMessage Test : activate all sessions with mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {

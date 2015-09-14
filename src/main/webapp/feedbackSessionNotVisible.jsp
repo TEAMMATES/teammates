@@ -1,5 +1,6 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
+<% response.setStatus(403);%>
 <!DOCTYPE html>
 <%
     String startTimeString = (String)session.getAttribute(Const.ParamsNames.FEEDBACK_SESSION_NOT_VISIBLE);

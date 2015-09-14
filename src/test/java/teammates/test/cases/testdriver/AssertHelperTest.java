@@ -1,12 +1,13 @@
-package teammates.test.cases;
+package teammates.test.cases.testdriver;
 
 import org.testng.annotations.Test;
 
 import teammates.common.util.FileHelper;
+import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
 
-public class BaseTestCaseTest extends BaseTestCase {
+public class AssertHelperTest extends BaseTestCase {
 
     @Test
     public void testAssertContains() {

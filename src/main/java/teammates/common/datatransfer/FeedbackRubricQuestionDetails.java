@@ -10,7 +10,6 @@ import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.PageData;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public int numOfRubricChoices;
@@ -449,7 +448,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
 

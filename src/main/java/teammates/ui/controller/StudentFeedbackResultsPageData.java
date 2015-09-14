@@ -105,8 +105,10 @@ public class StudentFeedbackResultsPageData extends PageData {
         
         String questionText = questionDetailsBundle.questionText;
         String additionalInfo = questionDetailsBundle.getQuestionAdditionalInfoHtml(questionIndex, "");
+        String studentEmail = (student != null) ? student.email : null;
         String questionResultStatistics = questionDetailsBundle.getQuestionResultStatisticsHtml(
-                                                                    responsesBundle, question, this, bundle, "student");
+                                                                    responsesBundle, question, studentEmail,
+                                                                    bundle, "student");
 
         boolean isIndividualResponsesShownToStudents = questionDetailsBundle.isIndividualResponsesShownToStudents();
         

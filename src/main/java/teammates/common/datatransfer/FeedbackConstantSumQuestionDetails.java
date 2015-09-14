@@ -18,7 +18,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.ui.controller.PageData;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
     public int numOfConstSumOptions;
@@ -351,7 +350,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public String getQuestionResultStatisticsHtml(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
         

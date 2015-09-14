@@ -15,7 +15,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
-import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
@@ -145,13 +144,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
         if(view.equals("question")){//for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
         } else if(view.equals("student")){//Student view of stats.
-            return getQuestionResultStatisticsHtmlStudentView(responses, question, pageData, bundle);
+            return getQuestionResultStatisticsHtmlStudentView(responses, question, studentEmail, bundle);
         } else {
             return "";
         }
@@ -159,15 +158,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle) {
     
         if(responses.size() == 0 ){
             return "";
         }
     
-        String currentUserEmail = pageData.student.email;
-        String currentUserTeam = bundle.emailTeamNameTable.get(pageData.student.email);
+        String currentUserEmail = studentEmail;
+        String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
         
         responses = getActualResponses(question, bundle);
 
@@ -293,11 +292,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
             contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
-                    "${studentTeam}", PageData.sanitizeForHtml(displayTeam),
-                    "${studentName}", PageData.sanitizeForHtml(displayName),                    
-                    "${CC}", PageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
-                    "${PC}", PageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
-                    "${Diff}", PageData.getPointsDiffAsHtml(summary),
+                    "${studentTeam}", Sanitizer.sanitizeForHtml(displayTeam),
+                    "${studentName}", Sanitizer.sanitizeForHtml(displayName),                    
+                    "${CC}", getPointsAsColorizedHtml(summary.claimedToInstructor),
+                    "${PC}", getPointsAsColorizedHtml(summary.perceivedToInstructor),
+                    "${Diff}", getPointsDiffAsHtml(summary),
                     "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
                     
                     "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);
@@ -646,8 +645,56 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return resultString;
     }
     
-    private static String getPointsAsColorizedHtml(int points){
-        return PageData.getPointsAsColorizedHtml(points);
+    /**
+     * Method to color the points by adding <code>span</code> tag with appropriate
+     * class (posDiff and negDiff).
+     * Positive points will be green, negative will be red, 0 will be black.
+     * This will also put N/A or Not Sure for respective points representation.
+     * The output will be E+x% for positive points, E-x% for negative points,
+     * and just E for equal share.
+     * Zero contribution will be printed as 0%
+     * @param points
+     *         In terms of full percentage, so equal share will be 100, 20% more
+     *         from equal share will be 120, etc.
+     */
+    private static String getPointsAsColorizedHtml(int points) {
+        if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + 
+                   Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
+        } else if (points == Const.POINTS_NOT_SURE) {
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + 
+                   Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S</span>";
+        } else if (points == 0) {
+            return "<span class=\"color-negative\">0%</span>";
+        } else if (points > 100) {
+            return "<span class=\"color-positive\">E +" + (points - 100) + "%</span>";
+        } else if (points < 100) {
+            return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
+        } else {
+            return "<span class=\"color_neutral\">E</span>";
+        }
+    }
+    
+    private static String getPointsDiffAsHtml(StudentResultSummary summary) {
+        int claimed = summary.claimedToInstructor;
+        int perceived = summary.perceivedToInstructor;
+        int diff = perceived - claimed;
+        if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
+                || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
+                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE 
+                   + "\">N/A</span>";
+        } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" "
+                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S"
+                   + "</span>";
+        } else if (diff > 0) {
+            return "<span class=\"color-positive\">+" + diff + "%</span>";
+        } else if (diff < 0) {
+            return "<span class=\"color-negative\">" + diff + "%</span>";
+        } else {
+            return "<span>" + diff + "</span>";
+        }
     }
     
     @Override

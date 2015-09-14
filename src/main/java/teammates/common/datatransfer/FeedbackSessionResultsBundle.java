@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
-import teammates.ui.controller.PageData;
 
 /**
  * Represents detailed results for an feedback session.
@@ -766,6 +767,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 possibleRecipients = getSortedListOfTeams();
                 possibleRecipients.remove(givingTeam);
                 break;
+            case SELF: 
             case OWN_TEAM:
                 possibleRecipients.add(givingTeam);
                 break;
@@ -775,7 +777,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             case STUDENTS:
                 possibleRecipients = getSortedListOfStudentEmails();
                 break;
-            case SELF: //TODO: SELF should give same behaviour to OWN_TEAM 
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                     Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
@@ -903,7 +904,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_TEAM)) {
             return getTeamNameForEmail(email);
         } else {
-            return PageData.sanitizeForHtml(name);
+            return Sanitizer.sanitizeForHtml(name);
         }
     }
 
@@ -916,7 +917,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_TEAM)) {
             return getTeamNameForEmail(email);
         } else {
-            return PageData.sanitizeForHtml(name);
+            return Sanitizer.sanitizeForHtml(name);
         }
     }
 
@@ -925,7 +926,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            return PageData.sanitizeForHtml(teamName);
+            return Sanitizer.sanitizeForHtml(teamName);
         }
     }
 
@@ -999,7 +1000,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            return PageData.sanitizeForHtml(name);
+            return Sanitizer.sanitizeForHtml(name);
         }
     }
 
@@ -1010,7 +1011,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            return PageData.sanitizeForHtml(name);
+            return Sanitizer.sanitizeForHtml(name);
         }
     }
 
@@ -1027,9 +1028,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     // TODO consider removing this to increase cohesion
     public String getQuestionText(String feedbackQuestionId) {
-        return PageData.sanitizeForHtml(questions.get(feedbackQuestionId)
-                                                 .getQuestionDetails()
-                                                 .questionText);
+        return Sanitizer.sanitizeForHtml(questions.get(feedbackQuestionId)
+                                                  .getQuestionDetails()
+                                                  .questionText);
     }
 
     // TODO: make responses to the student calling this method always on top.
@@ -1619,7 +1620,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             if (teamNameToEmails.containsKey(studentTeam)) {
                 studentEmails = teamNameToEmails.get(studentTeam);
             } else {
-                studentEmails = new HashSet<String>();
+                studentEmails = new TreeSet<String>();
             }
 
             studentEmails.add(student.email);

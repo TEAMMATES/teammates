@@ -2251,11 +2251,18 @@ public class FeedbackSessionsLogic {
                             response.giverEmail, roster)[pairType]);
         }
 
+        FeedbackParticipantType recipientType = null;
+        if (question.recipientType == FeedbackParticipantType.SELF) {
+            recipientType = question.giverType;
+        } else {
+            recipientType = question.recipientType;
+        }
         if (emailNameTable.containsKey(response.recipientEmail) == false) {
             emailNameTable.put(
                     response.recipientEmail,
-                    getNameTeamNamePairForEmail(question.recipientType,
-                            response.recipientEmail, roster)[pairType]);
+                    getNameTeamNamePairForEmail(recipientType,
+                                                response.recipientEmail, roster)[pairType]);
+            
         }
     }
 

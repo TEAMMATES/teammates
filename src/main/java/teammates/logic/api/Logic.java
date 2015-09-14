@@ -759,6 +759,19 @@ public class Logic {
     
     /**
      * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return A less detailed version of courses for the specified instructor attributes. 
+     *   Returns an empty list if none found.
+     */
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructors(List<InstructorAttributes> instructorList) 
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorList);
+        return coursesLogic.getCourseSummariesForInstructor(instructorList);
+    }
+    
+    /**
+     * Preconditions: <br>
      * * All parameters are non-null.
      * @return All archived courses for this instructor.
      */
@@ -2682,4 +2695,11 @@ public class Logic {
         Assumption.assertNotNull(googleId);
         return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
+    
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(allCourses);
+        Assumption.assertNotNull(instructorList);
+        return coursesLogic.getArchivedCourseIds(allCourses, instructorList);
+    }
+    
 }
