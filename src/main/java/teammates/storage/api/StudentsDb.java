@@ -47,13 +47,13 @@ public class StudentsDb extends EntitiesDb {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
     
-    public StudentSearchResultBundle search(String queryString, String cursorString,
-                                            List<InstructorAttributes> instructorRoles) {
+    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructorRoles,
+                                            String cursorString) {
         if(queryString.trim().isEmpty())
             return new StudentSearchResultBundle();
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
-                new StudentSearchQuery(queryString, cursorString, instructorRoles));
+                new StudentSearchQuery(instructorRoles, queryString, cursorString));
         
         return new StudentSearchResultBundle().fromResults(results, instructorRoles);
     }

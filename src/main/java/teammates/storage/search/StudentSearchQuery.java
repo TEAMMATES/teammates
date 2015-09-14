@@ -10,7 +10,7 @@ import com.google.appengine.api.search.QueryOptions;
 
 public class StudentSearchQuery extends SearchQuery {
     
-    public StudentSearchQuery(String queryString, String cursorString, List<InstructorAttributes> instructorRoles) {
+    public StudentSearchQuery(List<InstructorAttributes> instructorRoles, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);

@@ -13,7 +13,7 @@ import com.google.appengine.api.search.QueryOptions;
  * The SearchQuery object that defines how we query {@link Document} for student comments
  */
 public class CommentSearchQuery extends SearchQuery {
-    public CommentSearchQuery(String queryString, String cursorString, List<InstructorAttributes> instructorRoles) {
+    public CommentSearchQuery(List<InstructorAttributes> instructorRoles, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);

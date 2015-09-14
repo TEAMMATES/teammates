@@ -13,8 +13,8 @@ import com.google.appengine.api.search.QueryOptions;
  * The SearchQuery object that defines how we query {@link Document} for response comments
  */
 public class FeedbackResponseCommentSearchQuery extends SearchQuery {
-    public FeedbackResponseCommentSearchQuery(String queryString, String cursorString,
-                                              List<InstructorAttributes> instructorRoles) {
+    public FeedbackResponseCommentSearchQuery(List<InstructorAttributes> instructorRoles, String queryString,
+                                              String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);

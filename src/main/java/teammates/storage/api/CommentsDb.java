@@ -478,15 +478,15 @@ public class CommentsDb extends EntitiesDb {
      * Search for comments
      * @return {@link CommentSearchResultBundle}
      */
-    public CommentSearchResultBundle search(String queryString, String cursorString,
-                                            List<InstructorAttributes> instructorRoles) {
+    public CommentSearchResultBundle search(String queryString, List<InstructorAttributes> instructorRoles,
+                                            String cursorString) {
         if (queryString.trim().isEmpty()) {
             return new CommentSearchResultBundle();
         }
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.COMMENT, 
-                                                          new CommentSearchQuery(queryString, cursorString,
-                                                                                 instructorRoles));
+                                                          new CommentSearchQuery(instructorRoles, queryString,
+                                                                                 cursorString));
         
         return new CommentSearchResultBundle().fromResults(results, instructorRoles);
     }
