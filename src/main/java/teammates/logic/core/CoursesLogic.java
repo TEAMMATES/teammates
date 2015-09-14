@@ -184,15 +184,19 @@ public class CoursesLogic {
     }
 
     public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
-        return getSectionsNameForCourse(courseId, true);
+        return getSectionsNameForCourse(courseId, true);  
     }
 
-    private List<String> getSectionsNameForCourse(
-        String courseId, boolean checkExists) throws EntityDoesNotExistException {
-        if (checkExists) {
+    public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
+        Assumption.assertNotNull("Course is null", course);
+        return getSectionsNameForCourse(course.id, false);
+    }
+
+    private List<String> getSectionsNameForCourse(String courseId, boolean hasCheckIsPresent) 
+        throws EntityDoesNotExistException {
+        if (hasCheckIsPresent) {
             verifyCourseIsPresent(courseId);    
         }
-                
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
         
         Set<String> sectionNameSet = new HashSet<String>();
@@ -771,7 +775,7 @@ public class CoursesLogic {
                                     throws EntityDoesNotExistException {
         Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
         for (CourseAttributes course : courses) {
-            List<String> sections = getSectionsNameForCourse(course.id, false);
+            List<String> sections = getSectionsNameForCourse(course);
             courseIdToSectionName.put(course.id, sections);
         }
         
