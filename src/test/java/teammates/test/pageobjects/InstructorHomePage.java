@@ -352,6 +352,8 @@ public class InstructorHomePage extends AppPage {
     
     public void clickFsCopySubmitButton() {
         WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
+
+        waitForElementVisibility(fsCopySubmitButton);
         
         fsCopySubmitButton.click();
     }

@@ -2,7 +2,7 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
-<%@ taglib tagdir="/WEB-INF/tags/student/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>

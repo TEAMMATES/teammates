@@ -157,6 +157,7 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void clickResponseCommentAdd(int sessionIdx, int questionIdx, int responseIdx) {
+        waitForPageToLoad();
         browser.driver.findElement(By.id("button_add_comment-" + sessionIdx + "-" + questionIdx + "-" + responseIdx)).click();
         waitForPageToLoad();
     }
@@ -182,6 +183,7 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public void clickResponseCommentEdit(int sessionIdx, int questionIdx, int responseIdx, int commentIdx) {
+        waitForPageToLoad();
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementById('"
                 + "commentedit-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
