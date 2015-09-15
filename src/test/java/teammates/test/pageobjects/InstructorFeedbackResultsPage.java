@@ -280,9 +280,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void clickAjaxPanel(int index) {
+    public void clickAjaxLoadResponsesPanel(int index) {
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         ajaxPanels.get(index).click();
+    }
+    
+    public void clickAjaxNoResponsePanel() {
+        WebElement ajaxPanels = browser.driver.findElement(By.cssSelector(".ajax_response_rate_submit"));
+        ajaxPanels.click();
     }
 
     public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) throws Exception {
@@ -437,16 +442,30 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return false;
     }
     
-    public void changeFsNameInAjaxForm(int indexOfForm, String newFsName) {
+    public void changeFsNameInAjaxLoadResponsesForm(int indexOfForm, String newFsName) {
         
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("$('.ajax_submit:eq(" + indexOfForm 
                          + ") [name=\"fsname\"]').val('" + newFsName + "')");     
     }
     
+    public void changeFsNameInNoResponsePanelForm(String newFsName) {
+        
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('.ajax_response_rate_submit [name=\"fsname\"]').val('" + newFsName + "')");     
+    }
+    
     public void waitForAjaxError(int indexOfForm) {
         By ajaxErrorSelector = By.cssSelector(".ajax_submit:nth-of-type(" + indexOfForm 
                                         + ") .ajax-error");
+        waitForElementPresence(ajaxErrorSelector);
+        WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);
+        
+        assertEquals("[ Failed to load. Click here to retry. ]", ajaxError.getText());
+    }
+    
+    public void waitForAjaxErrorOnNoResponsePanel() {
+        By ajaxErrorSelector = By.cssSelector(".ajax_response_rate_submit .ajax-error");
         waitForElementPresence(ajaxErrorSelector);
         WebElement ajaxError = browser.driver.findElement(ajaxErrorSelector);
         
