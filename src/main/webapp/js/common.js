@@ -429,6 +429,14 @@ function isWithinView(element) {
              || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
 }
 
+function scrollToPosition(scrollPos, duration) {
+    if (duration === undefined) {
+        $(window).scrollTop(scrollPos);
+    } else {
+        $('html, body').animate({scrollTop: scrollPos}, duration);
+    }
+}
+
 /**
  * Scrolls to an element.
  * Possible options are as follows:
@@ -479,11 +487,7 @@ function scrollToElement(element, options) {
     
     var scrollPos = element.offsetTop + offset;
     
-    if (options.duration !== undefined) {
-        $('html, body').animate({scrollTop: scrollPos}, duration);
-    } else {
-        $(window).scrollTop(scrollPos);
-    }
+    scrollToPosition(scrollPos, duration);
 }
 
 /**
