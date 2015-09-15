@@ -1195,9 +1195,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     question, possibleReceiversWithoutResponsesForGiver, prevGiver, 
                                     bundle.getNameForEmail(prevGiver), bundle.getTeamNameForEmail(prevGiver)));
                 
-                String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS) ? 
-                                         bundle.getFullNameFromRoster(response.giverEmail) :
-                                         response.giverEmail;
+                String giverIdentifier = response.giverEmail;
                             
                 possibleReceiversWithoutResponsesForGiver = bundle.getPossibleRecipients(question, giverIdentifier);
             }
@@ -1421,8 +1419,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Given a participantIdentifier, remove it from participantIdentifierList. 
      * 
-     * Before removal, FeedbackSessionResultsBundle.getNameFromRoster is used to 
-     * convert the identifier into a canonical form if the participantIdentifierType is TEAMS. 
      *  
      * @param participantIdentifierType
      * @param participantIdentifierList
@@ -1431,11 +1427,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void removeParticipantIdentifierFromList(
                     FeedbackParticipantType participantIdentifierType,
                     List<String> participantIdentifierList, String participantIdentifier) {
-        if (participantIdentifierType == FeedbackParticipantType.TEAMS) {
-            participantIdentifierList.remove(bundle.getFullNameFromRoster(participantIdentifier)); 
-        } else {
-            participantIdentifierList.remove(participantIdentifier);
-        }
+        participantIdentifierList.remove(participantIdentifier);
     }
     
     private List<InstructorFeedbackResultsResponseRow> getRemainingMissingResponseRows(
