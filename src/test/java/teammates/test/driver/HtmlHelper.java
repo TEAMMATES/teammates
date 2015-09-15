@@ -172,7 +172,7 @@ public class HtmlHelper {
                 
                 for (int i = 0; i < actualAttributeList.getLength(); i++){
                     Node actualAttribute = actualAttributeList.item(i);
-                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\"");
+                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue().replace("\"", "'") + "\"");
                 }
                 //close the tag
                 currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");

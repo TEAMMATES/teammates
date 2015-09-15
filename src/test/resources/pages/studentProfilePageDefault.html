@@ -1,428 +1,262 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <title>TEAMMATES - Student Profile</title>
 
-    <link href="/favicon.png" rel="shortcut icon" />
-
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" />
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" />
-
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script src="{*}/jquery.min.js" type="text/javascript"></script>
-    <script src="{*}/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
-    
-<noscript>
-    &lt;div id="noscript-warning"&gt;
-        &lt;h1&gt;
-            TEAMMATES works best with JavaScript enabled. &lt;br&gt; You may
-            enable it in your browser by following steps below.
-        &lt;/h1&gt;
-
-        &lt;div&gt;
-            &lt;ul id="nav"&gt;
-                &lt;li&gt;&lt;a href="#ie"&gt;Internet Explorer&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#firefox"&gt;Mozilla Firefox&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#safari"&gt;Safari&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#opera"&gt;Opera&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#chrome"&gt;Chrome&lt;/a&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-        &lt;/div&gt;
-
-        &lt;div id=content&gt;
-            &lt;div id=ie&gt;
-                &lt;h1&gt;Internet Explorer&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Internet Explorer.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Tools drop-down menu, select Internet Options.&lt;/li&gt;
-                    &lt;li&gt;Next, select the Security tab.&lt;/li&gt;
-                    &lt;li&gt;Then, select the earth (Internet) icon.&lt;/li&gt;
-                    &lt;li&gt;Then select the Custom Level button.&lt;/li&gt;
-                    &lt;li&gt;Locate Scripting near the bottom of the list.&lt;/li&gt;
-                    &lt;li&gt;Under Active Scripting, select Enable, then hit OK.&lt;/li&gt;
-                    &lt;li&gt;Answer yes to the following conformation box.&lt;/li&gt;
-                    &lt;li&gt;Hit OK to close the Internet Options window.&lt;/li&gt;
-                    &lt;li&gt;Finally, hit refresh on your browser window to enjoy the
-                        javascript.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=firefox&gt;
-                &lt;h1&gt;Firefox&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Firefox
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Tools drop-down menu, select Options.&lt;/li&gt;
-                    &lt;li&gt;Next, select the Content icon/tab at the top on the
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox under the Web
-                        Content category.&lt;/li&gt;
-                    &lt;li&gt;Hit OK to close the Options window and save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, Refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Firefox menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Content icon/tab at the top on the window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Close the Options window to save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=safari&gt;
-                &lt;h1&gt;Safari&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Safari.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Edit drop-down menu at the top of the window,
-                        select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Security icon/tab at the top on the window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Close the window to save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, Refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Safari menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences.&lt;/li&gt;
-                    &lt;li&gt;Select the Content icon/tab at the top of the window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Close the window to save your changes.&lt;/li&gt;
-                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
-               &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=opera&gt;
-                &lt;h1&gt;Opera&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Opera.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;In the Tools drop-down menu at the top of the window,
-                        select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Advanced tab at the top on the Preferences
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Find the Content item in the list on the left-side of the
-                        window and select it.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Click OK to save your changes and close the Preferences
-                        window. Finally, Refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Safari menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences.&lt;/li&gt;
-                    &lt;li&gt;Select the Content icon/tab at the top of the Preferences
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Then, check the Enable JavaScript checkbox.&lt;/li&gt;
-                    &lt;li&gt;Click OK to save your changes and close the Preferences
-                        window.&lt;/li&gt;
-                    &lt;li&gt;Finally, refresh your browser.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-
-            &lt;div id=chrome&gt;
-                &lt;h1&gt;Chrome&lt;/h1&gt;
-                Please complete the following instructions to activate and enable
-                JavaScript in Chrome.
-
-                &lt;h3&gt;PC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select Customize and control Google Chrome (wrench Icon)
-                        to the right of the address bar.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Options Select the Under
-                        the Hood tab at the top of the window.&lt;/li&gt;
-                    &lt;li&gt;Under the Privacy heading, select the Content settings
-                        button.&lt;/li&gt;
-                    &lt;li&gt;On the left, under the features heading, select
-                        JavaScript.&lt;/li&gt;
-                    &lt;li&gt;Select the Allow all sites to run JavaScript radio button.&lt;/li&gt;
-                    &lt;li&gt;Finally, close both preference windows, and refresh the
-                        browser.&lt;/li&gt;
-                &lt;/ol&gt;
-                &lt;h3&gt;MAC&lt;/h3&gt;
-                &lt;ol&gt;
-                    &lt;li&gt;Select the Chrome menu item from the Apple/System bar at
-                        the top of the screen.&lt;/li&gt;
-                    &lt;li&gt;From the drop-down menu, select Preferences...&lt;/li&gt;
-                    &lt;li&gt;Select the Under the Hood tab at the top of the window.&lt;/li&gt;
-                    &lt;li&gt;Under the Privacy heading, select the Content settings
-                        button.&lt;/li&gt;
-                    &lt;li&gt;On the left, under the features heading, select
-                        JavaScript.&lt;/li&gt;
-                    &lt;li&gt;Select the Allow all sites to run JavaScript radio button.&lt;/li&gt;
-                    &lt;li&gt;Finally, close both preference windows, and refresh the
-                        browser.&lt;/li&gt;
-                &lt;/ol&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;p&gt;
-            As taken from:
-        &lt;/p&gt;
-        &lt;ol&gt;
-            &lt;li&gt;&lt;a href="http://activatejavascript.org/en/instructions/"&gt;http://activatejavascript.org/en/instructions/&lt;/a&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;a href="http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages"&gt;
-                         http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page&lt;/a&gt;&lt;/li&gt;
-        &lt;/ol&gt;
-    &lt;/div&gt;
-</noscript>
-
-
-    <link href="/Jcrop/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
-    <script src="/Jcrop/js/jquery.Jcrop.min.js" type="text/javascript"></script>
-    <script src="/js/student.js" type="text/javascript"></script>
-    <script src="/js/studentProfile.js" type="text/javascript"></script>
-</head>
-<body>
-    
-
-
-
-
-<div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button data-target="#contentLinks" data-toggle="collapse" class="navbar-toggle" type="button">
-                 <span class="sr-only">Toggle navigation</span>
-                 <span class="icon-bar"></span>
-                 <span class="icon-bar"></span>
-                 <span class="icon-bar"></span>
-            </button>
-            <a href="/index.html" class="navbar-brand">TEAMMATES</a>
-        </div>
-        <div id="contentLinks" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/page/studentHomePage?user=SHomeUiT.benny.c" id="studentHomeNavLink" class="navLinks">
-                        Home
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="/page/studentProfilePage?user=SHomeUiT.benny.c" id="studentProfileNavLink" class="navLinks">
-                        Profile
-                    </a>
-                </li>
-                <li>
-                    <a href="/page/studentCommentsPage?user=SHomeUiT.benny.c" id="studentCommentsNavLink" class="navLinks">
-                        Comments
-                    </a>
-                </li>
-                <li>
-                    <a target="_blank" href="/studentHelp.html" class="nav" id="studentHelpLink">Help</a>
-                </li>
-            </ul>
-            
-                <ul class="nav navbar-nav pull-right">
-                    <li>
-                        <a href="/logout.jsp" class="nav logout">Logout
-                            (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="SHomeUiT.benny.c">
-                                    SHomeUiT.benny.c
-                            </span>)
+   <html>
+      <head>
+         <title>
+            TEAMMATES - Student Profile
+         </title>
+         <link href="/favicon.png" rel="shortcut icon"/>
+                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+                  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+                  <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+                  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
+                  <!---->
+         <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+         </script>
+         <script src="/js/googleAnalytics.js" type="text/javascript">
+         </script>
+         <script src="{*}/jquery.min.js" type="text/javascript">
+         </script>
+         <script src="{*}/jquery-ui.min.js" type="text/javascript">
+         </script>
+         <script src="/js/common.js" type="text/javascript">
+         </script>
+         <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript">
+         </script>
+         <link href="/Jcrop/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css"/>
+                  <script src="/Jcrop/js/jquery.Jcrop.min.js" type="text/javascript">
+         </script>
+         <script src="/js/student.js" type="text/javascript">
+         </script>
+         <script src="/js/studentProfile.js" type="text/javascript">
+         </script>
+      </head>
+      <body>
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                  </button>
+                  <a class="navbar-brand" href="/index.html">
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li>
+                        <a class="navLinks" href="/page/studentHomePage?user=SHomeUiT.benny.c" id="studentHomeNavLink">
+                           Home
                         </a>
-                    </li>
-                </ul>
-            
-        </div>
-    </div>
-</div>
-    <div id="mainContent" class="container">
-        
-
-
-<div id="topOfPage"></div>
-
-    <h1>Student Profile</h1>
-    <br />
-
-        
-        
-    
-
-
-
-
-
-    
-    
-        <div style="display: none;" id="statusMessage"></div>
-    
-
-    <br />
-    
-
-
-
-
-<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" id="studentPhotoUploader" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">
-                    ×
-                </button>
-                <h4 class="modal-title">
-                    Upload/Edit Photo 
-                    <small>(Use the selection in the photo to specify a crop)</small>
-                </h4>
+                     </li>
+                     <li class="active">
+                        <a class="navLinks" href="/page/studentProfilePage?user=SHomeUiT.benny.c" id="studentProfileNavLink">
+                           Profile
+                        </a>
+                     </li>
+                     <li>
+                        <a class="navLinks" href="/page/studentCommentsPage?user=SHomeUiT.benny.c" id="studentCommentsNavLink">
+                           Comments
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right">
+                     <li>
+                        <a class="nav logout" href="/logout.jsp">
+                           Logout
+                            (
+                           <span class="text-info" data-original-title="SHomeUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
+                              SHomeUiT.benny.c
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
             </div>
-            <div class="modal-body center-block align-center">
-                <br />
-                <div class="row">
-                    <div class="col-xs-4 profile-pic-edit-col">
-                        <div class="center-block align-center">
-                            <form method="post" id="profilePictureUploadForm"> 
-                                <input type="file" name="studentprofilephoto" class="inline" id="studentPhoto" />
-                                <p class="help-block">
-                                    Max Size: 5 MB
-                                </p>
-                                <button onclick="finaliseUploadPictureForm()" class="btn btn-primary center-block" id="profileUploadPictureSubmit" type="button">
-                                    Upload Picture
-                                </button>
-                                <input type="hidden" value="SHomeUiT.benny.c" name="user" />
-                            </form>
+         </div>
+         <div class="container" id="mainContent">
+            <div id="topOfPage">
+            </div>
+            <h1>
+               Student Profile
+            </h1>
+            <br/>
+                        <div id="statusMessage" style="display: none;">
+            </div>
+            <br/>
+                        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentPhotoUploader" role="dialog">
+               <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                           ×
+                        </button>
+                        <h4 class="modal-title">
+                           Upload/Edit Photo
+                           <small>
+                              (Use the selection in the photo to specify a crop)
+                           </small>
+                        </h4>
+                     </div>
+                     <div class="modal-body center-block align-center">
+                        <br/>
+                                                <div class="row">
+                           <div class="col-xs-4 profile-pic-edit-col">
+                              <div class="center-block align-center">
+                                 <form id="profilePictureUploadForm" method="post">
+                                    <input class="inline" id="studentPhoto" name="studentprofilephoto" type="file"/>
+                                                                        <p class="help-block">
+                                       Max Size: 5 MB
+                                    </p>
+                                    <button class="btn btn-primary center-block" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
+                                       Upload Picture
+                                    </button>
+                                    <input name="user" type="hidden" value="SHomeUiT.benny.c"/>
+                                                                     </form>
+                              </div>
+                           </div>
+                           <div class="col-xs-8 profile-pic-edit-col border-left-gray">
+                              <div class="alert alert-warning">
+                                 Please upload a photo to start editing.
+                              </div>
+                           </div>
                         </div>
-                    </div>
-                    <div class="col-xs-8 profile-pic-edit-col border-left-gray">
-                        
-                            
-                                <div class="alert alert-warning">
-                                    Please upload a photo to start editing.
-                                </div>
-                            
-                            
-                        
-                    </div>
-                </div>
+                     </div>
+                     <div class="modal-footer">
+                     </div>
+                  </div>
+               </div>
             </div>
-            <div class="modal-footer">
+            <div class="well well-plain well-narrow well-sm-wide" id="editProfileDiv">
+               <h3 id="studentName">
+                  <strong>
+                     Benny Charles
+                  </strong>
+               </h3>
+               <br/>
+                              <div class="form-group row">
+                  <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
+                     <img class="profile-pic" data-edit="false" data-target="#studentPhotoUploader" data-toggle="modal" id="profilePic" src="/images/profile_picture_default.png"/>
+                                       </div>
+                  <div class="">
+                     <button class="btn btn-primary" data-target="#studentPhotoUploader" data-toggle="modal" id="uploadEditPhoto" type="button">
+                        Upload/Edit Photo
+                     </button>
+                  </div>
+               </div>
+               <form action="/page/studentProfileEditSave" class="form center-block" method="post" role="form">
+                  <div class="form-group" data-original-title="This is the name you prefer to be called by" data-placement="top" data-toggle="tooltip" title="">
+                     <label for="studentNickname">
+                        The name you prefer to be called by Instructors
+                     </label>
+                     <input class="form-control" data-actual-value="" id="studentShortname" name="studentshortname" placeholder="How the instructor should call you" type="text" value=""/>
+                                       </div>
+                  <div class="form-group" data-original-title="This is a long term contact email" data-placement="top" data-toggle="tooltip" title="">
+                     <label for="studentEmail">
+                        Long term contact email
+                        <em class="font-weight-normal emphasis text-muted small">
+                           - only visible to your instructors
+                        </em>
+                     </label>
+                     <input class="form-control" data-actual-value="" id="studentEmail" name="studentprofileemail" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email" value=""/>
+                                       </div>
+                  <div class="form-group" data-original-title="This is the institution that you represent" data-placement="top" data-toggle="tooltip" title="">
+                     <label for="studentInstitution">
+                        Institution
+                     </label>
+                     <input class="form-control" data-actual-value="" id="studentInstitution" name="studentprofileinstitute" placeholder="Your Institution" type="text" value=""/>
+                                       </div>
+                  <div class="form-group" data-original-title="This is your nationality" data-placement="top" data-toggle="tooltip" title="">
+                     <label for="studentNationality">
+                        Nationality
+                     </label>
+                     <input class="form-control" data-actual-value="" id="studentNationality" name="studentnationality" placeholder="Nationality" type="text" value=""/>
+                                       </div>
+                  <div class="form-group">
+                     <label for="studentGender">
+                        Gender
+                     </label>
+                     <div id="studentGender">
+                        <label class="radio-inline" for="genderMale">
+                           <input class="radio" id="genderMale" name="studentgender" type="radio" value="male"/>
+                                                      Male
+                        </label>
+                        <label class="radio-inline" for="genderFemale">
+                           <input class="radio" id="genderFemale" name="studentgender" type="radio" value="female"/>
+                                                      Female
+                        </label>
+                        <label class="radio-inline" for="genderOther">
+                           <input checked="checked" class="radio" id="genderOther" name="studentgender" type="radio" value="other"/>
+                                                      Not Specified
+                        </label>
+                     </div>
+                  </div>
+                  <div class="form-group" data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." data-placement="top" data-toggle="tooltip" title="">
+                     <label for="studentNationality">
+                        More info about yourself
+                     </label>
+                     <textarea class="form-control" id="studentMoreInfo" name="studentprofilemoreinfo" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." rows="4">
+                     </textarea>
+                  </div>
+                  <br/>
+                                    <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
+                     Save Profile
+                  </button>
+                  <br/>
+                                    <p class="text-muted text-color-disclaimer">
+                     <i>
+                        * This profile will be visible to all your Instructors and Coursemates
+                     </i>
+                  </p>
+                  <input name="user" type="hidden" value="SHomeUiT.benny.c"/>
+                                 </form>
             </div>
-        </div>
-    </div>
-</div>
-    
-
-
-
-
-
-
-<div class="well well-plain well-narrow well-sm-wide" id="editProfileDiv">
-    <h3 id="studentName">
-        <strong>Benny Charles</strong>
-    </h3>
-    <br />
-    <div class="form-group row">
-        <div data-placement="top" data-toggle="tooltip" title="" class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture">
-            <img data-edit="false" data-target="#studentPhotoUploader" data-toggle="modal" class="profile-pic" src="/images/profile_picture_default.png" id="profilePic" />
-        </div>
-        <div class="">
-            <button data-target="#studentPhotoUploader" data-toggle="modal" type="button" class="btn btn-primary" id="uploadEditPhoto">
-                Upload/Edit Photo
-            </button>
-        </div>
-    </div>
-    <form action="/page/studentProfileEditSave" method="post" role="form" class="form center-block">
-        <div data-placement="top" data-toggle="tooltip" title="" class="form-group" data-original-title="This is the name you prefer to be called by">
-            <label for="studentNickname">
-                The name you prefer to be called by Instructors
-            </label>
-            <input type="text" placeholder="How the instructor should call you" value="" data-actual-value="" class="form-control" name="studentshortname" id="studentShortname" />
-        </div>
-        <div data-placement="top" data-toggle="tooltip" title="" class="form-group" data-original-title="This is a long term contact email">
-            <label for="studentEmail">
-                Long term contact email <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em>
-            </label>
-            <input type="email" placeholder="Contact Email (for your instructors to contact you beyond graduation)" value="" data-actual-value="" class="form-control" name="studentprofileemail" id="studentEmail" />
-        </div>
-        <div data-placement="top" data-toggle="tooltip" title="" class="form-group" data-original-title="This is the institution that you represent">
-            <label for="studentInstitution">
-                Institution
-            </label>
-            <input type="text" placeholder="Your Institution" value="" data-actual-value="" class="form-control" name="studentprofileinstitute" id="studentInstitution" />
-        </div>
-        <div data-placement="top" data-toggle="tooltip" title="" class="form-group" data-original-title="This is your nationality">
-            <label for="studentNationality">
-                Nationality
-            </label>
-            <input type="text" placeholder="Nationality" value="" data-actual-value="" class="form-control" name="studentnationality" id="studentNationality" />
-        </div>
-        <div class="form-group">
-            <label for="studentGender">
-                Gender
-            </label>
-            <div id="studentGender">
-                <label class="radio-inline" for="genderMale">
-                    <input type="radio" value="male" class="radio" name="studentgender" id="genderMale" /> Male
-                </label>
-                <label class="radio-inline" for="genderFemale">
-                    <input type="radio" value="female" class="radio" name="studentgender" id="genderFemale" /> Female
-                </label>
-                <label for="genderOther" class="radio-inline">
-                    <input type="radio" checked="checked" value="other" class="radio" name="studentgender" id="genderOther" /> Not Specified
-                </label>
+         </div>
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-2">
+                     <span>
+                        [
+                        <a href="/index.html">
+                           TEAMMATES
+                        </a>
+                        V${version}]
+                     </span>
+                  </div>
+                  <div class="col-md-8">
+                     [for
+                     <span class="highlight-white">
+                        TEAMMATES Test Institute 1
+                     </span>
+                     ]
+                  </div>
+                  <div class="col-md-2">
+                     <span>
+                        [Send
+                        <a class="link" href="../contact.html" target="_blank">
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
             </div>
-        </div>
-        <div data-placement="top" data-toggle="tooltip" title="" class="form-group" data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc.">
-            <label for="studentNationality">
-                More info about yourself
-            </label>
-            <textarea placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." class="form-control" rows="4" name="studentprofilemoreinfo" id="studentMoreInfo"></textarea>
-        </div>
-        <br />
-        <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
-            Save Profile
-        </button>
-        <br />
-        <p class="text-muted text-color-disclaimer">
-            <i>* This profile will be visible to all your Instructors and Coursemates</i>
-        </p>
-        <input type="hidden" value="SHomeUiT.benny.c" name="user" />
-    </form>
-</div>
+         </div>
+      </body>
+   </html>
 
-    
-    </div>
-    
-
-
-<div class="container-fluid" id="footerComponent">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
-            </div>
-            <div class="col-md-8">
-                [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]
-            </div>
-            <div class="col-md-2">
-                <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-</body></html>

@@ -704,11 +704,11 @@ public abstract class AppPage {
             HtmlHelper.assertSameHtml(actual, expected);
             
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!testAndRunGodMode(filePath, actual, false)) {
                 throw new RuntimeException(e);
             }
         } catch (AssertionError ae) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!testAndRunGodMode(filePath, actual, false)) {
                 throw ae;
             }
         } 
@@ -716,7 +716,7 @@ public abstract class AppPage {
         return this;
     }
 
-    private boolean testAndRunGodMode(String filePath, String content) {
+    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
         if (content != null && !content.isEmpty() && 
                 System.getProperty("godmode") != null && 
                 System.getProperty("godmode").equals("true")) {
@@ -726,7 +726,8 @@ public abstract class AppPage {
                         + "eg: change test.student1.account from alice.tmms to alice.tmms.example");
             }
             try {
-                String processedPageSource = processPageSourceForGodMode(content);                
+                String processedPageSource = HtmlHelper.convertToStandardHtml(content, isPart);
+                processedPageSource = processPageSourceForGodMode(processedPageSource);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -759,7 +760,7 @@ public abstract class AppPage {
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
                 //regkey
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&amp;", Const.ParamsNames.REGKEY + "={*}\\&amp;")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&", Const.ParamsNames.REGKEY + "={*}\\&")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
                 .replaceAll("\"([a-zA-Z0-9-_]){50,}\"","\"{*}\"")
                 //responseid
@@ -788,6 +789,7 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
+                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "{*}")
                 .replace(TimeHelper.formatDate(now), "{*}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "{*}")
@@ -831,11 +833,11 @@ public abstract class AppPage {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
         } catch (AssertionError ae) { 
-            if(!testAndRunGodMode(filePath, actual)) {
+            if(!testAndRunGodMode(filePath, actual, true)) {
                 throw ae;
             }
         } catch (Exception e) {
-            if(!testAndRunGodMode(filePath, actual)) {
+            if(!testAndRunGodMode(filePath, actual, true)) {
                 throw new RuntimeException(e);
             }
             
@@ -890,14 +892,14 @@ public abstract class AppPage {
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {
-                    testAndRunGodMode(filePath, actual);
+                    testAndRunGodMode(filePath, actual, false);
                 }
                 ThreadHelper.waitFor(waitDuration);
             }
         } catch (NoSuchElementException nse) {
             throw new RuntimeException(nse);
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!testAndRunGodMode(filePath, actual, false)) {
                 throw new RuntimeException(e);
             }
         }
