@@ -85,7 +85,7 @@ function checkComment(form) {
     var formTextField = $(form).find('[name="' + COMMENT_TEXT + '"]').val();
     if (isBlank(formTextField)) {
         setStatusMessage(DISPLAY_COMMENT_BLANK,true);
-        $(window).scrollTop(0);
+        scrollToTop();
         return false;
     }
 }
