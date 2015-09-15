@@ -356,8 +356,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.clickAjaxPanel(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
-        
-        
+                
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         
         resultsPage.removeNavBar();
