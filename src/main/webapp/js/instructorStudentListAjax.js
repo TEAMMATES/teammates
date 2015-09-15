@@ -86,7 +86,7 @@ var seeMoreRequest = function(e) {
                         // If number of students shown is already more than the limit
                         // Do not show more, even if we can retrieve it.
                         if (numStudents >= STUDENT_LIMIT) {
-                            // Fail to load
+                            // Failed to load
                             courseCheck.prop('checked', false);
                             setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
                             displayIcon.html('');
@@ -116,7 +116,7 @@ var seeMoreRequest = function(e) {
                 });
             }
         } else {
-            // Fail to load
+            // Failed to load
             courseCheck.prop('checked', false);
             setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
             displayIcon.html('');
