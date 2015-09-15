@@ -29,7 +29,6 @@ public class InstructorStudentListPageAction extends Action {
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
         Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
-        Map<String, String> numStudents = new HashMap<String, String>();
         
         // Get courses for instructor
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
@@ -44,15 +43,10 @@ public class InstructorStudentListPageAction extends Action {
         // Get instructor attributes
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(account.googleId);
         
-        // TODO: remove
-        // Get number of students for each course
         for (InstructorAttributes instructor : instructorList) {
             instructors.put(instructor.courseId, instructor);
-            int numStudentsInCourse = 0;
-            numStudents.put(instructor.courseId, String.valueOf(numStudentsInCourse));
         }
         
-
         if (courses.size() == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
         }
@@ -72,7 +66,7 @@ public class InstructorStudentListPageAction extends Action {
             }
         }
 
-        data = new InstructorStudentListPageData(account, searchKey, displayArchive, numStudents, coursesToDisplay);
+        data = new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
 
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
         return response;
