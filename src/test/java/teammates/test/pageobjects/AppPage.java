@@ -443,6 +443,7 @@ public abstract class AppPage {
      * No action taken if it is already 'checked'.
      */
     protected void markCheckBoxAsChecked(WebElement checkBox) {
+        waitForElementVisibility(checkBox);
         if(!checkBox.isSelected()){
             checkBox.click();
         }

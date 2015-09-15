@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -21,7 +20,6 @@ public class InstructorStudentListPageData extends PageData {
     
     public InstructorStudentListPageData(AccountAttributes account, String searchKey,
                                          boolean displayArchive,
-                                         Map<String, String> numStudents,
                                          List<InstructorStudentListPageCourseData> coursesToDisplay) {
         super(account);
         this.searchBox = new InstructorStudentListSearchBox(getInstructorSearchLink(), searchKey, account.googleId);
@@ -35,7 +33,6 @@ public class InstructorStudentListPageData extends PageData {
             coursesForStudentsTable.add(
                                             new InstructorStudentListStudentsTableCourse(islpcData.isCourseArchived,
                                                                             course.id, course.name, account.googleId,
-                                                                            numStudents.get(course.id),
                                                                             getInstructorCourseEnrollLink(course.id),
                                                                             islpcData.isInstructorAllowedToModify));
         }

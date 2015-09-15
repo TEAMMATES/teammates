@@ -30,6 +30,26 @@ function bindPhotos(courseIdx) {
     });
 }
 
+function numStudentsRetrieved() {
+    var emailChoices = $('.email-to-be-transported');
+    return emailChoices.length;
+}
+
+function showStudentLimitError(courseCheck, displayIcon) {
+    courseCheck.prop('checked', false);
+    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
+    displayIcon.html('');
+}
+
+function removeDataToBeTransported() {
+    var sectionChoices = $('.section-to-be-transported');
+    sectionChoices.remove();
+    var teamChoices = $('.team-to-be-transported');
+    teamChoices.remove();
+    var emailChoices = $('.email-to-be-transported');
+    emailChoices.remove();
+}
+
 var seeMoreRequest = function(e) {
     var panelHeading = $(this);
     var panelCollapse = $(this).parent().children('.panel-collapse');
@@ -55,7 +75,6 @@ var seeMoreRequest = function(e) {
         }
         checkCourseBinding(courseCheck);
     } else {
-        numStudents += courseNumStudents;
         if (numStudents < STUDENT_LIMIT) {
             setStatusMessage('', false);
             var formObject = $(this).children('form');
@@ -70,14 +89,30 @@ var seeMoreRequest = function(e) {
                         displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
                     },
                     error: function() {
-                        numStudents -= courseNumStudents;
+                        // TODO: Handle error and allow retry
                     },
                     success: function(data) {
                         $(panelBody[0]).html(data);
+
+                        // Count number of students retrieved
+                        courseNumStudents = numStudentsRetrieved();
+                        $('#numStudents-' + courseIdx).val(courseNumStudents);
+
+                        // If number of students shown is already more than the limit
+                        // Do not show more, even if we can retrieve it, as browser will lag.
+                        if (numStudents >= STUDENT_LIMIT) {
+                            showStudentLimitError(courseCheck, displayIcon);
+                            removeDataToBeTransported();
+                            return;
+                        }
+
+                        // Show newly retrieved students
+                        numStudents += courseNumStudents;
                         transportSectionChoices();
                         transportTeamChoices();
                         transportEmailChoices();
                         bindPhotos(courseIdx);
+
                         $(panelHeading).removeClass('ajax_submit');
                         displayIcon.html('');
                         if ($(panelCollapse[0]).attr('class').indexOf("in") == -1) {
@@ -87,10 +122,8 @@ var seeMoreRequest = function(e) {
                 });
             }
         } else {
-            numStudents -= courseNumStudents;
-            courseCheck.prop('checked', false);
-            setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
-            displayIcon.html('');
+            // Do not make ajax call if students shown already above limit
+            showStudentLimitError(courseCheck, displayIcon);
         }
     }
 };

@@ -40,7 +40,7 @@ public class BaseUiTestCase extends BaseTestCase {
         String instructorId = url.get(Const.ParamsNames.USER_ID);
         
         if(instructorId==null){ //admin using system as admin
-            instructorId = "defaultAdmin";
+            instructorId = adminUsername;
         }
         
         if(browser.isAdminLoggedIn){
