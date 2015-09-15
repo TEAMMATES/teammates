@@ -1071,6 +1071,15 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
     }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
+        return coursesLogic.getSectionsNameForCourse(course);
+    }
     
     /** 
      * Preconditions: <br>
