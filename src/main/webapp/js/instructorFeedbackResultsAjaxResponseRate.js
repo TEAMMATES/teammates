@@ -20,7 +20,7 @@ $(document).ready(function() {
                 // submitButton.html('<img src="/images/ajax-loader.gif">');
             },
             error: function() {
-
+                displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success: function(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
