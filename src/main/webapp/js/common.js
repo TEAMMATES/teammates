@@ -411,6 +411,82 @@ function getPointValue(s, ditchZero) {
 var DIV_TOPOFPAGE = 'topOfPage';
 
 /**
+ * Checks if element is within browser's viewport.
+ * @return true if it is within the viewport, false otherwise 
+ */
+function isWithinView(element) {
+    var viewHeight = window.innerHeight,
+        viewTop = window.scrollY,
+        viewBottom = viewTop + viewHeight;
+    
+    var elementHeight = element.offsetHeight,
+        elementTop = element.offsetTop,
+        elementBottom = elementTop + elementHeight;
+    
+    return viewHeight >= elementHeight
+           ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
+           : (viewTop <= elementTop && viewBottom >= elementTop)           // top within view
+             || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
+}
+
+/**
+ * Scrolls to an element.
+ * Possible options are as follows:
+ * 
+ * @param element - element to scroll to
+ * @param options - associative array with optional values:
+ *                  * type: ['top'|'view'], defaults to 'top';
+ *                          'top' scrolls to the top of the element,
+ *                          'view' scrolls the element into view
+ *                  * offset: offset from element to scroll to in px,
+ *                            defaults to navbar / footer offset for scrolling from above or below
+ *                  * duration: duration of animation,
+ *                              defaults to 0 for scrolling without animation
+ */
+function scrollToElement(element, options) {
+    var defaultOptions = {type: 'top', offset: 0, duration: 0};
+    
+    options = options || {};
+    var type = options.type || defaultOptions.type,
+        offset = options.offset !== undefined ? options.offset : defaultOptions.offset,
+        duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
+    
+    var isViewType = (type === 'view');
+    if (isViewType && isWithinView(element)) {
+        return;
+    }
+    
+    var navbar = document.getElementsByClassName('navbar')[0],
+        navbarHeight = navbar ? navbar.offsetHeight : 0;
+    var footer = document.getElementById('footerComponent'),
+        footerHeight = footer ? footer.offsetHeight : 0;
+    var windowHeight = window.innerHeight - navbarHeight - footerHeight;
+    
+    var isElementTallerThanWindow = (windowHeight < element.offsetHeight),
+        isFromAbove = (window.scrollY < element.offsetTop),
+        isAlignedToTop = (!isViewType || isElementTallerThanWindow || !isFromAbove);
+    
+    // default offset - from navbar / footer
+    if (options.offset === undefined) {
+        offset = isAlignedToTop ? navbarHeight * -1 : footerHeight * -1;
+    }
+    
+    // adjust offset to bottom of element
+    if (!isAlignedToTop) {
+        offset *= -1;
+        offset = offset + element.offsetHeight - window.innerHeight;
+    }
+    
+    var scrollPos = element.offsetTop + offset;
+    
+    if (options.duration !== undefined) {
+        $('html, body').animate({scrollTop: scrollPos}, duration);
+    } else {
+        $(window).scrollTop(scrollPos);
+    }
+}
+
+/**
  * Scrolls the screen to top
  */
 function scrollToTop() {
