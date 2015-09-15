@@ -77,7 +77,6 @@ var seeMoreRequest = function(e) {
                         // Handle error and allow retry
                     },
                     success: function(data) {
-                        console.log('s');
                         $(panelBody[0]).html(data);
 
                         // Count number of students retrieved
