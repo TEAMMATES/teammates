@@ -21,7 +21,7 @@ $(document).ready(function() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
             error: function() {
-                displayAjaxRetryMessage(displayIcon);
+                displayAjaxRetryMessageForPanelHeading(displayIcon);
             },
             success: function(data) {
                 var appendedQuestion = $(data).find('#questionBody-0').html();

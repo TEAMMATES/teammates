@@ -254,10 +254,10 @@ function bindCollapseEvents(panels, numPanels) {
 
 /**
  * For ajax error handling. 
- * Given an element, replaces the HTML content of the element with an error message prompting 
+ * Given an element in the panel heading, replaces the HTML content of the element with an error message prompting 
  * the user to retry.
  */
-function displayAjaxRetryMessage($element) {
+function displayAjaxRetryMessageForPanelHeading($element) {
     var ajaxErrorStart = '<div class="ajax-error">';
     var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
     var errorMsg = '[ Failed to load. Click here to retry. ]';
