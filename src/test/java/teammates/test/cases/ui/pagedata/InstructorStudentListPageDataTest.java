@@ -3,9 +3,7 @@ package teammates.test.cases.ui.pagedata;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -26,7 +24,6 @@ public class InstructorStudentListPageDataTest {
     private AccountAttributes acct;
     private String searchKey;
     private boolean displayArchive;
-    private Map<String, String> numStudents;
     private List<InstructorStudentListPageCourseData> coursesToDisplay;
 
     private CourseAttributes sampleCourse;
@@ -57,21 +54,18 @@ public class InstructorStudentListPageDataTest {
         sampleCourse.id = "validCourseId";
         sampleCourse.name = "Sample course name";
 
-        numStudents = new HashMap<String, String>();
-        numStudents.put(sampleCourse.id, "5");
-
         isCourseArchived = false;
         isInstructorAllowedToModify = true;
 
         coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
         coursesToDisplay.add(new InstructorStudentListPageCourseData(sampleCourse, isCourseArchived,
                                                                      isInstructorAllowedToModify));
-        return new InstructorStudentListPageData(acct, searchKey, displayArchive, numStudents, coursesToDisplay);
+        return new InstructorStudentListPageData(acct, searchKey, displayArchive, coursesToDisplay);
     }
     
     private InstructorStudentListPageData initializeDataWithNoSearchKey() {
         searchKey = null;
-        return new InstructorStudentListPageData(acct, searchKey, displayArchive, numStudents, coursesToDisplay);
+        return new InstructorStudentListPageData(acct, searchKey, displayArchive, coursesToDisplay);
     }
     
     private void testSearchBox(InstructorStudentListSearchBox searchBox) {
@@ -96,7 +90,6 @@ public class InstructorStudentListPageDataTest {
         assertEquals(sampleCourse.name, course.getCourseName());
         assertEquals(acct.googleId, course.getGoogleId());
         assertEquals(islpd.getInstructorCourseEnrollLink(sampleCourse.id), course.getInstructorCourseEnrollLink());
-        assertEquals(numStudents.get(sampleCourse.id), course.getNumStudents());
         assertEquals(isCourseArchived, course.isCourseArchived());
         assertEquals(isInstructorAllowedToModify, course.isInstructorAllowedToModify());
     }

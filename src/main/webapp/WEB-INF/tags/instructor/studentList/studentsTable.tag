@@ -12,7 +12,7 @@
               action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE %>">
             <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${course.courseId}">
             <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${course.googleId}">
-            <input type="hidden" id="numStudents-${index}" value="${course.numStudents}">
+            <input type="hidden" id="numStudents-${index}" value="0">
         </form>
         <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test"
            id="enroll-${index}"

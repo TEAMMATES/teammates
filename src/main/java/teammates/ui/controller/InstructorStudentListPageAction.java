@@ -29,21 +29,23 @@ public class InstructorStudentListPageAction extends Action {
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
         Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
-        Map<String, String> numStudents = new HashMap<String, String>();
+        
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
-        for (CourseAttributes course : courses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-            instructors.put(course.id, instructor);
-            int numStudentsInCourse = logic.getStudentsForCourse(course.id).size();
-            numStudents.put(course.id, String.valueOf(numStudentsInCourse));
-        }
+        // Sort by creation date
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
             public int compare(CourseAttributes c1, CourseAttributes c2) {
                 return c1.createdAt.compareTo(c2.createdAt);
             }
         });
-
+        
+        // Get instructor attributes
+        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(account.googleId);
+        
+        for (InstructorAttributes instructor : instructorList) {
+            instructors.put(instructor.courseId, instructor);
+        }
+        
         if (courses.size() == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, StatusMessageColor.WARNING));
         }
@@ -63,7 +65,7 @@ public class InstructorStudentListPageAction extends Action {
             }
         }
 
-        data = new InstructorStudentListPageData(account, searchKey, displayArchive, numStudents, coursesToDisplay);
+        data = new InstructorStudentListPageData(account, searchKey, displayArchive, coursesToDisplay);
 
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
         return response;
