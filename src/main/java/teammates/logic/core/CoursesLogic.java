@@ -184,12 +184,12 @@ public class CoursesLogic {
     }
 
     public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
-        return getSectionsNameForCourse(courseId, true);  
+        return getSectionsNameForCourse(courseId, false);  
     }
 
     public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
         Assumption.assertNotNull("Course is null", course);
-        return getSectionsNameForCourse(course.id, false);
+        return getSectionsNameForCourse(course.id, true);
     }
     
     /**
@@ -199,9 +199,9 @@ public class CoursesLogic {
      * @return list of sections names from the specified course
      * @throws EntityDoesNotExistException
      */
-    private List<String> getSectionsNameForCourse(String courseId, boolean hasCheckIsPresent) 
+    private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified) 
         throws EntityDoesNotExistException {
-        if (hasCheckIsPresent) {
+        if (!isCourseVerified) {
             verifyCourseIsPresent(courseId);    
         }
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
