@@ -2705,10 +2705,10 @@ public class Logic {
         return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
     
-    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         Assumption.assertNotNull(allCourses);
-        Assumption.assertNotNull(instructorList);
-        return coursesLogic.getArchivedCourseIds(allCourses, instructorList);
+        Assumption.assertNotNull(instructorsForCourses);
+        return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);
     }
     
 }
