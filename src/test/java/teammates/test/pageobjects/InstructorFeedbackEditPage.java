@@ -529,9 +529,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             String year = Integer.toString(cal.get(Calendar.YEAR));
 
             // go to previous month
-            while (!(getDatepickerMonth().equals(month) && getDatepickerYear().equals(year))) {
-                browser.driver.findElement(By.className("ui-datepicker-prev")).click();
-            }
+            navigateToRightMonthAndYear(month, year);
 
             // different months with the same day (e.g. first week or last week of the month) in the datepicker
             List<WebElement> daysWithSameDayAsYesterday = browser.driver.findElements(By.xpath("//td[a[text() = \"" + day + "\"]]"));
@@ -547,16 +545,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return true;
     }
 
-    private String getDatepickerYear() {
-        By by = By.className("ui-datepicker-year");
-        waitForElementPresence(by);
-        return browser.driver.findElement(by).getText();
-    }
-
-    private String getDatepickerMonth() {
-        By by = By.className("ui-datepicker-month");
-        waitForElementPresence(by);
-        return browser.driver.findElement(by).getText();
+    private void navigateToRightMonthAndYear(String month, String year) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("var month = arguments[0];"
+                                 + "var year = arguments[1];"
+                                 + "while ($('ui-datepicker-month').text() !== month"
+                                 + "      && $('ui-datepicker-year').text() === year) {"
+                                 + "    $('ui-datepicker-prev').click();"
+                                 + "}", month, year);
     }
     
     public void selectNewQuestionType(String questionType) {
