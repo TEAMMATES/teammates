@@ -7,15 +7,7 @@ $(document).ready(function() {
     
     if (navbar != null) {
         navbarHeight = navbar.offsetHeight;
-    }    
-
-    // scroll to element
-    statusMessage.scrollIntoView(true);
-
-    // now account for fixed header
-    var scrolledY = window.scrollY;
-
-    if (scrolledY) {
-        window.scroll(0, scrolledY - (navbarHeight + extraPadding));
     }
+    
+    scrollToElement(statusMessage, {type: 'view', offset: (navbarHeight + extraPadding) * -1});
 });

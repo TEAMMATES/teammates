@@ -516,10 +516,8 @@ function setStatusMessage(message, error) {
     } else {
         $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-warning');
     }
-
-    var positionToScrollTo = $(DIV_STATUS_MESSAGE).offset().top - (window.innerHeight / 2);
     
-    window.scrollTo(0, positionToScrollTo);
+    scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
 }
 
 /**
