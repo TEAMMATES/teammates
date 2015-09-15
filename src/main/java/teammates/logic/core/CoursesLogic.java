@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -182,22 +184,39 @@ public class CoursesLogic {
     }
 
     public List<String> getSectionsNameForCourse(String courseId) throws EntityDoesNotExistException {
+        return getSectionsNameForCourse(courseId, false);  
+    }
 
-        verifyCourseIsPresent(courseId);
-        
+    public List<String> getSectionsNameForCourse(CourseAttributes course) throws EntityDoesNotExistException {
+        Assumption.assertNotNull("Course is null", course);
+        return getSectionsNameForCourse(course.id, true);
+    }
+    
+    /**
+     * Get list of section names for a course with or without a need to check if the course is existent
+     * @param courseId Course ID of the course
+     * @param hasCheckIsPresent Determine whether it is necessary to check if the course exists
+     * @return list of sections names from the specified course
+     * @throws EntityDoesNotExistException
+     */
+    private List<String> getSectionsNameForCourse(String courseId, boolean isCourseVerified) 
+        throws EntityDoesNotExistException {
+        if (!isCourseVerified) {
+            verifyCourseIsPresent(courseId);    
+        }
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(courseId);
-
-        List<String> sectionNameList = new ArrayList<String>();
-
+        
+        Set<String> sectionNameSet = new HashSet<String>();
         for(StudentAttributes sd: studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
-                sectionNameList.add(sd.section);
+            if (!sd.section.equals(Const.DEFAULT_SECTION)) {
+                sectionNameSet.add(sd.section);
             }
         }
-
+        
+        List<String> sectionNameList = new ArrayList<String>(sectionNameSet);
         Collections.sort(sectionNameList);
 
-        return sectionNameList;
+        return sectionNameList;   
     }
 
     public SectionDetailsBundle getSectionForCourse(String section, String courseId)
@@ -763,7 +782,7 @@ public class CoursesLogic {
                                     throws EntityDoesNotExistException {
         Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
         for (CourseAttributes course : courses) {
-            List<String> sections = getSectionsNameForCourse(course.id);
+            List<String> sections = getSectionsNameForCourse(course);
             courseIdToSectionName.put(course.id, sections);
         }
         
@@ -793,16 +812,12 @@ public class CoursesLogic {
         return result;
     }
     
-    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         List<String> archivedCourseIds = new ArrayList<String>();
         for (CourseDetailsBundle cdb : allCourses) {
-            if (cdb.course.isArchived) {
+            InstructorAttributes instructor = instructorsForCourses.get(cdb.course.id);
+            if (isCourseArchived(cdb.course, instructor)) {
                 archivedCourseIds.add(cdb.course.id);
-            }
-        }
-        for (InstructorAttributes instructor : instructorList) {
-            if (instructor.isArchived != null && instructor.isArchived == true) {
-                archivedCourseIds.add(instructor.courseId);
             }
         }
         return archivedCourseIds;

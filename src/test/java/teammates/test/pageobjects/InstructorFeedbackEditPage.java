@@ -640,6 +640,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(InstructorFeedbacksPage.class);
     }
     
+    public WebElement getStatusMessage() {
+        return statusMessage;
+    }
+    
     public InstructorFeedbacksPage clickDoneEditingLink() {
         WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable"))
                                                    .findElements(By.tagName("a"))
