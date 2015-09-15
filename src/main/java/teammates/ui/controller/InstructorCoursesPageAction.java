@@ -44,12 +44,17 @@ public class InstructorCoursesPageAction extends Action {
         // Get list of InstructorAttributes that belong to the user.
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
         
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
+        for (InstructorAttributes instructor : instructorList) {
+            instructorsForCourses.put(instructor.courseId, instructor);
+        }
+        
         // Get corresponding courses of the instructors.
         List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructors(instructorList).values());
         List<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
         List<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
         
-        List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorList);
+        List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
         for (CourseDetailsBundle cdb : allCourses) {
             if (archivedCourseIds.contains(cdb.course.id)) {
                 archivedCourses.add(cdb);
@@ -62,10 +67,6 @@ public class InstructorCoursesPageAction extends Action {
         CourseDetailsBundle.sortDetailedCoursesByCourseId(activeCourses);
         CourseDetailsBundle.sortDetailedCoursesByCourseId(archivedCourses);
         
-        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        for (InstructorAttributes instructor : instructorList) {
-            instructorsForCourses.put(instructor.courseId, instructor);
-        }
         
         data.init(activeCourses, archivedCourses, instructorsForCourses);
         

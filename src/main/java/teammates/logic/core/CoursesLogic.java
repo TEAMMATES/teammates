@@ -793,20 +793,12 @@ public class CoursesLogic {
         return result;
     }
     
-    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         List<String> archivedCourseIds = new ArrayList<String>();
-        for (InstructorAttributes instructor : instructorList) {
-            if (instructor.isArchived != null && instructor.isArchived == true) {
-                archivedCourseIds.add(instructor.courseId);
-            } else if (instructor.isArchived == null) {
-                for (CourseDetailsBundle cdb : allCourses) {
-                    if (cdb.course.id == instructor.courseId) {
-                        if (cdb.course.isArchived) {
-                            archivedCourseIds.add(cdb.course.id);
-                        }
-                        break;
-                    }
-                }
+        for (CourseDetailsBundle cdb : allCourses) {
+            InstructorAttributes instructor = instructorsForCourses.get(cdb.course.id);
+            if (isCourseArchived(cdb.course, instructor)) {
+                archivedCourseIds.add(cdb.course.id);
             }
         }
         return archivedCourseIds;
