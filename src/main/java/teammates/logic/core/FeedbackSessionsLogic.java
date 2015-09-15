@@ -2211,6 +2211,9 @@ public class FeedbackSessionsLogic {
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question, CourseRoster roster)
             throws EntityDoesNotExistException {
+        // keys of emailNameTable are participantIdentifiers,
+        // which consists of students' email, instructors' email, team names, or %GENERAL%.
+        // participants identifiers of anonymous responses are not anonymised in the tables
         addEmailNamePairsToTable(emailNameTable, response, question, roster,
                 EMAIL_NAME_PAIR);
     }
@@ -2245,9 +2248,9 @@ public class FeedbackSessionsLogic {
                                 response.giverEmail, roster)[pairType]);
             }
             
-            String actualGiverTeam = roster.getStudentForEmail(response.giverEmail).team;
-            if (!emailNameTable.containsKey(actualGiverTeam)) {
-                emailNameTable.put(actualGiverTeam, getNameTeamNamePairForEmail(
+            StudentAttributes studentGiver = roster.getStudentForEmail(response.giverEmail);
+            if (studentGiver != null && !emailNameTable.containsKey(studentGiver.team)) {
+                emailNameTable.put(studentGiver.team, getNameTeamNamePairForEmail(
                                                         question.giverType,
                                                         response.giverEmail, roster)[pairType]);
             }
