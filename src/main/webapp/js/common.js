@@ -408,7 +408,6 @@ function getPointValue(s, ditchZero) {
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
-var DIV_TOPOFPAGE = 'topOfPage';
 
 /**
  * Checks if element is within browser's viewport.
@@ -493,8 +492,8 @@ function scrollToElement(element, options) {
 /**
  * Scrolls the screen to top
  */
-function scrollToTop() {
-    document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+function scrollToTop(duration) {
+    scrollToPosition(0, duration);
 }
 
 /** Selector for status message div tag (to be used in jQuery) */
