@@ -154,21 +154,6 @@ function setupFsCopyModal() {
     });
 }
 
-// For ajax failure handling
-
-/**
- * Given an element, replaces the HTML content of the element with an error message prompting 
- * the user to retry.
- */
-function displayAjaxRetryMessage($element) {
-    var ajaxErrorStart = '<div class="ajax-error">';
-    var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-    var errorMsg = '[ Failed to load. Click here to retry. ]';
-    errorMsg = '<strong style="margin-left: 1em; margin-right: 1em;">' + errorMsg + '</strong>';
-    var chevronDown = '<span class="glyphicon glyphicon-chevron-down"></span>';
-    var ajaxErrorEnd = '</div>';
-    $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
-}
 
 // Student Profile Picture
 //--------------------------------------------------------------------------
