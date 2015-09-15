@@ -14,7 +14,6 @@ import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.ui.controller.PageData;
 
 public class FeedbackNumericalScaleQuestionDetails extends
         FeedbackQuestionDetails {
@@ -152,12 +151,12 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            PageData pageData,
+            String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
         
         if (view.equals("student")) {
-            return getStudentQuestionResultsStatisticsHtml(responses, pageData, question, bundle);
+            return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
         } else {
             return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
         }
@@ -240,7 +239,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
 
     private String getStudentQuestionResultsStatisticsHtml(
-            List<FeedbackResponseAttributes> responses, PageData pageData,
+            List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
         String html = "";
        
@@ -280,9 +279,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                     (question.recipientType == FeedbackParticipantType.OWN_TEAM);
         boolean isRecipientTypeStudent = !isRecipientTypeGeneral && !isRecipientTypeTeam;
         
-        String currentUserTeam = bundle.getTeamNameForEmail(pageData.student.email);
+        String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
         String currentUserIdentifier = getCurrentUserIdentifier(numResponses,
-                                                                isRecipientTypeStudent, pageData.student.email, 
+                                                                isRecipientTypeStudent, studentEmail, 
                                                                 isRecipientTypeTeam, currentUserTeam);  
         
         Set<String> recipientSet = numResponses.keySet();
@@ -319,13 +318,18 @@ public class FeedbackNumericalScaleQuestionDetails extends
             
             recipientName = getDisplayableRecipientName(isHiddenRecipient,
                             isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
-                            isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,currentUserIdentifier),
+                            isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(
+                                                            numResponses, currentUserIdentifier, hiddenRecipients),
                             isRecipientGeneral, bundle.getNameForEmail(recipient), currentUserTeam);
             
             recipientTeam = getDisplayableRecipientTeam(isHiddenRecipient,
-                            isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
-                            isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,currentUserIdentifier),
-                            bundle.getTeamNameForEmail(recipient), currentUserTeam);
+                                                        isRecipientCurrentUser, 
+                                                        hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
+                                                        isRecipientTypeStudent,
+                                                        hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, 
+                                                                                                   currentUserIdentifier, 
+                                                                                                   hiddenRecipients),
+                                                        bundle.getTeamNameForEmail(recipient), currentUserTeam);
 
             Double minScore = null;
             Double maxScore = null;
@@ -362,7 +366,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         String statsTitle = getStatsTitle(isRecipientTypeGeneral, isRecipientTypeTeam, 
-                            hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier));
+                                          hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
@@ -640,17 +644,21 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     /**
-     * Return true when the number of responses for any recipient other than the current user has at least 2.
+     * Return true when the number of responses for any visible recipient, other than the current user,
+     * has at least 2 responses.
      * This is used for displaying the statistic for other users as it doesn't make sense when all other users
      * have only 1 response each
      * Return false otherwise.
      */
     private boolean hasAtLeastTwoResponsesOtherThanCurrentUser(
-            Map<String, Integer> numResponses, String currentUserIdentifier) {
+            Map<String, Integer> numResponses, String currentUserIdentifier, List<String> hiddenRecipients) {
         boolean isAtLeastTwoResponsesOtherThanCurrentUser = false;
         
         // At least 2 responses are given to any recipient other than current user
         for (String recipient: numResponses.keySet()) {
+            if (hiddenRecipients.contains(recipient)) {
+                continue;
+            }
 
             if (hasAtLeastTwoResponses(numResponses, recipient) && 
                 !recipient.equals(currentUserIdentifier)) {

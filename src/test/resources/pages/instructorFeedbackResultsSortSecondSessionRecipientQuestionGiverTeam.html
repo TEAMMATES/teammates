@@ -27,7 +27,7 @@
                         <div class="col-sm-10">
                            <p class="form-control-static">
                               Second Session
-                              <a href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&amp;fsname=Second+Session&amp;user=CFResultsUiT.instr">
+                              <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr">
                                  [Edit]
                               </a>
                            </p>
@@ -63,7 +63,7 @@
                   <div class="col-sm-2">
                      <div class="form-group">
                         <div class="col-sm-12">
-                           <form action="&#x2f;page&#x2f;instructorFeedbackResultsDownload" method="post">
+                           <form action="/page/instructorFeedbackResultsDownload" method="post">
                               <div id="feedbackDataButtons">
                                  <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
                                                                </div>
@@ -74,7 +74,7 @@
                                                          </form>
                            <br/>
                                                       <div>
-                              <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&amp;fsname=Second+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" onclick="return togglePublishEvaluation(&#39;Second Session&#39;, true);" title="">
+                              <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" onclick="return togglePublishEvaluation('Second Session', true);" title="">
                                  Publish Results
                               </a>
                            </div>
@@ -119,7 +119,7 @@
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                      Close
                   </button>
-                  <button class="btn btn-primary" onclick="selectElementContents(document.getElementById(&#39;fsModalTable&#39;));" type="button">
+                  <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
                      Select Table
                   </button>
                </div>
@@ -137,7 +137,7 @@
             </div>
          </div>
       </div>
-      <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&amp;fsname=Second+Session&amp;user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
+      <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
          <div class="panel panel-info margin-0">
             <div class="panel-body">
                <div class="row">
@@ -152,16 +152,16 @@
                                  Group by - Question
                               </option>
                               <option value="giver-recipient-question">
-                                 Group by - Giver &gt; Recipient &gt; Question
+                                 Group by - Giver > Recipient > Question
                               </option>
                               <option value="recipient-giver-question">
-                                 Group by - Recipient &gt; Giver &gt; Question
+                                 Group by - Recipient > Giver > Question
                               </option>
                               <option value="giver-question-recipient">
-                                 Group by - Giver &gt; Question &gt; Recipient
+                                 Group by - Giver > Question > Recipient
                               </option>
                               <option selected="selected" value="recipient-question-giver">
-                                 Group by - Recipient &gt; Question &gt; Giver
+                                 Group by - Recipient > Question > Giver
                               </option>
                            </select>
                         </div>
@@ -174,7 +174,7 @@
                         </label>
                         <div class="col-sm-10">
                            <div class="input-group">
-                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student&#x2f;team name&#x2f;section name to filter" type="text"/>
+                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text"/>
                                                             <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
@@ -289,7 +289,7 @@
                               <span class="text-preserve-space">
                                  Rate the class 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;9-recipient-0-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('9-recipient-0-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -416,7 +416,7 @@
                                                 Anonymous student 410339386
                                              </td>
                                              <td class="middlealign">
-                                                Anonymous student 410339386&#39;s Team
+                                                Anonymous student 410339386's Team
                                              </td>
                                              <td class="text-preserve-space">
                                                 -0.5
@@ -461,7 +461,7 @@
                <div class="panel panel-primary">
                   <div class="panel-heading" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>
                            Alice Betsy
                         </strong>
@@ -486,7 +486,7 @@
                               <span class="text-preserve-space">
                                  Who are your teammates? 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;2-recipient-3-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('2-recipient-3-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -575,7 +575,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -596,7 +596,7 @@
                                                 </ul>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -617,7 +617,7 @@
                               <span class="text-preserve-space">
                                  Which teams do you like? 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;3-recipient-3-question-2&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('3-recipient-3-question-2')">
                                        [more]
                                     </a>
                                     <br/>
@@ -717,7 +717,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -741,7 +741,7 @@
                                                 </ul>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -762,7 +762,7 @@
                               <span class="text-preserve-space">
                                  Rate our product. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;4-recipient-3-question-3&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('4-recipient-3-question-3')">
                                        [more]
                                     </a>
                                     <br/>
@@ -879,7 +879,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -896,7 +896,7 @@
                                                 3.5
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -917,7 +917,7 @@
                               <span class="text-preserve-space">
                                  How important are the following factors to you? Give points accordingly. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;5-recipient-3-question-4&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('5-recipient-3-question-4')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1030,7 +1030,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1054,7 +1054,7 @@
                                                 </ul>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1075,7 +1075,7 @@
                               <span class="text-preserve-space">
                                  Split points among the your team members and yourself, according to how much you think each member has contributed. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;6-recipient-3-question-5&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('6-recipient-3-question-5')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1178,7 +1178,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1195,7 +1195,7 @@
                                                 110
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1206,7 +1206,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1225,7 +1225,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1246,7 +1246,7 @@
                               <span class="text-preserve-space">
                                  Rate the contribution of yourself and your team members towards the latest project. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;7-recipient-3-question-6&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('7-recipient-3-question-6')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1292,7 +1292,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1312,13 +1312,13 @@
                                                 <span>
                                                      [Perceived Contribution:
                                                    <span class="color_neutral">
-                                                      N&#x2f;A
+                                                      N/A
                                                    </span>
                                                    ]
                                                 </span>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1329,7 +1329,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1348,7 +1348,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1390,7 +1390,7 @@
                               <span class="text-preserve-space">
                                  Rate you and your team members work. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;8-recipient-1-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('8-recipient-1-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1438,7 +1438,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1455,7 +1455,7 @@
                                                 3
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1476,7 +1476,7 @@
                               <span class="text-preserve-space">
                                  Rate the contribution of ideas from yourself and your team members in the last meeting. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;10-recipient-1-question-2&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('10-recipient-1-question-2')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1522,7 +1522,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1537,11 +1537,11 @@
                                              </td>
                                              <td class="text-preserve-space">
                                                 <span class="color_neutral">
-                                                   N&#x2f;A
+                                                   N/A
                                                 </span>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1583,7 +1583,7 @@
                               <span class="text-preserve-space">
                                  Rate you and your team members work. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;8-recipient-2-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('8-recipient-2-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1631,7 +1631,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1648,7 +1648,7 @@
                                                 4
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1669,7 +1669,7 @@
                               <span class="text-preserve-space">
                                  Rate the contribution of ideas from yourself and your team members in the last meeting. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;10-recipient-2-question-2&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('10-recipient-2-question-2')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1715,7 +1715,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1734,7 +1734,7 @@
                                                 </span>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1755,7 +1755,7 @@
                <div class="panel panel-primary">
                   <div class="panel-heading" data-target="#panelBodyCollapse-7" id="panelHeading-7" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>
                            Benny Charles
                         </strong>
@@ -1780,7 +1780,7 @@
                               <span class="text-preserve-space">
                                  Split points among the your team members and yourself, according to how much you think each member has contributed. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;6-recipient-4-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('6-recipient-4-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1883,7 +1883,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1900,7 +1900,7 @@
                                                 90
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1911,7 +1911,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -1930,7 +1930,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -1951,7 +1951,7 @@
                               <span class="text-preserve-space">
                                  Rate the contribution of yourself and your team members towards the latest project. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;7-recipient-4-question-2&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('7-recipient-4-question-2')">
                                        [more]
                                     </a>
                                     <br/>
@@ -1997,7 +1997,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2016,7 +2016,7 @@
                                                 </span>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2027,7 +2027,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2053,7 +2053,7 @@
                                                 </span>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2074,7 +2074,7 @@
                <div class="panel panel-primary">
                   <div class="panel-heading" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>
                            Charlie Dávis
                         </strong>
@@ -2099,7 +2099,7 @@
                               <span class="text-preserve-space">
                                  Split points among the your team members and yourself, according to how much you think each member has contributed. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;6-recipient-5-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('6-recipient-5-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -2202,7 +2202,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2219,7 +2219,7 @@
                                                 50
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2230,7 +2230,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2249,7 +2249,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2260,7 +2260,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2279,7 +2279,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2290,7 +2290,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2309,7 +2309,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2320,7 +2320,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2339,7 +2339,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2360,7 +2360,7 @@
                <div class="panel panel-primary">
                   <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>
                            Danny Engrid
                         </strong>
@@ -2385,7 +2385,7 @@
                               <span class="text-preserve-space">
                                  Split points among the your team members and yourself, according to how much you think each member has contributed. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;6-recipient-6-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('6-recipient-6-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -2488,7 +2488,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2505,7 +2505,7 @@
                                                 150
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2516,7 +2516,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2535,7 +2535,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2546,7 +2546,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2565,7 +2565,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2576,7 +2576,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2595,7 +2595,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2606,7 +2606,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -2625,7 +2625,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -2646,7 +2646,7 @@
                <div class="panel panel-default">
                   <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>
                            Drop out
                         </strong>
@@ -2674,7 +2674,7 @@
                <div class="panel panel-default">
                   <div class="panel-heading" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>
                            Extra guy
                         </strong>
@@ -2727,7 +2727,7 @@
                <div class="panel panel-default">
                   <div class="panel-heading" data-target="#panelBodyCollapse-13" id="panelHeading-13" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>
                            Emily
                         </strong>
@@ -2757,7 +2757,7 @@
       </div>
       <div class="panel panel-warning">
          <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-14" id="panelHeading-14" style="cursor: pointer;">
-            <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+            <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                               <input name="fsname" type="hidden" value="Second Session"/>
                               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
@@ -2798,7 +2798,7 @@
                            Charlie Dávis
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="Second Session"/>
@@ -2814,7 +2814,7 @@
                            Danny Engrid
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="Second Session"/>
@@ -2830,7 +2830,7 @@
                            Drop out
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="Second Session"/>
@@ -2846,7 +2846,7 @@
                            Extra guy
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="Second Session"/>
@@ -2862,7 +2862,7 @@
                            Emily
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="Second Session"/>

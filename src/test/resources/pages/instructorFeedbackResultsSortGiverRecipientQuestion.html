@@ -27,7 +27,7 @@
                         <div class="col-sm-10">
                            <p class="form-control-static">
                               First Session
-                              <a href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;user=CFResultsUiT.instr">
+                              <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr">
                                  [Edit]
                               </a>
                            </p>
@@ -63,7 +63,7 @@
                   <div class="col-sm-2">
                      <div class="form-group">
                         <div class="col-sm-12">
-                           <form action="&#x2f;page&#x2f;instructorFeedbackResultsDownload" method="post">
+                           <form action="/page/instructorFeedbackResultsDownload" method="post">
                               <div id="feedbackDataButtons">
                                  <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
                                                                </div>
@@ -74,7 +74,7 @@
                                                          </form>
                            <br/>
                                                       <div>
-                              <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation(&#39;First Session&#39;);" title="">
+                              <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation('First Session');" title="">
                                  Unpublish Results
                               </a>
                            </div>
@@ -119,7 +119,7 @@
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                      Close
                   </button>
-                  <button class="btn btn-primary" onclick="selectElementContents(document.getElementById(&#39;fsModalTable&#39;));" type="button">
+                  <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
                      Select Table
                   </button>
                </div>
@@ -137,7 +137,7 @@
             </div>
          </div>
       </div>
-      <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
+      <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr" class="form-horizontal" method="post" role="form">
          <div class="panel panel-info margin-0">
             <div class="panel-body">
                <div class="row">
@@ -152,16 +152,16 @@
                                  Group by - Question
                               </option>
                               <option selected="selected" value="giver-recipient-question">
-                                 Group by - Giver &gt; Recipient &gt; Question
+                                 Group by - Giver > Recipient > Question
                               </option>
                               <option value="recipient-giver-question">
-                                 Group by - Recipient &gt; Giver &gt; Question
+                                 Group by - Recipient > Giver > Question
                               </option>
                               <option value="giver-question-recipient">
-                                 Group by - Giver &gt; Question &gt; Recipient
+                                 Group by - Giver > Question > Recipient
                               </option>
                               <option value="recipient-question-giver">
-                                 Group by - Recipient &gt; Question &gt; Giver
+                                 Group by - Recipient > Question > Giver
                               </option>
                            </select>
                         </div>
@@ -174,7 +174,7 @@
                         </label>
                         <div class="col-sm-10">
                            <div class="input-group">
-                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student&#x2f;team name&#x2f;section name to filter" type="text"/>
+                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text"/>
                                                             <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
@@ -286,7 +286,7 @@
                         <div class="panel panel-primary">
                            <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Teammates Test (Instructors)
                                  </strong>
@@ -316,7 +316,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Teammates Test (Instructors)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -350,7 +350,7 @@
                                                                <br/>
                                                                                                                               Recipient: -
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-1" onclick="toggleVisibilityEditForm(1,0,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -366,7 +366,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -396,7 +396,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,1);" type="button" value="Cancel"/>
@@ -421,7 +421,7 @@
                         <div class="panel panel-default">
                            <div class="panel-heading" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Teammates Helper1 (Instructors)
                                  </strong>
@@ -431,7 +431,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -455,7 +455,7 @@
                         <div class="panel panel-default">
                            <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Teammates Helper2 (Instructors)
                                  </strong>
@@ -465,7 +465,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -535,7 +535,7 @@
                         <div class="panel panel-primary">
                            <div class="panel-heading" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Alice Betsy (Team 1)
                                  </strong>
@@ -545,7 +545,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -564,7 +564,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Alice Betsy (Team 1)
                                              </strong>
@@ -574,7 +574,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Alice Betsy (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -608,7 +608,7 @@
                                                                <br/>
                                                                                                                               Recipient: Alice Betsy (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-1" onclick="toggleVisibilityEditForm(1,1,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -624,7 +624,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -649,7 +649,7 @@
                                                                <tr id="response-giver-team-1-1-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -693,7 +693,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1);" type="button" value="Cancel"/>
@@ -716,7 +716,7 @@
                                              <span class="text-preserve-space">
                                                 What is your extra feature? 
                                                 <span style=" white-space: normal;">
-                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;7-giver-1-recipient-1&#39;)">
+                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('7-giver-1-recipient-1')">
                                                       [more]
                                                    </a>
                                                    <br/>
@@ -760,7 +760,7 @@
                                                                <br/>
                                                                                                                               Recipient: Alice Betsy (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-2" onclick="toggleVisibilityEditForm(1,1,2)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -776,7 +776,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -801,7 +801,7 @@
                                                                <tr id="response-giver-team-1-1-2">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -845,7 +845,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-2" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-2" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,2);" type="button" value="Cancel"/>
@@ -868,7 +868,7 @@
                                              <span class="text-preserve-space">
                                                 What is your extra feature? 
                                                 <span style=" white-space: normal;">
-                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;8-giver-1-recipient-1&#39;)">
+                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('8-giver-1-recipient-1')">
                                                       [more]
                                                    </a>
                                                    <br/>
@@ -919,7 +919,7 @@
                                                                <br/>
                                                                                                                               Recipient: Alice Betsy (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-3" onclick="toggleVisibilityEditForm(1,1,3)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -935,7 +935,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -960,7 +960,7 @@
                                                                <tr id="response-giver-team-1-1-3">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -1004,7 +1004,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-3" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-3" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,3);" type="button" value="Cancel"/>
@@ -1027,7 +1027,7 @@
                                              <span class="text-preserve-space">
                                                 Who do you think is the most hardworking student? 
                                                 <span style=" white-space: normal;">
-                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;9-giver-1-recipient-1&#39;)">
+                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('9-giver-1-recipient-1')">
                                                       [more]
                                                    </a>
                                                    <br/>
@@ -1059,7 +1059,7 @@
                                                                <br/>
                                                                                                                               Recipient: Alice Betsy (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-4" onclick="toggleVisibilityEditForm(1,1,4)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -1075,7 +1075,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -1100,7 +1100,7 @@
                                                                <tr id="response-giver-team-1-1-4">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -1144,7 +1144,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-4" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-4" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,4);" type="button" value="Cancel"/>
@@ -1167,7 +1167,7 @@
                                              <span class="text-preserve-space">
                                                 Which team do you think has the best feature? 
                                                 <span style=" white-space: normal;">
-                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;10-giver-1-recipient-1&#39;)">
+                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('10-giver-1-recipient-1')">
                                                       [more]
                                                    </a>
                                                    <br/>
@@ -1199,7 +1199,7 @@
                                                                <br/>
                                                                                                                               Recipient: Alice Betsy (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-1-5" onclick="toggleVisibilityEditForm(1,1,5)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -1215,7 +1215,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -1240,7 +1240,7 @@
                                                                <tr id="response-giver-team-1-1-5">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -1284,7 +1284,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-5" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-5" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,5);" type="button" value="Cancel"/>
@@ -1307,7 +1307,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Benny Charles (Team 1)
                                              </strong>
@@ -1317,7 +1317,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Alice Betsy (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -1328,7 +1328,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -1351,7 +1351,7 @@
                                                                <br/>
                                                                                                                               Recipient: Benny Charles (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-2-1-1" onclick="toggleVisibilityEditForm(2,1,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -1367,7 +1367,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -1405,7 +1405,7 @@
                                                                <tr id="response-giver-team-2-1-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -1449,7 +1449,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-1-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-1-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,1,1);" type="button" value="Cancel"/>
@@ -1472,7 +1472,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Drop out (Team 2)
                                              </strong>
@@ -1482,7 +1482,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Alice Betsy (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -1493,7 +1493,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -1516,7 +1516,7 @@
                                                                <br/>
                                                                                                                               Recipient: Drop out (Team 2)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-3-1-1" onclick="toggleVisibilityEditForm(3,1,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -1532,7 +1532,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -1570,7 +1570,7 @@
                                                                <tr id="response-giver-team-3-1-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -1614,7 +1614,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-3-1-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-3-1-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,1,1);" type="button" value="Cancel"/>
@@ -1639,7 +1639,7 @@
                         <div class="panel panel-primary">
                            <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Benny Charles (Team 1)
                                  </strong>
@@ -1649,7 +1649,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -1668,7 +1668,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Benny Charles (Team 1)
                                              </strong>
@@ -1678,7 +1678,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Benny Charles (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -1691,7 +1691,7 @@
                                              <span class="text-preserve-space">
                                                 What is your extra feature? 
                                                 <span style=" white-space: normal;">
-                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;8-giver-2-recipient-1&#39;)">
+                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('8-giver-2-recipient-1')">
                                                       [more]
                                                    </a>
                                                    <br/>
@@ -1734,7 +1734,7 @@
                                                                <br/>
                                                                                                                               Recipient: Benny Charles (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-2-1" onclick="toggleVisibilityEditForm(1,2,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -1750,7 +1750,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -1775,7 +1775,7 @@
                                                                <tr id="response-giver-team-1-2-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -1819,7 +1819,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-2-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-2-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,2,1);" type="button" value="Cancel"/>
@@ -1842,7 +1842,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Charlie Dávis (Team 2)
                                              </strong>
@@ -1852,7 +1852,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Benny Charles (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -1863,7 +1863,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -1886,7 +1886,7 @@
                                                                <br/>
                                                                                                                               Recipient: Charlie Dávis (Team 2)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-2-2-1" onclick="toggleVisibilityEditForm(2,2,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -1902,7 +1902,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -1940,7 +1940,7 @@
                                                                <tr id="response-giver-team-2-2-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -1984,7 +1984,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-2-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-2-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,2,1);" type="button" value="Cancel"/>
@@ -2007,7 +2007,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Danny Engrid (Team 2)
                                              </strong>
@@ -2017,7 +2017,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Benny Charles (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -2028,7 +2028,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -2051,7 +2051,7 @@
                                                                <br/>
                                                                                                                               Recipient: Danny Engrid (Team 2)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-3-2-1" onclick="toggleVisibilityEditForm(3,2,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -2067,7 +2067,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -2105,7 +2105,7 @@
                                                                <tr id="response-giver-team-3-2-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -2149,7 +2149,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-3-2-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-3-2-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,2,1);" type="button" value="Cancel"/>
@@ -2180,7 +2180,7 @@
                                  </strong>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -2240,7 +2240,7 @@
                                                                <br/>
                                                                                                                               Recipient: Team 2
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-3-1" onclick="toggleVisibilityEditForm(1,3,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -2256,7 +2256,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -2312,7 +2312,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-3-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-3-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,3,1);" type="button" value="Cancel"/>
@@ -2358,7 +2358,7 @@
                         <div class="panel panel-primary">
                            <div class="panel-heading" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Charlie Dávis (Team 2)
                                  </strong>
@@ -2368,7 +2368,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -2387,7 +2387,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Emily (Team 3)
                                              </strong>
@@ -2397,7 +2397,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Charlie Dávis (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -2408,7 +2408,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -2431,7 +2431,7 @@
                                                                <br/>
                                                                                                                               Recipient: Emily (Team 3)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-4-1" onclick="toggleVisibilityEditForm(1,4,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -2447,7 +2447,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -2485,7 +2485,7 @@
                                                                <tr id="response-giver-team-1-4-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -2529,7 +2529,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-4-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-4-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,4,1);" type="button" value="Cancel"/>
@@ -2554,7 +2554,7 @@
                         <div class="panel panel-primary">
                            <div class="panel-heading" data-target="#panelBodyCollapse-13" id="panelHeading-13" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Drop out (Team 2)
                                  </strong>
@@ -2564,7 +2564,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -2583,7 +2583,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Alice Betsy (Team 1)
                                              </strong>
@@ -2593,7 +2593,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Drop out (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -2604,7 +2604,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -2627,7 +2627,7 @@
                                                                <br/>
                                                                                                                               Recipient: Alice Betsy (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-5-1" onclick="toggleVisibilityEditForm(1,5,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -2643,7 +2643,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -2681,7 +2681,7 @@
                                                                <tr id="response-giver-team-1-5-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -2725,7 +2725,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-5-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-5-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,5,1);" type="button" value="Cancel"/>
@@ -2748,7 +2748,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Benny Charles (Team 1)
                                              </strong>
@@ -2758,7 +2758,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Drop out (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -2769,7 +2769,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -2792,7 +2792,7 @@
                                                                <br/>
                                                                                                                               Recipient: Benny Charles (Team 1)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-2-5-1" onclick="toggleVisibilityEditForm(2,5,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -2808,7 +2808,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -2846,7 +2846,7 @@
                                                                <tr id="response-giver-team-2-5-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -2890,7 +2890,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-5-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-5-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,5,1);" type="button" value="Cancel"/>
@@ -2913,7 +2913,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Danny Engrid (Team 2)
                                              </strong>
@@ -2923,7 +2923,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Drop out (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -2934,7 +2934,7 @@
                                           <div class="panel-heading">
                                              Question 1:
                                              <span class="text-preserve-space">
-                                                Rate 3 other students&#39; products
+                                                Rate 3 other students' products
                                              </span>
                                           </div>
                                           <div class="panel-body">
@@ -2957,7 +2957,7 @@
                                                                <br/>
                                                                                                                               Recipient: Danny Engrid (Team 2)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-3-5-1" onclick="toggleVisibilityEditForm(3,5,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -2973,7 +2973,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -3011,7 +3011,7 @@
                                                                <tr id="response-giver-team-3-5-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -3055,7 +3055,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-3-5-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-3-5-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,5,1);" type="button" value="Cancel"/>
@@ -3078,7 +3078,7 @@
                                     <div class="col-md-2">
                                        <div class="col-md-12">
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Drop out (Team 2)
                                              </strong>
@@ -3088,7 +3088,7 @@
                                        <div class="col-md-12 text-muted small">
                                           <br/>
                                                                                     From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Drop out (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                                        </div>
@@ -3101,7 +3101,7 @@
                                              <span class="text-preserve-space">
                                                 What is your extra feature? 
                                                 <span style=" white-space: normal;">
-                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;7-giver-5-recipient-4&#39;)">
+                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('7-giver-5-recipient-4')">
                                                       [more]
                                                    </a>
                                                    <br/>
@@ -3145,7 +3145,7 @@
                                                                <br/>
                                                                                                                               Recipient: Drop out (Team 2)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-4-5-1" onclick="toggleVisibilityEditForm(4,5,1)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -3161,7 +3161,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -3186,7 +3186,7 @@
                                                                <tr id="response-giver-team-4-5-1">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -3230,7 +3230,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-4-5-1" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-4-5-1" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,5,1);" type="button" value="Cancel"/>
@@ -3253,7 +3253,7 @@
                                              <span class="text-preserve-space">
                                                 Which team do you think has the best feature? 
                                                 <span style=" white-space: normal;">
-                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;10-giver-5-recipient-4&#39;)">
+                                                   <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('10-giver-5-recipient-4')">
                                                       [more]
                                                    </a>
                                                    <br/>
@@ -3285,7 +3285,7 @@
                                                                <br/>
                                                                                                                               Recipient: Drop out (Team 2)
                                                             </p>
-                                                            You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                                            You may change comment's visibility using the visibility options on the right hand side.
                                                          </div>
                                                          <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-4-5-2" onclick="toggleVisibilityEditForm(4,5,2)">
                                                             <span class="glyphicon glyphicon-eye-close">
@@ -3301,7 +3301,7 @@
                                                             <tbody>
                                                                <tr>
                                                                   <th class="text-center">
-                                                                     User&#x2f;Group
+                                                                     User/Group
                                                                   </th>
                                                                   <th class="text-center">
                                                                      Can see your comment
@@ -3326,7 +3326,7 @@
                                                                <tr id="response-giver-team-4-5-2">
                                                                   <td class="text-left">
                                                                      <div data-original-title="Control what team members of response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                                                        Response Giver&#39;s Team Members
+                                                                        Response Giver's Team Members
                                                                      </div>
                                                                   </td>
                                                                   <td>
@@ -3370,7 +3370,7 @@
                                                          </textarea>
                                                       </div>
                                                       <div class="col-sm-offset-5">
-                                                         <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-4-5-2" type="button">
+                                                         <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-4-5-2" type="button">
                                                             Add
                                                          </a>
                                                          <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,5,2);" type="button" value="Cancel"/>
@@ -3395,7 +3395,7 @@
                         <div class="panel panel-default">
                            <div class="panel-heading" data-target="#panelBodyCollapse-14" id="panelHeading-14" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Danny Engrid (Team 2)
                                  </strong>
@@ -3405,7 +3405,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -3429,7 +3429,7 @@
                         <div class="panel panel-default">
                            <div class="panel-heading" data-target="#panelBodyCollapse-15" id="panelHeading-15" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Extra guy (Team 2)
                                  </strong>
@@ -3439,7 +3439,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -3509,7 +3509,7 @@
                         <div class="panel panel-default">
                            <div class="panel-heading" data-target="#panelBodyCollapse-18" id="panelHeading-18" style="cursor: pointer;">
                               From:
-                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
+                              <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">
                                  <strong>
                                     Emily (Team 3)
                                  </strong>
@@ -3519,7 +3519,7 @@
                                  </a>
                               </div>
                               <div class="pull-right">
-                                 <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                     <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                                                         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                                         <input name="fsname" type="hidden" value="First Session"/>
@@ -3548,7 +3548,7 @@
       </div>
       <div class="panel panel-warning">
          <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-19" id="panelHeading-19" style="cursor: pointer;">
-            <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+            <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                               <input name="fsname" type="hidden" value="First Session"/>
                               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
@@ -3613,7 +3613,7 @@
                            Danny Engrid
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="First Session"/>
@@ -3629,7 +3629,7 @@
                            Extra guy
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="First Session"/>
@@ -3645,7 +3645,7 @@
                            Emily
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="First Session"/>

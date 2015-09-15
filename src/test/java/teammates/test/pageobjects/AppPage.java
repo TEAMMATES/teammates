@@ -40,7 +40,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -739,22 +738,7 @@ public abstract class AppPage {
     }
     
     public static String processPageSourceForFailureCase(String content) {
-        Date now = new Date();
-        return processPageSourceForGodMode(content)
-                // jQuery local
-                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery.min.js"), 
-                         Sanitizer.sanitizeForHtml("{*}/jquery.min.js"))
-                // jQuery CDN
-                .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"), 
-                         Sanitizer.sanitizeForHtml("{*}/jquery.min.js"))
-                // jQuery-ui local
-                .replace(Sanitizer.sanitizeForHtml("/js/lib/jquery-ui.min.js"), 
-                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
-                // jQuery-ui CDN
-                .replace(Sanitizer.sanitizeForHtml("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"), 
-                         Sanitizer.sanitizeForHtml("{*}/jquery-ui.min.js"))
-                // today's date
-                .replace(Sanitizer.sanitizeForHtml(TimeHelper.formatDate(now)), "{*}");
+        return processPageSourceForGodMode(content);
     }
     
     
@@ -775,7 +759,7 @@ public abstract class AppPage {
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
                 //regkey
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&amp;", Const.ParamsNames.REGKEY + "={*}\\&amp;")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&", Const.ParamsNames.REGKEY + "={*}\\&")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
                 .replaceAll("\"([a-zA-Z0-9-_]){50,}\"","\"{*}\"")
                 //responseid

@@ -8,7 +8,7 @@
             <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
-               <form action="&#x2f;page&#x2f;instructorSearchPage?user=comments.idOfHelperOfCourse1" method="get" name="search_form">
+               <form action="/page/instructorSearchPage?user=comments.idOfHelperOfCourse1" method="get" name="search_form">
                   <div class="input-group">
                      <input class="form-control" id="searchBox" name="searchkey" placeholder="Any info related to comments" title="Search for comment" type="text"/>
                                           <span class="input-group-btn">
@@ -38,7 +38,7 @@
                               Include Archived Courses
                            </label>
                            <div id="displayArchivedCourses_link" style="display:none;">
-                              <a href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.idOfHelperOfCourse1">
+                              <a href="/page/instructorCommentsPage?user=comments.idOfHelperOfCourse1">
                                  link back to the page
                               </a>
                            </div>
@@ -154,7 +154,7 @@
             </a>
          </li>
          <li class="active">
-            <a href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.idOfHelperOfCourse1&amp;courseid=comments.idOfTypicalCourse1">
+            <a href="/page/instructorCommentsPage?user=comments.idOfHelperOfCourse1&courseid=comments.idOfTypicalCourse1">
                comments.idOfTypicalCourse1
             </a>
          </li>
@@ -172,7 +172,7 @@
                </strong>
             </h4>
             <div class="btn-group pull-right" style="display:none">
-               <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&amp;user=comments.idOfHelperOfCourse1" style="margin-right: 17px;" title="" type="button">
+               <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfHelperOfCourse1" style="margin-right: 17px;" title="" type="button">
                   <span class="badge" style="margin-right: 5px">
                      0
                   </span>
@@ -189,7 +189,7 @@
             <br/>
                         <div class="panel">
                <div class="panel-body">
-                  You don&#39;t have any comment in this course.
+                  You don't have any comment in this course.
                </div>
             </div>
          </div>
@@ -219,11 +219,11 @@
                                  </b>
                                  [Sat, 02 Jun 2012, 19:22:00 UTC]
                               </span>
-                              <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-1" onclick="return deleteComment(&#39;1&#39;);" style="display: none;" title="" type="button">
+                              <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-1" onclick="return deleteComment('1');" style="display: none;" title="" type="button">
                                  <span class="glyphicon glyphicon-trash glyphicon-primary">
                                  </span>
                               </a>
-                              <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit(&#39;1&#39;, &#39;0&#39;);" style="display: none;" title="" type="button">
+                              <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit('1', '0');" style="display: none;" title="" type="button">
                                  <span class="glyphicon glyphicon-pencil glyphicon-primary">
                                  </span>
                               </a>
@@ -231,14 +231,14 @@
                            <div id="plainCommentText1" style="margin-left: 15px;">
                               This is a private comment--cannot seen by other instructors
                            </div>
-                           <form action="&#x2f;page&#x2f;instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
+                           <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
                               <div id="commentTextEdit1" style="display: none;">
                                  <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                        <p>
                                           Comment about all students in this course:
                                        </p>
-                                       You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
                                     <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger1">
                                        <span class="glyphicon glyphicon-eye-close">
@@ -254,16 +254,16 @@
                                        <tbody>
                                           <tr>
                                              <th class="text-center">
-                                                User&#x2f;Group
+                                                User/Group
                                              </th>
                                              <th class="text-center">
                                                 Can see your comment
                                              </th>
                                              <th class="text-center">
-                                                Can see giver&#39;s name
+                                                Can see giver's name
                                              </th>
                                              <th class="text-center">
-                                                Can see recipient&#39;s name
+                                                Can see recipient's name
                                              </th>
                                           </tr>
                                           <tr id="recipient-course1">
@@ -307,8 +307,8 @@
                                     </textarea>
                                  </div>
                                  <div class="col-sm-offset-5">
-                                    <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm(&#39;1&#39;);" title="Save comment" type="submit" value="Save"/>
-                                                                        <input class="btn btn-default" onclick="return disableComment(&#39;1&#39;);" type="button" value="Cancel"/>
+                                    <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm('1');" title="Save comment" type="submit" value="Save"/>
+                                                                        <input class="btn btn-default" onclick="return disableComment('1');" type="button" value="Cancel"/>
                                                                      </div>
                               </div>
                               <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit"/>
@@ -349,7 +349,7 @@
          <div id="panel_display-2">
             <br/>
                         <div class="panel panel-primary">
-               <div class="panel-heading" onclick="loadFeedbackResponseComments(&#39;comments.idOfHelperOfCourse1&#39;,&#39;comments.idOfTypicalCourse1&#39;,&#39;comments.First feedback session&#39;, &#39;1&#39;, this);" style="cursor: pointer;">
+               <div class="panel-heading" onclick="loadFeedbackResponseComments('comments.idOfHelperOfCourse1','comments.idOfTypicalCourse1','comments.First feedback session', '1', this);" style="cursor: pointer;">
                   <strong>
                      Comments in session: comments.First feedback session
                   </strong>
@@ -362,7 +362,7 @@
                                           <div class="panel panel-info">
                         <ul class="list-group comments">
                            <li class="list-group-item list-group-item-warning">
-                              You don&#39;t have any comment in this session.
+                              You don't have any comment in this session.
                            </li>
                         </ul>
                      </div>
@@ -378,7 +378,7 @@
             </a>
          </li>
          <li class="active">
-            <a href="&#x2f;page&#x2f;instructorCommentsPage?user=comments.idOfHelperOfCourse1&amp;courseid=comments.idOfTypicalCourse1">
+            <a href="/page/instructorCommentsPage?user=comments.idOfHelperOfCourse1&courseid=comments.idOfTypicalCourse1">
                comments.idOfTypicalCourse1
             </a>
          </li>

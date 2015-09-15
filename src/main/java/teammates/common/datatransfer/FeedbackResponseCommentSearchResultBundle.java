@@ -13,7 +13,6 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
@@ -52,22 +51,23 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     }
 
     /**
-     * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection
+     * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection.
+     * The list of InstructorAttributes is used to filter out the search result.
      */
-    public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
+    public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results,
+                                                                 List<InstructorAttributes> instructors) {
         if(results == null) return this;
         
         //get instructor's information
-        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
         instructorEmails = new HashSet<String>();
         instructorCourseIdList = new HashSet<String>();
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
         }
         
         cursor = results.getCursor();
-        List<ScoredDocument> filteredResults = filterOutCourseId(results, googleId);
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for(ScoredDocument doc:filteredResults){
             //get FeedbackResponseComment from results
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(

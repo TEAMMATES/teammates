@@ -6,7 +6,7 @@
       </h1>
       <br/>
             <div class="well well-plain">
-         <form action="&#x2f;page&#x2f;instructorFeedbackEditSave" class="form-group" id="form_feedbacksession" method="post">
+         <form action="/page/instructorFeedbackEditSave" class="form-group" id="form_feedbacksession" method="post">
             <div class="row">
                <div class="col-sm-12">
                   <span class="pull-right">
@@ -16,11 +16,11 @@
                      <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
                         Save Changes
                      </button>
-                     <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Team+Peer+Evaluation+Session&amp;next=%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS1101&#39;,&#39;Team Peer Evaluation Session&#39;);" title="">
+                     <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Team+Peer+Evaluation+Session&next=%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Team Peer Evaluation Session');" title="">
                         Delete
                      </a>
                      <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-                        <a class="btn btn-primary btn-sm" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Team Peer Evaluation Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+                        <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Team Peer Evaluation Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
                            Copy
                         </a>
                      </span>
@@ -45,7 +45,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-6" data-original-title="You should not need to change this as your timezone is auto-detected. &lt;br &#x2f;&gt;&lt;br &#x2f;&gt;However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-6" data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
                            <h5 class="col-sm-4">
                               <label class="control-label" for="timezone">
@@ -85,7 +85,7 @@
                                     (UTC -04:00) Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax
                                  </option>
                                  <option value="-3.5">
-                                    (UTC -03:30) St. John&#39;s
+                                    (UTC -03:30) St. John's
                                  </option>
                                  <option value="-3">
                                     (UTC -03:00) Buenos Aires, Montevideo, São Paulo
@@ -174,7 +174,7 @@
                   </div>
                   <br/>
                                     <div class="row" id="instructionsRow">
-                     <div class="col-md-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.&lt;br &#x2f;&gt; It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
                            <h5 class="col-sm-2">
                               <label class="control-label" for="instructions">
@@ -204,7 +204,7 @@
                         </div>
                         <div class="row">
                            <div class="col-md-6">
-                              <input class="form-control col-sm-2 hasDatepicker" disabled="" id="startdate" name="startdate" placeholder="Date" type="text" value="01&#x2f;04&#x2f;2035"/>
+                              <input class="form-control col-sm-2 hasDatepicker" disabled="" id="startdate" name="startdate" placeholder="Date" type="text" value="01/04/2035"/>
                                                          </div>
                            <div class="col-md-6">
                               <select class="form-control" disabled="" id="starttime" name="starttime">
@@ -294,7 +294,7 @@
                         </div>
                         <div class="row">
                            <div class="col-md-6">
-                              <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="30&#x2f;04&#x2f;2035"/>
+                              <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="30/04/2035"/>
                                                          </div>
                            <div class="col-md-6">
                               <select class="form-control" disabled="" id="endtime" name="endtime">
@@ -374,7 +374,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting &lt;br &#x2f;&gt;submissions after the specified deadline." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." data-placement="top" data-toggle="tooltip" title="">
                         <div class="row">
                            <div class="col-md-12">
                               <label class="control-label" for="graceperiod">
@@ -439,7 +439,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.&lt;br &#x2f;&gt;Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
                               <label for="sessionVisibleFromButton_custom">
                                  At
                               </label>
@@ -544,14 +544,14 @@
                      </div>
                      <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                         <div class="row">
-                           <div class="col-md-6" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.&lt;br &#x2f;&gt;You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-6" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
                               <label class="label-control">
                                  Responses visible from
                               </label>
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session&lt;br &#x2f;&gt;will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br />will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_custom">
                                  At
                               </label>
@@ -561,7 +561,7 @@
                               <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value=""/>
                                                          </div>
                            <div class="col-md-4">
-                              <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which&lt;&#x2f;br&gt;the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
+                              <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
                                  <option value="1">
                                     0100H
                                  </option>
@@ -638,7 +638,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-3" data-original-title="Select this option to have the feedback responses be immediately visible&lt;br &#x2f;&gt;when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-3" data-original-title="Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_atvisible">
                                  Immediately
                               </label>
@@ -718,14 +718,14 @@
       </div>
       <br/>
             <div class="alert alert-success" id="statusMessage">
-         The feedback session has been added. Click the &quot;Add New Question&quot; button below to begin adding questions for the feedback session.
+         The feedback session has been added. Click the "Add New Question" button below to begin adding questions for the feedback session.
       </div>
-      <script src="&#x2f;js&#x2f;statusMessage.js" type="text&#x2f;javascript">
+      <script src="/js/statusMessage.js" type="text/javascript">
       </script>
       <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
-               <form action="&#x2f;page&#x2f;instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+               <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
                   <div class="modal-header">
                      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
                         ×
@@ -754,7 +754,7 @@
          </div>
       </div>
       <br/>
-            <form action="&#x2f;page&#x2f;instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
+            <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
          <div class="panel panel-primary questionTable" id="questionTable1">
             <div class="panel-heading">
                <div class="row">
@@ -812,10 +812,10 @@
                   <div class="row">
                      <br/>
                                           <div class="col-sm-6">
-                        <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select &#39;Not Sure&#39; as his&#x2f;her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText-1" title="">
+                        <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText-1" title="">
                            <input checked="checked" disabled="disabled" id="isNotSureAllowedCheck-1" name="isNotSureAllowedCheck" type="checkbox"/>
                                                       <span style="margin-left: 5px; font-weight: bold;">
-                              Allow response giver to select &#39;Not Sure&#39; as the answer
+                              Allow response giver to select 'Not Sure' as the answer
                            </span>
                         </div>
                      </div>
@@ -869,13 +869,13 @@
                               Other teams in the course
                            </option>
                            <option value="OWN_TEAM">
-                              Giver&#39;s team
+                              Giver's team
                            </option>
                            <option value="OWN_TEAM_MEMBERS">
-                              Giver&#39;s team members
+                              Giver's team members
                            </option>
                            <option selected="selected" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver&#39;s team members and Giver
+                              Giver's team members and Giver
                            </option>
                            <option value="NONE">
                               Nobody specific (For general class feedback)
@@ -940,7 +940,7 @@
                            Your team members can see your response, but not the name of the recipient, or your name.
                         </li>
                         <li>
-                           The recipient&#39;s team members can see your response, but not the name of the recipient, or your name.
+                           The recipient's team members can see your response, but not the name of the recipient, or your name.
                         </li>
                         <li>
                            Instructors in this course can see your response, the name of the recipient, and your name.
@@ -954,16 +954,16 @@
                         <tbody>
                            <tr>
                               <th class="text-center">
-                                 User&#x2f;Group
+                                 User/Group
                               </th>
                               <th class="text-center">
                                  Can see answer
                               </th>
                               <th class="text-center">
-                                 Can see giver&#39;s name
+                                 Can see giver's name
                               </th>
                               <th class="text-center">
-                                 Can see recipient&#39;s name
+                                 Can see recipient's name
                               </th>
                            </tr>
                            <tr>
@@ -985,7 +985,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Giver&#39;s Team Members
+                                    Giver's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1001,7 +1001,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Recipient&#39;s Team Members
+                                    Recipient's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1070,7 +1070,7 @@
                </form>
       <br/>
             <br/>
-            <form action="&#x2f;page&#x2f;instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-2" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(2)" role="form">
+            <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-2" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(2)" role="form">
          <div class="panel panel-primary questionTable" id="questionTable2">
             <div class="panel-heading">
                <div class="row">
@@ -1174,13 +1174,13 @@
                               Other teams in the course
                            </option>
                            <option value="OWN_TEAM">
-                              Giver&#39;s team
+                              Giver's team
                            </option>
                            <option value="OWN_TEAM_MEMBERS">
-                              Giver&#39;s team members
+                              Giver's team members
                            </option>
                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver&#39;s team members and Giver
+                              Giver's team members and Giver
                            </option>
                            <option value="NONE">
                               Nobody specific (For general class feedback)
@@ -1245,7 +1245,7 @@
                            Your team members can see your response, the name of the recipient, and your name.
                         </li>
                         <li>
-                           The recipient&#39;s team members can see your response, the name of the recipient, and your name.
+                           The recipient's team members can see your response, the name of the recipient, and your name.
                         </li>
                         <li>
                            Instructors in this course can see your response, the name of the recipient, and your name.
@@ -1259,16 +1259,16 @@
                         <tbody>
                            <tr>
                               <th class="text-center">
-                                 User&#x2f;Group
+                                 User/Group
                               </th>
                               <th class="text-center">
                                  Can see answer
                               </th>
                               <th class="text-center">
-                                 Can see giver&#39;s name
+                                 Can see giver's name
                               </th>
                               <th class="text-center">
-                                 Can see recipient&#39;s name
+                                 Can see recipient's name
                               </th>
                            </tr>
                            <tr>
@@ -1290,7 +1290,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Giver&#39;s Team Members
+                                    Giver's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1306,7 +1306,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Recipient&#39;s Team Members
+                                    Recipient's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1375,7 +1375,7 @@
                </form>
       <br/>
             <br/>
-            <form action="&#x2f;page&#x2f;instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-3" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(3)" role="form">
+            <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-3" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(3)" role="form">
          <div class="panel panel-primary questionTable" id="questionTable3">
             <div class="panel-heading">
                <div class="row">
@@ -1479,13 +1479,13 @@
                               Other teams in the course
                            </option>
                            <option value="OWN_TEAM">
-                              Giver&#39;s team
+                              Giver's team
                            </option>
                            <option selected="selected" value="OWN_TEAM_MEMBERS">
-                              Giver&#39;s team members
+                              Giver's team members
                            </option>
                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver&#39;s team members and Giver
+                              Giver's team members and Giver
                            </option>
                            <option value="NONE">
                               Nobody specific (For general class feedback)
@@ -1555,16 +1555,16 @@
                         <tbody>
                            <tr>
                               <th class="text-center">
-                                 User&#x2f;Group
+                                 User/Group
                               </th>
                               <th class="text-center">
                                  Can see answer
                               </th>
                               <th class="text-center">
-                                 Can see giver&#39;s name
+                                 Can see giver's name
                               </th>
                               <th class="text-center">
-                                 Can see recipient&#39;s name
+                                 Can see recipient's name
                               </th>
                            </tr>
                            <tr>
@@ -1586,7 +1586,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Giver&#39;s Team Members
+                                    Giver's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1602,7 +1602,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Recipient&#39;s Team Members
+                                    Recipient's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1671,7 +1671,7 @@
                </form>
       <br/>
             <br/>
-            <form action="&#x2f;page&#x2f;instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-4" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(4)" role="form">
+            <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-4" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(4)" role="form">
          <div class="panel panel-primary questionTable" id="questionTable4">
             <div class="panel-heading">
                <div class="row">
@@ -1775,13 +1775,13 @@
                               Other teams in the course
                            </option>
                            <option selected="selected" value="OWN_TEAM">
-                              Giver&#39;s team
+                              Giver's team
                            </option>
                            <option value="OWN_TEAM_MEMBERS">
-                              Giver&#39;s team members
+                              Giver's team members
                            </option>
                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver&#39;s team members and Giver
+                              Giver's team members and Giver
                            </option>
                            <option value="NONE">
                               Nobody specific (For general class feedback)
@@ -1851,16 +1851,16 @@
                         <tbody>
                            <tr>
                               <th class="text-center">
-                                 User&#x2f;Group
+                                 User/Group
                               </th>
                               <th class="text-center">
                                  Can see answer
                               </th>
                               <th class="text-center">
-                                 Can see giver&#39;s name
+                                 Can see giver's name
                               </th>
                               <th class="text-center">
-                                 Can see recipient&#39;s name
+                                 Can see recipient's name
                               </th>
                            </tr>
                            <tr>
@@ -1882,7 +1882,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Giver&#39;s Team Members
+                                    Giver's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1898,7 +1898,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Recipient&#39;s Team Members
+                                    Recipient's Team Members
                                  </div>
                               </td>
                               <td>
@@ -1967,7 +1967,7 @@
                </form>
       <br/>
             <br/>
-            <form action="&#x2f;page&#x2f;instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-5" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(5)" role="form">
+            <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-5" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(5)" role="form">
          <div class="panel panel-primary questionTable" id="questionTable5">
             <div class="panel-heading">
                <div class="row">
@@ -2071,13 +2071,13 @@
                               Other teams in the course
                            </option>
                            <option value="OWN_TEAM">
-                              Giver&#39;s team
+                              Giver's team
                            </option>
                            <option selected="selected" value="OWN_TEAM_MEMBERS">
-                              Giver&#39;s team members
+                              Giver's team members
                            </option>
                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver&#39;s team members and Giver
+                              Giver's team members and Giver
                            </option>
                            <option value="NONE">
                               Nobody specific (For general class feedback)
@@ -2150,16 +2150,16 @@
                         <tbody>
                            <tr>
                               <th class="text-center">
-                                 User&#x2f;Group
+                                 User/Group
                               </th>
                               <th class="text-center">
                                  Can see answer
                               </th>
                               <th class="text-center">
-                                 Can see giver&#39;s name
+                                 Can see giver's name
                               </th>
                               <th class="text-center">
-                                 Can see recipient&#39;s name
+                                 Can see recipient's name
                               </th>
                            </tr>
                            <tr>
@@ -2181,7 +2181,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Giver&#39;s Team Members
+                                    Giver's Team Members
                                  </div>
                               </td>
                               <td>
@@ -2197,7 +2197,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Recipient&#39;s Team Members
+                                    Recipient's Team Members
                                  </div>
                               </td>
                               <td>
@@ -2266,7 +2266,7 @@
                </form>
       <br/>
             <br/>
-            <form action="&#x2f;page&#x2f;instructorFeedbackQuestionAdd" class="form-horizontal form_question" method="post" name="form_addquestions" onsubmit="tallyCheckboxes(&#39;&#39;)" role="form">
+            <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('')" role="form">
          <div class="well well-plain inputTable" id="addNewQuestionTable">
             <div class="row">
                <div class="col-sm-6">
@@ -2303,7 +2303,7 @@
                   </div>
                   <div class="col-sm-1">
                      <h5>
-                        <a href="&#x2f;instructorHelp.html#fbQuestionTypes" target="_blank">
+                        <a href="/instructorHelp.html#fbQuestionTypes" target="_blank">
                            <span class="glyphicon glyphicon-info-sign">
                            </span>
                         </a>
@@ -2311,7 +2311,7 @@
                   </div>
                </div>
                <div class="col-sm-2">
-                  <a class="btn btn-primary" id="button_openframe" onclick="showNewQuestionFrame(document.getElementById(&#39;questionTypeChoice&#39;).value)">
+                  <a class="btn btn-primary" id="button_openframe" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
                         Add New Question   
                   </a>
                </div>
@@ -2321,7 +2321,7 @@
                   </a>
                </div>
                <div class="col-sm-2">
-                  <a class="btn btn-primary" href="&#x2f;page&#x2f;instructorFeedbacksPage?user=CFeedbackUiT.instructor&amp;courseid=CFeedbackUiT.CS1101&amp;fsname=Team+Peer+Evaluation+Session">
+                  <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=CFeedbackUiT.instructor&courseid=CFeedbackUiT.CS1101&fsname=Team+Peer+Evaluation+Session">
                         Done Editing   
                   </a>
                </div>
@@ -2413,7 +2413,7 @@
                                     <div class="control-label">
                                        <label>
                                           <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, -1)" type="checkbox"/>
-                                                                                    Add &#39;Other&#39; option (Allows respondents to type in their own answer)
+                                                                                    Add 'Other' option (Allows respondents to type in their own answer)
                                        </label>
                                     </div>
                                  </div>
@@ -2487,7 +2487,7 @@
                                     <div class="control-label">
                                        <label>
                                           <input id="msqOtherOptionFlag--1" name="msqOtherOptionFlag" onchange="toggleMsqOtherOptionEnabled(this, -1)" type="checkbox"/>
-                                                                                    Add &#39;Other&#39; option (Allows respondents to type in their own answer)
+                                                                                    Add 'Other' option (Allows respondents to type in their own answer)
                                        </label>
                                     </div>
                                  </div>
@@ -2528,7 +2528,7 @@
                                     Minimum value:
                                     <input class="form-control minScaleBox" disabled="disabled" id="minScaleBox--1" name="numscalemin" onchange="updateNumScalePossibleValues(-1)" type="number" value="1"/>
                                                                      </div>
-                                 <div class="col-sm-4" data-original-title="Value to be increased&#x2f;decreased each step" data-placement="top" data-toggle="tooltip" title="">
+                                 <div class="col-sm-4" data-original-title="Value to be increased/decreased each step" data-placement="top" data-toggle="tooltip" title="">
                                     Increment:
                                     <input class="form-control stepBox" disabled="disabled" id="stepBox--1" min="0.001" name="numscalestep" onchange="updateNumScalePossibleValues(-1)" step="0.001" type="number" value="1"/>
                                                                      </div>
@@ -2633,10 +2633,10 @@
                      <div class="row">
                         <br/>
                                                 <div class="col-sm-6">
-                           <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select &#39;Not Sure&#39; as his&#x2f;her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" title="">
+                           <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" title="">
                               <input checked="checked" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" type="checkbox"/>
                                                             <span style="margin-left: 5px; font-weight: bold;">
-                                 Allow response giver to select &#39;Not Sure&#39; as the answer
+                                 Allow response giver to select 'Not Sure' as the answer
                               </span>
                            </div>
                         </div>
@@ -2829,13 +2829,13 @@
                               Other teams in the course
                            </option>
                            <option value="OWN_TEAM">
-                              Giver&#39;s team
+                              Giver's team
                            </option>
                            <option value="OWN_TEAM_MEMBERS">
-                              Giver&#39;s team members
+                              Giver's team members
                            </option>
                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                              Giver&#39;s team members and Giver
+                              Giver's team members and Giver
                            </option>
                            <option value="NONE">
                               Nobody specific (For general class feedback)
@@ -2902,16 +2902,16 @@
                         <tbody>
                            <tr>
                               <th class="text-center">
-                                 User&#x2f;Group
+                                 User/Group
                               </th>
                               <th class="text-center">
                                  Can see answer
                               </th>
                               <th class="text-center">
-                                 Can see giver&#39;s name
+                                 Can see giver's name
                               </th>
                               <th class="text-center">
-                                 Can see recipient&#39;s name
+                                 Can see recipient's name
                               </th>
                            </tr>
                            <tr>
@@ -2933,7 +2933,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Giver&#39;s Team Members
+                                    Giver's Team Members
                                  </div>
                               </td>
                               <td>
@@ -2949,7 +2949,7 @@
                            <tr>
                               <td class="text-left">
                                  <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                    Recipient&#39;s Team Members
+                                    Recipient's Team Members
                                  </div>
                               </td>
                               <td>
@@ -3031,7 +3031,7 @@
                   </h4>
                </div>
                <div class="modal-body padding-0">
-                  <form action="&#x2f;page&#x2f;instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
+                  <form action="/page/instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
                      <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                            <tr>
@@ -3179,8 +3179,8 @@
                      Preview Session:
                   </label>
                </form>
-               <div class="col-sm-5" data-original-title="View how this session would look like to a student who is submitting feedback.&lt;br&gt;Preview is unavailable if the course has yet to have any student enrolled." data-placement="top" data-toggle="tooltip" title="">
-                  <form action="&#x2f;page&#x2f;instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
+               <div class="col-sm-5" data-original-title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled." data-placement="top" data-toggle="tooltip" title="">
+                  <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
                      <div class="col-sm-6">
                         <select class="form-control" name="previewas">
                            <option value="CFeedbackUiT.charlie.tmms@gmail.tmt">
@@ -3200,7 +3200,7 @@
                                        </form>
                </div>
                <div class="col-sm-5" data-original-title="View how this session would look like to an instructor who is submitting feedback." data-placement="top" data-toggle="tooltip" title="">
-                  <form action="&#x2f;page&#x2f;instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
+                  <form action="/page/instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
                      <div class="col-sm-6">
                         <select class="form-control" name="previewas">
                            <option value="teammates.helper@gmail.tmt">

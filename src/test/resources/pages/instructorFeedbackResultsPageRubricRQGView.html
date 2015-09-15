@@ -27,7 +27,7 @@
                         <div class="col-sm-10">
                            <p class="form-control-static">
                               Second Session
-                              <a href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=FRubricQnUiT.CS2104&amp;fsname=Second+Session&amp;user=FRubricQnUiT.instructor">
+                              <a href="/page/instructorFeedbackEditPage?courseid=FRubricQnUiT.CS2104&fsname=Second+Session&user=FRubricQnUiT.instructor">
                                  [Edit]
                               </a>
                            </p>
@@ -63,7 +63,7 @@
                   <div class="col-sm-2">
                      <div class="form-group">
                         <div class="col-sm-12">
-                           <form action="&#x2f;page&#x2f;instructorFeedbackResultsDownload" method="post">
+                           <form action="/page/instructorFeedbackResultsDownload" method="post">
                               <div id="feedbackDataButtons">
                                  <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
                                                                </div>
@@ -74,7 +74,7 @@
                                                          </form>
                            <br/>
                                                       <div>
-                              <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackUnpublish?courseid=FRubricQnUiT.CS2104&amp;fsname=Second+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DFRubricQnUiT.instructor&amp;user=FRubricQnUiT.instructor" onclick="return toggleUnpublishEvaluation(&#39;Second Session&#39;);" title="">
+                              <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRubricQnUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DFRubricQnUiT.instructor&user=FRubricQnUiT.instructor" onclick="return toggleUnpublishEvaluation('Second Session');" title="">
                                  Unpublish Results
                               </a>
                            </div>
@@ -119,7 +119,7 @@
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                      Close
                   </button>
-                  <button class="btn btn-primary" onclick="selectElementContents(document.getElementById(&#39;fsModalTable&#39;));" type="button">
+                  <button class="btn btn-primary" onclick="selectElementContents(document.getElementById('fsModalTable'));" type="button">
                      Select Table
                   </button>
                </div>
@@ -137,7 +137,7 @@
             </div>
          </div>
       </div>
-      <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=FRubricQnUiT.CS2104&amp;fsname=Second+Session&amp;user=FRubricQnUiT.instructor" class="form-horizontal" method="post" role="form">
+      <form action="/page/instructorFeedbackResultsPage?courseid=FRubricQnUiT.CS2104&fsname=Second+Session&user=FRubricQnUiT.instructor" class="form-horizontal" method="post" role="form">
          <div class="panel panel-info margin-0">
             <div class="panel-body">
                <div class="row">
@@ -152,16 +152,16 @@
                                  Group by - Question
                               </option>
                               <option value="giver-recipient-question">
-                                 Group by - Giver &gt; Recipient &gt; Question
+                                 Group by - Giver > Recipient > Question
                               </option>
                               <option value="recipient-giver-question">
-                                 Group by - Recipient &gt; Giver &gt; Question
+                                 Group by - Recipient > Giver > Question
                               </option>
                               <option value="giver-question-recipient">
-                                 Group by - Giver &gt; Question &gt; Recipient
+                                 Group by - Giver > Question > Recipient
                               </option>
                               <option selected="selected" value="recipient-question-giver">
-                                 Group by - Recipient &gt; Question &gt; Giver
+                                 Group by - Recipient > Question > Giver
                               </option>
                            </select>
                         </div>
@@ -174,7 +174,7 @@
                         </label>
                         <div class="col-sm-10">
                            <div class="input-group">
-                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student&#x2f;team name&#x2f;section name to filter" type="text"/>
+                              <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text"/>
                                                             <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
@@ -245,7 +245,7 @@
                <div class="panel panel-primary">
                   <div class="panel-heading" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=FRubricQnUiT.instructor" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                         <strong>
                            Benny Charles
                         </strong>
@@ -270,7 +270,7 @@
                               <span class="text-preserve-space">
                                  Please choose the best choice for the following sub-questions. 
                                  <span style=" white-space: normal;">
-                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo(&#39;1-recipient-0-question-1&#39;)">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="{*}" onclick="toggleAdditionalQuestionInfo('1-recipient-0-question-1')">
                                        [more]
                                     </a>
                                     <br/>
@@ -279,7 +279,7 @@
                                        <p>
                                           a) This student has done a good job.
                                           <br/>
-                                                                                    b) This student has tried his&#x2f;her best.
+                                                                                    b) This student has tried his/her best.
                                           <br/>
                                                                                  </p>
                                     </span>
@@ -333,7 +333,7 @@
                                                    <tr>
                                                       <td>
                                                          <p>
-                                                            b) This student has tried his&#x2f;her best.
+                                                            b) This student has tried his/her best.
                                                          </p>
                                                       </td>
                                                       <td>
@@ -381,7 +381,7 @@
                                        <tbody>
                                           <tr>
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=FRubricQnUiT.instructor">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -411,7 +411,7 @@
                                                 <br/>
                                                                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -422,7 +422,7 @@
                                           </tr>
                                           <tr class="pending_response_row">
                                              <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=FRubricQnUiT.instructor">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor">
                                                    <a class="student-profile-pic-view-link btn-link">
                                                       View Photo
                                                    </a>
@@ -441,7 +441,7 @@
                                                 </i>
                                              </td>
                                              <td>
-                                                <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                                                <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
                                                                                                       <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
                                                                                                       <input name="fsname" type="hidden" value="Second Session"/>
@@ -462,7 +462,7 @@
                <div class="panel panel-default">
                   <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
                      To:
-                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="&#x2f;page&#x2f;studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=FRubricQnUiT.instructor" data-original-title="" title="">
+                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                         <strong>
                            Alice Betsy
                         </strong>
@@ -492,7 +492,7 @@
       </div>
       <div class="panel panel-warning">
          <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
-            <form action="&#x2f;page&#x2f;instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+            <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
                <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
                               <input name="fsname" type="hidden" value="Second Session"/>
                               <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
@@ -533,7 +533,7 @@
                            Benny Charles
                         </td>
                         <td>
-                           <form action="&#x2f;page&#x2f;instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                           <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
                                                             <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
                                                             <input name="fsname" type="hidden" value="Second Session"/>

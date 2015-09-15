@@ -2,33 +2,33 @@
    <html>
       <head>
          <script>
-            if(typeof opener != &#39;undefined&#39; || typeof opener != null){
-            opener.setStatusMessage(&quot;null&quot;,null);
+            if(typeof opener != 'undefined' || typeof opener != null){
+            opener.setStatusMessage("null",null);
             top.close();
             opener.scrollToTop();
         } else {
             var curURL = window.location.href;
-            var splitted = curURL.split(&quot;?&quot;);
+            var splitted = curURL.split("?");
             var user = null;
             if(splitted.length&gt;1){
-                var param = splitted[1].split(&quot;&amp;&quot;);
+                var param = splitted[1].split("&amp;");
                 for(var i=0; i&lt;param.length; i++){
-                    var pair = param[i].split(&quot;=&quot;);
-                    if(pair[0]==&quot;user&quot;){
+                    var pair = param[i].split("=");
+                    if(pair[0]=="user"){
                         user = pair[1];
                     }
                 }
             }
-            var nextUrl = &quot;&#x2f;page&#x2f;instructorFeedbacksPage&quot;;
+            var nextUrl = "/page/instructorFeedbacksPage";
             if(user!==null){
-                nextUrl += &quot;?user=&quot;+user;
+                nextUrl += "?user="+user;
             }
             window.location.href = nextUrl;
         }
          </script>
       </head>
       <body>
-         This browser window is expected to close automatically (if JavaSrcipt is enabled). If it doesn&#39;t, you may close it manually.
+         This browser window is expected to close automatically (if JavaSrcipt is enabled). If it doesn't, you may close it manually.
       </body>
    </html>
 

@@ -2,16 +2,16 @@
       <div id="topOfPage">
       </div>
       <h1>
-         Benny Charlés&#39;s Records
+         Benny Charlés's Records
          <small class="muted">
             - ISR.CS2104
          </small>
       </h1>
       <br/>
             <div class="alert alert-warning" id="statusMessage">
-         Normally, we would show the student’s profile here. However, you do not have access to view this student&#39;s profile
+         Normally, we would show the student’s profile here. However, you do not have access to view this student's profile
       </div>
-      <script src="&#x2f;js&#x2f;statusMessage.js" type="text&#x2f;javascript">
+      <script src="/js/statusMessage.js" type="text/javascript">
       </script>
       <div class="container-fluid">
          <div class="row">
@@ -44,11 +44,11 @@
                                     </b>
                                     [Tue, 01 May 2012, 08:51:00 UTC]
                                  </span>
-                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-1" onclick="return deleteComment(&#39;1&#39;);" title="" type="button">
+                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" id="commentdelete-1" onclick="return deleteComment('1');" title="" type="button">
                                     <span class="glyphicon glyphicon-trash glyphicon-primary">
                                     </span>
                                  </a>
-                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit(&#39;1&#39;, &#39;1&#39;);" title="" type="button">
+                                 <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1" onclick="return enableEdit('1', '1');" title="" type="button">
                                     <span class="glyphicon glyphicon-pencil glyphicon-primary">
                                     </span>
                                  </a>
@@ -56,14 +56,14 @@
                               <div id="plainCommentText1" style="margin-left: 15px;">
                                  Comment 1 from ISR.CS2104 teammates.test Instructor to Benny
                               </div>
-                              <form action="&#x2f;page&#x2f;instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
+                              <form action="/page/instructorStudentCommentEdit" class="form_comment" id="form_commentedit-1" method="post" name="form_commentedit">
                                  <div id="commentTextEdit1" style="display: none;">
                                     <div class="form-group form-inline">
                                        <div class="form-group text-muted">
                                           <p>
                                              Comment about Benny Charlés (Team 1, benny.c.tmms@gmail.tmt):
                                           </p>
-                                          You may change comment&#39;s visibility using the visibility options on the right hand side.
+                                          You may change comment's visibility using the visibility options on the right hand side.
                                        </div>
                                        <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger1">
                                           <span class="glyphicon glyphicon-eye-close">
@@ -79,16 +79,16 @@
                                           <tbody>
                                              <tr>
                                                 <th class="text-center">
-                                                   User&#x2f;Group
+                                                   User/Group
                                                 </th>
                                                 <th class="text-center">
                                                    Can see your comment
                                                 </th>
                                                 <th class="text-center">
-                                                   Can see giver&#39;s name
+                                                   Can see giver's name
                                                 </th>
                                                 <th class="text-center">
-                                                   Can see recipient&#39;s name
+                                                   Can see recipient's name
                                                 </th>
                                              </tr>
                                              <tr id="recipient-person1">
@@ -110,7 +110,7 @@
                                              <tr id="recipient-team1">
                                                 <td class="text-left">
                                                    <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                                      Recipient&#39;s Team
+                                                      Recipient's Team
                                                    </div>
                                                 </td>
                                                 <td>
@@ -126,7 +126,7 @@
                                              <tr id="recipient-section1">
                                                 <td class="text-left">
                                                    <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
-                                                      Recipient&#39;s Section
+                                                      Recipient's Section
                                                    </div>
                                                 </td>
                                                 <td>
@@ -180,8 +180,8 @@
                                        </textarea>
                                     </div>
                                     <div class="col-sm-offset-5">
-                                       <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm(&#39;1&#39;);" title="Save comment" type="submit" value="Save"/>
-                                                                              <input class="btn btn-default" onclick="return disableComment(&#39;1&#39;);" type="button" value="Cancel"/>
+                                       <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm('1');" title="Save comment" type="submit" value="Save"/>
+                                                                              <input class="btn btn-default" onclick="return disableComment('1');" type="button" value="Cancel"/>
                                                                            </div>
                                  </div>
                                  <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit"/>
@@ -198,7 +198,7 @@
                                                                </form>
                            </li>
                            <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
-                              <form action="&#x2f;page&#x2f;instructorStudentCommentAdd" class="form_comment" method="post" name="form_commentadd">
+                              <form action="/page/instructorStudentCommentAdd" class="form_comment" method="post" name="form_commentadd">
                                  <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                        <p>
@@ -220,16 +220,16 @@
                                        <tbody>
                                           <tr>
                                              <th class="text-center">
-                                                User&#x2f;Group
+                                                User/Group
                                              </th>
                                              <th class="text-center">
                                                 Can see your comment
                                              </th>
                                              <th class="text-center">
-                                                Can see giver&#39;s name
+                                                Can see giver's name
                                              </th>
                                              <th class="text-center">
-                                                Can see recipient&#39;s name
+                                                Can see recipient's name
                                              </th>
                                           </tr>
                                           <tr id="recipient-person1">
@@ -251,7 +251,7 @@
                                           <tr id="recipient-team1">
                                              <td class="text-left">
                                                 <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                                   Recipient&#39;s Team
+                                                   Recipient's Team
                                                 </div>
                                              </td>
                                              <td>
@@ -267,7 +267,7 @@
                                           <tr id="recipient-section1">
                                              <td class="text-left">
                                                 <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
-                                                   Recipient&#39;s Section
+                                                   Recipient's Section
                                                 </div>
                                              </td>
                                              <td>

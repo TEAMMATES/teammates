@@ -25,22 +25,23 @@ $(document).ready(function() {
             },
             success: function(data) {
                 var appendedQuestion = $(data).find('#questionBody-0').html();
+                var $panelBody = $(panelBody[0]);
                 $(data).remove();
                 if (typeof appendedQuestion != 'undefined') {
                     if (appendedQuestion.indexOf('resultStatistics') == -1) {
-                        $(panelBody[0]).removeClass('padding-0');
+                        $panelBody.removeClass('padding-0');
                     }
-                    $(panelBody[0]).html(appendedQuestion);
+                    $panelBody.html(appendedQuestion);
                 } else {
-                    $(panelBody[0]).removeClass('padding-0');
-                    $(panelBody[0]).html('There are too many responses for this question. Please view the responses one section at a time.');
+                    $panelBody.removeClass('padding-0');
+                    $panelBody.html('There are too many responses for this question. Please view the responses one section at a time.');
                 }
                 
-                bindErrorImages($(panelBody[0]).find('.profile-pic-icon-hover, .profile-pic-icon-click'));
+                bindErrorImages($panelBody.find('.profile-pic-icon-hover, .profile-pic-icon-click'));
                 // bind the show picture onclick events
-                bindStudentPhotoLink($(panelBody[0]).find('.profile-pic-icon-click > .student-profile-pic-view-link'));
+                bindStudentPhotoLink($panelBody.find('.profile-pic-icon-click > .student-profile-pic-view-link'));
                 // bind the show picture onhover events
-                bindStudentPhotoHoverLink($(panelBody[0]).find('.profile-pic-icon-hover'));
+                bindStudentPhotoHoverLink($panelBody.find('.profile-pic-icon-hover'));
 
                 $(panelHeading).removeClass('ajax_submit ajax_auto');
 
@@ -50,9 +51,21 @@ $(document).ready(function() {
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
 
+                if (isPanelSetAsEmptyByBackend($panelBody)) {
+                    displayAsEmptyPanel($panelBody);
+                }
+
                 showHideStats();
             }
         });
+    };
+
+    var isPanelSetAsEmptyByBackend = function($panelBody) {
+        return $panelBody.find('.no-response').length !== 0;
+    };
+
+    var displayAsEmptyPanel = function($panelBody) {
+        $panelBody.parents('.panel.panel-info').removeClass('panel-info').addClass('panel-default');
     };
 
     var $questionPanelHeadings = $('.ajax_submit,.ajax_auto');

@@ -6,7 +6,7 @@
       </h1>
       <br/>
             <div class="well well-plain">
-         <form action="&#x2f;page&#x2f;instructorFeedbackAdd" class="form-group" id="form_feedbacksession" method="post">
+         <form action="/page/instructorFeedbackAdd" class="form-group" id="form_feedbacksession" method="post">
             <div class="row">
                <h4 class="label-control col-md-2 text-md">
                   Create new
@@ -24,7 +24,7 @@
                   </div>
                   <div class="col-md-1">
                      <h5>
-                        <a href="&#x2f;instructorHelp.html#fbSetupSession" target="_blank">
+                        <a href="/instructorHelp.html#fbSetupSession" target="_blank">
                            <span class="glyphicon glyphicon-info-sign">
                            </span>
                         </a>
@@ -63,7 +63,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-6" data-original-title="You should not need to change this as your timezone is auto-detected. &lt;br &#x2f;&gt;&lt;br &#x2f;&gt;However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-6" data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
                            <h5 class="col-sm-4">
                               <label class="control-label" for="timezone">
@@ -103,7 +103,7 @@
                                     (UTC -04:00) Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax
                                  </option>
                                  <option value="-3.5">
-                                    (UTC -03:30) St. John&#39;s
+                                    (UTC -03:30) St. John's
                                  </option>
                                  <option value="-3">
                                     (UTC -03:00) Buenos Aires, Montevideo, São Paulo
@@ -190,7 +190,7 @@
                   </div>
                   <br/>
                                     <div class="row" id="instructionsRow">
-                     <div class="col-md-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.&lt;br &#x2f;&gt; It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
                            <h5 class="col-sm-2">
                               <label class="control-label" for="instructions">
@@ -220,7 +220,7 @@
                         </div>
                         <div class="row">
                            <div class="col-md-6">
-                              <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="08&#x2f;09&#x2f;2015"/>
+                              <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="{*}"/>
                                                          </div>
                            <div class="col-md-6">
                               <select class="form-control" id="starttime" name="starttime">
@@ -390,7 +390,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting &lt;br &#x2f;&gt;submissions after the specified deadline." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." data-placement="top" data-toggle="tooltip" title="">
                         <div class="row">
                            <div class="col-md-12">
                               <label class="control-label" for="graceperiod">
@@ -455,7 +455,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.&lt;br &#x2f;&gt;Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
                               <label for="sessionVisibleFromButton_custom">
                                  At
                               </label>
@@ -560,14 +560,14 @@
                      </div>
                      <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                         <div class="row">
-                           <div class="col-md-6" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.&lt;br &#x2f;&gt;You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-6" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
                               <label class="label-control">
                                  Responses visible from
                               </label>
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session&lt;br &#x2f;&gt;will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br />will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_custom">
                                  At
                               </label>
@@ -577,7 +577,7 @@
                               <input class="form-control hasDatepicker" disabled="disabled" id="publishdate" name="publishdate" type="text" value=""/>
                                                          </div>
                            <div class="col-md-4">
-                              <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which&lt;&#x2f;br&gt;the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="disabled" id="publishtime" name="publishtime" title="">
+                              <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="disabled" id="publishtime" name="publishtime" title="">
                                  <option value="1">
                                     0100H
                                  </option>
@@ -654,7 +654,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-3" data-original-title="Select this option to have the feedback responses be immediately visible&lt;br &#x2f;&gt;when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-md-3" data-original-title="Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_atvisible">
                                  Immediately
                               </label>
@@ -730,7 +730,7 @@
             <input name="user" type="hidden" value="CFeedbackUiT.instructor"/>
                      </form>
       </div>
-      <form action="&#x2f;page&#x2f;instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
+      <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
          <input name="user" type="hidden" value="CFeedbackUiT.instructor"/>
                   <input name="isusingAjax" type="hidden" value="on"/>
                </form>
@@ -738,7 +738,7 @@
             <div class="alert alert-success" id="statusMessage">
          The feedback session has been deleted.
       </div>
-      <script src="&#x2f;js&#x2f;statusMessage.js" type="text&#x2f;javascript">
+      <script src="/js/statusMessage.js" type="text/javascript">
       </script>
       <br/>
             <div class="" id="sessionList">
@@ -759,7 +759,7 @@
                      Status
                   </th>
                   <th>
-                     <span data-original-title="Number of students submitted &#x2f; Class size" data-placement="top" data-toggle="tooltip" title="">
+                     <span data-original-title="Number of students submitted / Class size" data-placement="top" data-toggle="tooltip" title="">
                         Response Rate
                      </span>
                   </th>
@@ -782,29 +782,29 @@
                      </span>
                   </td>
                   <td class="session-response-for-test recent">
-                     0 &#x2f; 2
+                     0 / 2
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS1101&#39;,&#39;responses cant be seen my students 1&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','responses cant be seen my students 1');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="responses cant be seen my students 1" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-responses cant be seen my students 1" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="responses cant be seen my students 1" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-responses cant be seen my students 1" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
                      <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
                         <div class="btn-group">
-                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents(&#39;responses cant be seen my students 1&#39;);">
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents('responses cant be seen my students 1');">
                               Remind
                            </a>
                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
@@ -813,19 +813,19 @@
                            </button>
                            <ul class="dropdown-menu" role="menu">
                               <li>
-                                 <a class="session-remind-inner-for-test" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents(&#39;responses cant be seen my students 1&#39;);">
+                                 <a class="session-remind-inner-for-test" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents('responses cant be seen my students 1');">
                                     Remind all students
                                  </a>
                               </li>
                               <li>
-                                 <a class="session-remind-particular-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="responses cant be seen my students 1" data-target="#remindModal" data-toggle="modal" href="#">
+                                 <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="responses cant be seen my students 1" data-target="#remindModal" data-toggle="modal" href="#">
                                     Remind particular students
                                  </a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return togglePublishEvaluation(&#39;responses cant be seen my students 1&#39;, false);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=responses+cant+be+seen+my+students+1&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return togglePublishEvaluation('responses cant be seen my students 1', false);" title="">
                         Publish Results
                      </a>
                   </td>
@@ -838,34 +838,34 @@
                      Allow Early Viewing Session
                   </td>
                   <td>
-                     <span data-original-title="The feedback session has been created, is visible, and has ended.&lt;br &gt;&lt;&#x2f;span&gt;The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
+                     <span data-original-title="The feedback session has been created, is visible, and has ended.<br ></span>The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
                         Published
                      </span>
                   </td>
                   <td class="session-response-for-test recent">
-                     0 &#x2f; 2
+                     0 / 2
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS1101&#39;,&#39;Allow Early Viewing Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Allow Early Viewing Session');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Allow Early Viewing Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-Allow Early Viewing Session" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Allow Early Viewing Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-Allow Early Viewing Session" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
                      <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
                         <div class="btn-group">
-                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" onclick="return false">
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&user=CFeedbackUiT.instructor" onclick="return false">
                               Remind
                            </a>
                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="disabled" type="button">
@@ -874,19 +874,19 @@
                            </button>
                            <ul class="dropdown-menu" role="menu">
                               <li>
-                                 <a class="session-remind-inner-for-test" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor">
+                                 <a class="session-remind-inner-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&user=CFeedbackUiT.instructor">
                                     Remind all students
                                  </a>
                               </li>
                               <li>
-                                 <a class="session-remind-particular-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Allow Early Viewing Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
+                                 <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Allow Early Viewing Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
                                     Remind particular students
                                  </a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleUnpublishEvaluation(&#39;Allow Early Viewing Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS1101&fsname=Allow+Early+Viewing+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleUnpublishEvaluation('Allow Early Viewing Session');" title="">
                         Unpublish Results
                      </a>
                   </td>
@@ -904,23 +904,23 @@
                      </span>
                   </td>
                   <td class="session-response-for-test recent">
-                     0 &#x2f; 0
+                     0 / 0
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&fsname=private+session+of+characters123456789&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=private+session+of+characters123456789&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS2104&#39;,&#39;private session of characters123456789&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=private+session+of+characters123456789&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','private session of characters123456789');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="private session of characters123456789" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-private session of characters123456789" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="private session of characters123456789" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-private session of characters123456789" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=private+session+of+characters123456789&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
@@ -939,29 +939,29 @@
                      </span>
                   </td>
                   <td class="session-response-for-test recent">
-                     0 &#x2f; 0
+                     0 / 0
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&fsname=New+Session&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=New+Session&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS1101&#39;,&#39;New Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=New+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','New Session');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-New Session" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-New Session" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test disabled" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;user=CFeedbackUiT.instructor" onclick="return false">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test disabled" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=New+Session&user=CFeedbackUiT.instructor" onclick="return false">
                            Submit
                         </a>
                      </div>
                      <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
                         <div class="btn-group">
-                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;user=CFeedbackUiT.instructor" onclick="return false">
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=New+Session&user=CFeedbackUiT.instructor" onclick="return false">
                               Remind
                            </a>
                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="disabled" type="button">
@@ -970,19 +970,19 @@
                            </button>
                            <ul class="dropdown-menu" role="menu">
                               <li>
-                                 <a class="session-remind-inner-for-test" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;user=CFeedbackUiT.instructor">
+                                 <a class="session-remind-inner-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=New+Session&user=CFeedbackUiT.instructor">
                                     Remind all students
                                  </a>
                               </li>
                               <li>
-                                 <a class="session-remind-particular-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
+                                 <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&fsname=New+Session&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="New Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
                                     Remind particular students
                                  </a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled" data-original-title="This session is not yet opened" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=New+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return false" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled" data-original-title="This session is not yet opened" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=New+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return false" title="">
                         Publish Results
                      </a>
                   </td>
@@ -1000,29 +1000,29 @@
                      </span>
                   </td>
                   <td class="session-response-for-test recent">
-                     0 &#x2f; 0
+                     0 / 0
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS2104&#39;,&#39;Awaiting Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','Awaiting Session');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-Awaiting Session" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-Awaiting Session" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
                      <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
                         <div class="btn-group">
-                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;user=CFeedbackUiT.instructor" onclick="return false">
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&user=CFeedbackUiT.instructor" onclick="return false">
                               Remind
                            </a>
                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="disabled" type="button">
@@ -1031,19 +1031,19 @@
                            </button>
                            <ul class="dropdown-menu" role="menu">
                               <li>
-                                 <a class="session-remind-inner-for-test" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;user=CFeedbackUiT.instructor">
+                                 <a class="session-remind-inner-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&user=CFeedbackUiT.instructor">
                                     Remind all students
                                  </a>
                               </li>
                               <li>
-                                 <a class="session-remind-particular-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
+                                 <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Awaiting Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
                                     Remind particular students
                                  </a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled" data-original-title="This session is not yet opened" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&amp;fsname=Awaiting+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return false" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled" data-original-title="This session is not yet opened" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS2104&fsname=Awaiting+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return false" title="">
                         Publish Results
                      </a>
                   </td>
@@ -1061,29 +1061,29 @@
                      </span>
                   </td>
                   <td class="session-response-for-test recent">
-                     0 &#x2f; 0
+                     0 / 0
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS1101&#39;,&#39;Open Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Open Session');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-Open Session" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-Open Session" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
                      <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
                         <div class="btn-group">
-                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents(&#39;Open Session&#39;);">
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents('Open Session');">
                               Remind
                            </a>
                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
@@ -1092,19 +1092,19 @@
                            </button>
                            <ul class="dropdown-menu" role="menu">
                               <li>
-                                 <a class="session-remind-inner-for-test" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents(&#39;Open Session&#39;);">
+                                 <a class="session-remind-inner-for-test" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents('Open Session');">
                                     Remind all students
                                  </a>
                               </li>
                               <li>
-                                 <a class="session-remind-particular-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session" data-target="#remindModal" data-toggle="modal" href="#">
+                                 <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Open Session" data-target="#remindModal" data-toggle="modal" href="#">
                                     Remind particular students
                                  </a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Open+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return togglePublishEvaluation(&#39;Open Session&#39;, true);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Open+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return togglePublishEvaluation('Open Session', true);" title="">
                         Publish Results
                      </a>
                   </td>
@@ -1122,25 +1122,25 @@
                      </span>
                   </td>
                   <td class="session-response-for-test">
-                     <a href="&#x2f;page&#x2f;feedbackSessionStatsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" oncontextmenu="return false;">
+                     <a href="/page/feedbackSessionStatsPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session&user=CFeedbackUiT.instructor" oncontextmenu="return false;">
                         Show
                      </a>
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS2104&#39;,&#39;Private Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=Private+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','Private Session');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Private Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-Private Session" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="Private Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-Private Session" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=Private+Session&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=Private+Session&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
@@ -1154,36 +1154,36 @@
                      First Session
                   </td>
                   <td>
-                     <span data-original-title="The feedback session has been created, is visible, and has ended.&lt;br &gt;&lt;&#x2f;span&gt;The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
+                     <span data-original-title="The feedback session has been created, is visible, and has ended.<br ></span>The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
                         Published
                      </span>
                   </td>
                   <td class="session-response-for-test">
-                     <a href="&#x2f;page&#x2f;feedbackSessionStatsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" oncontextmenu="return false;">
+                     <a href="/page/feedbackSessionStatsPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor" oncontextmenu="return false;">
                         Show
                      </a>
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS2104&#39;,&#39;First Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','First Session');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-First Session" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS2104-First Session" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
                      <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
                         <div class="btn-group">
-                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" onclick="return false">
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor" onclick="return false">
                               Remind
                            </a>
                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="disabled" type="button">
@@ -1192,19 +1192,19 @@
                            </button>
                            <ul class="dropdown-menu" role="menu">
                               <li>
-                                 <a class="session-remind-inner-for-test" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor">
+                                 <a class="session-remind-inner-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor">
                                     Remind all students
                                  </a>
                               </li>
                               <li>
-                                 <a class="session-remind-particular-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
+                                 <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
                                     Remind particular students
                                  </a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleUnpublishEvaluation(&#39;First Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleUnpublishEvaluation('First Session');" title="">
                         Unpublish Results
                      </a>
                   </td>
@@ -1222,31 +1222,31 @@
                      </span>
                   </td>
                   <td class="session-response-for-test">
-                     <a href="&#x2f;page&#x2f;feedbackSessionStatsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" oncontextmenu="return false;">
+                     <a href="/page/feedbackSessionStatsPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&user=CFeedbackUiT.instructor" oncontextmenu="return false;">
                         Show
                      </a>
                   </td>
                   <td class="no-print">
-                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-original-title="View the submitted responses for this feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&user=CFeedbackUiT.instructor" title="">
                         View Results
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&user=CFeedbackUiT.instructor" title="">
                         Edit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation(&#39;CFeedbackUiT.CS1101&#39;,&#39;Manual Session&#39;);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Manual Session');" title="">
                         Delete
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-Manual Session" title="Copy feedback session details">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CFeedbackUiT.CS1101-Manual Session" title="Copy feedback session details">
                         Copy
                      </a>
                      <div data-original-title="Start submitting feedback" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
-                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="&#x2f;page&#x2f;instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&user=CFeedbackUiT.instructor">
                            Submit
                         </a>
                      </div>
                      <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
                         <div class="btn-group">
-                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" onclick="return false">
+                           <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&user=CFeedbackUiT.instructor" onclick="return false">
                               Remind
                            </a>
                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="disabled" type="button">
@@ -1255,19 +1255,19 @@
                            </button>
                            <ul class="dropdown-menu" role="menu">
                               <li>
-                                 <a class="session-remind-inner-for-test" disabled="disabled" href="&#x2f;page&#x2f;instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor">
+                                 <a class="session-remind-inner-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&user=CFeedbackUiT.instructor">
                                     Remind all students
                                  </a>
                               </li>
                               <li>
-                                 <a class="session-remind-particular-for-test" data-actionlink="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
+                                 <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS1101" data-fsname="Manual Session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
                                     Remind particular students
                                  </a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="&#x2f;page&#x2f;instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Manual+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" onclick="return togglePublishEvaluation(&#39;Manual Session&#39;, true);" title="">
+                     <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&fsname=Manual+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&user=CFeedbackUiT.instructor" onclick="return togglePublishEvaluation('Manual Session', true);" title="">
                         Publish Results
                      </a>
                   </td>
@@ -1275,7 +1275,7 @@
             </tbody>
          </table>
          <p class="col-md-12 text-muted">
-            Note: The table above doesn&#39;t contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.
+            Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.
          </p>
          <br/>
                   <br/>
@@ -1284,7 +1284,7 @@
       <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
-               <form action="&#x2f;page&#x2f;instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
+               <form action="/page/instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
                   <div class="modal-header">
                      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
                         ×
@@ -1328,7 +1328,7 @@
                   </h4>
                </div>
                <div class="modal-body" id="copySessionsBody">
-                  <form action="&#x2f;page&#x2f;instructorFeedbackCopy" class="form" id="copyModalForm" method="post" role="form">
+                  <form action="/page/instructorFeedbackCopy" class="form" id="copyModalForm" method="post" role="form">
                      <div class="form-group">
                         <label class="control-label" for="modalCopiedCourseId">
                            Create in course
@@ -1349,7 +1349,7 @@
                         <input class="form-control" id="modalCopiedSessionName" maxlength="38" name="copiedfsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value=""/>
                                              </div>
                      <label>
-                        Copy sessions&#x2f;questions from
+                        Copy sessions/questions from
                      </label>
                      <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
@@ -1486,7 +1486,7 @@
       <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
-               <form action="&#x2f;page&#x2f;instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+               <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
                   <div class="modal-header">
                      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
                         ×

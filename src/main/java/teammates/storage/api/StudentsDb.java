@@ -11,6 +11,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -46,14 +47,19 @@ public class StudentsDb extends EntitiesDb {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
     
-    public StudentSearchResultBundle search(String queryString, String googleId, String cursorString){
+    /**
+     * Search for students
+     * @return {@link StudentSearchResultBundle}
+     */
+    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors,
+                                            String cursorString) {
         if(queryString.trim().isEmpty())
             return new StudentSearchResultBundle();
         
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
-                new StudentSearchQuery(googleId, queryString, cursorString));
+                new StudentSearchQuery(instructors, queryString, cursorString));
         
-        return new StudentSearchResultBundle().fromResults(results, googleId);
+        return new StudentSearchResultBundle().fromResults(results, instructors);
     }
     
     
