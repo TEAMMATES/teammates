@@ -32,7 +32,22 @@ function bindPhotos(courseIdx) {
 
 function numStudentsRetrieved() {
     var emailChoices = $('.email-to-be-transported');
-    return emailChoices.length
+    return emailChoices.length;
+}
+
+function showStudentLimitError(courseCheck, displayIcon) {
+    courseCheck.prop('checked', false);
+    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
+    displayIcon.html('');
+}
+
+function removeDataToBeTransported() {
+    var sectionChoices = $('.section-to-be-transported');
+    sectionChoices.remove();
+    var teamChoices = $('.team-to-be-transported');
+    teamChoices.remove();
+    var emailChoices = $('.email-to-be-transported');
+    emailChoices.remove();
 }
 
 var seeMoreRequest = function(e) {
@@ -74,7 +89,7 @@ var seeMoreRequest = function(e) {
                         displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
                     },
                     error: function() {
-                        // Handle error and allow retry
+                        // TODO: Handle error and allow retry
                     },
                     success: function(data) {
                         $(panelBody[0]).html(data);
@@ -84,24 +99,15 @@ var seeMoreRequest = function(e) {
                         $('#numStudents-' + courseIdx).val(courseNumStudents);
 
                         // If number of students shown is already more than the limit
-                        // Do not show more, even if we can retrieve it.
+                        // Do not show more, even if we can retrieve it, as browser will lag.
                         if (numStudents >= STUDENT_LIMIT) {
-                            // Failed to load
-                            courseCheck.prop('checked', false);
-                            setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
-                            displayIcon.html('');
-                            var sectionChoices = $('.section-to-be-transported');
-                            sectionChoices.remove();
-                            var teamChoices = $('.team-to-be-transported');
-                            teamChoices.remove();
-                            var emailChoices = $('.email-to-be-transported');
-                            emailChoices.remove();
+                            showStudentLimitError(courseCheck, displayIcon);
+                            removeDataToBeTransported();
                             return;
                         }
 
-                        // Show newly retreved students
+                        // Show newly retrieved students
                         numStudents += courseNumStudents;
-
                         transportSectionChoices();
                         transportTeamChoices();
                         transportEmailChoices();
@@ -116,10 +122,8 @@ var seeMoreRequest = function(e) {
                 });
             }
         } else {
-            // Failed to load
-            courseCheck.prop('checked', false);
-            setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
-            displayIcon.html('');
+            // Do not make ajax call if students shown already above limit
+            showStudentLimitError(courseCheck, displayIcon);
         }
     }
 };

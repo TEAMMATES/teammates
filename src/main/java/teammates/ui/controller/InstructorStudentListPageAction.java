@@ -30,7 +30,6 @@ public class InstructorStudentListPageAction extends Action {
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
         Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
         
-        // Get courses for instructor
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         // Sort by creation date
         Collections.sort(courses, new Comparator<CourseAttributes>() {
