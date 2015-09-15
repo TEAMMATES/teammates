@@ -281,14 +281,12 @@ public class InstructorHomePage extends AppPage {
     
     private WebElement getSessionLinkInRow(String elementClassNamePrefix, int rowId){
         waitForElementPresence(By.id("session" + rowId));
-        By.id("session" + rowId);
         waitForElementPresence(By.className(elementClassNamePrefix));
         return browser.driver.findElement(By.id("session" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
     
     private WebElement getCourseLinkInRow(String elementClassNamePrefix, int rowId){
         waitForElementPresence(By.id("course-" + rowId));
-        By.id("course-" + rowId);
         waitForElementPresence(By.className(elementClassNamePrefix));
         return browser.driver.findElement(By.id("course-" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
