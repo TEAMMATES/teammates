@@ -1167,18 +1167,6 @@
             }
             
         },
-        "response5":{
-            "feedbackSessionName":"First Session",
-            "courseId":"SFResultsUiT.CS2104",
-            "feedbackQuestionId":"4",
-            "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.charlie.d@gmail.tmt",
-            "recipientEmail":"Team 1",
-            "responseMetaData":{
-                "value":"Team 2 (charlie) to team 1"
-            }
-            
-        },
         "response6":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
-import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.search.Cursor;
@@ -19,27 +18,31 @@ import com.google.gson.Gson;
 public class StudentSearchResultBundle extends SearchResultBundle {
 
     public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-    public Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
+    public Map<String, InstructorAttributes> courseIdInstructorMap = new HashMap<String, InstructorAttributes>();
     public Cursor cursor = null;
     private int numberOfResults = 0;
     private StudentsLogic studentsLogic = StudentsLogic.inst();
     
     public StudentSearchResultBundle(){}
     
-    public StudentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
+    /**
+     * Produce a StudentSearchResultBundle from the Results<ScoredDocument> collection.
+     * The list of InstructorAttributes is used to filter out the search result.
+     */
+    public StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
+                                                 List<InstructorAttributes> instructors) {
         if(results == null){
             return this;
         }
         
         cursor = results.getCursor();
-        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
         List<String> giverEmailList = new ArrayList<String>();
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             giverEmailList.add(ins.email);
-            instructors.put(ins.courseId, ins);
+            courseIdInstructorMap.put(ins.courseId, ins);
         }
         
-        List<ScoredDocument> filteredResults = filterOutCourseId(results, googleId);
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for(ScoredDocument doc:filteredResults){
             StudentAttributes student = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 

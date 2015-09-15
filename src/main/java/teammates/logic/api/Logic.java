@@ -933,17 +933,19 @@ public class Logic {
     }
     
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return Null if no match found.
+     * Search for students. Preconditions: all parameters are non-null.
+     * @param queryString
+     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     *                      used for filtering of search result
+     * @param cursorString  used to support the pagination
+     * @return Null if no match found
      */
-    public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors,
+                                                    String cursorString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        
-        return studentsLogic.searchStudents(queryString, googleId, cursorString);
+        return studentsLogic.searchStudents(queryString, instructors, cursorString);
     }
     
     /**
@@ -1068,6 +1070,15 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
+    }
+
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public List<String> getSectionNamesForCourse(CourseAttributes course) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
+        return coursesLogic.getSectionsNameForCourse(course);
     }
     
     /** 
@@ -2290,19 +2301,20 @@ public class Logic {
     }
     
     /**
-     * Search for FeedbackResponseComment
+     * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
      * @param queryString
-     * @param googleId
-     * @param cursorString, used to support the pagination
-     * @return
+     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     *                      used for filtering of search result
+     * @param cursorString  used to support the pagination
+     * @return Null if no match found
      */
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString, 
-                                                                                    String googleId, 
-                                                                                    String cursorString) {
+                                                                         List<InstructorAttributes> instructors,
+                                                                         String cursorString) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructors);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
-        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, googleId, cursorString);
+        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors, cursorString);
     }
     
     /**
@@ -2390,16 +2402,19 @@ public class Logic {
     }
     
     /**
-     * Search for comment
+     * Search for Comment. Preconditions: all parameters are non-null.
      * @param queryString
-     * @param googleId
-     * @param cursorString, used to support the pagination
-     * @return
+     * @param instructors   a list of InstructorAttributes associated to a googleId,
+     *                      used for filtering of search result
+     * @param cursorString  used to support the pagination
+     * @return Null if no match found
      */
-    public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
+    public CommentSearchResultBundle searchComment(String queryString, List<InstructorAttributes> instructors,
+                                                   String cursorString) {
         Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(googleId);
-        return commentsLogic.searchComment(queryString, googleId, cursorString);
+        Assumption.assertNotNull(instructors);
+        Assumption.assertNotNull(cursorString);
+        return commentsLogic.searchComment(queryString, instructors, cursorString);
     }
     
     /**
@@ -2690,10 +2705,10 @@ public class Logic {
         return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
     
-    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, List<InstructorAttributes> instructorList) {
+    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         Assumption.assertNotNull(allCourses);
-        Assumption.assertNotNull(instructorList);
-        return coursesLogic.getArchivedCourseIds(allCourses, instructorList);
+        Assumption.assertNotNull(instructorsForCourses);
+        return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);
     }
     
 }

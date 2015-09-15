@@ -108,7 +108,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         // We change user email to team name here for display purposes.
         for (FeedbackResponseAttributes response : responses) {
             if (questions.get(response.feedbackQuestionId).giverType == FeedbackParticipantType.TEAMS) {
-                response.giverEmail += Const.TEAM_OF_EMAIL_OWNER;
+                // for TEAMS giver type, the giverEmail is stored as the student giver's email in the database
+                // but we convert it to the team name for use in FeedbackSessionResultsBundle
+                response.giverEmail = emailNameTable.get(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER);
             }
             // Copy the data before hiding response recipient and giver.
             FeedbackResponseAttributes fraCopy = new FeedbackResponseAttributes(response);
@@ -781,6 +783,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                     Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
                     possibleRecipients = new ArrayList<String>(studentEmailsToNames);
+                    Collections.sort(possibleRecipients);
                 }
                 break;
             case NONE:
