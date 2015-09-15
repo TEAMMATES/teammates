@@ -168,8 +168,9 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                             String googleId, String cursorString) {
-        return frcDb.search(queryString, googleId, cursorString);
+                                                             List<InstructorAttributes> instructors,
+                                                             String cursorString) {
+        return frcDb.search(queryString, instructors, cursorString);
     }
     
     public void deleteFeedbackResponseCommentsForCourse(String courseId) {

@@ -4,14 +4,13 @@ import java.util.List;
 
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.QueryOptions;
 
 public class StudentSearchQuery extends SearchQuery {
     
-    public StudentSearchQuery(String googleId, String queryString, String cursorString) {
+    public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);
@@ -20,7 +19,7 @@ public class StudentSearchQuery extends SearchQuery {
                 .setCursor(cursor)
                 .build();
         setOptions(options);
-        prepareVisibilityQueryString(googleId);
+        prepareVisibilityQueryString(instructors);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
     
@@ -45,12 +44,10 @@ public class StudentSearchQuery extends SearchQuery {
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
     
-    private void prepareVisibilityQueryString(String googleId){
-        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
-        
+    private void prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
-        for(InstructorAttributes ins:instructorRoles){
+        for(InstructorAttributes ins:instructors){
             courseIdLimit.append(delim).append(ins.courseId);
             delim = OR;
         }

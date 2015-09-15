@@ -318,13 +318,18 @@ public class FeedbackNumericalScaleQuestionDetails extends
             
             recipientName = getDisplayableRecipientName(isHiddenRecipient,
                             isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
-                            isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,currentUserIdentifier),
+                            isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(
+                                                            numResponses, currentUserIdentifier, hiddenRecipients),
                             isRecipientGeneral, bundle.getNameForEmail(recipient), currentUserTeam);
             
             recipientTeam = getDisplayableRecipientTeam(isHiddenRecipient,
-                            isRecipientCurrentUser, hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
-                            isRecipientTypeStudent, hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses,currentUserIdentifier),
-                            bundle.getTeamNameForEmail(recipient), currentUserTeam);
+                                                        isRecipientCurrentUser, 
+                                                        hasAtLeastTwoResponses(numResponses, currentUserIdentifier),
+                                                        isRecipientTypeStudent,
+                                                        hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, 
+                                                                                                   currentUserIdentifier, 
+                                                                                                   hiddenRecipients),
+                                                        bundle.getTeamNameForEmail(recipient), currentUserTeam);
 
             Double minScore = null;
             Double maxScore = null;
@@ -361,7 +366,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         String statsTitle = getStatsTitle(isRecipientTypeGeneral, isRecipientTypeTeam, 
-                            hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier));
+                                          hasAtLeastTwoResponsesOtherThanCurrentUser(numResponses, currentUserIdentifier, hiddenRecipients));
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
@@ -639,17 +644,21 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     /**
-     * Return true when the number of responses for any recipient other than the current user has at least 2.
+     * Return true when the number of responses for any visible recipient, other than the current user,
+     * has at least 2 responses.
      * This is used for displaying the statistic for other users as it doesn't make sense when all other users
      * have only 1 response each
      * Return false otherwise.
      */
     private boolean hasAtLeastTwoResponsesOtherThanCurrentUser(
-            Map<String, Integer> numResponses, String currentUserIdentifier) {
+            Map<String, Integer> numResponses, String currentUserIdentifier, List<String> hiddenRecipients) {
         boolean isAtLeastTwoResponsesOtherThanCurrentUser = false;
         
         // At least 2 responses are given to any recipient other than current user
         for (String recipient: numResponses.keySet()) {
+            if (hiddenRecipients.contains(recipient)) {
+                continue;
+            }
 
             if (hasAtLeastTwoResponses(numResponses, recipient) && 
                 !recipient.equals(currentUserIdentifier)) {
