@@ -428,6 +428,13 @@ function isWithinView(element) {
              || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
 }
 
+/**
+ * Scrolls the screen to a certain position.
+ * @param scrollPos Position to scroll the screen to.
+ * @param duration Duration of animation in ms. Scrolling is instant if omitted.
+ *                 'fast and 'slow' are 600 and 200 ms respectively,
+ *                 400 ms will be used if any other string is supplied.
+ */
 function scrollToPosition(scrollPos, duration) {
     if (duration === undefined) {
         $(window).scrollTop(scrollPos);
@@ -491,6 +498,9 @@ function scrollToElement(element, options) {
 
 /**
  * Scrolls the screen to top
+ * @param duration Duration of animation in ms. Scrolling is instant if omitted.
+ *                 'fast and 'slow' are 600 and 200 ms respectively,
+ *                 400 ms will be used if any other string is supplied.
  */
 function scrollToTop(duration) {
     scrollToPosition(0, duration);
