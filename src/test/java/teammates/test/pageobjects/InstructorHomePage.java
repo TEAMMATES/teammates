@@ -280,10 +280,14 @@ public class InstructorHomePage extends AppPage {
     }
     
     private WebElement getSessionLinkInRow(String elementClassNamePrefix, int rowId){
+        waitForElementPresence(By.id("session" + rowId));
+        waitForElementPresence(By.className(elementClassNamePrefix));
         return browser.driver.findElement(By.id("session" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
     
     private WebElement getCourseLinkInRow(String elementClassNamePrefix, int rowId){
+        waitForElementPresence(By.id("course-" + rowId));
+        waitForElementPresence(By.className(elementClassNamePrefix));
         return browser.driver.findElement(By.id("course-" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
 
@@ -320,8 +324,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     private String getElementText(By locator) {
-        if (!isElementPresent(locator))
-            return "";
+        waitForElementPresence(locator);
         return browser.driver.findElement(locator).getText();
     }
     
