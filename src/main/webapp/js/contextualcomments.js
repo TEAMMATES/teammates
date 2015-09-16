@@ -16,7 +16,7 @@ $(document).ready(function(){
 	    var formTextField = $(form).find('[name=commenttext]').val();
 	    if (isBlank(formTextField)) {
 	        setStatusMessage("Please enter a valid comment. The comment can't be empty.", true);
-	        $(window).scrollTop(0);
+	        scrollToTop();
 	        return false;
 	    }
 	}
