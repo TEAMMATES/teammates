@@ -8,7 +8,8 @@ public class AdminHomePageData extends PageData {
     public String instructorName;
     public String instructorEmail;
     public String instructorInstitution;
-
+    public String instructorDetails;
+    
     public AdminHomePageData(AccountAttributes account) {
         super(account);
     }
@@ -27,5 +28,9 @@ public class AdminHomePageData extends PageData {
     
     public String getInstructorInstitution() {
         return sanitizeForHtml(instructorInstitution);
+    }
+    
+    public String getInstructorDetails() {
+        return sanitizeForHtml(instructorDetails);
     }
 }

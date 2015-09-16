@@ -33,7 +33,12 @@ import com.google.gson.Gson;
 public class AdminInstructorAccountAddAction extends Action {
     
     private static int PERSISTENCE_WAITING_DURATION = 4000;
-
+    private static final int INSTRUCTOR_SHORT_NAME_COLUMN = 0;
+    private static final int INSTRUCTOR_NAME_COLUMN = 1;
+    private static final int INSTRUCTOR_EMAIL_COLUMN = 2;
+    private static final int INSTRUCTOR_INSTITUTION_COLUMN = 3;
+    
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
@@ -41,19 +46,34 @@ public class AdminInstructorAccountAddAction extends Action {
 
         AdminHomePageData data = new AdminHomePageData(account);
 
-        data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+        String instructorDetails = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS);
+        if (instructorDetails != null) {
+            String[] instructorInfo = extractInstructorInfo(instructorDetails);
+            
+            if (instructorInfo.length <= INSTRUCTOR_INSTITUTION_COLUMN) {
+                
+            }
+            
+            data.instructorShortName = instructorInfo[0];
+            data.instructorName = instructorInfo[0];
+            data.instructorEmail = instructorInfo[1];
+            data.instructorInstitution = instructorInfo[2];
+        } else {
+            data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+            data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+            data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+            data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        }
+        
         Assumption.assertNotNull(data.instructorShortName);
-        data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
         Assumption.assertNotNull(data.instructorName);
-        data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(data.instructorEmail);
-        data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         Assumption.assertNotNull(data.instructorInstitution);
         
         data.instructorShortName = data.instructorShortName.trim();
         data.instructorName = data.instructorName.trim();
         data.instructorEmail = data.instructorEmail.trim();
-        data.instructorInstitution = data.instructorInstitution.trim();        
+        data.instructorInstitution = data.instructorInstitution.trim();
         
         String joinLink = ""; 
                       
@@ -99,6 +119,10 @@ public class AdminInstructorAccountAddAction extends Action {
  
         
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
+    }
+
+    private String[] extractInstructorInfo(String instructorDetails) {
+        return instructorDetails.trim().replace('|', '\t').split("\t");
     }
 
     private String importDemoData(AdminHomePageData helper)
