@@ -12,9 +12,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.TestProperties;
@@ -174,7 +172,6 @@ public class BaseTestCase {
                 .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
                 .replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT)
                 .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT)
-                .replace("${test.truncatedAdmin}", StringHelper.truncate(TestProperties.inst().TEST_ADMIN_ACCOUNT, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH))
                 .replace("${support.email}", Config.SUPPORT_EMAIL);
     }
 
