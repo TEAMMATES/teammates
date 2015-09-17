@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
@@ -1051,9 +1050,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
-                new TreeMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
-
-        for (FeedbackQuestionAttributes question : questions.values()) {
+                new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+        List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
+        Collections.sort(sortedQuestions);
+        for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
         }
 
@@ -1076,9 +1076,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
-                new TreeMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+                new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
 
-        for (FeedbackQuestionAttributes question : questions.values()) {
+        List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
+        Collections.sort(sortedQuestions);
+        for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
         }
 
