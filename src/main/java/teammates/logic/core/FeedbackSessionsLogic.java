@@ -1960,8 +1960,9 @@ public class FeedbackSessionsLogic {
                     }
                 }
             }
-            boolean needResponseStatus = questionId == QUESTION_NUM_FOR_RESPONSE_RATE;
-            if (needResponseStatus) {
+            
+            boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_NUM_FOR_RESPONSE_RATE);
+            if (isQueryingResponseRateStatus) {
               responseStatus = (section == null && isIncludeResponseStatus) 
                               ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
                               : null;
