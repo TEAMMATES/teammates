@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
@@ -97,7 +98,31 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
+        
+    }
+    
+    @Test
+    public void testExceptionalCases() {
+        ______TS("Case where more than 1 question with same question number");
+        // results page should be able to load incorrect data and display it gracefully
+        
+        FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn2InSession4");
+        assertEquals(2, question.questionNumber);
+        // need to retrieve question from datastore to get its questionId
+        FeedbackQuestionAttributes questionFromDatastore = 
+                                        BackDoor.getFeedbackQuestion(question.courseId, 
+                                                                     question.feedbackSessionName, 
+                                                                     question.questionNumber);
+        assertEquals(question, questionFromDatastore);
+        // make question have the same question number as another question
+        questionFromDatastore.questionNumber = 1;
+        
+        BackDoor.editFeedbackQuestion(questionFromDatastore);
 
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
+        
+        resultsPage.waitForPanelsToCollapse();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithDuplicateQuestionNumber.html");
     }
 
     public void testModerateResponsesButton() {
