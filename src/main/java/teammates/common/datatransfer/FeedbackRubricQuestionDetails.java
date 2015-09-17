@@ -4,12 +4,16 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+
+import org.mortbay.log.Log;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Utils;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public int numOfRubricChoices;
@@ -559,7 +563,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Count frequencies
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
+            FeedbackRubricResponseDetails frd;
+            try {
+                frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
+            } catch(ClassCastException e) {
+                Logger log = Utils.getLogger();
+                log.severe("Class cast exception in FeedbackRubricQuestionDetails:\n"+
+                           "courseId " + response.courseId + "\n" +
+                           "feedbackQuestionId " + response.feedbackQuestionId + "\n" +
+                           "id " + response.getId() + "\n" +
+                           "feedbackQuestionType " + response.feedbackQuestionType + "\n" +
+                           "responseMetaData " + response.responseMetaData.toString() + "\n" +
+                           "class " + response.getClass() + "\n" +
+                           "Stack trace: \n" + e.getStackTrace());
+                continue;
+            }
             for (int i=0 ; i<fqd.numOfRubricSubQuestions ; i++) {
                 int chosenChoice = frd.getAnswer(i);
                 if (chosenChoice != -1) {
