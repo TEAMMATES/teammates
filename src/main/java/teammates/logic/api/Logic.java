@@ -2022,7 +2022,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestion(
-            String feedbackSessionName, String courseId, String userEmail, int questionNumber)
+            String feedbackSessionName, String courseId, String userEmail, String questionId)
             throws UnauthorizedAccessException, EntityDoesNotExistException{
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
@@ -2030,7 +2030,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
        
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                                        userEmail, questionNumber);
+                                                                                        userEmail, questionId);
     }
     
     /**
@@ -2043,7 +2043,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                     String feedbackSessionName, String courseId, String userEmail, 
-                                    int questionNumber, String selectedSection)
+                                    String questionId, String selectedSection)
             throws UnauthorizedAccessException, EntityDoesNotExistException{
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
@@ -2052,7 +2052,7 @@ public class Logic {
        
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                             feedbackSessionName, courseId, userEmail, 
-                                            questionNumber, selectedSection);
+                                            questionId, selectedSection);
     }
 
     /**

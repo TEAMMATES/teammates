@@ -190,15 +190,15 @@ public class InstructorFeedbackResultsPageAction extends Action {
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // bundle for a specific question, with all sections
-                int questionNum = Integer.parseInt(questionNumStr);
+                String questionId = questionNumStr;
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                                  instructor.email, questionNum);
+                                                                                  instructor.email, questionId);
             } else {
                 // bundle for a specific question and a specific section
-                int questionNum = Integer.parseInt(questionNumStr);
+                String questionId = questionNumStr;
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 feedbackSessionName, courseId, 
-                                                instructor.email, questionNum, selectedSection);
+                                                instructor.email, questionId, selectedSection);
             }
         }
         
