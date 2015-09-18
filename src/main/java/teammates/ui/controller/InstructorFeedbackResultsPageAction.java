@@ -82,9 +82,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.setSections(logic.getSectionNamesForCourse(courseId));
         
-        String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null && !sortType.equals("question")) {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !sortType.equals("question")) {
             // bundle for all questions and all sections  
             data.setBundle(
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
@@ -93,7 +93,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            queryRange, sortType));
         } else if (sortType.equals("question")) {
             data.setBundle(getBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
-                                                    selectedSection, sortType, questionNumStr));
+                                                    selectedSection, sortType, questionId));
         } else if (sortType.equals("giver-question-recipient")
                 || sortType.equals("giver-recipient-question")) {
             data.setBundle(logic

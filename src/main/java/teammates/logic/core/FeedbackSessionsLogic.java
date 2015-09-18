@@ -528,7 +528,7 @@ public class FeedbackSessionsLogic {
         params.put("inSection", "false");
         params.put("fromSection", "fasle");
         params.put("toSection", "false");
-        params.put("questionNum", questionId);
+        params.put("questionId", questionId);
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -552,7 +552,7 @@ public class FeedbackSessionsLogic {
         params.put("inSection", "true");
         params.put("fromSection", "false");
         params.put("toSection", "false");
-        params.put("questionNum", questionId);
+        params.put("questionId", questionId);
         params.put("section", selectedSection);
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
@@ -1871,7 +1871,7 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         
         //Show all questions even if no responses, unless is an ajax request for a specific question.
-        if(role == UserType.Role.INSTRUCTOR && !params.containsKey("questionNum")){
+        if(role == UserType.Role.INSTRUCTOR && !params.containsKey("questionId")){
             for (FeedbackQuestionAttributes question : allQuestions) {
                 relevantQuestions.put(question.getId(), question);
             }
@@ -1889,8 +1889,8 @@ public class FeedbackSessionsLogic {
                     visibilityTable, responseStatus, roster, responseComments);
         }
         
-        if (params.get("questionNum") != null) {
-            String questionId = params.get("questionNum");
+        if (params.get("questionId") != null) {
+            String questionId = params.get("questionId");
             FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
                                                                     questionId);
             if (question != null) {
