@@ -50,8 +50,10 @@ Important: When a version is specified, please install that version instead of t
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
-   Create it using `test.template.properties`. 
-   For now, property values can remain as they are.<br>
+   Create it using `test.template.properties`.
+   Change test.admin.account to your googleId, omitting '@gmail.com'.
+   Uncomment the line with test.admin.account=aReallyVeryVeryLongGoogleId.
+   Comment out the line your googleId (it is only used when we need to deploy to staging or testing against staging, for all other cases use the really very long google id for testing).
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
