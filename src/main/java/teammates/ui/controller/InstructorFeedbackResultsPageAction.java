@@ -163,10 +163,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private FeedbackSessionResultsBundle getBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
                                                                   InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                                                  String selectedSection, String sortType, String questionNumStr)
+                                                                  String selectedSection, String sortType, String questionId)
                                                                   throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
-        if (questionNumStr == null) {
+        if (questionId == null) {
             if (ALL_SECTION_OPTION.equals(selectedSection) ) {
                 // load page structure without responses
                 
@@ -190,12 +190,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // bundle for a specific question, with all sections
-                String questionId = questionNumStr;
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                   instructor.email, questionId);
             } else {
                 // bundle for a specific question and a specific section
-                String questionId = questionNumStr;
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 feedbackSessionName, courseId, 
                                                 instructor.email, questionId, selectedSection);
