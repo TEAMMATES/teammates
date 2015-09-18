@@ -885,23 +885,13 @@ public abstract class AppPage {
         String expectedString = "";
         String actual = "";
         
-        try {
-            expectedString = FileHelper.readFile(filePath);
-            for(int i =0; i < maxRetryCount; i++) {
-                actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
-                if(HtmlHelper.areSameHtml(actual, expectedString)) {
-                    break;
-                } else {
-                    testAndRunGodMode(filePath, actual, false);
-                }
-                ThreadHelper.waitFor(waitDuration);
+        expectedString = FileHelper.readFile(filePath);
+        for(int i =0; i < maxRetryCount; i++) {
+            actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
+            if(HtmlHelper.areSameHtml(actual, expectedString)) {
+                break;
             }
-        } catch (NoSuchElementException nse) {
-            throw new RuntimeException(nse);
-        } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual, false)) {
-                throw new RuntimeException(e);
-            }
+            ThreadHelper.waitFor(waitDuration);
         }
         
         return verifyHtmlMainContent(filePath);
