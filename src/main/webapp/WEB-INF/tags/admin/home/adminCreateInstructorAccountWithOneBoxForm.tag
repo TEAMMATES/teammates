@@ -10,7 +10,7 @@
         </div><br/>
         
         <div>
-            <input id="btnAddInstructor" class="btn btn-primary" type="submit" value="Add Instructor">
+            <input id="btnAddInstructorDetailsForm" class="btn btn-primary" type="submit" value="Add Instructor">
         </div>
     </form>
 </div>

@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.InstructorAttributes;
 
 public class AdminHomePage extends AppPage {
+    @FindBy (name="instructordetails")
+    WebElement detailsTextBox;
     
     @FindBy (name="instructorshortname")
     WebElement shortNameTextBox;
@@ -21,6 +23,10 @@ public class AdminHomePage extends AppPage {
     
     @FindBy (id="btnAddInstructor")
     WebElement submitButton;
+    
+    @FindBy (id="btnAddInstructorDetailsForm")
+    WebElement submitButtonDetailsForm;
+    
     
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -53,6 +59,13 @@ public class AdminHomePage extends AppPage {
 
         submitButton.click();
         return this;
+    }
+
+    public void createInstructorByInstructorDetailsForm(String instructorDetails) {
+        if(instructorDetails != null){
+            fillTextBox(detailsTextBox, instructorDetails);
+        }
+        submitButtonDetailsForm.click();
     }
 
 }

@@ -1,6 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.reflect.Constructor;
@@ -44,6 +45,7 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.util.Priority;
+import teammates.ui.controller.AdminInstructorAccountAddAction;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -91,7 +93,29 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructor.email = "AHPUiT.instr1@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT.instr1.gma-demo";
-    
+        
+        ______TS("action fail: the number of columns is invalid");
+        homePage.createInstructorByInstructorDetailsForm(instructor.name + " | " + instructor.email);
+        assertEquals(homePage.getStatus(), String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, 
+                                                         AdminInstructorAccountAddAction.LENGTH_FOR_NAME_EMAIL_INSTITUTION)); 
+        ______TS("action success : create instructor account by Instructor Form");
+        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(demoCourseId);
+        BackDoor.deleteInstructor(demoCourseId, instructor.email);
+        
+        homePage.createInstructorByInstructorDetailsForm(instructor.name + " | " + instructor.email + " | " + institute);
+        
+        String expectedjoinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+        
+        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.REGKEY,
+                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
+       
+        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+       
+        assertEquals(homePage.getStatus(), "Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
+                                        + expectedjoinUrl);
+          
+        
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
@@ -100,7 +124,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         homePage.createInstructor(shortName,instructor,institute);
         
-        String expectedjoinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+        expectedjoinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
         
         expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.REGKEY,
                                             StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
