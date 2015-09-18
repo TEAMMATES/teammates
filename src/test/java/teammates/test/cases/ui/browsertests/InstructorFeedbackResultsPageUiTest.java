@@ -104,25 +104,40 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testExceptionalCases() {
         ______TS("Case where more than 1 question with same question number");
-        // results page should be able to load incorrect data and display it gracefully
+        // results page should be able to load incorrect data and still display it gracefully
         
-        FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn2InSession4");
-        assertEquals(2, question.questionNumber);
+        FeedbackQuestionAttributes firstQuestion = testData.feedbackQuestions.get("qn1InSession4");
+        assertEquals(1, firstQuestion.questionNumber);
+        FeedbackQuestionAttributes firstQuestionFromDatastore = 
+                                        BackDoor.getFeedbackQuestion(firstQuestion.courseId, 
+                                                                     firstQuestion.feedbackSessionName, 
+                                                                     firstQuestion.questionNumber);
+        
+        FeedbackQuestionAttributes secondQuestion = testData.feedbackQuestions.get("qn2InSession4");
+        assertEquals(2, secondQuestion.questionNumber);
         // need to retrieve question from datastore to get its questionId
-        FeedbackQuestionAttributes questionFromDatastore = 
-                                        BackDoor.getFeedbackQuestion(question.courseId, 
-                                                                     question.feedbackSessionName, 
-                                                                     question.questionNumber);
-        assertEquals(question, questionFromDatastore);
-        // make question have the same question number as another question
-        questionFromDatastore.questionNumber = 1;
-        
-        BackDoor.editFeedbackQuestion(questionFromDatastore);
+        FeedbackQuestionAttributes secondQuestionFromDatastore = 
+                                        BackDoor.getFeedbackQuestion(secondQuestion.courseId, 
+                                                                     secondQuestion.feedbackSessionName, 
+                                                                     secondQuestion.questionNumber);
+        assertEquals(secondQuestion, secondQuestionFromDatastore);
+        // make both questions have the same question number
+        secondQuestionFromDatastore.questionNumber = 1;
+        BackDoor.editFeedbackQuestion(secondQuestionFromDatastore);
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
         
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
         resultsPage.waitForPanelsToCollapse();
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithDuplicateQuestionNumber.html");
+        
+        // compare html for each question panel
+        By firstQuestionPanel = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
+                                         + firstQuestionFromDatastore.getId() + "']]");
+        resultsPage.verifyHtmlPart(firstQuestionPanel, 
+                                   "/instructorFeedbackResultsDuplicateQuestionNumberPanel1.html");
+        By secondQuestionPanel = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
+                                          + secondQuestionFromDatastore.getId() + "']]");
+        resultsPage.verifyHtmlPart(secondQuestionPanel, 
+                                   "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
     }
 
     public void testModerateResponsesButton() {
