@@ -12,7 +12,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.HtmlHelper;
@@ -42,6 +44,7 @@ public class GodModeTest extends BaseUiTestCase {
         initialContent = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html");
         String testAccounts = "<div>";
         testAccounts += TestProperties.inst().TEST_ADMIN_ACCOUNT;
+        testAccounts += StringHelper.truncate(TestProperties.inst().TEST_ADMIN_ACCOUNT, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
         testAccounts += TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
         testAccounts += TestProperties.inst().TEST_STUDENT1_ACCOUNT;
         testAccounts += TestProperties.inst().TEST_STUDENT2_ACCOUNT;
