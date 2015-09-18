@@ -66,7 +66,7 @@ public class FeedbackSessionsLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final String QUESTION_NUM_FOR_RESPONSE_RATE = "-1";
+    private static final String QUESTION_ID_FOR_RESPONSE_RATE = "-1";
     private static final int EMAIL_NAME_PAIR = 0;
     private static final int EMAIL_LASTNAME_PAIR = 1;
     private static final int EMAIL_TEAMNAME_PAIR = 2;
@@ -1961,7 +1961,7 @@ public class FeedbackSessionsLogic {
                 }
             }
             
-            boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_NUM_FOR_RESPONSE_RATE);
+            boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
             if (isQueryingResponseRateStatus) {
               responseStatus = (section == null && isIncludeResponseStatus) 
                               ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 

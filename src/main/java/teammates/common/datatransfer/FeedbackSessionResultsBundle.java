@@ -1052,6 +1052,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
                 new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
+        // sorts the questions by its natural ordering, which is by question number
         Collections.sort(sortedQuestions);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
@@ -1079,6 +1080,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
 
         List<FeedbackQuestionAttributes> sortedQuestions = new ArrayList<>(questions.values());
+        // sorts the questions by its natural ordering, which is by question number
         Collections.sort(sortedQuestions);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
             sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
