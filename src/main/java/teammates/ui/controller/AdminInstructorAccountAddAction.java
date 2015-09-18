@@ -33,12 +33,7 @@ import com.google.gson.Gson;
 public class AdminInstructorAccountAddAction extends Action {
     
     private static int PERSISTENCE_WAITING_DURATION = 4000;
-    private static final int INSTRUCTOR_SHORT_NAME_COLUMN = 0;
-    private static final int INSTRUCTOR_NAME_COLUMN = 1;
-    private static final int INSTRUCTOR_EMAIL_COLUMN = 2;
-    private static final int INSTRUCTOR_INSTITUTION_COLUMN = 3;
-    
-    
+    private static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
@@ -46,29 +41,34 @@ public class AdminInstructorAccountAddAction extends Action {
 
         AdminHomePageData data = new AdminHomePageData(account);
 
-        String instructorDetails = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS);
-        if (instructorDetails != null) {
-            String[] instructorInfo = extractInstructorInfo(instructorDetails);
-            
-            if (instructorInfo.length <= INSTRUCTOR_INSTITUTION_COLUMN) {
+        data.instructorDetails = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS);
+        data.instructorShortName = "";
+        data.instructorName = "";
+        data.instructorEmail = "";
+        data.instructorInstitution = "";
+        
+        if (data.instructorDetails != null) {
+            try {
+                String[] instructorInfo = extractInstructorInfo(data.instructorDetails);
                 
+                data.instructorShortName = instructorInfo[0];
+                data.instructorName = instructorInfo[0];
+                data.instructorEmail = instructorInfo[1];
+                data.instructorInstitution = instructorInfo[2];
+            } catch (InvalidParametersException e1) {
+                setStatusForException(e1);
+                return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
             }
-            
-            data.instructorShortName = instructorInfo[0];
-            data.instructorName = instructorInfo[0];
-            data.instructorEmail = instructorInfo[1];
-            data.instructorInstitution = instructorInfo[2];
         } else {
             data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+            Assumption.assertNotNull(data.instructorShortName);
             data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+            Assumption.assertNotNull(data.instructorName);
             data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+            Assumption.assertNotNull(data.instructorEmail);
             data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+            Assumption.assertNotNull(data.instructorInstitution);
         }
-        
-        Assumption.assertNotNull(data.instructorShortName);
-        Assumption.assertNotNull(data.instructorName);
-        Assumption.assertNotNull(data.instructorEmail);
-        Assumption.assertNotNull(data.instructorInstitution);
         
         data.instructorShortName = data.instructorShortName.trim();
         data.instructorName = data.instructorName.trim();
@@ -121,8 +121,13 @@ public class AdminInstructorAccountAddAction extends Action {
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
     }
 
-    private String[] extractInstructorInfo(String instructorDetails) {
-        return instructorDetails.trim().replace('|', '\t').split("\t");
+    private String[] extractInstructorInfo(String instructorDetails) throws InvalidParametersException {
+        String[] result = instructorDetails.trim().replace('|', '\t').split("\t");
+        if (result.length != LENGTH_FOR_NAME_EMAIL_INSTITUTION) {
+            throw new InvalidParametersException(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, 
+                                                               LENGTH_FOR_NAME_EMAIL_INSTITUTION));
+        }
+        return result;
     }
 
     private String importDemoData(AdminHomePageData helper)

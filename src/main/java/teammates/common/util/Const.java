@@ -810,7 +810,9 @@ public class Const {
         public static final String RECEIVER_LIST_FILE_TOO_LARGE = "The uploaded receiver list file was too large. ";
         public static final String NOT_A_RECEIVER_LIST_FILE = "The file that you have uploaded is not a receiver list file. ";
         public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
-                
+        
+        public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
+        
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
         public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
                 + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
