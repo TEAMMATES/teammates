@@ -408,13 +408,102 @@ function getPointValue(s, ditchZero) {
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
-var DIV_TOPOFPAGE = 'topOfPage';
+
+/**
+ * Checks if element is within browser's viewport.
+ * @return true if it is within the viewport, false otherwise 
+ */
+function isWithinView(element) {
+    var viewHeight = window.innerHeight,
+        viewTop = window.scrollY,
+        viewBottom = viewTop + viewHeight;
+    
+    var elementHeight = element.offsetHeight,
+        elementTop = element.offsetTop,
+        elementBottom = elementTop + elementHeight;
+    
+    return viewHeight >= elementHeight
+           ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
+           : (viewTop <= elementTop && viewBottom >= elementTop)           // top within view
+             || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
+}
+
+/**
+ * Scrolls the screen to a certain position.
+ * @param scrollPos Position to scroll the screen to.
+ * @param duration Duration of animation in ms. Scrolling is instant if omitted.
+ *                 'fast and 'slow' are 600 and 200 ms respectively,
+ *                 400 ms will be used if any other string is supplied.
+ */
+function scrollToPosition(scrollPos, duration) {
+    if (duration === undefined) {
+        $(window).scrollTop(scrollPos);
+    } else {
+        $('html, body').animate({scrollTop: scrollPos}, duration);
+    }
+}
+
+/**
+ * Scrolls to an element.
+ * Possible options are as follows:
+ * 
+ * @param element - element to scroll to
+ * @param options - associative array with optional values:
+ *                  * type: ['top'|'view'], defaults to 'top';
+ *                          'top' scrolls to the top of the element,
+ *                          'view' scrolls the element into view
+ *                  * offset: offset from element to scroll to in px,
+ *                            defaults to navbar / footer offset for scrolling from above or below
+ *                  * duration: duration of animation,
+ *                              defaults to 0 for scrolling without animation
+ */
+function scrollToElement(element, options) {
+    var defaultOptions = {type: 'top', offset: 0, duration: 0};
+    
+    options = options || {};
+    var type = options.type || defaultOptions.type,
+        offset = options.offset !== undefined ? options.offset : defaultOptions.offset,
+        duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
+    
+    var isViewType = (type === 'view');
+    if (isViewType && isWithinView(element)) {
+        return;
+    }
+    
+    var navbar = document.getElementsByClassName('navbar')[0],
+        navbarHeight = navbar ? navbar.offsetHeight : 0;
+    var footer = document.getElementById('footerComponent'),
+        footerHeight = footer ? footer.offsetHeight : 0;
+    var windowHeight = window.innerHeight - navbarHeight - footerHeight;
+    
+    var isElementTallerThanWindow = (windowHeight < element.offsetHeight),
+        isFromAbove = (window.scrollY < element.offsetTop),
+        isAlignedToTop = (!isViewType || isElementTallerThanWindow || !isFromAbove);
+    
+    // default offset - from navbar / footer
+    if (options.offset === undefined) {
+        offset = isAlignedToTop ? navbarHeight * -1 : footerHeight * -1;
+    }
+    
+    // adjust offset to bottom of element
+    if (!isAlignedToTop) {
+        offset *= -1;
+        offset = offset + element.offsetHeight - window.innerHeight;
+    }
+    
+    var scrollPos = element.offsetTop + offset;
+    
+    scrollToPosition(scrollPos, duration);
+}
 
 /**
  * Scrolls the screen to top
+ * @param duration Duration of animation in ms. Scrolling is instant if omitted.
+ *                 'fast and 'slow' are 600 and 200 ms respectively,
+ *                 400 ms will be used if any other string is supplied.
  */
-function scrollToTop() {
-    document.getElementById(DIV_TOPOFPAGE).scrollIntoView(true);
+function scrollToTop(duration) {
+    scrollToPosition(0, duration);
 }
 
 /** Selector for status message div tag (to be used in jQuery) */
@@ -440,10 +529,8 @@ function setStatusMessage(message, error) {
     } else {
         $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-warning');
     }
-
-    var positionToScrollTo = $(DIV_STATUS_MESSAGE).offset().top - (window.innerHeight / 2);
     
-    window.scrollTo(0, positionToScrollTo);
+    scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
 }
 
 /**

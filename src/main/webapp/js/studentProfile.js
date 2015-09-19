@@ -62,9 +62,7 @@ function finaliseUploadPictureForm(event) {
         	$('#statusMessage').css("display", "block")
         	        .attr('class', 'alert alert-danger')
         	        .html('There seems to be a network error, please try again later');
-        	$("html, body").animate({
-        		scrollTop: 0
-        	});
+        	scrollToTop({duration: ''});
         },
         success: function(data) {
         	if (!data.isError) {
@@ -78,9 +76,7 @@ function finaliseUploadPictureForm(event) {
             	$('#statusMessage').css("display", "block")
             	        .attr('class', 'alert alert-danger')
             	        .html('There seems to be a network error, please try again later');
-            	$("html, body").animate({
-            		scrollTop: 0
-            	});
+            	scrollToTop({duration: ''});
         	}
         }
 	});

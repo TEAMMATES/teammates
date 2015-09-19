@@ -84,7 +84,7 @@ function bindFeedbackSessionEditFormSubmission() {
                 $statusMessage.show();
                 
                 // focus on status message
-                $(document).scrollTop($statusMessage.offset().top - $('.navbar').height() - 30);
+                scrollToElement($statusMessage[0], {offset: ($('.navbar').height() + 30) * -1});
             }
         });
     });
@@ -430,10 +430,7 @@ function showNewQuestionFrame(type) {
     
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    var headerOffset = $('div.navbar-fixed-top').height();
-    $('html, body').animate({
-        scrollTop: $('#questionTableNew').offset().top - headerOffset
-    }, 1000);
+    scrollToElement($('#questionTableNew')[0], {duration: 1000});
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }

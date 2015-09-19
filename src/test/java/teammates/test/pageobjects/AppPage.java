@@ -892,14 +892,14 @@ public abstract class AppPage {
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {
-                    testAndRunGodMode(filePath, actual, false);
+                    testAndRunGodMode(filePath, actual, true);
                 }
                 ThreadHelper.waitFor(waitDuration);
             }
         } catch (NoSuchElementException nse) {
             throw new RuntimeException(nse);
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual, false)) {
+            if (!testAndRunGodMode(filePath, actual, true)) {
                 throw new RuntimeException(e);
             }
         }
