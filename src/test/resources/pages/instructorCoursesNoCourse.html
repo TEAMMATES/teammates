@@ -25,6 +25,8 @@
          </script>
          <script src="/js/instructor.js" type="text/javascript">
          </script>
+         <script src="/js/instructorCoursesAjax.js" type="text/javascript">
+         </script>
          <script src="/js/instructorCourses.js" type="text/javascript">
          </script>
       </head>
@@ -137,73 +139,76 @@
                   </form>
                </div>
             </div>
+            <form action="/page/instructorCoursesPage" class="ajaxForCoursesForm" id="ajaxForCourses" style="display:none;">
+               <input name="user" type="hidden" value="CCAddUiTest.instr2"/>
+                              <input name="isusingAjax" type="hidden" value="on"/>
+                           </form>
             <br/>
-                        <div class="alert alert-warning" id="statusMessage">
-               You have not created any courses yet. Use the form above to create a course.
+                        <div id="statusMessage" style="display: none;">
             </div>
-            <script src="/js/statusMessage.js" type="text/javascript">
-            </script>
             <br/>
-                        <h2>
-               Active courses
-            </h2>
-            <table class="table table-bordered table-striped">
-               <thead class="fill-primary">
-                  <tr>
-                     <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this,1);">
-                        Course ID
-                        <span class="icon-sort sorted-ascending">
-                        </span>
-                     </th>
-                     <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this,2);">
-                        Course Name
-                        <span class="icon-sort unsorted">
-                        </span>
-                     </th>
-                     <th>
-                        Sections
-                     </th>
-                     <th>
-                        Teams
-                     </th>
-                     <th>
-                        Total Students
-                     </th>
-                     <th>
-                        Total Unregistered
-                     </th>
-                     <th class="align-center no-print">
-                        Action(s)
-                     </th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                     <td>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-            <br/>
-                        <br/>
-                        No records found.
-            <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                     </div>
+                        <div class="" id="coursesList">
+               <h2>
+                  Active courses
+               </h2>
+               <table class="table table-bordered table-striped" id="tableActiveCourses">
+                  <thead class="fill-primary">
+                     <tr>
+                        <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this,1);">
+                           Course ID
+                           <span class="icon-sort sorted-ascending">
+                           </span>
+                        </th>
+                        <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this,2);">
+                           Course Name
+                           <span class="icon-sort unsorted">
+                           </span>
+                        </th>
+                        <th>
+                           Sections
+                        </th>
+                        <th>
+                           Teams
+                        </th>
+                        <th>
+                           Total Students
+                        </th>
+                        <th>
+                           Total Unregistered
+                        </th>
+                        <th class="align-center no-print">
+                           Action(s)
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <br/>
+                              <br/>
+                              No records found.
+               <br/>
+                              <br/>
+                              <br/>
+                              <br/>
+                           </div>
+         </div>
          <div class="container-fluid" id="footerComponent">
             <div class="container">
                <div class="row">
