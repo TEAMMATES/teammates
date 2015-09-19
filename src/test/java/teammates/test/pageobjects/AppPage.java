@@ -749,6 +749,9 @@ public abstract class AppPage {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "${app.url}")
+                .replace("http://localhost:8888", "${web.url}")
+                .replace(Config.APP_URL.replace("http", "https"), "${web.url}")
+                .replace("\"/_ah", "\"${web.url}/_ah")
                 .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
