@@ -698,7 +698,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = getPageSource();
-        
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtml(actual, expected);
@@ -832,6 +832,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = element.getAttribute("outerHTML");
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
@@ -892,6 +893,7 @@ public abstract class AppPage {
             expectedString = FileHelper.readFile(filePath);
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
+                actual = processPageSourceForGodMode(actual);
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {
