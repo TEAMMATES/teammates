@@ -19,7 +19,7 @@
     
     <c:if test="${!data.usingAjax}">
         <feedbacks:feedbackSessionsForm fsForm="${data.newFsForm}"/>
-       <feedbacks:loadSessionsTableByAjaxForm fsList="${data.fsList}" />
+        <feedbacks:loadSessionsTableByAjaxForm fsList="${data.fsList}" />
     </c:if>
     <br>
     <t:statusMessage />

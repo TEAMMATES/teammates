@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    toggleSort($("#button_sortcourseid"),1);
+    $('#ajaxForCourses').trigger('submit');
 });
 
 

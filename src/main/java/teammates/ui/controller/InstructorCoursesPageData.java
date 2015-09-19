@@ -20,6 +20,11 @@ import teammates.ui.template.ElementTag;
  * This is the PageData object for the 'Courses' page 
  */
 public class InstructorCoursesPageData extends PageData {
+
+    // Flag for deciding if loading the courses table, or the new course form.
+    // if true -> loads the courses table, else load the form
+    private boolean isUsingAjax;
+
     private ArchivedCoursesTable archivedCourses;
     private ActiveCoursesTable activeCourses;
     private String courseIdToShow;
@@ -43,6 +48,14 @@ public class InstructorCoursesPageData extends PageData {
         this.archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);
         this.courseIdToShow = courseIdToShowParam;
         this.courseNameToShow = courseNameToShowParam;
+    }
+
+    public void setUsingAjax(boolean isUsingAjax) {
+        this.isUsingAjax = isUsingAjax;
+    }
+
+    public boolean isUsingAjax() {
+      return this.isUsingAjax;
     }
     
     public String getCourseIdToShow() {
