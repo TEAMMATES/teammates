@@ -148,6 +148,12 @@ function setupFsCopyModal() {
             },
             success: function(data) {
                 $('#courseList').html(data);
+                $('#fscopy_submit').click(
+                                        function(event) {
+                                            event.preventDefault();
+                                            $('#fscopy_submit').closest('form').submit();
+                                        }
+                                    );
                 $('#fscopy_submit').prop('disabled', false);
             }
         });
