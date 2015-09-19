@@ -115,7 +115,6 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
         } catch (Throwable e) {
-            System.out.println("error report");
             MimeMessage email = new Logic().emailErrorReport(req, e);
 
             log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
