@@ -402,13 +402,16 @@ public class EmailsTest extends BaseComponentTestCase {
                 89);
         error.setStackTrace(new StackTraceElement[] {s1});
         String stackTrace = TeammatesException.toStringWithStackTrace(error);
+        String requestMethod = "GET";
+        String requestUserAgent = "user-agent";
         String requestPath = "/page/studentHome";
+        String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
 
         MimeMessage email = new Emails().generateSystemErrorEmail(
-                error, 
-                requestPath, requestParam,
-                TestProperties.inst().TEAMMATES_VERSION);
+                                        error, requestMethod, requestUserAgent,
+                                        requestPath, requestUrl, requestParam,
+                                        TestProperties.inst().TEAMMATES_VERSION);
 
         // check receiver
         String recipient = Config.SUPPORT_EMAIL;
@@ -422,7 +425,11 @@ public class EmailsTest extends BaseComponentTestCase {
         String emailBody = email.getContent().toString();
         AssertHelper.assertContainsRegex(
                 "<b>Error Message</b><br/><pre><code>" + error.getMessage()
-                + "</code></pre><br/><b>Request Path</b>" + requestPath 
+                + "</code></pre>"
+                + "<br/><b>Request Method</b>" + requestMethod 
+                + "<br/><b>User Agent</b>" + requestUserAgent 
+                + "<br/><b>Request Url</b>" + requestUrl 
+                + "<br/><b>Request Path</b>" + requestPath 
                 + "<br/><b>Request Parameters</b>" + requestParam
                 + "<br/><b>Stack Trace</b><pre><code>" + stackTrace + "</code></pre>",
                 emailBody);
@@ -491,12 +498,15 @@ public class EmailsTest extends BaseComponentTestCase {
                                         "SystemErrorEmailReportTest.java",
                                         89);
         error.setStackTrace(new StackTraceElement[] { s1 });
+        String requestMethod = "GET";
+        String requestUserAgent = "user-agent";
         String requestPath = "/page/studentHome";
+        String requestUrl = "/page/studentHome/";
         String requestParam = "{}";
 
-        email = new Emails().generateSystemErrorEmail(
-                                        error, requestPath, requestParam,
-                                        TestProperties.inst().TEAMMATES_VERSION);
+        email = new Emails().generateSystemErrorEmail(error, requestMethod, requestUserAgent,
+                                                      requestPath, requestUrl, requestParam,
+                                                      TestProperties.inst().TEAMMATES_VERSION);
         sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
 
         testEmailAttributes(email, sendgridEmail);
