@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -805,10 +806,10 @@ public abstract class AppPage {
             // jQuery-ui local
             .replace("/js/lib/jquery-ui.min.js", "{*}/jquery-ui.min.js")
             // jQuery-ui CDN
+            //<script[^>]*>(.*?)</script>
             .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "{*}/jquery-ui.min.js");
-        Pattern p = Pattern.compile("(?s)<span class=\"submissionsNumber\" id=\"submissionsNumber\".*?[0-9,]{9}.*?</span>", Pattern.DOTALL);
-        p.matcher(content).replaceAll("<span class=\"submissionsNumber\" id=\"submissionsNumber\">{*}</span>");
-        return content;
+        Pattern p = Pattern.compile("<span class=\"submissionsNumber\".*?</span>", Pattern.DOTALL);
+        return p.matcher(content).replaceAll("<span class=\"submissionsNumber\" id=\"submissionsNumber\">{*}</span>");
     }
 
     private boolean areTestAccountsDefaultValues() {
