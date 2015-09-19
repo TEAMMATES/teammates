@@ -69,8 +69,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         /* Explanation: Gets a browser instance to be used for this class. */
         browser = BrowserPool.getBrowser();
         
-        System.setProperty("godmode", "true");
-        
         /* 
          * Any entity that is created in previous test run must be deleted.
          * If that previous test run fails, the entity persists and that will
