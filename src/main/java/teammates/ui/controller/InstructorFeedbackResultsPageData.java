@@ -935,7 +935,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                      Set<String> teamsInSection) {
         Map<String, List<InstructorFeedbackResultsQuestionTable>> teamToStatisticsTables = new HashMap<String, List<InstructorFeedbackResultsQuestionTable>>();
         for (String team : teamsInSection) {
-            if (!responsesGroupedByTeam.containsKey(team)) {
+            // skip team if no responses, or if the team is an anonymous student's team or an anonymous team
+            if (!responsesGroupedByTeam.containsKey(team) || !bundle.rosterTeamNameMembersTable.containsKey(team)) {
                 continue;
             }
             
