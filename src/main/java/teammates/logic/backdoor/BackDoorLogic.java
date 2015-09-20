@@ -310,6 +310,13 @@ public class BackDoorLogic extends Logic {
         updateFeedbackSession(feedbackSession);
     }
     
+    public void editFeedbackQuestionAsJson(String feedbackQuestionJson)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackQuestionAttributes feedbackQuestion = Utils.getTeammatesGson().fromJson(
+                                        feedbackQuestionJson, FeedbackQuestionAttributes.class);
+        updateFeedbackQuestion(feedbackQuestion);
+    }
+    
     /**
      * This method ensures consistency for private feedback sessions
      * between the type and visibility times. This allows easier creation

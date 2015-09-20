@@ -66,7 +66,7 @@ public class FeedbackSessionsLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final int QUESTION_NUM_FOR_RESPONSE_RATE = -1;
+    private static final String QUESTION_ID_FOR_RESPONSE_RATE = "-1";
     private static final int EMAIL_NAME_PAIR = 0;
     private static final int EMAIL_LASTNAME_PAIR = 1;
     private static final int EMAIL_TEAMNAME_PAIR = 2;
@@ -514,7 +514,7 @@ public class FeedbackSessionsLogic {
      * @throws ExceedingRangeException if the results are beyond the range
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestion(
-            String feedbackSessionName, String courseId, String userEmail, int questionNumber)
+            String feedbackSessionName, String courseId, String userEmail, String questionId)
                     throws EntityDoesNotExistException{
 
         // Load details of students and instructors once and pass it to callee
@@ -528,7 +528,7 @@ public class FeedbackSessionsLogic {
         params.put("inSection", "false");
         params.put("fromSection", "fasle");
         params.put("toSection", "false");
-        params.put("questionNum", String.valueOf(questionNumber));
+        params.put("questionId", questionId);
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
     }
@@ -541,7 +541,7 @@ public class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 String feedbackSessionName, String courseId, String userEmail, 
-                                                int questionNumber, String selectedSection)
+                                                String questionId, String selectedSection)
                                         throws EntityDoesNotExistException{
 
         CourseRoster roster = new CourseRoster(
@@ -552,7 +552,7 @@ public class FeedbackSessionsLogic {
         params.put("inSection", "true");
         params.put("fromSection", "false");
         params.put("toSection", "false");
-        params.put("questionNum", String.valueOf(questionNumber));
+        params.put("questionId", questionId);
         params.put("section", selectedSection);
         
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail, UserType.Role.INSTRUCTOR, roster, params);
@@ -1871,7 +1871,7 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         
         //Show all questions even if no responses, unless is an ajax request for a specific question.
-        if(role == UserType.Role.INSTRUCTOR && !params.containsKey("questionNum")){
+        if(role == UserType.Role.INSTRUCTOR && !params.containsKey("questionId")){
             for (FeedbackQuestionAttributes question : allQuestions) {
                 relevantQuestions.put(question.getId(), question);
             }
@@ -1889,10 +1889,10 @@ public class FeedbackSessionsLogic {
                     visibilityTable, responseStatus, roster, responseComments);
         }
         
-        if (params.get("questionNum") != null) {
-            int questionNumber = Integer.parseInt(params.get("questionNum"));
+        if (params.get("questionId") != null) {
+            String questionId = params.get("questionId");
             FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
-                    feedbackSessionName, courseId, questionNumber);
+                                                                    questionId);
             if (question != null) {
                 relevantQuestions.put(question.getId(), question);
                 
@@ -1960,8 +1960,9 @@ public class FeedbackSessionsLogic {
                     }
                 }
             }
-            boolean needResponseStatus = questionNumber == QUESTION_NUM_FOR_RESPONSE_RATE;
-            if (needResponseStatus) {
+            
+            boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
+            if (isQueryingResponseRateStatus) {
               responseStatus = (section == null && isIncludeResponseStatus) 
                               ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
                               : null;

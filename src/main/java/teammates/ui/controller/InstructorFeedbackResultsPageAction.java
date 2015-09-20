@@ -82,9 +82,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.setSections(logic.getSectionNamesForCourse(courseId));
         
-        String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         
-        if (ALL_SECTION_OPTION.equals(selectedSection) && questionNumStr == null && !sortType.equals("question")) {
+        if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !sortType.equals("question")) {
             // bundle for all questions and all sections  
             data.setBundle(
                      logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
@@ -93,7 +93,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            queryRange, sortType));
         } else if (sortType.equals("question")) {
             data.setBundle(getBundleForQuestionView(needAjax, courseId, feedbackSessionName, instructor, data,
-                                                    selectedSection, sortType, questionNumStr));
+                                                    selectedSection, sortType, questionId));
         } else if (sortType.equals("giver-question-recipient")
                 || sortType.equals("giver-recipient-question")) {
             data.setBundle(logic
@@ -163,10 +163,10 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private FeedbackSessionResultsBundle getBundleForQuestionView(String needAjax, String courseId, String feedbackSessionName,
                                                                   InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                                                  String selectedSection, String sortType, String questionNumStr)
+                                                                  String selectedSection, String sortType, String questionId)
                                                                   throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
-        if (questionNumStr == null) {
+        if (questionId == null) {
             if (ALL_SECTION_OPTION.equals(selectedSection) ) {
                 // load page structure without responses
                 
@@ -190,15 +190,13 @@ public class InstructorFeedbackResultsPageAction extends Action {
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
                 // bundle for a specific question, with all sections
-                int questionNum = Integer.parseInt(questionNumStr);
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
-                                                                                  instructor.email, questionNum);
+                                                                                  instructor.email, questionId);
             } else {
                 // bundle for a specific question and a specific section
-                int questionNum = Integer.parseInt(questionNumStr);
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 feedbackSessionName, courseId, 
-                                                instructor.email, questionNum, selectedSection);
+                                                instructor.email, questionId, selectedSection);
             }
         }
         
