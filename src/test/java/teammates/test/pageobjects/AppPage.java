@@ -520,12 +520,33 @@ public abstract class AppPage {
     }
     
     /** 
+     * @return the value of the header located at {@code (row,column)} 
+     * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
+     */
+    public String getHeaderValueFromDataTable(int tableNum, int row, int column) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
+        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
+        WebElement tdElement = trElement.findElements(By.tagName("th")).get(column);
+        return tdElement.getText();
+    }
+    
+    /** 
      * @return the number of rows from the nth(0-index-based) table 
      * (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
        return tableElement.findElements(By.tagName("tr")).size();
+    }
+    
+    /** 
+     * @return the number of columns from the header in the table 
+     * (which is of type {@code class=table}) in the page.
+     */
+    public int getNumberOfColumnsFromDataTable(int tableNum) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
+        WebElement trElement = tableElement.findElement(By.tagName("tr"));
+        return trElement.findElements(By.tagName("th")).size();
     }
 
     /**
