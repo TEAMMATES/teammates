@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
@@ -2685,8 +2686,8 @@ public class Logic {
     private void ____MISC_methods__________________________________________() {
     }
 
-    public MimeMessage emailErrorReport(String path, String params, Throwable error) {
-        return emailManager.sendErrorReport(path, params, error);
+    public MimeMessage emailErrorReport(HttpServletRequest req, Throwable error) {
+        return emailManager.sendErrorReport(req, error);
     }
 
     @SuppressWarnings("unused")
