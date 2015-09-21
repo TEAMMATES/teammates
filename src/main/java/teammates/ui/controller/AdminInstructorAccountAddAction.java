@@ -41,15 +41,15 @@ public class AdminInstructorAccountAddAction extends Action {
 
         AdminHomePageData data = new AdminHomePageData(account);
 
-        data.instructorDetails = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS);
+        data.instructorDetailsSingleLine = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS_SINGLE_LINE);
         data.instructorShortName = "";
         data.instructorName = "";
         data.instructorEmail = "";
         data.instructorInstitution = "";
         
-        if (data.instructorDetails != null) {
+        if (data.instructorDetailsSingleLine != null) {
             try {
-                String[] instructorInfo = extractInstructorInfo(data.instructorDetails);
+                String[] instructorInfo = extractInstructorInfo(data.instructorDetailsSingleLine);
                 
                 data.instructorShortName = instructorInfo[0];
                 data.instructorName = instructorInfo[0];

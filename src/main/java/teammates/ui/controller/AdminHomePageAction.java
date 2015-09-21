@@ -17,7 +17,7 @@ public class AdminHomePageAction extends Action {
         data.instructorName = "";
         data.instructorEmail = "";
         data.instructorInstitution = "";
-        data.instructorDetails = "";
+        data.instructorDetailsSingleLine = "";
         
         statusToAdmin = "Admin Home Page Load";
         

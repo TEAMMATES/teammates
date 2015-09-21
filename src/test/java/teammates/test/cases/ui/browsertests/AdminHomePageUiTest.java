@@ -95,15 +95,15 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         String demoCourseId = "AHPUiT.instr1.gma-demo";
         
         ______TS("action fail: the number of columns is invalid");
-        homePage.createInstructorByInstructorDetailsForm(instructor.name + " | " + instructor.email);
+        homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email);
         assertEquals(homePage.getStatus(), String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, 
                                                          AdminInstructorAccountAddAction.LENGTH_FOR_NAME_EMAIL_INSTITUTION)); 
-        ______TS("action success : create instructor account by Instructor Form");
+        ______TS("action success : create instructor account by Instructor Details Single Line Form");
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
-        homePage.createInstructorByInstructorDetailsForm(instructor.name + " | " + instructor.email + " | " + institute);
+        homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email + " | " + institute);
         
         String expectedjoinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
         
@@ -112,8 +112,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
        
         expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
        
-        assertEquals(homePage.getStatus(), "Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
-                                        + expectedjoinUrl);
+        assertTrue(homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
+                                        + expectedjoinUrl));
           
         
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
