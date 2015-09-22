@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.InstructorAttributes;
 
 public class AdminHomePage extends AppPage {
+    @FindBy (name="instructordetailssingleline")
+    WebElement detailsSingleLineTextBox;
     
     @FindBy (name="instructorshortname")
     WebElement shortNameTextBox;
@@ -21,6 +23,10 @@ public class AdminHomePage extends AppPage {
     
     @FindBy (id="btnAddInstructor")
     WebElement submitButton;
+    
+    @FindBy (id="btnAddInstructorDetailsSingleLineForm")
+    WebElement submitButtonDetailsSingleLineForm;
+    
     
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -38,21 +44,28 @@ public class AdminHomePage extends AppPage {
      * @param isCreateCourse True if a sample course should be created for this account.
      */
     public AdminHomePage createInstructor(String shortName, InstructorAttributes attributesForNewAccount, String institute) {
-        if(shortName != null){
+        if (shortName != null) {
             fillTextBox(shortNameTextBox, shortName);
         }
-        if(attributesForNewAccount.name != null){
+        if (attributesForNewAccount.name != null) {
             fillTextBox(nameTextBox, attributesForNewAccount.name);
         }
-        if(attributesForNewAccount.email != null){
+        if (attributesForNewAccount.email != null) {
             fillTextBox(emailTextBox, attributesForNewAccount.email);
         }
-        if(institute != null){
+        if (institute != null) {
             fillTextBox(institutionTextBox, institute);
         }
 
         submitButton.click();
         return this;
+    }
+
+    public void createInstructorByInstructorDetailsSingleLineForm(String instructorDetails) {
+        if (instructorDetails != null) {
+            fillTextBox(detailsSingleLineTextBox, instructorDetails);
+        }
+        submitButtonDetailsSingleLineForm.click();
     }
 
 }
