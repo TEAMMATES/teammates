@@ -665,19 +665,27 @@ public class Emails {
     }
 
     public void addEmailToTaskQueue(MimeMessage message, long emailDelayTimer) throws MessagingException {
+        String emailSubject = message.getSubject();
+        String emailSender = message.getFrom()[0].toString();
+        String emailReceiver = message.getRecipients(Message.RecipientType.TO)[0].toString();
+        String emailReplyToAddress = message.getReplyTo()[0].toString();
         try {
             HashMap<String, String> paramMap = new HashMap<String, String>();
-            paramMap.put(ParamsNames.EMAIL_SUBJECT, message.getSubject());
+            paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
             paramMap.put(ParamsNames.EMAIL_CONTENT, message.getContent().toString());
-            paramMap.put(ParamsNames.EMAIL_SENDER, message.getFrom()[0].toString());
-            paramMap.put(ParamsNames.EMAIL_RECEIVER, message.getRecipients(Message.RecipientType.TO)[0].toString());
-            paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, message.getReplyTo()[0].toString());
+            paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
+            paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
+            paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
             
             TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
             taskQueueLogic.createAndAddDeferredTask(SystemParams.SEND_EMAIL_TASK_QUEUE,
                     Const.ActionURIs.SEND_EMAIL_WORKER, paramMap, emailDelayTimer);
         } catch (Exception e) {
-            log.severe("Error when adding email to task queue: " + e.getMessage());
+            log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
+                       + "Email sender: " + emailSender + "\n"
+                       + "Email receiver: " + emailReceiver + "\n"
+                       + "Email subject: " + emailSubject + "\n"
+                       + "Email reply to address: " + emailReplyToAddress);
         } 
         
     }
