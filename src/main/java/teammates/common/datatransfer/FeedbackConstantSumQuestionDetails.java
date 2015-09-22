@@ -363,7 +363,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         List<String> options = constSumOptions;
         
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
-        updateRecipientOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
+        if (distributeToRecipients) {
+            updateOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
+        }
 
         DecimalFormat df = new DecimalFormat("#.##");
         
@@ -422,7 +424,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String fragments = "";
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
-        updateRecipientOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
+        if (distributeToRecipients) {
+            updateOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
+        }
 
         DecimalFormat df = new DecimalFormat("#.##");
         
@@ -481,15 +485,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
      * @param responses responses for the option points mapping
      * @param bundle
      */
-    private void updateRecipientOptionPointsMappingWithDefaultValue(
+    private void updateOptionPointsMappingWithDefaultValue(
             Map<String, List<Integer>> optionPoints,
             FeedbackQuestionAttributes question,
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
-        
-        if (!distributeToRecipients) {
-            return;
-        }
         
         Map<String, Set<String>> giverHasRecipients = new HashMap<>();
         
