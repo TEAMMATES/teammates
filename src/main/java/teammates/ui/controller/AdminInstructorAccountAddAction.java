@@ -47,6 +47,7 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorEmail = "";
         data.instructorInstitution = "";
         
+        // If there is input from the instructorDetailsSingleLine form, that data will be prioritized over the data from the 3-parameter form
         if (data.instructorDetailsSingleLine != null) {
             try {
                 String[] instructorInfo = extractInstructorInfo(data.instructorDetailsSingleLine);
