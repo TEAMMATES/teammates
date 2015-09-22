@@ -363,6 +363,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         List<String> options = constSumOptions;
         
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
+        updateRecipientOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
 
         DecimalFormat df = new DecimalFormat("#.##");
         
@@ -421,6 +422,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String fragments = "";
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
+        updateRecipientOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
 
         DecimalFormat df = new DecimalFormat("#.##");
         
@@ -457,7 +459,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             List<FeedbackResponseAttributes> responses) {
         
         Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
-        for(FeedbackResponseAttributes response : responses) {
+        for (FeedbackResponseAttributes response : responses) {
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails();
             
             for (int i = 0 ; i < frd.getAnswerList().size(); i++) {
@@ -470,6 +472,44 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
         return optionPoints;
+    }
+    
+    /**
+     * Used to update the option points mapping with a default value when distributing to recipients
+     * @param optionPoints
+     * @param question question for the option points mapping
+     * @param responses responses for the option points mapping
+     * @param bundle
+     */
+    private void updateRecipientOptionPointsMappingWithDefaultValue(
+            Map<String, List<Integer>> optionPoints,
+            FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+        
+        if (!distributeToRecipients) {
+            return;
+        }
+        
+        Map<String, Set<String>> giverHasRecipients = new HashMap<>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            if (!giverHasRecipients.containsKey(response.giverEmail)) {
+                giverHasRecipients.put(response.giverEmail, new HashSet<String>());
+            }
+            giverHasRecipients.get(response.giverEmail).add(response.recipientEmail);
+        }
+        
+        for (Entry<String, Set<String>> giverRecipients : giverHasRecipients.entrySet()) {
+            // only get recipients from givers that responded
+            List<String> possibleGiverRecipients =
+                    bundle.getPossibleRecipients(question, giverRecipients.getKey());
+            possibleGiverRecipients.removeAll(giverRecipients.getValue());
+            
+            for (String recipient : possibleGiverRecipients) {
+                updateOptionPointsMapping(optionPoints, recipient, 0);
+            }
+        }
     }
 
     /**
