@@ -1,5 +1,13 @@
 package teammates.test.cases.ui.browsertests;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
+
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -37,18 +45,65 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
         Url sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
-        sessionsPage.verifyHtml("/adminSessionsPage.html");
+        assertFalse(isTimeFramePanelVisible());
+        assertTrue(isSessionDataDisplayCorrect());
         
         ______TS("content: show filter");
         
         sessionsPage.clickDetailButton();
-        sessionsPage.verifyHtmlMainContent("/adminSessionsPageShowFilter.html");
+        assertTrue(isTimeFramePanelVisible());
+        assertTrue(isSessionDataDisplayCorrect());
         
         ______TS("content: hide filter");
         
         sessionsPage.clickDetailButton();
-        sessionsPage.verifyHtmlMainContent("/adminSessionsPageHideFilter.html");
+        assertFalse(isTimeFramePanelVisible());
+        assertTrue(isSessionDataDisplayCorrect());
         
+    }
+    
+    private boolean isTimeFramePanelVisible() {
+        return sessionsPage.isElementVisible(By.id("timeFramePanel"));
+    }
+    
+    /**
+     * This method only checks if the session data tables are displayed correctly
+     * i.e, table headers are correct, and appropriate message is displayed if no
+     * session data is present.
+     * It does not test for the table content
+     */
+    private boolean isSessionDataDisplayCorrect() {
+        if (sessionsPage.isElementPresent(By.className("dataTable"))) {
+            int numSessionDataTables = browser.driver.findElements(By.className("dataTable")).size();
+            for (int i = 0 ; i < numSessionDataTables ; i++) {
+                if (!isSessionTableHeaderCorrect(i)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {     
+            String statusMessage = sessionsPage.getStatus();
+            return statusMessage.equals("Currently No Ongoing Sessions");
+        }
+        
+    }
+    
+    private boolean isSessionTableHeaderCorrect(int tableNum) {
+        int numColumns = sessionsPage.getNumberOfColumnsFromDataTable(tableNum);
+        if (numColumns != 6) {
+            return false;
+        }
+        List<String> expectedSessionTableHeaders = Arrays.asList("Status",
+                                                               "[Course ID] Session Name  ",
+                                                               "Response Rate",
+                                                               "Start Time ",
+                                                               "End Time ",
+                                                               "Creator");
+        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        for (int i = 0 ; i < numColumns ; i++) {
+            actualSessionTableHeaders.add(sessionsPage.getHeaderValueFromDataTable(tableNum, 0, i));
+        }
+        return actualSessionTableHeaders.equals(expectedSessionTableHeaders);
     }
 }
 
