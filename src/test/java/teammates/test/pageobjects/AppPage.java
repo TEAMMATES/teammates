@@ -719,7 +719,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = getPageSource();
-        
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtml(actual, expected);
@@ -770,6 +770,9 @@ public abstract class AppPage {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "${app.url}")
+                .replace("http://localhost:8888", "${web.url}")
+                .replace(Config.APP_URL.replace("http", "https"), "${web.url}")
+                .replace("\"/_ah", "\"${web.url}/_ah")
                 .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&"
@@ -850,6 +853,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = element.getAttribute("outerHTML");
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
@@ -910,6 +914,7 @@ public abstract class AppPage {
             expectedString = FileHelper.readFile(filePath);
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
+                actual = processPageSourceForGodMode(actual);
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {

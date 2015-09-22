@@ -134,7 +134,7 @@ public class ActionFactory {
     public Action getAction(HttpServletRequest req) {
         
         String url = req.getRequestURL().toString();
-        log.info("URL received :" + url);
+        log.info("URL received : [" + req.getMethod() + "] " + url);
         
         String uri = req.getRequestURI();
         if (uri.contains(";")) {

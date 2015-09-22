@@ -130,13 +130,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPanelsToCollapse();
         
         // compare html for each question panel
-        By firstQuestionPanel = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                         + firstQuestionFromDatastore.getId() + "']]");
-        resultsPage.verifyHtmlPart(firstQuestionPanel, 
+        // to verify that the right responses are showing for each question
+        By firstQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
+                                             + firstQuestionFromDatastore.getId() + "']]" 
+                                             + "//div[contains(@class, 'table-responsive')]");
+        resultsPage.verifyHtmlPart(firstQuestionPanelResponses, 
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel1.html");
-        By secondQuestionPanel = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
-                                          + secondQuestionFromDatastore.getId() + "']]");
-        resultsPage.verifyHtmlPart(secondQuestionPanel, 
+        
+        By secondQuestionPanelResponses = By.xpath("//div[contains(@class,'panel')][.//input[@name='questionid'][@value='" 
+                                              + secondQuestionFromDatastore.getId() + "']]"  
+                                              + "//div[contains(@class, 'table-responsive')]");
+        resultsPage.verifyHtmlPart(secondQuestionPanelResponses, 
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
     }
 
