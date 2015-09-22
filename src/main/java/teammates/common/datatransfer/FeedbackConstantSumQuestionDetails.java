@@ -479,7 +479,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
     
     /**
-     * Used to update the option points mapping with a default value when distributing to recipients
+     * Used to update the option points mapping with a default value of 0.
+     * To be used only when distributing to recipients.
      * @param optionPoints
      * @param question question for the option points mapping
      * @param responses responses for the option points mapping
@@ -491,16 +492,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
         
-        Map<String, Set<String>> giverHasRecipients = new HashMap<>();
+        Map<String, Set<String>> giverRecipientsFromResponses = new HashMap<>();
         
         for (FeedbackResponseAttributes response : responses) {
-            if (!giverHasRecipients.containsKey(response.giverEmail)) {
-                giverHasRecipients.put(response.giverEmail, new HashSet<String>());
+            if (!giverRecipientsFromResponses.containsKey(response.giverEmail)) {
+                giverRecipientsFromResponses.put(response.giverEmail, new HashSet<String>());
             }
-            giverHasRecipients.get(response.giverEmail).add(response.recipientEmail);
+            giverRecipientsFromResponses.get(response.giverEmail).add(response.recipientEmail);
         }
         
-        for (Entry<String, Set<String>> giverRecipients : giverHasRecipients.entrySet()) {
+        for (Entry<String, Set<String>> giverRecipients : giverRecipientsFromResponses.entrySet()) {
             // only get recipients from givers that responded
             List<String> possibleGiverRecipients =
                     bundle.getPossibleRecipients(question, giverRecipients.getKey());
