@@ -4,7 +4,7 @@
        data-link=/page/studentProfilePic?studentemail={*}&courseid={*}>
        View Photo</a>
     <a class="student-profile-pic-view-link btn-link" 
-       data-link=/page/studentProfilePic?courseid={*}&studentemail={*}>
+       data-link=${web.url}/page/studentProfilePic?courseid={*}&studentemail={*}>
        View Photo</a>
     <a class="navLinks" data-unreg="true" href="/page/studentCourseJoinAuthentication?key={*}&">
        Home
@@ -33,7 +33,7 @@
        <span class="submissionsNumber" id="submissionsNumber">{*}</span>
               
     <div>
-        ${test.admin}${test.instructor}${test.student1}${test.student2}${test.unreg}${support.email}${app.url}
+        ${test.admin}${test.instructor}${test.student1}${test.student2}${test.unreg}${support.email}${app.url}${web.url}
     </div>
     
 </div>

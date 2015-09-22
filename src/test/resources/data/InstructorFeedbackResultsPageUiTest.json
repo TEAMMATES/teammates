@@ -215,6 +215,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":true
+        },
+        "Session with errors":{
+            "feedbackSessionName":"Fourth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "instructions":{
+                "value":"This session has errors"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-02 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
         }
     },
     "feedbackQuestions":{
@@ -757,6 +775,57 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS"
             ]
+        },
+        "qn1InSession4":{
+            "feedbackSessionName":"Fourth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"As a team, what do you think could have been done differently?"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"TEAMS",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn2InSession4":{
+            "feedbackSessionName":"Fourth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",
+                            \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                            \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                            \"pointsPerOption\" : true, \"points\" : 100}"
+            },
+            "questionNumber":"2",
+            "questionType":"CONSTSUM",
+            "giverType":"TEAMS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                
+            ]
         }
     },
     "feedbackResponses":{
@@ -1216,6 +1285,32 @@
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"
+        },
+        "response1 Of Session 4":{
+            "feedbackSessionName":"Fourth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"%GENERAL%",
+            "responseMetaData":{
+                "value":"None"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"None"
+        },
+        "response2 Of Session 4":{
+            "feedbackSessionName":"Fourth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"None"
         }
     }
 }

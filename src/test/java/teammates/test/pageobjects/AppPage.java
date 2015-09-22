@@ -698,7 +698,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = getPageSource();
-        
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtml(actual, expected);
@@ -749,16 +749,19 @@ public abstract class AppPage {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "${app.url}")
+                .replace("http://localhost:8888", "${web.url}")
+                .replace(Config.APP_URL.replace("http", "https"), "${web.url}")
+                .replace("\"/_ah", "\"${web.url}/_ah")
                 .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
-                        + "={*}\\&amp;" + Const.ParamsNames.COURSE_ID + "={*}")
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
+                        + "={*}\\&" + Const.ParamsNames.COURSE_ID + "={*}")
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&"
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
-                        + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
+                        + "={*}\\&" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
                 //regkey
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&", Const.ParamsNames.REGKEY + "={*}\\&")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
@@ -831,6 +834,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = element.getAttribute("outerHTML");
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
@@ -891,6 +895,7 @@ public abstract class AppPage {
             expectedString = FileHelper.readFile(filePath);
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
+                actual = processPageSourceForGodMode(actual);
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {

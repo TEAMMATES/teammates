@@ -19,6 +19,7 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.Jsoup;
 
@@ -35,6 +36,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
@@ -577,8 +579,11 @@ public class Emails {
     
     public MimeMessage generateSystemErrorEmail(
             Throwable error,
-            String requestPath, 
-            String requestParam, 
+            String requestMethod,
+            String requestUserAgent,
+            String requestPath,
+            String requestUrl,
+            String requestParam,
             String version)
             throws AddressException, MessagingException, UnsupportedEncodingException {
         
@@ -608,7 +613,10 @@ public class Emails {
                 version, errorMessage));
     
         String emailBody = EmailTemplates.SYSTEM_ERROR;
-    
+        
+        emailBody = emailBody.replace("${requestMethod}", requestMethod);
+        emailBody = emailBody.replace("${requestUserAgent}", requestUserAgent);
+        emailBody = emailBody.replace("${requestUrl}", requestUrl);
         emailBody = emailBody.replace("${requestPath}", requestPath);
         emailBody = emailBody.replace("${requestParameters}", requestParam);
         emailBody = emailBody.replace("${errorMessage}", errorMessage);
@@ -766,11 +774,21 @@ public class Emails {
         }
     }
     
-    public MimeMessage sendErrorReport(String path, String params, Throwable error) {
+    public MimeMessage sendErrorReport(HttpServletRequest req, Throwable error) {
         MimeMessage email = null;
         try {
-            email = generateSystemErrorEmail(error, path, params,
-                    Config.inst().getAppVersion());
+            String requestMethod = req.getMethod();
+            String requestUserAgent = req.getHeader("User-Agent");
+            String requestPath = req.getServletPath();
+            String requestUrl = req.getRequestURL().toString();
+            String requestParam =  HttpRequestHelper.printRequestParameters(req);
+            email = generateSystemErrorEmail(error,
+                                            requestMethod,
+                                            requestUserAgent,
+                                            requestPath,
+                                            requestUrl,
+                                            requestParam,
+                                            Config.inst().getAppVersion());
             forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {

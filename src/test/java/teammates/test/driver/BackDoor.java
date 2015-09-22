@@ -536,6 +536,14 @@ public class BackDoor {
         return feedbackQuestionJson;
     }
     
+    public static String editFeedbackQuestion(FeedbackQuestionAttributes updatedFeedbackQuestion) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_FEEDBACK_QUESTION);
+        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
+                .getTeammatesGson().toJson(updatedFeedbackQuestion));
+        String status = makePOSTRequest(params);
+        return status;
+    }
+    
     @SuppressWarnings("unused")
     private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
     }

@@ -48,6 +48,7 @@ public class GodModeTest extends BaseUiTestCase {
         testAccounts += TestProperties.inst().TEST_UNREG_ACCOUNT;
         testAccounts += Config.SUPPORT_EMAIL;
         testAccounts += Config.APP_URL;
+        testAccounts += Config.APP_URL.replace("http", "https");
         testAccounts += "</div>";
         String changedContent = initialContent.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts);
         changedContent = changedContent.replace("<!-- DATETODAY -->", 
@@ -78,6 +79,7 @@ public class GodModeTest extends BaseUiTestCase {
         Assumption.assertNull(System.getProperty("godmode"));
         
         try {
+            // should fail as the expected file "godmodeOutpout
             page.verifyHtml("/godmodeOutput.html");
             signalFailureToDetectException(" - Assertion Error");
         } catch (AssertionError ae) {
@@ -85,19 +87,24 @@ public class GodModeTest extends BaseUiTestCase {
         }
         
         System.setProperty("godmode", "true");
+        // automatically generates the file and hence passes
         page.verifyHtml("/godmodeOutput.html");
         
         System.clearProperty("godmode");
         Assumption.assertNull(System.getProperty("godmode"));
         
+        // should pass without need for godmode
+        // as the file has already been generated
         page.verifyHtml("/godmodeOutput.html");
         
         String expectedOutputPage = FileHelper.readFile(getExpectedOutputFilePath());
         String actualOutputPage = FileHelper.readFile(getOutputFilePath());
         
+        // ensure that the generated file is as expected
         verifyOutput(expectedOutputPage, actualOutputPage);
         
         ______TS("test verifyHtmlMainContent");
+        // repeat the same procedure as above for this
         
         writeToFile(getOutputFilePath(), 
                 "<div id='mainContent'>test</div>");
@@ -139,6 +146,7 @@ public class GodModeTest extends BaseUiTestCase {
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
         
         File file = new File(getOutputFilePath());
+        // delete the output file generated
         if(!file.delete()){
             System.out.println("Delete failed. " + file.getAbsolutePath());
             file.deleteOnExit();

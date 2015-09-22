@@ -50,7 +50,7 @@ public class ControllerServlet extends HttpServlet {
              */
             long startTime = System.currentTimeMillis();
             
-            log.info("Request received : " + req.getRequestURL().toString()
+            log.info("Request received : [" + req.getMethod() + "] " + req.getRequestURL().toString()
                     + ":" + HttpRequestHelper.printRequestParameters(req));
             log.info("User agent : " + req.getHeader("User-Agent"));
             
@@ -115,10 +115,7 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
         } catch (Throwable e) {
-            MimeMessage email = new Logic().emailErrorReport(
-                    req.getServletPath(), 
-                    HttpRequestHelper.printRequestParameters(req), 
-                    e);
+            MimeMessage email = new Logic().emailErrorReport(req, e);
 
             log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
             cleanUpStatusMessageInSession(req);
