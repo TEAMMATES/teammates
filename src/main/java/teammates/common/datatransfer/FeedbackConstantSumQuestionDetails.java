@@ -377,8 +377,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             if (distributeToRecipients) {
                 String participantIdentifier = entry.getKey();
-                String name = bundle.getNameForEmail(participantIdentifier);
-                String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+                String name = bundle.getFullNameFromRoster(participantIdentifier);
+                String teamName = bundle.getTeamNameFromRoster(participantIdentifier);
                 
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(name),
@@ -433,8 +433,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for(Entry<String, List<Integer>> entry : optionPoints.entrySet() ){
             String option;
             if(distributeToRecipients){
-                String teamName = bundle.getTeamNameForEmail(entry.getKey());
-                String recipientName = bundle.getNameForEmail(entry.getKey());
+                String teamName = bundle.getTeamNameFromRoster(entry.getKey());
+                String recipientName = bundle.getFullNameFromRoster(entry.getKey());
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
             } else {
                 option = Sanitizer.sanitizeForCsv(options.get(Integer.parseInt(entry.getKey())));
