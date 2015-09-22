@@ -45,7 +45,6 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.util.Priority;
-import teammates.ui.controller.AdminInstructorAccountAddAction;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -97,7 +96,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         ______TS("action fail: the number of columns is invalid");
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email);
         assertEquals(homePage.getStatus(), String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, 
-                                                         AdminInstructorAccountAddAction.LENGTH_FOR_NAME_EMAIL_INSTITUTION)); 
+                                                         Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION)); 
         ______TS("action success : create instructor account by Instructor Details Single Line Form");
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);

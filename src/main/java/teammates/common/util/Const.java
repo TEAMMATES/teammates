@@ -1102,7 +1102,10 @@ public class Const {
     public static final String SORT_BY_COURSE_NAME = "name";
     public static final String SORT_BY_COURSE_CREATION_DATE = "createdAt"; 
     public static final String DEFAULT_SORT_CRITERIA = SORT_BY_COURSE_CREATION_DATE;
-
+    
+    // used for instructor details single line form
+    public static final int LENGTH_FOR_NAME_EMAIL_INSTITUTION = 3;
+    
     public static final String DEFAULT_SECTION = "None";
     
     public static final String EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES = "eval%";
