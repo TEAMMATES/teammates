@@ -109,7 +109,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
-        viewPage.verifyHtmlAjax("/instructorStudentListWithHelperView.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentListWithHelperView.html");
 
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
@@ -122,7 +122,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
-        viewPage.verifyHtmlAjax("/instructorStudentList.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentList.html");
 
         ______TS("content: 1 course with no students");
 
@@ -132,7 +132,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
-        viewPage.verifyHtmlAjax("/instructorStudentListPageNoStudent.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentListPageNoStudent.html");
 
         ______TS("content: no course");
 
@@ -263,14 +263,14 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.checkCourse(2);
-        viewPage.verifyHtmlAjax("/instructorStudentListPageDisplayArchivedCourses.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
 
         ______TS("action: hide archive");
 
         viewPage.clickDisplayArchiveOptions();
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
-        viewPage.verifyHtmlAjax("/instructorStudentListPageHideArchivedCourses.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentListPageHideArchivedCourses.html");
 
         ______TS("action: re-display archive");
 
@@ -278,7 +278,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.checkCourse(2);
-        viewPage.verifyHtmlAjax("/instructorStudentListPageDisplayArchivedCourses.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
     }
 
     @AfterClass

@@ -888,6 +888,14 @@ public abstract class AppPage {
         return this;
     }
     
+    public AppPage verifyHtmlAjaxMainContent(String filePath) throws Exception {
+        return verifyHtmlAfterAjaxLoad(filePath, false);
+    }
+
+    public AppPage verifyHtmlAjax(String filePath) throws Exception {
+        return verifyHtmlAfterAjaxLoad(filePath, true);
+    }
+
     /**
      * Verifies that the currently loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
@@ -895,9 +903,11 @@ public abstract class AppPage {
      * after "waitDuration", for "maxRetryCount" number of times.
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * @param isFullPageChecked indicates whether a full page check is done as compared to
+     * simply mainContent check
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) throws Exception {
+    public AppPage verifyHtmlAfterAjaxLoad(String filePath, boolean isFullPageChecked) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
@@ -932,7 +942,11 @@ public abstract class AppPage {
             }
         }
         
-        return verifyHtmlMainContent(filePath);
+        if (isFullPageChecked) {
+            return verifyHtml(filePath);
+        } else {
+            return verifyHtmlMainContent(filePath);
+        }
     }
     
     /**
