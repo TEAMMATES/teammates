@@ -786,7 +786,8 @@ public abstract class AppPage {
                 //regkey
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&", Const.ParamsNames.REGKEY + "={*}\\&")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
-                .replaceAll("\"([a-zA-Z0-9-_]){50,}\"","\"{*}\"")
+                //regkey and questionid (same regex for both)
+                .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"{*}\"")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
