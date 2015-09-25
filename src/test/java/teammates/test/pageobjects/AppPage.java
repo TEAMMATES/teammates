@@ -784,7 +784,7 @@ public abstract class AppPage {
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
                 //regkey
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&", Const.ParamsNames.REGKEY + "={*}\\&")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}", Const.ParamsNames.REGKEY + "={*}")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
                 .replaceAll("\"([a-zA-Z0-9-_]){50,}\"","\"{*}\"")
                 //responseid
