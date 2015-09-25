@@ -775,14 +775,14 @@ public abstract class AppPage {
                 .replace("\"/_ah", "\"${web.url}/_ah")
                 .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&"
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
-                        + "={*}\\&" + Const.ParamsNames.COURSE_ID + "={*}")
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&"
+                        + "={*}\\&amp;" + Const.ParamsNames.COURSE_ID + "={*}")
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
-                        + "={*}\\&" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
+                        + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
                 //regkey
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&", Const.ParamsNames.REGKEY + "={*}\\&")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
