@@ -787,12 +787,10 @@ public abstract class AppPage {
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}", Const.ParamsNames.REGKEY + "={*}")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
                 .replaceAll("\"([a-zA-Z0-9-_]){50,}\"","\"{*}\"")
-                //responseid
-                .replaceAll("([a-zA-Z0-9-_]){30,}%"
-                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
-                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
                 //questionid
                 .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
+                //questionid regex in responseid
+                .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"{*}%")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // comment div ids (added after standardization)
