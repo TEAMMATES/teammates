@@ -122,6 +122,23 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         // roster.*Table is populated using the CourseRoster data directly
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
+        if (!isAllQuestionNumbersConsistent()) {
+            log.severe(feedbackSession.getIdentificationString() + " has invalid question numbers");
+        }
+    }
+    
+
+    //TODO can be removed once we are sure that question numbers will be consistent
+    private boolean isAllQuestionNumbersConsistent() {
+        Set<Integer> questionNumbersInSession = new HashSet<>();
+        for (FeedbackQuestionAttributes question : this.questions.values()) {
+            if (questionNumbersInSession.contains(question.questionNumber)) {
+                return false;
+            }
+            questionNumbersInSession.add(question.questionNumber);
+        }
+        
+        return true;
     }
     
 
