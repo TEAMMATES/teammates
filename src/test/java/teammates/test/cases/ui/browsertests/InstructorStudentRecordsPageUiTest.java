@@ -43,8 +43,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     private void testContent() throws Exception {
-        // TODO: Add a full HTML verification check
-
         InstructorAttributes instructor;
         StudentAttributes student;
 
@@ -60,7 +58,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecords.html");
+        // This is the full HTML verification for Instructor Student Records Page, the rest can all be verifyMainHtml
+        viewPage.verifyHtmlAjax("/instructorStudentRecords.html");
 
         ______TS("content: typical case, normal student records with comments, helper view");
 
