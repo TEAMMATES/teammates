@@ -907,7 +907,7 @@ public abstract class AppPage {
      * simply mainContent check
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAfterAjaxLoad(String filePath, boolean isFullPageChecked) throws Exception {
+    private AppPage verifyHtmlAfterAjaxLoad(String filePath, boolean isFullPageChecked) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
