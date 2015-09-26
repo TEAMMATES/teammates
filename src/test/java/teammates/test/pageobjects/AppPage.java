@@ -792,7 +792,7 @@ public abstract class AppPage {
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
                 //questionid
-                .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
+                .replaceAll("([a-zA-Z0-9-_]){62,}","{***}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // comment div ids (added after standardization)
