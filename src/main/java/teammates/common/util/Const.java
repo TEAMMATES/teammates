@@ -1127,9 +1127,6 @@ public class Const {
     public static final int VISIBILITY_TABLE_GIVER = 0;
     public static final int VISIBILITY_TABLE_RECIPIENT = 1;
     
-    public static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
-    public static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;
-    
     public static final String GENERAL_QUESTION = "%GENERAL%";
     public static final String USER_IS_TEAM = "%TEAM%";
     public static final String USER_IS_NOBODY = "%NOBODY%";

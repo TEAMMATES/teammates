@@ -19,6 +19,9 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class AdminSearchPageUiTest extends BaseUiTestCase {
+    public static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
+    public static final int ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS = 6;
+    
     private static Browser browser;
     private static AdminSearchPage searchPage;
     private static DataBundle testData;
@@ -124,7 +127,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         switch (searchPage.getDataTableId(tableNum)) {
         // Instructor table
         case "search_table_instructor":
-            if (numColumns != Const.ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS) {
+            if (numColumns != ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS) {
                 return false;
             }
             expectedSearchTableHeaders = Arrays.asList("Course",
@@ -142,7 +145,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
             
         // Student table
         case "search_table":
-            if (numColumns != Const.ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS) {
+            if (numColumns != ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS) {
                 return false;
             }
             expectedSearchTableHeaders = Arrays.asList("Institute",
