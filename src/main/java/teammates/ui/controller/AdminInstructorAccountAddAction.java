@@ -33,7 +33,7 @@ import com.google.gson.Gson;
 public class AdminInstructorAccountAddAction extends Action {
     
     private static int PERSISTENCE_WAITING_DURATION = 4000;
-
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
@@ -41,19 +41,40 @@ public class AdminInstructorAccountAddAction extends Action {
 
         AdminHomePageData data = new AdminHomePageData(account);
 
-        data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
-        Assumption.assertNotNull(data.instructorShortName);
-        data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-        Assumption.assertNotNull(data.instructorName);
-        data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        Assumption.assertNotNull(data.instructorEmail);
-        data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        Assumption.assertNotNull(data.instructorInstitution);
+        data.instructorDetailsSingleLine = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DETAILS_SINGLE_LINE);
+        data.instructorShortName = "";
+        data.instructorName = "";
+        data.instructorEmail = "";
+        data.instructorInstitution = "";
+        
+        // If there is input from the instructorDetailsSingleLine form, that data will be prioritized over the data from the 3-parameter form
+        if (data.instructorDetailsSingleLine != null) {
+            try {
+                String[] instructorInfo = extractInstructorInfo(data.instructorDetailsSingleLine);
+                
+                data.instructorShortName = instructorInfo[0];
+                data.instructorName = instructorInfo[0];
+                data.instructorEmail = instructorInfo[1];
+                data.instructorInstitution = instructorInfo[2];
+            } catch (InvalidParametersException e1) {
+                setStatusForException(e1);
+                return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+            }
+        } else {
+            data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+            Assumption.assertNotNull(data.instructorShortName);
+            data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+            Assumption.assertNotNull(data.instructorName);
+            data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+            Assumption.assertNotNull(data.instructorEmail);
+            data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+            Assumption.assertNotNull(data.instructorInstitution);
+        }
         
         data.instructorShortName = data.instructorShortName.trim();
         data.instructorName = data.instructorName.trim();
         data.instructorEmail = data.instructorEmail.trim();
-        data.instructorInstitution = data.instructorInstitution.trim();        
+        data.instructorInstitution = data.instructorInstitution.trim();
         
         String joinLink = ""; 
                       
@@ -99,6 +120,15 @@ public class AdminInstructorAccountAddAction extends Action {
  
         
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
+    }
+
+    private String[] extractInstructorInfo(String instructorDetails) throws InvalidParametersException {
+        String[] result = instructorDetails.trim().replace('|', '\t').split("\t");
+        if (result.length != Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION) {
+            throw new InvalidParametersException(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, 
+                                                               Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION));
+        }
+        return result;
     }
 
     private String importDemoData(AdminHomePageData helper)

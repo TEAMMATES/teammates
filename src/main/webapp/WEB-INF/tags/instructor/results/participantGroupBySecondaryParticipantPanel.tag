@@ -46,7 +46,7 @@
                      </c:forEach>
                  </c:when>
                  <c:otherwise>
-                    <i>There are no responses ${groupByParticipantPanel.giver? 'given' : 'received'} by this user</i>
+                    <i>There are no responses ${groupByParticipantPanel.giver? 'given' : 'received'} by this user or you may not have the permission to see the response</i>
                  </c:otherwise>
              </c:choose>
         </div>

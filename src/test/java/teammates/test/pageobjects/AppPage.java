@@ -520,12 +520,33 @@ public abstract class AppPage {
     }
     
     /** 
+     * @return the value of the header located at {@code (row,column)} 
+     * from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
+     */
+    public String getHeaderValueFromDataTable(int tableNum, int row, int column) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
+        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
+        WebElement tdElement = trElement.findElements(By.tagName("th")).get(column);
+        return tdElement.getText();
+    }
+    
+    /** 
      * @return the number of rows from the nth(0-index-based) table 
      * (which is of type {@code class=table}) in the page.
      */
     public int getNumberOfRowsFromDataTable(int tableNum) {
         WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
        return tableElement.findElements(By.tagName("tr")).size();
+    }
+    
+    /** 
+     * @return the number of columns from the header in the table 
+     * (which is of type {@code class=table}) in the page.
+     */
+    public int getNumberOfColumnsFromDataTable(int tableNum) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
+        WebElement trElement = tableElement.findElement(By.tagName("tr"));
+        return trElement.findElements(By.tagName("th")).size();
     }
 
     /**
@@ -698,7 +719,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = getPageSource();
-        
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtml(actual, expected);
@@ -749,6 +770,9 @@ public abstract class AppPage {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "${app.url}")
+                .replace("http://localhost:8888", "${web.url}")
+                .replace(Config.APP_URL.replace("http", "https"), "${web.url}")
+                .replace("\"/_ah", "\"${web.url}/_ah")
                 .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&"
@@ -797,6 +821,8 @@ public abstract class AppPage {
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
                 .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}")
+                // dynamic feedback submission numbers
+                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">{*}</span>")
                 // jQuery local
                 .replace("/js/lib/jquery.min.js", "{*}/jquery.min.js")
                 // jQuery CDN
@@ -829,6 +855,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         String actual = element.getAttribute("outerHTML");
+        actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
@@ -862,15 +889,35 @@ public abstract class AppPage {
     }
     
     /**
+     * Verifies that main content specified id "mainContent" in currently 
+     * loaded page has the same HTML content as 
+     * the content given in the file at {@code filePath}. <br>
+     * The HTML is checked for logical equivalence, not text equivalence. <br>
+     * Since the verification is done after making AJAX request(s), the HTML is checked
+     * after "waitDuration", for "maxRetryCount" number of times.
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyHtmlAjaxMainContent(String filePath) throws Exception {
+        return verifyHtmlAfterAjaxLoad(filePath, false);
+    }
+
+    /**
      * Verifies that the currently loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
-     * Since the verification is done after making an Ajax Request, the HTML is checked
+     * The HTML is checked for logical equivalence, not text equivalence. <br>
+     * Since the verification is done after making AJAX request(s), the HTML is checked
      * after "waitDuration", for "maxRetryCount" number of times.
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlAjax(String filePath) throws Exception {
+        return verifyHtmlAfterAjaxLoad(filePath, true);
+    }
+
+    private AppPage verifyHtmlAfterAjaxLoad(String filePath, boolean isFullPageChecked) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
@@ -889,6 +936,7 @@ public abstract class AppPage {
             expectedString = FileHelper.readFile(filePath);
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
+                actual = processPageSourceForGodMode(actual);
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {
@@ -904,7 +952,11 @@ public abstract class AppPage {
             }
         }
         
-        return verifyHtmlMainContent(filePath);
+        if (isFullPageChecked) {
+            return verifyHtml(filePath);
+        } else {
+            return verifyHtmlMainContent(filePath);
+        }
     }
     
     /**

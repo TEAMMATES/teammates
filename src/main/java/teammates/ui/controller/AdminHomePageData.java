@@ -8,7 +8,11 @@ public class AdminHomePageData extends PageData {
     public String instructorName;
     public String instructorEmail;
     public String instructorInstitution;
-
+    
+    // this field will contain the name, email address and institution of the instructor separated by \t or |
+    // e.g: "Instructor1 \t instructor1@test.com \t NUS"
+    public String instructorDetailsSingleLine;
+    
     public AdminHomePageData(AccountAttributes account) {
         super(account);
     }
@@ -27,5 +31,9 @@ public class AdminHomePageData extends PageData {
     
     public String getInstructorInstitution() {
         return sanitizeForHtml(instructorInstitution);
+    }
+    
+    public String getInstructorDetailsSingleLine() {
+        return instructorDetailsSingleLine;
     }
 }

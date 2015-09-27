@@ -60,7 +60,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjax("/instructorStudentRecords.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecords.html");
 
         ______TS("content: typical case, normal student records with comments, helper view");
 
@@ -71,7 +71,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjax("/instructorStudentRecordsWithHelperView.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsWithHelperView.html");
 
         ______TS("content: normal student records with private feedback session");
 
@@ -83,7 +83,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjax("/instructorStudentRecordsPageWithPrivateFeedback.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
 
         ______TS("content: no student records, no profiles");
 
@@ -95,7 +95,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjax("/instructorStudentRecordsPageNoRecords.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsPageNoRecords.html");
 
         ______TS("content: multiple feedback session type student record");
 
@@ -109,7 +109,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjax("/instructorStudentRecordsPageMixedQuestionType.html");
+        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsPageMixedQuestionType.html");
 
     }
 
