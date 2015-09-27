@@ -124,7 +124,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         switch (searchPage.getDataTableId(tableNum)) {
         // Instructor table
         case "search_table_instructor":
-            if (numColumns != 5) {
+            if (numColumns != Const.ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS) {
                 return false;
             }
             expectedSearchTableHeaders = Arrays.asList("Course",
@@ -142,7 +142,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
             
         // Student table
         case "search_table":
-            if (numColumns != 6) {
+            if (numColumns != Const.ADMIN_SEARCH_STUDENT_TABLE_NUM_COLUMNS) {
                 return false;
             }
             expectedSearchTableHeaders = Arrays.asList("Institute",
