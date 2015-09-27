@@ -548,7 +548,16 @@ public abstract class AppPage {
         WebElement trElement = tableElement.findElement(By.tagName("tr"));
         return trElement.findElements(By.tagName("th")).size();
     }
-
+    
+    /** 
+     * @return the id of the table 
+     * (which is of type {@code class=table}) in the page.
+     */
+    public String getDataTableId(int tableNum) {
+        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
+        return tableElement.getAttribute("id");
+    }
+    
     /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box. 
      * Fails if there is no dialog box.
