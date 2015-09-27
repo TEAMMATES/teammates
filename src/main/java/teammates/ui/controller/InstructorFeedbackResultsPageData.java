@@ -506,7 +506,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             if (!viewType.isPrimaryGroupingOfGiverType()) {
                 boolean isStudent = bundle.roster.getStudentForEmail(secondaryParticipantIdentifier) != null;
-                boolean isVisibleTeam = bundle.rosterTeamNameMembersTable.containsKey(secondaryParticipantDisplayableName);
+                boolean isVisibleTeam = isTeamVisible(secondaryParticipantDisplayableName);
                 String sectionName = bundle.getSectionFromRoster(secondaryParticipantIdentifier);
                 boolean isAllowedToModerate = (isStudent || isVisibleTeam) 
                                            && instructor.isAllowedForPrivilege(
@@ -663,7 +663,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 
                 Map<String, Boolean> isTeamDisplayingStatistics = new HashMap<>();
                 for (String team : teamsWithResponses) {
-                    isTeamDisplayingStatistics.put(team, bundle.rosterTeamNameMembersTable.containsKey(team));
+                    // teamsWithResponses can include teams of anonymous student ("Anonymous student #'s Team")
+                    // and "-"
+                    isTeamDisplayingStatistics.put(team, isTeamVisible(team));
                 }
                 sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
                 sectionPanel.setSectionName(sectionName);
@@ -683,6 +685,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 Assumption.fail();
                 break;
         }
+    }
+
+    private boolean isTeamVisible(String team) {
+        return bundle.rosterTeamNameMembersTable.containsKey(team);
     }
     
     private void buildMissingTeamAndParticipantPanelsForSection(
@@ -925,7 +931,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         for (String team : teamsInSection) {
             // skip team if no responses, 
             // or if the team is an anonymous student's team or an anonymous team, or is "-"
-            if (!responsesGroupedByTeam.containsKey(team) || !bundle.rosterTeamNameMembersTable.containsKey(team)) {
+            if (!responsesGroupedByTeam.containsKey(team) || !isTeamVisible(team)) {
                 continue;
             }
             
@@ -1474,7 +1480,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorFeedbackResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
                                                                             String giverIdentifier, String className,
                                                                             String buttonText) {
-        boolean isGiverVisibleStudentOrTeam = bundle.rosterTeamNameMembersTable.containsKey(giverIdentifier)
+        boolean isGiverVisibleStudentOrTeam = isTeamVisible(giverIdentifier)
                                               || bundle.roster.isStudentInCourse(giverIdentifier);
         if (!isGiverVisibleStudentOrTeam) {
             return null;
