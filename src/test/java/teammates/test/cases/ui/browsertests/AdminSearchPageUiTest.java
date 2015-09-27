@@ -46,7 +46,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         searchPage = getAdminSearchPage(instructorId);
         
         assertTrue(isPageTitleCorrect());
-        assertTrue(isSearchPanelVisible());
+        assertTrue(isSearchPanelPresent());
     }
 
     private void testSearch() {
@@ -58,7 +58,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         
         assertTrue(isPageTitleCorrect());
-        assertTrue(isSearchPanelVisible());
+        assertTrue(isSearchPanelPresent());
         assertTrue(isEmptyKeyErrorMessageShown());
         
         ______TS("search for student1");
@@ -68,7 +68,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         
-        assertTrue(isSearchPanelVisible());
+        assertTrue(isSearchPanelPresent());
         assertTrue(isSearchDataDisplayCorrect());
     }
 
@@ -82,7 +82,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         return searchPage.getPageTitle().equals("Admin Search");
     }
     
-    private boolean isSearchPanelVisible() {
+    private boolean isSearchPanelPresent() {
         return searchPage.isElementPresent(By.id("filterQuery"))
             && searchPage.isElementPresent(By.id("searchButton"));
     }
