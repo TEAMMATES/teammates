@@ -512,6 +512,7 @@ public class Const {
         public static final String PROFILE_PICTURE_BOTTOMY = "cropboxbottomy";
         public static final String PROFILE_PICTURE_HEIGHT = "pictureheight";
         public static final String PROFILE_PICTURE_WIDTH = "picturewidth";
+        public static final String PROFILE_PICTURE_ROTATE = "picturerotate";
         
         public static final String SEARCH_STUDENTS = "searchstudents";
         public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";

@@ -9,8 +9,8 @@ $(function() {
         var $picture = $('#editableProfilePicture');
         if ($picture.length != 0) {
             $picture.guillotine({
-                width: 200,
-                height: 200,
+                width: 150,
+                height: 150,
                 init: {
                     scale: 0.1
                 }
@@ -27,20 +27,6 @@ $(function() {
             $('#profilePicEditRotateRight').click(function() {
                 $picture.guillotine('rotateRight');
             });
-            // $('#editableProfilePicture').guillotine({
-            //     bgColor: 'transparent',
-            //     setSelect: [ 10, 10, 200, 200 ],
-            //     aspectRatio: 1,
-            //     bgOpacity: 0.4,
-            //     addClass: "inline-block",
-            //     boxWidth: 400,
-            //     boxHeight: 400,
-            //     onSelect: updateFormData,
-            //     onRelease: updateFormData
-            // });
-
-            // $('#pictureWidth').val($('#editableProfilePicture').width());
-            // $('#pictureHeight').val($('#editableProfilePicture').height());
 
             if ($('#profilePic').attr('data-edit') == "true") {
                 $('#studentPhotoUploader').modal({
@@ -51,24 +37,24 @@ $(function() {
     });
 });
 
-function updateFormData(coords) {
-    $('#cropBoxLeftX').val(coords.x);
-    $('#cropBoxTopY').val(coords.y);
-    $('#cropBoxRightX').val(coords.x2);
-    $('#cropBoxBottomY').val(coords.y2);
-}
-
 function finaliseEditPictureForm(event) {
-    console.log($('#editableProfilePicture').guillotine('getData'));
-    // if ($('#cropBoxLeftX').val() == "" || $('#cropBoxRightX').val() == ""
-    //         || $('#cropBoxTopY').val() == "" || $('#cropBoxBottomY').val() == "") {
-    //     return;
-    // }
-    // $('#profilePictureEditForm').submit();
+    var picture = $('#editableProfilePicture'),
+        transformData = picture.guillotine('getData'),
+        scaledWidth = picture.prop('naturalWidth') * transformData.scale,
+        scaledHeight = picture.prop('naturalHeight') * transformData.scale;
+
+    $('#cropBoxLeftX').val(transformData.x);
+    $('#cropBoxTopY').val(transformData.y);
+    $('#cropBoxRightX').val(transformData.x + transformData.w);
+    $('#cropBoxBottomY').val(transformData.y + transformData.h);
+    $('#rotate').val(transformData.angle);
+    $('#pictureWidth').val(scaledWidth);
+    $('#pictureHeight').val(scaledHeight);
+    $('#profilePictureEditForm').submit();
 }
 
 function finaliseUploadPictureForm(event) {
-    if ($('#studentPhoto').val() == "") {
+    if ($('#studentPhoto').val() === "") {
         return;
     }
 
