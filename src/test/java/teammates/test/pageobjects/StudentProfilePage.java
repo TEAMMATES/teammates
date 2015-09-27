@@ -56,6 +56,18 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id = "profileEditPictureSubmit")
     protected WebElement editPictureSubmit;
 
+    @FindBy(id = "profilePicEditRotateLeft")
+    protected WebElement editPictureRotateLeft;
+
+    @FindBy(id = "profilePicEditZoomIn")
+    protected WebElement editPictureZoomIn;
+
+    @FindBy(id = "profilePicEditZoomOut")
+    protected WebElement editPictureZoomOut;
+
+    @FindBy(id = "profilePicEditRotateRight")
+    protected WebElement editPictureRotateRight;
+
     public StudentProfilePage(Browser browser) {
         super(browser);
     }
@@ -161,6 +173,14 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfilePhoto() {
+        editPictureZoomIn.click();
+        editPictureZoomOut.click();
+        editPictureZoomIn.click();
+
+        editPictureRotateRight.click();
+        editPictureRotateLeft.click();
+        editPictureRotateRight.click();
+
         editPictureSubmit.click();
     }
 

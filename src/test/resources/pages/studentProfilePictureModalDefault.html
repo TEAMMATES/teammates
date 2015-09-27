@@ -1,0 +1,45 @@
+<div style="display: block;" class="modal fade in" id="studentPhotoUploader" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title">
+                    Upload/Edit Photo
+                </h4>
+            </div>
+            <div class="modal-body center-block align-center">
+                <br>
+                <div class="row">
+                    <div class="col-xs-4 profile-pic-edit-col">
+                        <div class="center-block align-center">
+                            <form id="profilePictureUploadForm" method="post">
+                                <input id="studentPhoto" class="inline" name="studentprofilephoto" type="file">
+                                <p class="help-block">
+                                    Max Size: 5 MB
+                                </p>
+                                <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary center-block" onclick="finaliseUploadPictureForm()">
+                                    Upload Picture
+                                </button>
+                                <input name="user" value="${test.student2}" type="hidden">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xs-8 profile-pic-edit-col border-left-gray">
+
+
+                        <div class="alert alert-warning">
+                            Please upload a photo to start editing.
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

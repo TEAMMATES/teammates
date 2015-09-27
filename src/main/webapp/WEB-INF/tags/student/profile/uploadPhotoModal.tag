@@ -18,8 +18,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title">
-                    Upload/Edit Photo 
-                    <small>(Use the selection in the photo to specify a crop)</small>
+                    Upload/Edit Photo
                 </h4>
             </div>
             <div class="modal-body center-block align-center">
@@ -54,8 +53,23 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="profile-pic-edit">
-                                    <img id="editableProfilePicture" src="${modal.pictureUrl}">
-                                    <br><br>
+                                    <div class="profile-pic-edit-container">
+                                        <img id="editableProfilePicture" src="${modal.pictureUrl}">
+                                    </div>
+                                    <div class="profile-pic-edit-toolbar">
+                                        <button id="profilePicEditRotateLeft" type="button" class="btn btn-inverse">
+                                            <span class="glyphicon glyphicon-repeat glyphicon-flipped"></span>
+                                        </button>
+                                        <button id="profilePicEditZoomIn" type="button" class="btn btn-inverse">
+                                            <span class="glyphicon glyphicon-zoom-in"></span>
+                                        </button>
+                                        <button id="profilePicEditZoomOut" type="button" class="btn btn-inverse">
+                                            <span class="glyphicon glyphicon-zoom-out"></span>
+                                        </button>
+                                        <button id="profilePicEditRotateRight" type="button" class="btn btn-inverse">
+                                            <span class="glyphicon glyphicon-repeat"></span>
+                                        </button>
+                                    </div>
                                     <label for="editableProfilePicture">
                                         Your Photo
                                     </label>
@@ -68,6 +82,7 @@
                                     <input id="cropBoxTopY" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_TOPY %>" value="">
                                     <input id="cropBoxRightX" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_RIGHTX %>" value="">
                                     <input id="cropBoxBottomY" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_BOTTOMY %>" value="">
+                                    <input id="rotate" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_ROTATE %>" value="">
                                     <input id="blobKey" type="hidden" name="<%= Const.ParamsNames.BLOB_KEY %>" value="${modal.pictureKey}">
                                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
                                     <button type="button"

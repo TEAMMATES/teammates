@@ -38,6 +38,7 @@ public class StudentProfilePictureEditAction extends Action {
     private String _rightXString;
     private String _topYString;
     private String _leftXString;
+    private String _rotateString;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -88,20 +89,13 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     private byte[] transformImage() {
-        Double height = Double.parseDouble(_heightString);
-        Double width = Double.parseDouble(_widthString);
-        Double leftX = Double.parseDouble(_leftXString) / width;
-        Double topY = Double.parseDouble(_topYString) / height;
-        Double rightX = Double.parseDouble(_rightXString) / width;
-        Double bottomY = Double.parseDouble(_bottomYString) / height;
-
         try {
             /*
              * This branch is covered in UiTests as the following method does
              * not behave the same in dev as in staging.
              * TODO: find a way to cover it in Action Tests.
              */
-            Image newImage = getTransformedImage(leftX, topY, rightX, bottomY);
+            Image newImage = getTransformedImage();
             return newImage.getImageData();
         } catch (RuntimeException re) {
             isError = true;
@@ -113,23 +107,44 @@ public class StudentProfilePictureEditAction extends Action {
         return null;
     }
 
-    private Image getTransformedImage(Double leftX, Double topY, Double rightX, Double bottomY) {
+    private Image getTransformedImage() {
         Assumption.assertNotNull(_blobKey);
 
         Image oldImage = ImagesServiceFactory.makeImageFromBlob(_blobKey);
-        CompositeTransform finalTransform = getCompositeTransformToApply(leftX, topY, rightX, bottomY);
+        CompositeTransform finalTransform = getCompositeTransformToApply();
         OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);
 
         return ImagesServiceFactory.getImagesService().applyTransform(finalTransform, oldImage, settings);
     }
 
-    private CompositeTransform getCompositeTransformToApply(Double leftX, Double topY, Double rightX,
-                                                            Double bottomY) {
-        Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
-        Transform resize = ImagesServiceFactory.makeResize(150, 150);
+    private Transform getScaleTransform() {
+        Double width = Double.parseDouble(_widthString);
+        Double height = Double.parseDouble(_heightString);
+        return ImagesServiceFactory.makeResize((int)Math.round(width), (int)Math.round(height));
+    }
+
+    private Transform getRotateTransform() {
+        Double rotate = Double.parseDouble(_rotateString);
+        return ImagesServiceFactory.makeRotate((int)Math.round(rotate));
+    }
+
+    private Transform getCropTransform() {
+        Double height = Double.parseDouble(_heightString);
+        Double width = Double.parseDouble(_widthString);
+        Double leftX = Double.parseDouble(_leftXString) / width;
+        Double topY = Double.parseDouble(_topYString) / height;
+        Double rightX = Double.parseDouble(_rightXString) / width;
+        Double bottomY = Double.parseDouble(_bottomYString) / height;
+        return ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
+    }
+
+    private CompositeTransform getCompositeTransformToApply() {
+        Transform standardCompress = ImagesServiceFactory.makeResize(150, 150);
         CompositeTransform finalTransform = ImagesServiceFactory.makeCompositeTransform()
-                                                                .concatenate(crop)
-                                                                .concatenate(resize);
+                                                                .concatenate(getScaleTransform())
+                                                                .concatenate(getRotateTransform())
+                                                                .concatenate(getCropTransform())
+                                                                .concatenate(standardCompress);
         return finalTransform;
     }
 
@@ -170,6 +185,7 @@ public class StudentProfilePictureEditAction extends Action {
         _heightString = getPictureHeight();
         _widthString = getPictureWidth();
         _blobKey = getBlobKey();
+        _rotateString = getRotateString();
     }
 
     private BlobKey getBlobKey() {
@@ -214,4 +230,9 @@ public class StudentProfilePictureEditAction extends Action {
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
     }
 
+    private String getRotateString() {
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_ROTATE, 
+                                          getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_ROTATE));
+        return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_ROTATE);
+    }
 }

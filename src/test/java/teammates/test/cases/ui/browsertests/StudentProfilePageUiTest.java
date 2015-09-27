@@ -51,7 +51,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithEmptyProfile
         ______TS("Typical case: empty profile values");
@@ -63,6 +63,20 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // this test uses actual user accounts
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.verifyHtmlPart(By.id("editProfileDiv"), "/studentProfileEditDivExistingValues.html");
+
+        ______TS("Typical case: edit profile picture modal (without existing picture)");
+        profilePage = getProfilePageForStudent("studentWithExistingProfile");
+        profilePage.showPictureEditor();
+        profilePage.verifyHtmlPart(By.id("studentPhotoUploader"), "/studentProfilePictureModalDefault.html");
+
+        ______TS("Typical case: edit profile picture modal (with existing picture)");
+        profilePage = getProfilePageForStudent("studentWithExistingProfile");
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
+        profilePage.uploadPicture();
+
+        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
+        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
+        profilePage.verifyHtmlPart(By.className("profile-pic-edit-toolbar"), "/studentProfilePictureModalEdit.html");
     }
 
     private void testActions() throws Exception {
