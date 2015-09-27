@@ -24,7 +24,7 @@ public class InstructorFeedbackResultsSectionPanel {
     // A mapping from team name to a list of participant panels. Each participant panel is for one member of the team
     private Map<String, List<InstructorFeedbackResultsParticipantPanel>> participantPanels;
     
-    private boolean isDisplayingTeamStatistics;
+    private Map<String, Boolean> isDisplayingTeamStatistics;
     private Map<String, List<InstructorFeedbackResultsQuestionTable>> teamStatisticsTable;
     private Map<String, Boolean> isTeamWithResponses;
 
@@ -117,11 +117,11 @@ public class InstructorFeedbackResultsSectionPanel {
         this.isDisplayingMissingParticipants = isDisplayingMissingParticipants;
     }
 
-    public boolean isDisplayingTeamStatistics() {
+    public Map<String, Boolean> getIsDisplayingTeamStatistics() {
         return isDisplayingTeamStatistics;
     }
 
-    public void setDisplayingTeamStatistics(boolean isDisplayingTeamStatistics) {
+    public void setDisplayingTeamStatistics(Map<String, Boolean> isDisplayingTeamStatistics) {
         this.isDisplayingTeamStatistics = isDisplayingTeamStatistics;
     }
 

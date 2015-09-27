@@ -660,7 +660,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     buildTeamsStatisticsTableForSectionPanel(sectionPanel, responsesGroupedByTeam, 
                                                              teamsWithResponses);
                 }
-                sectionPanel.setDisplayingTeamStatistics(true);
+                
+                Map<String, Boolean> isTeamDisplayingStatistics = new HashMap<>();
+                for (String team : teamsWithResponses) {
+                    isTeamDisplayingStatistics.put(team, bundle.rosterTeamNameMembersTable.containsKey(team));
+                }
+                sectionPanel.setDisplayingTeamStatistics(isTeamDisplayingStatistics);
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
                                                     ? DISPLAY_NAME_FOR_DEFAULT_SECTION 
@@ -668,7 +673,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 break;
             case RECIPIENT_GIVER_QUESTION:
             case GIVER_RECIPIENT_QUESTION:
-                sectionPanel.setDisplayingTeamStatistics(false);
+                
                 sectionPanel.setSectionName(sectionName);
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) 
                                                     ? DISPLAY_NAME_FOR_DEFAULT_SECTION
