@@ -4,8 +4,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/profile" prefix="tsp" %>
 <c:set var="jsIncludes">
-    <link type="text/css" rel="stylesheet" href="/Jcrop/css/jquery.Jcrop.min.css">
-    <script type="text/javascript" src="/Jcrop/js/jquery.Jcrop.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/lib/jquery.guillotine.css">
+    <script type="text/javascript" src="/js/lib/jquery.guillotine.min.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentProfile.js"></script>
 </c:set>
