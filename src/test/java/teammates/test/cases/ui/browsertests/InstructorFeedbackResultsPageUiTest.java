@@ -338,7 +338,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "Open Session", true, "question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
+        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
         
         ______TS("Failure case: Ajax error");
         
@@ -364,14 +364,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
 
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
+        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
         
         ______TS("Typical case: ajax for view by question for helper2");
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper2",
                                         "Open Session", true, "question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
+        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
 
         ______TS("Typical case: ajax for view by giver > recipient > question");
 
@@ -380,7 +380,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
 
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
+        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
 
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
@@ -403,7 +403,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
+        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByGQR.html");
                 
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         
@@ -417,7 +417,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "recipient-question-giver");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRQG.html");
+        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByRQG.html");
 
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
@@ -431,7 +431,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "recipient-giver-question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRGQ.html");
+        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByRGQ.html");
 
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 

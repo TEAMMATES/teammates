@@ -892,15 +892,35 @@ public abstract class AppPage {
     }
     
     /**
+     * Verifies that main content specified id "mainContent" in currently 
+     * loaded page has the same HTML content as 
+     * the content given in the file at {@code filePath}. <br>
+     * The HTML is checked for logical equivalence, not text equivalence. <br>
+     * Since the verification is done after making AJAX request(s), the HTML is checked
+     * after "waitDuration", for "maxRetryCount" number of times.
+     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
+     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
+     * @return The page (for chaining method calls).
+     */
+    public AppPage verifyHtmlAjaxMainContent(String filePath) throws Exception {
+        return verifyHtmlAfterAjaxLoad(filePath, false);
+    }
+
+    /**
      * Verifies that the currently loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
-     * Since the verification is done after making an Ajax Request, the HTML is checked
+     * The HTML is checked for logical equivalence, not text equivalence. <br>
+     * Since the verification is done after making AJAX request(s), the HTML is checked
      * after "waitDuration", for "maxRetryCount" number of times.
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlAjax(String filePath) throws Exception {
+        return verifyHtmlAfterAjaxLoad(filePath, true);
+    }
+
+    private AppPage verifyHtmlAfterAjaxLoad(String filePath, boolean isFullPageChecked) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
@@ -935,7 +955,11 @@ public abstract class AppPage {
             }
         }
         
-        return verifyHtmlMainContent(filePath);
+        if (isFullPageChecked) {
+            return verifyHtml(filePath);
+        } else {
+            return verifyHtmlMainContent(filePath);
+        }
     }
     
     /**
