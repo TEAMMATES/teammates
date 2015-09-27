@@ -82,6 +82,7 @@
                                     <input id="cropBoxTopY" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_TOPY %>" value="">
                                     <input id="cropBoxRightX" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_RIGHTX %>" value="">
                                     <input id="cropBoxBottomY" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_BOTTOMY %>" value="">
+                                    <input id="rotate" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_ROTATE %>" value="">
                                     <input id="blobKey" type="hidden" name="<%= Const.ParamsNames.BLOB_KEY %>" value="${modal.pictureKey}">
                                     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
                                     <button type="button"
