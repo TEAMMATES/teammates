@@ -29,6 +29,10 @@ public class AdminSearchPage extends AppPage {
         this.waitForPageToLoad();
     }
     
+    public String getPageTitle() {
+        return browser.driver.findElement(By.tagName("h1")).getText();
+    }
+    
     private WebElement getSearchBox() {
         return browser.driver.findElement(By.id("filterQuery"));
     }
