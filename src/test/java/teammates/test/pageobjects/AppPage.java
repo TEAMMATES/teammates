@@ -787,24 +787,20 @@ public abstract class AppPage {
                 .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue={*}\"")
                 .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
                 // photo from instructor
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&"
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
-                        + "={*}\\&" + Const.ParamsNames.COURSE_ID + "={*}")
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&"
+                        + "={*}\\&amp;" + Const.ParamsNames.COURSE_ID + "={*}")
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
-                        + "={*}\\&" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
+                        + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
                 //regkey
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&", Const.ParamsNames.REGKEY + "={*}\\&")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "={*}")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
                 .replaceAll("\"([a-zA-Z0-9-_]){50,}\"","\"{*}\"")
-                //responseid
-                .replaceAll("([a-zA-Z0-9-_]){30,}%"
-                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
-                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
-                //questionid
-                .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
+                //questionid regex in responseid
+                .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"{*}%")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
                 // comment div ids (added after standardization)
