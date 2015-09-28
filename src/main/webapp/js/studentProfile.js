@@ -6,9 +6,9 @@ $(function() {
     });
     
     $(window).load(function() {
-        var $picture = $('#editableProfilePicture');
-        if ($picture.length != 0) {
-            $picture.guillotine({
+        var picture = $('#editableProfilePicture');
+        if (picture.length !== 0) {
+            picture.guillotine({
                 width: 150,
                 height: 150,
                 init: {
@@ -16,18 +16,19 @@ $(function() {
                 }
             });
             $('#profilePicEditRotateLeft').click(function() {
-                $picture.guillotine('rotateLeft');
+                 picture.guillotine('rotateLeft');
             });
             $('#profilePicEditZoomIn').click(function() {
-                $picture.guillotine('zoomIn');
+                 picture.guillotine('zoomIn');
             });
             $('#profilePicEditZoomOut').click(function() {
-                $picture.guillotine('zoomOut');
+                 picture.guillotine('zoomOut');
             });
             $('#profilePicEditRotateRight').click(function() {
-                $picture.guillotine('rotateRight');
+                 picture.guillotine('rotateRight');
             });
-
+            $('#pictureWidth').val(picture.prop('naturalWidth'));
+            $('#pictureHeight').val(picture.prop('naturalHeight'));
             if ($('#profilePic').attr('data-edit') == "true") {
                 $('#studentPhotoUploader').modal({
                     show: true
