@@ -174,9 +174,9 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 		checkPrivilegesOfTutorForInstructor(instrNum);
 	} else if (role === "Custom") {
 		checkPrivilegesOfCustomForInstructor(instrNum);
-	} else {
-
 	}
+    
+	// do nothing if role not recognized
 }
 
 function checkPrivilegesOfCoownerForInstructor(instrNum) {
