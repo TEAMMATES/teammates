@@ -808,8 +808,6 @@ function getVisibilityMessage(buttonElem) {
         $formVisibility.show();
         return;
     }
-    // update stored form data
-    previousFormDataMap[qnNumber] = formData;
 
     // empty current visibility message in the form
     $formVisibility.html('');
@@ -820,6 +818,9 @@ function getVisibilityMessage(buttonElem) {
         url: url,
         data: formData,
         success: function(data) {
+            // update stored form data
+            previousFormDataMap[qnNumber] = formData;
+            
             $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
             $formVisibility.show();
             $formOptions.hide();
