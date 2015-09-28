@@ -10,7 +10,8 @@ $(document).ready(function(){
                 $('#sessionList').html('<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>');
             },
             error: function() {
-
+                $('#sessionList').html('');
+                setStatusMessage('Failed to load session list. Please refresh the page to retry.', true);
             },
             success: function(data) {
                 var appendedModalBody = $(data).find('#copySessionsBody').html();
