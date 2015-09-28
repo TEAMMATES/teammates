@@ -826,7 +826,14 @@ function getVisibilityMessage(buttonElem) {
             $formOptions.hide();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-
+            var visibilityButton = $form.find('.visibilityMessageButton');
+            var radioInput = visibilityButton.children().first();
+            var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+            var errorMsg = 'Visibility preview failed to load. Click here to retry.';
+            visibilityButton.html(warningSign + ' ' + errorMsg)
+                            .prepend(radioInput);
+            
+            $form.find('.visibilityOptionsLabel').click();
         }
     });    
 }
