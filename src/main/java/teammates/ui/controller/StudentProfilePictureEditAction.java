@@ -139,10 +139,12 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     private CompositeTransform getCompositeTransformToApply() {
+        Transform standardCompress = ImagesServiceFactory.makeResize(150, 150);
         CompositeTransform finalTransform = ImagesServiceFactory.makeCompositeTransform()
                                                                 .concatenate(getScaleTransform())
                                                                 .concatenate(getRotateTransform())
-                                                                .concatenate(getCropTransform());
+                                                                .concatenate(getCropTransform())
+                                                                .concatenate(standardCompress);
         return finalTransform;
     }
 
