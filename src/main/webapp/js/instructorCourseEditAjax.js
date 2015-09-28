@@ -18,7 +18,10 @@ function editFormRequest(e){
         	displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>");
         },
         error : function() {
-
+            displayIcon.html('');
+            var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+            var errorMsg = 'Edit failed. Click here to retry.';
+            $(editButton).html(warningSign + ' ' + errorMsg);
         },
         success : function(data) {
           	var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
