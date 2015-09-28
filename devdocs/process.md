@@ -127,6 +127,7 @@ Role: reviewer
   * If any of the above are not OK, 
     * Add comments in the diff to suggest changes.
     * Optionally, add a comment in the conversation thread to inform the author to refine the code.
+  * To remove white space changes from being shown, append `?w=1` to url of the `/files` page of the pull request (the "Files changed" tab)
   * If the code is OK on all aspects,
     * Change issue status to `s.ToMerge`
 
