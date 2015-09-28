@@ -53,10 +53,10 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="profile-pic-edit">
-                                    <div class="profile-pic-edit-container" style="width: 60%; margin: 0 auto; margin-bottom: 10px;">
+                                    <div class="profile-pic-edit-container">
                                         <img id="editableProfilePicture" src="${modal.pictureUrl}">
                                     </div>
-                                    <div class="profile-pic-edit-toolbar" style="margin: 10px;">
+                                    <div class="profile-pic-edit-toolbar">
                                         <button id="profilePicEditRotateLeft" type="button" class="btn btn-inverse">
                                             <span class="glyphicon glyphicon-repeat glyphicon-flipped"></span>
                                         </button>
