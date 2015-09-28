@@ -101,103 +101,92 @@
                            </span>
                            Logout
                         
-                        (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="${test.admin}">
-                                ${test.truncatedAdmin}
+                        (
+                           <span class="text-info" data-original-title="${test.admin}" data-placement="bottom" data-toggle="tooltip" title="">
+                              ${test.truncatedAdmin}
                            </span>
                            )
                         </a>
                      </li>
                   </ul>
                </div>
-    </div>
-</div>
-    <div id="mainContent" class="container">
-        
-
-
-<div id="topOfPage"></div>
-
-    <h1>Add New Instructor</h1>
-    <br />
-
-        
-        
-    
-
-
-
-<div class="well well-plain">
-    <form name="form_addinstructoraccount" action="/admin/adminInstructorAccountAdd" method="post">
-        <div>
-            <label class="label-control">Instructor Details:</label>
-            <input type="text" value="" name="instructordetailssingleline" class="form-control" />
-        </div><br />
-        
-        <div>
-            <input type="submit" value="Add Instructor" class="btn btn-primary" id="btnAddInstructorDetailsSingleLineForm" />
-        </div>
-    </form>
-</div>
-    
-
-
-
-
-
-
-<div class="well well-plain">
-    <form name="form_addinstructoraccount" action="/admin/adminInstructorAccountAdd" method="post">
-        <div>
-            <label class="label-control">Short Name:</label>
-            <input type="text" value="" name="instructorshortname" class="form-control" />
-        </div><br />
-        <div>
-            <label class="label-control">Name:</label>
-            <input type="text" value="" name="instructorname" class="form-control" />
-        </div><br />
-        <div>
-            <label class="label-control">Email: </label>
-            <input type="text" value="" name="instructoremail" class="form-control" />
-        </div><br />
-        <div>
-            <label class="label-control">Institution: </label>
-            <input type="text" value="" name="instructorinstitution" class="form-control" />
-        </div><br />
-        
-        <div>
-            <input type="submit" value="Add Instructor" class="btn btn-primary" id="btnAddInstructor" />
-        </div>
-    </form>
-</div>
-    
-
-
-
-
-
-
-
-    
-        <div class="alert alert-success" id="statusMessage">
-            Instructor AHPUiT Instrúctör has been successfully created with join link:<br />${app.url}/page/instructorCourseJoin?key={*}&amp;instructorinstitution=TEAMMATES+Test+Institute+1
-        </div>
-        
-            <script src="/js/statusMessage.js" type="text/javascript"></script>
-        
-    
-    
-
-
-    
-    </div>
-    
-
-
-<div class="container-fluid" id="footerComponent">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <span>[<a href="/index.html">TEAMMATES</a> V${version}]</span>
+            </div>
+         </div>
+         <div class="container" id="mainContent">
+            <div id="topOfPage">
+            </div>
+            <h1>
+               Add New Instructor
+            </h1>
+            <br/>
+                        <div class="well well-plain">
+               <form action="/admin/adminInstructorAccountAdd" method="post" name="form_addinstructoraccount">
+                  <div>
+                     <label class="label-control">
+                        Instructor Details:
+                     </label>
+                     <input class="form-control" name="instructordetailssingleline" type="text" value=""/>
+                                       </div>
+                  <br/>
+                                    <div>
+                     <input class="btn btn-primary" id="btnAddInstructorDetailsSingleLineForm" type="submit" value="Add Instructor"/>
+                                       </div>
+               </form>
+            </div>
+            <div class="well well-plain">
+               <form action="/admin/adminInstructorAccountAdd" method="post" name="form_addinstructoraccount">
+                  <div>
+                     <label class="label-control">
+                        Short Name:
+                     </label>
+                     <input class="form-control" name="instructorshortname" type="text" value=""/>
+                                       </div>
+                  <br/>
+                                    <div>
+                     <label class="label-control">
+                        Name:
+                     </label>
+                     <input class="form-control" name="instructorname" type="text" value=""/>
+                                       </div>
+                  <br/>
+                                    <div>
+                     <label class="label-control">
+                        Email:
+                     </label>
+                     <input class="form-control" name="instructoremail" type="text" value=""/>
+                                       </div>
+                  <br/>
+                                    <div>
+                     <label class="label-control">
+                        Institution:
+                     </label>
+                     <input class="form-control" name="instructorinstitution" type="text" value=""/>
+                                       </div>
+                  <br/>
+                                    <div>
+                     <input class="btn btn-primary" id="btnAddInstructor" type="submit" value="Add Instructor"/>
+                                       </div>
+               </form>
+            </div>
+            <div class="alert alert-success" id="statusMessage">
+               Instructor AHPUiT Instrúctör has been successfully created with join link:
+               <br/>
+                              ${app.url}/page/instructorCourseJoin?key={*}&instructorinstitution=TEAMMATES+Test+Institute+1
+            </div>
+            <script src="/js/statusMessage.js" type="text/javascript">
+            </script>
+         </div>
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-2">
+                     <span>
+                        [
+                        <a href="/index.html">
+                           TEAMMATES
+                        </a>
+                        V${version}]
+                     </span>
                   </div>
                   <div class="col-md-8">
                   </div>
