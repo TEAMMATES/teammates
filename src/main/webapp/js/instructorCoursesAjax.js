@@ -10,6 +10,7 @@ $(document).ready(function(){
                 $('#coursesList').html(
                     '<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>'
                 );
+                clearStatusMessage();
             },
             error: function() {
                 $('#coursesList').html('');
