@@ -1,15 +1,23 @@
+var isSessionsAjaxSending = false;
 $(document).ready(function(){
     var ajaxRequest = function(e) {
         e.preventDefault();
+        
+        if (isSessionsAjaxSending) {
+            return;
+        }
+        
         var formData = $(this).serialize();
         $.ajax({
             type: 'POST',
             cache: false,
             url: $(this).attr('action') + '?' + formData,
             beforeSend: function() {
+                isSessionsAjaxSending = true;
                 $('#sessionList').html('<img height="75" width="75" class="margin-center-horizontal" src="/images/ajax-preload.gif"/>');
             },
             error: function() {
+                isSessionsAjaxSending = false;
                 $('#sessionList').html('');
                 var msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
                 setStatusMessage(msg, true);
