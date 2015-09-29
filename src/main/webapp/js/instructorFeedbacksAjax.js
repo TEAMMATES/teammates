@@ -11,9 +11,11 @@ $(document).ready(function(){
             },
             error: function() {
                 $('#sessionList').html('');
-                setStatusMessage('Failed to load session list. Please refresh the page to retry.', true);
+                var msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
+                setStatusMessage(msg, true);
             },
             success: function(data) {
+                clearStatusMessage();
                 var appendedModalBody = $(data).find('#copySessionsBody').html();
                 var appendedSessionTable = $(data).find('#sessionList').html();
 
