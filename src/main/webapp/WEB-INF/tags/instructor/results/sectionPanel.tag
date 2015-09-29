@@ -87,7 +87,7 @@
                                               detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
                                               statisticsHeaderText="${sectionPanel.statisticsHeaderText}"
                                               isTeamHasResponses="${sectionPanel.isTeamWithResponses[teamPanel.key]}"
-                                              isDisplayingTeamStatistics="${sectionPanel.displayingTeamStatistics}"
+                                              isDisplayingTeamStatistics="${sectionPanel.isDisplayingTeamStatistics[teamPanel.key]}"
                                               isDisplayingMissingParticipants="${sectionPanel.displayingMissingParticipants}"
                                               participantPanels="${teamPanel.value}"
                                               isSecondaryParticipantType="${!isGroupedByQuestion}"/>  
