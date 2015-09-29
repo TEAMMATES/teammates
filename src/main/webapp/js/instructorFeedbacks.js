@@ -217,10 +217,14 @@ function readyFeedbackPage() {
     collapseIfPrivateSession();
 
     window.doPageSpecificOnload = selectDefaultTimeOptions();
-    $('#ajaxForSessions').trigger('submit');
+    loadSessionsByAjax();
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+}
+
+function loadSessionsByAjax() {
+    $('#ajaxForSessions').trigger('submit');
 }
 
 function bindEventsAfterAjax() {
