@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -137,6 +138,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
         // for course CS1101, current instructor cannot modify course or modify students
         coursesPage.verifyHtmlMainContent("/instructorCoursesMultipleCourses.html");
+        
+        ______TS("Failure Case: Ajax error");
+        coursesPage = getCoursesPage();
+        coursesPage.changeUserIdInAjaxLoadCoursesForm("invalidUserId");
+        coursesPage.triggerAjaxLoadCourses();
+        coursesPage.waitForAjaxLoadCoursesError();
+        coursesPage = getCoursesPage();
     }
 
     public void testLinks() throws Exception{
@@ -344,6 +352,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     private InstructorCoursesPage getCoursesPage() {
         Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(instructorId);
+        InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        page.waitForElementPresence(By.id("tableActiveCourses"));
         return loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
     }
     

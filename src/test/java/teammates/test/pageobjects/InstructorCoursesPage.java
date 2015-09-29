@@ -1,8 +1,11 @@
 package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import teammates.test.driver.AssertHelper;
 
 /** Represents the "Courses" page for Instructors. */
 public class InstructorCoursesPage extends AppPage {
@@ -131,6 +134,27 @@ public class InstructorCoursesPage extends AppPage {
         return goToLinkInRow(
                 By.className("t_course_edit" + courseRowNumber),
                 InstructorCourseEditPage.class);
+    }
+    
+    public void changeUserIdInAjaxLoadCoursesForm(String newUserId) {
+        By element = By.id("ajaxForCourses");
+        waitForElementPresence(element);
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('#ajaxForCourses [name=\"user\"]').val('" + newUserId + "')");
+    }
+    
+    public void triggerAjaxLoadCourses() {
+        By element = By.id("ajaxForCourses");
+        waitForElementPresence(element);
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('#ajaxForCourses').trigger('submit')");
+    }
+    
+    public void waitForAjaxLoadCoursesError() {
+        By element = By.id("retryAjax");
+        waitForElementPresence(element);
+        WebElement statusMessage = browser.driver.findElement(By.id("statusMessage"));
+        AssertHelper.assertContains("Courses could not be loaded. Click here to retry", statusMessage.getText());
     }
 
     private int getCourseCount() {

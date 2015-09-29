@@ -5,30 +5,42 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorCoursesAjax.js"></script>
     <script type="text/javascript" src="/js/instructorCourses.js"></script>
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Course" jsIncludes="${jsIncludes}">
-    <course:addCoursePanel courseIdToShow="${data.courseIdToShow}" courseNameToShow="${data.courseNameToShow}" googleId="${data.account.googleId}"/>
+    <c:if test="${!data.usingAjax}">
+        <course:addCoursePanel courseIdToShow="${data.courseIdToShow}" 
+            courseNameToShow="${data.courseNameToShow}" 
+            googleId="${data.account.googleId}"/>
+        <course:loadCoursesTableByAjaxForm />
+    </c:if>
+    
     <br>
     <t:statusMessage/>
     <br>
     
-    <course:activeCoursesTable activeCourses="${data.activeCourses}"/>
-    <br>
-    <br>
-    <c:if test="${empty data.activeCourses.rows}">
-        No records found. <br>
-        <br>
-    </c:if>
-    <br>
-    <br>
-    
-    <c:if test="${not empty data.archivedCourses.rows}">
-        <course:archivedCoursesTable archivedCourses="${data.archivedCourses}" activeCourses="${data.activeCourses}"/>
-        <br>
-        <br>
-        <br>
-        <br>
-    </c:if>
+    <div id="coursesList" class="align-center">
+        <c:if test="${data.usingAjax}"> 
+            <course:activeCoursesTable activeCourses="${data.activeCourses}"/>
+            <br>
+            <br>
+            <c:if test="${empty data.activeCourses.rows}">
+                No records found. <br>
+                <br>
+            </c:if>
+            <br>
+            <br>
+            
+            <c:if test="${not empty data.archivedCourses.rows}">
+                <course:archivedCoursesTable archivedCourses="${data.archivedCourses}" 
+                    activeCourses="${data.activeCourses}"/>
+                <br>
+                <br>
+                <br>
+                <br>
+            </c:if>
+        </c:if>
+    </div>
 </ti:instructorPage>

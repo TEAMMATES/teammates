@@ -48,7 +48,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         

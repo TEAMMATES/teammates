@@ -5,7 +5,7 @@
 <%@ attribute name="activeCourses" type="teammates.ui.template.ActiveCoursesTable" required="true" %>
 
 <h2 class="text-muted">Archived courses</h2>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id="tableArchivedCourses">
     <thead>
         <tr class="fill-default">
             <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-none">

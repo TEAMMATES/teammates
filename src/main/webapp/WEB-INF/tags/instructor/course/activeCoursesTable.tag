@@ -3,7 +3,7 @@
 <%@ attribute name="activeCourses" type="teammates.ui.template.ActiveCoursesTable" required="true" %>
 
 <h2>Active courses</h2>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id="tableActiveCourses">
     <thead class="fill-primary">
         <tr>
             <th onclick="toggleSort(this,1);" id="button_sortcourseid" class="button-sort-none">

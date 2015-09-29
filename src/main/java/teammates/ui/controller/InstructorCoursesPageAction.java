@@ -37,42 +37,46 @@ public class InstructorCoursesPageAction extends Action {
         
         /* Explanation: This is a 'show page' type action. Therefore, we 
          * prepare the matching PageData object, accessing the Logic 
-         * component if necessary.*/
-        
+         * component if necessary.*/    
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
-        
-        // Get list of InstructorAttributes that belong to the user.
-        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
+        String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
+        data.setUsingAjax(isUsingAjax != null);
         
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        for (InstructorAttributes instructor : instructorList) {
-            instructorsForCourses.put(instructor.courseId, instructor);
-        }
-        
-        // Get corresponding courses of the instructors.
-        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructors(instructorList).values());
+        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>();
         List<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
         List<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
-        
-        List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
-        for (CourseDetailsBundle cdb : allCourses) {
-            if (archivedCourseIds.contains(cdb.course.id)) {
-                archivedCourses.add(cdb);
-            } else {
-                activeCourses.add(cdb);
+
+        if (data.isUsingAjax()) {
+            // Get list of InstructorAttributes that belong to the user.        
+            List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
+            for (InstructorAttributes instructor : instructorList) {
+                instructorsForCourses.put(instructor.courseId, instructor);
             }
+            
+            // Get corresponding courses of the instructors.
+            allCourses = new ArrayList<CourseDetailsBundle>(
+                logic.getCourseSummariesForInstructors(instructorList).values()
+            );
+            
+            List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
+            for (CourseDetailsBundle cdb : allCourses) {
+                if (archivedCourseIds.contains(cdb.course.id)) {
+                    archivedCourses.add(cdb);
+                } else {
+                    activeCourses.add(cdb);
+                }
+            }
+            
+            // Sort CourseDetailsBundle lists by course id
+            CourseDetailsBundle.sortDetailedCoursesByCourseId(activeCourses);
+            CourseDetailsBundle.sortDetailedCoursesByCourseId(archivedCourses);
         }
-        
-        // Sort CourseDetailsBundle lists by course id
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(activeCourses);
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(archivedCourses);
-        
         
         data.init(activeCourses, archivedCourses, instructorsForCourses);
         
-        
         /* Explanation: Set any status messages that should be shown to the user.*/
-        if (allCourses.size() == 0 ){
+        if (data.isUsingAjax() && allCourses.size() == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
         
@@ -84,6 +88,5 @@ public class InstructorCoursesPageAction extends Action {
         /* Explanation: Create the appropriate result object and return it.*/
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
         return response;
-    }
-    
+    }  
 }
