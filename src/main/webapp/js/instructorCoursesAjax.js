@@ -12,7 +12,14 @@ $(document).ready(function(){
                 );
             },
             error: function() {
-
+                $('#coursesList').html('');
+                setStatusMessage(
+                    'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry'
+                );
+                $('#retryAjax').click(function(e) {
+                    e.preventDefault();
+                    $('#ajaxForCourses').trigger('submit');
+                });
             },
             success: function(data) {
                 var appendedCoursesTable = $(data).find('#coursesList').html();
