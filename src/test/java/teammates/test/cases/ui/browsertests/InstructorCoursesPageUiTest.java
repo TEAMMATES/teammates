@@ -138,6 +138,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
         // for course CS1101, current instructor cannot modify course or modify students
         coursesPage.verifyHtmlMainContent("/instructorCoursesMultipleCourses.html");
+        
+        ______TS("Failure Case: Ajax error");
+        coursesPage = getCoursesPage();
+        coursesPage.changeUserIdInAjaxLoadCoursesForm("invalidUserId");
+        coursesPage.triggerAjaxLoadCourses();
+        coursesPage.waitForAjaxLoadCoursesError();
+        coursesPage = getCoursesPage();
     }
 
     public void testLinks() throws Exception{
