@@ -818,6 +818,8 @@ function getVisibilityMessage(buttonElem) {
         url: url,
         data: formData,
         success: function(data) {
+            updateVisibilityMessageButton($form, true);
+            
             // update stored form data
             previousFormDataMap[qnNumber] = formData;
             
@@ -826,16 +828,24 @@ function getVisibilityMessage(buttonElem) {
             $formOptions.hide();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            var visibilityButton = $form.find('.visibilityMessageButton');
-            var radioInput = visibilityButton.find('input[type="radio"]');
-            var warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-            var errorMsg = 'Visibility preview failed to load. Click here to retry.';
-            visibilityButton.html(warningSign + ' ' + errorMsg)
-                            .prepend(radioInput);
-            
+            updateVisibilityMessageButton($form, false);
             $form.find('.visibilityOptionsLabel').click();
         }
     });    
+}
+
+function updateVisibilityMessageButton($form, isLoadSuccessful) {
+    var visibilityButton = $form.find('.visibilityMessageButton');
+    
+    var radioInput = visibilityButton.find('input[type="radio"]');
+    var icon = '<span class="glyphicon glyphicon-'
+               + (isLoadSuccessful ? 'eye-open' : 'warning-sign')
+               + '"></span>';
+    var message = isLoadSuccessful ? 'Preview Visibility'
+                                   : 'Visibility preview failed to load. Click here to retry.';
+    
+    visibilityButton.html(icon + ' ' + message)
+                    .prepend(radioInput);
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
