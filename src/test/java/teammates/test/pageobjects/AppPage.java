@@ -790,30 +790,30 @@ public abstract class AppPage {
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
-                        + "={*}\\&amp;" + Const.ParamsNames.COURSE_ID + "={*}")
+                        + "=${enc.student.email}\\&amp;" + Const.ParamsNames.COURSE_ID + "=${enc.course.id}")
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
-                        + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
+                        + "=${enc.course.id}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=${enc.student.email}")
                 //regkey
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "={*}")
-                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "=${enc.regkey}")
+                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D${enc.regkey}\\%")
                 //regkey and questionid (same regex for both)
                 .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"{*}\"")
                 //questionid regex in responseid
-                .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"{*}%")
+                .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"${question.id}%")
                 //commentid
-                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"${comment.id}\\\"")
                 // comment div ids (added after standardization)
-                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-{*}")
-                .replaceAll("commentBar-[0-9]{16}", "commentBar-{*}")
-                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-{*}")
-                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-{*}")
+                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-${comment.id}")
+                .replaceAll("commentBar-[0-9]{16}", "commentBar-${comment.id}")
+                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-${comment.id}")
+                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-${comment.id}")
                 // tooltip style
                 .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
                             "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
-                .replaceAll("#[0-9]{16}", "#{*}")
+                .replaceAll("#[0-9]{16}", "#${comment.id}")
                 // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
@@ -822,24 +822,24 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
-                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "{*}")
-                .replace(TimeHelper.formatDate(now), "{*}")
+                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${sanitized.today}")
+                .replace(TimeHelper.formatDate(now), "${today}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "{*}")
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "${comment.day.month}")
                 // now (used in opening time/closing time Grace period)
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}")
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "${grace.period.date}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
-                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}")
+                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "${comment.month.day}")
                 // dynamic feedback submission numbers
-                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">{*}</span>")
+                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">${submissions.made}</span>")
                 // jQuery local
-                .replace("/js/lib/jquery.min.js", "{*}/jquery.min.js")
+                .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
                 // jQuery CDN
-                .replace("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "{*}/jquery.min.js")
+                .replace("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "${lib.path}/jquery.min.js")
                 // jQuery-ui local
-                .replace("/js/lib/jquery-ui.min.js", "{*}/jquery-ui.min.js")
+                .replace("/js/lib/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
                 // jQuery-ui CDN
-                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "{*}/jquery-ui.min.js");
+                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js");
     }
 
     private boolean areTestAccountsDefaultValues() {
