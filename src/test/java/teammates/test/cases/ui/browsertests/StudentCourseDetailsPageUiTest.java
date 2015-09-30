@@ -29,16 +29,15 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     
     @Test    
     public void testAll() throws Exception{
-        // TODO: Split up both tests, one to use verifyHtml and one to use verifyHtmlMainContent to ensure
-        // a full HTML check is done at least
 
         ______TS("content");
         
         //with teammates"
-        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html");
+        // This is the full HTML verification for Student Course Details Page, the rest can all be verifyMainHtml
+        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html", true);
 
         //without teammates 
-        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html");
+        verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html", false);
         
         ______TS("links, inputValidation, actions");
         
@@ -46,12 +45,17 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void verifyContent(String courseObjectId, String studentObjectId, String filePath) {
+    private void verifyContent(String courseObjectId, String studentObjectId, String filePath,
+                               boolean isFullPageChecked) {
         Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
                                 .withUserId(testData.students.get(studentObjectId).googleId)
                                 .withCourseId(testData.courses.get(courseObjectId).id);
-        
-        loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class).verifyHtmlMainContent(filePath);
+        StudentCourseDetailsPage detailsPage = loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class);
+        if (isFullPageChecked) {
+            detailsPage.verifyHtml(filePath);
+        } else {
+            detailsPage.verifyHtmlMainContent(filePath);
+        }
     }
 
     @AfterClass

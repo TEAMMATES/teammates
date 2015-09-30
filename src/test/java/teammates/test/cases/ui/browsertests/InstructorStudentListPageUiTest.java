@@ -79,8 +79,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("noMatch");
 
-        // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
-        viewPage.verifyHtml("/instructorStudentListPageSearchNoMatch.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
 
         ______TS("content: search student with 1 result");
 
@@ -109,7 +108,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
-        viewPage.verifyHtmlAjaxMainContent("/instructorStudentListWithHelperView.html");
+        // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
+        viewPage.verifyHtmlAjax("/instructorStudentListWithHelperView.html");
 
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
