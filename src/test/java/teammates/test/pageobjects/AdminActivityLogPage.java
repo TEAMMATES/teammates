@@ -58,6 +58,33 @@ public class AdminActivityLogPage extends AppPage {
         button.click();      
     }
     
+    public boolean isLogsTableVisible() {
+        WebElement table = getLogsTable();
+        if (table != null) {
+            return table.isDisplayed();
+        } else {
+            return false;
+        }
+    }
+    
+    public WebElement getLogsTable() {
+        List<WebElement> list = browser.driver.findElements(By.id("logsTable"));
+        if (!list.isEmpty()) {
+            return browser.driver.findElement(By.id("logsTable"));
+        } else {
+            return null;
+        }
+    }
+    
+    public int getNumberOfTableHeaders() {
+        if (isLogsTableVisible()) {
+            List<WebElement> headerList = browser.driver.findElements(By.cssSelector("#logsTable > thead > tr > th"));
+            return headerList.size();
+        } else {
+            return 0;
+        }
+    }
+    
     public String getQueryMessage(){
         
         WebElement alert = browser.driver.findElement(By.id("queryMessage"));

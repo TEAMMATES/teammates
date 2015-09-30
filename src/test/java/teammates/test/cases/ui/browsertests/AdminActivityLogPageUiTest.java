@@ -69,7 +69,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
         assertNotNull(logPage.getFirstActivityLogRow());
-        logPage.verifyHtml("/adminActivityLogPage.html");
+        assertTrue(logPage.isLogsTableVisible());
+        assertEquals(2, logPage.getNumberOfTableHeaders());
     }
     
     
