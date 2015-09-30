@@ -156,6 +156,11 @@ public class InstructorCoursesPage extends AppPage {
         WebElement statusMessage = browser.driver.findElement(By.id("statusMessage"));
         AssertHelper.assertContains("Courses could not be loaded. Click here to retry", statusMessage.getText());
     }
+    
+    public void waitForAjaxLoadCoursesSuccess() {
+        By element = By.id("tableActiveCourses");
+        waitForElementPresence(element);
+    }
 
     private int getCourseCount() {
         return browser.driver.findElements(By.className("table")).get(0).findElements(By.tagName("tr")).size();

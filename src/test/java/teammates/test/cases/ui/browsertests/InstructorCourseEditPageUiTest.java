@@ -435,6 +435,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickDeleteInstructorLinkAndConfirm();
 
         InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED + "\n"
                                  + Const.StatusMessages.COURSE_EMPTY);
         

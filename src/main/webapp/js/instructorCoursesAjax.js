@@ -36,6 +36,8 @@ $(document).ready(function(){
                     clearStatusMessage();
                     needsRetrying = false;
                 }
+                var statusMessage = $(data).find('#statusMessage').text();
+                appendStatusMessage(statusMessage);
                 var appendedCoursesTable = $(data).find('#coursesList').html();
                 $('#coursesList')
                     .removeClass('align-center')

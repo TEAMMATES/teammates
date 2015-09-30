@@ -534,6 +534,23 @@ function setStatusMessage(message, error) {
 }
 
 /**
+ * Append a message to the existing status message
+ * @param  message
+ * 
+ */
+function appendStatusMessage(message, error) {
+    if (message.trim() === '') {
+        return;
+    }
+    const currentContent = $(DIV_STATUS_MESSAGE).html();
+    if (currentContent.trim() !== '') {
+        $(DIV_STATUS_MESSAGE).html(currentContent + '<br/>' + message);    
+    } else {
+        setStatusMessage(message, error);
+    }
+}
+
+/**
  * Clears the status message div tag and hides it
  */
 function clearStatusMessage() {
