@@ -163,6 +163,7 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private int getCourseCount() {
+        waitForAjaxLoadCoursesSuccess();
         return browser.driver.findElements(By.className("table")).get(0).findElements(By.tagName("tr")).size();
     }
 

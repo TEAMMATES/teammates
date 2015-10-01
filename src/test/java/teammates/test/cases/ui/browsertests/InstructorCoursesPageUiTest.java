@@ -145,6 +145,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.triggerAjaxLoadCourses();
         coursesPage.waitForAjaxLoadCoursesError();
         coursesPage = getCoursesPage();
+        coursesPage.waitForAjaxLoadCoursesSuccess();
     }
 
     public void testLinks() throws Exception{
@@ -323,6 +324,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
             
         coursesPage.unarchiveCourse(courseId);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.verifyHtmlMainContent("/instructorCoursesUnarchiveSuccessful.html");
     
         // TODO: Handling for the failure of archive and unarchive is still not good
@@ -353,7 +355,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-        page.waitForElementPresence(By.id("tableActiveCourses"));
+        page.waitForAjaxLoadCoursesSuccess();
         return loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
     }
     
