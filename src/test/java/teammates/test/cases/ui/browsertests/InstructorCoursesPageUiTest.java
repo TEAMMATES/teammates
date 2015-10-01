@@ -299,6 +299,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         assertNull(instructorWithNullArchiveStatus.isArchived);
         
         coursesPage.archiveCourse(courseId);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.verifyHtmlMainContent("/instructorCoursesArchiveSuccessful.html");
         
         instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
@@ -323,6 +324,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage = getCoursesPage();
             
         coursesPage.unarchiveCourse(courseId);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.verifyHtmlMainContent("/instructorCoursesUnarchiveSuccessful.html");
     
         // TODO: Handling for the failure of archive and unarchive is still not good
@@ -353,8 +355,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-        page.waitForElementPresence(By.id("tableActiveCourses"));
-        return loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        page.waitForAjaxLoadCoursesSuccess();
+        return page;
     }
     
     @AfterClass
