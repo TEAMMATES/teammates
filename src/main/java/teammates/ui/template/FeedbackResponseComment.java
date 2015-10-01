@@ -5,6 +5,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseComment {
     private Long commentId;
@@ -40,7 +41,7 @@ public class FeedbackResponseComment {
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
-        this.createdAt = frc.createdAt.toString();
+        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
         this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
     }

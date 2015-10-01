@@ -8,6 +8,7 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
@@ -226,7 +227,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
             return "(last edited "
                   + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
-                  + "at " + this.lastEditedAt.toString() + ")";
+                  + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";
         } else {
             return "";
         }
