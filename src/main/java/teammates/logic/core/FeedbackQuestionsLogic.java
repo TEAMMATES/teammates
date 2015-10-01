@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -136,8 +138,31 @@ public class FeedbackQuestionsLogic {
                 fqDb.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         Collections.sort(questions);
         
+        if (questions.size() > 1 && !areQuestionNumbersConsistent(questions)) {
+            log.severe(courseId + ": " + feedbackSessionName + " has invalid question numbers");
+        }
+        
         return questions;
     }
+    
+    // TODO can be removed once we are sure that question numbers will be consistent
+    private boolean areQuestionNumbersConsistent(List<FeedbackQuestionAttributes> questions) {
+        Set<Integer> questionNumbersInSession = new HashSet<>();
+        for (FeedbackQuestionAttributes question : questions) {
+            if (!questionNumbersInSession.add(question.questionNumber)) {
+                return false;
+            }
+        }
+        
+        for (int i = 1; i <= questions.size(); i++) {
+            if (!questionNumbersInSession.contains(i)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
 
     /**
      *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy
