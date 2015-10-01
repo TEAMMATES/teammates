@@ -785,7 +785,7 @@ public abstract class AppPage {
                 .replace("\"/_ah", "\"${test.url}/_ah")
                 // this handles the logout url that google generates
                 .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue={*}\"")
-                .replaceAll("V[0-9]\\.[0-9]+", "V\\${version}")
+                .replaceAll("V[0-9]+(\\.[0-9]+)+", "V\\${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
