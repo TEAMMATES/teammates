@@ -801,19 +801,19 @@ public abstract class AppPage {
                 //regkey and questionid (same regex for both)
                 .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"{*}\"")
                 //questionid regex in responseid
-                .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"${question.id}%")
+                .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"\\${question\\.id}%")
                 //commentid
-                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"${comment.id}\\\"")
+                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"\\${comment\\.id}\\\"")
                 // comment div ids (added after standardization)
-                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-${comment.id}")
-                .replaceAll("commentBar-[0-9]{16}", "commentBar-${comment.id}")
-                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-${comment.id}")
-                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-${comment.id}")
+                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-\\${comment\\.id}")
+                .replaceAll("commentBar-[0-9]{16}", "commentBar-\\${comment\\.id}")
+                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-\\${comment\\.id}")
+                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-\\${comment\\.id}")
                 // tooltip style
                 .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
                             "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
-                .replaceAll("#[0-9]{16}", "#${comment.id}")
+                .replaceAll("#[0-9]{16}", "#\\${comment\\.id}")
                 // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
@@ -825,13 +825,13 @@ public abstract class AppPage {
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today.sanitized}")
                 .replace(TimeHelper.formatDate(now), "${today}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "${comment.date}")
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
                 // now (used in opening time/closing time Grace period)
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "${grace.period.date}")
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "\\${grace\\.period\\.date}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
                 .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}")
                 // dynamic feedback submission numbers
-                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">${submissions.number}</span>")
+                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
                 // jQuery local
                 .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
                 // jQuery CDN
