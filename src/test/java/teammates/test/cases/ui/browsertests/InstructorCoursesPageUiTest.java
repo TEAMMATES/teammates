@@ -299,6 +299,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         assertNull(instructorWithNullArchiveStatus.isArchived);
         
         coursesPage.archiveCourse(courseId);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.verifyHtmlMainContent("/instructorCoursesArchiveSuccessful.html");
         
         instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
