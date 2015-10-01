@@ -145,7 +145,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.triggerAjaxLoadCourses();
         coursesPage.waitForAjaxLoadCoursesError();
         coursesPage = getCoursesPage();
-        coursesPage.waitForAjaxLoadCoursesSuccess();
     }
 
     public void testLinks() throws Exception{
@@ -356,7 +355,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
             .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();
-        return loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        return page;
     }
     
     @AfterClass
