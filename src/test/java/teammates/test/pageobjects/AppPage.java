@@ -790,14 +790,14 @@ public abstract class AppPage {
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
-                        + "=${enc.student.email}\\&amp;" + Const.ParamsNames.COURSE_ID + "=${enc.course.id}")
+                        + "=${student.email.enc}\\&amp;" + Const.ParamsNames.COURSE_ID + "=${course.id.enc}")
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
-                        + "=${enc.course.id}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=${enc.student.email}")
+                        + "=${course.id.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=${student.email.enc}")
                 //regkey
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "=${enc.regkey}")
-                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D${enc.regkey}\\%")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "=${regkey.enc}")
+                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D${regkey.enc}\\%")
                 //regkey and questionid (same regex for both)
                 .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"{*}\"")
                 //questionid regex in responseid
@@ -822,16 +822,16 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
-                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${sanitized.today}")
+                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today.sanitized}")
                 .replace(TimeHelper.formatDate(now), "${today}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "${comment.day.month}")
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "${comment.date}")
                 // now (used in opening time/closing time Grace period)
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "${grace.period.date}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
-                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "${comment.month.day}")
+                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}")
                 // dynamic feedback submission numbers
-                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">${submissions.made}</span>")
+                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">${submissions.number}</span>")
                 // jQuery local
                 .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
                 // jQuery CDN
