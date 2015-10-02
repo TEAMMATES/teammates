@@ -200,6 +200,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                        TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         browser.driver.get(url);
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
+        coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.unarchiveCourse(demoCourseId);
         coursesPage.verifyHtmlMainContent("/newlyJoinedInstructorCoursesPageSampleCourseUnarhived.html");
         
