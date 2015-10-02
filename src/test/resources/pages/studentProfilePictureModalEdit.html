@@ -1,0 +1,82 @@
+<div aria-hidden="false" aria-labelledby="myModalLabel" class="modal fade in" id="studentPhotoUploader" role="dialog" style="display: block;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                    ×
+                </button>
+                <h4 class="modal-title">
+                    Upload/Edit Photo
+                </h4>
+            </div>
+            <div class="modal-body center-block align-center">
+                <br/>
+                <div class="row">
+                    <div class="col-xs-4 profile-pic-edit-col">
+                        <div class="center-block align-center">
+                            <form id="profilePictureUploadForm" method="post">
+                                <input class="inline" id="studentPhoto" name="studentprofilephoto" type="file" />
+                                <p class="help-block">
+                                    Max Size: 5 MB
+                                </p>
+                                <button class="btn btn-primary center-block" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
+                                    Upload Picture
+                                </button>
+                                <input name="user" type="hidden" value="${test.student2}" />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xs-8 profile-pic-edit-col border-left-gray">
+                        <div class="profile-pic-edit">
+                            <div class="profile-pic-edit-container">
+                                <div class="guillotine-window" style="width: 100%; height: auto; padding-top: 100%;">
+                                    <div class="guillotine-canvas" style="width: 100%; height: 100%; top: 0%; left: 0%;">
+                                        <img id="editableProfilePicture" src="/page/studentProfilePic?blob-key=encoded_gs_key:{*}&user=${test.student2}" style="perspective: 1000px; backface-visibility: hidden;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-pic-edit-toolbar">
+                                <button class="btn btn-inverse" id="profilePicEditRotateLeft" type="button">
+                                    <span class="glyphicon glyphicon-repeat glyphicon-flipped">
+                                    </span>
+                                </button>
+                                <button class="btn btn-inverse" id="profilePicEditZoomIn" type="button">
+                                    <span class="glyphicon glyphicon-zoom-in">
+                                    </span>
+                                </button>
+                                <button class="btn btn-inverse" id="profilePicEditZoomOut" type="button">
+                                    <span class="glyphicon glyphicon-zoom-out">
+                                    </span>
+                                </button>
+                                <button class="btn btn-inverse" id="profilePicEditRotateRight" type="button">
+                                    <span class="glyphicon glyphicon-repeat">
+                                    </span>
+                                </button>
+                            </div>
+                            <label for="editableProfilePicture">
+                                Your Photo
+                            </label>
+                            <br/>
+                        </div>
+                        <form action="/page/studentProfilePictureEdit" id="profilePictureEditForm" method="post">
+                            <input id="pictureHeight" name="pictureheight" type="hidden" value="295" />
+                            <input id="pictureWidth" name="picturewidth" type="hidden" value="295" />
+                            <input id="cropBoxLeftX" name="cropboxleftx" type="hidden" value="" />
+                            <input id="cropBoxTopY" name="cropboxtopy" type="hidden" value="" />
+                            <input id="cropBoxRightX" name="cropboxrightx" type="hidden" value="" />
+                            <input id="cropBoxBottomY" name="cropboxbottomy" type="hidden" value="" />
+                            <input id="rotate" name="picturerotate" type="hidden" value="" />
+                            <input id="blobKey" name="blob-key" type="hidden" value="encoded_gs_key:{*}" />
+                            <input name="user" type="hidden" value="${test.student2}" />
+                            <button class="btn btn-primary" id="profileEditPictureSubmit" onclick="finaliseEditPictureForm()" type="button">
+                                Save Edited Photo
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
