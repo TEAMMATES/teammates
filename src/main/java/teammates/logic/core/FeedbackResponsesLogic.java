@@ -442,6 +442,9 @@ public class FeedbackResponsesLogic {
      * in order to prevent an id clash if the previous email is reused later on.
      * @param updatedResponse 
      * @param oldResponseEntity  a FeedbackResponse retrieved from the database 
+     * @throws EntityAlreadyExistsException  if trying to prevent an id clash by recreating a response,
+     *                                       a response with the same id already exist. 
+     * @throws InvalidParametersException               
      */
     public void updateFeedbackResponse(
                         FeedbackResponseAttributes updatedResponse,
