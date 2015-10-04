@@ -142,6 +142,13 @@ Apply to thead to make headers not bold.
     color: #ffd700;
 }
 
+.glyphicon-flipped {
+    transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+}
+
 .height-fixed-md {
     min-height: 150px;
     max-height: 250px;
@@ -548,9 +555,18 @@ Apply to thead to make headers not bold.
     height: 40px;
 }
 
-
 .profile-pic-icon-hidden {
     display: none;
+}
+
+.profile-pic-edit-toolbar {
+    margin: 10px;
+}
+
+.profile-pic-edit-container {
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 10px;
 }
 
 .unsorted {
