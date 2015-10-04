@@ -421,18 +421,7 @@ public class FeedbackResponsesLogic {
                     "Trying to update a feedback response that does not exist.");
         }
 
-        copyOldResponseToNewResponse(newResponse, oldResponse);
-
-        if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) ||
-                !newResponse.giverEmail.equals(oldResponse.giverEmail)) {
-            recreateResponse(newResponse, oldResponse);
-        } else {
-            try {
-                frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail();
-            }
-        }
+        updateFeedbackResponse(newResponse, oldResponseEntity);
     }
 
     /**
@@ -450,16 +439,35 @@ public class FeedbackResponsesLogic {
                         FeedbackResponseAttributes updatedResponse,
                         FeedbackResponse oldResponseEntity)
                                 throws InvalidParametersException, EntityAlreadyExistsException {
-        if (oldResponseEntity == null) {
-            throw new NullPointerException("oldResponseEntity should not be null");
-        }
+        Assumption.assertNotNull(oldResponseEntity);
         
         // Create a copy.
         FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(updatedResponse);
         
         FeedbackResponseAttributes oldResponse = new FeedbackResponseAttributes(oldResponseEntity);
 
-        copyOldResponseToNewResponse(newResponse, oldResponse);
+        // Copy values that cannot be changed to defensively avoid invalid
+        // parameters.
+        newResponse.courseId = oldResponse.courseId;
+        newResponse.feedbackSessionName = oldResponse.feedbackSessionName;
+        newResponse.feedbackQuestionId = oldResponse.feedbackQuestionId;
+        newResponse.feedbackQuestionType = oldResponse.feedbackQuestionType;
+        
+        if (newResponse.responseMetaData == null) {
+            newResponse.responseMetaData = oldResponse.responseMetaData;
+        }
+        if (newResponse.giverEmail == null) {
+            newResponse.giverEmail = oldResponse.giverEmail;
+        }
+        if (newResponse.recipientEmail == null) {
+            newResponse.recipientEmail = oldResponse.recipientEmail;
+        }
+        if (newResponse.giverSection == null) {
+            newResponse.giverSection = oldResponse.giverSection;
+        }
+        if (newResponse.recipientSection == null) {
+            newResponse.recipientSection = oldResponse.recipientSection;
+        }
     
         if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) 
             || !newResponse.giverEmail.equals(oldResponse.giverEmail)) {
@@ -487,32 +495,6 @@ public class FeedbackResponsesLogic {
         }
     }
 
-    
-    private void copyOldResponseToNewResponse(FeedbackResponseAttributes newResponse,
-                                    FeedbackResponseAttributes oldResponse) {
-        // Copy values that cannot be changed to defensively avoid invalid
-        // parameters.
-        newResponse.courseId = oldResponse.courseId;
-        newResponse.feedbackSessionName = oldResponse.feedbackSessionName;
-        newResponse.feedbackQuestionId = oldResponse.feedbackQuestionId;
-        newResponse.feedbackQuestionType = oldResponse.feedbackQuestionType;
-
-        if (newResponse.responseMetaData == null) {
-            newResponse.responseMetaData = oldResponse.responseMetaData;
-        }
-        if (newResponse.giverEmail == null) {
-            newResponse.giverEmail = oldResponse.giverEmail;
-        }
-        if (newResponse.recipientEmail == null) {
-            newResponse.recipientEmail = oldResponse.recipientEmail;
-        }
-        if (newResponse.giverSection == null) {
-            newResponse.giverSection = oldResponse.giverSection;
-        }
-        if (newResponse.recipientSection == null) {
-            newResponse.recipientSection = oldResponse.recipientSection;
-        }
-    }
     
     /**
      * Updates responses for a student when his team changes. This is done by
