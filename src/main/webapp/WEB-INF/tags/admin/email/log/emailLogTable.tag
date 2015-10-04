@@ -13,9 +13,9 @@
         <table class="table dataTable" id="emailLogsTable">
             <thead>
                 <tr>
-                    <td><strong>Receiver</strong></td>
-                    <td><strong>Subject</strong></td>
-                    <td><strong>Date</strong></td>     
+                    <th><strong>Receiver</strong></th>
+                    <th><strong>Subject</strong></th>
+                    <th><strong>Date</strong></th>     
                 </tr>
             </thead>
             
