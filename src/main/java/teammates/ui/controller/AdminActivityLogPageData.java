@@ -63,11 +63,11 @@ public class AdminActivityLogPageData extends PageData {
     }
     
     private void setDefaultLogSearchPeriod() {
-        Calendar fromCalendarDate = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        Calendar fromCalendarDate = TimeHelper.now(0.0);
         fromCalendarDate.add(Calendar.DAY_OF_MONTH, -1);
         
         fromDateValue = fromCalendarDate.getTimeInMillis();    
-        toDateValue = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE).getTimeInMillis();
+        toDateValue = TimeHelper.now(0.0).getTimeInMillis();
     }
 
     public void init(String offset, String filterQuery, boolean ifShowAll,
