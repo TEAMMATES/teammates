@@ -176,18 +176,6 @@ public class AdminActivityLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if (q.isToDateInQuery) {
-            if (logEntry.getTime() > q.toDateValue) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
-        }
-        if (q.isFromDateInQuery) {
-            if (logEntry.getTime() < q.fromDateValue) {
-                logEntry.setToShow(false);
-                return logEntry;
-            }
-        }
         if (q.isRequestInQuery) {
             if (!arrayContains(q.requestValues, logEntry.getServletName())) {
                 logEntry.setToShow(false);
@@ -431,12 +419,7 @@ public class AdminActivityLogPageData extends PageData {
      * The XXValue variables hold the data linked to the label in the query
      */
     private class QueryParameters{        
-        public boolean isToDateInQuery;
-        public long toDateValue;
-        
-        public boolean isFromDateInQuery;
-        public long fromDateValue;
-        
+                
         public boolean isRequestInQuery;
         public String[] requestValues;
         
@@ -456,8 +439,6 @@ public class AdminActivityLogPageData extends PageData {
         public String[] infoValues;
         
         public QueryParameters() {
-            isToDateInQuery = false;
-            isFromDateInQuery = false;
             isRequestInQuery = false;
             isResponseInQuery = false;
             isPersonInQuery = false;
@@ -470,25 +451,7 @@ public class AdminActivityLogPageData extends PageData {
          * add a label and values in
          */
         public void add(String label, String[] values) throws Exception{
-            if (label.equals("from")) {
-                isFromDateInQuery = true;                
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 00:00");                
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
-                fromDateValue = cal.getTime().getTime();
-                
-            } else if (label.equals("to")) {
-                isToDateInQuery = true;
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");                
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
-                toDateValue = cal.getTime().getTime();       
-                
-            } else if (label.equals("request")) {
+            if (label.equals("request")) {
                 isRequestInQuery = true;
                 requestValues = values;
             } else if (label.equals("response")) {
