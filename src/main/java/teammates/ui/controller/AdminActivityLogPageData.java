@@ -59,8 +59,17 @@ public class AdminActivityLogPageData extends PageData {
     
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
+        setDefaultLogSearchPeriod();
     }
     
+    private void setDefaultLogSearchPeriod() {
+        Calendar fromCalendarDate = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        fromCalendarDate.add(Calendar.DAY_OF_MONTH, -1);
+        
+        fromDateValue = fromCalendarDate.getTimeInMillis();    
+        toDateValue = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE).getTimeInMillis();
+    }
+
     public void init(String offset, String filterQuery, boolean ifShowAll,
                      boolean ifShowTestData, List<ActivityLogEntry> logs) {
         this.offset = offset;
@@ -294,22 +303,8 @@ public class AdminActivityLogPageData extends PageData {
                 q.add(label, values);
             }
         }
-        
-        addDefaultTimePeriodIfNeedBe();
-        
+
         return q;
-    }
-    
-    
-    private void addDefaultTimePeriodIfNeedBe() {
-        if (fromDateValue == null) {
-            Calendar fromCalendarDate = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
-            fromCalendarDate.add(Calendar.DATE, -1);
-            fromDateValue = fromCalendarDate.getTimeInMillis();
-        }
-        if (toDateValue == null) {
-            toDateValue = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE).getTimeInMillis();
-        }
     }
 
     /** 
