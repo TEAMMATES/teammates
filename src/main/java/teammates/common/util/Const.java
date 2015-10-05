@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+
 
 /**
  * Stores constants that are widely used across classes. 
@@ -1182,6 +1184,50 @@ public class Const {
             EQUAL_SHARE+ " + 100%",
             NOT_SURE,
             NOT_SUBMITTED);
+    
+    // Mcq
+    public static final int FEEDBACK_QUESTION_MCQ_MIN_NUM_OF_CHOICES = 2;
+    public static final String FEEDBACK_QUESTION_MCQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ 
+                                                      + ". Minimum number of options is: ";
+    public static final String FEEDBACK_MCQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
+    
+    // Msq
+    public static final int FEEDBACK_QUESTION_MSQ_MIN_NUM_OF_CHOICES = 2;
+    public static final String FEEDBACK_QUESTION_MSQ_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MSQ+". Minimum number of options is: ";
+    public static final String FEEDBACK_QUESTION_MSQ_ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
+    
+    // Numscale
+    public static final String FEEDBACK_QUESTION_NUMSCALE_ERROR_MIN_MAX = "Minimum value must be < maximum value for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
+    public static final String FEEDBACK_QUESTION_NUMSCALE_ERROR_STEP = "Step value must be > 0 for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
+    public static final String FEEDBACK_QUESTION_NUMSCALE_ERROR_OUT_OF_RANGE = " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
+    
+    // Contrib
+    public static final String FEEDBACK_QUESTION_CONTRIB_ERROR_INVALID_OPTION = "Invalid option for the " + Const.FeedbackQuestionTypeNames.CONTRIB + ".";
+    public static final String FEEDBACK_QUESTION_CONTRIB_ERROR_INVALID_FEEDBACK_PATH = 
+            Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
+            + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
+            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
+            + " as the feedback giver and recipient respectively."
+            + " These values will be used instead.";
+    
+    // Const sum
+    public static final int FEEDBACK_QUESTION_CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
+    public static final int FEEDBACK_QUESTION_CONST_SUM_MIN_NUM_OF_POINTS = 1;
+    public static final String FEEDBACK_QUESTION_CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS = "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + ". Minimum number of options is: ";
+    public static final String FEEDBACK_QUESTION_CONST_SUM_ERROR_NOT_ENOUGH_POINTS = "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT +". Minimum number of points is: ";
+    public static final String FEEDBACK_QUESTION_CONST_SUM_ERROR_MISMATCH = "Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.";
+    public static final String FEEDBACK_QUESTION_CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
+    public static final String FEEDBACK_QUESTION_CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
+    
+    // Rubric
+    public static final int FEEDBACK_QUESTION_RUBRIC_MIN_NUM_OF_CHOICES = 2;
+    public static final String FEEDBACK_QUESTION_RUBRIC_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of options is: ";
+    public static final int FEEDBACK_QUESTION_RUBRIC_MIN_NUM_OF_SUB_QUESTIONS = 1;
+    public static final String FEEDBACK_QUESTION_RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS = "Too little sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of sub-questions is: ";
+    public static final String FEEDBACK_QUESTION_RUBRIC_ERROR_DESC_INVALID_SIZE = "Invalid number of descriptions for "+Const.FeedbackQuestionTypeNames.RUBRIC;
+    public static final String FEEDBACK_QUESTION_RUBRIC_ERROR_EMPTY_CHOICE = "Choices for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+    public static final String FEEDBACK_QUESTION_RUBRIC_ERROR_EMPTY_SUB_QUESTION = "Sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+    public static final String FEEDBACK_QUESTION_RUBRIC_ERROR_INVALID_CHOICE = "An invalid choice was chosen for the " + Const.FeedbackQuestionTypeNames.RUBRIC + ".";
     
     
     public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
