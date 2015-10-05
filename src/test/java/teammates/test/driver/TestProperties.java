@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Url;
 
@@ -137,6 +138,29 @@ public class TestProperties {
         return inputString.substring(startPos, endPos).replace("-", ".").trim();
     }
     
-    
+    public void verifyReadyForGodMode() {
+        if (!inst().isDevServer()) {
+            Assumption.fail("God mode regeneration works only in dev server.");
+        }
+        if (areTestAccountsDefaultValues()) {
+            Assumption.fail("Please change ALL the default accounts in test.properties in order to use God mode,"
+                            + "e.g change test.student1.account from alice.tmms to alice.tmms.example");
+        }
+    }
+
+    private boolean areTestAccountsDefaultValues() {
+        /*
+         * TODO make this check much, much stricter. If TEST_STUDENT1_ACCOUNT is charlie.tmms and
+         * TEST_STUDENT2_ACCOUNT is alice.tmms, etc, this check will pass BUT the unintended replacement
+         * will still happen.
+         * Also consider adding checks for the accounts used in other UI tests such as
+         * ISR.teammates.test, instructorWith2Courses, etc. If this is done the method might need a new name.
+         */
+        return "alice.tmms".contains(inst().TEST_STUDENT1_ACCOUNT)
+                || "charlie.tmms".contains(inst().TEST_STUDENT2_ACCOUNT)  
+                || "teammates.unreg".contains(inst().TEST_UNREG_ACCOUNT) 
+                || "teammates.coord".contains(inst().TEST_INSTRUCTOR_ACCOUNT)
+                || "yourGoogleId".contains(inst().TEST_ADMIN_ACCOUNT);
+    }
 
 }

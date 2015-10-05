@@ -36,7 +36,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
@@ -762,11 +761,7 @@ public abstract class AppPage {
         if (content != null && !content.isEmpty() && 
                 System.getProperty("godmode") != null && 
                 System.getProperty("godmode").equals("true")) {
-            assert(TestProperties.inst().isDevServer());
-            if (areTestAccountsDefaultValues()) {
-                Assumption.fail("Please change ALL the default accounts in test.properties in order to use GodMode."
-                        + "eg: change test.student1.account from alice.tmms to alice.tmms.example");
-            }
+            TestProperties.inst().verifyReadyForGodMode();
             try {
                 String processedPageSource = HtmlHelper.convertToStandardHtml(content, isPart);
                 processedPageSource = processPageSourceForGodMode(processedPageSource);
@@ -862,14 +857,6 @@ public abstract class AppPage {
                 .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js");
     }
 
-    private boolean areTestAccountsDefaultValues() {
-        return "alice.tmms".contains(TestProperties.inst().TEST_STUDENT1_ACCOUNT)
-                || "charlie.tmms".contains(TestProperties.inst().TEST_STUDENT2_ACCOUNT)  
-                || "teammates.unreg".contains(TestProperties.inst().TEST_UNREG_ACCOUNT) 
-                || "teammates.coord".contains(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                || "yourGoogleId".contains(TestProperties.inst().TEST_ADMIN_ACCOUNT);
-    }
-    
     /**
      * Verifies that element specified in currently loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
