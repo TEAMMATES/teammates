@@ -40,6 +40,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -816,10 +817,15 @@ public abstract class AppPage {
                 .replaceAll("#[0-9]{16}", "#{*}")
                 // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT), "${test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT), "${test.student2}")
                 .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT), "${test.instructor}")
                 .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT), "${test.admin}")
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT), "${test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "{*}")

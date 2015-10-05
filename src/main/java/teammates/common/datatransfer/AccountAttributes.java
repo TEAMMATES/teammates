@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -84,7 +83,7 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     public String getTruncatedGoogleId() {
-        return StringHelper.truncate(googleId, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
+        return StringHelper.truncateLongId(googleId);
     }
 
     public String getInstitute() {
