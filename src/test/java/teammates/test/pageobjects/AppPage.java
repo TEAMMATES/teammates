@@ -790,14 +790,14 @@ public abstract class AppPage {
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
-                        + "=${student.email.enc}\\&amp;" + Const.ParamsNames.COURSE_ID + "=${course.id.enc}")
+                        + "=\\${student\\.email\\.enc}\\&amp;" + Const.ParamsNames.COURSE_ID + "=\\${course\\.id\\.enc}")
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
-                        + "=${course.id.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=${student.email.enc}")
+                        + "=\\${course\\.id\\.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}")
                 //regkey
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "=${regkey.enc}")
-                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D${regkey.enc}\\%")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
+                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
                 //regkey and questionid (same regex for both)
                 .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"{*}\"")
                 //questionid regex in responseid
