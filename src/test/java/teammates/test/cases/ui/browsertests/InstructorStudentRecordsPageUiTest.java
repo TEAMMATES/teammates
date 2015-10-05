@@ -134,6 +134,10 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     private void testAction() throws Exception {
+        
+        ______TS("add comment: failure (empty comment)");
+
+        viewPage.addComment("").verifyStatus("Please enter a valid comment. The comment can't be empty.");
 
         ______TS("add comment: success");
 
