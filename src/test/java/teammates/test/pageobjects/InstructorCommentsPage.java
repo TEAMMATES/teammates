@@ -31,7 +31,7 @@ public class InstructorCommentsPage extends AppPage {
         browser.driver.findElement(By.xpath("//*[@id=\"panel_display-2\"]/div/div[1]")).click();
         waitForPageToLoad();
         try{
-            waitForElementPresence(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div"));
+            waitForElementVisibility(browser.driver.findElement(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div")));
         } catch (StaleElementReferenceException e){
             ;//do nothing
         }
@@ -45,6 +45,7 @@ public class InstructorCommentsPage extends AppPage {
     public InstructorHomePage clickHomePageLinkInHeader(){
         browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")).click();
         waitForPageToLoad();
+        waitForAjaxLoaderGifToDisappear();
         return changePageType(InstructorHomePage.class);
     }
     
