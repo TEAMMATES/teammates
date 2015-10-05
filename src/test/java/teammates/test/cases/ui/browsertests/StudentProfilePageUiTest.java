@@ -73,7 +73,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
-        profilePage.verifyHtmlPart(By.id("studentPhotoUploader"), "/studentProfilePictureModalEdit.html");
+
+        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
+        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
+        profilePage.verifyHtmlPart(By.className("profile-pic-edit-toolbar"), "/studentProfilePictureModalEdit.html");
     }
 
     private void testActions() throws Exception {
