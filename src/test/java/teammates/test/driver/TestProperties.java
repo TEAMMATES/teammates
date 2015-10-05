@@ -2,10 +2,15 @@ package teammates.test.driver;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
 /** 
@@ -146,6 +151,16 @@ public class TestProperties {
             Assumption.fail("Please change ALL the default accounts in test.properties in order to use God mode,"
                             + "e.g change test.student1.account from alice.tmms to alice.tmms.example");
         }
+        if (!areAllTestAccountsDifferent()) {
+            Assumption.fail("ALL test accounts used must be different, including after truncation, "
+                            + "e.g veryveryveryveryverylong and veryveryveryveryverylengthy are not "
+                            + "accepted as two different accounts.");
+        }
+        if (!areAppUrlsDifferent()) {
+            Assumption.fail("App URLs defined in test.properties and build.properties must be different, "
+                            + "and neither one can be a substring of the other, e.g localhost:8888 and "
+                            + "localhost:88889 are not accepted as two different app URLs.");
+        }
     }
 
     private boolean areTestAccountsDefaultValues() {
@@ -161,6 +176,31 @@ public class TestProperties {
                 || "teammates.unreg".contains(inst().TEST_UNREG_ACCOUNT) 
                 || "teammates.coord".contains(inst().TEST_INSTRUCTOR_ACCOUNT)
                 || "yourGoogleId".contains(inst().TEST_ADMIN_ACCOUNT);
+    }
+
+    private boolean areAllTestAccountsDifferent() {
+        List<String> testAccounts = new ArrayList<String>();
+        List<String> injectedAccounts = Arrays.asList(inst().TEST_STUDENT1_ACCOUNT, inst().TEST_STUDENT2_ACCOUNT,
+                                                      inst().TEST_UNREG_ACCOUNT, inst().TEST_INSTRUCTOR_ACCOUNT,
+                                                      inst().TEST_ADMIN_ACCOUNT);
+        for (String account : injectedAccounts) {
+            if (testAccounts.contains(account)) {
+                return false;
+            }
+            testAccounts.add(account);
+            String truncatedAccount = StringHelper.truncateLongId(account);
+            if (!truncatedAccount.equals(account)) {
+                if (testAccounts.contains(truncatedAccount)) {
+                    return false;
+                }
+                testAccounts.add(truncatedAccount);
+            }
+        }
+        return true;
+    }
+
+    private boolean areAppUrlsDifferent() {
+        return !Config.APP_URL.contains(inst().TEAMMATES_URL) && !inst().TEAMMATES_URL.contains(Config.APP_URL);
     }
 
 }
