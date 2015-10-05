@@ -20,6 +20,8 @@ public class AdminActivityLogPageData extends PageData {
     private String queryMessage;
     private List<ActivityLogEntry> logs;
     private List<String> versions;
+    private Long toDateValue;
+    private Long fromDateValue;
     private String logLocalTime;
     
     /**
@@ -95,6 +97,14 @@ public class AdminActivityLogPageData extends PageData {
     
     public List<String> getVersions() {
         return versions;
+    }
+    
+    public long getFromDate() {
+        return fromDateValue;
+    }
+    
+    public long getToDate() {
+        return toDateValue;
     }
     
     /**
@@ -276,15 +286,44 @@ public class AdminActivityLogPageData extends PageData {
                     versions.add(values[j].replace(".", "-"));
                 }
                 
+            } else if (label.equals("from")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+                Date d = sdf.parse(values[0] + " 00:00");                
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(d);
+                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                fromDateValue = cal.getTime().getTime();
+                
+            } else if (label.equals("to")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+                Date d = sdf.parse(values[0] + " 23:59");                
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(d);
+                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                toDateValue = cal.getTime().getTime();       
+                
             } else {
                 q.add(label, values);
             }
         }
         
+        addDefaultTimePeriodIfNeedBe();
+        
         return q;
     }
     
     
+    private void addDefaultTimePeriodIfNeedBe() {
+        if (fromDateValue == null) {
+            Calendar fromCalendarDate = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+            fromCalendarDate.add(Calendar.DATE, -1);
+            fromDateValue = fromCalendarDate.getTimeInMillis();
+        }
+        if (toDateValue == null) {
+            toDateValue = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE).getTimeInMillis();
+        }
+    }
+
     /** 
      * @return possible servlet requests list as html 
      */
