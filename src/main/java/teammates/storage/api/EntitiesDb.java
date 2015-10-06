@@ -61,11 +61,12 @@ public abstract class EntitiesDb {
         
         // TODO: Do we really need special identifiers? Can just use ToString()? 
         // Answer: Yes. We can use toString.
-        if (getEntity(entityToAdd) != null) {
+        Object existingEntity = getEntity(entityToAdd);
+        if (existingEntity != null) {
             String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
                     + entityToAdd.getIdentificationString();
             log.info(error);
-            throw new EntityAlreadyExistsException(error);
+            throw new EntityAlreadyExistsException(error, existingEntity);
         }
         
         Object entity = entityToAdd.toEntity();
