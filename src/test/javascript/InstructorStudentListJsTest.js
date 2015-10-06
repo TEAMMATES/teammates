@@ -41,8 +41,9 @@ test('filterSection()', function(){
 
     equal($("[id^=student_email]:visible").length, 12, "All emails (minus duplicate) should be visible again");
 
-     // Deselect 1 section and select back usin Select All
+     // Deselect 1 section and select back by selecting that section
     $("#section_check-0-1").click();
+    $("#team_check-0-10-0").click(); // deselect the invalid team section
     equal($("#studentsection-c0\\.1").is(':hidden'), true, "Section not selected is hidden");
     equal($("#section_all").is(":checked"), false, "Select all check should be removed");
 
@@ -64,9 +65,10 @@ test('filterSection()', function(){
     equal($("#studentsection-c0\\.0").is(':visible'), true, "All sections should be visible");
     equal($("#studentsection-c0\\.1").is(':visible'), true, "All sections should be visible");
     equal($("#studentsection-c1\\.0").is(':visible'), true, "All sections should be visible");
-    equal($("#section_check-0-0").is(':checked'), true, "Course 2 Section A should be re-selected");
     equal($("#section_check-0-1").is(':checked'), true, "Course 2 Section B should be re-selected");
-    equal($("#section_check-1-0").is(':checked'), true, "Course 3 Section C should be re-selected");
+    equal($("#team_check-0-1-0").is(':checked'), true, "Course 2 Section B Team 2 should be selected");
+    equal($("#team_check-0-1-1").is(':checked'), true, "Course 2 Section B Team 3 should be selected");
+    equal($("#team_check-0-10-0").is(':checked'), false, "Course 2 Invalid Section Team should not be selected");
 
     equal($("[id^=student_email]:visible").length, 12, "All emails (minus duplicate) should be visible again");
 });
