@@ -207,6 +207,14 @@ public abstract class AppPage {
     public void waitForPageToLoad() {
         browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
+
+    /**
+     * Waits until the page is fully loaded. Times out after specific time given in params.
+     * @param timeToWait
+     */
+    public void waitForPageToLoad(String timeToWait) {
+        browser.selenium.waitForPageToLoad(timeToWait);
+    }
     
     public void waitForElementVisibility(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
