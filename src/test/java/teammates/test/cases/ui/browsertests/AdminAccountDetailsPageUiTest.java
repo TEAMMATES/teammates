@@ -46,7 +46,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
         
         Url detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
             .withInstructorId("AAMgtUiT.instr2");
-        detailsPage = loginAdminToPage(browser, detailsPageUrl, AdminAccountDetailsPage.class);
+        detailsPage = loginAdminToPageForAdminUiTests(browser, detailsPageUrl, AdminAccountDetailsPage.class);
         
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }
