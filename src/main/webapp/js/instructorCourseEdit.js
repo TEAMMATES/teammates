@@ -175,7 +175,7 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 	} else if (role === "Custom") {
 		checkPrivilegesOfCustomForInstructor(instrNum);
 	}
-    
+	
 	// do nothing if role not recognized
 }
 
@@ -245,8 +245,8 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
 function showInstructorRoleModal(instrRole) {
 	var isValidRole = checkPrivilegesOfRoleForModal(instrRole);
 	if (isValidRole) {
-        $('#tunePermissionsDivForInstructorAll').modal();
-    }
+		$('#tunePermissionsDivForInstructorAll').modal();
+	}
 }
 
 function checkPrivilegesOfRoleForModal(role) {
@@ -259,9 +259,9 @@ function checkPrivilegesOfRoleForModal(role) {
 	} else if (role === "Tutor") {
 		checkPrivilegesOfTutorForModal();
 	} else {
-        return false;
-    }
-    return true;
+		return false;
+	}
+	return true;
 }
 
 function checkPrivilegesOfCoownerForModal() {
