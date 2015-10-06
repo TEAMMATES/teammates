@@ -92,4 +92,9 @@ public class AdminAccountManagementPage extends AppPage {
         }
         return result;
     }
+
+    public void waitForPageToFinishLoadingOnNonDevEnvironment() {
+        By currentPageEntryCountSpan = By.id("currentPageEntryCount");
+        waitForElementPresence(currentPageEntryCountSpan, 180);
+    }
 }

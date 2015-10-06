@@ -115,7 +115,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
 
         // On non-dev environments, page can take a long time to load
         if (!isDevEnvironment) {
-            accountsPage.waitForPageToLoad("180000");
+            accountsPage.waitForPageToFinishLoadingOnNonDevEnvironment();
         }
 
         accountsPage.verifyIsCorrectPage();
