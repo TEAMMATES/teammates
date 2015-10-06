@@ -985,7 +985,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editRecipientTypeParams);
         r = (RedirectResult) a.executeAndPostProcess();
 
-        assertEquals(Const.FEEDBACK_QUESTION_CONTRIB_ERROR_INVALID_FEEDBACK_PATH
+        assertEquals(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH
                      + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_EDITED,
                      r.getStatusMessage());
 

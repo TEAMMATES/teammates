@@ -693,15 +693,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         if (!isValidDescriptionSize()) {
             // This should not happen.
             // Set descriptions to empty if the sizes are invalid when extracting question details.
-            errors.add(Const.FEEDBACK_QUESTION_RUBRIC_ERROR_DESC_INVALID_SIZE);
+            errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_DESC_INVALID_SIZE);
         }
         
-        if (this.numOfRubricChoices < Const.FEEDBACK_QUESTION_RUBRIC_MIN_NUM_OF_CHOICES) {
-            errors.add(Const.FEEDBACK_QUESTION_RUBRIC_ERROR_NOT_ENOUGH_CHOICES + Const.FEEDBACK_QUESTION_RUBRIC_MIN_NUM_OF_CHOICES);
+        if (this.numOfRubricChoices < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES) {
+            errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_CHOICES);
         }
         
-        if (this.numOfRubricSubQuestions < Const.FEEDBACK_QUESTION_RUBRIC_MIN_NUM_OF_SUB_QUESTIONS) {
-            errors.add(Const.FEEDBACK_QUESTION_RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS + Const.FEEDBACK_QUESTION_RUBRIC_MIN_NUM_OF_SUB_QUESTIONS);
+        if (this.numOfRubricSubQuestions < Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS) {
+            errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS + Const.FeedbackQuestion.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS);
         }
         
         //Rubric choices are now allowed to be empty.
@@ -716,7 +716,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         for (String subQn : this.rubricSubQuestions) {
             if (subQn.trim().isEmpty()) {
-                errors.add(Const.FEEDBACK_QUESTION_RUBRIC_ERROR_EMPTY_SUB_QUESTION);
+                errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_EMPTY_SUB_QUESTION);
                 break;
             }
         }

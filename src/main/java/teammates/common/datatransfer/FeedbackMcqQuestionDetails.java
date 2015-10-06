@@ -485,8 +485,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE &&
-                numOfMcqChoices < Const.FEEDBACK_QUESTION_MCQ_MIN_NUM_OF_CHOICES){
-            errors.add(Const.FEEDBACK_QUESTION_MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FEEDBACK_QUESTION_MCQ_MIN_NUM_OF_CHOICES + ".");
+                numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES){
+            errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?
         
@@ -504,7 +504,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             
             if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE) {
                 if (!mcqChoices.contains(frd.getAnswerString())) {
-                    errors.add(frd.getAnswerString() + Const.FEEDBACK_MCQ_ERROR_INVALID_OPTION);
+                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
                 }
             }
         }

@@ -577,12 +577,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if(!distributeToRecipients && numOfConstSumOptions < Const.FEEDBACK_QUESTION_CONST_SUM_MIN_NUM_OF_OPTIONS){
-            errors.add(Const.FEEDBACK_QUESTION_CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS + Const.FEEDBACK_QUESTION_CONST_SUM_MIN_NUM_OF_OPTIONS+".");
+        if(!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS){
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS+".");
         }
         
-        if(points < Const.FEEDBACK_QUESTION_CONST_SUM_MIN_NUM_OF_POINTS){
-            errors.add(Const.FEEDBACK_QUESTION_CONST_SUM_ERROR_NOT_ENOUGH_POINTS + Const.FEEDBACK_QUESTION_CONST_SUM_MIN_NUM_OF_POINTS+".");
+        if(points < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS){
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_POINTS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS+".");
         }
         
         return errors;
@@ -620,7 +620,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             //Check that all response points are >= 0
             for(Integer i : frd.getAnswerList()){
                 if(i < 0){
-                    errors.add(Const.FEEDBACK_QUESTION_CONST_SUM_ERROR_NEGATIVE);
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
                     return errors;
                 }
             }
@@ -634,7 +634,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     sum += i;
                 }
                 if(sum != totalPoints || frd.getAnswerList().size() != constSumOptions.size()){
-                    errors.add(Const.FEEDBACK_QUESTION_CONST_SUM_ERROR_MISMATCH);
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
                     return errors;
                 }
             }
@@ -643,7 +643,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             if (this.forceUnevenDistribution) {
                 for(int i : frd.getAnswerList()){
                     if (answerSet.contains(i)) {
-                        errors.add(Const.FEEDBACK_QUESTION_CONST_SUM_ERROR_UNIQUE);
+                        errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
                         return errors;
                     }
                     answerSet.add(i);
@@ -651,7 +651,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
         if(distributeToRecipients && sum != totalPoints){
-            errors.add(Const.FEEDBACK_QUESTION_CONST_SUM_ERROR_MISMATCH + sum + "/" + totalPoints);
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH + sum + "/" + totalPoints);
             return errors;
         }
         

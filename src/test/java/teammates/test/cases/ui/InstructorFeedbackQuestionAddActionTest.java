@@ -562,7 +562,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
-        assertEquals(Const.FEEDBACK_QUESTION_CONTRIB_ERROR_INVALID_FEEDBACK_PATH
+        assertEquals(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH
                      + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
                      result.getStatusMessage());
     }

@@ -736,10 +736,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if(minScale >= maxScale){
-            errors.add(Const.FEEDBACK_QUESTION_NUMSCALE_ERROR_MIN_MAX);
+            errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX);
         }
         if(step <= 0){
-            errors.add(Const.FEEDBACK_QUESTION_NUMSCALE_ERROR_STEP);
+            errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_STEP);
         }
         return errors;
     }
@@ -752,7 +752,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         for(FeedbackResponseAttributes response : responses){
             FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             if(frd.getAnswer() < minScale || frd.getAnswer() > maxScale){
-                errors.add(frd.getAnswerString() + Const.FEEDBACK_QUESTION_NUMSCALE_ERROR_OUT_OF_RANGE + "(min="+minScale+", max="+maxScale+")");
+                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE + "(min="+minScale+", max="+maxScale+")");
             }
             //TODO: strengthen check for step
         }

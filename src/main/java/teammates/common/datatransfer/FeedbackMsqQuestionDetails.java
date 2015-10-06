@@ -567,8 +567,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if(generateOptionsFor == FeedbackParticipantType.NONE &&
-                numOfMsqChoices < Const.FEEDBACK_QUESTION_MSQ_MIN_NUM_OF_CHOICES){
-            errors.add(Const.FEEDBACK_QUESTION_MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FEEDBACK_QUESTION_MSQ_MIN_NUM_OF_CHOICES+".");
+                numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES){
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES+".");
         }
         //TODO: check that msq options do not repeat. needed?
         
@@ -586,7 +586,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 List<String> validChoices = msqChoices;
                 validChoices.add("");
                 if(!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
-                    errors.add(frd.getAnswerString() + Const.FEEDBACK_QUESTION_MSQ_ERROR_INVALID_OPTION);
+                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
                 }
             }
         }

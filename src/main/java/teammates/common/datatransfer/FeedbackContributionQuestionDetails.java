@@ -732,7 +732,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 validAnswer = true;
             }
             if(validAnswer == false){
-                errors.add(Const.FEEDBACK_QUESTION_CONTRIB_ERROR_INVALID_OPTION);
+                errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
             }
         }
         return errors;
@@ -746,14 +746,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if(feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
             Utils.getLogger().severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
-            errorMsg = Const.FEEDBACK_QUESTION_CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
+            errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
         
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
         if(feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
             Utils.getLogger().severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
             feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
-            errorMsg = Const.FEEDBACK_QUESTION_CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
+            errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
         
         // restrictions on visibility options
