@@ -28,13 +28,11 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     
     @Test
     public void testAll(){
-        
         testContent();
         testUserTimezone();
         testReference();
         testViewActionsLink();
         testInputValidation();
-        // Full page content check is omitted because this is an internal page. 
     }
     
     

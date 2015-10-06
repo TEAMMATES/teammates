@@ -78,8 +78,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         ______TS("content: typical page");
         
         Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
-        //Full page content check is omitted because this is an internal page. 
+        homePage = loginAdminToPageForAdminUiTests(browser, homeUrl, AdminHomePage.class);
     }
 
     @SuppressWarnings("deprecation")
