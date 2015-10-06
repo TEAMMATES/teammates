@@ -795,11 +795,16 @@ public abstract class AppPage {
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "=\\${course\\.id\\.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}")
-                //regkey
+                //regkey in urls
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
-                //regkey and questionid (same regex for both)
-                .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"{*}\"")
+                
+                // maintain order for the two below
+                // questionid
+                .replaceAll("value=\"([a-zA-Z0-9-_]){62,}\"","value=\"\\${question\\.id}\"")
+                // regkey in unreg student page
+                .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"\\${regkey\\.enc}\"")
+                
                 //questionid regex in responseid
                 .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"\\${question\\.id}%")
                 //commentid
@@ -822,7 +827,7 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
-                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today.sanitized}")
+                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
                 .replace(TimeHelper.formatDate(now), "${today}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
