@@ -957,7 +957,7 @@ public class Const {
         public static final String COURSE_COURSE_ID_EMPTY = "Course ID cannot be empty.";
         public static final String COURSE_COURSE_NAME_EMPTY = "Course name cannot be empty";
         public static final String COURSE_INSTRUCTOR_LIST_EMPTY = "Instructor list cannot be empty";
-        public static final String COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.";
+        public static final String COURSE_INVALID_ID = "Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.";
         public static final String COURSE_STUDENTNAME_INVALID = "Name should only consist of alphanumerics or hyphens, apostrophes, fullstops, "
                 + "commas, slashes, round brackets\nand not more than " + FieldValidator.COURSE_STUDENTNAME_MAX_LENGTH + " characters.";
         public static final String COURSE_TEAMNAME_INVALID = "Team name should contain less than " + FieldValidator.COURSE_TEAMNAME_MAX_LENGTH

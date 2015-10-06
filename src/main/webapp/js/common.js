@@ -91,7 +91,7 @@ var DISPLAY_COURSE_LONG_ID = 'Course ID should not exceed ' +
     COURSE_ID_MAX_LENGTH + ' characters.';
 var DISPLAY_COURSE_LONG_NAME = 'Course name should not exceed ' +
     COURSE_NAME_MAX_LENGTH + ' characters.';
-var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID.';
+var DISPLAY_COURSE_INVALID_ID = 'Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID. Spaces are not allowed for course ID.';
 var DISPLAY_COURSE_COURSE_ID_EMPTY = 'Course ID cannot be empty.';
 var DISPLAY_COURSE_COURSE_NAME_EMPTY = 'Course name cannot be empty';
 
