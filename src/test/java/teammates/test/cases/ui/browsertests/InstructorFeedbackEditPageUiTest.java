@@ -104,6 +104,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testChangeFeedbackRecipient();
 
         testEditQuestionNumberAction();
+        
+        testAjaxOnVisibilityMessageButton();
 
         testDeleteQuestionAction(2);
         testDeleteQuestionAction(1);
@@ -365,6 +367,19 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.verifyEditLabelIsActive(1));
         assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
         assertTrue(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));
+    }
+    
+    private void testAjaxOnVisibilityMessageButton() {
+        ______TS("Failure case: ajax on clicking visibility message button");
+        
+        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
+        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
+        
+        assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
+        String errorMessage = "Visibility preview failed to load.";
+        assertTrue(feedbackEditPage.getPreviewLabel(1).getText().contains(errorMessage));
     }
 
     private void testDeleteQuestionAction(int qnNumber) {
