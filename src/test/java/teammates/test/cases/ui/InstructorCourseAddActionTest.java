@@ -59,7 +59,8 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                                     + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                                     + "Please use only alphabets, numbers, dots, hyphens, underscores and dollar "
-                                    + "signs in course ID.|||/page/instructorCourseAdd";
+                                    + "signs in course ID. Spaces are not allowed for course ID."
+                                    + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
 
         ______TS("Typical case, 1 existing course");
