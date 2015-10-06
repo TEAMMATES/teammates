@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -563,7 +562,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
-        assertEquals(FeedbackContributionQuestionDetails.ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH
+        assertEquals(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH
                      + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
                      result.getStatusMessage());
     }

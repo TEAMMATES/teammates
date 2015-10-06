@@ -574,30 +574,20 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                "<option value=\"CONSTSUM_RECIPIENT\">" + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT + "</option>";
     }
 
-    final int MIN_NUM_OF_CONST_SUM_OPTIONS = 2;
-    final int MIN_NUM_OF_CONST_SUM_POINTS = 1;
-    final String ERROR_NOT_ENOUGH_CONST_SUM_OPTIONS = "Too little options for "+ this.getQuestionTypeDisplayName()+". Minimum number of options is: ";
-    final String ERROR_NOT_ENOUGH_CONST_SUM_POINTS = "Too little points for "+ this.getQuestionTypeDisplayName()+". Minimum number of points is: ";
-    
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if(!distributeToRecipients && numOfConstSumOptions < MIN_NUM_OF_CONST_SUM_OPTIONS){
-            errors.add(ERROR_NOT_ENOUGH_CONST_SUM_OPTIONS + MIN_NUM_OF_CONST_SUM_OPTIONS+".");
+        if(!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS){
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS+".");
         }
         
-        if(points < MIN_NUM_OF_CONST_SUM_POINTS){
-            errors.add(ERROR_NOT_ENOUGH_CONST_SUM_POINTS + MIN_NUM_OF_CONST_SUM_POINTS+".");
+        if(points < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS){
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_POINTS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS+".");
         }
         
         return errors;
     }
 
-    final String ERROR_CONST_SUM_MISMATCH = "Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.";
-    final String ERROR_CONST_SUM_NEGATIVE = "Points given must be 0 or more.";
-    final String ERROR_CONST_SUM_UNIQUE = "Every option must be given a different number of points.";
-    
-    
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
@@ -630,7 +620,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             //Check that all response points are >= 0
             for(Integer i : frd.getAnswerList()){
                 if(i < 0){
-                    errors.add(ERROR_CONST_SUM_NEGATIVE);
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
                     return errors;
                 }
             }
@@ -644,7 +634,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     sum += i;
                 }
                 if(sum != totalPoints || frd.getAnswerList().size() != constSumOptions.size()){
-                    errors.add(ERROR_CONST_SUM_MISMATCH);
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
                     return errors;
                 }
             }
@@ -653,7 +643,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             if (this.forceUnevenDistribution) {
                 for(int i : frd.getAnswerList()){
                     if (answerSet.contains(i)) {
-                        errors.add(ERROR_CONST_SUM_UNIQUE);
+                        errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
                         return errors;
                     }
                     answerSet.add(i);
@@ -661,7 +651,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
         if(distributeToRecipients && sum != totalPoints){
-            errors.add(ERROR_CONST_SUM_MISMATCH + sum + "/" + totalPoints);
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH + sum + "/" + totalPoints);
             return errors;
         }
         

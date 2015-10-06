@@ -732,22 +732,17 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return possibleValuesString;
     }
     
-    final String ERROR_MIN_MAX = "Minimum value must be < maximum value for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
-    final String ERROR_STEP = "Step value must be > 0 for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
-    
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if(minScale >= maxScale){
-            errors.add(ERROR_MIN_MAX);
+            errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX);
         }
         if(step <= 0){
-            errors.add(ERROR_STEP);
+            errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_STEP);
         }
         return errors;
     }
-    
-    final String ERROR_OUT_OF_RANGE = " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
     
     @Override
     public List<String> validateResponseAttributes(
@@ -757,7 +752,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         for(FeedbackResponseAttributes response : responses){
             FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
             if(frd.getAnswer() < minScale || frd.getAnswer() > maxScale){
-                errors.add(frd.getAnswerString() + ERROR_OUT_OF_RANGE + "(min="+minScale+", max="+maxScale+")");
+                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE + "(min="+minScale+", max="+maxScale+")");
             }
             //TODO: strengthen check for step
         }

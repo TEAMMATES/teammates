@@ -15,9 +15,9 @@
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery.min.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery-ui.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
          </script>
          <script src="/js/common.js" type="text/javascript">
          </script>
@@ -103,7 +103,7 @@
                         
                         (
                            <span class="text-info" data-original-title="${test.admin}" data-placement="bottom" data-toggle="tooltip" title="">
-                              ${test.truncatedAdmin}
+                              ${test.admin}
                            </span>
                            )
                         </a>
@@ -171,7 +171,7 @@
             <div class="alert alert-success" id="statusMessage">
                Instructor AHPUiT Instrúctör has been successfully created with join link:
                <br/>
-                              ${app.url}/page/instructorCourseJoin?key={*}&instructorinstitution=TEAMMATES+Test+Institute+1
+                              ${app.url}/page/instructorCourseJoin?key=${regkey.enc}&instructorinstitution=TEAMMATES+Test+Institute+1
             </div>
             <script src="/js/statusMessage.js" type="text/javascript">
             </script>
@@ -188,8 +188,7 @@
                         V${version}]
                      </span>
                   </div>
-                  <div class="col-md-8">
-                  </div>
+                  {*}
                   <div class="col-md-2">
                      <span>
                         [Send

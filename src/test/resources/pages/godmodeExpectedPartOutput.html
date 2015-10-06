@@ -1,39 +1,39 @@
 <div id="mainContent">
     <input type="text" value="">
     <a class="student-profile-pic-view-link btn-link" 
-       data-link=/page/studentProfilePic?studentemail={*}&courseid={*}>
+       data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}">
        View Photo</a>
     <a class="student-profile-pic-view-link btn-link" 
-       data-link=${test.url}/page/studentProfilePic?courseid={*}&studentemail={*}>
+       data-link="${test.url}/page/studentProfilePic?courseid=${course.id.enc}&studentemail=${student.email.enc}">
        View Photo</a>
-    <a class="navLinks" data-unreg="true" href="/page/studentCourseJoinAuthentication?key={*}&">
+    <a class="navLinks" data-unreg="true" href="/page/studentCourseJoinAuthentication?key=${regkey.enc}&">
        Home
     </a>
     <input class="form-control"
         type="text"
         name="start"
         id="start"
-        value="{*}">
-    <p class="form-control-static">{*}</p>
+        value="${today}">
+    <p class="form-control-static">${grace.period.date}</p>
     <input type="hidden"
         name=commentid
-        value="{*}">
+        value="${comment.id}">
     <input
         type="hidden"
         name="questionid"
-        value="{*}">
+        value="${question.id}">
     
     <!-- these must not be changed: -->
     <a class="btn btn-default btn-xs t_course_archive0"
        href="/page/instructorCourseArchive?courseid=testuserm.gma-demo&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=testuser.instructor"
        data-toggle="tooltip" data-placement="top" title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">
-    </a>
-    <input name="end" 
-              value="21/05/2001">
-       <span class="submissionsNumber" id="submissionsNumber">{*}</span>
-              
+   </a>
+   <input name="end" 
+          value="21/05/2001">
+   <span class="submissionsNumber" id="submissionsNumber">${submissions.number}</span>
+    
     <div>
-        ${test.admin}${test.instructor}${test.student1}${test.student2}${test.unreg}${support.email}${app.url}${test.url}
+        ${test.admin}${test.admin}${test.instructor}${test.instructor}${test.student1}${test.student1}${test.student2}${test.student2}${test.unreg}${test.unreg}${support.email}${app.url}${test.url}
     </div>
     
 </div>

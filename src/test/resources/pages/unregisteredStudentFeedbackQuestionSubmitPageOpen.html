@@ -15,9 +15,9 @@
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery.min.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery-ui.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
          </script>
          <script src="/js/common.js" type="text/javascript">
          </script>
@@ -44,7 +44,7 @@
                   Unregistered Charles
                </span>
                . You may submit feedback and view results without logging in. To access other features you need
-               <a class="link" href="/page/studentCourseJoinAuthentication?key={*}&studentemail=unregistered%40gmail.tmt&courseid=SFQSubmitUiT.CS2104">
+               <a class="link" href="/page/studentCourseJoinAuthentication?key=${regkey.enc}&studentemail=unregistered%40gmail.tmt&courseid=SFQSubmitUiT.CS2104">
                   to login using a google account
                </a>
                (recommended).
@@ -52,7 +52,7 @@
             <form action="/page/studentFeedbackQuestionSubmissionEditSave" method="post" name="form_student_submit_response">
                <input name="fsname" type="hidden" value="Open Session"/>
                               <input name="courseid" type="hidden" value="SFQSubmitUiT.CS2104"/>
-                              <input name="key" type="hidden" value="{*}"/>
+                              <input name="key" type="hidden" value="${regkey.enc}"/>
                               <input name="studentemail" type="hidden" value="unregistered@gmail.tmt"/>
                               <div id="statusMessage" style="display: none;">
                </div>
@@ -116,7 +116,7 @@
                </div>
                <br/>
                               <input name="questiontype-1" type="hidden" value="TEXT"/>
-                              <input name="questionid-1" type="hidden" value="{*}"/>
+                              <input name="questionid-1" type="hidden" value="${question.id}"/>
                               <input name="questionresponsetotal-1" type="hidden" value="1"/>
                               <div class="form-horizontal">
                   <div class="panel panel-primary">

@@ -1,7 +1,7 @@
 {
   "accounts": {
     "CCSDetailsUiT.instr": {
-      "googleId": "CCSDetailsUiT.instr",
+      "googleId": "CCSDetailsUiT.instr.veryLongGoogleId",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "CCSDetailsUiT.instr@gmail.tmt",
@@ -43,7 +43,7 @@
 
   "instructors": {
     "CCSDetailsUiT.instr": {
-      "googleId": "CCSDetailsUiT.instr",
+      "googleId": "CCSDetailsUiT.instr.veryLongGoogleId",
       "courseId": "CCSDetailsUiT.CS2104",
       "name": "Teammates Test",
       "email": "CCSDetailsUiT.instr@gmail.tmt",

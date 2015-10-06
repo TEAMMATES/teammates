@@ -15,9 +15,9 @@
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery.min.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery-ui.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
          </script>
          <script src="/js/common.js" type="text/javascript">
          </script>
@@ -104,7 +104,7 @@
                         
                         (
                            <span class="text-info" data-original-title="${test.admin}" data-placement="bottom" data-toggle="tooltip" title="">
-                              ${test.truncatedAdmin}
+                              ${test.admin}
                            </span>
                            )
                         </a>
@@ -286,8 +286,7 @@
                         V${version}]
                      </span>
                   </div>
-                  <div class="col-md-8">
-                  </div>
+                  {*}
                   <div class="col-md-2">
                      <span>
                         [Send

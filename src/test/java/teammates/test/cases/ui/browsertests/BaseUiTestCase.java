@@ -30,6 +30,19 @@ public class BaseUiTestCase extends BaseTestCase {
     }
 
     /**
+     * Do an initial loginAdminToPage (may or may not involve explicit logging in action),
+     * logs out, then logs in again (this time it will be an explicit logging in).
+     * This is to handle the cases in admin UI tests where the admin username has to be the
+     * one specified in <code>${test.admin}</code>.
+     */
+    protected static <T extends AppPage> T loginAdminToPageForAdminUiTests(Browser browser, Url url,
+                                                                           Class<T> typeOfPage) {
+        loginAdminToPage(browser, url, typeOfPage);
+        AppPage.logout(browser);
+        return loginAdminToPage(browser, url, typeOfPage);
+    }
+
+    /**
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
     protected static <T extends AppPage> T loginAdminToPage(Browser browser, Url url, Class<T> typeOfPage) {
