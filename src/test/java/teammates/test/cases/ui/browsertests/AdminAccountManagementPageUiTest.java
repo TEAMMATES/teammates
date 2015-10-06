@@ -1,8 +1,12 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -52,7 +56,10 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         loginToAdminAccountsManagementPage();
         accountsPage.verifyIsCorrectPage();
-        accountsPage.verifyHtml("/adminAccountManagementPage.html"); 
+        assertTrue(accountsPage.isTableVisible());
+        
+        List<String> expectedTableHeaders = Arrays.asList("Account Info", "Instructor for", "Institute", "Create At", "Options");
+        assertEquals(expectedTableHeaders, accountsPage.getTableHeaders());
     }
 
     public void testViewAccountDetailsLink() {
@@ -102,7 +109,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
 
     private void loginToAdminAccountsManagementPage() {
         accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
-        accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
+        accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
+        accountsPage.verifyIsCorrectPage();
     }
 
     @AfterClass

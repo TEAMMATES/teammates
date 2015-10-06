@@ -46,10 +46,10 @@ public class FeedbackResponsesLogic {
     public void createFeedbackResponse(FeedbackResponseAttributes fra) throws InvalidParametersException {
         try {
             frDb.createEntity(fra);
-        } catch (Exception EntityAlreadyExistsException) {
+        } catch (EntityAlreadyExistsException eaee) {
             try {
-                updateFeedbackResponse(fra);
-            } catch (Exception EntityDoesNotExistException) {
+                updateFeedbackResponse(fra, (FeedbackResponse) eaee.existingEntity);
+            } catch (EntityAlreadyExistsException entityAlreadyExistsException) {
                 Assumption.fail();
             }
         }
@@ -421,13 +421,38 @@ public class FeedbackResponsesLogic {
                     "Trying to update a feedback response that does not exist.");
         }
 
+        updateFeedbackResponse(newResponse, oldResponseEntity);
+    }
+
+    /**
+     * Updates a {@link FeedbackResponse} using a {@link FeedbackResponseAttributes} <br>
+     * If the giver/recipient field is changed, the {@link FeedbackResponse} is
+     * updated by recreating the response<br>
+     * in order to prevent an id clash if the previous email is reused later on.
+     * @param updatedResponse 
+     * @param oldResponseEntity  a FeedbackResponse retrieved from the database 
+     * @throws EntityAlreadyExistsException  if trying to prevent an id clash by recreating a response,
+     *                                       a response with the same id already exist. 
+     * @throws InvalidParametersException               
+     */
+    public void updateFeedbackResponse(
+                        FeedbackResponseAttributes updatedResponse,
+                        FeedbackResponse oldResponseEntity)
+                                throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(oldResponseEntity);
+        
+        // Create a copy.
+        FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(updatedResponse);
+        
+        FeedbackResponseAttributes oldResponse = new FeedbackResponseAttributes(oldResponseEntity);
+
         // Copy values that cannot be changed to defensively avoid invalid
         // parameters.
         newResponse.courseId = oldResponse.courseId;
         newResponse.feedbackSessionName = oldResponse.feedbackSessionName;
         newResponse.feedbackQuestionId = oldResponse.feedbackQuestionId;
         newResponse.feedbackQuestionType = oldResponse.feedbackQuestionType;
-
+        
         if (newResponse.responseMetaData == null) {
             newResponse.responseMetaData = oldResponse.responseMetaData;
         }
@@ -443,23 +468,34 @@ public class FeedbackResponsesLogic {
         if (newResponse.recipientSection == null) {
             newResponse.recipientSection = oldResponse.recipientSection;
         }
-
-        if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) ||
-                !newResponse.giverEmail.equals(oldResponse.giverEmail)) {
+    
+        if (!newResponse.recipientEmail.equals(oldResponse.recipientEmail) 
+            || !newResponse.giverEmail.equals(oldResponse.giverEmail)) {
             // Recreate response to prevent possible future id conflict.
-            try {
-                newResponse.setId(null);
-                frDb.createEntity(newResponse);
-                frDb.deleteEntity(oldResponse);
-            } catch (EntityAlreadyExistsException e) {
-                log.warning("Trying to update an existing response to one that already exists.");
-                throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
-            }
+            recreateResponse(newResponse, oldResponse);
         } else {
-            frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
+            try {
+                frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail();
+            }
         }
     }
 
+    private void recreateResponse(FeedbackResponseAttributes newResponse,
+                                    FeedbackResponseAttributes oldResponse)
+                                    throws InvalidParametersException, EntityAlreadyExistsException {
+        try {
+            newResponse.setId(null);
+            frDb.createEntity(newResponse);
+            frDb.deleteEntity(oldResponse);
+        } catch (EntityAlreadyExistsException e) {
+            log.warning("Trying to update an existing response to one that already exists.");
+            throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
+        }
+    }
+
+    
     /**
      * Updates responses for a student when his team changes. This is done by
      * deleting responses that are no longer relevant to him in his new team.

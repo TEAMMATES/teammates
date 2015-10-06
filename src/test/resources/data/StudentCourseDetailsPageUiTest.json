@@ -15,7 +15,7 @@
       "institute": "TEAMMATES Test Institute 1"
     },
     "SCDetailsUiT.alice": {
-      "googleId": "SCDetailsUiT.alice",
+      "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
       "email": "SCDetailsUiT.alice@gmail.tmt",
       "name": "Alice Betsy",
       "isInstructor": false,
@@ -68,7 +68,7 @@
   
   "students": {
     "SCDetailsUiT.alice": {
-      "googleId": "SCDetailsUiT.alice",
+      "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
       "email": "SCDetailsUiT.alice@gmail.tmt",
       "course": "SCDetailsUiT.CS2104",
       "name": "Alice Betsy",

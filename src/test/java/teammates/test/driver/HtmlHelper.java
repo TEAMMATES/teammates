@@ -17,8 +17,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.test.pageobjects.AppPage;
 
 public class HtmlHelper {
@@ -121,7 +119,6 @@ public class HtmlHelper {
         htmlString = htmlString.replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         htmlString = htmlString.replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
         htmlString = htmlString.replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
-        htmlString = htmlString.replace("${test.truncatedAdmin}", StringHelper.truncate(TestProperties.inst().TEST_ADMIN_ACCOUNT, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH));
         htmlString = htmlString.replace("${support.email}", Config.SUPPORT_EMAIL);
         htmlString = htmlString.replace("${app.url}", Config.APP_URL);
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
