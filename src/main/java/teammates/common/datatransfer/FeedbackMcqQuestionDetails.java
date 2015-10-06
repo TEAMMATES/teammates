@@ -481,24 +481,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "<option value = \"MCQ\">"+Const.FeedbackQuestionTypeNames.MCQ+"</option>";
     }
 
-    final int MIN_NUM_OF_MCQ_CHOICES = 2;
-    final String ERROR_NOT_ENOUGH_MCQ_CHOICES = "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ 
-                                                      + ". Minimum number of options is: ";
-    
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         if (generateOptionsFor == FeedbackParticipantType.NONE &&
-                numOfMcqChoices < MIN_NUM_OF_MCQ_CHOICES){
-            errors.add(ERROR_NOT_ENOUGH_MCQ_CHOICES + MIN_NUM_OF_MCQ_CHOICES + ".");
+                numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES){
+            errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
         }
         //TODO: check that mcq options do not repeat. needed?
         
         return errors;
     }
 
-    final String ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
-    
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
@@ -510,7 +504,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             
             if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE) {
                 if (!mcqChoices.contains(frd.getAnswerString())) {
-                    errors.add(frd.getAnswerString() + ERROR_INVALID_OPTION);
+                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
                 }
             }
         }

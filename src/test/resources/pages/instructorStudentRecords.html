@@ -15,9 +15,9 @@
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery.min.js" type="text/javascript">
          </script>
-         <script src="{*}/jquery-ui.min.js" type="text/javascript">
+         <script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
          </script>
          <script src="/js/common.js" type="text/javascript">
          </script>
@@ -391,7 +391,7 @@
                                                                                        </div>
                                        </div>
                                        <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit"/>
-                                                                              <input name="commentid" type="hidden" value="{*}"/>
+                                                                              <input name="commentid" type="hidden" value="${comment.id}"/>
                                                                               <input name="courseid" type="hidden" value="ISR.CS2104"/>
                                                                               <input name="commentpage" type="hidden" value="false"/>
                                                                               <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.tmt"/>
@@ -553,7 +553,7 @@
                                                                                        </div>
                                        </div>
                                        <input id="commentedittype-2" name="commentedittype" type="hidden" value="edit"/>
-                                                                              <input name="commentid" type="hidden" value="{*}"/>
+                                                                              <input name="commentid" type="hidden" value="${comment.id}"/>
                                                                               <input name="courseid" type="hidden" value="ISR.CS2104"/>
                                                                               <input name="commentpage" type="hidden" value="false"/>
                                                                               <input name="studentemail" type="hidden" value="benny.c.tmms@gmail.tmt"/>
@@ -748,23 +748,23 @@
                                                 </div>
                                              </div>
                                              <ul class="list-group" id="responseCommentTable-0-1-1-GRQ" style="margin-top:15px;">
-                                                <li class="list-group-item list-group-item-warning" id="responseCommentRow-{*}">
-                                                   <div id="commentBar-{*}">
+                                                <li class="list-group-item list-group-item-warning" id="responseCommentRow-${comment.id}">
+                                                   <div id="commentBar-${comment.id}">
                                                       <span class="text-muted">
                                                          From: teammates.test@gmail.tmt [Tue, 01 Mar 2016, 23:59:00 UTC] (last edited by teammates.test@gmail.tmt at Wed, 02 Mar 2016, 23:59:00 UTC)
                                                       </span>
                                                    </div>
-                                                   <div id="plainCommentText-{*}" style="margin-left: 15px;">
+                                                   <div id="plainCommentText-${comment.id}" style="margin-left: 15px;">
                                                       Instructor first comment to Alice about feedback to Benny
                                                    </div>
                                                 </li>
-                                                <li class="list-group-item list-group-item-warning" id="responseCommentRow-{*}">
-                                                   <div id="commentBar-{*}">
+                                                <li class="list-group-item list-group-item-warning" id="responseCommentRow-${comment.id}">
+                                                   <div id="commentBar-${comment.id}">
                                                       <span class="text-muted">
                                                          From: teammates.test@gmail.tmt [Wed, 02 Mar 2016, 23:59:00 UTC]
                                                       </span>
                                                    </div>
-                                                   <div id="plainCommentText-{*}" style="margin-left: 15px;">
+                                                   <div id="plainCommentText-${comment.id}" style="margin-left: 15px;">
                                                       Instructor second comment to Alice about feedback to Benny
                                                    </div>
                                                 </li>

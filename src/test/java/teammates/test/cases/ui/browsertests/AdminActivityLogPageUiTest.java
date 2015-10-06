@@ -4,12 +4,15 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import java.util.Calendar;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.AdminActivityLogPage;
 import teammates.test.pageobjects.Browser;
@@ -27,7 +30,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testAll(){
+    public void testAll() throws Exception {
         testContent();
         testUserTimezone();
         testReference();
@@ -49,7 +52,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         
     }
 
-    public void testContent() {
+    public void testContent() throws Exception {
         
         ______TS("content: typical page");
         
@@ -69,6 +72,14 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertNotNull(logPage.getFirstActivityLogRow());
         assertTrue(logPage.isLogsTableVisible());
         assertEquals(2, logPage.getNumberOfTableHeaders());
+        
+        ______TS("content: ensure default search period is not more than one day");
+        Calendar yesterday = TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+        
+        assertTrue(logPage.getDateOfEarliestLog()
+                                        .after(yesterday.getTime()));
+
     }
     
     

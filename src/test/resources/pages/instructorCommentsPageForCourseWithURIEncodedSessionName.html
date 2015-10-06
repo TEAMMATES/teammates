@@ -346,7 +346,7 @@
                                                                      </div>
                               </div>
                               <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit"/>
-                                                            <input name="commentid" type="hidden" value="{*}"/>
+                                                            <input name="commentid" type="hidden" value="${comment.id}"/>
                                                             <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
                                                             <input name="commentpage" type="hidden" value="true"/>
                                                             <input name="showcommentsto" type="hidden" value="TEAM"/>
@@ -423,8 +423,8 @@
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary">
                                                 </span>
                                              </a>
-                                             <input name="responseid" type="hidden" value="{*}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
-                                                                                          <input name="responsecommentid" type="hidden" value="{*}"/>
+                                             <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
+                                                                                          <input name="responsecommentid" type="hidden" value="${comment.id}"/>
                                                                                           <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
                                                                                           <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
                                                                                           <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
@@ -510,8 +510,8 @@
                                              </a>
                                              <input class="btn btn-default" onclick="return hideResponseCommentEditForm(1,1,1,1);" type="button" value="Cancel"/>
                                                                                        </div>
-                                          <input name="responsecommentid" type="hidden" value="{*}"/>
-                                                                                    <input name="responseid" type="hidden" value="{*}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
+                                          <input name="responsecommentid" type="hidden" value="${comment.id}"/>
+                                                                                    <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
                                                                                     <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
                                                                                     <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
                                                                                     <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
@@ -592,8 +592,8 @@
                                              </a>
                                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1);" type="button" value="Cancel"/>
                                                                                        </div>
-                                          <input name="questionid" type="hidden" value="{*}"/>
-                                                                                    <input name="responseid" type="hidden" value="{*}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
+                                          <input name="questionid" type="hidden" value="${question.id}"/>
+                                                                                    <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
                                                                                     <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
                                                                                     <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
                                                                                     <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
