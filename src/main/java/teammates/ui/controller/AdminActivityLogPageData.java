@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
@@ -285,18 +286,18 @@ public class AdminActivityLogPageData extends PageData {
                 
             } else if (label.equals("from")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+                sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
                 Date d = sdf.parse(values[0] + " 00:00");                
-                Calendar cal = Calendar.getInstance();
+                Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 fromDateValue = cal.getTime().getTime();
                 
             } else if (label.equals("to")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");                
-                Calendar cal = Calendar.getInstance();
+                sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
+                Date d = sdf.parse(values[0] + " 23:59");
+                Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
                 toDateValue = cal.getTime().getTime();       
                 
             } else {
