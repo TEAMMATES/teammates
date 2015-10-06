@@ -263,7 +263,7 @@ public class Const {
         public static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for "+Const.FeedbackQuestionTypeNames.NUMSCALE+".";
         public static final String NUMSCALE_ERROR_OUT_OF_RANGE = " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
         
-        // Contrib
+        // Contribution
         public static final String CONTRIB_ERROR_INVALID_OPTION = "Invalid option for the " + Const.FeedbackQuestionTypeNames.CONTRIB + ".";
         public static final String CONTRIB_ERROR_INVALID_FEEDBACK_PATH = 
                 Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
@@ -272,7 +272,7 @@ public class Const {
                 + " as the feedback giver and recipient respectively."
                 + " These values will be used instead.";
         
-        // Const sum
+        // Constant sum
         public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
         public static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
         public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS = "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION + ". Minimum number of options is: ";
@@ -281,31 +281,6 @@ public class Const {
         public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
     
-        public static final List<String> CONTRIBUTION_OPTIONS = Arrays.asList(
-                "0%",
-                EQUAL_SHARE+ " - 90%",
-                EQUAL_SHARE+ " - 80%",
-                EQUAL_SHARE+ " - 70%",
-                EQUAL_SHARE+ " - 60%",
-                EQUAL_SHARE+ " - 50%",
-                EQUAL_SHARE+ " - 40%",
-                EQUAL_SHARE+ " - 30%",
-                EQUAL_SHARE+ " - 20%",
-                EQUAL_SHARE+ " - 10%",
-                EQUAL_SHARE,
-                EQUAL_SHARE+ " + 10%",
-                EQUAL_SHARE+ " + 20%",
-                EQUAL_SHARE+ " + 30%",
-                EQUAL_SHARE+ " + 40%",
-                EQUAL_SHARE+ " + 50%",
-                EQUAL_SHARE+ " + 60%",
-                EQUAL_SHARE+ " + 70%",
-                EQUAL_SHARE+ " + 80%",
-                EQUAL_SHARE+ " + 90%",
-                EQUAL_SHARE+ " + 100%",
-                NOT_SURE,
-                NOT_SUBMITTED);
-        
         // Rubric
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of options is: ";
@@ -1228,35 +1203,6 @@ public class Const {
      */
     @SuppressWarnings("unused")
     private void _______other_constants________________________(){}
-    
-    //Used for Feedback CONTRIBUTION question
-    public static final String EQUAL_SHARE = "Equal Share";
-    public static final String NOT_SURE = "Not Sure";
-    public static final String NOT_SUBMITTED = "";
-    public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(
-            "0%",
-            EQUAL_SHARE+ " - 90%",
-            EQUAL_SHARE+ " - 80%",
-            EQUAL_SHARE+ " - 70%",
-            EQUAL_SHARE+ " - 60%",
-            EQUAL_SHARE+ " - 50%",
-            EQUAL_SHARE+ " - 40%",
-            EQUAL_SHARE+ " - 30%",
-            EQUAL_SHARE+ " - 20%",
-            EQUAL_SHARE+ " - 10%",
-            EQUAL_SHARE,
-            EQUAL_SHARE+ " + 10%",
-            EQUAL_SHARE+ " + 20%",
-            EQUAL_SHARE+ " + 30%",
-            EQUAL_SHARE+ " + 40%",
-            EQUAL_SHARE+ " + 50%",
-            EQUAL_SHARE+ " + 60%",
-            EQUAL_SHARE+ " + 70%",
-            EQUAL_SHARE+ " + 80%",
-            EQUAL_SHARE+ " + 90%",
-            EQUAL_SHARE+ " + 100%",
-            NOT_SURE,
-            NOT_SUBMITTED);
     
     public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
     public static enum StatusMessageColor{INFO, SUCCESS, WARNING, DANGER};
