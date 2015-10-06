@@ -2,6 +2,10 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -113,5 +117,14 @@ public class AdminActivityLogPage extends AppPage {
     public boolean isUserTimezoneAtFirstRowClicked() {
         List<WebElement> elements = browser.driver.findElements(By.cssSelector("#first-row > td > span > mark"));
         return !elements.isEmpty();
+    }
+
+    public Date getDateOfEarliestLog() throws ParseException {
+        String dateFormat = "dd-MM-yyyy HH:mm:ss";
+        DateFormat sdf = new SimpleDateFormat(dateFormat);
+        String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > span > a")).getText();
+        
+        return sdf.parse(dateTimeString);
+        
     }
 }

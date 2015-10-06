@@ -85,7 +85,7 @@ public class AdminActivityLogPageAction extends Action {
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
         
-        LogQuery query = buildQuery(offset, data.getVersions());
+        LogQuery query = buildQuery(offset, data);
         
         List<ActivityLogEntry> logs = getAppLogs(query, data);
         
@@ -98,12 +98,15 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    private LogQuery buildQuery(String offset, List<String> versions) {
+    private LogQuery buildQuery(String offset, AdminActivityLogPageData data) {
         LogQuery query = LogQuery.Builder.withDefaults();
+        List<String> versions = data.getVersions();
         
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
         query.minLogLevel(LogLevel.INFO);
+        query.startTimeMillis(data.getFromDate());
+        query.endTimeMillis(data.getToDate());
         
         try {
             query.majorVersionIds(getVersionIdsForQuery(versions));
