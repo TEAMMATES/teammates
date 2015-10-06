@@ -52,7 +52,7 @@
             <form action="/page/studentFeedbackQuestionSubmissionEditSave" method="post" name="form_student_submit_response">
                <input name="fsname" type="hidden" value="Open Session"/>
                               <input name="courseid" type="hidden" value="SFQSubmitUiT.CS2104"/>
-                              <input name="key" type="hidden" value="{*}"/>
+                              <input name="key" type="hidden" value="${regkey.enc}"/>
                               <input name="studentemail" type="hidden" value="unregistered@gmail.tmt"/>
                               <div id="statusMessage" style="display: none;">
                </div>
@@ -116,7 +116,7 @@
                </div>
                <br/>
                               <input name="questiontype-1" type="hidden" value="TEXT"/>
-                              <input name="questionid-1" type="hidden" value="{*}"/>
+                              <input name="questionid-1" type="hidden" value="${question.id}"/>
                               <input name="questionresponsetotal-1" type="hidden" value="1"/>
                               <div class="form-horizontal">
                   <div class="panel panel-primary">
