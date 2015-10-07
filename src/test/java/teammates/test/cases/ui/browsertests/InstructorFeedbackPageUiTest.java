@@ -101,6 +101,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testMiscellaneous() throws Exception {
+        testAjaxErrorForLoadingSessionList();
         testValidationReload();
         testJScripts();
     }
@@ -633,6 +634,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
         
+    }
+
+    private void testAjaxErrorForLoadingSessionList() {
+        feedbackPage.changeUserIdInAjaxForSessionsForm("InvalidUserId");
+        feedbackPage.reloadSessionsList();
+        feedbackPage.waitForAjaxLoaderGifToDisappear();
+        assertTrue(feedbackPage.getStatus().contains("Failed to load sessions."));
     }
     
     public void testJScripts() throws ParseException{

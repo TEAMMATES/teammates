@@ -594,4 +594,14 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameInput, newName);
     }
+    
+    public void changeUserIdInAjaxForSessionsForm(String newUserId) {
+        String script = "$('#ajaxForSessions [name=\"user\"]').val('" + newUserId + "')";
+        ((JavascriptExecutor) browser.driver).executeScript(script);
+    }
+    
+    public void reloadSessionsList() {
+        ((JavascriptExecutor) browser.driver).executeScript("isSessionsAjaxSending = false");
+        ((JavascriptExecutor) browser.driver).executeScript("$('#ajaxForSessions').submit()");
+    }
 }
