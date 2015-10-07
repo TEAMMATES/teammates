@@ -808,8 +808,6 @@ function getVisibilityMessage(buttonElem) {
         $formVisibility.show();
         return;
     }
-    // update stored form data
-    previousFormDataMap[qnNumber] = formData;
 
     // empty current visibility message in the form
     $formVisibility.html('');
@@ -820,14 +818,34 @@ function getVisibilityMessage(buttonElem) {
         url: url,
         data: formData,
         success: function(data) {
+            updateVisibilityMessageButton($form, true);
+            
+            // update stored form data
+            previousFormDataMap[qnNumber] = formData;
+            
             $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
             $formVisibility.show();
             $formOptions.hide();
         },
         error: function(jqXHR, textStatus, errorThrown) {
-
+            updateVisibilityMessageButton($form, false);
+            $form.find('.visibilityOptionsLabel').click();
         }
     });    
+}
+
+function updateVisibilityMessageButton($form, isLoadSuccessful) {
+    var visibilityButton = $form.find('.visibilityMessageButton');
+    
+    var radioInput = visibilityButton.find('input[type="radio"]');
+    var icon = '<span class="glyphicon glyphicon-'
+               + (isLoadSuccessful ? 'eye-open' : 'warning-sign')
+               + '"></span>';
+    var message = isLoadSuccessful ? 'Preview Visibility'
+                                   : 'Visibility preview failed to load. Click here to retry.';
+    
+    visibilityButton.html(icon + ' ' + message)
+                    .prepend(radioInput);
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {

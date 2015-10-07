@@ -808,4 +808,15 @@ public class InstructorFeedbackEditPage extends AppPage {
                                          + "-" + questionNumber))
                       .click();
     }
+    
+    public void changeQuestionTypeInForm(int questionNumber, String newQuestionType) {
+        String selector = "$('#form_editquestion-" + questionNumber + "').find('[name=\"questiontype\"]')";
+        String action = ".val('" + newQuestionType + "')";
+        ((JavascriptExecutor) browser.driver).executeScript(selector + action);
+    }
+    
+    public void waitForAjaxErrorOnVisibilityMessageButton(int questionNumber) {
+        By buttonSelector = By.cssSelector("#visibilityMessageButton-" + questionNumber + " .active");
+        waitForElementToDisappear(buttonSelector);
+    }
 }
