@@ -233,6 +233,17 @@ public abstract class AppPage {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
+
+    /**
+     * Waits for the element to appear in the page, up to the timeout specified and can
+     * return early if the expected conditions has happened
+     * @param by
+     * @param timeToImplicitlyWaitInSeconds
+     */
+    public void waitForElementPresence(By by, int timeToImplicitlyWaitInSeconds) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, timeToImplicitlyWaitInSeconds);
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
     
     /**
      * Switches to the new browser window just opened.
