@@ -110,14 +110,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
     private void loginToAdminAccountsManagementPage() {
         accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
         accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
-
-        boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty("isDevEnvironment"));
-
-        // On non-dev environments, page can take a long time to load
-        if (!isDevEnvironment) {
-            accountsPage.waitForPageToFinishLoadingOnNonDevEnvironment();
-        }
-
+        accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
         accountsPage.verifyIsCorrectPage();
     }
 
