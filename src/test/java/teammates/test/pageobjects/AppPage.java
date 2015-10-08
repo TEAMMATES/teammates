@@ -813,7 +813,7 @@ public abstract class AppPage {
                 
                 // maintain order for the two below
                 // regkey in unreg student page
-                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.REGKEY+"\" ?|value=\"([a-zA-Z0-9-_]){1,}\" ?){3}","name=\""+Const.ParamsNames.REGKEY+"\" type=\"hidden\" value=\"\\${regkey\\.enc}\"")
+                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.REGKEY+"\" ?|value=\"([a-zA-Z0-9-_]){50,}\" ?){3}","name=\""+Const.ParamsNames.REGKEY+"\" type=\"hidden\" value=\"\\${regkey\\.enc}\"")
                 // questionid
                 .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"\\${question\\.id}\"")
                 
