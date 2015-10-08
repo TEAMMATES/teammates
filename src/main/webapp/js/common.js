@@ -542,7 +542,7 @@ function appendStatusMessage(message, error) {
     if (message.trim() === '') {
         return;
     }
-    const currentContent = $(DIV_STATUS_MESSAGE).html();
+    var currentContent = $(DIV_STATUS_MESSAGE).html();
     if (currentContent.trim() !== '') {
         $(DIV_STATUS_MESSAGE).html(currentContent + '<br/>' + message);    
     } else {
