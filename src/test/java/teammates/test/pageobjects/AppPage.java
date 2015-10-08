@@ -812,13 +812,13 @@ public abstract class AppPage {
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
                 
                 // maintain order for the two below
-                // questionid
-                .replaceAll("value=\"([a-zA-Z0-9-_]){62,}\"","value=\"\\${question\\.id}\"")
                 // regkey in unreg student page
-                .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"\\${regkey\\.enc}\"")
+                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.REGKEY+"\" ?|value=\"([a-zA-Z0-9-_]){50,}\" ?){3}","name=\""+Const.ParamsNames.REGKEY+"\" type=\"hidden\" value=\"\\${regkey\\.enc}\"")
+                // questionid
+                .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"\\${question\\.id}\"")
                 
                 //questionid regex in responseid
-                .replaceAll("\"([a-zA-Z0-9-_]){62,}%", "\"\\${question\\.id}%")
+                .replaceAll("\"([a-zA-Z0-9-_]){50,}%", "\"\\${question\\.id}%")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"\\${comment\\.id}\\\"")
                 // comment div ids (added after standardization)
