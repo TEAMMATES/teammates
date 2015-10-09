@@ -808,17 +808,17 @@ public abstract class AppPage {
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "=\\${course\\.id\\.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}")
                 //regkey in urls
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){50,}", Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
-                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){10,}", Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
+                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){10,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
                 
                 // maintain order for the two below
                 // regkey in unreg student page
-                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.REGKEY+"\" ?|value=\"([a-zA-Z0-9-_]){50,}\" ?){3}","name=\""+Const.ParamsNames.REGKEY+"\" type=\"hidden\" value=\"\\${regkey\\.enc}\"")
+                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.REGKEY+"\" ?|value=\"([a-zA-Z0-9-_]){10,}\" ?){3}","name=\""+Const.ParamsNames.REGKEY+"\" type=\"hidden\" value=\"\\${regkey\\.enc}\"")
                 // questionid
-                .replaceAll("value=\"([a-zA-Z0-9-_]){50,}\"","value=\"\\${question\\.id}\"")
+                .replaceAll("value=\"([a-zA-Z0-9-_]){40,}\"","value=\"\\${question\\.id}\"")
                 
                 //questionid regex in responseid
-                .replaceAll("\"([a-zA-Z0-9-_]){50,}%", "\"\\${question\\.id}%")
+                .replaceAll("\"([a-zA-Z0-9-_]){40,}%", "\"\\${question\\.id}%")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"\\${comment\\.id}\\\"")
                 // comment div ids (added after standardization)
