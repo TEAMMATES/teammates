@@ -42,6 +42,7 @@ $(document).ready(function() {
         form.find('input[name="showrecipientto"]').val(visibilityOptions.toString());
     });
 
+    readyStudentRecordsPage();
 });
 
 /**
