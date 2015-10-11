@@ -620,7 +620,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertFalse(reportUrl.equals(afterReportDownloadUrl));
         // Get an error page due to missing parameters in URL
-        assertEquals(true, afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        // If admin is an instructor, expected url is InstructorHomePage
+        //                 otherwise, expected url is unauthorised.jsp
+        assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
+                   afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                   || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
 
         // return to the previous page
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
