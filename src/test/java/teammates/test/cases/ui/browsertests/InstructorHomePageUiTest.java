@@ -250,7 +250,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("remind action: OPEN feedback session - inner button");
-        
+
+        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
         homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
         homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
