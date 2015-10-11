@@ -272,6 +272,16 @@ h2.subcaption {
     color: gray;
 }
 
+.coreTeamDetailsCell{
+	vertical-align: middle; 
+	padding-left:10px;
+}
+
+.coreTeamPhotoCell{
+	padding-left:35px;
+	padding-bottom:5px;
+}
+
 #footer {
    background-color: black;
    clear: both;
