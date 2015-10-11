@@ -29,6 +29,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
@@ -43,6 +44,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.googleSendgridJava.Sendgrid;
+import teammates.logic.api.GateKeeper;
 
 /**
  * Handles operations related to sending e-mails.
@@ -614,6 +616,15 @@ public class Emails {
     
         String emailBody = EmailTemplates.SYSTEM_ERROR;
         
+        UserType userType = GateKeeper.inst().getCurrentUser();
+        String actualUser = "Not logged in";
+        if (userType != null && userType.id != null) {
+            actualUser = userType.id;
+        }
+        
+        
+        
+        emailBody = emailBody.replace("${actualUser}", actualUser);
         emailBody = emailBody.replace("${requestMethod}", requestMethod);
         emailBody = emailBody.replace("${requestUserAgent}", requestUserAgent);
         emailBody = emailBody.replace("${requestUrl}", requestUrl);
