@@ -56,7 +56,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         emailPage.inputSubject("Email Subject");
         emailPage.inputContent("Email Content");
         emailPage.clickSendButton();
-        assertTrue(hasStatusMessageRecipientEmailFormatError());
+        assertTrue(hasStatusMessageRecipientEmailFormatError("recipient"));
         
         ______TS("send email - no subject");
         
@@ -109,12 +109,12 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         return emailPage.getStatus().equals("Error : No reciver address or file given");
     }
     
-    private boolean hasStatusMessageRecipientEmailFormatError() {
-        return emailPage.getStatus().contains("\"recipient\" is not acceptable to TEAMMATES as an email "
-                                            + "because it is not in the correct format. An email address "
-                                            + "contains some text followed by one '@' sign followed by "
-                                            + "some more text. It cannot be longer than 45 characters. "
-                                            + "It cannot be empty and it cannot have spaces.");
+    private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
+        return emailPage.getStatus().contains("\"" + recipientName + "\" is not acceptable to TEAMMATES as an email "
+                                                + "because it is not in the correct format. An email address "
+                                                + "contains some text followed by one '@' sign followed by "
+                                                + "some more text. It cannot be longer than 45 characters. "
+                                                + "It cannot be empty and it cannot have spaces.");
     }
     
     private boolean hasStatusMessageNoSubject() {
