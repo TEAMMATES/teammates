@@ -81,7 +81,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
                                         .after(yesterday.getTime()));
         
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
-        assertTrue(logPage.getStatus().contains("The earliest log shown on"));
+        assertTrue(logPage.getStatus().contains("The earliest log entry checked on"));
         assertTrue(logPage.getStatus().contains("in Admin Time Zone and on"));
         assertTrue(logPage.getStatus().contains("in Local Time Zone."));
     }

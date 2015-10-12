@@ -181,6 +181,7 @@ public class AdminActivityLogPageAction extends Action {
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
         boolean isFirstRow = true;
+        ActivityLogEntry earliestLogChecked = null;
         for (RequestLogs record : records) {
             
             totalLogsSearched ++;
@@ -203,8 +204,9 @@ public class AdminActivityLogPageAction extends Action {
                 String logMsg = appLog.getLogMessage();
                 if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
                     ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
+                    earliestLogChecked = activityLogEntry;
                     activityLogEntry = data.filterLogs(activityLogEntry);
-
+                    
                     if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
                         appLogs.add(activityLogEntry);
                         if (isFirstRow) {
@@ -219,22 +221,21 @@ public class AdminActivityLogPageAction extends Action {
         
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         
-        ActivityLogEntry earliestLog = getEarliestLog(appLogs);
-        if (earliestLog != null) {
-            String userGoogleId = earliestLog.getId();
-            String userRole = earliestLog.getRole();
+        if (earliestLogChecked != null) {
+            String userGoogleId = earliestLogChecked.getId();
+            String userRole = earliestLogChecked.getRole();
             
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
             sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
             
             TimeZone adminTimeZone = TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE);
             Calendar adminTimezoneCalendar = Calendar.getInstance(adminTimeZone);
-            adminTimezoneCalendar.setTimeInMillis(earliestLog.getTime());
+            adminTimezoneCalendar.setTimeInMillis(earliestLogChecked.getTime());
             
             String timeInAdminTimeZone = sdf.format(adminTimezoneCalendar.getTime());
-            String timeInUserTimeZone = getLocalTimeInfo(userGoogleId, userRole, String.valueOf(earliestLog.getTime()));
+            String timeInUserTimeZone = getLocalTimeInfo(userGoogleId, userRole, String.valueOf(earliestLogChecked.getTime()));
             
-            status += "The earliest log shown on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone and on <b>" + timeInUserTimeZone + "</b> in Local Time Zone.<br>";
+            status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone and on <b>" + timeInUserTimeZone + "</b> in Local Time Zone.<br>";
             
         }
         
@@ -259,17 +260,6 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
     
-    
-    private ActivityLogEntry getEarliestLog(List<ActivityLogEntry> appLogs) {
-        ActivityLogEntry earliestLog = null;
-        for (ActivityLogEntry log : appLogs) {
-            if ((earliestLog == null) || ((earliestLog.getTime() > log.getTime()) && (log.toShow()))) {
-                earliestLog = log;
-            }
-        }
-        return earliestLog;
-    }
-
     /*
      * Functions used to load local time for activity log using AJAX
      */
