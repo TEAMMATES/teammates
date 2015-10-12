@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -336,6 +337,16 @@ public class InstructorCourseEditPage extends AppPage {
                         + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
+    }
+    
+    public void changeCourseIdInForm(int instrNum, String newCourseId) {
+        String selector = "$('#edit-" + instrNum + "').find('[name=\"courseid\"]')";
+        String action = ".val('" + newCourseId + "')";
+        ((JavascriptExecutor) browser.driver).executeScript(selector + action);
+    }
+    
+    public WebElement getFirstEditInstructorLink() {
+        return editInstructorLink;
     }
 
 }
