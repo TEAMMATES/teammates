@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
