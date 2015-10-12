@@ -22,9 +22,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AdminEmailPage emailPage;
     
-    public static final int ADMIN_EMAIL_SENT_TABLE_NUM_COLUMNS = 5;
-    public static final int ADMIN_EMAIL_DRAFT_TABLE_NUM_COLUMNS = 5;
-    public static final int ADMIN_EMAIL_TRASH_TABLE_NUM_COLUMNS = 5;
+    public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
     @BeforeClass
     public static void classSetup() throws Exception {
