@@ -1,5 +1,13 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,6 +20,10 @@ import teammates.test.pageobjects.BrowserPool;
 public class AdminEmailPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static AdminEmailPage emailPage;
+    
+    public static final int ADMIN_EMAIL_SENT_TABLE_NUM_COLUMNS = 5;
+    public static final int ADMIN_EMAIL_DRAFT_TABLE_NUM_COLUMNS = 5;
+    public static final int ADMIN_EMAIL_TRASH_TABLE_NUM_COLUMNS = 5;
 
     @BeforeClass
     public static void classSetup() throws Exception {
