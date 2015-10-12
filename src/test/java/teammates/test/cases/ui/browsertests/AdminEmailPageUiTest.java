@@ -43,7 +43,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         
         emailPage = loginAdminToPageForAdminUiTests(
                         browser, createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
-        assertTrue(isEmailComposePageCorrect());
+        assertTrue(isEmailComposeElementsPresent());
         
         ______TS("send email - no recipient");
         
@@ -96,7 +96,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         assertTrue(isEmailTrashDataDisplayCorrect());
     }
     
-    private boolean isEmailComposePageCorrect() {
+    private boolean isEmailComposeElementsPresent() {
         return emailPage.isElementPresent(By.id("addressReceiverEmails"))
             && emailPage.isElementPresent(By.name("emailsubject"))
             && emailPage.isElementPresent(By.className("mce-tinymce"))
