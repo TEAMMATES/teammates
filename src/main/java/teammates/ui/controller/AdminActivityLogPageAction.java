@@ -224,7 +224,7 @@ public class AdminActivityLogPageAction extends Action {
             String userGoogleId = earliestLog.getId();
             String userRole = earliestLog.getRole();
             
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
             sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
             
             TimeZone adminTimeZone = TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE);
