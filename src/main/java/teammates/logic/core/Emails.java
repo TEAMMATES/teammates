@@ -373,7 +373,7 @@ public class Emails {
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(fs.endTime));
+                TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -418,7 +418,7 @@ public class Emails {
         emailBody = emailBody.replace("${courseId}", c.id);
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(fs.endTime));
+                TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
         
         String submitUrl = "{The student's unique submission url appears here}";
@@ -453,7 +453,7 @@ public class Emails {
         emailBody = emailBody.replace("${courseId}", c.id);
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(fs.endTime));
+                TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = Config.APP_URL

@@ -188,14 +188,23 @@ public class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd MMM yyyy, hh:mm. Example: 05 May 2012,
+     * Formats a date in the format dd MMM yyyy, HH:mm. Example: 05 May 2012,
      * 22:04<br />
-     * This is used in JSP pages to display time information to users
      */
     public static String formatTime(Date date) {
         if (date == null)
             return "";
         return new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(date);
+    }
+    
+    /**
+     * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
+     * 2:04 PM<br />
+     */
+    public static String formatTime12H(Date date) {
+        if (date == null)
+            return "";
+        return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
     }
     
     public static String formatDateTimeForComments(Date date) {

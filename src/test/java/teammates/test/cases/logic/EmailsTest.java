@@ -155,7 +155,7 @@ public class EmailsTest extends BaseComponentTestCase {
                             .withStudentEmail(s.email)
                             .toString();
 
-        String deadline = TimeHelper.formatTime(fsa.endTime);
+        String deadline = TimeHelper.formatTime12H(fsa.endTime);
 
         String emailBody = email.getContent().toString();
 
