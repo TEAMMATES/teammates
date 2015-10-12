@@ -69,8 +69,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         
         emailPage.inputSubject("Email Subject");
         emailPage.clickSendButton();
-        assertTrue(hasNoErrorMessage());
-        assertTrue(isEmailComposePageCorrect());
+        assertFalse(hasErrorMessage());
+        assertTrue(isEmailComposeElementsPresent());
         
         ______TS("save email - success");
         
@@ -123,8 +123,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
                                           + "than 200 characters. It should not be empty.");
     }
     
-    private boolean hasNoErrorMessage() {
-        return !(emailPage.isElementPresent(By.className("alert-danger")));
+    private boolean hasErrorMessage() {
+        return emailPage.isElementPresent(By.className("alert-danger"));
     }
     
     private boolean hasStatusMessageSaveSuccess() {
