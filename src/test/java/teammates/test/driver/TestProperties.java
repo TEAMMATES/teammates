@@ -2,15 +2,11 @@ package teammates.test.driver;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
 /** 
@@ -147,14 +143,10 @@ public class TestProperties {
         if (!inst().isDevServer()) {
             Assumption.fail("God mode regeneration works only in dev server.");
         }
-        if (areTestAccountsDefaultValues()) {
-            Assumption.fail("Please change ALL the default accounts in test.properties in order to use God mode,"
-                            + "e.g change test.student1.account from alice.tmms to alice.tmms.example");
-        }
-        if (!areAllTestAccountsDifferent()) {
-            Assumption.fail("ALL test accounts used must be different, including after truncation, "
-                            + "e.g veryveryveryveryverylong and veryveryveryveryverylengthy are not "
-                            + "accepted as two different accounts.");
+        if (!areTestAccountsReadyForGodMode()) {
+            Assumption.fail("Please append a unique id to each of the default account in test.properties "
+                            + "in order to use God mode, e.g change alice.tmms to alice.tmms.yourName, "
+                            + "charlie.tmms to charlie.tmms.yourName, etc.");
         }
         if (!areAppUrlsDifferent()) {
             Assumption.fail("App URLs defined in test.properties and build.properties must be different, "
@@ -163,40 +155,19 @@ public class TestProperties {
         }
     }
 
-    private boolean areTestAccountsDefaultValues() {
-        /*
-         * TODO make this check much, much stricter. If TEST_STUDENT1_ACCOUNT is charlie.tmms and
-         * TEST_STUDENT2_ACCOUNT is alice.tmms, etc, this check will pass BUT the unintended replacement
-         * will still happen.
-         * Also consider adding checks for the accounts used in other UI tests such as
-         * ISR.teammates.test, instructorWith2Courses, etc. If this is done the method might need a new name.
-         */
-        return "alice.tmms".contains(inst().TEST_STUDENT1_ACCOUNT)
-                || "charlie.tmms".contains(inst().TEST_STUDENT2_ACCOUNT)  
-                || "teammates.unreg".contains(inst().TEST_UNREG_ACCOUNT) 
-                || "teammates.coord".contains(inst().TEST_INSTRUCTOR_ACCOUNT)
-                || "yourGoogleId".contains(inst().TEST_ADMIN_ACCOUNT);
-    }
-
-    private boolean areAllTestAccountsDifferent() {
-        List<String> testAccounts = new ArrayList<String>();
-        List<String> injectedAccounts = Arrays.asList(inst().TEST_STUDENT1_ACCOUNT, inst().TEST_STUDENT2_ACCOUNT,
-                                                      inst().TEST_UNREG_ACCOUNT, inst().TEST_INSTRUCTOR_ACCOUNT,
-                                                      inst().TEST_ADMIN_ACCOUNT);
-        for (String account : injectedAccounts) {
-            if (testAccounts.contains(account)) {
-                return false;
-            }
-            testAccounts.add(account);
-            String truncatedAccount = StringHelper.truncateLongId(account);
-            if (!truncatedAccount.equals(account)) {
-                if (testAccounts.contains(truncatedAccount)) {
-                    return false;
-                }
-                testAccounts.add(truncatedAccount);
-            }
+    private boolean areTestAccountsReadyForGodMode() {
+        if (!inst().TEST_STUDENT1_ACCOUNT.startsWith("alice.tmms.")) {
+            return false;
         }
-        return true;
+        String uniqueId = inst().TEST_STUDENT1_ACCOUNT.substring("alice.tmms.".length());
+        if (uniqueId.isEmpty()) {
+            return false;
+        } else {
+            return inst().TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
+                && inst().TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
+                && inst().TEST_UNREG_ACCOUNT.equals("teammates.unreg." + uniqueId)
+                && inst().TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
+        }
     }
 
     private boolean areAppUrlsDifferent() {
