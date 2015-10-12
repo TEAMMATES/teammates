@@ -139,6 +139,12 @@ public class TestProperties {
         return inputString.substring(startPos, endPos).replace("-", ".").trim();
     }
     
+    /**
+     * Verifies that the test properties specified in test.properties file allows for HTML
+     * regeneration via God mode to work smoothly (i.e all test HTML files are correctly regenerated, 
+     * strings that need to be replaced with placeholders are correctly replaced, and 
+     * strings that are not supposed to be replaced with placeholders are not replaced).
+     */
     public void verifyReadyForGodMode() {
         if (!inst().isDevServer()) {
             Assumption.fail("God mode regeneration works only in dev server.");
