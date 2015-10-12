@@ -137,32 +137,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailSentDataDisplayCorrect() {
-        if (emailPage.isElementPresent(By.className("table"))) {
-            return isEmailSentTableHeaderCorrect();
-        } else {     
-            return false;
-        }
-    }
-
-    private boolean isEmailSentTableHeaderCorrect() {
-        int numColumns = emailPage.getNumberOfColumnsFromDataTable(0); // 1 table
-        
-        if (numColumns != ADMIN_EMAIL_SENT_TABLE_NUM_COLUMNS) {
-            return false;
-        }
-        
-        List<String> expectedSessionTableHeaders = Arrays.asList("Action",
-                                                                 "Address Receiver",
-                                                                 "Group Receiver",
-                                                                 "Subject",
-                                                                 "Date");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
-        
-        for (int i = 0 ; i < numColumns ; i++) {
-            actualSessionTableHeaders.add(emailPage.getHeaderValueFromDataTable(0, 0, i));
-        }
-        
-        return actualSessionTableHeaders.equals(expectedSessionTableHeaders);
+        return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
     }
     
     /**
@@ -171,32 +146,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailDraftDataDisplayCorrect() {
-        if (emailPage.isElementPresent(By.className("table"))) {
-            return isEmailDraftTableHeaderCorrect();
-        } else {     
-            return false;
-        }
-    }
-
-    private boolean isEmailDraftTableHeaderCorrect() {
-        int numColumns = emailPage.getNumberOfColumnsFromDataTable(0); // 1 table
-        
-        if (numColumns != ADMIN_EMAIL_DRAFT_TABLE_NUM_COLUMNS) {
-            return false;
-        }
-        
-        List<String> expectedSessionTableHeaders = Arrays.asList("Action",
-                                                                 "Address Receiver",
-                                                                 "Group Receiver",
-                                                                 "Subject",
-                                                                 "Date");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
-        
-        for (int i = 0 ; i < numColumns ; i++) {
-            actualSessionTableHeaders.add(emailPage.getHeaderValueFromDataTable(0, 0, i));
-        }
-        
-        return actualSessionTableHeaders.equals(expectedSessionTableHeaders);
+        return emailPage.isElementPresent(By.className("table")) && isEmailTableHeaderCorrect();
     }
     
     /**
@@ -205,17 +155,15 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isEmailTrashDataDisplayCorrect() {
-        if (emailPage.isElementPresent(By.className("table")) && isEmptyTrashButtonPresent()) {
-            return isEmailTrashTableHeaderCorrect();
-        } else {     
-            return false;
-        }
+        return emailPage.isElementPresent(By.className("table")) 
+            && isEmptyTrashButtonPresent() 
+            && isEmailTableHeaderCorrect();
     }
 
-    private boolean isEmailTrashTableHeaderCorrect() {
+    private boolean isEmailTableHeaderCorrect() {
         int numColumns = emailPage.getNumberOfColumnsFromDataTable(0); // 1 table
         
-        if (numColumns != ADMIN_EMAIL_TRASH_TABLE_NUM_COLUMNS) {
+        if (numColumns != ADMIN_EMAIL_TABLE_NUM_COLUMNS) {
             return false;
         }
         
