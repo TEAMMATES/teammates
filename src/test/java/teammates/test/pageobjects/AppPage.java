@@ -742,7 +742,7 @@ public abstract class AppPage {
         actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
-            HtmlHelper.assertSameHtml(actual, expected);
+            HtmlHelper.assertSameHtml(expected, actual, false, true);
             
         } catch (Exception e) {
             if (!testAndRunGodMode(filePath, actual, false)) {
@@ -874,7 +874,7 @@ public abstract class AppPage {
         actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
-            HtmlHelper.assertSameHtmlPart(actual, expected);            
+            HtmlHelper.assertSameHtml(expected, actual, true, true);
         } catch (AssertionError ae) { 
             if(!testAndRunGodMode(filePath, actual, true)) {
                 throw ae;
@@ -953,7 +953,7 @@ public abstract class AppPage {
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
                 actual = processPageSourceForGodMode(actual);
-                if(HtmlHelper.areSameHtml(actual, expectedString)) {
+                if (HtmlHelper.assertSameHtml(expectedString, actual, true, false)) {
                     break;
                 } else {
                     testAndRunGodMode(filePath, actual, true);
