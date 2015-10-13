@@ -733,23 +733,43 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) {
+        return verifyHtml(null, filePath, false);
+    }
+
+    private AppPage verifyHtml(By by, String filePath, boolean isAfterAjaxLoad) {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
-        if(filePath.startsWith("/")){
+        if (filePath.startsWith("/")) {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
-        String actual = getPageSource();
+        boolean isPart = by != null;
+        waitForAjaxLoaderGifToDisappear();
+        String actual = isPart ? getPageSource()
+                               : browser.driver.findElement(by).getAttribute("outerHTML");
         actual = processPageSourceForGodMode(actual);
         try {
             String expected = FileHelper.readFile(filePath);
-            HtmlHelper.assertSameHtml(expected, actual, false, true);
+            if (isAfterAjaxLoad) {
+                int maxRetryCount = 5;
+                int waitDuration = 1000;
+                for (int i = 0; i < maxRetryCount; i++) {
+                    if (HtmlHelper.assertSameHtml(expected, actual, isPart, false)) {
+                        break;
+                    }
+                    ThreadHelper.waitFor(waitDuration);
+                    actual = isPart ? getPageSource()
+                                    : browser.driver.findElement(by).getAttribute("outerHTML");
+                    actual = processPageSourceForGodMode(actual);
+                }
+            }
+            HtmlHelper.assertSameHtml(expected, actual, isPart, true);
             
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual, false)) {
+            if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw new RuntimeException(e);
             }
         } catch (AssertionError ae) {
-            if (!testAndRunGodMode(filePath, actual, false)) {
+            if (!testAndRunGodMode(filePath, actual, isPart)) {
                 throw ae;
             }
         } 
@@ -866,26 +886,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) {
-        WebElement element = browser.driver.findElement(by);
-        if (filePath.startsWith("/")) {
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
-        String actual = element.getAttribute("outerHTML");
-        actual = processPageSourceForGodMode(actual);
-        try {
-            String expected = FileHelper.readFile(filePath);
-            HtmlHelper.assertSameHtml(expected, actual, true, true);
-        } catch (AssertionError ae) { 
-            if(!testAndRunGodMode(filePath, actual, true)) {
-                throw ae;
-            }
-        } catch (Exception e) {
-            if(!testAndRunGodMode(filePath, actual, true)) {
-                throw new RuntimeException(e);
-            }
-            
-        }
-        return this;
+        return verifyHtml(by, filePath, false);
     }
     
     /**
@@ -898,10 +899,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) {
-        waitForAjaxLoaderGifToDisappear();
-        verifyHtmlPart(By.id("mainContent"), filePath);
-        
-        return this;
+        return verifyHtmlPart(By.id("mainContent"), filePath);
     }
     
     /**
@@ -916,7 +914,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlAjaxMainContent(String filePath) throws Exception {
-        return verifyHtmlAfterAjaxLoad(filePath, false);
+        return verifyHtml(By.id("mainContent"), filePath, true);
     }
 
     /**
@@ -930,51 +928,9 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlAjax(String filePath) throws Exception {
-        return verifyHtmlAfterAjaxLoad(filePath, true);
+        return verifyHtml(null, filePath, true);
     }
 
-    private AppPage verifyHtmlAfterAjaxLoad(String filePath, boolean isFullPageChecked) throws Exception {
-        int maxRetryCount = 5;
-        int waitDuration = 1000;
-        
-        //Wait for loader gif loader to disappear.
-        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
-        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
-        
-        if(filePath.startsWith("/")){
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
-        
-        String expectedString = "";
-        String actual = "";
-        
-        try {
-            expectedString = FileHelper.readFile(filePath);
-            for(int i =0; i < maxRetryCount; i++) {
-                actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
-                actual = processPageSourceForGodMode(actual);
-                if (HtmlHelper.assertSameHtml(expectedString, actual, true, false)) {
-                    break;
-                } else {
-                    testAndRunGodMode(filePath, actual, true);
-                }
-                ThreadHelper.waitFor(waitDuration);
-            }
-        } catch (NoSuchElementException nse) {
-            throw new RuntimeException(nse);
-        } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual, true)) {
-                throw new RuntimeException(e);
-            }
-        }
-        
-        if (isFullPageChecked) {
-            return verifyHtml(filePath);
-        } else {
-            return verifyHtmlMainContent(filePath);
-        }
-    }
-    
     /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
