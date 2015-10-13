@@ -150,14 +150,15 @@ public class TestProperties {
             Assumption.fail("God mode regeneration works only in dev server.");
         }
         if (!areTestAccountsReadyForGodMode()) {
-            Assumption.fail("Please append a unique id to each of the default account in test.properties "
-                            + "in order to use God mode, e.g change alice.tmms to alice.tmms.yourName, "
-                            + "charlie.tmms to charlie.tmms.yourName, etc.");
+            Assumption.fail("Please append a unique id (e.g your name) to each of the default account in"
+                            + "test.properties in order to use God mode, e.g change alice.tmms to "
+                            + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
         }
         if (!areAppUrlsDifferent()) {
             Assumption.fail("App URLs defined in test.properties and build.properties must be different, "
-                            + "and neither one can be a substring of the other, e.g localhost:8888 and "
-                            + "localhost:88889 are not accepted as two different app URLs.");
+                            + "and neither one can be a substring of the other, e.g localhost:8888 as "
+                            + "the URL in test.properties, and localhost:88889 as the URL in build.properties, "
+                            + "or vice versa, is not an acceptable combination.");
         }
     }
 
