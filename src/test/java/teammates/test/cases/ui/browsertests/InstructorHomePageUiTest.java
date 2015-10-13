@@ -197,6 +197,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
         assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
+        homePage.waitForAjaxLoaderGifToDisappear();
         
         ______TS("link: course view");
         InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
@@ -207,6 +208,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
         assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
+        homePage.waitForAjaxLoaderGifToDisappear();
         
         ______TS("link: course edit");
         InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
@@ -217,6 +219,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "&" +  Const.ParamsNames.USER_ID + "=" + instructorId;
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
+        homePage.waitForAjaxLoaderGifToDisappear();
         
         ______TS("link: course add session");
         InstructorFeedbacksPage feedbacksPage =  homePage.clickCourseAddEvaluationLink(courseId);
@@ -227,7 +230,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                 "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+        homePage.waitForAjaxLoaderGifToDisappear();
     }
     
     
@@ -248,10 +251,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
+        homePage.waitForAjaxLoaderGifToDisappear();
         
         ______TS("remind action: OPEN feedback session - inner button");
 
-        homePage.waitForAjaxLoaderGifToDisappear();
         homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
         homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
         homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
@@ -261,6 +264,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
+        homePage.waitForAjaxLoaderGifToDisappear();
         
         ______TS("remind particular users action: OPEN feedback session");
         
@@ -274,7 +278,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(1000);
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
-        
+        homePage.waitForAjaxLoaderGifToDisappear();
+
         homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
         homePage.clickRemindParticularUsersLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
         homePage.fillRemindParticularUsersForm();
@@ -282,6 +287,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(1000);
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
+        homePage.waitForAjaxLoaderGifToDisappear();
         
         ______TS("remind action: CLOSED feedback session");
         
@@ -392,6 +398,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         
         homePage.goToPreviousPage(InstructorHomePage.class);
+        homePage.waitForAjaxLoaderGifToDisappear();
         
         ______TS("Failure case: Ajax error");
         
