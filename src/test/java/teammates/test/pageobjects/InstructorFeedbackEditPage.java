@@ -402,6 +402,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickEditSessionButton() {
+        waitForElementVisibility(fsEditLink);
         fsEditLink.click();
     }
     
