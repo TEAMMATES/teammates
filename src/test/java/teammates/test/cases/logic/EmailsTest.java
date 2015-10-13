@@ -426,6 +426,7 @@ public class EmailsTest extends BaseComponentTestCase {
         AssertHelper.assertContainsRegex(
                 "<b>Error Message</b><br/><pre><code>" + error.getMessage()
                 + "</code></pre>"
+                + "<br/><b>Actual user</b>" + "Not logged in" 
                 + "<br/><b>Request Method</b>" + requestMethod 
                 + "<br/><b>User Agent</b>" + requestUserAgent 
                 + "<br/><b>Request Url</b>" + requestUrl 
