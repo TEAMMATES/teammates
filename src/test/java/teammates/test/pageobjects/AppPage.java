@@ -62,6 +62,7 @@ public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
     /**Home page of the application, as per test.properties file*/
     protected static final String HOMEPAGE = TestProperties.inst().TEAMMATES_URL;
+    private static final By MAIN_CONTENT = By.id("mainContent");
     
     static final long ONE_MINUTE_IN_MILLIS=60000;
     
@@ -743,10 +744,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         boolean isPart = by != null;
-        waitForAjaxLoaderGifToDisappear();
-        String actual = isPart ? getPageSource()
-                               : browser.driver.findElement(by).getAttribute("outerHTML");
-        actual = processPageSourceForGodMode(actual);
+        String actual = getPageSource(by);
         try {
             String expected = FileHelper.readFile(filePath);
             if (isAfterAjaxLoad) {
@@ -757,9 +755,7 @@ public abstract class AppPage {
                         break;
                     }
                     ThreadHelper.waitFor(waitDuration);
-                    actual = isPart ? getPageSource()
-                                    : browser.driver.findElement(by).getAttribute("outerHTML");
-                    actual = processPageSourceForGodMode(actual);
+                    actual = getPageSource(by);
                 }
             }
             HtmlHelper.assertSameHtml(expected, actual, isPart, true);
@@ -775,6 +771,13 @@ public abstract class AppPage {
         } 
         
         return this;
+    }
+
+    private String getPageSource(By by) {
+        waitForAjaxLoaderGifToDisappear();
+        String actual = by == null ? getPageSource()
+                                   : browser.driver.findElement(by).getAttribute("outerHTML");
+        return processPageSourceForGodMode(actual);
     }
 
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
@@ -899,7 +902,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) {
-        return verifyHtmlPart(By.id("mainContent"), filePath);
+        return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
     
     /**
@@ -914,7 +917,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlAjaxMainContent(String filePath) throws Exception {
-        return verifyHtml(By.id("mainContent"), filePath, true);
+        return verifyHtml(MAIN_CONTENT, filePath, true);
     }
 
     /**
