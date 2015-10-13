@@ -147,6 +147,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
         // Go back to submission page and verify html
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
+        submitPage.waitForCellHoverToDisappear();
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
         
     }
