@@ -180,8 +180,7 @@ public class PageData {
      * None is selected, since the selection should only be done in client side.
      */
     protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-        double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
-                                        3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
+        double[] options = Const.TIME_ZONE_VALUES;
        ArrayList<String> result = new ArrayList<String>();
        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
@@ -196,8 +195,7 @@ public class PageData {
     }
     
     public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
-        double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
-                                         3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
+        double[] options = Const.TIME_ZONE_VALUES;
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
             ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
