@@ -103,7 +103,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
-        assertEquals(33, formModel.getTimezoneSelectField().size());
+        assertEquals(40, formModel.getTimezoneSelectField().size());
         
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
