@@ -143,6 +143,8 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     sanitizeForHtml(session.feedbackSessionName),
                     getInstructorHoverMessageForFeedbackSession(session),
                     getInstructorStatusForFeedbackSession(session),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.startTime),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.endTime),
                     getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
                     isRecent,
                     getInstructorFeedbackSessionActions(

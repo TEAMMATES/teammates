@@ -230,6 +230,17 @@ public class TimeHelper {
         return sdf.format(date);
     }
 
+    /**
+     * Formats a date in the format dd MMM yyyy. Example: 05 May 2012
+     */
+    public static String formatDateTimeForInstructorHomePage(Date date) {
+        if (date == null)
+            return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.format(date);
+    }
+
     public static String calendarToString(Calendar c) {
         if (c == null)
             return "";
