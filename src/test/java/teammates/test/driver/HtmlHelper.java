@@ -23,17 +23,31 @@ public class HtmlHelper {
 
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores
+     * differences in whitespace and attribute order. If the assertion fails,
+     * <code>AssertionError</code> will be thrown and the difference can then be traced.
+     * @param expectedString the expected string for comparison
+     * @param actualString the actual string for comparison
+     * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
+     *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
+     */
+    public static boolean assertSameHtml(String expected, String actual, boolean isPart) {
+        return assertSameHtml(expected, actual, isPart, true);
+    }
+    
+    /**
+     * Verifies that two HTML files are logically equivalent, e.g. ignores
      * differences in whitespace and attribute order.
      * @param expectedString the expected string for comparison
      * @param actualString the actual string for comparison
      * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
      *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
-     * @param isDifferenceToBeShown if true, whenever the assertion fails,
-     *                              <code>AssertionError</code> will be thrown and
-     *                              the difference can then be traced
      */
-    public static boolean assertSameHtml(String expected, String actual, boolean isPart,
-                                         boolean isDifferenceToBeShown) {
+    public static boolean areSameHtml(String expected, String actual, boolean isPart) {
+        return assertSameHtml(expected, actual, isPart, false);
+    }
+    
+    private static boolean assertSameHtml(String expected, String actual, boolean isPart,
+                                          boolean isDifferenceToBeShown) {
         String processedExpected = convertToStandardHtml(expected, isPart);
         String processedActual = convertToStandardHtml(actual, isPart);
 

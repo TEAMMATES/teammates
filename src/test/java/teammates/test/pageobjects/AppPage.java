@@ -751,14 +751,14 @@ public abstract class AppPage {
                 int maxRetryCount = 5;
                 int waitDuration = 1000;
                 for (int i = 0; i < maxRetryCount; i++) {
-                    if (HtmlHelper.assertSameHtml(expected, actual, isPart, false)) {
+                    if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
                         break;
                     }
                     ThreadHelper.waitFor(waitDuration);
                     actual = getPageSource(by);
                 }
             }
-            HtmlHelper.assertSameHtml(expected, actual, isPart, true);
+            HtmlHelper.assertSameHtml(expected, actual, isPart);
             
         } catch (Exception e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
