@@ -180,36 +180,36 @@ public class PageData {
      * None is selected, since the selection should only be done in client side.
      */
     protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-        double[] options = Const.TIME_ZONE_VALUES;
+       List<Double> options = TimeHelper.getTimeZoneValues();
        ArrayList<String> result = new ArrayList<String>();
        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
        }
-       for (int i = 0; i < options.length; i++) {
-           String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
-           result.add("<option value=\"" + formatAsString(options[i]) + "\"" 
-                      + (existingTimeZone == options[i] ? " selected=\"selected\"" : "") + ">" + "(" + utcFormatOption 
-                      + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
+       for (Double timeZoneOption : options) {
+           String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
+           result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
+                      + (existingTimeZone == timeZoneOption ? " selected=\"selected\"" : "") + ">" + "(" + utcFormatOption 
+                      + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
        }
        return result;
     }
     
     public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
-        double[] options = Const.TIME_ZONE_VALUES;
+        List<Double> options = TimeHelper.getTimeZoneValues();
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
             ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
             result.add(option);
         }
         
-        for (int i = 0; i < options.length; i++) {
-            String utcFormatOption = StringHelper.toUtcFormat(options[i]);
+        for (Double timeZoneOption : options) {
+            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption 
-                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i]));
-            boolean isExistingTimeZone = (existingTimeZone == options[i]);
+                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
+            boolean isExistingTimeZone = (existingTimeZone == timeZoneOption);
             
             ElementTag option = createOption(textToDisplay, 
-                                            formatAsString(options[i]), isExistingTimeZone);
+                                             formatAsString(timeZoneOption), isExistingTimeZone);
             result.add(option);
         }
         return result;

@@ -3,10 +3,13 @@ package teammates.common.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import teammates.common.util.Const.SystemParams;
@@ -16,7 +19,8 @@ import teammates.common.util.Const.SystemParams;
  */
 public class TimeHelper {
     
-    private static HashMap<String, String> timeZoneCitysMap = new HashMap<String, String>();
+    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
+    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
     
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
@@ -69,14 +73,17 @@ public class TimeHelper {
     }
         
     private static void map(String timeZone, String cities) {
-        timeZoneCitysMap.put(timeZone, cities);
+        TIME_ZONE_CITIES_MAP.put(timeZone, cities);
+        TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
     }
     
     public static String getCitiesForTimeZone(String zone){
-        return timeZoneCitysMap.get(zone);        
+        return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
-    
+    public static List<Double> getTimeZoneValues() {
+        return new ArrayList<Double>(TIME_ZONE_VALUES);
+    }
     
     /**
      * Returns the current date and time as a {@code Calendar} object for the given timezone.
