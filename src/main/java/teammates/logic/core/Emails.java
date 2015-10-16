@@ -29,6 +29,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
@@ -43,6 +44,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.googleSendgridJava.Sendgrid;
+import teammates.logic.api.GateKeeper;
 
 /**
  * Handles operations related to sending e-mails.
@@ -373,7 +375,7 @@ public class Emails {
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(fs.endTime));
+                TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -418,7 +420,7 @@ public class Emails {
         emailBody = emailBody.replace("${courseId}", c.id);
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(fs.endTime));
+                TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
         
         String submitUrl = "{The student's unique submission url appears here}";
@@ -453,7 +455,7 @@ public class Emails {
         emailBody = emailBody.replace("${courseId}", c.id);
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
         emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(fs.endTime));
+                TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
         String submitUrl = Config.APP_URL
@@ -614,6 +616,15 @@ public class Emails {
     
         String emailBody = EmailTemplates.SYSTEM_ERROR;
         
+        UserType userType = GateKeeper.inst().getCurrentUser();
+        String actualUser = "Not logged in";
+        if (userType != null && userType.id != null) {
+            actualUser = userType.id;
+        }
+        
+        
+        
+        emailBody = emailBody.replace("${actualUser}", actualUser);
         emailBody = emailBody.replace("${requestMethod}", requestMethod);
         emailBody = emailBody.replace("${requestUserAgent}", requestUserAgent);
         emailBody = emailBody.replace("${requestUrl}", requestUrl);

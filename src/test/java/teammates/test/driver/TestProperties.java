@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Url;
 
@@ -137,6 +139,46 @@ public class TestProperties {
         return inputString.substring(startPos, endPos).replace("-", ".").trim();
     }
     
-    
+    /**
+     * Verifies that the test properties specified in test.properties file allows for HTML
+     * regeneration via God mode to work smoothly (i.e all test HTML files are correctly regenerated, 
+     * strings that need to be replaced with placeholders are correctly replaced, and 
+     * strings that are not supposed to be replaced with placeholders are not replaced).
+     */
+    public void verifyReadyForGodMode() {
+        if (!inst().isDevServer()) {
+            Assumption.fail("God mode regeneration works only in dev server.");
+        }
+        if (!areTestAccountsReadyForGodMode()) {
+            Assumption.fail("Please append a unique id (e.g your name) to each of the default account in"
+                            + "test.properties in order to use God mode, e.g change alice.tmms to "
+                            + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
+        }
+        if (!areAppUrlsDifferent()) {
+            Assumption.fail("App URLs defined in test.properties and build.properties must be different, "
+                            + "and neither one can be a substring of the other, e.g localhost:8888 as "
+                            + "the URL in test.properties, and localhost:88889 as the URL in build.properties, "
+                            + "or vice versa, is not an acceptable combination.");
+        }
+    }
+
+    private boolean areTestAccountsReadyForGodMode() {
+        if (!inst().TEST_STUDENT1_ACCOUNT.startsWith("alice.tmms.")) {
+            return false;
+        }
+        String uniqueId = inst().TEST_STUDENT1_ACCOUNT.substring("alice.tmms.".length());
+        if (uniqueId.isEmpty()) {
+            return false;
+        } else {
+            return inst().TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
+                && inst().TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
+                && inst().TEST_UNREG_ACCOUNT.equals("teammates.unreg." + uniqueId)
+                && inst().TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
+        }
+    }
+
+    private boolean areAppUrlsDifferent() {
+        return !Config.APP_URL.contains(inst().TEAMMATES_URL) && !inst().TEAMMATES_URL.contains(Config.APP_URL);
+    }
 
 }
