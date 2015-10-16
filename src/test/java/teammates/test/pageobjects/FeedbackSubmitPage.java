@@ -125,4 +125,8 @@ public class FeedbackSubmitPage extends AppPage {
         AppPage.getNewPageInstance(browser, StudentCommentsPage.class);
         
     }
+    
+    public void waitForCellHoverToDisappear() {
+        waitForElementToDisappear(By.className("cell-hover"));
+    }
 }
