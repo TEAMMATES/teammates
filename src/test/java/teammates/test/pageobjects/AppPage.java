@@ -798,11 +798,6 @@ public abstract class AppPage {
         }
     }
     
-    public static String processPageSourceForFailureCase(String content) {
-        return processPageSourceForGodMode(content);
-    }
-    
-    
     private static String processPageSourceForGodMode(String content) {
         Date now = new Date();
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));

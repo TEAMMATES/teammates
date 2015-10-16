@@ -17,7 +17,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
-import teammates.test.pageobjects.AppPage;
 
 public class HtmlHelper {
 
@@ -53,8 +52,6 @@ public class HtmlHelper {
 
         if (!AssertHelper.isContainsRegex(processedExpected, processedActual)) {
             if (isDifferenceToBeShown) {
-                processedActual = AppPage.processPageSourceForFailureCase(processedActual);
-                processedExpected = AppPage.processPageSourceForFailureCase(processedExpected);
                 assertEquals("<expected>\n" + processedExpected + "</expected>",
                              "<actual>\n" + processedActual + "</actual>");
             }
