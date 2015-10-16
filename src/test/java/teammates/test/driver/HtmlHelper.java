@@ -22,53 +22,45 @@ import teammates.test.pageobjects.AppPage;
 public class HtmlHelper {
 
     /**
-     * Verifies that two HTML files are logically 
-     * equivalent e.g., ignores differences in whitespace and attribute order.
+     * Verifies that two HTML files are logically equivalent, e.g. ignores
+     * differences in whitespace and attribute order. If the assertion fails,
+     * <code>AssertionError</code> will be thrown and the difference can then be traced.
+     * @param expectedString the expected string for comparison
+     * @param actualString the actual string for comparison
+     * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
+     *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
      */
-    //TODO: for the following 4 methods, change the order of parameters passed in
-    //      should be expectedString, acutalString
-    public static void assertSameHtml(String actualString, String expectedString){       
-        String processedExpectedHtml = convertToStandardHtml(expectedString, false);
-        String processedActualHtml = convertToStandardHtml(actualString, false);
-        
-        if(!AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml)){
-            processedActualHtml = AppPage.processPageSourceForFailureCase(processedActualHtml);
-            processedExpectedHtml = AppPage.processPageSourceForFailureCase(processedExpectedHtml);
-            assertEquals("<expected>\n"+processedExpectedHtml+"</expected>", "<actual>\n"+processedActualHtml+"</actual>");
-        }
+    public static boolean assertSameHtml(String expected, String actual, boolean isPart) {
+        return assertSameHtml(expected, actual, isPart, true);
     }
     
-    public static void assertSameHtmlPart(String actualString, String expectedString) {
-        String processedExpectedHtmlPart = convertToStandardHtml(expectedString, true);
-        String processedActualHtmlPart = convertToStandardHtml(actualString, true);
-        
-        if(!AssertHelper.isContainsRegex(processedExpectedHtmlPart, processedActualHtmlPart)){
-            processedActualHtmlPart = AppPage.processPageSourceForFailureCase(processedActualHtmlPart);
-            processedExpectedHtmlPart = AppPage.processPageSourceForFailureCase(processedExpectedHtmlPart);
-            assertEquals("<expected>\n"+processedExpectedHtmlPart+"</expected>", "<actual>\n"+processedActualHtmlPart+"</actual>");
-        }
+    /**
+     * Verifies that two HTML files are logically equivalent, e.g. ignores
+     * differences in whitespace and attribute order.
+     * @param expectedString the expected string for comparison
+     * @param actualString the actual string for comparison
+     * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
+     *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
+     */
+    public static boolean areSameHtml(String expected, String actual, boolean isPart) {
+        return assertSameHtml(expected, actual, isPart, false);
     }
+    
+    private static boolean assertSameHtml(String expected, String actual, boolean isPart,
+                                          boolean isDifferenceToBeShown) {
+        String processedExpected = convertToStandardHtml(expected, isPart);
+        String processedActual = convertToStandardHtml(actual, isPart);
 
-    /**
-     * Verifies that two HTML files are logically 
-     * equivalent e.g., ignores differences in whitespace and attribute order.
-     */
-    public static boolean areSameHtml(String actualString, String expectedString){
-        String processedExpectedHtml = convertToStandardHtml(expectedString, false);
-        String processedActualHtml = convertToStandardHtml(actualString, false);
-        
-        return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
-    }
-    
-    /**
-     * Verifies that two HTML parts are logically 
-     * equivalent e.g., ignores differences in whitespace and attribute order.
-     */
-    public static boolean areSameHtmlPart(String actualString, String expectedString){
-        String processedExpectedHtml = convertToStandardHtml(expectedString, true);
-        String processedActualHtml = convertToStandardHtml(actualString, true);
-        
-        return AssertHelper.isContainsRegex(processedExpectedHtml, processedActualHtml);
+        if (!AssertHelper.isContainsRegex(processedExpected, processedActual)) {
+            if (isDifferenceToBeShown) {
+                processedActual = AppPage.processPageSourceForFailureCase(processedActual);
+                processedExpected = AppPage.processPageSourceForFailureCase(processedExpected);
+                assertEquals("<expected>\n" + processedExpected + "</expected>",
+                             "<actual>\n" + processedActual + "</actual>");
+            }
+            return false;
+        }
+        return true;
     }
 
     /**
