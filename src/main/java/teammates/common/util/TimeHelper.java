@@ -3,10 +3,13 @@ package teammates.common.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import teammates.common.util.Const.SystemParams;
@@ -16,7 +19,8 @@ import teammates.common.util.Const.SystemParams;
  */
 public class TimeHelper {
     
-    private static HashMap<String, String> timeZoneCitysMap = new HashMap<String, String>();
+    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
+    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
     
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
@@ -28,7 +32,8 @@ public class TimeHelper {
     static{
         map("-12.0", "Baker Island, Howland Island");
         map("-11.0", "American Samoa, Niue");
-        map("-10.0", "Hawaii, Cook Islands, Marquesas Islands");
+        map("-10.0", "Hawaii, Cook Islands");
+        map("-9.5", "Marquesas Islands");
         map("-9.0", "Gambier Islands, Alaska");
         map("-8.0", "Los Angeles, Vancouver, Tijuana");
         map("-7.0", "Phoenix, Calgary, Ciudad Juárez");
@@ -51,25 +56,34 @@ public class TimeHelper {
         map("5.5", "Colombo, Delhi");
         map("5.75", "Kathmandu");
         map("6.0", "Almaty, Dhaka, Yekaterinburg");
+        map("6.5", "Yangon");
         map("7.0", "Jakarta, Bangkok, Novosibirsk, Hanoi");
         map("8.0", "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
+        map("8.75", "Eucla");
         map("9.0", "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
+        map("9.5", "Adelaide");
         map("10.0", "Canberra, Yakutsk, Port Moresby");
+        map("10.5", "Lord Howe Islands");
         map("11.0", "Vladivostok, Noumea");
         map("12.0", "Auckland, Suva");
+        map("12.75", "Chatham Islands");
         map("13.0", "Phoenix Islands, Tokelau, Tonga");
+        map("14.0", "Line Islands");
         
     }
         
     private static void map(String timeZone, String cities) {
-        timeZoneCitysMap.put(timeZone, cities);
+        TIME_ZONE_CITIES_MAP.put(timeZone, cities);
+        TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
     }
     
     public static String getCitiesForTimeZone(String zone){
-        return timeZoneCitysMap.get(zone);        
+        return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
-    
+    public static List<Double> getTimeZoneValues() {
+        return new ArrayList<Double>(TIME_ZONE_VALUES);
+    }
     
     /**
      * Returns the current date and time as a {@code Calendar} object for the given timezone.
