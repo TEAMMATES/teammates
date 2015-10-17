@@ -778,7 +778,7 @@ public abstract class AppPage {
         waitForAjaxLoaderGifToDisappear();
         String actual = by == null ? getPageSource()
                                    : browser.driver.findElement(by).getAttribute("outerHTML");
-        return processPageSourceForGodMode(actual);
+        return processPageSourceForGodModePartOne(actual);
     }
 
     private static String injectTestProperties(String htmlString) {
@@ -800,7 +800,7 @@ public abstract class AppPage {
             TestProperties.inst().verifyReadyForGodMode();
             try {
                 String processedPageSource = HtmlHelper.convertToStandardHtml(content, isPart);
-                processedPageSource = processPageSourceForGodMode(processedPageSource);
+                processedPageSource = processPageSourceForGodModePartTwo(processedPageSource);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -811,23 +811,19 @@ public abstract class AppPage {
         }
     }
     
-    private static String processPageSourceForGodMode(String content) {
+    private static String processPageSourceForGodModePartOne(String content) {
         Date now = new Date();
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
-                .replaceAll("<#comment[ ]*</#comment>", "<!---->")
-                .replace(Config.APP_URL, "${app.url}")
                 // this replaces test URL with https (generated via js) with their http counterparts
                 .replace(TestProperties.inst().TEAMMATES_URL.replace("http://", "https://"),
                          TestProperties.inst().TEAMMATES_URL)
-                .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
                 // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
                 .replace("\"/_ah", "\"" + TestProperties.inst().TEAMMATES_URL + "/_ah")
                 // this handles the logout url that google generates
                 .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue={*}\"")
                 // this replaces all printed version of TEAMMATES tested with the current version
                 .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
-                .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
@@ -872,13 +868,6 @@ public abstract class AppPage {
                          TestProperties.inst().TEST_ADMIN_ACCOUNT)
                 .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT),
                          TestProperties.inst().TEST_UNREG_ACCOUNT)
-                // the test accounts/ email
-                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
-                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
-                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
-                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
-                .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
                 .replace(TimeHelper.formatDate(now), "${today}")
@@ -898,6 +887,19 @@ public abstract class AppPage {
                 .replace("/js/lib/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
                 // jQuery-ui CDN
                 .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js");
+    }
+    
+    private static String processPageSourceForGodModePartTwo(String content) {
+        return content.replaceAll("<#comment[ ]*</#comment>", "<!---->")
+                      .replace(Config.APP_URL, "${app.url}")
+                      .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
+                      .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
+                      .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
+                      .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
+                      .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
+                      .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
 
     /**
