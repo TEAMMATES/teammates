@@ -12,7 +12,7 @@
         <ta:navBar />
     </jsp:attribute>
     <jsp:attribute name="bodyFooter">
-        <t:bodyFooter />
+        <t:bodyFooter isAdmin="${true}" />
     </jsp:attribute>
     <jsp:body>
         <jsp:doBody />
