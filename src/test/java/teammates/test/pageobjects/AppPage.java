@@ -817,13 +817,17 @@ public abstract class AppPage {
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "${app.url}")
+                // this replaces test URL with https (generated via js) with their http counterparts
+                .replace(TestProperties.inst().TEAMMATES_URL.replace("http://", "https://"),
+                         TestProperties.inst().TEAMMATES_URL)
                 .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
-                .replace(TestProperties.inst().TEAMMATES_URL.replace("http", "https"), "${test.url}")
-                // this is to handle dev server case where url is relative
-                .replace("\"/_ah", "\"${test.url}/_ah")
+                // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
+                .replace("\"/_ah", "\"" + TestProperties.inst().TEAMMATES_URL + "/_ah")
                 // this handles the logout url that google generates
                 .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue={*}\"")
-                .replaceAll("V[0-9]+(\\.[0-9]+)+", "V\\${version}")
+                // this replaces all printed version of TEAMMATES tested with the current version
+                .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
+                .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
@@ -857,17 +861,23 @@ public abstract class AppPage {
                             "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#\\${comment\\.id}")
+                // this replaces truncated long accounts with their original counterpart
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT),
+                         TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT),
+                         TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT),
+                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT),
+                         TestProperties.inst().TEST_ADMIN_ACCOUNT)
+                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT),
+                         TestProperties.inst().TEST_UNREG_ACCOUNT)
                 // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT), "${test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT), "${test.student2}")
                 .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT), "${test.instructor}")
                 .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT), "${test.admin}")
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT), "${test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
