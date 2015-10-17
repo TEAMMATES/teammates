@@ -747,6 +747,7 @@ public abstract class AppPage {
         String actual = getPageSource(by);
         try {
             String expected = FileHelper.readFile(filePath);
+            expected = injectTestProperties(expected);
             if (isAfterAjaxLoad) {
                 int maxRetryCount = 5;
                 int waitDuration = 1000;
@@ -780,6 +781,18 @@ public abstract class AppPage {
         return processPageSourceForGodMode(actual);
     }
 
+    private static String injectTestProperties(String htmlString) {
+        return htmlString.replace("${app.url}", Config.APP_URL)
+                         .replace("${test.url}", TestProperties.inst().TEAMMATES_URL)
+                         .replace("${version}", TestProperties.inst().TEAMMATES_VERSION)
+                         .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                         .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+                         .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                         .replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT)
+                         .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT)
+                         .replace("${support.email}", Config.SUPPORT_EMAIL);
+    }
+    
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
         if (content != null && !content.isEmpty() && 
                 System.getProperty("godmode") != null && 
