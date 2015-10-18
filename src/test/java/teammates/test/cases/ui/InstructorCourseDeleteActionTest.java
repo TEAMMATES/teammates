@@ -12,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseDeleteAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -60,7 +61,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                                     + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                                     + "instr1@course1.tmt|||Course deleted: idOfTypicalCourse1|||"
                                     + "/page/instructorCourseDelete";
-        assertEquals(expectedLogMessage, deleteAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
         
         ______TS("Masquerade mode, delete last course, redirect to Courses page");
         
@@ -83,7 +84,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course deleted: icdct.tpa.id1|||/page/instructorCourseDelete";
-        assertEquals(expectedLogMessage, deleteAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
         
         ______TS("Masquerade mode, delete last course, no next URL, redirect to Courses page");
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course");
@@ -104,7 +105,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course deleted: icdct.tpa.id2|||/page/instructorCourseDelete";
-        assertEquals(expectedLogMessage, deleteAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
         
         
         

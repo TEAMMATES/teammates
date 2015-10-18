@@ -9,6 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.util.Priority;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentListPageAction;
 import teammates.ui.controller.InstructorStudentListPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -52,7 +53,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                                   + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
                                   + "|||instr3@course1n2.tmt|||instructorStudentList Page Load<br>Total Courses: 2"
                                   + "|||/page/instructorStudentListPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         InstructorStudentListPageData islpd = (InstructorStudentListPageData) r.data;
         assertEquals(2, islpd.getNumOfCourses());
@@ -77,7 +78,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                            + "|||true|||Instructor|||Instructor Without Courses|||instructorWithoutCourses"
                            + "|||iwc@yahoo.tmt|||instructorStudentList Page Load<br>Total Courses: 0"
                            + "|||/page/instructorStudentListPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         instructor = dataBundle.instructors.get("instructorOfArchivedCourse");
         instructorId = instructor.googleId;
@@ -101,7 +102,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                            + "|||instructorOfArchiveCourse@archiveCourse.tmt"
                            + "|||instructorStudentList Page Load<br>Total Courses: 1"
                            + "|||/page/instructorStudentListPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         submissionParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "A search key",
@@ -127,7 +128,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                            + "|||instructorOfArchiveCourse@archiveCourse.tmt"
                            + "|||instructorStudentList Page Load<br>Total Courses: 1"
                            + "|||/page/instructorStudentListPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
     }
 
