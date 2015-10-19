@@ -55,7 +55,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             new HashMap<String, Map<String, TeamEvalResult>>();
     
     /* 
-     * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor 
+     * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor
+     * and the selected section for viewing
      * whereas rosterSectionTeamNameTable doesn't. 
      * As a result, sectionTeamNameTable only contains sections viewable to the logged-in instructor 
      * whereas rosterSectionTeamNameTable contains all sections in the course.
