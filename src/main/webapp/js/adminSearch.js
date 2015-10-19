@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $(".fslink").hide();
 
 	$("#rebuildButton").click(function() {
 
@@ -119,7 +120,3 @@ function adminSearchCollapseAllInstructors(){
 	$(".fslink_instructor").hide();
 	$(".instructorRow").attr("class", "instructorRow");
 }
-
-onload = function() {
-	$(".fslink").hide();
-};
