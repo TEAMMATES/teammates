@@ -324,6 +324,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestion.html");
         
+        ______TS("filter by section A");
+
+        resultsPage.filterResponsesForSection("Section A");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionFilteredBySectionA.html");
         
     }
 
