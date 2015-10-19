@@ -214,8 +214,15 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = googleId + time;
+        id = googleId + formatCurrentTimeForId();
     }
+    
+    private String formatCurrentTimeForId() {
+        SimpleDateFormat sdf = new SimpleDateFormat(".yyyy.MM.dd.HH.mm.ss.SS");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.format(Calendar.getInstance().getTime());
+    }
+    
     
     public String getIconRoleForShow(){
         String iconRole="";

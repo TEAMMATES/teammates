@@ -20,7 +20,7 @@ public class ActivityLogEntryTest extends BaseTestCase{
         ActivityLogEntry entry = new ActivityLogEntry("instructorHome", "Pageload", acc, "Message", "URL");        
         AssertHelper.assertLogMessageEquals(logMessage, entry.generateLogMessage());
 
-        logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId|||UserEmail|||Message|||URL|||UserId123456";
+        logMessage = "TEAMMATESLOG|||instructorHome|||Pageload|||true|||Instructor|||UserName|||UserId|||UserEmail|||Message|||URL|||UserId.2015.10.19.14.37.29.608";
         AppLogLine appLog = new AppLogLine();
         appLog.setLogMessage(logMessage);
         entry = new ActivityLogEntry(appLog);        
