@@ -122,7 +122,7 @@ public class StudentHomePageDataTest {
             String expectedTooltip, String expectedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.feedbackSessionName, studentRow.getName());
-        assertEquals(TimeHelper.formatTime(session.endTime), studentRow.getEndTime());
+        assertEquals(TimeHelper.formatTime12H(session.endTime), studentRow.getEndTime());
         assertEquals(expectedTooltip, studentRow.getTooltip());
         assertEquals(expectedStatus, studentRow.getStatus());
         assertEquals(index, studentRow.getIndex());

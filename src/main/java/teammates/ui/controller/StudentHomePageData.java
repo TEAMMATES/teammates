@@ -68,7 +68,7 @@ public class StudentHomePageData extends PageData {
                     PageData.sanitizeForHtml(sessionName),
                     getStudentHoverMessageForSession(feedbackSession, hasSubmitted),
                     getStudentStatusForSession(feedbackSession, hasSubmitted),
-                    TimeHelper.formatTime(feedbackSession.endTime),
+                    TimeHelper.formatTime12H(feedbackSession.endTime),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
             

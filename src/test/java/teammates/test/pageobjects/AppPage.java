@@ -805,7 +805,7 @@ public abstract class AppPage {
     
     private static String processPageSourceForGodMode(String content) {
         Date now = new Date();
-        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
+        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(now), TimeHelper.formatTime12H(now));
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "${app.url}")
