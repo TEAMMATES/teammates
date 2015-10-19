@@ -221,24 +221,37 @@ public class AdminActivityLogPageAction extends Action {
         
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         
-        if (earliestLogChecked != null) {
-            String userGoogleId = earliestLogChecked.getId();
-            String userRole = earliestLogChecked.getRole();
-            
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
-            sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
-            
-            TimeZone adminTimeZone = TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE);
-            Calendar adminTimezoneCalendar = Calendar.getInstance(adminTimeZone);
-            adminTimezoneCalendar.setTimeInMillis(earliestLogChecked.getTime());
-            
-            String timeInAdminTimeZone = sdf.format(adminTimezoneCalendar.getTime());
-            String timeInUserTimeZone = getLocalTimeInfo(userGoogleId, userRole, String.valueOf(earliestLogChecked.getTime()));
-            
-            status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone and on <b>" + timeInUserTimeZone + "</b> in Local Time Zone.<br>";
-            
+        long earliestSearchTime = query.getStartTimeMillis();
+        //  if the search space is limited to a certain log
+        if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) && (currentLogsInPage >= LOGS_PER_PAGE) && (earliestLogChecked != null)) {
+            earliestSearchTime = earliestLogChecked.getTime();
         }
         
+        double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
+        if (data.isPersonSpecified()) {
+            String targetUserGoogleId = data.getPersonSpecified();
+            targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
+        }
+        
+        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) { // if no person is specified or the person doesn't really exist
+            if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) && (currentLogsInPage >= LOGS_PER_PAGE) && (earliestLogChecked != null)) {
+                String userGoogleId = earliestLogChecked.getId();
+                String userRole = earliestLogChecked.getRole();
+                targetTimeZone = this.getLocalTimeZoneInfo(userGoogleId, userRole);
+            } else {
+                targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+            }
+        }
+        
+        if (earliestLogChecked != null) {
+            double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+            String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
+            String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
+            
+            status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
+                      + adminTimeZone + ") and on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" 
+                      + targetTimeZone + ").<br>";
+        }
         
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
@@ -335,20 +348,24 @@ public class AdminActivityLogPageAction extends Action {
         
     }
     
-    private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
-        
+    private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
         if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
-            double timeZone = getLocalTimeZoneForRequest(logGoogleId, logRole);  
-            return computeLocalTime(timeZone, logTimeInAdminTimeZone);
-            
+            return getLocalTimeZoneForRequest(logGoogleId, logRole);
         } else if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
             String coureseId = logRole.split(":")[1];
-            double timeZone = getLocalTimeZoneForUnregisteredUserRequest(coureseId);
+            return getLocalTimeZoneForUnregisteredUserRequest(coureseId);
+        } else {
+            return Const.DOUBLE_UNINITIALIZED;
+        }
+    }
+    
+    private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
+        double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
+        if (timeZone != Const.DOUBLE_UNINITIALIZED) {
             return computeLocalTime(timeZone, logTimeInAdminTimeZone);
         } else {
             return "Local Time Unavailable";
         }
-    
     }
     
     private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {

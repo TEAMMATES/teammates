@@ -486,4 +486,16 @@ public class AdminActivityLogPageData extends PageData {
     public String getStatusForAjax() {
         return statusForAjax;
     }
+
+    public boolean isPersonSpecified() {
+        return ((q != null) && (q.isPersonInQuery));
+    }
+    
+    public String getPersonSpecified() {
+        if (q != null) {
+            return q.personValue;
+        } else {
+            return null;
+        }
+    }
 }
