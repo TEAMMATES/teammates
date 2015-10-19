@@ -271,8 +271,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
-            String name = bundle.roster.getStudentForEmail(email).name;
-            String team = bundle.roster.getStudentForEmail(email).team;
+            StudentAttributes student = bundle.roster.getStudentForEmail(email);
+            if (!bundle.sectionTeamNameTable.containsKey(student.section)) {
+                continue;
+            }
+            String name = student.name;
+            String team = student.team;
             
             List<String> teamEmails = teamMembersEmail.get(team);
             TeamEvalResult teamResult = teamResults.get(team);
@@ -369,8 +373,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
-            String name = bundle.roster.getStudentForEmail(email).name;
-            String team = bundle.roster.getStudentForEmail(email).team;
+            StudentAttributes student = bundle.roster.getStudentForEmail(email);
+            if (!bundle.sectionTeamNameTable.containsKey(student.section)) {
+                continue;
+            }
+            String name = student.name;
+            String team = student.team;
             
             List<String> teamEmails = teamMembersEmail.get(team);
             TeamEvalResult teamResult = teamResults.get(team);
