@@ -229,7 +229,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         responses = getActualResponses(question, bundle);
         
-        //List of all teams
+        //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
         
         //Each team's member(email) list
@@ -271,12 +271,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
-            StudentAttributes student = bundle.roster.getStudentForEmail(email);
-            if (!bundle.sectionTeamNameTable.containsKey(student.section)) {
-                continue;
-            }
-            String name = student.name;
-            String team = student.team;
+            String name = bundle.roster.getStudentForEmail(email).name;
+            String team = bundle.roster.getStudentForEmail(email).team;
             
             List<String> teamEmails = teamMembersEmail.get(team);
             TeamEvalResult teamResult = teamResults.get(team);
@@ -331,7 +327,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         responses = getActualResponses(question, bundle);
 
-        //List of all teams
+        //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
         
         //Each team's member(email) list
@@ -373,12 +369,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
             StudentResultSummary summary = entry.getValue();
             String email = entry.getKey();
-            StudentAttributes student = bundle.roster.getStudentForEmail(email);
-            if (!bundle.sectionTeamNameTable.containsKey(student.section)) {
-                continue;
-            }
-            String name = student.name;
-            String team = student.team;
+            String name = bundle.roster.getStudentForEmail(email).name;
+            String team = bundle.roster.getStudentForEmail(email).team;
             
             List<String> teamEmails = teamMembersEmail.get(team);
             TeamEvalResult teamResult = teamResults.get(team);
