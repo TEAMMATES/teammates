@@ -29,7 +29,16 @@ public class InstructorHomePage extends AppPage {
     
     @FindBy(id = "sortByDate")
     private WebElement sortByDateButton;
-    
+
+    @FindBy(className = "button_sortname")
+    private List<WebElement> tablesSortByName;
+
+    @FindBy(className = "button_sortstartdate")
+    private List<WebElement> tablesSortByStartDate;
+
+    @FindBy(className = "button_sortenddate")
+    private List<WebElement> tablesSortByEndDate;
+
     public InstructorHomePage(Browser browser){
         super(browser);
     }
@@ -64,7 +73,24 @@ public class InstructorHomePage extends AppPage {
         sortByDateButton.click();
         waitForPageToLoad();
     }
-    
+
+    private void clickElements(List<WebElement> elements) {
+        for (WebElement ele : elements) {
+            ele.click();
+        }
+    }
+    public void sortTablesByName() {
+        clickElements(tablesSortByName);
+    }
+
+    public void sortTablesByStartDate() {
+        clickElements(tablesSortByStartDate);
+    }
+
+    public void sortTablesByEndDate() {
+        clickElements(tablesSortByEndDate);
+    }
+
     public InstructorCourseEnrollPage clickCourseErollLink(String courseId) {
         getCourseLinkInRow("course-enroll-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();

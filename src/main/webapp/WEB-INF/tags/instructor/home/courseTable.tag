@@ -6,11 +6,10 @@
 <table class="table-responsive table table-striped table-bordered">
     <thead>
         <tr>
-            <th id="button_sortname" onclick="toggleSort(this,1);"
-                class="button-sort-none">
+            <th onclick="toggleSort(this,1);" class="button_sortname button-sort-none">
                 Session Name<span class="icon-sort unsorted"></span></th>
-            <th id="button_sortstartdate" onclick="toggleSort(this,2,instructorHomeDateComparator);" class="button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
-            <th id="button_sortenddate" onclick="toggleSort(this,3,instructorHomeDateComparator);" class="button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
+            <th onclick="toggleSort(this,2,instructorHomeDateComparator);" class="button_sortstartdate button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
+            <th onclick="toggleSort(this,3,instructorHomeDateComparator);" class="button_sortenddate button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
             <th>Status</th>
             <th>
                 <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" 
