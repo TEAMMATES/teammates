@@ -1,4 +1,5 @@
 var COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
+var CURRENT_YEAR = (new Date()).getFullYear();
 
 $(document).ready(function() {
     setupFsCopyModal();
@@ -73,4 +74,18 @@ $(document).ready(function() {
 function toggleArchiveCourseConfirmation(courseId) {
     return confirm('Are you sure you want to archive ' + courseId + '? This action can be reverted'
                    + 'by going to the "courses" tab and unarchiving the desired course(s).');
+}
+
+/**
+ * This is the comparator that is used for sorting start and end times on the InstructorHome page
+ *
+ * @param x
+ * @param y
+ * @returns 1 if Date x is after y, 0 if same and -1 if before
+ */
+function instructorHomeDateComparator(x, y) {
+    x = Date.parse(x + ' ' + CURRENT_YEAR);
+    y = Date.parse(y + ' ' + CURRENT_YEAR);
+    var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
+    return comparisonResult;
 }

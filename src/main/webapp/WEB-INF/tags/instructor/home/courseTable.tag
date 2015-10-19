@@ -9,8 +9,8 @@
             <th id="button_sortname" onclick="toggleSort(this,1);"
                 class="button-sort-none">
                 Session Name<span class="icon-sort unsorted"></span></th>
-            <th id="button_sortstartdate" onclick="toggleSort(this,2);" class="button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
-            <th id="button_sortenddate" onclick="toggleSort(this,3);" class="button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
+            <th id="button_sortstartdate" onclick="toggleSort(this,2,instructorHomeDateComparator);" class="button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
+            <th id="button_sortenddate" onclick="toggleSort(this,3,instructorHomeDateComparator);" class="button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
             <th>Status</th>
             <th>
                 <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" 

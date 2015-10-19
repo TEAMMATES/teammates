@@ -236,7 +236,7 @@ public class TimeHelper {
     public static String formatDateTimeForInstructorHomePage(Date date) {
         if (date == null)
             return "";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
