@@ -78,6 +78,8 @@ function toggleArchiveCourseConfirmation(courseId) {
 
 /**
  * This is the comparator that is used for sorting start and end times on the InstructorHome page
+ * It works by adding on the current year to time values and then comparing them.
+ * This is needed since the time in the table on the InstructorHome page doesn't include the year component
  *
  * @param x
  * @param y

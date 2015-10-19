@@ -231,7 +231,7 @@ public class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd MMM yyyy. Example: 05 May 2012
+     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
      */
     public static String formatDateTimeForInstructorHomePage(Date date) {
         if (date == null)
