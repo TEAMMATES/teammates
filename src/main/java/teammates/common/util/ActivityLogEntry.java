@@ -112,7 +112,7 @@ public class ActivityLogEntry {
             message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
-            id = "Unknown" + time;
+            id = "Unknown" + formatTimeForId(TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE));
             timeTaken = null;
             keyStringsToHighlight = null;
         }
@@ -155,7 +155,7 @@ public class ActivityLogEntry {
             email = acc.email;
         }
         
-        id = googleId + time;
+        id = googleId + formatTimeForId(TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE));
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -214,13 +214,13 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = googleId + formatCurrentTimeForId();
+        id = googleId + formatTimeForId(TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE));
     }
     
-    private String formatCurrentTimeForId() {
+    private String formatTimeForId(Calendar date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return sdf.format(Calendar.getInstance().getTime());
+        sdf.setCalendar(date);
+        return sdf.format(date.getTime());
     }
     
     
