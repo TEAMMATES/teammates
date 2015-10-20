@@ -93,7 +93,10 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         /* Explanation: We do 'non-invasive' (i.e., no changes to datastore) tests first */
         
         // Explanation: Checks the rendering of the page content.
-        testContent();  
+        testContent();
+        
+     // Explanation: Checks the ajax request for course stats.
+        testCourseStats();
         
         // Explanation: Checks if links going out of the page are correct 
         testLinks();
@@ -145,6 +148,17 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.triggerAjaxLoadCourses();
         coursesPage.waitForAjaxLoadCoursesError();
         coursesPage = getCoursesPage();
+    }
+    
+    public void testCourseStats() throws Exception {
+        ______TS("Course Stats");
+        coursesPage = getCoursesPage();
+        coursesPage.triggerAjaxLoadCourseStats(1);
+        coursesPage.waitForAjaxLoadCourseStatsSuccess(1);
+        assertEquals("0", coursesPage.getSectionStatsField(1));
+        assertEquals("0", coursesPage.getTeamStatsField(1));
+        assertEquals("0", coursesPage.getTotalStudentStatsField(1));
+        assertEquals("0", coursesPage.getUnregisteredStudentStatsField(1));
     }
 
     public void testLinks() throws Exception{

@@ -33,17 +33,17 @@
         <tr>
             <td id="courseid${i.index}">${activeCourse.courseId}</td>
             <td id="coursename${i.index}">${activeCourse.courseName}</td>
-            <td class="course-stats-sectionNum">
-                <a oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            <td id="course-stats-sectionNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
             </td>
-            <td class="course-stats-teamNum">
-                <a oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            <td id="course-stats-teamNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
             </td>
-            <td class="course-stats-totalStudentNum">
-                <a oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            <td id="course-stats-totalStudentNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
             </td>
-            <td class="course-stats-unregisteredStudentNum">
-                <a oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            <td id="course-stats-unregisteredStudentNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
             </td>
             <td class="align-center no-print">
                 <c:forEach items="${activeCourse.actions}" var="button">

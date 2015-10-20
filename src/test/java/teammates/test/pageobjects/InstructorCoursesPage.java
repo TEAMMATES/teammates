@@ -150,6 +150,11 @@ public class InstructorCoursesPage extends AppPage {
         js.executeScript("$('#ajaxForCourses').trigger('submit')");
     }
     
+    public void triggerAjaxLoadCourseStats(int rowIndex) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('.course-stats-link-" + rowIndex + "').first().trigger('click')");
+    }
+    
     public void waitForAjaxLoadCoursesError() {
         By element = By.id("retryAjax");
         waitForElementPresence(element);
@@ -160,6 +165,33 @@ public class InstructorCoursesPage extends AppPage {
     public void waitForAjaxLoadCoursesSuccess() {
         By element = By.id("tableActiveCourses");
         waitForElementPresence(element);
+    }
+    
+    public void waitForAjaxLoadCourseStatsSuccess(int rowIndex) {
+        By element = By.className("course-stats-link-" + rowIndex);
+        waitForElementToDisappear(element);
+        By loaderElement = By.className("course-stats-loader");
+        waitForElementToDisappear(loaderElement);
+    }
+    
+    public String getSectionStatsField(int rowIndex) {
+        By element = By.id("course-stats-sectionNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
+    }
+    
+    public String getTeamStatsField(int rowIndex) {
+        By element = By.id("course-stats-teamNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
+    }
+    
+    public String getTotalStudentStatsField(int rowIndex) {
+        By element = By.id("course-stats-totalStudentNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
+    }
+    
+    public String getUnregisteredStudentStatsField(int rowIndex) {
+        By element = By.id("course-stats-unregisteredStudentNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
     }
 
     private int getCourseCount() {

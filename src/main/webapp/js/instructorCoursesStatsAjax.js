@@ -1,7 +1,7 @@
 function linkAjaxForCourseStats(){
     var courseStatsClickHandler = function(e) {
         var row = $(this).parent().parent();
-        var ajaxCols = $(row).children('td[class^="course-stats"]');
+        var ajaxCols = $(row).children('td[id^="course-stats"]');
         var hyperlinkObject = $(this).clone();
 
         e.preventDefault();
@@ -9,7 +9,7 @@ function linkAjaxForCourseStats(){
             type: 'POST',
             url: $(this).attr('href'),
             beforeSend: function() {
-                ajaxCols.html('<img src="/images/ajax-loader.gif"/>');
+                ajaxCols.html('<img class="course-stats-loader" src="/images/ajax-loader.gif"/>');
             },
             error: function() {
                 ajaxCols.html('Failed. ')
@@ -28,5 +28,5 @@ function linkAjaxForCourseStats(){
             }
         });
     };
-    $('td[class^="course-stats"] > a').click(courseStatsClickHandler);
+    $('td[id^="course-stats"] > a').click(courseStatsClickHandler);
 }
