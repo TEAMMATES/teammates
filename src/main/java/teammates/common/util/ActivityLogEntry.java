@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
@@ -112,7 +113,7 @@ public class ActivityLogEntry {
             message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
-            id = "Unknown" + formatTimeForId(TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE));
+            id = "Unknown" + formatTimeForId(new Date());
             timeTaken = null;
             keyStringsToHighlight = null;
         }
@@ -155,7 +156,7 @@ public class ActivityLogEntry {
             email = acc.email;
         }
         
-        id = googleId + formatTimeForId(TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE));
+        id = googleId + formatTimeForId(new Date());
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -214,12 +215,12 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = googleId + formatTimeForId(TimeHelper.now(Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE));
+        id = googleId + formatTimeForId(new Date());
     }
     
-    private String formatTimeForId(Calendar date) {
+    private String formatTimeForId(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
-        sdf.setCalendar(date);
+        sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
         return sdf.format(date.getTime());
     }
     
