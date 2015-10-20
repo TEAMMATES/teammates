@@ -6,6 +6,9 @@ $(function() {
     });
     
     $(window).load(function() {
+        $('#studentPhoto').change(function() {
+            $('#profileUploadPictureSubmit').prop('disabled', $(this).val() === "");
+        });
         var picture = $('#editableProfilePicture');
         if (picture.length !== 0) {
             picture.guillotine({

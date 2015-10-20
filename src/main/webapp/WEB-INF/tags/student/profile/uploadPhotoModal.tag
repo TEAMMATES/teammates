@@ -37,7 +37,8 @@
                                 <button type="button"
                                         id="profileUploadPictureSubmit"
                                         class="btn btn-primary center-block"
-                                        onclick="finaliseUploadPictureForm()">
+                                        onclick="finaliseUploadPictureForm()"
+                                        disabled="disabled">
                                     Upload Picture
                                 </button>
                                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
