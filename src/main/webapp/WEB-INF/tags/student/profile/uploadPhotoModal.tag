@@ -27,10 +27,13 @@
                     <div class="col-xs-4 profile-pic-edit-col">
                         <div class="center-block align-center">
                             <form id="profilePictureUploadForm" method="post"> 
-                                <input id="studentPhoto"
-                                       class="inline"
-                                       type="file"
-                                       name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
+                                <span class="btn btn-primary profile-pic-file-selector">
+                                    Browse...
+                                    <input id="studentPhoto"
+                                           type="file"
+                                           name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
+                                </span>
+                                <input type="text" class="filename-preview" value="No File Selected" disabled="disabled" />
                                 <p class="help-block">
                                     Max Size: 5 MB
                                 </p>
