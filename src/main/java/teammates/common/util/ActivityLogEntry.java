@@ -113,7 +113,7 @@ public class ActivityLogEntry {
             message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
-            id = "Unknown" + formatTimeForId(new Date());
+            id = "Unknown" + formatTimeForId(new Date(time));
             timeTaken = null;
             keyStringsToHighlight = null;
         }
@@ -156,7 +156,7 @@ public class ActivityLogEntry {
             email = acc.email;
         }
         
-        id = googleId + formatTimeForId(new Date());
+        id = googleId + formatTimeForId(new Date(time));
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -215,7 +215,7 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = googleId + formatTimeForId(new Date());
+        id = googleId + formatTimeForId(new Date(time));
     }
     
     private String formatTimeForId(Date date) {
