@@ -115,11 +115,15 @@
                            <div class="col-xs-4 profile-pic-edit-col">
                               <div class="center-block align-center">
                                  <form id="profilePictureUploadForm" method="post">
-                                    <input class="inline" id="studentPhoto" name="studentprofilephoto" type="file"/>
+                                    <span class="btn btn-primary profile-pic-file-selector">
+                                       Browse...
+                                       <input id="studentPhoto" name="studentprofilephoto" type="file"/>
+                                                                           </span>
+                                    <input class="filename-preview" disabled="disabled" type="text" value="No File Selected"/>
                                                                         <p class="help-block">
                                        Max Size: 5 MB
                                     </p>
-                                    <button class="btn btn-primary center-block" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
+                                    <button class="btn btn-primary center-block" disabled="disabled" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
                                        Upload Picture
                                     </button>
                                     <input name="user" type="hidden" value="SHomeUiT.benny.c"/>
