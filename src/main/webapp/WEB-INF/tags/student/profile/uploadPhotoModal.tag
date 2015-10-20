@@ -34,12 +34,12 @@
                                            name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
                                 </span>
                                 <input type="text" class="filename-preview" value="No File Selected" disabled="disabled" />
-                                <p class="help-block">
+                                <p class="help-block align-left">
                                     Max Size: 5 MB
                                 </p>
                                 <button type="button"
                                         id="profileUploadPictureSubmit"
-                                        class="btn btn-primary center-block"
+                                        class="btn btn-primary width-100-pc"
                                         onclick="finaliseUploadPictureForm()"
                                         disabled="disabled">
                                     Upload Picture
