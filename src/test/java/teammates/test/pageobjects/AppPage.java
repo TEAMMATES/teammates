@@ -778,7 +778,7 @@ public abstract class AppPage {
         waitForAjaxLoaderGifToDisappear();
         String actual = by == null ? getPageSource()
                                    : browser.driver.findElement(by).getAttribute("outerHTML");
-        return processPageSourceForGodModePartOne(actual);
+        return processPageSourceForHtmlComparison(actual);
     }
 
     private static String injectTestProperties(String htmlString) {
@@ -800,7 +800,7 @@ public abstract class AppPage {
             TestProperties.inst().verifyReadyForGodMode();
             try {
                 String processedPageSource = HtmlHelper.convertToStandardHtml(content, isPart);
-                processedPageSource = processPageSourceForGodModePartTwo(processedPageSource);
+                processedPageSource = processPageSourceForExpectedHtmlRegeneration(processedPageSource);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -811,19 +811,38 @@ public abstract class AppPage {
         }
     }
     
-    private static String processPageSourceForGodModePartOne(String content) {
+    private static String processPageSourceForHtmlComparison(String content) {
+        return replaceUnpredictableValuesWithPlaceholders(
+                                        suppressVariationsInInjectedValues(content));
+    }
+
+    private static String suppressVariationsInInjectedValues(String content) {
+        return content // this replaces test URL with https (generated via js) with their http counterparts
+                      .replace(TestProperties.inst().TEAMMATES_URL.replace("http://", "https://"),
+                               TestProperties.inst().TEAMMATES_URL)
+                      // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
+                      .replace("\"/_ah", "\"" + TestProperties.inst().TEAMMATES_URL + "/_ah")
+                      // this replaces all printed version of TEAMMATES tested with the current version
+                      .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
+                      // this replaces truncated long accounts with their original counterpart
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT),
+                               TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT),
+                               TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT),
+                               TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT),
+                               TestProperties.inst().TEST_ADMIN_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT),
+                               TestProperties.inst().TEST_UNREG_ACCOUNT);
+    }
+
+    private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
-                // this replaces test URL with https (generated via js) with their http counterparts
-                .replace(TestProperties.inst().TEAMMATES_URL.replace("http://", "https://"),
-                         TestProperties.inst().TEAMMATES_URL)
-                // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
-                .replace("\"/_ah", "\"" + TestProperties.inst().TEAMMATES_URL + "/_ah")
                 // this handles the logout url that google generates
                 .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue={*}\"")
-                // this replaces all printed version of TEAMMATES tested with the current version
-                .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
@@ -857,17 +876,6 @@ public abstract class AppPage {
                             "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#\\${comment\\.id}")
-                // this replaces truncated long accounts with their original counterpart
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT),
-                         TestProperties.inst().TEST_STUDENT1_ACCOUNT)
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT),
-                         TestProperties.inst().TEST_STUDENT2_ACCOUNT)
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT),
-                         TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT),
-                         TestProperties.inst().TEST_ADMIN_ACCOUNT)
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT),
-                         TestProperties.inst().TEST_UNREG_ACCOUNT)
                 // today's date
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
                 .replace(TimeHelper.formatDate(now), "${today}")
@@ -889,7 +897,11 @@ public abstract class AppPage {
                 .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js");
     }
     
-    private static String processPageSourceForGodModePartTwo(String content) {
+    private static String processPageSourceForExpectedHtmlRegeneration(String content) {
+        return replaceInjectedValuesWithPlaceholders(content);
+    }
+
+    private static String replaceInjectedValuesWithPlaceholders(String content) {
         return content.replaceAll("<#comment[ ]*</#comment>", "<!---->")
                       .replace(Config.APP_URL, "${app.url}")
                       .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
