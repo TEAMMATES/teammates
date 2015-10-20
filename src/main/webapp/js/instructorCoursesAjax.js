@@ -43,6 +43,7 @@ $(document).ready(function(){
                     .removeClass('align-center')
                     .html(appendedCoursesTable);
                 toggleSort($("#button_sortcourseid"),1);
+                linkAjaxForCourseStats();
             }
         });
     };

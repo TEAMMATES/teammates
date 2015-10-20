@@ -455,6 +455,13 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
+
+    public String getInstructorCourseStatsLink(String courseID) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STATS_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        link = addUserIdToUrl(link);
+        return link;
+    }
     
     public String getInstructorFeedbackEditCopyLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;

@@ -44,6 +44,7 @@ function linkAjaxForResponseRate(){
 
         var sortedElements = $.merge(recentElements, nonRecentElements);
         sortedElements.each(function(idx) {
+            console.log(currentTable.get(0));
             currentTable.get(0).appendChild(this);
         });
     });
