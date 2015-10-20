@@ -247,10 +247,13 @@ public class AdminActivityLogPageAction extends Action {
             double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
             String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
             String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
-            
             status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
-                      + adminTimeZone + ") and on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" 
-                      + targetTimeZone + ").<br>";
+                      + adminTimeZone + ") and ";
+            if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
+                status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
+            } else {
+                status += timeInUserTimeZone;
+            }
         }
         
         //link for Next button, will fetch older logs
