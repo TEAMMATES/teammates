@@ -223,7 +223,7 @@ public class AdminActivityLogPageAction extends Action {
         
         long earliestSearchTime = query.getStartTimeMillis();
         //  if the search space is limited to a certain log
-        if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) && (currentLogsInPage >= LOGS_PER_PAGE) && (earliestLogChecked != null)) {
+        if (((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (currentLogsInPage >= LOGS_PER_PAGE)) && (earliestLogChecked != null)) {
             earliestSearchTime = earliestLogChecked.getTime();
         }
         
@@ -234,7 +234,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) { // if no person is specified or the person doesn't really exist
-            if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) && (currentLogsInPage >= LOGS_PER_PAGE) && (earliestLogChecked != null)) {
+            if (((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (currentLogsInPage >= LOGS_PER_PAGE)) && (earliestLogChecked != null)) {
                 String userGoogleId = earliestLogChecked.getId();
                 String userRole = earliestLogChecked.getRole();
                 targetTimeZone = this.getLocalTimeZoneInfo(userGoogleId, userRole);
