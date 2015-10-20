@@ -218,7 +218,7 @@ public class ActivityLogEntry {
     }
     
     private String formatCurrentTimeForId() {
-        SimpleDateFormat sdf = new SimpleDateFormat(".yyyy.MM.dd.HH.mm.ss.SS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(Calendar.getInstance().getTime());
     }
