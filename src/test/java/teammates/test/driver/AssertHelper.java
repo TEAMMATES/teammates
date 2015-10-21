@@ -1,6 +1,7 @@
 package teammates.test.driver;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.List;
@@ -104,6 +105,26 @@ public class AssertHelper {
                 .replaceAll(Pattern.quote("{*}"), "\\\\E.*?\\\\Q")
                 .replaceAll("[\t\r\n]", "");
         return processedActual.matches("(?s)(?m).*?" + processedRegex + ".*?");
+    }
+    
+    /**
+     * Asserts that the actual log message, excluding its id, is equal to the expected log message,
+     * and that the actual log message's id contains the expected google id. 
+     * @param expected
+     * @param actual
+     */
+    public static void assertLogMessageEquals(String expected, String actual) {
+        int endIndex = actual.lastIndexOf("|||");
+        String actualLogWithoutId = actual.substring(0, endIndex);
+        
+        assertEquals(expected, actualLogWithoutId);
+        
+        String expectedGoogleId = expected.split("\\|\\|\\|")[6];
+        String actualId = actual.substring(endIndex + "|||".length());
+        
+        assertTrue("expected actual message's id to contain " + expectedGoogleId 
+                   + " but was " + actualId,
+                   actualId.contains(expectedGoogleId));
     }
 
 }

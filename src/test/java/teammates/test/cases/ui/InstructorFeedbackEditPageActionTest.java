@@ -10,6 +10,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackEditPageAction;
 import teammates.ui.controller.ShowPageResult;
 
@@ -62,7 +63,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
                 + "<span class=\"bold\">[" + feedbackSessionAttributes.feedbackSessionName + "]</span>"
                 + "in Course: <span class=\"bold\">[idOfTypicalCourse1]</span>"
                 + "|||/page/instructorFeedbackEditPage";
-        assertEquals(expectedString, instructorFeedbackEditPageAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, instructorFeedbackEditPageAction.getLogMessage());
         
         ______TS("failure 1: non-existent feedback session");
         

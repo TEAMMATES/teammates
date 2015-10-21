@@ -9,6 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditPageAction;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -82,7 +83,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
                         "<span class=\"bold\">student1InCourse1@gmail.tmt's</span> details in Course " +
                         "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
                         "|||/page/instructorCourseStudentDetailsEdit";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
     }

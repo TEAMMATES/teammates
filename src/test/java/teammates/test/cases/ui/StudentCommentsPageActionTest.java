@@ -52,7 +52,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
                 + "|||Student 1 in course 1|||student1InCourse1|||student1InCourse1@gmail.tmt|||studentComments "
                 + "Page Load<br>Viewing <span class=\"bold\">student1InCourse1's</span> comment records for Course "
                         + "<span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/studentCommentsPage";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         
         ______TS("registered student without comment, masquerade mode");
         
@@ -72,7 +72,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
                 + "Student in two courses|||student2InCourse1|||student2InCourse1@gmail.tmt|||studentComments "
                 + "Page Load<br>Viewing <span class=\"bold\">student2InCourse1's</span> comment records for "
                 + "Course <span class=\"bold\">[idOfTypicalCourse2]</span>|||/page/studentCommentsPage";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
     
     private StudentCommentsPageAction getAction(String... params) throws Exception{

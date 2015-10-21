@@ -86,7 +86,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
                 + "|||instr1@course1.tmt|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
                 + "|||/page/instructorCourseInstructorAdd";
-        assertEquals(expectedLogSegment, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         
         ______TS("Error: try to add an instructor with invalid email");
         String newInvalidInstructorEmail = "ICIAAT.newInvalidInstructor.email.tmt";
@@ -110,7 +110,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
                + "|||Servlet Action Failure : " + String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail) 
                + "|||/page/instructorCourseInstructorAdd";
-        assertEquals(expectedLogSegment, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogSegment, addAction.getLogMessage());
         
         ______TS("Masquerade mode: add an instructor");
         

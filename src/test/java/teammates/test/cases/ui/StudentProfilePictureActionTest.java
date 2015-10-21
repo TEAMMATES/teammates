@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ImageResult;
 import teammates.ui.controller.StudentProfilePictureAction;
 
@@ -224,7 +225,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                                   + "|||true|||Instructor" + (isMasquerade ? "(M)" : "") + "|||"
                                   + instructor.name + "|||" + instructor.googleId + "|||"+ instructor.email
                                   + "|||Requested Profile Picture by instructor/other students|||/page/studentProfilePic";
-        assertEquals(expectedLogMessage, _action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
     }
 
     private void verifyLogMessageForActionWithBlobKey(boolean isMasquerade) {
@@ -232,7 +233,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + _account.name + "|||" + _account.googleId + "|||" + _student.email
                                   + "|||Requested Profile Picture by student directly|||/page/studentProfilePic";
-        assertEquals(expectedLogMessage, _action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, _action.getLogMessage());
     }
 
     private StudentProfilePictureAction getAction(String... params) throws Exception {
