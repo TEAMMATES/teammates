@@ -235,7 +235,7 @@ public class AdminActivityLogPageAction extends Action {
         
         if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) { // if no person is specified or the person doesn't really exist
             if (((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (currentLogsInPage >= LOGS_PER_PAGE)) && (earliestLogChecked != null)) {
-                String userGoogleId = earliestLogChecked.getId();
+                String userGoogleId = earliestLogChecked.getGoogleId();
                 String userRole = earliestLogChecked.getRole();
                 targetTimeZone = this.getLocalTimeZoneInfo(userGoogleId, userRole);
             } else {
