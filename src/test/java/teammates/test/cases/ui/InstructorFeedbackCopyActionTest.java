@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -87,7 +88,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Mon May 01 23:59:00 UTC 2017<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
         ______TS("Error: Trying to copy with existing feedback session name");
@@ -110,7 +111,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : Trying to create a Feedback Session that exists: Second feedback session/idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackCopy";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
         ______TS("Error: Trying to copy with invalid feedback session name");
@@ -134,7 +135,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty."
                 + " The value of feedback session name should be no longer than 38 characters. It should not be empty.|||"
                 + "/page/instructorFeedbackCopy";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
         ______TS("Masquerade mode");
@@ -170,7 +171,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Fri Apr 29 23:59:00 UTC 2016<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
     private InstructorFeedbackCopyAction getAction (String... params) throws Exception {

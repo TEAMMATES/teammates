@@ -200,7 +200,7 @@ public class AdminActivityLogPageData extends PageData {
         }
         if (q.isPersonInQuery) {
             if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getId().toLowerCase().contains(q.personValue.toLowerCase()) && 
+                    !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase()) && 
                     !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
                 logEntry.setToShow(false);
                 return logEntry;

@@ -59,7 +59,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                                      + "|||instructorWithoutCourses|||iwc@yahoo.tmt"
                                      + "|||instructorHome Page Load<br>Total Courses: 0"
                                      + "|||/page/instructorHomePage" ;
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         submissionParams = new String[]{};
         
@@ -106,7 +106,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
                               + "|||idOfInstructor3|||instr3@course1n2.tmt"
                               + "|||instructorHome Page Load<br>Total Courses: 3"
                               + "|||/page/instructorHomePage" ;
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
         ______TS("instructor with multiple courses, sort by course name, masquerade mode");

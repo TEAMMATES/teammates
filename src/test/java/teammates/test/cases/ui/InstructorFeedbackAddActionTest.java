@@ -10,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackAddAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -67,7 +68,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br>"
                 + "<br><span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackAdd";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         
@@ -104,7 +105,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "is not acceptable to TEAMMATES as feedback session name because it is too long. "
                 + "The value of feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackAdd";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
         ______TS("Add course with trailing space");
@@ -134,7 +135,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Thu May 08 02:00:00 UTC 2014<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackAdd";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         
@@ -167,7 +168,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: &lt;script&lt;script&gt;&gt;test&lt;&#x2f;script&lt;&#x2f;script&gt;&g...>|||"
                 + "/page/instructorFeedbackAdd";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         
@@ -201,7 +202,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Thu Jan 01 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: >|||/page/instructorFeedbackAdd";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
         

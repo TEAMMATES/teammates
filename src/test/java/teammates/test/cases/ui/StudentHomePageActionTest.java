@@ -59,7 +59,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                                     + "|||true|||Unregistered|||null|||unreg.user|||null" 
                                     + "|||Servlet Action Failure :Student with Google ID "
                                     + "unreg.user does not exist|||/page/studentHomePage" ;
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("registered student with no courses");
         
@@ -98,7 +98,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||googleId.without.courses@email.tmt|||Servlet Action Failure "
                              + ":Student with Google ID googleId.without.courses does not exist"
                              + "|||/page/studentHomePage" ;
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
         ______TS("typical user, masquerade mode");
@@ -124,7 +124,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                              + "|||student2InCourse1@gmail.tmt"
                              + "|||studentHome Page Load<br>Total courses: 2"
                              + "|||/page/studentHomePage" ;
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
         ______TS("New student with no existing course, course join affected by eventual consistency");

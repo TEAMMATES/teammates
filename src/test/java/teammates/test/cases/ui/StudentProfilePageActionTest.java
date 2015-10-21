@@ -91,7 +91,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
                                   + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||studentProfile Page Load <br> Profile: "
                                   + student.studentProfile.toString() + "|||/page/studentProfilePage";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     private StudentProfilePageAction getAction(String... params)
