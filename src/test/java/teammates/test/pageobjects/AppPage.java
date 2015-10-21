@@ -842,7 +842,7 @@ public abstract class AppPage {
         assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
                 // this handles the logout url that google generates
-                .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue={*}\"")
+                .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue=\\${continue\\.url}\"")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
@@ -873,7 +873,7 @@ public abstract class AppPage {
                 .replaceAll("commentdelete-[0-9]{16}", "commentdelete-\\${comment\\.id}")
                 // tooltip style
                 .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
-                            "style=\"top: {*}px; left: {*}px; display: block;\"")                
+                            "style=\"top: \\${tooltip\\.offset}px; left: \\${tooltip\\.offset}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#\\${comment\\.id}")
                 // today's date
@@ -886,7 +886,7 @@ public abstract class AppPage {
                 // dynamic feedback submission numbers
                 .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
                 // admin footer, test institute section
-                .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "{*}")
+                .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "\\${admin\\.institute}")
                 // jQuery local
                 .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
                 // jQuery CDN
