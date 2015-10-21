@@ -341,6 +341,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickEndDateBox() {
         endDateBox.click();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).focus();", endDateBox);
     }
     
     public void clickFsCopyButton() {
