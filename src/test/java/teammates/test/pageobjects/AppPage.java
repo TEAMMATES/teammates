@@ -870,6 +870,8 @@ public abstract class AppPage {
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "\\${grace\\.period\\.date}")
                 // dynamic feedback submission numbers
                 .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
+                // admin footer, test institute section
+                .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "{*}")
                 // jQuery local
                 .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
                 // jQuery CDN
