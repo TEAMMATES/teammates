@@ -866,7 +866,7 @@ public abstract class AppPage {
                 .replace(TimeHelper.formatDate(now), "${today}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
-                // now (used in opening time/closing time Grace period)
+                // now (date, time)
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M", "\\${datetime\\.now}")
                 // dynamic feedback submission numbers
                 .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
