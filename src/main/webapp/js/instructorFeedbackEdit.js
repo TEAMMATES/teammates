@@ -413,7 +413,10 @@ function tallyCheckboxes(qnNumber) {
     for (var checkboxType in checkboxTypes) {
         var checked = [];
         $(checkboxType + qnNumber + ':checked').each(function() {
-            checked.push($(this).val());
+            // add checkbox value if the checkbox is not hidden
+            if ($(this).closest('tr, hide').css('display') !== 'none') {
+                checked.push($(this).val());
+            }
         });
         $('[name=' + checkboxTypes[checkboxType] + ']').val(checked.toString());
     }
