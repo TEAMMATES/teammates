@@ -48,9 +48,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.giverType = fq.getGiverType();
         this.recipientType = fq.getRecipientType();
         this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = fq.getShowResponsesTo();
-        this.showGiverNameTo = fq.getShowGiverNameTo();
-        this.showRecipientNameTo = fq.getShowRecipientNameTo();
+        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(fq.getShowResponsesTo());
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowGiverNameTo());
+        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowRecipientNameTo());
+        
+        removeIrrelevantVisibilityOptions();
     }
 
     public FeedbackQuestionAttributes(String feedbackSessionName, String courseId, String creatorEmail,
@@ -71,6 +73,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.showResponsesTo = showResponsesTo;
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;
+        
+        removeIrrelevantVisibilityOptions();
     }
 
     public String getId() {
