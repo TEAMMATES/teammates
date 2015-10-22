@@ -449,12 +449,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             case TEAMS:
                 optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
                 break;
+            case INSTRUCTORS:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            case OWN_TEAM:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            case OWN_TEAM_MEMBERS:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
             default:
                 break;
         }
 
         switch (giverType) {
             case TEAMS:
+                optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                break;
+            case INSTRUCTORS:
                 optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
                 break;
             default:
