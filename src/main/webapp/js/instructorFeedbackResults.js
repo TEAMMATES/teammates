@@ -267,8 +267,7 @@ function displayAjaxRetryMessageForPanelHeading($element) {
     $element.html(ajaxErrorStart + warningSign + errorMsg + chevronDown + ajaxErrorEnd);
 }
 
-
-window.onload = function() {
+$(document).ready(function() {
     var participantPanelType = 'div.panel.panel-primary,div.panel.panel-default';
 
     $('a[id^="collapse-panels-button-section-"]').on('click', function() {
@@ -287,10 +286,7 @@ window.onload = function() {
         var panels = $(this).closest('.panel-warning').children('.panel-collapse').find(participantPanelType).children('.panel-collapse');
         toggleCollapse(this, panels);
     });
-};
 
-// Set on ready events
-$(document).ready(function() {
     $('#results-search-box').keyup(function(e) {
         updateResultsFilter();
     });
