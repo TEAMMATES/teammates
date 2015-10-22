@@ -9,6 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -61,7 +62,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                                     + "Please use only alphabets, numbers, dots, hyphens, underscores and dollar "
                                     + "signs in course ID. Spaces are not allowed for course ID."
                                     + "|||/page/instructorCourseAdd";
-        assertEquals(expectedLogMessage, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
 
         ______TS("Typical case, 1 existing course");
         
@@ -75,7 +76,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
-        assertEquals(expectedLogMessage, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
         
         String expected = Const.StatusMessages.COURSE_ADDED
                   .replace("${courseEnrollLink}", 
@@ -102,7 +103,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "A course by the same ID already exists in the system, possibly created by another "
                              + "user. Please choose a different course ID|||/page/instructorCourseAdd";
-        assertEquals(expectedLogMessage, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
         
         ______TS("Masquerade mode, 0 courses");
         
@@ -131,7 +132,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course added : ticac.tpa2.id<br>Total courses: 1|||/page/instructorCourseAdd";
-        assertEquals(expectedLogMessage, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
         
         // delete the new course
         CoursesLogic.inst().deleteCourseCascade("ticac.tpa2.id");
@@ -153,7 +154,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                              + "InstructorOfArchiveCourse name|||idOfInstructorOfArchivedCourse|||"
                              + "instructorOfArchiveCourse@archiveCourse.tmt|||Course added : ticac.tpa2.id<br>"
                              + "Total courses: 2|||/page/instructorCourseAdd";
-        assertEquals(expectedLogMessage, addAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, addAction.getLogMessage());
         
         
         expected = Const.StatusMessages.COURSE_ADDED

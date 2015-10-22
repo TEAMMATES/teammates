@@ -5,14 +5,12 @@
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="bodyTitle" required="true" %>
-<%@ attribute name="bodyOnload" %>
-
 <%@ attribute name="altNavBar" %>
 <%@ attribute name="altFooter" %>
 <c:set var="defaultNavBar"><ti:navBar /></c:set>
 <c:set var="defaultFooter"><t:bodyFooter /></c:set>
 
-<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}" bodyOnload="${bodyOnload}">
+<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
     <jsp:attribute name="jsIncludes">
         ${jsIncludes}
     </jsp:attribute>

@@ -118,7 +118,7 @@ public class EmailLogEntry {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(time);
         appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
-        return TimeHelper.formatTime(appCal.getTime());
+        return TimeHelper.formatTime12H(appCal.getTime());
     }
     
     public void highlightKeyStringInMessageInfoHtml(String[] keyStringsToHighlight, String part){

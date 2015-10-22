@@ -12,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
 import teammates.ui.controller.AjaxResult;
@@ -68,7 +69,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
         ______TS("failure: invalid parameters");
@@ -113,7 +114,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
         ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
@@ -146,7 +147,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Thu May 08 02:00:00 UTC 2014<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         
         ______TS("success: Masquerade mode, never release results, invalid timezone and graceperiod");
@@ -180,7 +181,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedString, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
     }
     
     private InstructorFeedbackEditSaveAction getAction (String... params) throws Exception {

@@ -22,8 +22,8 @@ public class InstructorFeedbackResultsSessionPanel {
         this.courseId = Sanitizer.sanitizeForHtml(session.courseId);
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.feedbackSessionName);
         this.editLink = editLink;
-        this.startTime = TimeHelper.formatTime(session.startTime);
-        this.endTime = TimeHelper.formatTime(session.endTime);
+        this.startTime = TimeHelper.formatTime12H(session.startTime);
+        this.endTime = TimeHelper.formatTime12H(session.endTime);
         this.resultsVisibleFrom = getResultsVisibleFromText(session);
         this.feedbackSessionPublishButton = feedbackSessionPublishButton;
         this.selectedSection = selectedSection;
@@ -64,18 +64,18 @@ public class InstructorFeedbackResultsSessionPanel {
     private String getResultsVisibleFromText(FeedbackSessionAttributes feedbackSession) {
         if (feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             if (feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-                return TimeHelper.formatTime(feedbackSession.startTime);
+                return TimeHelper.formatTime12H(feedbackSession.startTime);
             } else if (feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
                 return "Never";
             } else {
-                return TimeHelper.formatTime(feedbackSession.sessionVisibleFromTime);
+                return TimeHelper.formatTime12H(feedbackSession.sessionVisibleFromTime);
             }
         } else if (feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) {
             return "I want to manually publish the results.";
         } else if (feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
             return "Never";
         } else {
-            return TimeHelper.formatTime(feedbackSession.resultsVisibleFromTime);
+            return TimeHelper.formatTime12H(feedbackSession.resultsVisibleFromTime);
         }
     }
 }

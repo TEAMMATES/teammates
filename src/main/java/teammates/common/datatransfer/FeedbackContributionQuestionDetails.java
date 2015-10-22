@@ -229,7 +229,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         responses = getActualResponses(question, bundle);
         
-        //List of all teams
+        //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
         
         //Each team's member(email) list
@@ -327,7 +327,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
         responses = getActualResponses(question, bundle);
 
-        //List of all teams
+        //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
         
         //Each team's member(email) list

@@ -16,6 +16,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -111,7 +112,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: An edited comment text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical case, edit comment successful from comments page");
         
@@ -154,7 +155,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: Another edited comment text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical case, edit comment successful recipient type not null");
         
@@ -198,7 +199,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: some text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Edit comment successful with empty recipients");
         
@@ -243,7 +244,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: some text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Edit comment successful, giver not current instructor");
         
@@ -287,7 +288,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: An edited comment text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Edit comment successful, giver not current instructor with course as recipient");
         
@@ -333,7 +334,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: some text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Edit comment successful, giver not current instructor with section as recipient");
         
@@ -379,7 +380,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: some text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Edit comment successful, giver not current instructor with team as recipient");
         
@@ -425,7 +426,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: some text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical case, delete comment successful");
         
@@ -492,7 +493,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: some text>" +
                 "|||/page/instructorStudentCommentEdit";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Unsuccessful edit, non-existent comment");
         

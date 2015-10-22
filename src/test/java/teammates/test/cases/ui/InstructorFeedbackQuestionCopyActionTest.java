@@ -12,6 +12,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackQuestionCopyAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -94,7 +95,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                                     + "[idOfTypicalCourse1]</span> created.<br>"
                                     + "<span class=\"bold\">Essay question:</span> Rate 1 other student's "
                                     + "product|||/page/instructorFeedbackQuestionCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Error: Indicate no questions to be copied");
 
@@ -115,7 +116,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                              + "Instructor|||Instructor 1 of Course 1|||"
                              + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "|||/page/instructorFeedbackQuestionCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Masquerade mode");
 
@@ -149,7 +150,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                              + "created.<br><span class=\"bold\">"
                              + "Essay question:</span> My comments on the class|||"
                              + "/page/instructorFeedbackQuestionCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
 
     private InstructorFeedbackQuestionCopyAction getAction (String... params) throws Exception {

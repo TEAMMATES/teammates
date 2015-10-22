@@ -839,7 +839,7 @@ public abstract class AppPage {
 
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
-        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
+        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(now), TimeHelper.formatTime12H(now));
         return content
                 // this handles the logout url that google generates
                 .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue=\\${continue\\.url}\"")
@@ -881,8 +881,8 @@ public abstract class AppPage {
                 .replace(TimeHelper.formatDate(now), "${today}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
-                // now (used in opening time/closing time Grace period)
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "\\${grace\\.period\\.date}")
+                // now (date, time)
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M", "\\${datetime\\.now}")
                 // dynamic feedback submission numbers
                 .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
                 // admin footer, test institute section

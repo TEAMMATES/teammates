@@ -192,6 +192,78 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertTrue(!question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
         assertTrue(!question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
         assertTrue(!question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
+        
+        ______TS("test students->instructors");
+
+        question.giverType = FeedbackParticipantType.STUDENTS;
+        question.recipientType = FeedbackParticipantType.INSTRUCTORS;
+
+        participants.clear();
+        participants.add(FeedbackParticipantType.RECEIVER);
+        participants.add(FeedbackParticipantType.INSTRUCTORS);
+        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.STUDENTS);
+        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+
+        question.removeIrrelevantVisibilityOptions();
+
+        assertEquals(question.showGiverNameTo.size(),4);
+        assertEquals(question.showRecipientNameTo.size(),4);
+        assertEquals(question.showResponsesTo.size(), 4);
+        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        
+        ______TS("test students->own team");
+
+        question.giverType = FeedbackParticipantType.STUDENTS;
+        question.recipientType = FeedbackParticipantType.OWN_TEAM;
+
+        participants.clear();
+        participants.add(FeedbackParticipantType.RECEIVER);
+        participants.add(FeedbackParticipantType.INSTRUCTORS);
+        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.STUDENTS);
+        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+
+        question.removeIrrelevantVisibilityOptions();
+
+        assertEquals(question.showGiverNameTo.size(), 4);
+        assertEquals(question.showRecipientNameTo.size(), 4);
+        assertEquals(question.showResponsesTo.size(), 4);
+        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        
+        ______TS("test students->own team members");
+
+        question.giverType = FeedbackParticipantType.STUDENTS;
+        question.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
+
+        participants.clear();
+        participants.add(FeedbackParticipantType.RECEIVER);
+        participants.add(FeedbackParticipantType.INSTRUCTORS);
+        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.STUDENTS);
+        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+
+        question.removeIrrelevantVisibilityOptions();
+
+        assertEquals(question.showGiverNameTo.size(), 4);
+        assertEquals(question.showRecipientNameTo.size(), 4);
+        assertEquals(question.showResponsesTo.size(), 4);
+        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
     }
 
     @AfterClass

@@ -32,12 +32,6 @@ public class AdminActivityLogPageAction extends Action {
     private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
     
-    
-    private String logRoleFromAjax = null;
-    private String logGoogleIdFromAjax = null;
-    private String logTimeInAdminTimeZoneFromAjax = null;
-    
-    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
@@ -49,16 +43,18 @@ public class AdminActivityLogPageAction extends Action {
         String pageChange = getRequestParamValue("pageChange");
         String filterQuery = getRequestParamValue("filterQuery");
         
-        logRoleFromAjax = getRequestParamValue("logRole");
-        logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
-        logTimeInAdminTimeZoneFromAjax = getRequestParamValue("logTimeInAdminTimeZone");
+        String logRoleFromAjax = getRequestParamValue("logRole");
+        String logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
+        String logTimeInAdminTimeZoneFromAjax = getRequestParamValue("logTimeInAdminTimeZone");
         
         boolean isLoadingLocalTimeAjax = (logRoleFromAjax != null)
                                          && (logGoogleIdFromAjax != null)
                                          && (logTimeInAdminTimeZoneFromAjax != null);
         
         if (isLoadingLocalTimeAjax) {
-            data.setLogLocalTime(getLocalTimeInfo());
+            data.setLogLocalTime(getLocalTimeInfo(logGoogleIdFromAjax, 
+                                                  logRoleFromAjax,
+                                                  logTimeInAdminTimeZoneFromAjax));
             return createAjaxResult(data);
         }
         
@@ -185,6 +181,7 @@ public class AdminActivityLogPageAction extends Action {
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
         boolean isFirstRow = true;
+        ActivityLogEntry earliestLogChecked = null;
         for (RequestLogs record : records) {
             
             totalLogsSearched ++;
@@ -207,8 +204,9 @@ public class AdminActivityLogPageAction extends Action {
                 String logMsg = appLog.getLogMessage();
                 if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
                     ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
+                    earliestLogChecked = activityLogEntry;
                     activityLogEntry = data.filterLogs(activityLogEntry);
-
+                    
                     if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
                         appLogs.add(activityLogEntry);
                         if (isFirstRow) {
@@ -222,6 +220,42 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
+        
+        long earliestSearchTime = query.getStartTimeMillis();
+        //  if the search space is limited to a certain log
+        if (((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (currentLogsInPage >= LOGS_PER_PAGE)) && (earliestLogChecked != null)) {
+            earliestSearchTime = earliestLogChecked.getTime();
+        }
+        
+        double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
+        if (data.isPersonSpecified()) {
+            String targetUserGoogleId = data.getPersonSpecified();
+            targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
+        }
+        
+        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) { // if no person is specified or the person doesn't really exist
+            if (((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (currentLogsInPage >= LOGS_PER_PAGE)) && (earliestLogChecked != null)) {
+                String userGoogleId = earliestLogChecked.getGoogleId();
+                String userRole = earliestLogChecked.getRole();
+                targetTimeZone = this.getLocalTimeZoneInfo(userGoogleId, userRole);
+            } else {
+                targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+            }
+        }
+        
+        if (earliestLogChecked != null) {
+            double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+            String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
+            String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
+            status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
+                      + adminTimeZone + ") and ";
+            if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
+                status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
+            } else {
+                status += timeInUserTimeZone;
+            }
+        }
+        
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
             status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
@@ -242,15 +276,14 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
     
-    
     /*
      * Functions used to load local time for activity log using AJAX
      */
     
-    private double getLocalTimeZoneForRequest(String userGoogleId) {
+    private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
-        if (logRoleFromAjax.contentEquals("Admin") || logRoleFromAjax.contains("(M)")) {
+        if ((userRole != null) && (userRole.contentEquals("Admin") || userRole.contains("(M)"))) {
             return Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         }
         
@@ -318,30 +351,34 @@ public class AdminActivityLogPageAction extends Action {
         
     }
     
-    private String getLocalTimeInfo() {
-        
-        if (!logGoogleIdFromAjax.contentEquals("Unknown") && !logGoogleIdFromAjax.contentEquals("Unregistered")) {
-            double timeZone = getLocalTimeZoneForRequest(logGoogleIdFromAjax);  
-            return computeLocalTime(timeZone);
-            
-        } else if (logRoleFromAjax.contains("Unregistered") && !logRoleFromAjax.contentEquals("Unregistered")) {
-            String coureseId = logRoleFromAjax.split(":")[1];
-            double timeZone = getLocalTimeZoneForUnregisteredUserRequest(coureseId);
-            return computeLocalTime(timeZone);
+    private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
+        if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
+            return getLocalTimeZoneForRequest(logGoogleId, logRole);
+        } else if (logRole.contains("Unregistered") && !logRole.contentEquals("Unregistered")) {
+            String coureseId = logRole.split(":")[1];
+            return getLocalTimeZoneForUnregisteredUserRequest(coureseId);
+        } else {
+            return Const.DOUBLE_UNINITIALIZED;
+        }
+    }
+    
+    private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
+        double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
+        if (timeZone != Const.DOUBLE_UNINITIALIZED) {
+            return computeLocalTime(timeZone, logTimeInAdminTimeZone);
         } else {
             return "Local Time Unavailable";
         }
-    
     }
     
-    private String computeLocalTime(double timeZone) {
+    private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {
         if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
         }
         
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZoneFromAjax));
+        appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZone));
         TimeHelper.convertToUserTimeZone(appCal, timeZone);
         return sdf.format(appCal.getTime());
     }

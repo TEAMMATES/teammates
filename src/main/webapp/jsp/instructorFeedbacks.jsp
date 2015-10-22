@@ -14,8 +14,9 @@
     <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacksAjax.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbacksSpecific.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}" bodyOnload="onload=\"readyFeedbackPage();\"">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
     
     <c:if test="${!data.usingAjax}">
         <feedbacks:feedbackSessionsForm fsForm="${data.newFsForm}"/>
