@@ -55,28 +55,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         removeIrrelevantVisibilityOptions();
     }
 
-    public FeedbackQuestionAttributes(String feedbackSessionName, String courseId, String creatorEmail,
-                   Text questionMetaData, int questionNumber, FeedbackQuestionType questionType,
-                   FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
-                   int numberOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
-                   List<FeedbackParticipantType> showGiverNameTo,
-                   List<FeedbackParticipantType> showRecipientNameTo) {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeGoogleId(creatorEmail);
-        this.questionMetaData = questionMetaData;
-        this.questionNumber = questionNumber;
-        this.questionType = questionType;
-        this.giverType = giverType;
-        this.recipientType = recipientType;
-        this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
-        this.showResponsesTo = showResponsesTo;
-        this.showGiverNameTo = showGiverNameTo;
-        this.showRecipientNameTo = showRecipientNameTo;
-        
-        removeIrrelevantVisibilityOptions();
-    }
-
     public String getId() {
         return feedbackQuestionId;
     }
