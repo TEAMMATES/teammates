@@ -878,7 +878,7 @@ public class Const {
                 + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
                 + "</div>";
         public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
-                + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces.";
+                + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
 
         public static final String COURSE_ADDED = "The course has been added. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
                 + "or click <a href=\"${courseEditLink}\">here</a> to add other instructors.<br>"

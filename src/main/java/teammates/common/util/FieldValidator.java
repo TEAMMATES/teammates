@@ -59,7 +59,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Email
      */
-    public static final int EMAIL_MAX_LENGTH = 45;
+    public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as an email because it %s. "+
             "An email address contains some text followed by one '@' sign followed by some more text. " +
