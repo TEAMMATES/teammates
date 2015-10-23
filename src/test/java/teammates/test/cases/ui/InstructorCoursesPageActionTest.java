@@ -9,6 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCoursesPageAction;
 import teammates.ui.controller.InstructorCoursesPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -94,7 +95,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
                 "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 2" +
                 "|||/page/instructorCoursesPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode, 0 courses");
         
@@ -121,7 +122,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
                 "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
                 "|||instr1@course1.tmt|||instructorCourse Page Load<br>Total courses: 0" +
                 "|||/page/instructorCoursesPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
     

@@ -200,16 +200,6 @@ public class TimeHelper {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
-
-    /**
-     * Formats a date in the format dd MMM yyyy, HH:mm. Example: 05 May 2012,
-     * 22:04<br />
-     */
-    public static String formatTime(Date date) {
-        if (date == null)
-            return "";
-        return new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(date);
-    }
     
     /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,

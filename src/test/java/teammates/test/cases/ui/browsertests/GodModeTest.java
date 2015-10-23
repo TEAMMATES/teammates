@@ -60,7 +60,7 @@ public class GodModeTest extends BaseUiTestCase {
         changedContent = changedContent.replace("<!-- DATETODAY -->", 
                 TimeHelper.formatDate(new Date()));
         changedContent = changedContent.replace("<!-- DATETIMETODAY -->", 
-                TimeHelper.formatTime(new Date()));
+                TimeHelper.formatTime12H(new Date()));
         
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", changedContent);
     }

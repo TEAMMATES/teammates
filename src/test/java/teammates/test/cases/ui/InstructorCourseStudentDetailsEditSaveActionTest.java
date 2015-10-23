@@ -12,6 +12,7 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -90,7 +91,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "<br>New Team: " + newStudentTeam + 
                 "<br>Comments: " + newStudentComments + 
                 "|||/page/instructorCourseStudentDetailsEditSave";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
@@ -127,7 +128,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "<br>New Team: " + newStudentTeamToBeTrimmed.trim() + 
                 "<br>Comments: " + newStudentCommentsToBeTrimmed.trim() + 
                 "|||/page/instructorCourseStudentDetailsEditSave";
-        assertEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
         
         
         ______TS("Error case, invalid email parameter");
@@ -162,7 +163,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG) + 
                 "|||/page/instructorCourseStudentDetailsEditSave";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
         
@@ -197,7 +198,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail) + 
                 "|||/page/instructorCourseStudentDetailsEditSave";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         // deleting edited student
         AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
@@ -236,7 +237,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 "Course <span class=\"bold\">[" + instructor1OfCourse1.courseId + "]</span> not found." +
                 "|||/page/instructorCourseStudentDetailsEditSave";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         
         ______TS("Unsuccessful case: test null student email parameter");

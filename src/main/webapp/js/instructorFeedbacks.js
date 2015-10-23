@@ -216,7 +216,7 @@ function readyFeedbackPage() {
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
 
-    window.doPageSpecificOnload = selectDefaultTimeOptions();
+    selectDefaultTimeOptions();
     loadSessionsByAjax();
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();

@@ -341,6 +341,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickEndDateBox() {
         endDateBox.click();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).focus();", endDateBox);
     }
     
     public void clickFsCopyButton() {
@@ -422,6 +424,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickVisibilityOptionsForQuestion1() {
         browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
+    }
+    
+    public void clickVisibilityPreviewForNewQuestion() {
+        browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityMessageButton")).click();
+    }
+    public void clickVisibilityOptionsForNewQuestion() {
+        browser.driver.findElement(By.cssSelector("#questionTableNew .visibilityOptionsLabel")).click();
     }
     
     public void clickAddQuestionButton() {
@@ -588,6 +597,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void selectRecipientTypeForQuestion1(String recipientType) {
         selectDropdownByVisibleValue(recipientDropdownForQuestion1, recipientType);
+    }
+    
+    public void selectRecipientTypeForNewQuestion(String recipientType) {
+        selectDropdownByVisibleValue(browser.driver.findElement(By.id("recipienttype")), recipientType);
     }
     
     /**
@@ -800,8 +813,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id("visibilityMessage-" + String.valueOf(questionNumber)));
     }
     
+    public WebElement getNewQnVisibilityMessage() {
+        return browser.driver.findElement(By.id("visibilityMessage"));
+    }
+    
     public WebElement getVisibilityOptions(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityOptions-" + String.valueOf(questionNumber)));
+    }
+    
+    public WebElement getNewQnVisibilityOptions() {
+        return browser.driver.findElement(By.id("visibilityOptions"));
     }
 
     public void toggleNotSureCheck(int questionNumber) {
@@ -819,5 +840,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void waitForAjaxErrorOnVisibilityMessageButton(int questionNumber) {
         By buttonSelector = By.cssSelector("#visibilityMessageButton-" + questionNumber + " .active");
         waitForElementToDisappear(buttonSelector);
+    }
+
+    public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {
+        By responseVisibilitycheckBox = By.cssSelector("#questionTableNew input[value='" + checkBoxValue 
+                                                       + "'].answerCheckbox");
+        WebElement checkbox = browser.driver.findElement(responseVisibilitycheckBox);
+        checkbox.click();
+        
+        
     }
 }

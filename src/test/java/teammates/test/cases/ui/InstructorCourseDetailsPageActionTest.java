@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorCourseDetailsPageAction;
 import teammates.ui.controller.InstructorCourseDetailsPageData;
@@ -59,7 +60,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                                     + "|||instr1@course1.tmt|||instructorCourseDetails Page Load<br>Viewing Course "
                                     + "Details for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                                     + "|||/page/instructorCourseDetailsPage";
-        assertEquals(expectedLogMessage, pageAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
         
         ______TS("Masquerade mode, Course with no student");
         gaeSimulation.loginAsAdmin("admin.user");
@@ -90,7 +91,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                              + "instr4@coursenoevals.tmt|||instructorCourseDetails Page Load<br>Viewing Course "
                              + "Details for Course <span class=\"bold\">[idOfCourseNoEvals]</span>|||"
                              + "/page/instructorCourseDetailsPage";
-        assertEquals(expectedLogMessage, pageAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
         
         ______TS("HTML Table needed");
         instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");

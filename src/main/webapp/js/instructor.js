@@ -6,11 +6,7 @@
 // Initial load-up
 //-----------------------------------------------------------------------------
 
-var onLoadFunction = function() {
-    if (typeof doPageSpecificOnload !== 'undefined') {
-        doPageSpecificOnload();
-    };
-    
+$(document).ready(function() {
     bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click');
     
     // bind the show picture onclick events
@@ -18,13 +14,7 @@ var onLoadFunction = function() {
     
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
-};
-
-if (window.addEventListener) {
-    window.addEventListener('load', onLoadFunction);
-} else {
-    window.attachEvent('onload', onLoadFunction);
-}
+});
 
 //-----------------------------------------------------------------------------
 

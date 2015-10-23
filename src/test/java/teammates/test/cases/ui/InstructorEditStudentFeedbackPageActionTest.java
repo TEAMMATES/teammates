@@ -12,6 +12,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
@@ -58,7 +59,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
                 "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||" +
                 "Moderating feedback session for student (" + student.email + ")<br>" +
                 "Session Name: First feedback session<br>Course ID: IESFPTCourse|||" +
@@ -124,7 +125,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 , showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
                 + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
                 + "Moderating feedback session for student (" + student.email + ")<br>"
                 + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"

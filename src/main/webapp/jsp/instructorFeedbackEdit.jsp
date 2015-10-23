@@ -20,17 +20,10 @@
     <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
 </c:set>
 
-<c:set var="onload">
-    onload="readyFeedbackEditPage();
-    bindUncommonSettingsEvents();
-    updateUncommonSettingsInfo();
-    hideUncommonPanels();"
-</c:set>
-
 <c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">
  <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}" bodyOnload="${onload}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}">
     
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
      

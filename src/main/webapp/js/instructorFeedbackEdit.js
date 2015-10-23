@@ -1,3 +1,9 @@
+$(document).ready(function() {
+    readyFeedbackEditPage();
+    bindUncommonSettingsEvents();
+    updateUncommonSettingsInfo();
+    hideUncommonPanels();
+});
 
 /**
  * This function is called on edit page load.
@@ -525,33 +531,31 @@ function prepareQuestionForm(type) {
  * cannot select an invalid combination.
  */
 function formatCheckBoxes() {
-    $(document).ready(function() {
-        // TODO: change class -> name?
-        $('input[class*="answerCheckbox"]').change(function() {
-            if (!$(this).is(':checked')) {
-                $(this).parent().parent().find('input[class*="giverCheckbox"]')
-                                         .prop('checked', false);
-                $(this).parent().parent().find('input[class*="recipientCheckbox"]')
-                                         .prop('checked', false);
-            }
-        });
-        $('input[class*="giverCheckbox"]').change(function() {
-            if ($(this).is(':checked')) {
-                $(this).parent().parent().find('input[class*="answerCheckbox"]')
-                                         .prop('checked', true)
-                                         .trigger('change');
-            }
-        });
-        $('input[class*="recipientCheckbox"]').change(function() {
-            if ($(this).is(':checked')) {
-                $(this).parent().parent().find('input[class*="answerCheckbox"]')
-                                         .prop('checked', true);
-            }
-        });
-        $('input[name=receiverLeaderCheckbox]').change(function () {
-            $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
-                                     .prop('checked', $(this).prop('checked'));
-        });
+    // TODO: change class -> name?
+    $('input[class*="answerCheckbox"]').change(function() {
+        if (!$(this).is(':checked')) {
+            $(this).parent().parent().find('input[class*="giverCheckbox"]')
+                                     .prop('checked', false);
+            $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+                                     .prop('checked', false);
+        }
+    });
+    $('input[class*="giverCheckbox"]').change(function() {
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                     .prop('checked', true)
+                                     .trigger('change');
+        }
+    });
+    $('input[class*="recipientCheckbox"]').change(function() {
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                     .prop('checked', true);
+        }
+    });
+    $('input[name=receiverLeaderCheckbox]').change(function () {
+        $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
+                                 .prop('checked', $(this).prop('checked'));
     });
 }
 

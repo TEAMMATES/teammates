@@ -258,6 +258,29 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
         feedbackEditPage.clickquestionSaveForQuestion1();
+        
+        
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.clickVisibilityOptionsForNewQuestion();
+        feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.clickVisibilityPreviewForNewQuestion();
+        
+        feedbackEditPage.waitForElementVisibility(feedbackEditPage.getNewQnVisibilityMessage());
+        assertTrue("Expected recipient's team members to be able to see response, but was "
+                   + feedbackEditPage.getNewQnVisibilityMessage().getText(), 
+                   feedbackEditPage.getNewQnVisibilityMessage()
+                                   .getText()
+                                   .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
+        
+        feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
+        
+        assertFalse("Expected recipient's team members to not be able to see response, but was "
+                    + feedbackEditPage.getNewQnVisibilityMessage().getText(),
+                    feedbackEditPage.getNewQnVisibilityMessage()
+                    .getText()
+                                .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
+        
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
     }
     
     private void testGetQuestionLink() {
