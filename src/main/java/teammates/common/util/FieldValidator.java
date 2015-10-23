@@ -234,7 +234,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Google ID
      */    
-    public static final int GOOGLE_ID_MAX_LENGTH = 45;
+    public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "+
             "A Google ID must be a valid id already registered with Google. " +
