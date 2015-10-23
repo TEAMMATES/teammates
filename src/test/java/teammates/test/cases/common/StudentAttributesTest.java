@@ -155,7 +155,7 @@ public class StudentAttributesTest extends BaseTestCase {
         s.team = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 
         assertFalse("invalid value", s.isValid());
-        String errorMessage = "\"invalid@google@id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 45 characters. It cannot be empty." + EOL
+        String errorMessage = "\"invalid@google@id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 254 characters. It cannot be empty." + EOL
                             + "\"\" is not acceptable to TEAMMATES as a Course ID because it is empty. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces." + EOL
                             + "\"invalid email\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces." + EOL
                             + "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 60 characters. It should not be empty." + EOL
