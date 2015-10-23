@@ -211,6 +211,10 @@ Apply to thead to make headers not bold.
   pointer-events: none;
 }
 
+.overflow-hidden {
+    overflow:hidden;
+}
+
 .padding-top-0.checkbox,.padding-top-0 {
     padding-top: 0;
 }
@@ -521,6 +525,12 @@ Apply to thead to make headers not bold.
     margin-top: 1px;
     width: 12px;
 }
+    
+.filename-preview {
+    border: 0;
+    background-color: white;
+    text-overflow: ellipsis;
+}
 
 .profile-pic {
     width: 130px;
@@ -568,6 +578,23 @@ Apply to thead to make headers not bold.
     margin: 0 auto;
     margin-bottom: 10px;
 }
+
+.profile-pic-file-selector {
+    overflow: hidden;
+    position: relative;
+}
+
+    .profile-pic-file-selector > #studentPhoto {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        cursor: inherit;
+        display: block;
+    }
 
 .unsorted {
     background: url(../images/sortSideButton.png);

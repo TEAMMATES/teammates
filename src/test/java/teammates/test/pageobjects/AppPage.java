@@ -441,10 +441,13 @@ public abstract class AppPage {
     }
     
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
-        if (fileName.isEmpty()) return;
-        fileBoxElement.setFileDetector(new UselessFileDetector());
-        String newFilePath = new File(fileName).getAbsolutePath();
-        fileBoxElement.sendKeys(newFilePath);
+        if (fileName.isEmpty()) {
+            fileBoxElement.clear();
+        } else {
+            fileBoxElement.setFileDetector(new UselessFileDetector());
+            String newFilePath = new File(fileName).getAbsolutePath();
+            fileBoxElement.sendKeys(newFilePath);
+        }
     }
 
     protected String getTextBoxValue(WebElement textBox) {
