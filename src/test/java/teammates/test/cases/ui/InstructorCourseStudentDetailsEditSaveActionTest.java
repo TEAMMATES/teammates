@@ -11,6 +11,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
@@ -131,9 +132,10 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         AssertHelper.assertLogMessageEquals(expectedLogMessageToBeTrimmed, aToBeTrimmed.getLogMessage());
         
         
-        ______TS("Error case, invalid email parameter");
+        ______TS("Error case, invalid email parameter (email has too many characters)");
         
-        String invalidStudentEmail = "thisisaveryverylonglonglongstudentemailaccountname@gmail.tmt";
+        String invalidStudentEmail = StringHelper.generateStringOfLength(255 - "@gmail.tmt".length()) + "@gmail.tmt";
+        assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
