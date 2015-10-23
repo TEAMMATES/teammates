@@ -191,4 +191,9 @@ public class StudentProfilePage extends AppPage {
                                                           .getAttribute("value"));
     }
 
+    public void verifyUploadButtonState(boolean expectedState) {
+        assertEquals(expectedState, uploadPictureSubmit.isEnabled());
+        
+    }
+
 }

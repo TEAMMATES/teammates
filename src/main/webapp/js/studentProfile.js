@@ -6,6 +6,15 @@ $(function() {
     });
     
     $(window).load(function() {
+        $('#studentPhoto').change(function() {
+            if ($(this).val() === "") {
+                $('#profileUploadPictureSubmit').prop('disabled', true);
+                $('.filename-preview').val('No File Selected');
+            } else {
+                $('#profileUploadPictureSubmit').prop('disabled', false);
+                $('.filename-preview').val($(this).val().split('\\').pop().split('/').pop());
+            }
+        });
         var picture = $('#editableProfilePicture');
         if (picture.length !== 0) {
             picture.guillotine({
