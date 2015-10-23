@@ -133,7 +133,11 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         ______TS("Error case, invalid email parameter");
         
-        String invalidStudentEmail = "thisisaveryverylonglonglongstudentemailaccountname@gmail.tmt";
+        String invalidStudentEmail = "thisisaveryverylonglonglongveryverylonglonglong" 
+                                   + "veryverylonglonglongveryverylonglonglongveryvery"
+                                   + "longlonglongveryverylonglonglonglonglonglongveryverylonglonglong"
+                                   + "longlonglongveryverylonglonglonglonglonglongveryverlonglonglong"
+                                   + "studentemailaccountname@gmail.tmt";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
