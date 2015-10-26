@@ -142,6 +142,7 @@ function setupFsCopyModal() {
                 // Prevent default form submission and submit using jquery.
                 $('#fscopy_submit').click(
                                         function(event) {
+                                            $('#fscopy_submit').prop('disabled', true);
                                             event.preventDefault();
                                             $('#fscopy_submit').closest('form').submit();
                                         }
