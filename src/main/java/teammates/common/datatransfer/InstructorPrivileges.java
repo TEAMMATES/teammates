@@ -344,6 +344,9 @@ public final class InstructorPrivileges {
         return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
     }
     
+    /**
+     * Returns true if privilege for session is present for any section.
+     */
     public boolean isAllowedForPrivilegeAnySection(String sessionName, String privilegeName) {
         return isAllowedInSessionLevelAnySection(sessionName, privilegeName);
     }
