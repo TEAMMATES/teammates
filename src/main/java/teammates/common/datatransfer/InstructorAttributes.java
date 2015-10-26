@@ -299,6 +299,16 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     /**
+     * Returns true if privilege for session is present for any section.
+     */
+    public boolean isAllowedForPrivilegeAnySection(String sessionName, String privilegeName) {
+        if (privileges == null) {
+            privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        }
+        return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
+    }
+    
+    /**
      * pre-condition: instructorPrivilegesAsText and privileges should be non-null
      * @param instructor
      * @return

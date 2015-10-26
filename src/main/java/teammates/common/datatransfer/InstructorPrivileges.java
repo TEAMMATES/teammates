@@ -344,6 +344,10 @@ public final class InstructorPrivileges {
         return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
     }
     
+    public boolean isAllowedForPrivilegeAnySection(String sessionName, String privilegeName) {
+        return isAllowedInSessionLevelAnySection(sessionName, privilegeName);
+    }
+    
     public boolean isSectionSpecial(String sectionName) {
         return this.sectionLevel.containsKey(sectionName);
     }
@@ -432,6 +436,22 @@ public final class InstructorPrivileges {
         } else {
             return this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName).booleanValue();
         }
+    }
+    
+    private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {
+        for (String sectionName : this.sessionLevel.keySet()) {
+            if (this.sessionLevel.get(sectionName).get(sessionName).containsKey(privilegeName) &&
+                this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName).booleanValue()) {
+                
+                return true;
+            }
+        }
+        for (String sectionName : this.sectionLevel.keySet()) {
+            if (isAllowedInSectionLevel(sectionName, privilegeName)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     /**

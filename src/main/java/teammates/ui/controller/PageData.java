@@ -744,9 +744,8 @@ public class PageData {
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
                                                                                 boolean isHome,
-                                                                                InstructorAttributes instructor,
-                                                                                List<String> sectionsInCourse) {
-        return new InstructorFeedbackSessionActions(this, session, isHome, instructor, sectionsInCourse);
+                                                                                InstructorAttributes instructor) {
+        return new InstructorFeedbackSessionActions(this, session, isHome, instructor);
     }
 
     /**
