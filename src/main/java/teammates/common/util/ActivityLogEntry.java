@@ -12,6 +12,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
+import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -147,8 +148,11 @@ public class ActivityLogEntry {
         if (acc == null){
             role = "Unknown";
             name = "Unknown";
-            googleId = "Unknown";
             email = "Unknown";
+            
+            UserType userType = GateKeeper.inst().getCurrentUser();
+            googleId = userType != null ? userType.id : "Unknown";
+        
         } else {
             role = acc.isInstructor ? "Instructor" : "Student"; 
             name = acc.name;
