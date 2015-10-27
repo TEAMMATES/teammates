@@ -897,7 +897,11 @@ public abstract class AppPage {
                 // jQuery-ui local
                 .replace("/js/lib/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
                 // jQuery-ui CDN
-                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js");
+                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
+                // top HTML tag with xmlns defined
+                .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
+                // noscript is to be cleared
+                .replaceFirst("(?s)<noscript>.*</noscript>", "");
     }
     
     private static String processPageSourceForExpectedHtmlRegeneration(String content) {
