@@ -101,10 +101,13 @@ public class HtmlHelper {
             NamedNodeMap actualAttributeList = currentNode.getAttributes();
             for (int i = 0; i < actualAttributeList.getLength(); i++) {
                 Node actualAttribute = actualAttributeList.item(i);
-                currentHtmlText.append(" " + actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue().replace("\"", "'") + "\"");
+                currentHtmlText.append(" " + actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue().replace("\"", "&quot;") + "\"");
             }
             // close the tag
             currentHtmlText.append(getEndOfOpeningTag(currentNode) + "\n");
+        }
+        if (isVoidElement(currentNodeName)) {
+            return;
         }
         
         // Recursively add contents of the child nodes 
@@ -119,7 +122,7 @@ public class HtmlHelper {
         }
         
         if (shouldIncludeCurrentNode) {
-            currentHtmlText.append(indentation + getEndTag(currentNode));
+            currentHtmlText.append(indentation + "</" + currentNodeName + ">\n");
         }
     
     }
@@ -194,15 +197,6 @@ public class HtmlHelper {
             return "/>";
         }else {
             return ">";
-        }
-    }
-    
-    private static String getEndTag(Node node) {
-        String tagName = node.getNodeName().toLowerCase();
-        if(isVoidElement(tagName)){
-            return "";
-        }else {
-            return "</"+tagName+">\n";
         }
     }
     
