@@ -109,7 +109,7 @@ public class PageData {
     }
     
     public static String displayDateTime (Date date) {
-        return TimeHelper.formatTime(date);
+        return TimeHelper.formatTime12H(date);
     }
     
     public String addUserIdToUrl(String link) {

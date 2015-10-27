@@ -112,7 +112,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                                   + "Number of sessions: 6<br>"
                                   + "Student Profile: " + expectedProfile.toString()
                                   + "|||/page/instructorStudentRecordsPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical case: instructor cannot view sections");
 

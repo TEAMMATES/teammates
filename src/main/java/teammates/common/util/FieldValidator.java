@@ -59,7 +59,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Email
      */
-    public static final int EMAIL_MAX_LENGTH = 45;
+    public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as an email because it %s. "+
             "An email address contains some text followed by one '@' sign followed by some more text. " +
@@ -234,7 +234,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Google ID
      */    
-    public static final int GOOGLE_ID_MAX_LENGTH = 45;
+    public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "+
             "A Google ID must be a valid id already registered with Google. " +

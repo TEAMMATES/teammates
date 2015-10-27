@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
@@ -27,6 +28,8 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
+    private String id;
+    
     private boolean isFirstRow = false;
     
     @SuppressWarnings("unused")
@@ -65,6 +68,7 @@ public class ActivityLogEntry {
         message = "<span class=\"text-danger\">Error. ActivityLogEntry object is not created for this servlet action.</span><br>"
                 + params;
         url = link;
+        id = "Unknown";
     }
     
     
@@ -76,7 +80,7 @@ public class ActivityLogEntry {
         time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
         try{
             servletName = tokens[1];
             action = tokens[2];
@@ -87,7 +91,15 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
-            timeTaken = tokens.length == 11? Long.parseLong(tokens[10].trim()) : null;            
+            if (tokens.length >= 11) {
+                if (tokens[10].contains(googleId)) {
+                    timeTaken = tokens.length == 12 ? Long.parseLong(tokens[11].trim()) : null;
+                    id = tokens[10];
+                } else {
+                    timeTaken = Long.parseLong(tokens[10].trim());                    
+                }
+            }
+
             keyStringsToHighlight = null;
         } catch (ArrayIndexOutOfBoundsException e){
             
@@ -101,6 +113,7 @@ public class ActivityLogEntry {
             message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
+            id = "Unknown" + formatTimeForId(new Date(time));
             timeTaken = null;
             keyStringsToHighlight = null;
         }
@@ -142,6 +155,8 @@ public class ActivityLogEntry {
             googleId = acc.googleId;
             email = acc.email;
         }
+        
+        id = googleId + formatTimeForId(new Date(time));
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -200,7 +215,15 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
+        id = googleId + formatTimeForId(new Date(time));
     }
+    
+    private String formatTimeForId(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
+        sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
+        return sdf.format(date.getTime());
+    }
+    
     
     public String getIconRoleForShow(){
         String iconRole="";
@@ -255,9 +278,9 @@ public class ActivityLogEntry {
      * Generates a log message that will be logged in the server
      */
     public String generateLogMessage(){
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
+        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID
         return "TEAMMATESLOG|||" + servletName + "|||" + action + "|||" + (toShow ? "true" : "false") + "|||" 
-                + role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url;
+                + role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url + "|||" + id;
     }
     
     
@@ -382,6 +405,10 @@ public class ActivityLogEntry {
         return urlToShow;
     }
     
+    public String getId() {
+        return id;
+    }
+    
     public void setKeyStringsToHighlight(String[] strings){
         this.keyStringsToHighlight = strings;
     }
@@ -414,7 +441,7 @@ public class ActivityLogEntry {
         return name;
     }
     
-    public String getId(){
+    public String getGoogleId(){
         return googleId;
     }
     
@@ -498,7 +525,7 @@ public class ActivityLogEntry {
                + "<form method=\"get\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
                + "<h4 class=\"list-group-item-heading\">" 
                + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
-               + "<small>" + getPersonInfo() + "</span>" + "&nbsp;"
+               + "<small> id:" + id + " " + getPersonInfo() + "</span>" + "&nbsp;"
                + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
                + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
                + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getAvailableIdenficationString() + "\">"
@@ -511,8 +538,8 @@ public class ActivityLogEntry {
     }
     
     private String getAvailableIdenficationString(){
-        if(!getId().contentEquals("Unregistered") && !getId().contentEquals("Unknown")){
-            return getId();
+        if(!getGoogleId().contentEquals("Unregistered") && !getGoogleId().contentEquals("Unknown")){
+            return getGoogleId();
         } else if(getEmail() != null && !getEmail().contentEquals("Unknown")){
             return getEmail();
         } else if(getName() != null && !getName().contentEquals("Unknown")){

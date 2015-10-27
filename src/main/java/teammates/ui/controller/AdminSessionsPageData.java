@@ -62,11 +62,11 @@ public class AdminSessionsPageData extends PageData {
     }
     
     public String getRangeStartString() {
-        return TimeHelper.formatTime(rangeStart);
+        return TimeHelper.formatTime12H(rangeStart);
     }
     
     public String getRangeEndString() {
-        return TimeHelper.formatTime(rangeEnd);
+        return TimeHelper.formatTime12H(rangeEnd);
     }
     
     public List<InstitutionPanel> getInstitutionPanels() {
@@ -170,8 +170,8 @@ public class AdminSessionsPageData extends PageData {
                                                     feedbackSession.courseId, 
                                                     feedbackSession.feedbackSessionName, 
                                                     googleId),
-                                            TimeHelper.formatTime(feedbackSession.getSessionStartTime()),
-                                            TimeHelper.formatTime(feedbackSession.getSessionEndTime()),
+                                            TimeHelper.formatTime12H(feedbackSession.getSessionStartTime()),
+                                            TimeHelper.formatTime12H(feedbackSession.getSessionEndTime()),
                                             getInstructorHomePageViewLink(feedbackSession.creatorEmail),
                                             feedbackSession.creatorEmail,
                                             feedbackSession.courseId,

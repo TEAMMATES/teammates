@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.StudentProfileCreateFormUrlAction;
 import teammates.ui.controller.StudentProfileCreateFormUrlAjaxPageData;
@@ -72,7 +73,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||" + student.name
                                   + "|||" + student.googleId + "|||" + student.email + "|||Created Url successfully: "
                                   + data.formUrl + "|||/page/studentProfileCreateFormUrl";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     private StudentProfileCreateFormUrlAction getAction(String... params) throws Exception {

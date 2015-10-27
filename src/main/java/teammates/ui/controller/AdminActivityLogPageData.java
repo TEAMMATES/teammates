@@ -200,7 +200,7 @@ public class AdminActivityLogPageData extends PageData {
         }
         if (q.isPersonInQuery) {
             if (!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
-                    !logEntry.getId().toLowerCase().contains(q.personValue.toLowerCase()) && 
+                    !logEntry.getGoogleId().toLowerCase().contains(q.personValue.toLowerCase()) && 
                     !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())) {
                 logEntry.setToShow(false);
                 return logEntry;
@@ -485,5 +485,17 @@ public class AdminActivityLogPageData extends PageData {
     
     public String getStatusForAjax() {
         return statusForAjax;
+    }
+
+    public boolean isPersonSpecified() {
+        return ((q != null) && (q.isPersonInQuery));
+    }
+    
+    public String getPersonSpecified() {
+        if (q != null) {
+            return q.personValue;
+        } else {
+            return null;
+        }
     }
 }

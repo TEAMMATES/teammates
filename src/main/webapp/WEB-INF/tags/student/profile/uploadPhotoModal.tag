@@ -27,17 +27,21 @@
                     <div class="col-xs-4 profile-pic-edit-col">
                         <div class="center-block align-center">
                             <form id="profilePictureUploadForm" method="post"> 
-                                <input id="studentPhoto"
-                                       class="inline"
-                                       type="file"
-                                       name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
-                                <p class="help-block">
+                                <span class="btn btn-primary profile-pic-file-selector">
+                                    Browse...
+                                    <input id="studentPhoto"
+                                           type="file"
+                                           name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
+                                </span>
+                                <input type="text" class="filename-preview" value="No File Selected" disabled="disabled" />
+                                <p class="help-block align-left">
                                     Max Size: 5 MB
                                 </p>
                                 <button type="button"
                                         id="profileUploadPictureSubmit"
-                                        class="btn btn-primary center-block"
-                                        onclick="finaliseUploadPictureForm()">
+                                        class="btn btn-primary width-100-pc"
+                                        onclick="finaliseUploadPictureForm()"
+                                        disabled="disabled">
                                     Upload Picture
                                 </button>
                                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
