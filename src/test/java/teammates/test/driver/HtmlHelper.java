@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import org.cyberneko.html.parsers.DOMParser;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -13,6 +14,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class HtmlHelper {
+    
+    private static final String INDENTATION_STEP = "   ";
 
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores
@@ -58,12 +61,16 @@ public class HtmlHelper {
      * Transform the HTML text to follow a standard format. 
      * Element attributes are reordered in alphabetical order.
      * Spacing and line breaks are standardized too.
+     * @param rawHtml the raw HTML string to be converted
+     * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
+     *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
+     * @return converted HTML string
      */
-    public static String convertToStandardHtml(String rawHtml, boolean isHtmlPartPassedIn) {
+    public static String convertToStandardHtml(String rawHtml, boolean isPart) {
         try {
             Node currentNode = getNodeFromString(rawHtml);
-            String initialIndentation = "   ";
-            return convertToStandardHtmlRecursively(currentNode, initialIndentation, isHtmlPartPassedIn);
+            String initialIndentation = INDENTATION_STEP; // TODO start from zero indentation
+            return convertToStandardHtmlRecursively(currentNode, initialIndentation, isPart);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -75,8 +82,8 @@ public class HtmlHelper {
         return parser.getDocument();
     }
 
-    public static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
-                                                          boolean isHtmlPartPassedIn){
+    private static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
+                                                           boolean isPart) {
         
         if (currentNode.getNodeType() == Node.TEXT_NODE) {
             String text = currentNode.getNodeValue().trim();
@@ -87,7 +94,7 @@ public class HtmlHelper {
 
         StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
-        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isHtmlPartPassedIn, currentNode);
+        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isPart, currentNode);
 
         if (shouldIncludeCurrentNode) {
             String nodeOpeningTag = indentation + getNodeOpeningTag(currentNode);
@@ -97,8 +104,9 @@ public class HtmlHelper {
             return currentHtmlText.toString();
         }
         
-        String nodeContent = getNodeContent(currentNode, indentation + (shouldIncludeCurrentNode ? "   " : ""),
-                                            isHtmlPartPassedIn);
+        String nodeContent = getNodeContent(currentNode,
+                                            indentation + (shouldIncludeCurrentNode ? INDENTATION_STEP : ""),
+                                            isPart);
         currentHtmlText.append(nodeContent);
         
         if (shouldIncludeCurrentNode) {
@@ -109,65 +117,73 @@ public class HtmlHelper {
         return currentHtmlText.toString();
     }
 
-    private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, Node currentNode) {
+    /**
+     * Ignores all non-{@link Element} {@link Node}s which include <code>#comment</code>,
+     * <code>#document</code>, and <code>doctype</code>.<br>
+     * In addition, if <code>isPart</code> (i.e only partial HTML checking is done),
+     * ignores the top-level HTML tags, i.e <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>,
+     * and <code>&lt;body&gt;</code>
+     */
+    private static boolean shouldIncludeCurrentNode(boolean isPart, Node currentNode) {
         if (currentNode.getNodeType() != Node.ELEMENT_NODE) {
             return false;
         } else {
             String currentNodeName = currentNode.getNodeName().toLowerCase();
-            return !(isHtmlPartPassedIn && (currentNodeName.equals("html")
-                                            || currentNodeName.equals("head")
-                                            || currentNodeName.equals("body")));
+            return !(isPart && (currentNodeName.equals("html")
+                                || currentNodeName.equals("head")
+                                || currentNodeName.equals("body")));
         }
     }
 
+    /**
+     * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
+     */
     private static boolean isToolTip(Node currentNode) {
-        
-        if(!currentNode.getNodeName().equalsIgnoreCase("div")){
-            return false;
-        }
-        
-        NamedNodeMap attributes = currentNode.getAttributes();
-        
-        for (int i = 0; i < attributes.getLength(); i++) {
-            Node attribute = attributes.item(i);
-            if(attribute.getNodeName().equalsIgnoreCase("class")
-                    && attribute.getNodeValue().contains("tooltip")){
-                return true;
+        if (currentNode.getNodeName().equalsIgnoreCase("div")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if (attribute.getNodeName().equalsIgnoreCase("class")
+                        && attribute.getNodeValue().contains("tooltip")) {
+                    return true;
+                }
             }
         }
         
         return false;
     }
     
-    private static boolean isMotdComponent(Node currentNode) {      
-        if (currentNode.getNodeName().equalsIgnoreCase("script")) {
+    /**
+     * Checks for Message of the Day (MOTD) components. There are three separate components
+     * to be considered:
+     * <ul>
+     * <li><code>script</code> taken from <code>studentMotd.js</code></li>
+     * <li><code>div</code> with id <code>student-motd-container</code>, which is used
+     *     as a container to place the MOTD</li>
+     * <li>Embedded <code>script</code> with variable <code>motdUrl</code>, which is used
+     *     to indicate where to find the HTML file for MOTD</li>
+     * </ul>
+     * TODO check if wildcarding this in place of ignoring is better
+     */
+    private static boolean isMotdComponent(Node currentNode) {
+        String currentNodeName = currentNode.getNodeName().toLowerCase();
+        if (currentNodeName.equalsIgnoreCase("script") || currentNodeName.equalsIgnoreCase("div")) {
             NamedNodeMap attributes = currentNode.getAttributes();
-            
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
-                
-                // script to include studentMotd.js
-                if (attribute.getNodeName().equalsIgnoreCase("src")
-                      && attribute.getNodeValue().contains("studentMotd.js")) {
+                if (currentNodeName.equals("script")
+                        && attribute.getNodeName().equalsIgnoreCase("src")
+                        && attribute.getNodeValue().contains("studentMotd.js")) {
+                    return true;
+                } else if (currentNodeName.equals("div")
+                               && attribute.getNodeName().equalsIgnoreCase("id")
+                               && attribute.getNodeValue().contains("student-motd-container")) {
                     return true;
                 }
             }
-                
-            // script with variable motdUrl
-            return currentNode.getTextContent().contains("motdUrl");
             
-        } else if (currentNode.getNodeName().equalsIgnoreCase("div")) {
-            NamedNodeMap attributes = currentNode.getAttributes();
-            
-            for (int i = 0; i < attributes.getLength(); i++) {
-                Node attribute = attributes.item(i);
-                
-                // Motd container
-                if (attribute.getNodeName().equalsIgnoreCase("id")
-                      && attribute.getNodeValue().contains("student-motd-container")) {
-                    return true;
-                }
-            }
+            return currentNodeName.equals("script")
+                       && currentNode.getTextContent().contains("motdUrl");
         }
         
         return false;
@@ -206,6 +222,7 @@ public class HtmlHelper {
         return "</" + currentNodeName + ">\n";
     }
 
+    // TODO remove this method and use > for all cases, as defined in our style guide
     private static String getEndOfOpeningTag(Node node) {
         String tagName = node.getNodeName().toLowerCase();
         if(isVoidElement(tagName)){

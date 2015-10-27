@@ -899,8 +899,10 @@ public abstract class AppPage {
                 // jQuery-ui CDN
                 .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
                 // top HTML tag with xmlns defined
+                // TODO check if this is necessary
                 .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
                 // noscript is to be cleared
+                // TODO check if wildcarding this is better; better yet, check if not removing at all works
                 .replaceFirst("(?s)<noscript>.*</noscript>", "");
     }
     
