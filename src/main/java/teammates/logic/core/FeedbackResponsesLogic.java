@@ -512,8 +512,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesFromUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
-                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+                    || isRecipientTypeTeamMembers(question)) {
                 frDb.deleteEntity(response);
             }
         }
@@ -523,8 +522,7 @@ public class FeedbackResponsesLogic {
 
         for (FeedbackResponseAttributes response : responsesToUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF ) {
+            if (isRecipientTypeTeamMembers(question) ) {
                 frDb.deleteEntity(response);
             }
         }
@@ -575,9 +573,9 @@ public class FeedbackResponsesLogic {
                 .equals(enrollment.email);
 
         boolean shouldDeleteByChangeOfGiver = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
-                || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS));
+                || isRecipientTypeTeamMembers(question)));
         boolean shouldDeleteByChangeOfRecipient = (isReceiverSameForResponseAndEnrollment
-                && question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                && isRecipientTypeTeamMembers(question));
 
         boolean shouldDeleteResponse = shouldDeleteByChangeOfGiver
                 || shouldDeleteByChangeOfRecipient;
@@ -587,6 +585,11 @@ public class FeedbackResponsesLogic {
         }
         
         return shouldDeleteResponse;
+    }
+
+    private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
+        return question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+           || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
     
     public void updateFeedbackResponseForChangingSection(
