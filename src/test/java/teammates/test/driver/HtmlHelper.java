@@ -73,14 +73,11 @@ public class HtmlHelper {
         try {
             Node currentNode = getNodeFromString(preProcessedHtml);
             StringBuilder currentHtml = new StringBuilder();
-            String initialIndentation = "";
+            String initialIndentation = "   ";
             convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
             return currentHtml.toString()
                     .replace("%20", " ")
-                    .replace("%27", "'")
-                    .replace("<#document", "")
-                    .replace("   <html   </html>", "")
-                    .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
+                    .replace("%27", "'");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -91,15 +88,6 @@ public class HtmlHelper {
      * inconsistencies in the HTML code produced by the DOM parser and the Browsers.
      */
     private static String preProcessHtml(String htmlString){
-        htmlString = replaceInRawHtmlString(htmlString);
-
-        if (!htmlString.contains("<!DOCTYPE")){
-            htmlString = "<!DOCTYPE html>\n" + htmlString;
-        }
-        return htmlString;
-    }
-
-    private static String replaceInRawHtmlString(String htmlString) {
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
         htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
         htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
@@ -133,7 +121,7 @@ public class HtmlHelper {
 
         //Add the start of opening tag
         String currentNodeName = currentNode.getNodeName().toLowerCase();
-        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isHtmlPartPassedIn, currentNodeName);
+        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isHtmlPartPassedIn, currentNode);
 
         if (shouldIncludeCurrentNode) {
             currentHtmlText.append(indentation + "<" + currentNodeName);
@@ -173,12 +161,15 @@ public class HtmlHelper {
     
     }
 
-    private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, String currentNodeName) {
-        boolean shouldIncludeCurrentNode = !(isHtmlPartPassedIn && (currentNodeName.equals("html")
-                                                                         || currentNodeName.equals("head")
-                                                                         || currentNodeName.equals("body")
-                                                                         || currentNodeName.equals("#comment")));
-        return shouldIncludeCurrentNode;
+    private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, Node currentNode) {
+        if (currentNode.getNodeType() != Node.ELEMENT_NODE) {
+            return false;
+        } else {
+            String currentNodeName = currentNode.getNodeName().toLowerCase();
+            return !(isHtmlPartPassedIn && (currentNodeName.equals("html")
+                                            || currentNodeName.equals("head")
+                                            || currentNodeName.equals("body")));
+        }
     }
 
     private static boolean isToolTip(Node currentNode) {

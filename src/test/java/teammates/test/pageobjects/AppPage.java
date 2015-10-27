@@ -905,8 +905,7 @@ public abstract class AppPage {
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replaceAll("<#comment[ ]*</#comment>", "<!---->")
-                      .replace(Config.APP_URL, "${app.url}")
+        return content.replace(Config.APP_URL, "${app.url}")
                       .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
                       .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
