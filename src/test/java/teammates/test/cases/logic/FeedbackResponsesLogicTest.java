@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -44,6 +45,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private DataBundle typicalBundle = getTypicalDataBundle();
+    private DataBundle questionTypeBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -51,6 +53,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         turnLoggingUp(FeedbackResponsesLogic.class);
         removeAndRestoreTypicalDataInDatastore();
         removeAndRestoreDatastoreFromJson("/SpecialCharacterTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
     }
     
     @Test
@@ -270,6 +273,23 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                             getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
                             studentToUpdate.email).size()
                     , 1);
+        
+        ______TS("test updateFeedbackResponseForChangingTeam for recipient type = giver's team members including giver");
+        FeedbackQuestionAttributes questionToTeamMembersAndSelf = 
+                                        getQuestionFromDatastore(questionTypeBundle, "qn1InSession5InCourse1");
+        studentToUpdate = questionTypeBundle.students.get("student1InCourse1");
+        FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1S5C1");
+        StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
+                                        studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, studentToUpdate.team + "tmp", studentToUpdate.section, studentToUpdate.section + "tmp");
+        
+        assertNotNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
+                                        response.giverEmail, 
+                                        response.recipientEmail));
+        assertTrue(frLogic.updateFeedbackResponseForChangingTeam(studentDetails1, response));
+        assertNull(frLogic.getFeedbackResponse(questionToTeamMembersAndSelf.getId(),
+                                        response.giverEmail, 
+                                        response.recipientEmail));
+        
         
     }
     
@@ -529,8 +549,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
-        FeedbackQuestionAttributes questionToGet = typicalBundle.feedbackQuestions.get(jsonId);
+    
+    private FeedbackQuestionAttributes getQuestionFromDatastore(DataBundle dataBundle, String jsonId) {
+        FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(questionToGet.feedbackSessionName, 
                                                     questionToGet.courseId,
                                                     questionToGet.questionNumber);
@@ -538,9 +559,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         return questionToGet;
     }
     
-    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId){
+    private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
+        return getQuestionFromDatastore(typicalBundle, jsonId);
+    }
+    
+    private FeedbackResponseAttributes getResponseFromDatastore(DataBundle dataBundle, String jsonId){
         FeedbackResponseAttributes response =
-                typicalBundle.feedbackResponses.get(jsonId);
+                                        dataBundle.feedbackResponses.get(jsonId);
         
         int qnNumber = Integer.parseInt(response.feedbackQuestionId);
         
@@ -549,6 +574,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         return frLogic.getFeedbackResponse(
                 qnId, response.giverEmail, response.recipientEmail);
+    }
+    
+    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId){
+        return getResponseFromDatastore(typicalBundle, jsonId);
     }
     
     @AfterClass
