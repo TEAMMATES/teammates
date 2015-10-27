@@ -442,15 +442,15 @@ public final class InstructorPrivileges {
     }
     
     private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {
-        for (String sectionName : this.sessionLevel.keySet()) {
-            if (this.sessionLevel.get(sectionName).get(sessionName).containsKey(privilegeName) &&
-                this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName).booleanValue()) {
-                
+        HashSet<String> sections = new HashSet<String>(this.sessionLevel.keySet());
+        sections.addAll(this.sectionLevel.keySet());
+        for (String sectionName : sections) {
+            if (isAllowedInSessionLevel(sectionName, sessionName, privilegeName)) {
                 return true;
             }
         }
         for (String sectionName : this.sectionLevel.keySet()) {
-            if (isAllowedInSectionLevel(sectionName, privilegeName)) {
+            if (isAllowedInSessionLevel(sectionName, sessionName, privilegeName)) {
                 return true;
             }
         }
