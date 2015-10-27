@@ -62,10 +62,8 @@ public class HtmlHelper {
     public static String convertToStandardHtml(String rawHtml, boolean isHtmlPartPassedIn) {
         try {
             Node currentNode = getNodeFromString(rawHtml);
-            StringBuilder currentHtml = new StringBuilder();
             String initialIndentation = "   ";
-            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
-            return currentHtml.toString();
+            return convertToStandardHtmlRecursively(currentNode, initialIndentation, isHtmlPartPassedIn);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -77,54 +75,38 @@ public class HtmlHelper {
         return parser.getDocument();
     }
 
-    public static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
-        StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
+    public static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
+                                                          boolean isHtmlPartPassedIn){
         
-        if(currentNode.getNodeType() == Node.TEXT_NODE){
-            String text = currentNode.getNodeValue();
-            if(!text.trim().isEmpty()){
-                currentHtmlText.append(indentation + text.trim() + "\n");
-            }
-            return;
+        if (currentNode.getNodeType() == Node.TEXT_NODE) {
+            String text = currentNode.getNodeValue().trim();
+            return text.isEmpty() ? "" : indentation + text + "\n";
         } else if (isToolTip(currentNode) || isMotdComponent(currentNode)) {
-            return;
+            return "";
         }
 
-        //Add the start of opening tag
+        StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
         boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isHtmlPartPassedIn, currentNode);
 
         if (shouldIncludeCurrentNode) {
-            currentHtmlText.append(indentation + "<" + currentNodeName);
-            
-            // Add the attributes of the tag (getAttributes() returns the attributes sorted alphabetically)
-            NamedNodeMap actualAttributeList = currentNode.getAttributes();
-            for (int i = 0; i < actualAttributeList.getLength(); i++) {
-                Node actualAttribute = actualAttributeList.item(i);
-                currentHtmlText.append(" " + actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue().replace("\"", "&quot;") + "\"");
-            }
-            // close the tag
-            currentHtmlText.append(getEndOfOpeningTag(currentNode) + "\n");
+            String nodeOpeningTag = indentation + getNodeOpeningTag(currentNode);
+            currentHtmlText.append(nodeOpeningTag);
         }
         if (isVoidElement(currentNodeName)) {
-            return;
+            return currentHtmlText.toString();
         }
         
-        // Recursively add contents of the child nodes 
-        NodeList actualChildNodes = currentNode.getChildNodes();
-        int numberOfChildNodes = actualChildNodes.getLength();
-        for (int i = 0; i < numberOfChildNodes; i++){
-            if (shouldIncludeCurrentNode) {
-                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText, isHtmlPartPassedIn);
-            } else {
-                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation, currentHtmlText, isHtmlPartPassedIn);
-            }
-        }
+        String nodeContent = getNodeContent(currentNode, indentation + (shouldIncludeCurrentNode ? "   " : ""),
+                                            isHtmlPartPassedIn);
+        currentHtmlText.append(nodeContent);
         
         if (shouldIncludeCurrentNode) {
-            currentHtmlText.append(indentation + "</" + currentNodeName + ">\n");
+            String nodeClosingTag = indentation + getNodeClosingTag(currentNodeName);
+            currentHtmlText.append(nodeClosingTag);
         }
-    
+        
+        return currentHtmlText.toString();
     }
 
     private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, Node currentNode) {
@@ -189,6 +171,39 @@ public class HtmlHelper {
         }
         
         return false;
+    }
+
+    private static String getNodeOpeningTag(Node currentNode) {
+        StringBuilder openingTag = new StringBuilder();
+        // add the start of opening tag
+        openingTag.append("<" + currentNode.getNodeName().toLowerCase());
+        
+        // add the attributes of the tag (getAttributes() returns the attributes sorted alphabetically)
+        NamedNodeMap attributes = currentNode.getAttributes();
+        for (int i = 0; i < attributes.getLength(); i++) {
+            Node attribute = attributes.item(i);
+            openingTag.append(" " + attribute.getNodeName().toLowerCase() + "="
+                                  + "\"" + attribute.getNodeValue().replace("\"", "&quot;") + "\"");
+        }
+        
+        // close the tag
+        openingTag.append(getEndOfOpeningTag(currentNode) + "\n");
+        return openingTag.toString();
+    }
+    
+    private static String getNodeContent(Node currentNode, String indentation, boolean isPart) {
+        StringBuilder nodeContent = new StringBuilder();
+        NodeList childNodes = currentNode.getChildNodes();
+        // recursively add contents of the child nodes
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            String childNode = convertToStandardHtmlRecursively(childNodes.item(i), indentation, isPart);
+            nodeContent.append(childNode);
+        }
+        return nodeContent.toString();
+    }
+    
+    private static String getNodeClosingTag(String currentNodeName) {
+        return "</" + currentNodeName + ">\n";
     }
 
     private static String getEndOfOpeningTag(Node node) {
