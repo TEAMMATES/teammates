@@ -276,9 +276,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("test updateFeedbackResponseForChangingTeam for recipient type = giver's team members including giver");
         FeedbackQuestionAttributes questionToTeamMembersAndSelf = 
-                                        getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse1");
-        studentToUpdate = questionTypeBundle.students.get("student2InCourse1");
-        FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course1");
+                                        getQuestionFromDatastore(questionTypeBundle, "qn1InContribSession2InCourse2");
+        studentToUpdate = questionTypeBundle.students.get("student2InCourse2");
+        FeedbackResponseAttributes response = getResponseFromDatastore(questionTypeBundle, "response1ForQ1ContribSession2Course2");
         StudentEnrollDetails studentDetails1 = new StudentEnrollDetails(StudentAttributes.UpdateStatus.MODIFIED,
                                         studentToUpdate.course, studentToUpdate.email, studentToUpdate.team, studentToUpdate.team + "tmp", studentToUpdate.section, studentToUpdate.section + "tmp");
         

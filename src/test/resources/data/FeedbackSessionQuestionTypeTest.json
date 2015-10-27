@@ -772,7 +772,7 @@
             "showRecipientNameTo":[
             ]
         },
-        "qn1InContribSession2InCourse1":{
+        "qn1InContribSession2InCourse2":{
             "feedbackSessionName":"CONTRIB Session 2",
             "courseId":"FSQTT.idOfTypicalCourse2",
             "creatorEmail":"instructor1@course1.tmt",
@@ -1307,7 +1307,7 @@
             "giverSection":"Section 2",
             "recipientSection":"Section 2"
         },
-        "response1ForQ1ContribSession2Course1":{
+        "response1ForQ1ContribSession2Course2":{
             "feedbackSessionName":"CONTRIB Session 2",
             "courseId":"FSQTT.idOfTypicalCourse2",
             "feedbackQuestionId":"1",
