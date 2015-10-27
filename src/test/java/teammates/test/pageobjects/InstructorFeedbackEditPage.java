@@ -838,8 +838,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForAjaxErrorOnVisibilityMessageButton(int questionNumber) {
-        By buttonSelector = By.cssSelector("#visibilityMessageButton-" + questionNumber + " .active");
-        waitForElementToDisappear(buttonSelector);
+        String errorMessage = "Visibility preview failed to load.";
+        By buttonSelector = By.cssSelector("#visibilityMessageButton-" + questionNumber);
+        waitForTextContainedInElementPresence(buttonSelector, errorMessage);
     }
 
     public void clickResponseVisiblityCheckBoxForNewQuestion(String checkBoxValue) {

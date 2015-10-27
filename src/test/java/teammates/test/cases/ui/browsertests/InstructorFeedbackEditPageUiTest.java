@@ -399,10 +399,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.changeQuestionTypeInForm(1, "InvalidQuestionType");
         feedbackEditPage.clickVisibilityPreviewForQuestion1();
         feedbackEditPage.waitForAjaxErrorOnVisibilityMessageButton(1);
-        
         assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));
-        String errorMessage = "Visibility preview failed to load.";
-        assertTrue(feedbackEditPage.getPreviewLabel(1).getText().contains(errorMessage));
     }
 
     private void testDeleteQuestionAction(int qnNumber) {
