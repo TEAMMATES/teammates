@@ -1,16 +1,14 @@
-
    <html>
       <head>
          <title>
             TEAMMATES - Submit Feedback
          </title>
          <link href="/favicon.png" rel="shortcut icon"/>
-                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-                  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
-                  <!---->
+         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
          <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
@@ -92,11 +90,11 @@
                Submit Feedback
             </h1>
             <br/>
-                        <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
+            <form action="/page/studentFeedbackSubmissionEditSave" method="post" name="form_student_submit_response">
                <input name="fsname" type="hidden" value="Fourth Session"/>
-                              <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104"/>
-                              <input name="user" type="hidden" value="SFSubmitUiT.alice.b"/>
-                              <div class="alert alert-warning" id="statusMessage">
+               <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104"/>
+               <input name="user" type="hidden" value="SFSubmitUiT.alice.b"/>
+               <div class="alert alert-warning" id="statusMessage">
                   You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
                </div>
                <script src="/js/statusMessage.js" type="text/javascript">
@@ -160,15 +158,15 @@
                   </div>
                </div>
                <br/>
-                              <input name="questiontype-1" type="hidden" value="TEXT"/>
-                              <input name="questionid-1" type="hidden" value="${question.id}"/>
-                              <input name="questionresponsetotal-1" type="hidden" value="2"/>
-                              <div class="form-horizontal">
+               <input name="questiontype-1" type="hidden" value="TEXT"/>
+               <input name="questionid-1" type="hidden" value="${question.id}"/>
+               <input name="questionresponsetotal-1" type="hidden" value="2"/>
+               <div class="form-horizontal">
                   <div class="panel panel-primary">
                      <div class="panel-heading">
                         Question 1:
                         <br/>
-                                                <span class="text-preserve-space">
+                        <span class="text-preserve-space">
                            Give feedback to your instructors
                         </span>
                      </div>
@@ -182,7 +180,7 @@
                            </li>
                         </ul>
                         <br/>
-                                                <div class="form-group margin-0">
+                        <div class="form-group margin-0">
                            <div class="col-sm-2 form-inline" style="text-align:right">
                               <label for="input">
                                  To:
@@ -207,7 +205,7 @@
                            </div>
                         </div>
                         <br/>
-                                                <div class="form-group margin-0">
+                        <div class="form-group margin-0">
                            <div class="col-sm-2 form-inline" style="text-align:right">
                               <label for="input">
                                  To:
@@ -235,13 +233,13 @@
                   </div>
                </div>
                <br/>
-                              <br/>
-                              <div class="bold align-center">
-                  <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="disabled" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback"/>
-                                 </div>
                <br/>
-                              <br/>
-                           </form>
+               <div class="bold align-center">
+                  <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="disabled" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback"/>
+               </div>
+               <br/>
+               <br/>
+            </form>
          </div>
          <div class="container-fluid" id="footerComponent">
             <div class="container">
@@ -276,4 +274,3 @@
          </div>
       </body>
    </html>
-

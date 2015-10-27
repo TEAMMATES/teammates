@@ -1,16 +1,14 @@
-
    <html>
       <head>
          <title>
             TEAMMATES - Instructor
          </title>
          <link href="/favicon.png" rel="shortcut icon"/>
-                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-                  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
-                  <!---->
+         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
          <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
@@ -112,14 +110,14 @@
                Student Details
             </h1>
             <br/>
-                        <div id="statusMessage" style="display: none;">
+            <div id="statusMessage" style="display: none;">
             </div>
             <div class="row">
                <div class="col-xs-12">
                   <div class="row" id="studentProfile">
                      <div class="col-md-2 col-xs-3 block-center">
                         <img class="profile-pic pull-right" src="/images/profile_picture_default.png"/>
-                                             </div>
+                     </div>
                      <div class="col-md-10 col-sm-9 col-xs-8">
                         <table class="table table-striped">
                            <thead>
@@ -273,13 +271,13 @@
                               </td>
                               <td>
                                  <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="PERSON"/>
-                                                               </td>
+                              </td>
                            </tr>
                            <tr id="recipient-team">
                               <td class="text-left">
@@ -289,13 +287,13 @@
                               </td>
                               <td>
                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM"/>
-                                                               </td>
+                              </td>
                            </tr>
                            <tr id="recipient-course">
                               <td class="text-left">
@@ -305,13 +303,13 @@
                               </td>
                               <td>
                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE"/>
-                                                               </td>
+                              </td>
                            </tr>
                            <tr>
                               <td class="text-left">
@@ -321,13 +319,13 @@
                               </td>
                               <td>
                                  <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                               </td>
+                              </td>
                               <td>
                                  <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                               </td>
+                              </td>
                            </tr>
                         </tbody>
                      </table>
@@ -336,17 +334,17 @@
                   </textarea>
                   <div style="text-align: center;">
                      <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save"/>
-                                          <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel"/>
-                                          <input name="courseid" type="hidden" value="CCSDetailsUiT.CS2104"/>
-                                          <input name="studentemail" type="hidden" value="CCSDetailsUiT.jose.tmms@gmail.tmt"/>
-                                          <input name="recipienttype" type="hidden" value="PERSON"/>
-                                          <input name="recipients" type="hidden" value="CCSDetailsUiT.jose.tmms@gmail.tmt"/>
-                                          <input name="showcommentsto" type="hidden" value=""/>
-                                          <input name="showgiverto" type="hidden" value=""/>
-                                          <input name="showrecipientto" type="hidden" value=""/>
-                                          <input name="user" type="hidden" value="CCSDetailsUiT.instr.veryLongGoogleId"/>
-                                          <input name="studentdetailspage" type="hidden" value="true"/>
-                                       </div>
+                     <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel"/>
+                     <input name="courseid" type="hidden" value="CCSDetailsUiT.CS2104"/>
+                     <input name="studentemail" type="hidden" value="CCSDetailsUiT.jose.tmms@gmail.tmt"/>
+                     <input name="recipienttype" type="hidden" value="PERSON"/>
+                     <input name="recipients" type="hidden" value="CCSDetailsUiT.jose.tmms@gmail.tmt"/>
+                     <input name="showcommentsto" type="hidden" value=""/>
+                     <input name="showgiverto" type="hidden" value=""/>
+                     <input name="showrecipientto" type="hidden" value=""/>
+                     <input name="user" type="hidden" value="CCSDetailsUiT.instr.veryLongGoogleId"/>
+                     <input name="studentdetailspage" type="hidden" value="true"/>
+                  </div>
                </form>
             </div>
             <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentProfileMoreInfo" role="dialog">
@@ -362,7 +360,7 @@
                      </div>
                      <div class="modal-body">
                         <br/>
-                                                <p class="text-preserve-space height-fixed-md">
+                        <p class="text-preserve-space height-fixed-md">
                            This is a lot of info...
                         </p>
                      </div>
@@ -424,4 +422,3 @@
          </div>
       </body>
    </html>
-
