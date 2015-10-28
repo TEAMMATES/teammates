@@ -449,11 +449,6 @@ public final class InstructorPrivileges {
                 return true;
             }
         }
-        for (String sectionName : this.sectionLevel.keySet()) {
-            if (isAllowedInSessionLevel(sectionName, sessionName, privilegeName)) {
-                return true;
-            }
-        }
         return false;
     }
     
