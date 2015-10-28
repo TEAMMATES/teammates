@@ -85,7 +85,7 @@ public class AdminActivityLogPageAction extends Action {
         
         List<ActivityLogEntry> logs = getAppLogs(query, data);
         
-        data.init(offset, filterQuery, ifShowAll, ifShowTestData, logs);
+        data.init(offset, ifShowAll, ifShowTestData, logs);
         
         if (offset == null) {
             return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
@@ -101,8 +101,13 @@ public class AdminActivityLogPageAction extends Action {
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
         query.minLogLevel(LogLevel.INFO);
-        query.startTimeMillis(data.getFromDate());
-        query.endTimeMillis(data.getToDate());
+        
+        // if the query is empty, the default 24-hour limit will be applied 
+        // or a searching period is stated in the query, it will be applied as well.
+        if (data.getFilterQuery().isEmpty() || (!data.hasDefaultSearchPeriod())) {
+            query.startTimeMillis(data.getFromDate());
+            query.endTimeMillis(data.getToDate());
+        }
         
         try {
             query.majorVersionIds(getVersionIdsForQuery(versions));

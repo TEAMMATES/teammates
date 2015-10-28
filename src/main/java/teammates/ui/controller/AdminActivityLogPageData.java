@@ -23,6 +23,7 @@ public class AdminActivityLogPageData extends PageData {
     private List<String> versions;
     private Long toDateValue;
     private Long fromDateValue;
+    private boolean hasDefaultSearchPeriod;
     private String logLocalTime;
     
     /**
@@ -67,14 +68,13 @@ public class AdminActivityLogPageData extends PageData {
         Calendar fromCalendarDate = TimeHelper.now(0.0);
         fromCalendarDate.add(Calendar.DAY_OF_MONTH, -1);
         
-        fromDateValue = fromCalendarDate.getTimeInMillis();    
+        fromDateValue = fromCalendarDate.getTimeInMillis();
         toDateValue = TimeHelper.now(0.0).getTimeInMillis();
+        hasDefaultSearchPeriod = true;
     }
 
-    public void init(String offset, String filterQuery, boolean ifShowAll,
-                     boolean ifShowTestData, List<ActivityLogEntry> logs) {
+    public void init(String offset, boolean ifShowAll, boolean ifShowTestData, List<ActivityLogEntry> logs) {
         this.offset = offset;
-        this.filterQuery = filterQuery;
         this.ifShowAll = ifShowAll;
         this.ifShowTestData = ifShowTestData;
         this.logs = logs;
@@ -135,7 +135,8 @@ public class AdminActivityLogPageData extends PageData {
      * Creates a QueryParameters object used for filtering
      */
     public void generateQueryParameters(String query) {
-        query = query.toLowerCase();
+        filterQuery = query.trim();
+        query = filterQuery.toLowerCase();
         
         try {
             q = parseQuery(query);
@@ -291,6 +292,7 @@ public class AdminActivityLogPageData extends PageData {
                 Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
+                hasDefaultSearchPeriod = false;
                 
             } else if (label.equals("to")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -308,6 +310,10 @@ public class AdminActivityLogPageData extends PageData {
         return q;
     }
 
+    public boolean hasDefaultSearchPeriod() {
+        return hasDefaultSearchPeriod;
+    }
+    
     /** 
      * @return possible servlet requests list as html 
      */
