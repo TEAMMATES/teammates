@@ -247,8 +247,6 @@ public abstract class AppPage {
     
     /**
      * Waits for text contained in the element to appear in the page, or timeout
-     * @param by
-     * @param text
      */
     public void waitForTextContainedInElementPresence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
