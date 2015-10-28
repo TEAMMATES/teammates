@@ -5,7 +5,7 @@
          Course Details
       </h1>
       <br/>
-            <div class="well well-plain" id="courseInformationHeader">
+      <div class="well well-plain" id="courseInformationHeader">
          <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Give a comment about all students in the course" data-placement="top" data-toggle="tooltip" id="button_add_comment" title="" type="button">
             <span class="glyphicon glyphicon-comment glyphicon-primary">
             </span>
@@ -69,21 +69,21 @@
                   <div class="form-control-static">
                      Co-owner: Teammates Coord (CCDetailsUiT.coord@gmail.tmt)
                      <br/>
-                                          <br/>
-                                          Co-owner: Teammates Test (CCDetailsUiT.instr@gmail.tmt)
                      <br/>
-                                          <br/>
-                                       </div>
+                     Co-owner: Teammates Test (CCDetailsUiT.instr@gmail.tmt)
+                     <br/>
+                     <br/>
+                  </div>
                </div>
             </div>
             <div class="form-group">
                <div class="align-center">
                   <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2104')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&user=CCDetailsUiT.instr';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
-                                    <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
+                  <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
                      <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List "/>
-                                          <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
-                                          <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
-                                       </form>
+                     <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
+                     <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
+                  </form>
                   <div>
                      <span class="help-block">
                         Non-English characters not displayed properly in the downloaded file?
@@ -94,9 +94,9 @@
                   </div>
                   <form id="csvToHtmlForm">
                      <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
-                                          <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
-                                          <input name="csvtohtmltable" type="hidden" value="true"/>
-                                       </form>
+                     <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
+                     <input name="csvtohtmltable" type="hidden" value="true"/>
+                  </form>
                   <div class="modal fade" id="studentTableWindow">
                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -124,7 +124,7 @@
                                  <div id="detailsTable">
                                  </div>
                                  <br/>
-                                                                  <div id="ajaxStatus">
+                                 <div id="ajaxStatus">
                                  </div>
                               </div>
                            </div>
@@ -183,13 +183,13 @@
                         </td>
                         <td>
                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
-                                                   </td>
+                        </td>
                         <td>
                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
-                                                   </td>
+                        </td>
                         <td>
                            <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" type="checkbox" value="COURSE"/>
-                                                   </td>
+                        </td>
                      </tr>
                      <tr>
                         <td class="text-left">
@@ -199,13 +199,13 @@
                         </td>
                         <td>
                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                   </td>
+                        </td>
                         <td>
                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                   </td>
+                        </td>
                         <td>
                            <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                   </td>
+                        </td>
                      </tr>
                   </tbody>
                </table>
@@ -214,26 +214,26 @@
             </textarea>
             <div style="text-align: center;">
                <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save"/>
-                              <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel"/>
-                              <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
-                              <input name="recipienttype" type="hidden" value="COURSE"/>
-                              <input name="recipients" type="hidden" value="CCDetailsUiT.CS2104"/>
-                              <input name="showcommentsto" type="hidden" value=""/>
-                              <input name="showgiverto" type="hidden" value=""/>
-                              <input name="showrecipientto" type="hidden" value=""/>
-                              <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
-                              <input name="coursedetailspage" type="hidden" value="true"/>
-                           </div>
+               <input class="btn btn-default" id="button_cancel_comment" type="button" value="Cancel"/>
+               <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
+               <input name="recipienttype" type="hidden" value="COURSE"/>
+               <input name="recipients" type="hidden" value="CCDetailsUiT.CS2104"/>
+               <input name="showcommentsto" type="hidden" value=""/>
+               <input name="showgiverto" type="hidden" value=""/>
+               <input name="showrecipientto" type="hidden" value=""/>
+               <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
+               <input name="coursedetailspage" type="hidden" value="true"/>
+            </div>
          </form>
       </div>
       <br/>
-            <div class="alert alert-success" id="statusMessage">
+      <div class="alert alert-success" id="statusMessage">
          The student has been removed from the course
       </div>
       <script src="/js/statusMessage.js" type="text/javascript">
       </script>
       <br/>
-            <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped">
          <thead class="fill-primary">
             <tr id="resultsHeader-0">
                <th>
@@ -272,7 +272,7 @@
                         View Photo
                      </a>
                      <img alt="No Image Given" class="hidden" src=""/>
-                                       </div>
+                  </div>
                </td>
                <td class="hidden" id="studentsection-c0.0">
                   None
@@ -332,7 +332,7 @@
                         View Photo
                      </a>
                      <img alt="No Image Given" class="hidden" src=""/>
-                                       </div>
+                  </div>
                </td>
                <td class="hidden" id="studentsection-c0.0">
                   None
@@ -395,7 +395,7 @@
                         View Photo
                      </a>
                      <img alt="No Image Given" class="hidden" src=""/>
-                                       </div>
+                  </div>
                </td>
                <td class="hidden" id="studentsection-c0.0">
                   None
@@ -451,7 +451,6 @@
          </tbody>
       </table>
       <br/>
-            <br/>
-            <br/>
-         </div>
-
+      <br/>
+      <br/>
+   </div>

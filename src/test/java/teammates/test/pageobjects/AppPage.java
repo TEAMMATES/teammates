@@ -905,7 +905,13 @@ public abstract class AppPage {
                 // jQuery-ui local
                 .replace("/js/lib/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
                 // jQuery-ui CDN
-                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js");
+                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
+                // top HTML tag with xmlns defined
+                // TODO check if this is necessary
+                .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
+                // noscript is to be cleared
+                // TODO check if wildcarding this is better; better yet, check if not removing at all works
+                .replaceFirst("(?s)<noscript>.*</noscript>", "");
     }
     
     private static String processPageSourceForExpectedHtmlRegeneration(String content) {
@@ -913,8 +919,7 @@ public abstract class AppPage {
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replaceAll("<#comment[ ]*</#comment>", "<!---->")
-                      .replace(Config.APP_URL, "${app.url}")
+        return content.replace(Config.APP_URL, "${app.url}")
                       .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
                       .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
