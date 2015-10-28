@@ -1,7 +1,5 @@
 package teammates.ui.template;
 
-import java.util.List;
-
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -39,7 +37,7 @@ public class InstructorFeedbackSessionActions {
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
     public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, boolean isHome,
-                                            InstructorAttributes instructor, List<String> sectionsInCourse) {
+                                            InstructorAttributes instructor) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 
@@ -65,14 +63,10 @@ public class InstructorFeedbackSessionActions {
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        for (String section : sectionsInCourse) {
-            if (instructor.isAllowedForPrivilege(section, 
-                                                 session.feedbackSessionName, 
-                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                shouldEnableSubmitLink = true;
-                break;
-            }
+        if (!shouldEnableSubmitLink) {
+            shouldEnableSubmitLink = instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
+        
         this.allowedToSubmit = shouldEnableSubmitLink;
         this.allowedToRemind = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind;
 
