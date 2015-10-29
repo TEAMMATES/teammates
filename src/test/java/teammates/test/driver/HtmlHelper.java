@@ -13,6 +13,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import teammates.common.util.Config;
+
 public class HtmlHelper {
     
     private static final String INDENTATION_STEP = "   ";
@@ -88,8 +90,12 @@ public class HtmlHelper {
         if (currentNode.getNodeType() == Node.TEXT_NODE) {
             String text = currentNode.getNodeValue().trim();
             return text.isEmpty() ? "" : indentation + text + "\n";
-        } else if (isToolTip(currentNode) || isMotdComponent(currentNode)) {
+        } else if (isToolTip(currentNode)) {
             return "";
+        } else if (Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapper(currentNode)) {
+            return "";
+        } else if (isMotdContainer(currentNode)) {
+            return indentation + "${studentmotd.container}\n";
         }
 
         StringBuilder currentHtmlText = new StringBuilder();
@@ -154,36 +160,38 @@ public class HtmlHelper {
     }
     
     /**
-     * Checks for Message of the Day (MOTD) components. There are three separate components
-     * to be considered:
-     * <ul>
-     * <li><code>script</code> taken from <code>studentMotd.js</code></li>
-     * <li><code>div</code> with id <code>student-motd-container</code>, which is used
-     *     as a container to place the MOTD</li>
-     * <li>Embedded <code>script</code> with variable <code>motdUrl</code>, which is used
-     *     to indicate where to find the HTML file for MOTD</li>
-     * </ul>
-     * TODO check if wildcarding this in place of ignoring is better
+     * Checks for Message of the Day (MOTD) wrapper (i.e a <code>div</code> with id
+     * <code>student-motd-wrapper</code>).
      */
-    private static boolean isMotdComponent(Node currentNode) {
-        String currentNodeName = currentNode.getNodeName().toLowerCase();
-        if (currentNodeName.equalsIgnoreCase("script") || currentNodeName.equalsIgnoreCase("div")) {
+    private static boolean isMotdWrapper(Node currentNode) {
+        if (currentNode.getNodeName().equalsIgnoreCase("div")) {
             NamedNodeMap attributes = currentNode.getAttributes();
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
-                if (currentNodeName.equals("script")
-                        && attribute.getNodeName().equalsIgnoreCase("src")
-                        && attribute.getNodeValue().contains("studentMotd.js")) {
-                    return true;
-                } else if (currentNodeName.equals("div")
-                               && attribute.getNodeName().equalsIgnoreCase("id")
-                               && attribute.getNodeValue().contains("student-motd-container")) {
+                if (attribute.getNodeName().equalsIgnoreCase("id")
+                        && attribute.getNodeValue().contains("student-motd-wrapper")) {
                     return true;
                 }
             }
-            
-            return currentNodeName.equals("script")
-                       && currentNode.getTextContent().contains("motdUrl");
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Checks for Message of the Day (MOTD) container (i.e a <code>div</code> with id
+     * <code>student-motd-container</code>).
+     */
+    private static boolean isMotdContainer(Node currentNode) {
+        if (currentNode.getNodeName().equalsIgnoreCase("div")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if (attribute.getNodeName().equalsIgnoreCase("id")
+                        && attribute.getNodeValue().contains("student-motd-container")) {
+                    return true;
+                }
+            }
         }
         
         return false;
