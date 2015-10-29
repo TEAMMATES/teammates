@@ -19,11 +19,9 @@ $(function() {
         if (picture.length !== 0) {
             picture.guillotine({
                 width: 150,
-                height: 150,
-                init: {
-                    scale: 0.1
-                }
+                height: 150
             });
+            picture.guillotine('fit');
             $('#profilePicEditRotateLeft').click(function() {
                  picture.guillotine('rotateLeft');
             });
@@ -35,6 +33,22 @@ $(function() {
             });
             $('#profilePicEditRotateRight').click(function() {
                  picture.guillotine('rotateRight');
+            });
+            $('#profilePicEditPanUp').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset(data.x / data.w, (data.y - 10) / data.h);
+            });
+            $('#profilePicEditPanLeft').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset((data.x - 10) / data.w, data.y / data.h);
+            });
+            $('#profilePicEditPanRight').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset((data.x + 10) / data.w, data.y / data.h);
+            });
+            $('#profilePicEditPanDown').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset(data.x / data.w, (data.y + 10) / data.h);
             });
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));

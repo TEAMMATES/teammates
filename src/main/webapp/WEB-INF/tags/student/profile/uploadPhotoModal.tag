@@ -57,20 +57,41 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="profile-pic-edit">
-                                    <div class="profile-pic-edit-container">
-                                        <img id="editableProfilePicture" src="${modal.pictureUrl}">
+                                    <div class="alert alert-info">
+                                        Zoom, pan and rotate to crop your image to the desired area.
                                     </div>
+                                    <button id="profilePicEditPanUp" type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-arrow-up"></span>
+                                    </button>
+                                    <div class="profile-pic-edit-container row">
+                                        <div class="col-xs-2">
+                                            <button id="profilePicEditPanLeft" type="button" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-arrow-left"></span>
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <img id="editableProfilePicture" src="${modal.pictureUrl}">
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <button id="profilePicEditPanRight" type="button" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button id="profilePicEditPanDown" type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </button>
                                     <div class="profile-pic-edit-toolbar">
-                                        <button id="profilePicEditRotateLeft" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditRotateLeft" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-repeat glyphicon-flipped"></span>
                                         </button>
-                                        <button id="profilePicEditZoomIn" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditZoomIn" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-zoom-in"></span>
                                         </button>
-                                        <button id="profilePicEditZoomOut" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditZoomOut" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-zoom-out"></span>
                                         </button>
-                                        <button id="profilePicEditRotateRight" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditRotateRight" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-repeat"></span>
                                         </button>
                                     </div>
