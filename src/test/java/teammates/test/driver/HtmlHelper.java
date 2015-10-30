@@ -145,18 +145,7 @@ public class HtmlHelper {
      * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
      */
     private static boolean isToolTip(Node currentNode) {
-        if (currentNode.getNodeName().equalsIgnoreCase("div")) {
-            NamedNodeMap attributes = currentNode.getAttributes();
-            for (int i = 0; i < attributes.getLength(); i++) {
-                Node attribute = attributes.item(i);
-                if (attribute.getNodeName().equalsIgnoreCase("class")
-                        && attribute.getNodeValue().contains("tooltip")) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "class", "tooltip");
     }
     
     /**
@@ -164,18 +153,7 @@ public class HtmlHelper {
      * <code>student-motd-wrapper</code>).
      */
     private static boolean isMotdWrapper(Node currentNode) {
-        if (currentNode.getNodeName().equalsIgnoreCase("div")) {
-            NamedNodeMap attributes = currentNode.getAttributes();
-            for (int i = 0; i < attributes.getLength(); i++) {
-                Node attribute = attributes.item(i);
-                if (attribute.getNodeName().equalsIgnoreCase("id")
-                        && attribute.getNodeValue().contains("student-motd-wrapper")) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "id", "student-motd-wrapper");
     }
     
     /**
@@ -183,12 +161,17 @@ public class HtmlHelper {
      * <code>student-motd-container</code>).
      */
     private static boolean isMotdContainer(Node currentNode) {
-        if (currentNode.getNodeName().equalsIgnoreCase("div")) {
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "id", "student-motd-container");
+    }
+    
+    private static boolean checkForNodeWithSpecificAttributeValue(Node currentNode, String nodeType,
+                                                                  String attrType, String attrValue) {
+        if (currentNode.getNodeName().equalsIgnoreCase(nodeType)) {
             NamedNodeMap attributes = currentNode.getAttributes();
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
-                if (attribute.getNodeName().equalsIgnoreCase("id")
-                        && attribute.getNodeValue().contains("student-motd-container")) {
+                if (attribute.getNodeName().equalsIgnoreCase(attrType)
+                        && attribute.getNodeValue().contains(attrValue)) {
                     return true;
                 }
             }
