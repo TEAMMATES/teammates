@@ -34,6 +34,12 @@ $(function() {
             $('#profilePicEditRotateRight').click(function() {
                  picture.guillotine('rotateRight');
             });
+
+            // Panning handlers based on approach outlined here
+            // https://github.com/matiasgagliano/guillotine/issues/6#issuecomment-53178560
+            //
+            // It utilizes an internal method from the library (_offset)
+            // to update the (top, left) offset values for the image.
             $('#profilePicEditPanUp').click(function() {
                 var data = picture.guillotine('getData');
                 picture.guillotine('instance')._offset(data.x / data.w, (data.y - 10) / data.h);
