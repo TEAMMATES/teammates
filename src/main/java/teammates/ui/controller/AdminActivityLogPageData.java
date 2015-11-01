@@ -23,7 +23,6 @@ public class AdminActivityLogPageData extends PageData {
     private List<String> versions;
     private Long toDateValue;
     private Long fromDateValue;
-    private boolean hasDefaultSearchPeriod;
     private String logLocalTime;
     
     /**
@@ -70,7 +69,6 @@ public class AdminActivityLogPageData extends PageData {
         
         fromDateValue = fromCalendarDate.getTimeInMillis();
         toDateValue = TimeHelper.now(0.0).getTimeInMillis();
-        hasDefaultSearchPeriod = true;
     }
 
     public void init(String offset, boolean ifShowAll, boolean ifShowTestData, List<ActivityLogEntry> logs) {
@@ -115,7 +113,6 @@ public class AdminActivityLogPageData extends PageData {
     
     public void setFromDate(long startTime) {
         fromDateValue = startTime;
-        hasDefaultSearchPeriod = false;
     }
     
     public long getToDate() {
@@ -297,7 +294,6 @@ public class AdminActivityLogPageData extends PageData {
                 Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
-                hasDefaultSearchPeriod = false;
                 
             } else if (label.equals("to")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -313,10 +309,6 @@ public class AdminActivityLogPageData extends PageData {
         }
 
         return q;
-    }
-
-    public boolean hasDefaultSearchPeriod() {
-        return hasDefaultSearchPeriod;
     }
     
     /** 

@@ -112,10 +112,8 @@ public class AdminActivityLogPageAction extends Action {
         
         // if the query is empty, the default 24-hour limit will be applied 
         // or a searching period is stated in the query, it will be applied as well.
-        if (data.getFilterQuery().isEmpty() || (!data.hasDefaultSearchPeriod())) {
-            query.startTimeMillis(data.getFromDate());
-            query.endTimeMillis(data.getToDate());
-        }
+        query.startTimeMillis(data.getFromDate());
+        query.endTimeMillis(data.getToDate());
         
         try {
             query.majorVersionIds(getVersionIdsForQuery(versions));
