@@ -31,6 +31,7 @@ public class AdminActivityLogPageAction extends Action {
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
+    private static final int ONE_DAY_IN_MILLIS = 24*60*60*1000;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
@@ -39,6 +40,10 @@ public class AdminActivityLogPageAction extends Action {
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
         
+        String startSearchTime = getRequestParamValue("startSearchTime");
+        if (startSearchTime == null) {
+            startSearchTime = "";
+        }
         String offset = getRequestParamValue("offset");
         String pageChange = getRequestParamValue("pageChange");
         String filterQuery = getRequestParamValue("filterQuery");
@@ -80,6 +85,9 @@ public class AdminActivityLogPageAction extends Action {
         }
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
+        if (!startSearchTime.isEmpty()) {
+            data.setFromDate(Long.parseLong(startSearchTime));
+        }
         
         LogQuery query = buildQuery(offset, data);
         
@@ -263,8 +271,10 @@ public class AdminActivityLogPageAction extends Action {
         
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
+            // extends the search space one more day
+            long oneDayBefore = data.getFromDate() - ONE_DAY_IN_MILLIS;
             status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Search More</button>";           
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + ", "+ oneDayBefore +"');\">Search More</button>";           
         }
         
         if (currentLogsInPage >= LOGS_PER_PAGE) {   

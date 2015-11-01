@@ -113,6 +113,11 @@ public class AdminActivityLogPageData extends PageData {
         return fromDateValue;
     }
     
+    public void setFromDate(long startTime) {
+        fromDateValue = startTime;
+        hasDefaultSearchPeriod = false;
+    }
+    
     public long getToDate() {
         return toDateValue;
     }
