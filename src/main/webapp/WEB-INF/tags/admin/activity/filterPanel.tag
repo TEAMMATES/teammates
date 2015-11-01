@@ -202,9 +202,11 @@
     
      
     <%-- This form is used to store parameters for ajaxloader only --%>
-   <form id="ajaxLoaderDataForm">
-      <input type="hidden" name="offset" value="${offset}">
-       <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
+    <form id="ajaxLoaderDataForm">
+        <input type="hidden" name="offset" value="${offset}">
+        <input type="hidden" name="startSearchTime" value="">
+
+        <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
         logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
         or simply reloaded with this parameter omitted. --%>

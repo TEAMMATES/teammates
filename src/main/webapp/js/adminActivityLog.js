@@ -51,8 +51,12 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry){
     });
 }
 
-function submitFormAjax(offset) {
+function submitFormAjax(offset, startSearchTime) {
 	$('input[name=offset]').val(offset);
+	if (typeof startSearchTime != "undefined") {
+		$('input[name=startSearchTime]').val(startSearchTime);
+	}
+	
 	var formObject = $("#ajaxLoaderDataForm");
 	var formData = formObject.serialize();
 	var button = $('#button_older');
