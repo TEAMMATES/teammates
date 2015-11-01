@@ -109,9 +109,6 @@ public class AdminActivityLogPageAction extends Action {
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
         query.minLogLevel(LogLevel.INFO);
-        
-        // if the query is empty, the default 24-hour limit will be applied 
-        // or a searching period is stated in the query, it will be applied as well.
         query.startTimeMillis(data.getFromDate());
         query.endTimeMillis(data.getToDate());
         
