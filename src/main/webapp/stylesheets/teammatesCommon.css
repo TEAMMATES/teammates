@@ -540,6 +540,14 @@ Apply to thead to make headers not bold.
 .profile-pic-edit {
     max-height: 450px;
     width: 100%;
+    display: table;
+}
+
+.profile-pic-edit [class*="col-"] {
+    float: none;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
 }
 
 .profile-pic-edit>img {
@@ -574,9 +582,10 @@ Apply to thead to make headers not bold.
 }
 
 .profile-pic-edit-container {
-    width: 60%;
+    width: 75%;
     margin: 0 auto;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .profile-pic-file-selector {

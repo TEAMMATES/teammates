@@ -19,11 +19,9 @@ $(function() {
         if (picture.length !== 0) {
             picture.guillotine({
                 width: 150,
-                height: 150,
-                init: {
-                    scale: 0.1
-                }
+                height: 150
             });
+            picture.guillotine('fit');
             $('#profilePicEditRotateLeft').click(function() {
                  picture.guillotine('rotateLeft');
             });
@@ -35,6 +33,28 @@ $(function() {
             });
             $('#profilePicEditRotateRight').click(function() {
                  picture.guillotine('rotateRight');
+            });
+
+            // Panning handlers based on approach outlined here
+            // https://github.com/matiasgagliano/guillotine/issues/6#issuecomment-53178560
+            //
+            // It utilizes an internal method from the library (_offset)
+            // to update the (top, left) offset values for the image.
+            $('#profilePicEditPanUp').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset(data.x / data.w, (data.y - 10) / data.h);
+            });
+            $('#profilePicEditPanLeft').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset((data.x - 10) / data.w, data.y / data.h);
+            });
+            $('#profilePicEditPanRight').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset((data.x + 10) / data.w, data.y / data.h);
+            });
+            $('#profilePicEditPanDown').click(function() {
+                var data = picture.guillotine('getData');
+                picture.guillotine('instance')._offset(data.x / data.w, (data.y + 10) / data.h);
             });
             $('#pictureWidth').val(picture.prop('naturalWidth'));
             $('#pictureHeight').val(picture.prop('naturalHeight'));
