@@ -190,6 +190,7 @@ public class AdminActivityLogPageAction extends Action {
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
         boolean isFirstRow = true;
         ActivityLogEntry earliestLogChecked = null;
+        boolean stillHasLog = false;
         for (RequestLogs record : records) {
             
             totalLogsSearched ++;
@@ -197,12 +198,14 @@ public class AdminActivityLogPageAction extends Action {
             
             //End the search if we hit limits
             if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
+                stillHasLog = true; 
                 break;
             }
             if (currentLogsInPage >= LOGS_PER_PAGE) {
+                stillHasLog = true;
                 break;
             }
-            
+
             //fetch application log
             List<AppLogLine> appLogLines = record.getAppLogLines();
             for (AppLogLine appLog : appLogLines) {
@@ -265,7 +268,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         //link for Next button, will fetch older logs
-        if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
+        if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (!stillHasLog)) {
             // extends the search space one more day
             long oneDayBefore = data.getFromDate() - ONE_DAY_IN_MILLIS;
             status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
