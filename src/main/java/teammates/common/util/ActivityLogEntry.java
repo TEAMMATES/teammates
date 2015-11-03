@@ -93,9 +93,10 @@ public class ActivityLogEntry {
             message = tokens[8];
             url = tokens[9];
             if (tokens.length >= 11) {
-                if (tokens[10].contains(googleId)) {
-                    timeTaken = tokens.length == 12 ? Long.parseLong(tokens[11].trim()) : null;
+                boolean isLogId = tokens[10].contains(googleId) || tokens[10].contains("%"); 
+                if (isLogId) {
                     id = tokens[10];
+                    timeTaken = tokens.length == 12 ? Long.parseLong(tokens[11].trim()) : null;
                 } else {
                     timeTaken = Long.parseLong(tokens[10].trim());                    
                 }
@@ -138,6 +139,16 @@ public class ActivityLogEntry {
      * Used in the various servlets in the application
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params,  String link){
+        this(servlet, act, acc, params, link, null, null);
+    }
+
+    /**
+     * Constructs a ActivityLogEntry. 
+     * The googleId in the log will be based on the {@code acc} passed in, otherwise it is obtained from the GateKeeper. 
+     * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail} 
+     * will be used to construct the id.
+     */
+    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link, String unregisteredUserCourse, String unregisteredUserEmail) {
         time = System.currentTimeMillis();
         servletName = servlet;
         action = act;
@@ -160,7 +171,11 @@ public class ActivityLogEntry {
             email = acc.email;
         }
         
-        id = googleId + formatTimeForId(new Date(time));
+        if (googleId.contentEquals("Unknown") && unregisteredUserCourse != null && unregisteredUserEmail != null) {
+            id = unregisteredUserEmail + "%" + unregisteredUserCourse + "%" + formatTimeForId(new Date(time));
+        } else {
+            id = googleId + formatTimeForId(new Date(time));
+        }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -219,7 +234,11 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = googleId + formatTimeForId(new Date(time));
+        if ((googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered"))  && student != null) {
+            id = student.email + "%" + student.course + "%" + formatTimeForId(new Date(time));
+        } else {
+            id = googleId + formatTimeForId(new Date(time));
+        }
     }
     
     private String formatTimeForId(Date date) {
@@ -470,7 +489,10 @@ public class ActivityLogEntry {
         message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
         message += HttpRequestHelper.printRequestParameters(req) + "</span>";
         
-        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message, url);
+        String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
+        String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message, url, 
+                                                             courseId, studentEmail);
         
         return exceptionLog.generateLogMessage();
     }
@@ -498,7 +520,11 @@ public class ActivityLogEntry {
               }
           }
         
-        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null, message, url);
+        String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
+        String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
+        
+        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
+                                                               message, url, courseId, studentEmail);
         
         return emailReportLog.generateLogMessage();
     }
