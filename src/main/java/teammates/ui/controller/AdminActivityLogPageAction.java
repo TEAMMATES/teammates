@@ -255,17 +255,16 @@ public class AdminActivityLogPageAction extends Action {
             }
         }
         
-        if (earliestLogChecked != null) {
-            double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
-            String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
-            String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
-            status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
-                      + adminTimeZone + ") and ";
-            if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
-                status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
-            } else {
-                status += timeInUserTimeZone;
-            }
+        
+        double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+        String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
+        String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
+        status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
+                  + adminTimeZone + ") and ";
+        if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
+            status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
+        } else {
+            status += timeInUserTimeZone;
         }
         
         //link for Next button, will fetch older logs
@@ -277,8 +276,6 @@ public class AdminActivityLogPageAction extends Action {
             status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
             status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "', "+ oneDayBefore +");\">Search More</button>";           
         }
-        
-        
         
         status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
         status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
