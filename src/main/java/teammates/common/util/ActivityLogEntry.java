@@ -29,7 +29,8 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-    private String id;
+    private String id;  // id can be in the form of <googleId><time> 
+                        // or <studentemail>#<courseId>#<time> (for unregistered students)
     
     private boolean isFirstRow = false;
     
@@ -79,48 +80,61 @@ public class ActivityLogEntry {
      */
     public ActivityLogEntry(AppLogLine appLog){
         time = appLog.getTimeUsec() / 1000;
-        String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
-        try{
-            servletName = tokens[1];
-            action = tokens[2];
-            toShow = (tokens[3].equals("true") ? true : false);
-            role = tokens[4];
-            name = tokens[5];
-            googleId = tokens[6];
-            email = tokens[7];
-            message = tokens[8];
-            url = tokens[9];
-            if (tokens.length >= 11) {
-                boolean isLogId = tokens[10].contains(googleId) || tokens[10].contains("%"); 
-                if (isLogId) {
-                    id = tokens[10];
-                    timeTaken = tokens.length == 12 ? Long.parseLong(tokens[11].trim()) : null;
-                } else {
-                    timeTaken = Long.parseLong(tokens[10].trim());                    
-                }
-            }
-
-            keyStringsToHighlight = null;
+        try {
+            String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
+            initUsingAppLogMessage(tokens);
         } catch (ArrayIndexOutOfBoundsException e){
-            
-            servletName = "Unknown";
-            action = "Unknown";
-            role = "Unknown";
-            name = "Unknown";
-            googleId = "Unknown";
-            email = "Unknown";
-            toShow = true;
-            message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
-                    + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
-            url = "Unknown";
-            id = "Unknown" + formatTimeForId(new Date(time));
-            timeTaken = null;
-            keyStringsToHighlight = null;
+            initAsFailure(appLog, e);
         }
         
+        keyStringsToHighlight = null;
         logInfoAsHtml = getLogInfoForTableRowAsHtml();
+    }
+
+
+    private void initUsingAppLogMessage(String[] tokens) {
+        servletName = tokens[1];
+        action = tokens[2];
+        toShow = Boolean.parseBoolean(tokens[3]);
+        role = tokens[4];
+        name = tokens[5];
+        googleId = tokens[6];            
+        email = tokens[7];
+        message = tokens[8];
+        url = tokens[9];
+        
+        boolean isLogWithoutTimeTakenAndId = tokens.length < 11;
+        if (!isLogWithoutTimeTakenAndId) {
+            boolean isOldLog = !(tokens[10].contains(googleId) || tokens[10].contains("%"));
+            //TODO the branch for old logs can be removed after V5.64
+            // this branch is needed to support older style logs when we did not have the log id  
+            if (isOldLog) {
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+                timeTaken = Long.parseLong(tokens[10].trim());
+            } else {
+                //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
+                id = tokens[10];
+                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[11].trim()) 
+                                                : null;
+            }                                           
+        }
+    }
+
+
+    private void initAsFailure(AppLogLine appLog, Exception e) {
+        servletName = "Unknown";
+        action = "Unknown";
+        role = "Unknown";
+        name = "Unknown";
+        googleId = "Unknown";
+        email = "Unknown";
+        toShow = true;
+        message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
+                + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
+        url = "Unknown";
+        id = "Unknown" + formatTimeForId(new Date(time));
+        timeTaken = null;
     }
     
     
