@@ -21,17 +21,17 @@ public class ActivityLogEntry {
     // The following constants describe the positions of the attributes
     // in the log message. i.e
     // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
-    private static final int POSITION_OF_SERVLETNAME = 1;
-    private static final int POSITION_OF_ACTION = 2;
-    private static final int POSITION_OF_TOSHOW = 3;
-    private static final int POSITION_OF_ROLE = 4;
-    private static final int POSITION_OF_NAME = 5;
-    private static final int POSITION_OF_GOOGLEID = 6;
-    private static final int POSITION_OF_EMAIL = 7;
-    private static final int POSITION_OF_MESSAGE = 8;
-    private static final int POSITION_OF_URL = 9;
-    private static final int POSITION_OF_ID = 10;
-    private static final int POSITION_OF_TIMETAKEN = 11;
+    public static final int POSITION_OF_SERVLETNAME = 1;
+    public static final int POSITION_OF_ACTION = 2;
+    public static final int POSITION_OF_TOSHOW = 3;
+    public static final int POSITION_OF_ROLE = 4;
+    public static final int POSITION_OF_NAME = 5;
+    public static final int POSITION_OF_GOOGLEID = 6;
+    public static final int POSITION_OF_EMAIL = 7;
+    public static final int POSITION_OF_MESSAGE = 8;
+    public static final int POSITION_OF_URL = 9;
+    public static final int POSITION_OF_ID = 10;
+    public static final int POSITION_OF_TIMETAKEN = 11;
     
     private static final int POSITION_OF_TIMETAKEN_IN_OLD_LOGS = 10;
     
@@ -271,7 +271,7 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered"))  && student != null;
+        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) && student != null;
         if (isUnregisteredStudent) {
             id = student.email + "%" + student.course + "%" + formatTimeForId(new Date(time));
         } else {

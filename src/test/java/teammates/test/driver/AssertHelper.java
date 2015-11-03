@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
 
 public class AssertHelper {
@@ -114,7 +115,7 @@ public class AssertHelper {
      * @param actual
      */
     public static void assertLogMessageEquals(String expected, String actual) {        
-        String expectedGoogleId = expected.split("\\|\\|\\|")[6];
+        String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
 
         assertLogMessageEquals(expected, actual, expectedGoogleId);
     }
