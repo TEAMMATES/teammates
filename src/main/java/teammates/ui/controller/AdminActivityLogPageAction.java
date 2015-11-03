@@ -272,7 +272,7 @@ public class AdminActivityLogPageAction extends Action {
             // extends the search space one more day
             long oneDayBefore = data.getFromDate() - ONE_DAY_IN_MILLIS;
             status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + ", "+ oneDayBefore +"');\">Search More</button>";           
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "', "+ oneDayBefore +");\">Search More</button>";           
         }
         
         if (currentLogsInPage >= LOGS_PER_PAGE) {   
