@@ -5,7 +5,7 @@
          Session Results
       </h1>
       <br/>
-            <div class="well well-plain padding-0">
+      <div class="well well-plain padding-0">
          <div class="form-horizontal">
             <div class="panel-heading">
                <div class="row">
@@ -66,14 +66,14 @@
                            <form action="/page/instructorFeedbackResultsDownload" method="post">
                               <div id="feedbackDataButtons">
                                  <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
-                                                               </div>
+                              </div>
                               <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                                                            <input name="sectionname" type="hidden" value="All"/>
-                                                         </form>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                              <input name="sectionname" type="hidden" value="All"/>
+                           </form>
                            <br/>
-                                                      <div>
+                           <div>
                               <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRubricQnUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DFRubricQnUiT.instructor&user=FRubricQnUiT.instructor" onclick="return toggleUnpublishEvaluation('Second Session');" title="">
                                  Unpublish Results
                               </a>
@@ -95,11 +95,11 @@
       </div>
       <form id="csvToHtmlForm">
          <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                  <input name="fsname" type="hidden" value="Second Session"/>
-                  <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
-                  <input name="frgroupbysection" type="hidden" value="All"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
+         <input name="fsname" type="hidden" value="Second Session"/>
+         <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+         <input name="frgroupbysection" type="hidden" value="All"/>
+         <input name="csvtohtmltable" type="hidden" value="true"/>
+      </form>
       <div class="modal fade align-center" id="fsResultsTableWindow">
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -128,7 +128,7 @@
                      <div id="fsModalTable">
                      </div>
                      <br/>
-                                          <div id="ajaxStatus">
+                     <div id="ajaxStatus">
                      </div>
                   </div>
                </div>
@@ -175,7 +175,7 @@
                         <div class="col-sm-10">
                            <div class="input-group">
                               <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text"/>
-                                                            <a class="input-group-addon btn btn-default">
+                              <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
                               </a>
@@ -188,7 +188,7 @@
                         <div class="checkbox padding-top-0 min-height-0">
                            <label>
                               <input id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"/>
-                                                            Group by Teams
+                              Group by Teams
                            </label>
                         </div>
                      </div>
@@ -196,7 +196,7 @@
                         <div class="checkbox padding-top-0 min-height-0">
                            <label class="text-strike">
                               <input id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
-                                                            Show Statistics
+                              Show Statistics
                            </label>
                         </div>
                      </div>
@@ -212,15 +212,15 @@
             </div>
          </div>
          <input name="fsname" type="hidden" value="Second Session"/>
-                  <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                  <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
-               </form>
+         <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+         <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+      </form>
       <br/>
-            <div id="statusMessage" style="display: none;">
+      <div id="statusMessage" style="display: none;">
       </div>
       <br/>
-            <br/>
-            <div class="panel panel-success">
+      <br/>
+      <div class="panel panel-success">
          <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
             <div class="row">
                <div class="col-sm-9 panel-heading-text">
@@ -250,17 +250,17 @@
                            Alice Betsy (Team 1)
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a class="link-in-dark-bg" href="mailto:alice.b.tmms@gmail.tmt">
+                        <a class="link-in-dark-bg" href="mailto:alice.b.tmms@gmail.tmt">
                            [alice.b.tmms@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
                            <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="alice.b.tmms@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="alice.b.tmms@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -279,15 +279,15 @@
                                        Benny Charles (Team 1)
                                     </strong>
                                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                                     </div>
+                                 </div>
                               </div>
                               <div class="col-md-12 text-muted small">
                                  <br/>
-                                                                  From:
+                                 From:
                                  <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                     Alice Betsy (Team 1)
                                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                                     </div>
+                                 </div>
                               </div>
                            </div>
                            <div class="col-md-10">
@@ -301,14 +301,14 @@
                                              [more]
                                           </a>
                                           <br/>
-                                                                                    <span id="questionAdditionalInfo-1-giver-0-recipient-1" style="display:none;">
+                                          <span id="questionAdditionalInfo-1-giver-0-recipient-1" style="display:none;">
                                              Rubric question sub-questions:
                                              <p>
                                                 a) This student has done a good job.
                                                 <br/>
-                                                                                                b) This student has tried his/her best.
+                                                b) This student has tried his/her best.
                                                 <br/>
-                                                                                             </p>
+                                             </p>
                                           </span>
                                        </span>
                                     </span>
@@ -323,14 +323,14 @@
                                              </i>
                                           </span>
                                           <br/>
-                                                                                    b) Yes
+                                          b) Yes
                                           <span class="color_neutral">
                                              <i>
                                                 (Choice 1)
                                              </i>
                                           </span>
                                           <br/>
-                                                                                 </div>
+                                       </div>
                                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,1)" title="" type="button">
                                           <span class="glyphicon glyphicon-comment glyphicon-primary">
                                           </span>
@@ -344,7 +344,7 @@
                                                    <p>
                                                       Giver: Alice Betsy (Team 1)
                                                       <br/>
-                                                                                                            Recipient: Benny Charles (Team 1)
+                                                      Recipient: Benny Charles (Team 1)
                                                    </p>
                                                    You may change comment's visibility using the visibility options on the right hand side.
                                                 </div>
@@ -379,10 +379,10 @@
                                                          </td>
                                                          <td>
                                                             <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER"/>
-                                                                                                                     </td>
+                                                         </td>
                                                          <td>
                                                             <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER"/>
-                                                                                                                     </td>
+                                                         </td>
                                                       </tr>
                                                       <tr id="response-students-1-0-1">
                                                          <td class="text-left">
@@ -392,10 +392,10 @@
                                                          </td>
                                                          <td>
                                                             <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS"/>
-                                                                                                                     </td>
+                                                         </td>
                                                          <td>
                                                             <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS"/>
-                                                                                                                     </td>
+                                                         </td>
                                                       </tr>
                                                       <tr id="response-instructors-1-0-1">
                                                          <td class="text-left">
@@ -405,10 +405,10 @@
                                                          </td>
                                                          <td>
                                                             <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS"/>
-                                                                                                                     </td>
+                                                         </td>
                                                          <td>
                                                             <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS"/>
-                                                                                                                     </td>
+                                                         </td>
                                                       </tr>
                                                    </tbody>
                                                 </table>
@@ -422,15 +422,15 @@
                                                    Add
                                                 </a>
                                                 <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,1);" type="button" value="Cancel"/>
-                                                                                             </div>
+                                             </div>
                                              <input name="questionid" type="hidden" value="${question.id}"/>
-                                                                                          <input name="responseid" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt"/>
-                                                                                          <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                                                                                          <input name="fsname" type="hidden" value="Second Session"/>
-                                                                                          <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
-                                                                                          <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS, STUDENTS"/>
-                                                                                          <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS, STUDENTS"/>
-                                                                                       </form>
+                                             <input name="responseid" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt"/>
+                                             <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                                             <input name="fsname" type="hidden" value="Second Session"/>
+                                             <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+                                             <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS, STUDENTS"/>
+                                             <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS, STUDENTS"/>
+                                          </form>
                                        </li>
                                     </ul>
                                  </div>
@@ -448,17 +448,17 @@
                            Benny Charles (Team 1)
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:benny.c.tmms@gmail.tmt">
+                        <a href="mailto:benny.c.tmms@gmail.tmt">
                            [benny.c.tmms@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -481,10 +481,10 @@
          <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
             <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
                <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                              <input name="fsname" type="hidden" value="Second Session"/>
-                              <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
-                              <input name="questionid" type="hidden" value="-1"/>
-                           </form>
+               <input name="fsname" type="hidden" value="Second Session"/>
+               <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+               <input name="questionid" type="hidden" value="-1"/>
+            </form>
             <div class="display-icon pull-right">
                <span class="glyphicon pull-right glyphicon-chevron-up">
                </span>
@@ -522,10 +522,10 @@
                         <td>
                            <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
-                                                            <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt"/>
-                                                         </form>
+                              <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt"/>
+                           </form>
                         </td>
                      </tr>
                   </tbody>
@@ -534,4 +534,3 @@
          </div>
       </div>
    </div>
-

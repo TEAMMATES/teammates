@@ -5,11 +5,11 @@
          Enroll Students for AHPUiT.instr1.gma-demo
       </h1>
       <br/>
-            <div class="instructionImg">
+      <div class="instructionImg">
          <img border="0" class="img-responsive" src="/images/enrollInstructions.gif"/>
-               </div>
+      </div>
       <br/>
-            <div class="panel panel-primary">
+      <div class="panel panel-primary">
          <div class="panel-body fill-plain">
             <div class="text-muted">
                <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary">
@@ -25,7 +25,7 @@
                students.
             </div>
             <br/>
-                        <form action="/page/instructorCourseEnrollSave?courseid=AHPUiT.instr1.gma-demo&user=${test.instructor}" class="form-horizontal" method="post" role="form">
+            <form action="/page/instructorCourseEnrollSave?courseid=AHPUiT.instr1.gma-demo&user=${test.instructor}" class="form-horizontal" method="post" role="form">
                <div class="col-md-12">
                   <div class="form-group">
                      <label class="col-sm-1 control-label" for="instructions">
@@ -35,7 +35,7 @@
                         <textarea class="form-control" cols="120" id="enrollstudents" name="enrollstudents" placeholder="Paste student data here ..." rows="6" style="max-width:100%;">
                         </textarea>
                         <br/>
-                                                <div id="statusMessage" style="display: none;">
+                        <div id="statusMessage" style="display: none;">
                         </div>
                         <button class="btn btn-primary btn-md" id="button_enroll" name="button_enroll" title="Enroll" type="submit">
                            Enroll students
@@ -47,19 +47,19 @@
          </div>
       </div>
       <br/>
-            <div class="moreInfo">
+      <div class="moreInfo">
          <h2>
             More info
          </h2>
          <hr style="width: 80%; margin-left: 0px;"/>
-                  <ul>
+         <ul>
             <li>
                <span class="moreInfoPointTitle">
                   Sample spreadsheet
                </span>
                <div class="moreInfoPointDetails">
                   If you are not sure about the format of the spreadsheet,
-                  <a href="/files/Course Enroll Sample Spreadsheet.csv" id="spreadsheet_download">
+                  <a href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv" id="spreadsheet_download">
                      here
                   </a>
                   is a sample file.
@@ -118,7 +118,7 @@
                         </samp>
                         [Compulsory]: The email address used to contact the student.
                         <br/>
-                                                <div class="moreInfoPointDetails">
+                        <div class="moreInfoPointDetails">
                            <ul>
                               <li class="moreInfoEmailDetails">
                                  This need not be a Gmail address.
@@ -163,10 +163,10 @@
                   The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, 
                         not to be confused with upper case i or lower case L) to separate values.
                   <br/>
-                                    Here is an example.
+                  Here is an example.
                   <br/>
-                                    <br/>
-                                    <div id="moreInfoEnrollWOSpreadSheetEg">
+                  <br/>
+                  <div id="moreInfoEnrollWOSpreadSheetEg">
                      <samp>
                         <span class="enrollLines">
                            <b>
@@ -174,19 +174,19 @@
                            </b>
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 2   |   Team 3   |   Thora Parker  |  thora@email.com
                         </span>
                      </samp>
@@ -196,4 +196,3 @@
          </ul>
       </div>
    </div>
-

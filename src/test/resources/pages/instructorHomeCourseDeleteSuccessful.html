@@ -5,28 +5,28 @@
          Instructor Home
       </h1>
       <br/>
-            <div class="well well-plain">
+      <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
                <form action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms" method="get" name="search_form">
                   <div class="input-group">
                      <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text"/>
-                                          <span class="input-group-btn">
+                     <span class="input-group-btn">
                         <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
                            Search
                         </button>
                      </span>
                   </div>
                   <input name="searchstudents" type="hidden" value="true"/>
-                                    <input name="searchcommentforstudents" type="hidden" value="false"/>
-                                    <input name="searchcommentforresponses" type="hidden" value="false"/>
-                                    <input name="user" type="hidden" value="CHomeUiT.instructor.tmms"/>
-                                 </form>
+                  <input name="searchcommentforstudents" type="hidden" value="false"/>
+                  <input name="searchcommentforresponses" type="hidden" value="false"/>
+                  <input name="user" type="hidden" value="CHomeUiT.instructor.tmms"/>
+               </form>
             </div>
          </div>
       </div>
       <br/>
-            <div class="alert alert-success" id="statusMessage">
+      <div class="alert alert-success" id="statusMessage">
          The course CHomeUiT.CS2104 has been deleted.
       </div>
       <script src="/js/statusMessage.js" type="text/javascript">
@@ -55,8 +55,8 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" type="submit" value="Remind"/>
-                                          <input name="user" type="hidden" value="CHomeUiT.instructor.tmms"/>
-                                       </div>
+                     <input name="user" type="hidden" value="CHomeUiT.instructor.tmms"/>
+                  </div>
                </form>
             </div>
          </div>
@@ -76,21 +76,21 @@
             <div class="btn-group pull-right" data-toggle="buttons">
                <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
                   <input type="radio"/>
-                                    Course ID
+                  Course ID
                </label>
                <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
                   <input name="sortby" type="radio" value="name"/>
-                                    Course Name
+                  Course Name
                </label>
                <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
                   <input type="radio"/>
-                                    Creation Date
+                  Creation Date
                </label>
             </div>
          </div>
       </div>
       <br/>
-            <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+      <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
                <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
@@ -101,7 +101,7 @@
                      <h4 class="modal-title">
                         Copy this feedback session to other courses
                         <br/>
-                                                <small>
+                        <small>
                            (Select the course(s) you want to copy this feedback session to)
                         </small>
                      </h4>
@@ -115,11 +115,10 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                                          <input name="user" type="hidden" value="CHomeUiT.instructor.tmms"/>
-                                       </div>
+                     <input name="user" type="hidden" value="CHomeUiT.instructor.tmms"/>
+                  </div>
                </form>
             </div>
          </div>
       </div>
    </div>
-

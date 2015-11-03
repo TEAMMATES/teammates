@@ -68,6 +68,18 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id = "profilePicEditRotateRight")
     protected WebElement editPictureRotateRight;
 
+    @FindBy(id = "profilePicEditPanUp")
+    protected WebElement editPicturePanUp;
+
+    @FindBy(id = "profilePicEditPanLeft")
+    protected WebElement editPicturePanLeft;
+
+    @FindBy(id = "profilePicEditPanRight")
+    protected WebElement editPicturePanRight;
+
+    @FindBy(id = "profilePicEditPanDown")
+    protected WebElement editPicturePanDown;
+
     public StudentProfilePage(Browser browser) {
         super(browser);
     }
@@ -180,6 +192,14 @@ public class StudentProfilePage extends AppPage {
         editPictureRotateRight.click();
         editPictureRotateLeft.click();
         editPictureRotateRight.click();
+
+        editPicturePanDown.click();
+        editPicturePanUp.click();
+        editPicturePanDown.click();
+
+        editPicturePanLeft.click();
+        editPicturePanRight.click();
+        editPicturePanLeft.click();
 
         editPictureSubmit.click();
     }
