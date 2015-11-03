@@ -210,6 +210,7 @@ public class AdminActivityLogPageAction extends Action {
             List<AppLogLine> appLogLines = record.getAppLogLines();
             for (AppLogLine appLog : appLogLines) {
                 if (currentLogsInPage >= LOGS_PER_PAGE) {
+                    stillHasLog = true;
                     break;
                 }
                 String logMsg = appLog.getLogMessage();
@@ -268,16 +269,16 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         //link for Next button, will fetch older logs
-        if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (!stillHasLog)) {
+        if (currentLogsInPage >= LOGS_PER_PAGE) {   
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";              
+        } else if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (!stillHasLog)) {
             // extends the search space one more day
             long oneDayBefore = data.getFromDate() - ONE_DAY_IN_MILLIS;
             status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
             status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "', "+ oneDayBefore +");\">Search More</button>";           
         }
         
-        if (currentLogsInPage >= LOGS_PER_PAGE) {   
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";              
-        }
+        
         
         status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
         status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
