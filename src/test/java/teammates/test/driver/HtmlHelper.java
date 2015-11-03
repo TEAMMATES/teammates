@@ -90,9 +90,9 @@ public class HtmlHelper {
         if (currentNode.getNodeType() == Node.TEXT_NODE) {
             String text = currentNode.getNodeValue().trim();
             return text.isEmpty() ? "" : indentation + text + "\n";
-        } else if (isToolTip(currentNode)) {
-            return "";
-        } else if (Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapper(currentNode)) {
+        } else if (isToolTip(currentNode)
+                   || isPopOver(currentNode)
+                   || (Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapper(currentNode))) {
             return "";
         } else if (isMotdContainer(currentNode)) {
             return indentation + "${studentmotd.container}\n";
@@ -146,6 +146,13 @@ public class HtmlHelper {
      */
     private static boolean isToolTip(Node currentNode) {
         return checkForNodeWithSpecificAttributeValue(currentNode, "div", "class", "tooltip");
+    }
+    
+    /**
+     * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it)
+     */
+    private static boolean isPopOver(Node currentNode) {
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "class", "popover");
     }
     
     /**
