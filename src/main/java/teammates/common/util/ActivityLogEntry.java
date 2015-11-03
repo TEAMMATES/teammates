@@ -18,6 +18,24 @@ import com.google.appengine.api.log.AppLogLine;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
+    // The following constants describe the positions of the attributes
+    // in the log message. i.e
+    // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+    private static final int POSITION_OF_SERVLETNAME = 1;
+    private static final int POSITION_OF_ACTION = 2;
+    private static final int POSITION_OF_TOSHOW = 3;
+    private static final int POSITION_OF_ROLE = 4;
+    private static final int POSITION_OF_NAME = 5;
+    private static final int POSITION_OF_GOOGLEID = 6;
+    private static final int POSITION_OF_EMAIL = 7;
+    private static final int POSITION_OF_MESSAGE = 8;
+    private static final int POSITION_OF_URL = 9;
+    private static final int POSITION_OF_ID = 10;
+    private static final int POSITION_OF_TIMETAKEN = 11;
+    
+    private static final int POSITION_OF_TIMETAKEN_IN_OLD_LOGS = 10;
+    
+    
     private long time;
     private String servletName;
     private String action; //TODO: remove if not needed (and rename servletName to action)
@@ -95,28 +113,29 @@ public class ActivityLogEntry {
 
 
     private void initUsingAppLogMessage(String[] tokens) {
-        servletName = tokens[1];
-        action = tokens[2];
-        toShow = Boolean.parseBoolean(tokens[3]);
-        role = tokens[4];
-        name = tokens[5];
-        googleId = tokens[6];            
-        email = tokens[7];
-        message = tokens[8];
-        url = tokens[9];
+        servletName = tokens[POSITION_OF_SERVLETNAME];
+        action = tokens[POSITION_OF_ACTION];
+        toShow = Boolean.parseBoolean(tokens[POSITION_OF_TOSHOW]);
+        role = tokens[POSITION_OF_ROLE];
+        name = tokens[POSITION_OF_NAME];
+        googleId = tokens[POSITION_OF_GOOGLEID];            
+        email = tokens[POSITION_OF_EMAIL];
+        message = tokens[POSITION_OF_MESSAGE];
+        url = tokens[POSITION_OF_URL];
         
-        boolean isLogWithoutTimeTakenAndId = tokens.length < 11;
-        if (!isLogWithoutTimeTakenAndId) {
-            boolean isOldLog = !(tokens[10].contains(googleId) || tokens[10].contains("%"));
+        boolean isLogWithTimeTakenAndId = tokens.length >= (POSITION_OF_ID + 1);
+        if (isLogWithTimeTakenAndId) {
+            boolean isOldLog = !(tokens[POSITION_OF_ID].contains(googleId) 
+                                 || tokens[POSITION_OF_ID].contains("%"));
             //TODO the branch for old logs can be removed after V5.64
             // this branch is needed to support older style logs when we did not have the log id  
             if (isOldLog) {
                 // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
-                timeTaken = Long.parseLong(tokens[10].trim());
+                timeTaken = Long.parseLong(tokens[POSITION_OF_TIMETAKEN_IN_OLD_LOGS].trim());
             } else {
-                //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
-                id = tokens[10];
-                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[11].trim()) 
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
+                id = tokens[POSITION_OF_ID];
+                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim()) 
                                                 : null;
             }                                           
         }
@@ -186,10 +205,13 @@ public class ActivityLogEntry {
             email = acc.email;
         }
         
-        if (googleId.contentEquals("Unknown") && unregisteredUserCourse != null && unregisteredUserEmail != null) {
+        boolean isUnregisteredStudent = googleId.contentEquals("Unknown") 
+                                     && unregisteredUserCourse != null 
+                                     && unregisteredUserEmail != null;
+        if (isUnregisteredStudent) {
             id = unregisteredUserEmail + "%" + unregisteredUserCourse + "%" + formatTimeForId(new Date(time));
         } else {
-            id = googleId + formatTimeForId(new Date(time));
+            id = googleId + "%" + formatTimeForId(new Date(time));
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
