@@ -29,8 +29,9 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-    private String id;  // id can be in the form of <googleId><time> 
-                        // or <studentemail>#<courseId>#<time> (for unregistered students)
+    private String id;  // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
+                        // or <studentemail>%<courseId>%<time> (for unregistered students) 
+                        //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
     
     private boolean isFirstRow = false;
     
@@ -84,7 +85,7 @@ public class ActivityLogEntry {
         try {
             String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
             initUsingAppLogMessage(tokens);
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             initAsFailure(appLog, e);
         }
         
@@ -133,7 +134,7 @@ public class ActivityLogEntry {
         message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                 + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
         url = "Unknown";
-        id = "Unknown" + formatTimeForId(new Date(time));
+        id = "Unknown" + "%" + formatTimeForId(new Date(time));
         timeTaken = null;
     }
     
@@ -248,10 +249,11 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        if ((googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered"))  && student != null) {
+        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered"))  && student != null;
+        if (isUnregisteredStudent) {
             id = student.email + "%" + student.course + "%" + formatTimeForId(new Date(time));
         } else {
-            id = googleId + formatTimeForId(new Date(time));
+            id = googleId + "%" + formatTimeForId(new Date(time));
         }
     }
     
