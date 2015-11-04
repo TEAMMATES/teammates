@@ -18,6 +18,24 @@ import com.google.appengine.api.log.AppLogLine;
 
 /** A log entry to describe an action carried out by the app */
 public class ActivityLogEntry {
+    // The following constants describe the positions of the attributes
+    // in the log message. i.e
+    // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+    public static final int POSITION_OF_SERVLETNAME = 1;
+    public static final int POSITION_OF_ACTION = 2;
+    public static final int POSITION_OF_TOSHOW = 3;
+    public static final int POSITION_OF_ROLE = 4;
+    public static final int POSITION_OF_NAME = 5;
+    public static final int POSITION_OF_GOOGLEID = 6;
+    public static final int POSITION_OF_EMAIL = 7;
+    public static final int POSITION_OF_MESSAGE = 8;
+    public static final int POSITION_OF_URL = 9;
+    public static final int POSITION_OF_ID = 10;
+    public static final int POSITION_OF_TIMETAKEN = 11;
+    
+    private static final int POSITION_OF_TIMETAKEN_IN_OLD_LOGS = 10;
+    
+    
     private long time;
     private String servletName;
     private String action; //TODO: remove if not needed (and rename servletName to action)
@@ -29,7 +47,9 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-    private String id;
+    private String id;  // id can be in the form of <googleId>%<time> e.g. bamboo3250%20151103170618465
+                        // or <studentemail>%<courseId>%<time> (for unregistered students) 
+                        //     e.g. bamboo@gmail.tmt%instructor.ema-demo%20151103170618465
     
     private boolean isFirstRow = false;
     
@@ -79,47 +99,62 @@ public class ActivityLogEntry {
      */
     public ActivityLogEntry(AppLogLine appLog){
         time = appLog.getTimeUsec() / 1000;
-        String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
-        try{
-            servletName = tokens[1];
-            action = tokens[2];
-            toShow = (tokens[3].equals("true") ? true : false);
-            role = tokens[4];
-            name = tokens[5];
-            googleId = tokens[6];
-            email = tokens[7];
-            message = tokens[8];
-            url = tokens[9];
-            if (tokens.length >= 11) {
-                if (tokens[10].contains(googleId)) {
-                    timeTaken = tokens.length == 12 ? Long.parseLong(tokens[11].trim()) : null;
-                    id = tokens[10];
-                } else {
-                    timeTaken = Long.parseLong(tokens[10].trim());                    
-                }
-            }
-
-            keyStringsToHighlight = null;
-        } catch (ArrayIndexOutOfBoundsException e){
-            
-            servletName = "Unknown";
-            action = "Unknown";
-            role = "Unknown";
-            name = "Unknown";
-            googleId = "Unknown";
-            email = "Unknown";
-            toShow = true;
-            message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
-                    + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
-            url = "Unknown";
-            id = "Unknown" + formatTimeForId(new Date(time));
-            timeTaken = null;
-            keyStringsToHighlight = null;
+        try {
+            String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
+            initUsingAppLogMessage(tokens);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            initAsFailure(appLog, e);
         }
         
+        keyStringsToHighlight = null;
         logInfoAsHtml = getLogInfoForTableRowAsHtml();
+    }
+
+
+    private void initUsingAppLogMessage(String[] tokens) {
+        servletName = tokens[POSITION_OF_SERVLETNAME];
+        action = tokens[POSITION_OF_ACTION];
+        toShow = Boolean.parseBoolean(tokens[POSITION_OF_TOSHOW]);
+        role = tokens[POSITION_OF_ROLE];
+        name = tokens[POSITION_OF_NAME];
+        googleId = tokens[POSITION_OF_GOOGLEID];            
+        email = tokens[POSITION_OF_EMAIL];
+        message = tokens[POSITION_OF_MESSAGE];
+        url = tokens[POSITION_OF_URL];
+        
+        boolean isLogWithTimeTakenAndId = tokens.length >= (POSITION_OF_ID + 1);
+        if (isLogWithTimeTakenAndId) {
+            boolean isOldLog = !(tokens[POSITION_OF_ID].contains(googleId) 
+                                 || tokens[POSITION_OF_ID].contains("%"));
+            //TODO the branch for old logs can be removed after V5.64
+            // this branch is needed to support older style logs when we did not have the log id  
+            if (isOldLog) {
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+                timeTaken = Long.parseLong(tokens[POSITION_OF_TIMETAKEN_IN_OLD_LOGS].trim());
+            } else {
+                // TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||ID|||TIME_TAKEN
+                id = tokens[POSITION_OF_ID];
+                timeTaken = tokens.length == 12 ? Long.parseLong(tokens[POSITION_OF_TIMETAKEN].trim()) 
+                                                : null;
+            }                                           
+        }
+    }
+
+
+    private void initAsFailure(AppLogLine appLog, Exception e) {
+        servletName = "Unknown";
+        action = "Unknown";
+        role = "Unknown";
+        name = "Unknown";
+        googleId = "Unknown";
+        email = "Unknown";
+        toShow = true;
+        message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
+                + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
+        url = "Unknown";
+        id = "Unknown" + "%" + formatTimeForId(new Date(time));
+        timeTaken = null;
     }
     
     
@@ -138,6 +173,16 @@ public class ActivityLogEntry {
      * Used in the various servlets in the application
      */
     public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params,  String link){
+        this(servlet, act, acc, params, link, null, null);
+    }
+
+    /**
+     * Constructs a ActivityLogEntry. 
+     * The googleId in the log will be based on the {@code acc} passed in, otherwise it is obtained from the GateKeeper. 
+     * For the log id, if the googleId is unknown, the {@code unregisteredUserCourse} and {@code unregisteredUserEmail} 
+     * will be used to construct the id.
+     */
+    public ActivityLogEntry(String servlet, String act, AccountAttributes acc, String params, String link, String unregisteredUserCourse, String unregisteredUserEmail) {
         time = System.currentTimeMillis();
         servletName = servlet;
         action = act;
@@ -160,7 +205,14 @@ public class ActivityLogEntry {
             email = acc.email;
         }
         
-        id = googleId + formatTimeForId(new Date(time));
+        boolean isUnregisteredStudent = googleId.contentEquals("Unknown") 
+                                     && unregisteredUserCourse != null 
+                                     && unregisteredUserEmail != null;
+        if (isUnregisteredStudent) {
+            id = unregisteredUserEmail + "%" + unregisteredUserCourse + "%" + formatTimeForId(new Date(time));
+        } else {
+            id = googleId + "%" + formatTimeForId(new Date(time));
+        }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -219,7 +271,12 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = googleId + formatTimeForId(new Date(time));
+        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) && student != null;
+        if (isUnregisteredStudent) {
+            id = student.email + "%" + student.course + "%" + formatTimeForId(new Date(time));
+        } else {
+            id = googleId + "%" + formatTimeForId(new Date(time));
+        }
     }
     
     private String formatTimeForId(Date date) {
@@ -470,7 +527,10 @@ public class ActivityLogEntry {
         message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br>";
         message += HttpRequestHelper.printRequestParameters(req) + "</span>";
         
-        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message, url);
+        String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
+        String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
+        ActivityLogEntry exceptionLog = new ActivityLogEntry(action, Const.ACTION_RESULT_FAILURE, null, message, url, 
+                                                             courseId, studentEmail);
         
         return exceptionLog.generateLogMessage();
     }
@@ -498,7 +558,11 @@ public class ActivityLogEntry {
               }
           }
         
-        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null, message, url);
+        String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
+        String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);
+        
+        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null,
+                                                               message, url, courseId, studentEmail);
         
         return emailReportLog.generateLogMessage();
     }

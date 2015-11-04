@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
 
 public class AssertHelper {
@@ -113,18 +114,26 @@ public class AssertHelper {
      * @param expected
      * @param actual
      */
-    public static void assertLogMessageEquals(String expected, String actual) {
+    public static void assertLogMessageEquals(String expected, String actual) {        
+        String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
+
+        assertLogMessageEquals(expected, actual, expectedGoogleId);
+    }
+    
+    private static void assertLogMessageEquals(String expected, String actual, String userIdentifier) {
         int endIndex = actual.lastIndexOf("|||");
         String actualLogWithoutId = actual.substring(0, endIndex);
         
         assertEquals(expected, actualLogWithoutId);
         
-        String expectedGoogleId = expected.split("\\|\\|\\|")[6];
         String actualId = actual.substring(endIndex + "|||".length());
-        
-        assertTrue("expected actual message's id to contain " + expectedGoogleId 
+        assertTrue("expected actual message's id to contain " + userIdentifier 
                    + " but was " + actualId,
-                   actualId.contains(expectedGoogleId));
+                   actualId.contains(userIdentifier));
+    }
+    
+    public static void assertLogMessageEqualsForUnregisteredStudentUser(String expected, String actual, String studentEmail, String courseId) {        
+        assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
     }
 
 }

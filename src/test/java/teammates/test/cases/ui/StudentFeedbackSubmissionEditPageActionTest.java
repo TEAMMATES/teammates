@@ -15,6 +15,7 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.StudentsDb;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
@@ -146,6 +147,13 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         try {
             pageAction = getAction(params);
+
+            AssertHelper.assertLogMessageEqualsForUnregisteredStudentUser(
+                            "TEAMMATESLOG|||studentFeedbackSubmissionEditPage|||studentFeedbackSubmissionEditPage|||"
+                          + "true|||Unregistered:idOfTypicalCourse1|||Unreg Student|||Unregistered|||unreg@stud.ent|||"
+                          + "null|||/page/studentFeedbackSubmissionEditPage", pageAction.getLogMessage(),
+                            unregStudent.email, unregStudent.course);
+            
             redirectResult = getRedirectResult(pageAction);
             signalFailureToDetectException("EntityDoesNotExist");
         } catch (EntityDoesNotExistException edne) {
