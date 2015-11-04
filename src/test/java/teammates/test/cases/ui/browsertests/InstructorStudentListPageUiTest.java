@@ -18,7 +18,6 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -157,18 +156,14 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
 
         viewPage.clickShowPhoto(student.course, student.name);
-        viewPage.verifyProfilePhotoIsDefault(student.course, student.name);
-        viewPage.verifyPopoverPicture(student.course, student.name,
-                                      TestProperties.inst().TEAMMATES_URL + "/images/profile_picture_default.png");
+        viewPage.verifyProfilePhoto(student.course, student.name, Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("student has uploaded an image");
 
         StudentAttributes student2 = testData.students.get("Student3Course3");
-
         viewPage.clickShowPhoto(student2.course, student2.name);
-        // wait for previous pop-over to disappear.
-        ThreadHelper.waitFor(500);
-
+        viewPage.verifyProfilePhoto(student2.course, student2.name,
+                                    Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?" + Const.ParamsNames.STUDENT_EMAIL);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
 

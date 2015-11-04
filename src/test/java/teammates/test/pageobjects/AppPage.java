@@ -883,9 +883,6 @@ public abstract class AppPage {
                 .replaceAll("commentBar-[0-9]{16}", "commentBar-\\${comment\\.id}")
                 .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-\\${comment\\.id}")
                 .replaceAll("commentdelete-[0-9]{16}", "commentdelete-\\${comment\\.id}")
-                // tooltip style
-                .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
-                            "style=\"top: \\${tooltip\\.offset}px; left: \\${tooltip\\.offset}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#\\${comment\\.id}")
                 // today's date
