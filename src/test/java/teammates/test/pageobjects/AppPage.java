@@ -864,6 +864,9 @@ public abstract class AppPage {
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "=\\${course\\.id\\.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}")
+                //blob-key in student profile page
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.BLOB_KEY+"=([a-zA-Z0-9-_:]){10,}", 
+                            Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.BLOB_KEY+ "=\\${blobkey}")
                 //regkey in urls
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){10,}", Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){10,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
