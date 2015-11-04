@@ -96,7 +96,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         // Verify with retry after upload picture due to inconsistency of .click in detecting page load
         profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
-        profilePage.verifyHtmlPart(By.className("profile-pic-edit-toolbar"), "/studentProfilePictureModalEdit.html");
+        profilePage.verifyHtml("/studentProfilePageFilled.html");
         
         profilePage.click(By.className("close"));
     }
