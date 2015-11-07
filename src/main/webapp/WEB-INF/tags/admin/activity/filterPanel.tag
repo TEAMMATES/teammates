@@ -4,7 +4,6 @@
 <%@ attribute name="actionListAsHtml" required="true" %>
 <%@ attribute name="ifShowAll" required="true" %>
 <%@ attribute name="ifShowTestData" required="true" %>
-<%@ attribute name="offset" required="true" %>
 <%@ attribute name="filterQuery" required="true" %>
 
 <div class="well well-plain">
@@ -203,9 +202,8 @@
      
     <%-- This form is used to store parameters for ajaxloader only --%>
     <form id="ajaxLoaderDataForm">
-        <input type="hidden" name="offset" value="${offset}">
-        <input type="hidden" name="startSearchTime" value="">
-
+        <input type="hidden" name="searchTimeOffset" value="">
+        
         <%-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
         in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
         logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
