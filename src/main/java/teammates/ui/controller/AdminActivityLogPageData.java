@@ -15,8 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
-    
-    private String offset;
     private String filterQuery;
     private String queryMessage;
     private List<ActivityLogEntry> logs;
@@ -24,7 +22,7 @@ public class AdminActivityLogPageData extends PageData {
     private Long toDateValue;
     private Long fromDateValue;
     private String logLocalTime;
-    
+    private boolean isFromDateSpecifiedInQuery = false;
     /**
      * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
      * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
@@ -71,8 +69,7 @@ public class AdminActivityLogPageData extends PageData {
         toDateValue = TimeHelper.now(0.0).getTimeInMillis();
     }
 
-    public void init(String offset, boolean ifShowAll, boolean ifShowTestData, List<ActivityLogEntry> logs) {
-        this.offset = offset;
+    public void init(boolean ifShowAll, boolean ifShowTestData, List<ActivityLogEntry> logs) {
         this.ifShowAll = ifShowAll;
         this.ifShowTestData = ifShowTestData;
         this.logs = logs;
@@ -85,10 +82,6 @@ public class AdminActivityLogPageData extends PageData {
     
     public boolean getIfShowTestData() {
         return ifShowTestData;
-    }
-    
-    public String getOffset() {
-        return offset;
     }
     
     public String getFilterQuery() {
@@ -119,6 +112,10 @@ public class AdminActivityLogPageData extends PageData {
         return toDateValue;
     }
     
+    public void setToDate(long endTime) {
+        toDateValue = endTime;
+    }
+    
     /**
      * Checks in an array contains a specific value
      * value is converted to lower case before comparing
@@ -147,8 +144,6 @@ public class AdminActivityLogPageData extends PageData {
         }
     }
     
-    
-    
     /**
      * check current log entry should be excluded as rubbish logs 
      * returns false if the logEntry is regarded as rubbish
@@ -168,8 +163,6 @@ public class AdminActivityLogPageData extends PageData {
         
         return false;        
     }
-    
-    
     
     /**
      * Performs the actual filtering, based on QueryParameters
@@ -294,7 +287,8 @@ public class AdminActivityLogPageData extends PageData {
                 Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
                 fromDateValue = cal.getTime().getTime();
-                
+                isFromDateSpecifiedInQuery = true;
+                                                
             } else if (label.equals("to")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
@@ -307,7 +301,6 @@ public class AdminActivityLogPageData extends PageData {
                 q.add(label, values);
             }
         }
-
         return q;
     }
     
@@ -501,4 +494,10 @@ public class AdminActivityLogPageData extends PageData {
             return null;
         }
     }
+
+    public boolean isFromDateSpecifiedInQuery() {
+        return isFromDateSpecifiedInQuery;
+    }
+
+    
 }

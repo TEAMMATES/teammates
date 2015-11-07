@@ -29,10 +29,12 @@ public class AdminActivityLogPageAction extends Action {
     
     //We want to pull out the application logs
     private boolean includeAppLogs = true;
-    private static final int LOGS_PER_PAGE = 50;
-    private static final int MAX_LOGSEARCH_LIMIT = 15000;
-    private static final int ONE_DAY_IN_MILLIS = 24*60*60*1000;
+    private static final int RELEVANT_LOGS_PER_PAGE = 50;
+    private static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
+    private static final int MAX_SEARCH_TIMES = 12;                 // maximum 1 day
     
+    private int totalLogsSearched;
+    private boolean isFirstRow = true;
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
@@ -40,12 +42,10 @@ public class AdminActivityLogPageAction extends Action {
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
         
-        String startSearchTime = getRequestParamValue("startSearchTime");
-        if (startSearchTime == null) {
-            startSearchTime = "";
+        String searchTimeOffset = getRequestParamValue("searchTimeOffset");
+        if (searchTimeOffset == null) {
+            searchTimeOffset = "";
         }
-        String offset = getRequestParamValue("offset");
-        String pageChange = getRequestParamValue("pageChange");
         String filterQuery = getRequestParamValue("filterQuery");
         
         String logRoleFromAjax = getRequestParamValue("logRole");
@@ -75,34 +75,138 @@ public class AdminActivityLogPageAction extends Action {
 //      unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.       
         boolean ifShowTestData = getRequestParamAsBoolean("testdata");
         
-        
-        if (pageChange != null && pageChange.equals("true")) {
-            //Reset the offset because we are performing a new search, so we start from the beginning of the logs
-            offset = null;
-        }
         if (filterQuery == null) {
             filterQuery = "";
         }
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
-        if (!startSearchTime.isEmpty()) {
-            data.setFromDate(Long.parseLong(startSearchTime));
+        
+        List<ActivityLogEntry> logs = null;
+        if (data.isFromDateSpecifiedInQuery()) {
+            logs = searchLogsWithExactTimePeriod(data);
+        } else {
+            if (!searchTimeOffset.isEmpty()) {
+                data.setToDate(Long.parseLong(searchTimeOffset));
+            }
+            logs = searchLogsWithTimeIncrement(data);
         }
+        generateStatusMessage(data, logs);
+        data.init(ifShowAll, ifShowTestData, logs);
         
-        LogQuery query = buildQuery(offset, data);
-        
-        List<ActivityLogEntry> logs = getAppLogs(query, data);
-        
-        data.init(offset, ifShowAll, ifShowTestData, logs);
-        
-        if (offset == null) {
+        if (searchTimeOffset.isEmpty()) {
             return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
         }
         
         return createAjaxResult(data);
     }
     
-    private LogQuery buildQuery(String offset, AdminActivityLogPageData data) {
+    private void generateStatusMessage(AdminActivityLogPageData data, List<ActivityLogEntry> logs) {
+        String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
+        status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
+        
+        long earliestSearchTime = data.getFromDate();
+        ActivityLogEntry earliestLogChecked = null;
+        if (!logs.isEmpty()) {
+            earliestLogChecked = logs.get(logs.size() - 1);
+        }
+        //  if the search space is limited to a certain log
+        if ((logs.size() >= RELEVANT_LOGS_PER_PAGE) && (earliestLogChecked != null)) {
+            earliestSearchTime = earliestLogChecked.getTime();
+        }
+        
+        double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
+        if (data.isPersonSpecified()) {
+            String targetUserGoogleId = data.getPersonSpecified();
+            targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
+        }
+        
+        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) { // if no person is specified or the person doesn't really exist
+            if ((logs.size() >= RELEVANT_LOGS_PER_PAGE) && (earliestLogChecked != null)) {
+                String userGoogleId = earliestLogChecked.getGoogleId();
+                String userRole = earliestLogChecked.getRole();
+                targetTimeZone = this.getLocalTimeZoneInfo(userGoogleId, userRole);
+            } else {
+                targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+            }
+        }
+        
+        double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+        String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
+        String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
+        status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
+                  + adminTimeZone + ") and ";
+        if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
+            status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
+        } else {
+            status += timeInUserTimeZone;
+        }
+        
+        // the "Search More" button to continue searching from the previous fromDate 
+        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax(" + data.getFromDate() + ");\">Search More</button>";
+        
+        status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
+        status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
+        
+        data.setStatusForAjax(status);
+        statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
+    }
+
+    private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminActivityLogPageData data) {
+        List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
+        
+        int numberOfSearchTimes = 0;
+        totalLogsSearched = 0;
+        while ((numberOfSearchTimes < MAX_SEARCH_TIMES) && (appLogs.size() < RELEVANT_LOGS_PER_PAGE)) {
+            // set fromDate is two-hour away from toDate
+            long nextTwoHour = data.getToDate() - SEARCH_TIME_INCREMENT;
+            data.setFromDate(nextTwoHour);
+            numberOfSearchTimes++;
+            
+            LogQuery query = buildQuery(data);
+            List<ActivityLogEntry> searchResult = searchLogsByQuery(query, data);
+            if (!searchResult.isEmpty()) {
+                appLogs.addAll(searchResult);
+            }
+            data.setToDate(data.getFromDate());
+        }
+        return appLogs;
+    }
+    
+    private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminActivityLogPageData data) {
+        totalLogsSearched = 0;
+        LogQuery query = buildQuery(data);
+        List<ActivityLogEntry> appLogs = searchLogsByQuery(query, data);
+        return appLogs;
+    }
+
+    private List<ActivityLogEntry> searchLogsByQuery(LogQuery query, AdminActivityLogPageData data) {
+        List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
+        //fetch request log
+        Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
+        for (RequestLogs record : records) {
+            record.getOffset();
+            //fetch application log
+            List<AppLogLine> appLogLines = record.getAppLogLines();
+            for (AppLogLine appLog : appLogLines) {
+                totalLogsSearched++;
+                String logMsg = appLog.getLogMessage();
+                if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
+                    ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
+                    activityLogEntry = data.filterLogs(activityLogEntry);
+                    if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
+                        if (isFirstRow ) {
+                            activityLogEntry.setFirstRow();
+                            isFirstRow = false;
+                        }
+                        appLogs.add(activityLogEntry);
+                    }
+                }
+            }    
+        }
+        return appLogs;
+    }
+    
+    private LogQuery buildQuery(AdminActivityLogPageData data) {
         LogQuery query = LogQuery.Builder.withDefaults();
         List<String> versions = data.getVersions();
         
@@ -119,9 +223,6 @@ public class AdminActivityLogPageAction extends Action {
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
         }
         
-        if (offset != null && !offset.equals("null")) {
-            query.offset(offset);
-        }
         return query;
     }
     
@@ -177,114 +278,6 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         return recentVersions;
-    }
-    
-    private List<ActivityLogEntry> getAppLogs(LogQuery query, AdminActivityLogPageData data) {
-        List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
-        int totalLogsSearched = 0;
-        int currentLogsInPage = 0;
-        
-        String lastOffset = null;
-        
-        //fetch request log
-        Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
-        boolean isFirstRow = true;
-        ActivityLogEntry earliestLogChecked = null;
-        boolean stillHasLog = false;
-        for (RequestLogs record : records) {
-            
-            totalLogsSearched ++;
-            lastOffset = record.getOffset();
-            
-            //End the search if we hit limits
-            if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
-                stillHasLog = true; 
-                break;
-            }
-            if (currentLogsInPage >= LOGS_PER_PAGE) {
-                stillHasLog = true;
-                break;
-            }
-
-            //fetch application log
-            List<AppLogLine> appLogLines = record.getAppLogLines();
-            for (AppLogLine appLog : appLogLines) {
-                if (currentLogsInPage >= LOGS_PER_PAGE) {
-                    stillHasLog = true;
-                    break;
-                }
-                String logMsg = appLog.getLogMessage();
-                if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
-                    ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
-                    earliestLogChecked = activityLogEntry;
-                    activityLogEntry = data.filterLogs(activityLogEntry);
-                    
-                    if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
-                        appLogs.add(activityLogEntry);
-                        if (isFirstRow) {
-                            activityLogEntry.setFirstRow();
-                            isFirstRow = false;
-                        }
-                        currentLogsInPage ++;
-                    }
-                }
-            }    
-        }
-        
-        String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
-        
-        long earliestSearchTime = query.getStartTimeMillis();
-        //  if the search space is limited to a certain log
-        if (((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (currentLogsInPage >= LOGS_PER_PAGE)) && (earliestLogChecked != null)) {
-            earliestSearchTime = earliestLogChecked.getTime();
-        }
-        
-        double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
-        if (data.isPersonSpecified()) {
-            String targetUserGoogleId = data.getPersonSpecified();
-            targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
-        }
-        
-        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) { // if no person is specified or the person doesn't really exist
-            if (((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (currentLogsInPage >= LOGS_PER_PAGE)) && (earliestLogChecked != null)) {
-                String userGoogleId = earliestLogChecked.getGoogleId();
-                String userRole = earliestLogChecked.getRole();
-                targetTimeZone = this.getLocalTimeZoneInfo(userGoogleId, userRole);
-            } else {
-                targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
-            }
-        }
-        
-        
-        double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
-        String timeInAdminTimeZone = computeLocalTime(adminTimeZone, String.valueOf(earliestSearchTime));
-        String timeInUserTimeZone =  computeLocalTime(targetTimeZone, String.valueOf(earliestSearchTime));
-        status += "The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone (" 
-                  + adminTimeZone + ") and ";
-        if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
-            status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
-        } else {
-            status += timeInUserTimeZone;
-        }
-        
-        //link for Next button, will fetch older logs
-        if (currentLogsInPage >= LOGS_PER_PAGE) {   
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";              
-        } else if ((totalLogsSearched >= MAX_LOGSEARCH_LIMIT) || (!stillHasLog)) {
-            // extends the search space one more day
-            long oneDayBefore = data.getFromDate() - ONE_DAY_IN_MILLIS;
-            status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "', "+ oneDayBefore +");\">Search More</button>";           
-        }
-        
-        status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
-        status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
-        
-        data.setStatusForAjax(status);
-        statusToUser.add(new StatusMessage(status, 
-                            totalLogsSearched >= MAX_LOGSEARCH_LIMIT ? StatusMessageColor.WARNING : StatusMessageColor.INFO));
-        
-        return appLogs;
     }
     
     /*
