@@ -1,6 +1,3 @@
-var retryTimes = 0;
-var numOfEntriesPerPage = 50;
-
 function toggleReference() {
 	$("#filterReference").toggle("slow");
 	
@@ -51,11 +48,8 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry){
     });
 }
 
-function submitFormAjax(offset, startSearchTime) {
-	$('input[name=offset]').val(offset);
-	if (typeof startSearchTime != "undefined") {
-		$('input[name=startSearchTime]').val(startSearchTime);
-	}
+function submitFormAjax(searchTimeOffset) {
+	$('input[name=searchTimeOffset]').val(searchTimeOffset);
 	
 	var formObject = $("#ajaxLoaderDataForm");
 	var formData = formObject.serialize();
@@ -83,7 +77,6 @@ function submitFormAjax(offset, startSearchTime) {
                     });
                     
                     updateInfoForRecentActionButton();
-                    clickOlderButtonIfNeeded();
                 } else {
                     setFormErrorMessage(button, data.errorMessage);
                 }
@@ -107,22 +100,3 @@ function updateInfoForRecentActionButton(){
     var isShowTestData = $("#ifShowTestData").val();
     $(".ifShowTestData_for_person").val(isShowTestData);
 }
-
-function clickOlderButtonIfNeeded(){
-    if(retryTimes >= 20){
-        return;
-    }
-
-    var curNumOfEntries = $("#logsTable tbody tr").length;
-    
-    if(curNumOfEntries < numOfEntriesPerPage){
-        if($("#button_older").length){
-            $("#button_older").click();
-            retryTimes ++;
-        }
-    }
-}
-
-$(document).ready(function(){
-	clickOlderButtonIfNeeded();
-});
