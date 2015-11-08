@@ -196,7 +196,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("failure: ajax error on clicking edit button");
         
-        courseEditPage.changeCourseIdInForm(1, "");
+        courseEditPage.changeCourseIdInForm(1, "InvalidCourse");
         courseEditPage.getFirstEditInstructorLink().click();
         courseEditPage.waitForAjaxLoaderGifToDisappear();
         assertTrue(courseEditPage.getFirstEditInstructorLink().getText().contains("Edit failed."));
