@@ -396,6 +396,7 @@ public abstract class AppPage {
      */
     public static void logout(Browser currentBrowser){
         currentBrowser.driver.get(TestProperties.inst().TEAMMATES_URL + Const.ViewURIs.LOGOUT);
+        currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
         currentBrowser.isAdminLoggedIn = false;
     }
     
