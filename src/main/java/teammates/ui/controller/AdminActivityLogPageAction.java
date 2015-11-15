@@ -142,7 +142,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         // the "Search More" button to continue searching from the previous fromDate 
-        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax(" + data.getFromDate() + ");\">Search More</button>";
+        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax(" + (data.getFromDate() + 1) + ");\">Search More</button>";
         
         status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
         status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
@@ -167,7 +167,7 @@ public class AdminActivityLogPageAction extends Action {
             if (!searchResult.isEmpty()) {
                 appLogs.addAll(searchResult);
             }
-            data.setToDate(data.getFromDate());
+            data.setToDate(data.getFromDate() + 1);
         }
         return appLogs;
     }
@@ -184,7 +184,6 @@ public class AdminActivityLogPageAction extends Action {
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
         for (RequestLogs record : records) {
-            record.getOffset();
             //fetch application log
             List<AppLogLine> appLogLines = record.getAppLogLines();
             for (AppLogLine appLog : appLogLines) {
