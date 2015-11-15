@@ -118,16 +118,8 @@ public class AdminActivityLogPageAction extends Action {
         if (data.isPersonSpecified()) {
             String targetUserGoogleId = data.getPersonSpecified();
             targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
-        }
-        
-        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) { // if no person is specified or the person doesn't really exist
-            if ((logs.size() >= RELEVANT_LOGS_PER_PAGE) && (earliestLogChecked != null)) {
-                String userGoogleId = earliestLogChecked.getGoogleId();
-                String userRole = earliestLogChecked.getRole();
-                targetTimeZone = this.getLocalTimeZoneInfo(userGoogleId, userRole);
-            } else {
-                targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
-            }
+        } else {
+            targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         }
         
         double adminTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
