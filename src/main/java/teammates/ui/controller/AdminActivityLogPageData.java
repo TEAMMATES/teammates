@@ -430,6 +430,9 @@ public class AdminActivityLogPageData extends PageData {
         public boolean isInfoInQuery;
         public String[] infoValues;
         
+        private boolean isCourseInQuery;
+        private String courseValue;
+        
         public QueryParameters() {
             isRequestInQuery = false;
             isResponseInQuery = false;
@@ -437,6 +440,7 @@ public class AdminActivityLogPageData extends PageData {
             isRoleInQuery = false;
             isCutoffInQuery = false;
             isInfoInQuery = false;
+            isCourseInQuery = false;
         }
         
         /**
@@ -455,6 +459,9 @@ public class AdminActivityLogPageData extends PageData {
             } else if (label.equals("role")) {
                 isRoleInQuery = true;
                 roleValues = values;
+            } else if (label.equals("course")) {
+                isCourseInQuery = true;
+                courseValue = values[0];
             } else if (label.equals("time")) {
                 isCutoffInQuery = true;
                 cutoffValue = Long.parseLong(values[0]);
@@ -494,7 +501,19 @@ public class AdminActivityLogPageData extends PageData {
             return null;
         }
     }
-
+    
+    public boolean hasCourseIdInQuery() {
+        return ((q != null) && (q.isCourseInQuery));
+    }
+    
+    public String getCourseId() {
+        if (q != null) {
+            return q.courseValue;
+        } else {
+            return null;
+        }
+    }
+    
     public boolean isFromDateSpecifiedInQuery() {
         return isFromDateSpecifiedInQuery;
     }

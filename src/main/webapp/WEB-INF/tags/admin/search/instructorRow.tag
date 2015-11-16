@@ -39,7 +39,7 @@
                         
                     <span class="glyphicon glyphicon-zoom-in"></span>View Recent Actions
                 </button>
-                <input type="hidden" name="filterQuery" value="person:${instructor.viewRecentActionsId}">
+                <input type="hidden" name="filterQuery" value="${instructor.viewRecentActionsId}">
             </form>
         </c:if>
     </td>

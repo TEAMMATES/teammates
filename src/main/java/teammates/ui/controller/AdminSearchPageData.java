@@ -124,11 +124,11 @@ public class AdminSearchPageData extends PageData {
         String availableIdString = "";
         
         if (instructor.googleId != null && !instructor.googleId.trim().isEmpty()) {
-            availableIdString = instructor.googleId;
+            availableIdString = "person:" + instructor.googleId;
         } else if (instructor.name != null && !instructor.name.trim().isEmpty()) {
-            availableIdString = instructor.name;
+            availableIdString = "person:" + instructor.name + " AND course:" + instructor.courseId;
         } else if (instructor.email != null && !instructor.email.trim().isEmpty()) {
-            availableIdString = instructor.email;
+            availableIdString = "person:" + instructor.email + " AND course:" + instructor.courseId;
         }
         
         return availableIdString;
@@ -184,11 +184,11 @@ public class AdminSearchPageData extends PageData {
         String availableIdString = "";
         
         if (student.googleId != null && !student.googleId.trim().isEmpty()) {
-            availableIdString = student.googleId;
+            availableIdString = "person:" + student.googleId;
         } else if (student.name != null && !student.name.trim().isEmpty()) {
-            availableIdString = student.name;
+            availableIdString = "person:" + student.name + " AND course:" + student.course;
         } else if (student.email != null && !student.email.trim().isEmpty()) {
-            availableIdString = student.email;
+            availableIdString = "person:" + student.email + " AND course:" + student.course;
         }
         
         return availableIdString;
