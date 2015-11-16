@@ -118,6 +118,12 @@ public class AdminActivityLogPageAction extends Action {
         if (data.isPersonSpecified()) {
             String targetUserGoogleId = data.getPersonSpecified();
             targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
+            // if cannot find the user or the user is unregistered
+            if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
+                if (data.hasCourseIdInQuery()) {
+                    targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(data.getCourseId());
+                }
+            }
         } else {
             targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         }
@@ -130,7 +136,7 @@ public class AdminActivityLogPageAction extends Action {
         if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
             status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
         } else {
-            status += timeInUserTimeZone;
+            status += timeInUserTimeZone + ".<br>";
         }
         
         // the "Search More" button to continue searching from the previous fromDate 
