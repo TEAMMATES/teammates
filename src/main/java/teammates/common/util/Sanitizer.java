@@ -131,6 +131,32 @@ public class Sanitizer {
         }
     }
     
+    /**
+     * Sanitizes the given URL for the parameter {@link Const.ParamsNames.NEXT_URL}.
+     * The following characters will be sanitized:
+     * <ul>
+     * <li>&, to prevent the parameters of the next URL from being considered as
+     *     part of the original URL</li>
+     * <li>%2B (encoded +), to prevent Google from decoding it back to +,
+     *     which is used to encode whitespace in some cases</li>
+     * <li>%23 (encoded #), to prevent Google from decoding it back to #,
+     *     which is used to traverse the HTML document to a certain id</li>
+     * </ul>
+     */
+    public static String sanitizeForNextUrl(String url) {
+        return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
+    }
+    
+    /**
+     * Recovers the URL from sanitization due to {@link #sanitizeForNextUrl}.
+     * In addition, any un-encoded whitespace (they may be there due to Google's 
+     * behind-the-screen decoding process) will be encoded again to +.
+     */
+    public static String desanitizeFromNextUrl(String url) {
+        return url.replace("${amp}", "&").replace("${plus}", "%2B").replace("${hash}", "%23")
+                  .replace(" ", "+");
+    }
+    
     public static String sanitizeForRichText(String richText) {
         if (richText == null) {
             return null;

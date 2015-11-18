@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.logic.api.Logic;
 
@@ -34,8 +35,9 @@ public class StudentCourseJoinAction extends Action {
         
         String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
                 + "?" + Const.ParamsNames.REGKEY + "=" + regkey 
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + nextUrl;
-        data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl, Logic.getLogoutUrl(confirmUrl));
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + Sanitizer.sanitizeForNextUrl(nextUrl);
+        data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
+                                                         Logic.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)));
         excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(
