@@ -238,10 +238,8 @@ public abstract class Action {
                 
                 throw new UnauthorizedAccessException("Unregistered user for a page that needs one");
             } else if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
-                Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
-                                      .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
-                                      .withUserId(StringHelper.encrypt(account.googleId)); 
-                
+                Url redirectUrl = new Url(student.getRegistrationUrl())
+                                      .withParam(Const.ParamsNames.NEXT_URL, requestUrl);
                 setRedirectPage(redirectUrl.toString());
                 return null;
             }
