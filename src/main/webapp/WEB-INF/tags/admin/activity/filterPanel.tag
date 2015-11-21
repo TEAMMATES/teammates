@@ -76,13 +76,12 @@
                     <div class="form-group">
                         <div class="col-md-12">
                             <div class="form-control-static">
-                                <strong>Possible Labels:</strong>&nbsp;from, to, person, role, course, request, response, version,time,info<br>
+                                <strong>Possible Labels:</strong>&nbsp;from, to, person, role, request, response, version,time,info<br>
                                 <ul>
                                     <li>E.g. from: 13/03/13</li>
                                     <li>E.g. to: 13/03/13</li>
                                     <li>E.g. person: teammates.coord</li>
                                     <li>E.g. role: Instructor, Student, Unregistered</li>
-                                    <li>E.g. course: instructor1.tes-demo</li>
                                     <li>E.g. request: InstructorEval, StudentHome, evaluationclosingreminders</li>
                                     <li>E.g. response: Pageload, System Error Report, Delete Course</li>
                                     <li>E.g. version: 4.15, 4.16</li>
