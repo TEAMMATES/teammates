@@ -40,6 +40,7 @@
                     <span class="glyphicon glyphicon-zoom-in"></span>View Recent Actions
                 </button>
                 <input type="hidden" name="filterQuery" value="${instructor.viewRecentActionsId}">
+                <input type="hidden" name="courseId" value="${instructor.courseId}">
             </form>
         </c:if>
     </td>

@@ -53,6 +53,7 @@
                 </button>                                 
                                                 
                 <input type="hidden" name="filterQuery" value="${student.viewRecentActionsId}">
+                <input type="hidden" name="courseId" value="${student.courseId}">
             </form>
         </c:if>
         
