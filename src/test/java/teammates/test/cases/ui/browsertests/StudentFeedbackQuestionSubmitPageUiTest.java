@@ -51,9 +51,9 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private void testContent() throws Exception {
 
-        AppPage.logout(browser);
-        
         ______TS("unreg student");
+        
+        AppPage.logout(browser);
         
         fqOpen = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
         fqClosed = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);

@@ -78,8 +78,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testContent() {
+
         ______TS("unreg student");
 
+        AppPage.logout(browser);
+        
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
         // This is the full HTML verification for Unregistered Student Feedback Submit Page, the rest can all be verifyMainHtml

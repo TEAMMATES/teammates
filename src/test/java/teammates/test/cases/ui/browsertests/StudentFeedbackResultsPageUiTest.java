@@ -35,6 +35,22 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testAll() throws Exception {
+
+        ______TS("unreg student");
+
+        AppPage.logout(browser);
+        
+        // Open Session
+        StudentAttributes unreg = testData.students.get("DropOut");
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session");
+        resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
+
+        // Mcq Session
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session");
+
+        // This is the full HTML verification for Unregistered Student Feedback Results Page, the rest can all be verifyMainHtml
+        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
+
         ______TS("no responses");
 
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "Empty Session");
@@ -102,19 +118,6 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONTRIB Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageCONTRIB.html");
 
-        ______TS("unreg student");
-
-        // should automatically logout.
-        // Open Session
-        StudentAttributes unreg = testData.students.get("DropOut");
-        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session");
-        resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
-
-        // Mcq Session
-        resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session");
-
-        // This is the full HTML verification for Unregistered Student Feedback Results Page, the rest can all be verifyMainHtml
-        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
     }
 
     @AfterClass
