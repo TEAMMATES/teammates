@@ -126,9 +126,9 @@ public class AdminSearchPageData extends PageData {
         if (instructor.googleId != null && !instructor.googleId.trim().isEmpty()) {
             availableIdString = "person:" + instructor.googleId;
         } else if (instructor.name != null && !instructor.name.trim().isEmpty()) {
-            availableIdString = "person:" + instructor.name + " AND course:" + instructor.courseId;
+            availableIdString = "person:" + instructor.name;
         } else if (instructor.email != null && !instructor.email.trim().isEmpty()) {
-            availableIdString = "person:" + instructor.email + " AND course:" + instructor.courseId;
+            availableIdString = "person:" + instructor.email;
         }
         
         return availableIdString;
@@ -186,9 +186,9 @@ public class AdminSearchPageData extends PageData {
         if (student.googleId != null && !student.googleId.trim().isEmpty()) {
             availableIdString = "person:" + student.googleId;
         } else if (student.name != null && !student.name.trim().isEmpty()) {
-            availableIdString = "person:" + student.name + " AND course:" + student.course;
+            availableIdString = "person:" + student.name;
         } else if (student.email != null && !student.email.trim().isEmpty()) {
-            availableIdString = "person:" + student.email + " AND course:" + student.course;
+            availableIdString = "person:" + student.email;
         }
         
         return availableIdString;
