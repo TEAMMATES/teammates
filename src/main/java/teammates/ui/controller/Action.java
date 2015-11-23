@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
@@ -238,7 +239,7 @@ public abstract class Action {
                 
                 throw new UnauthorizedAccessException("Unregistered user for a page that needs one");
             } else if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
-                Url redirectUrl = new Url(student.getRegistrationUrl())
+                Url redirectUrl = new Url(Config.APP_URL + student.getRegistrationUrl())
                                       .withParam(Const.ParamsNames.NEXT_URL, requestUrl);
                 setRedirectPage(redirectUrl.toString());
                 return null;

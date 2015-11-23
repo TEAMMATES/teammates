@@ -836,7 +836,7 @@ public class Emails {
 
         String joinUrl;
         if (s != null) {    
-            joinUrl = s.getRegistrationUrl();
+            joinUrl = Config.APP_URL + s.getRegistrationUrl();
         } else {
             joinUrl = "{The join link unique for each student appears here}";
         }
@@ -852,7 +852,7 @@ public class Emails {
 
         String joinUrl;
         if (s != null) {    
-            joinUrl = s.getRegistrationUrl();
+            joinUrl = Config.APP_URL + s.getRegistrationUrl();
         } else {
             joinUrl = "{The join link unique for each student appears here}";
         }

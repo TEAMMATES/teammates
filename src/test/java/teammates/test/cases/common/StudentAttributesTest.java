@@ -23,7 +23,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -283,7 +282,7 @@ public class StudentAttributesTest extends BaseTestCase {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
                                                      "comment 1", "course1");
         sd.key = "testkey";
-        String regUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        String regUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                 .withRegistrationKey(StringHelper.encrypt("testkey"))
                                 .withStudentEmail("email@email.com")
                                 .withCourseId("course1")

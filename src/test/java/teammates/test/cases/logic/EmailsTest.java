@@ -288,7 +288,7 @@ public class EmailsTest extends BaseComponentTestCase {
                 email.getSubject());
 
         // check email body
-        String joinUrl = s.getRegistrationUrl();
+        String joinUrl = Config.APP_URL + s.getRegistrationUrl();
         String emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name
