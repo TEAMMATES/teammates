@@ -382,6 +382,17 @@ public abstract class AppPage {
         return changePageType(StudentCommentsPage.class);
     }
 
+    public LoginPage clickLoginAsStudentButton() {
+        WebElement loginButton = browser.driver.findElement(By.id("btnStudentLogin"));
+        loginButton.click();
+        waitForPageToLoad();
+        if (TestProperties.inst().isDevServer()) {
+            return changePageType(DevServerLoginPage.class);
+        } else {
+            return changePageType(GoogleLoginPage.class);
+        }
+    }
+
     /**
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      * @return 
