@@ -6,6 +6,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQuestionSubmissionEditSaveAction {
@@ -35,6 +36,11 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
     @Override
     protected String getUserEmailForCourse() {
         return getStudent().email;
+    }
+    
+    @Override
+    protected String getUserTeamForCourse() {
+        return StringHelper.recoverFromSanitizedText(getStudent().team);
     }
     
     @Override
