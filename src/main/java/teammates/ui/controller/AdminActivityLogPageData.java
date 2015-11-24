@@ -494,7 +494,7 @@ public class AdminActivityLogPageData extends PageData {
             return null;
         }
     }
-
+    
     public boolean isFromDateSpecifiedInQuery() {
         return isFromDateSpecifiedInQuery;
     }
