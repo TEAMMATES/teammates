@@ -11,9 +11,12 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 /**
@@ -35,6 +38,22 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testAll() throws Exception {
+
+        ______TS("unreg student");
+
+        AppPage.logout(browser);
+        
+        // Open Session
+        StudentAttributes unreg = testData.students.get("DropOut");
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentFeedbackResultsPage.class);
+        resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
+
+        // Mcq Session
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session", StudentFeedbackResultsPage.class);
+
+        // This is the full HTML verification for Unregistered Student Feedback Results Page, the rest can all be verifyMainHtml
+        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
+
         ______TS("no responses");
 
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "Empty Session");
@@ -102,19 +121,39 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONTRIB Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageCONTRIB.html");
 
-        ______TS("unreg student");
+        ______TS("unreg student logged in as a student in another course: registered after logging out");
+        
+        String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT; 
+        String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
+        
+        AppPage.logout(browser);
+        LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
+        loginPage.loginAsStudent(student1Username, student1Password);
 
-        // should automatically logout.
-        // Open Session
-        StudentAttributes unreg = testData.students.get("DropOut");
-        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session");
-        resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
+        StudentCourseJoinConfirmationPage confirmationPage = 
+                loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
+        confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
+        loginPage = confirmationPage.clickCancelButton();
+        loginPage.loginAsStudent(student1Username, student1Password, StudentFeedbackResultsPage.class);
 
-        // Mcq Session
-        resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageNewlyRegistered.html");
+        
+        BackDoor.editStudent(unreg.email, unreg); // clear the googleId
+        
+        ______TS("unreg student logged in as a student in another course: registered without logging out");
+        
+        AppPage.logout(browser);
+        loginPage = resultsPage.clickLoginAsStudentButton();
+        loginPage.loginAsStudent(student1Username, student1Password);
 
-        // This is the full HTML verification for Unregistered Student Feedback Results Page, the rest can all be verifyMainHtml
-        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
+        confirmationPage = 
+                loginToStudentFeedbackResultsPage(unreg, "Open Session", StudentCourseJoinConfirmationPage.class);
+        confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationLoggedInHTML.html");
+        resultsPage = confirmationPage.clickConfirmButton(StudentFeedbackResultsPage.class);
+
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageNewlyRegistered.html");
+        
+        BackDoor.deleteStudent(unreg.course, unreg.email);
     }
 
     @AfterClass
@@ -130,7 +169,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, editUrl,StudentFeedbackResultsPage.class);
     }
 
-    private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId) {
+    private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,
+                                                                    Class<T> typeOfPage) {
         String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
@@ -138,6 +178,6 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
                                 .toString();
         browser.driver.get(submitUrl);
-        return AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
+        return AppPage.getNewPageInstance(browser, typeOfPage);
     }
 }

@@ -3,6 +3,8 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.test.driver.TestProperties;
+
 public class StudentCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
     protected WebElement confirmButton;
@@ -20,14 +22,28 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
     }
 
     public StudentHomePage clickConfirmButton() {
+        return clickConfirmButton(StudentHomePage.class);
+    }
+    
+    public <T extends AppPage> T clickConfirmButton(Class<T> typeOfPage) {
         confirmButton.click();
         waitForPageToLoad();
-        return changePageType(StudentHomePage.class);
+        return changePageType(typeOfPage);
     }
     
     public String clickCancelButtonAndGetSourceOfDestination() {
         cancelButton.click();
         waitForPageToLoad();
         return browser.driver.getPageSource();
+    }
+    
+    public LoginPage clickCancelButton() {
+        cancelButton.click();
+        waitForPageToLoad();
+        if (TestProperties.inst().isDevServer()) {
+            return changePageType(DevServerLoginPage.class);
+        } else {
+            return changePageType(GoogleLoginPage.class);
+        }
     }
 }

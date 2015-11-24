@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -317,7 +318,7 @@ public class PageData {
         String link = Const.ActionURIs.STUDENT_HOME_PAGE;
         link = addUserIdToUrl(link);
         if (isUnregistered) {
-            link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
+            link = Url.addParamToUrl(Config.APP_URL + student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
         }
         return link;
     }
@@ -338,7 +339,7 @@ public class PageData {
         String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
         link = addUserIdToUrl(link);
         if (isUnregistered) {
-            link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
+            link = Url.addParamToUrl(Config.APP_URL + student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
         }
         return link;
     }
@@ -359,7 +360,7 @@ public class PageData {
         String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
         if (isUnregistered) {
-            link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
+            link = Url.addParamToUrl(Config.APP_URL + student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
         }
         return link;
     }

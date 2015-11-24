@@ -58,11 +58,16 @@ public class DevServerLoginPage extends LoginPage {
 
     @Override
     public StudentHomePage loginAsStudent(String username, String password) {
+        return loginAsStudent(username, password, StudentHomePage.class);
+    }
+
+    @Override
+    public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
         loginButton.click();
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
-        return changePageType(StudentHomePage.class);
+        return changePageType(typeOfPage);
     }
 
     @Override
