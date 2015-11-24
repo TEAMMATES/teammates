@@ -7,16 +7,18 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     private String confirmUrl;
     private String logoutUrl;
     private boolean redirectResult;
+    private boolean nextUrlAccessibleWithoutLogin;
     private String courseId;
     
     public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student,
                                                  String confirmUrl, String logoutUrl, boolean redirectResult,
-                                                 String courseId) {
+                                                 String courseId, boolean nextUrlAccessibleWithoutLogin) {
         super(account, student);
         this.confirmUrl = confirmUrl;
         this.logoutUrl = logoutUrl;
         this.redirectResult = redirectResult;
         this.courseId = courseId;
+        this.nextUrlAccessibleWithoutLogin = nextUrlAccessibleWithoutLogin;
     }
 
     public String getConfirmUrl() {
@@ -34,4 +36,9 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     public String getCourseId() {
         return courseId;
     }
+    
+    public boolean isNextUrlAccessibleWithoutLogin() {
+        return nextUrlAccessibleWithoutLogin;
+    }
+    
 }

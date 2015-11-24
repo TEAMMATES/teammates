@@ -39,10 +39,12 @@ public class StudentCourseJoinAction extends Action {
         String nextUrlType = getPageTypeOfUrl(nextUrl);
         // the student is redirected to join page because he/she is not registered in the course
         boolean isRedirectResult = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(nextUrlType);
+        boolean isNextUrlAccessibleWithoutLogin =
+                        Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
         String courseId = student.course;
         data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
                                                          Logic.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
-                                                         isRedirectResult, courseId);
+                                                         isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(

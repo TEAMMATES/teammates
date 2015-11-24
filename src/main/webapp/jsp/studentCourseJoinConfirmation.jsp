@@ -23,9 +23,8 @@
 	            <c:choose>
 	                <c:when test="${data.redirectResult}">
 	                    If you wish to register as <strong>${data.account.googleId}</strong>, please confirm below to complete your registration.
-	                    <br>If you wish to register with another Google ID or do not wish to register for this course, please
-	                    <a href="${data.logoutUrl}">log out</a>
-	                    , log in with your desired Google ID if necessary, and navigate to the link sent to you via email again.
+	                    <br>If you wish to register with another Google ID<c:if test="${data.nextUrlAccessibleWithoutLogin}"> or do not wish to register for this course</c:if>, please
+	                    <a href="${data.logoutUrl}">log out</a>, log in with your desired Google ID<c:if test="${data.nextUrlAccessibleWithoutLogin}"> if necessary</c:if>, and navigate to the link again.
 	                    <br>
 	                </c:when>
 	                <c:otherwise>
