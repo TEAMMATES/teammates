@@ -1044,7 +1044,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"11",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"CFResultsUiT.benny.c@gmail.tmt",
+            "giverEmail":"Team 1",
             "recipientEmail":"Team 1",
             "responseMetaData":{
                 "value":"Response from benny to Team 1 (own team)"
@@ -1057,7 +1057,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"12",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "giverEmail":"Team 1",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 0}"
@@ -1291,7 +1291,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "giverEmail":"Team 1",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"None"
@@ -1304,7 +1304,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "giverEmail":"Team 1",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
