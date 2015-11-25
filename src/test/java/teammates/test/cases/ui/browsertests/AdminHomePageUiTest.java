@@ -15,7 +15,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -103,12 +102,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email + " | " + institute);
         
-        String expectedjoinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-        
-        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.REGKEY,
-                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
-       
-        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        String encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
+        String expectedjoinUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                        .withRegistrationKey(encryptedKey)
+                                        .withInstructorInstitution(institute)
+                                        .toAbsoluteString();
        
         assertTrue(homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
                                         + expectedjoinUrl));
@@ -122,13 +120,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         homePage.createInstructor(shortName,instructor,institute);
         
-        expectedjoinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-        
-        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.REGKEY,
-                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
+        encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
+        expectedjoinUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                        .withRegistrationKey(encryptedKey)
+                                        .withInstructorInstitution(institute)
+                                        .toAbsoluteString();
        
-        expectedjoinUrl = Url.addParamToUrl(expectedjoinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        
         homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
                                       + expectedjoinUrl);
         homePage.verifyHtml("/adminHomePageCreateInstructorSuccess.html");

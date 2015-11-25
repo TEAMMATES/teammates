@@ -806,7 +806,6 @@ public abstract class AppPage {
 
     private static String injectTestProperties(String htmlString) {
         return htmlString.replace("${app.url}", Config.APP_URL)
-                         .replace("${test.url}", TestProperties.inst().TEAMMATES_URL)
                          .replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
                          .replace("${version}", TestProperties.inst().TEAMMATES_VERSION)
                          .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
@@ -841,11 +840,8 @@ public abstract class AppPage {
     }
 
     private static String suppressVariationsInInjectedValues(String content) {
-        return content // this replaces test URL with https (generated via js) with their http counterparts
-                      .replace(TestProperties.inst().TEAMMATES_URL.replace("http://", "https://"),
-                               TestProperties.inst().TEAMMATES_URL)
-                      // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
-                      .replace("\"/_ah", "\"" + TestProperties.inst().TEAMMATES_URL + "/_ah")
+        return content // this replaces dev server admin absolute URLs (/_ah/...) with their relative counterparts
+                      .replace("\"" + TestProperties.inst().TEAMMATES_URL + "/_ah", "\"/_ah")
                       // this replaces all printed version of TEAMMATES tested with the current version
                       .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
                       // this replaces truncated long accounts with their original counterpart
@@ -935,7 +931,6 @@ public abstract class AppPage {
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
         return content.replace(Config.APP_URL, "${app.url}")
-                      .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
                       .replace(Config.STUDENT_MOTD_URL, "${studentmotd.url}")
                       .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")

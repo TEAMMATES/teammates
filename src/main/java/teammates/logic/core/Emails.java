@@ -277,10 +277,9 @@ public class Emails {
         emailBody = emailBody.replace("${courseName}", course.name);
         emailBody = emailBody.replace("${courseId}", course.id);
         
-        String commentsPageUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_COMMENTS_PAGE;
-        commentsPageUrl = Url.addParamToUrl(commentsPageUrl, Const.ParamsNames.COURSE_ID,
-                course.id);
+        String commentsPageUrl = new Url(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
+                                        .withCourseId(course.id)
+                                        .toAbsoluteString();
         emailBody = emailBody.replace("${commentsPageUrl}", commentsPageUrl);
 
         message.setContent(emailBody, "text/html");
@@ -378,20 +377,20 @@ public class Emails {
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
-        String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        String submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(c.id)
                             .withSessionName(fs.feedbackSessionName)
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
-                            .toString();
+                            .toAbsoluteString();
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
-        String reportUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        String reportUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(c.id)
                             .withSessionName(fs.feedbackSessionName)
                             .withRegistrationKey(StringHelper.encrypt(s.key))
                             .withStudentEmail(s.email)
-                            .toString();
+                            .toAbsoluteString();
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
         message.setContent(emailBody, "text/html");
@@ -458,20 +457,16 @@ public class Emails {
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
-        String submitUrl = Config.APP_URL
-                + Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        submitUrl = Url.addParamToUrl(submitUrl,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        String submitUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                        .withCourseId(c.id)
+                                        .withSessionName(fs.feedbackSessionName)
+                                        .toAbsoluteString();
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
-        String reportUrl = Config.APP_URL
-                + Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
-        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        reportUrl = Url.addParamToUrl(reportUrl,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        String reportUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                                        .withCourseId(c.id)
+                                        .withSessionName(fs.feedbackSessionName)
+                                        .toAbsoluteString();
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
         message.setContent(emailBody, "text/html");
@@ -553,9 +548,10 @@ public class Emails {
         String joinUrl = "";
         if (instructor != null) {
             String key = StringHelper.encrypt(instructor.key);
-            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
-            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+            joinUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                            .withRegistrationKey(key)
+                            .withInstructorInstitution(institute)
+                            .toAbsoluteString();
         }
         
         return joinUrl;
@@ -836,7 +832,7 @@ public class Emails {
 
         String joinUrl;
         if (s != null) {    
-            joinUrl = Config.APP_URL + s.getRegistrationUrl();
+            joinUrl = new Url(s.getRegistrationUrl()).toAbsoluteString();
         } else {
             joinUrl = "{The join link unique for each student appears here}";
         }
@@ -852,7 +848,7 @@ public class Emails {
 
         String joinUrl;
         if (s != null) {    
-            joinUrl = Config.APP_URL + s.getRegistrationUrl();
+            joinUrl = new Url(s.getRegistrationUrl()).toAbsoluteString();
         } else {
             joinUrl = "{The join link unique for each student appears here}";
         }
@@ -871,8 +867,9 @@ public class Emails {
             String key;
             key = StringHelper.encrypt(instructor.key);
     
-            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+            joinUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                            .withRegistrationKey(key)
+                                            .toAbsoluteString();
         }
 
         emailBody = emailBody.replace("${joinUrl}", joinUrl);
