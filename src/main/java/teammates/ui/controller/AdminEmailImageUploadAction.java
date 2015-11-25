@@ -43,15 +43,14 @@ public class AdminEmailImageUploadAction extends Action {
         
       
         data.isFileUploaded = true;
-        data.fileSrcUrl = Config.APP_URL + 
-                          Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE +
+        data.fileSrcUrl = Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE +
                           "?blob-key=" + 
                           blobKey.getKeyString();
         
-        log.info("New Image Uploaded : " + data.fileSrcUrl);
+        log.info("New Image Uploaded : " + Config.APP_URL + data.fileSrcUrl);
         statusToAdmin = "New Image Uploaded : " + "<a href=" +
                         data.fileSrcUrl + " target=blank>" +
-                        data.fileSrcUrl + "</a>";
+                        Config.APP_URL + data.fileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
         return createAjaxResult(data);
