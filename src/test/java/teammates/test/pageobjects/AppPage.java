@@ -841,8 +841,8 @@ public abstract class AppPage {
     }
 
     private static String suppressVariationsInInjectedValues(String content) {
-        return content // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
-                      .replace("\"/_ah", "\"" + TestProperties.inst().TEAMMATES_URL + "/_ah")
+        return content // this replaces dev server admin absolute URLs (/_ah/...) with their relative counterparts
+                      .replace("\"" + TestProperties.inst().TEAMMATES_URL + "/_ah", "\"/_ah")
                       // this replaces all printed version of TEAMMATES tested with the current version
                       .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
                       // this replaces truncated long accounts with their original counterpart
