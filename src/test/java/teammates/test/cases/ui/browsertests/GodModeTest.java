@@ -54,7 +54,7 @@ public class GodModeTest extends BaseUiTestCase {
         testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT);
         testAccounts += Config.SUPPORT_EMAIL;
         testAccounts += Config.APP_URL;
-        testAccounts += TestProperties.inst().TEAMMATES_URL.replace("http", "https");
+        testAccounts += TestProperties.inst().TEAMMATES_URL;
         testAccounts += "</div>";
         String changedContent = initialContent.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts);
         changedContent = changedContent.replace("<!-- DATETODAY -->", 

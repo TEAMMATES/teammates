@@ -841,10 +841,7 @@ public abstract class AppPage {
     }
 
     private static String suppressVariationsInInjectedValues(String content) {
-        return content // this replaces test URL with https (generated via js) with their http counterparts
-                      .replace(TestProperties.inst().TEAMMATES_URL.replace("http://", "https://"),
-                               TestProperties.inst().TEAMMATES_URL)
-                      // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
+        return content // this replaces dev server admin relative URLs (/_ah/...) with their absolute counterparts
                       .replace("\"/_ah", "\"" + TestProperties.inst().TEAMMATES_URL + "/_ah")
                       // this replaces all printed version of TEAMMATES tested with the current version
                       .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
