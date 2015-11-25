@@ -2244,7 +2244,8 @@ public class FeedbackSessionsLogic {
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question, CourseRoster roster,
             int pairType) throws EntityDoesNotExistException {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.giverType == FeedbackParticipantType.TEAMS 
+            && roster.isStudentInCourse(response.giverEmail)) {
             if (emailNameTable.containsKey(response.giverEmail
                     + Const.TEAM_OF_EMAIL_OWNER) == false) {
                 emailNameTable.put(
