@@ -100,9 +100,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.EMAIL, "answerer's email", giverEmail);
-        if(!error.isEmpty()) { errors.add(error); }
-        
         return errors;
     }
     

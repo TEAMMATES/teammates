@@ -37,6 +37,11 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends Feedback
     protected String getUserEmailForCourse() {
         return logic.getInstructorForGoogleId(courseId, account.googleId).email;
     }
+    
+    @Override
+    protected String getUserTeamForCourse() {
+        return Const.USER_TEAM_FOR_INSTRUCTOR;
+    }
 
     @Override
     protected String getUserSectionForCourse() {

@@ -25,6 +25,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
@@ -181,14 +182,15 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                 "SFSubmitUiT.benny.c@gmail.tmt"));
+        String aliceTeam = testData.students.get("Alice").team;
         assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                                                "SFSubmitUiT.alice.b@gmail.tmt",
+                                                aliceTeam,
                                                 "Team 3"));
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
-                                                "SFSubmitUiT.alice.b@gmail.tmt",
+                                                aliceTeam,
                                                 "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
-                                                "SFSubmitUiT.alice.b@gmail.tmt",
+                                                aliceTeam,
                                                 "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
@@ -212,13 +214,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                    "SFSubmitUiT.alice.b@gmail.tmt",
                                                    "SFSubmitUiT.benny.c@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                                                   "SFSubmitUiT.alice.b@gmail.tmt",
+                                                   aliceTeam,
                                                    "Team 3"));
         assertNotNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
-                                                   "SFSubmitUiT.alice.b@gmail.tmt",
+                                                    aliceTeam,
                                                    "Team 2"));
         assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
-                                                   "SFSubmitUiT.alice.b@gmail.tmt",
+                                                    aliceTeam,
                                                    "Team 2"));
         assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
                                                    "SFSubmitUiT.alice.b@gmail.tmt",
@@ -244,7 +246,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
 
-        assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "Team 3"));
+        assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), aliceTeam, "Team 3"));
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
@@ -299,20 +301,22 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Just check the edited responses, and two new response.
         assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                                                "SFSubmitUiT.alice.b@gmail.tmt",
+                                                aliceTeam,
                                                 "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                                                "SFSubmitUiT.alice.b@gmail.tmt",
+                                                aliceTeam,
                                                 "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                                                "SFSubmitUiT.alice.b@gmail.tmt",
+                                                aliceTeam,
                                                 "Team 3"));
 
         submitPage.clickSubmitButton();
 
         //check new response
         fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 4);
-        assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "Team 2"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
+                                                   aliceTeam, 
+                                                   "Team 2"));
 
         //check edited
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
@@ -321,12 +325,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                                  "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData.getValue());
 
         assertEquals("UI", BackDoor.getFeedbackResponse(fqMcq.getId(),
-                                                        "SFSubmitUiT.alice.b@gmail.tmt",
+                                                        aliceTeam,
                                                         "Team 2").getResponseDetails().getAnswerString());
 
         FeedbackMsqResponseDetails frMsq =
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
-                                                                          "SFSubmitUiT.alice.b@gmail.tmt",
+                                                                          aliceTeam,
                                                                           "Team 2").getResponseDetails();
         assertFalse(frMsq.contains("UI"));
         assertTrue(frMsq.contains("Algo"));
@@ -343,12 +347,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("70, 30", frConstSum.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum2_1 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                                             aliceTeam,
                                              "Team 2").getResponseDetails();
         assertEquals("90", frConstSum2_1.getAnswerString());
 
         FeedbackConstantSumResponseDetails frConstSum2_2 = (FeedbackConstantSumResponseDetails)
-                BackDoor.getFeedbackResponse(fqConstSum2.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
+                BackDoor.getFeedbackResponse(fqConstSum2.getId(), 
+                                             aliceTeam,
                                              "Team 3").getResponseDetails();
         assertEquals("110", frConstSum2_2.getAnswerString());
 
@@ -391,26 +397,24 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseContribOption(20, 0, "Equal share");
 
         assertNull(BackDoor.getFeedbackResponse(fq.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
-        assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "drop.out@gmail.tmt", "Team 3"));
-        assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), "drop.out@gmail.tmt", "Team 2"));
-        assertNull(BackDoor.getFeedbackResponse(fqMsq.getId(), "drop.out@gmail.tmt", "Team 2"));
-        assertNull(BackDoor.getFeedbackResponse(fqNumscale.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.alice.b@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "Team 2", "Team 3"));
+        assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), "Team 2", testData.students.get("Alice").team));
+        assertNull(BackDoor.getFeedbackResponse(fqMsq.getId(), "Team 2", testData.students.get("Alice").team));
+        assertNull(BackDoor.getFeedbackResponse(fqNumscale.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
-        assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
-        assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
 
         submitPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
 
-        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "Team 3"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqMcq.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "Team 2"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "Team 2"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "SFSubmitUiT.alice.b@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqConstSum.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "SFSubmitUiT.alice.b@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "SFSubmitUiT.alice.b@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "SFSubmitUiT.alice.b@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.benny.c@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(), "Team 2", "Team 3"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqMcq.getId(), "Team 2", testData.students.get("Alice").team));
+        assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(), "Team 2", testData.students.get("Alice").team));
+        assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqConstSum.getId(), "drop.out@gmail.tmt", "drop.out@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
     }
 
     private void testInputValidation() throws Exception {

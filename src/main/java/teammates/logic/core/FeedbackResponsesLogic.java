@@ -766,6 +766,9 @@ public class FeedbackResponsesLogic {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
                     feedbackQuestionId, student.email));
         }
+        
+        responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
+                                        feedbackQuestionId, StringHelper.recoverFromSanitizedText(teamName)));
 
         return responses;
     }
