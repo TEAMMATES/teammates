@@ -897,10 +897,8 @@ public abstract class AppPage {
                 // today's date
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
                 .replace(TimeHelper.formatDate(now), "${today}")
-                // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
-                // now (date, time)
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M", "\\${datetime\\.now}")
+                // now (date, time) e.g. [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52:13 UTC]
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}( [AP]M|:[0-9]{2} UTC)", "\\${datetime\\.now}")
                 // admin footer, test institute section
                 .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "\\${admin\\.institute}")
                 // jQuery local
