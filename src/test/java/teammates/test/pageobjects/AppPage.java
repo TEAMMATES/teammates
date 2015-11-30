@@ -901,8 +901,6 @@ public abstract class AppPage {
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
                 // now (date, time)
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M", "\\${datetime\\.now}")
-                // dynamic feedback submission numbers
-                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
                 // admin footer, test institute section
                 .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "\\${admin\\.institute}")
                 // jQuery local
