@@ -122,7 +122,8 @@ function setupFsCopyModal() {
         var actionlink = button.data('actionlink');
         var courseid = button.data('courseid');
         var fsname = button.data('fsname');
-        var currentPage = window.location.href;
+        var appUrl = window.location.origin;
+        var currentPage = window.location.href.substring(appUrl.length); // use the page's relative URL
         
         $.ajax({
             type: 'GET',

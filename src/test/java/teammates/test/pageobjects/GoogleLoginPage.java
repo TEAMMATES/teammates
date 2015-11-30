@@ -59,10 +59,15 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     public StudentHomePage loginAsStudent(String username, String password) {
+        return loginAsStudent(username, password, StudentHomePage.class);
+    }
+
+    @Override
+    public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         completeGoogleLoginSteps(username, password);
-        StudentHomePage homePage = changePageType(StudentHomePage.class);
+        T page = changePageType(typeOfPage);
         browser.isAdminLoggedIn = false;
-        return homePage;
+        return page;
     }
 
     private void completeGoogleLoginSteps(String username, String password) {

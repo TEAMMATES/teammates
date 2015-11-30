@@ -3,6 +3,8 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
+import static teammates.ui.controller.StudentCourseJoinAction.getPageTypeOfUrl;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -108,6 +110,22 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         // delete the new student
         studentsDb.deleteStudentWithoutDocument(newStudentData.course, newStudentData.email);
 
+    }
+    
+    @Test
+    public void testGetUrlType() {
+        assertEquals("/page/somePage", getPageTypeOfUrl("/page/somePage"));
+        assertEquals("/page/somePage", getPageTypeOfUrl("/page/somePage?key=abcdef"));
+        // captures the nearest ?
+        assertEquals("/page/somePage", getPageTypeOfUrl("/page/somePage?key=abcdef&next=/page/anotherPage?"));
+        // the starting keyword /page/ must be strictly followed
+        assertEquals("/pag/somePage?key=abcdef", getPageTypeOfUrl("/pag/somePage?key=abcdef"));
+        assertEquals("page/somePage?key=abcdef", getPageTypeOfUrl("page/somePage?key=abcdef"));
+        // and must strictly be at the start of the string
+        assertEquals("abc.com/page/somePage?key=abcdef", getPageTypeOfUrl("abc.com/page/somePage?key=abcdef"));
+        // non-alphabet characters are not handled
+        assertEquals("/page/somePage123?key=abcdef", getPageTypeOfUrl("/page/somePage123?key=abcdef"));
+        assertEquals("/page/somePage/somePage?key=abcdef", getPageTypeOfUrl("/page/somePage/somePage?key=abcdef"));
     }
 
     private StudentCourseJoinAction getAction(String... params)

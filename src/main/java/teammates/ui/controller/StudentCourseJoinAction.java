@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.logic.api.Logic;
 
@@ -34,8 +35,16 @@ public class StudentCourseJoinAction extends Action {
         
         String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
                 + "?" + Const.ParamsNames.REGKEY + "=" + regkey 
-                + "&" + Const.ParamsNames.NEXT_URL + "=" + nextUrl;
-        data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl, Logic.getLogoutUrl(confirmUrl));
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + Sanitizer.sanitizeForNextUrl(nextUrl);
+        String nextUrlType = getPageTypeOfUrl(nextUrl);
+        // the student is redirected to join page because he/she is not registered in the course
+        boolean isRedirectResult = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(nextUrlType);
+        boolean isNextUrlAccessibleWithoutLogin =
+                        Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(nextUrlType);
+        String courseId = student.course;
+        data = new StudentCourseJoinConfirmationPageData(account, student, confirmUrl,
+                                                         Logic.getLogoutUrl(Sanitizer.sanitizeForNextUrl(confirmUrl)),
+                                                         isRedirectResult, courseId, isNextUrlAccessibleWithoutLogin);
         excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(
@@ -62,4 +71,21 @@ public class StudentCourseJoinAction extends Action {
         
         return createRedirectResult(redirectUrl);
     }
+    
+    /**
+     * Gets the page type out of a URL, e.g the type of 
+     * <code>/page/xyz?param1=value1&amp;param2=value2</code> is <code>/page/xyz</code>.
+     * The page type is assumed to be in the form of /page/ followed by alphabets
+     * (case-insensitive) only, as per the design of {@link Const.ActionURIs}.
+     */
+    public static String getPageTypeOfUrl(String url) {
+        /* 
+         * Regex meaning: from the beginning of the string, tries to match /page/
+         * followed by one or more case-insensitive alphabets, followed by ? and
+         * any amount of any character until the end of the string.
+         * Returns everything before ? if matches or the original string otherwise.
+         */
+        return url.replaceFirst("^(/page/[A-Za-z]+)\\?.*$", "$1");
+    }
+    
 }

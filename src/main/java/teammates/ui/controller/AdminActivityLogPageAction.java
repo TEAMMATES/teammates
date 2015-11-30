@@ -47,6 +47,7 @@ public class AdminActivityLogPageAction extends Action {
             searchTimeOffset = "";
         }
         String filterQuery = getRequestParamValue("filterQuery");
+        String courseIdFromSearchPage = getRequestParamValue("courseId");
         
         String logRoleFromAjax = getRequestParamValue("logRole");
         String logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
@@ -90,7 +91,7 @@ public class AdminActivityLogPageAction extends Action {
             }
             logs = searchLogsWithTimeIncrement(data);
         }
-        generateStatusMessage(data, logs);
+        generateStatusMessage(data, logs, courseIdFromSearchPage);
         data.init(ifShowAll, ifShowTestData, logs);
         
         if (searchTimeOffset.isEmpty()) {
@@ -100,7 +101,7 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    private void generateStatusMessage(AdminActivityLogPageData data, List<ActivityLogEntry> logs) {
+    private void generateStatusMessage(AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
         String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
         
@@ -118,6 +119,13 @@ public class AdminActivityLogPageAction extends Action {
         if (data.isPersonSpecified()) {
             String targetUserGoogleId = data.getPersonSpecified();
             targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
+
+            if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
+                // if the user is unregistered, try finding the timezone by course id passed from Search page
+                if ((courseId != null) && (!courseId.isEmpty())) {
+                    targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
+                }
+            }
         } else {
             targetTimeZone = Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
         }
@@ -130,7 +138,7 @@ public class AdminActivityLogPageAction extends Action {
         if (targetTimeZone != Const.DOUBLE_UNINITIALIZED) {
             status += "on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>";
         } else {
-            status += timeInUserTimeZone;
+            status += timeInUserTimeZone + ".<br>";
         }
         
         // the "Search More" button to continue searching from the previous fromDate 

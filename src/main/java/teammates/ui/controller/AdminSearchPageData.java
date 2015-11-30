@@ -13,6 +13,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.ui.template.AdminSearchInstructorRow;
 import teammates.ui.template.AdminSearchInstructorTable;
 import teammates.ui.template.AdminSearchStudentFeedbackSession;
@@ -124,11 +125,11 @@ public class AdminSearchPageData extends PageData {
         String availableIdString = "";
         
         if (instructor.googleId != null && !instructor.googleId.trim().isEmpty()) {
-            availableIdString = instructor.googleId;
+            availableIdString = "person:" + instructor.googleId;
         } else if (instructor.name != null && !instructor.name.trim().isEmpty()) {
-            availableIdString = instructor.name;
+            availableIdString = "person:" + instructor.name;
         } else if (instructor.email != null && !instructor.email.trim().isEmpty()) {
-            availableIdString = instructor.email;
+            availableIdString = "person:" + instructor.email;
         }
         
         return availableIdString;
@@ -184,11 +185,11 @@ public class AdminSearchPageData extends PageData {
         String availableIdString = "";
         
         if (student.googleId != null && !student.googleId.trim().isEmpty()) {
-            availableIdString = student.googleId;
+            availableIdString = "person:" + student.googleId;
         } else if (student.name != null && !student.name.trim().isEmpty()) {
-            availableIdString = student.name;
+            availableIdString = "person:" + student.name;
         } else if (student.email != null && !student.email.trim().isEmpty()) {
-            availableIdString = student.email;
+            availableIdString = "person:" + student.email;
         }
         
         return availableIdString;
@@ -197,7 +198,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchStudentLinks createStudentLinks(StudentAttributes student) {
         String detailsPageLink = studentRecordsPageLinkMap.get(student.getIdentificationString());
         String homePageLink = studentIdToHomePageLinkMap.get(student.googleId);
-        String courseJoinLink = student.getRegistrationUrl();
+        String courseJoinLink = new Url(student.getRegistrationUrl()).toAbsoluteString();
         
         return new AdminSearchStudentLinks(detailsPageLink, homePageLink, courseJoinLink);
     }

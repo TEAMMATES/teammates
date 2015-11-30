@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.blobstore.BlobInfo;
@@ -43,15 +43,15 @@ public class AdminEmailImageUploadAction extends Action {
         
       
         data.isFileUploaded = true;
-        data.fileSrcUrl = Config.APP_URL + 
-                          Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE +
+        data.fileSrcUrl = Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE +
                           "?blob-key=" + 
                           blobKey.getKeyString();
+        String absoluteFileSrcUrl = new Url(data.fileSrcUrl).toAbsoluteString();
         
-        log.info("New Image Uploaded : " + data.fileSrcUrl);
+        log.info("New Image Uploaded : " + absoluteFileSrcUrl);
         statusToAdmin = "New Image Uploaded : " + "<a href=" +
                         data.fileSrcUrl + " target=blank>" +
-                        data.fileSrcUrl + "</a>";
+                        absoluteFileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
         return createAjaxResult(data);
