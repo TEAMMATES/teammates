@@ -169,7 +169,6 @@ public class BaseTestCase {
                 .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
                 .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
                 .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                .replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT)
                 .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
 

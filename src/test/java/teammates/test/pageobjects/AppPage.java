@@ -811,7 +811,6 @@ public abstract class AppPage {
                          .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
                          .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
                          .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                         .replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT)
                          .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
     
@@ -851,9 +850,7 @@ public abstract class AppPage {
                       .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT),
                                TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
                       .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT),
-                               TestProperties.inst().TEST_ADMIN_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT),
-                               TestProperties.inst().TEST_UNREG_ACCOUNT);
+                               TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
 
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
@@ -935,8 +932,7 @@ public abstract class AppPage {
                       .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
-                      .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}");
+                      .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}");
     }
 
     /**
