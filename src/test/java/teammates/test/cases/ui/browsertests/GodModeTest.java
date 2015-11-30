@@ -52,7 +52,6 @@ public class GodModeTest extends BaseUiTestCase {
         testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT);
         testAccounts += TestProperties.inst().TEST_UNREG_ACCOUNT;
         testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT);
-        testAccounts += Config.SUPPORT_EMAIL;
         testAccounts += Config.APP_URL;
         testAccounts += "</div>";
         String changedContent = initialContent.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts);

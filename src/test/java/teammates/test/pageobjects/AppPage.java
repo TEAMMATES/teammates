@@ -812,8 +812,7 @@ public abstract class AppPage {
                          .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
                          .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
                          .replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT)
-                         .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT)
-                         .replace("${support.email}", Config.SUPPORT_EMAIL);
+                         .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
     
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
@@ -937,8 +936,7 @@ public abstract class AppPage {
                       .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
                       .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
-                      .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
-                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
+                      .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}");
     }
 
     /**
