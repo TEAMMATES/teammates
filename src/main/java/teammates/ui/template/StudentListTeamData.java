@@ -14,7 +14,7 @@ public class StudentListTeamData {
     private List<StudentListStudentData> students;
 
     public StudentListTeamData(TeamDetailsBundle team, Map<String, String> emailPhotoUrlMapping, String googleId) {
-        this.teamName = Sanitizer.sanitizeForHtml(team.name);
+        this.teamName = team.name;
         List<StudentListStudentData> studentsDetails =
                                         new ArrayList<StudentListStudentData>();
         for (StudentAttributes student: team.students) {
