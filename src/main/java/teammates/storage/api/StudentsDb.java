@@ -20,7 +20,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
@@ -388,13 +387,13 @@ public class StudentsDb extends EntitiesDb {
             throw new InvalidParametersException(error);
         }
 
-        student.setEmail(Sanitizer.sanitizeForHtml(newEmail));
-        student.setName(Sanitizer.sanitizeForHtml(newName));
-        student.setLastName(Sanitizer.sanitizeName(StringHelper.splitName(newName)[1]));
-        student.setComments(Sanitizer.sanitizeForHtml(newComments));
-        student.setGoogleId(Sanitizer.sanitizeForHtml(newGoogleID));
-        student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));
-        student.setSectionName(Sanitizer.sanitizeForHtml(newSectionName));
+        student.setEmail(newEmail);
+        student.setName(newName);
+        student.setLastName(StringHelper.splitName(newName)[1]);
+        student.setComments(newComments);
+        student.setGoogleId(newGoogleID);
+        student.setTeamName(newTeamName);
+        student.setSectionName(newSectionName);
         
         if(hasDocument){
             putDocument(new StudentAttributes(student));   
