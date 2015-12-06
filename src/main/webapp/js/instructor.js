@@ -6,11 +6,7 @@
 // Initial load-up
 //-----------------------------------------------------------------------------
 
-var onLoadFunction = function() {
-    if (typeof doPageSpecificOnload !== 'undefined') {
-        doPageSpecificOnload();
-    };
-    
+$(document).ready(function() {
     bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click');
     
     // bind the show picture onclick events
@@ -18,13 +14,7 @@ var onLoadFunction = function() {
     
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
-};
-
-if (window.addEventListener) {
-    window.addEventListener('load', onLoadFunction);
-} else {
-    window.attachEvent('onload', onLoadFunction);
-}
+});
 
 //-----------------------------------------------------------------------------
 
@@ -132,7 +122,8 @@ function setupFsCopyModal() {
         var actionlink = button.data('actionlink');
         var courseid = button.data('courseid');
         var fsname = button.data('fsname');
-        var currentPage = window.location.href;
+        var appUrl = window.location.origin;
+        var currentPage = window.location.href.substring(appUrl.length); // use the page's relative URL
         
         $.ajax({
             type: 'GET',
@@ -152,6 +143,7 @@ function setupFsCopyModal() {
                 // Prevent default form submission and submit using jquery.
                 $('#fscopy_submit').click(
                                         function(event) {
+                                            $('#fscopy_submit').prop('disabled', true);
                                             event.preventDefault();
                                             $('#fscopy_submit').closest('form').submit();
                                         }

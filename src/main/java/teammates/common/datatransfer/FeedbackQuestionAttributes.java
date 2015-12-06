@@ -48,29 +48,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.giverType = fq.getGiverType();
         this.recipientType = fq.getRecipientType();
         this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = fq.getShowResponsesTo();
-        this.showGiverNameTo = fq.getShowGiverNameTo();
-        this.showRecipientNameTo = fq.getShowRecipientNameTo();
-    }
-
-    public FeedbackQuestionAttributes(String feedbackSessionName, String courseId, String creatorEmail,
-                   Text questionMetaData, int questionNumber, FeedbackQuestionType questionType,
-                   FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
-                   int numberOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
-                   List<FeedbackParticipantType> showGiverNameTo,
-                   List<FeedbackParticipantType> showRecipientNameTo) {
-        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
-        this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeGoogleId(creatorEmail);
-        this.questionMetaData = questionMetaData;
-        this.questionNumber = questionNumber;
-        this.questionType = questionType;
-        this.giverType = giverType;
-        this.recipientType = recipientType;
-        this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
-        this.showResponsesTo = showResponsesTo;
-        this.showGiverNameTo = showGiverNameTo;
-        this.showRecipientNameTo = showRecipientNameTo;
+        this.showResponsesTo = new ArrayList<FeedbackParticipantType>(fq.getShowResponsesTo());
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowGiverNameTo());
+        this.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(fq.getShowRecipientNameTo());
+        
+        removeIrrelevantVisibilityOptions();
     }
 
     public String getId() {
@@ -449,12 +431,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             case TEAMS:
                 optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
                 break;
+            case INSTRUCTORS:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            case OWN_TEAM:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            case OWN_TEAM_MEMBERS:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
             default:
                 break;
         }
 
         switch (giverType) {
             case TEAMS:
+                optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                break;
+            case INSTRUCTORS:
                 optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
                 break;
             default:

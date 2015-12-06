@@ -200,16 +200,6 @@ public class TimeHelper {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
-
-    /**
-     * Formats a date in the format dd MMM yyyy, HH:mm. Example: 05 May 2012,
-     * 22:04<br />
-     */
-    public static String formatTime(Date date) {
-        if (date == null)
-            return "";
-        return new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(date);
-    }
     
     /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
@@ -226,6 +216,17 @@ public class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm:ss zzz");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.format(date);
+    }
+
+    /**
+     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
+     */
+    public static String formatDateTimeForInstructorHomePage(Date date) {
+        if (date == null)
+            return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }

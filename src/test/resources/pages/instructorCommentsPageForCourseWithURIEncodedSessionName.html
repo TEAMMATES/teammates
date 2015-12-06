@@ -5,28 +5,28 @@
          Comments from Instructors
       </h1>
       <br/>
-            <div class="well well-plain">
+      <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
                <form action="/page/instructorSearchPage?user=comments.idOfInstructorOfCourseWithUriChars" method="get" name="search_form">
                   <div class="input-group">
                      <input class="form-control" id="searchBox" name="searchkey" placeholder="Any info related to comments" title="Search for comment" type="text"/>
-                                          <span class="input-group-btn">
+                     <span class="input-group-btn">
                         <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
                            Search
                         </button>
                      </span>
                   </div>
                   <input name="searchcommentforstudents" type="hidden" value="true"/>
-                                    <input name="searchcommentforresponses" type="hidden" value="true"/>
-                                    <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
-                                 </form>
+                  <input name="searchcommentforresponses" type="hidden" value="true"/>
+                  <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
+               </form>
                <div class="well well-plain">
                   <div class="row">
                      <div class="col-md-2">
                         <div class="checkbox">
                            <input id="option-check" type="checkbox"/>
-                                                      <label for="option-check">
+                           <label for="option-check">
                               Show More Options
                            </label>
                         </div>
@@ -34,7 +34,7 @@
                      <div class="col-md-3">
                         <div class="checkbox">
                            <input id="displayArchivedCourses_check" type="checkbox"/>
-                                                      <label for="displayArchivedCourses_check">
+                           <label for="displayArchivedCourses_check">
                               Include Archived Courses
                            </label>
                            <div id="displayArchivedCourses_link" style="display:none;">
@@ -56,24 +56,24 @@
                                     </strong>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="panel_all" type="checkbox"/>
-                                                                        <label for="panel_all">
+                                    <label for="panel_all">
                                        <strong>
                                           All
                                        </strong>
                                     </label>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="panel_check-1" type="checkbox"/>
-                                                                        <label for="panel_check-1">
+                                    <label for="panel_check-1">
                                        Students
                                     </label>
                                  </div>
                                  <div class="checkbox">
                                     <input checked="checked" id="panel_check-2" type="checkbox"/>
-                                                                        <label for="panel_check-2">
+                                    <label for="panel_check-2">
                                        Session: comments.Session with name ,?:@=+$#
                                     </label>
                                  </div>
@@ -85,24 +85,24 @@
                                     </strong>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="giver_all" type="checkbox" value=""/>
-                                                                        <label for="giver_all">
+                                    <label for="giver_all">
                                        <strong>
                                           All
                                        </strong>
                                     </label>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="giver_check-by-you" type="checkbox"/>
-                                                                        <label for="giver_check-by-you">
+                                    <label for="giver_check-by-you">
                                        You
                                     </label>
                                  </div>
                                  <div class="checkbox">
                                     <input checked="checked" id="giver_check-by-others" type="checkbox"/>
-                                                                        <label for="giver_check-by-others">
+                                    <label for="giver_check-by-others">
                                        Others
                                     </label>
                                  </div>
@@ -114,24 +114,24 @@
                                     </strong>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="status_all" type="checkbox" value=""/>
-                                                                        <label for="status_all">
+                                    <label for="status_all">
                                        <strong>
                                           All
                                        </strong>
                                     </label>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="status_check-public" type="checkbox"/>
-                                                                        <label for="status_check-public">
+                                    <label for="status_check-public">
                                        Public
                                     </label>
                                  </div>
                                  <div class="checkbox">
                                     <input checked="checked" id="status_check-private" type="checkbox"/>
-                                                                        <label for="status_check-private">
+                                    <label for="status_check-private">
                                        Private
                                     </label>
                                  </div>
@@ -145,7 +145,7 @@
          </div>
       </div>
       <br/>
-            <div id="statusMessage" style="display: none;">
+      <div id="statusMessage" style="display: none;">
       </div>
       <ul class="pagination">
          <li>
@@ -187,7 +187,7 @@
          </div>
          <div id="no-comment-panel" style="display:none;">
             <br/>
-                        <div class="panel">
+            <div class="panel">
                <div class="panel-body">
                   You don't have any comment in this course.
                </div>
@@ -195,7 +195,7 @@
          </div>
          <div id="panel_display-1">
             <br/>
-                        <div class="panel panel-primary">
+            <div class="panel panel-primary">
                <div class="panel-heading">
                   <strong>
                      Comments for students
@@ -276,13 +276,13 @@
                                              </td>
                                              <td>
                                                 <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" type="checkbox" value="TEAM"/>
-                                                                                             </td>
+                                             </td>
                                           </tr>
                                           <tr id="recipient-section1">
                                              <td class="text-left">
@@ -292,13 +292,13 @@
                                              </td>
                                              <td>
                                                 <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="SECTION"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="SECTION"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION"/>
-                                                                                             </td>
+                                             </td>
                                           </tr>
                                           <tr id="recipient-course1">
                                              <td class="text-left">
@@ -308,13 +308,13 @@
                                              </td>
                                              <td>
                                                 <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE"/>
-                                                                                             </td>
+                                             </td>
                                           </tr>
                                           <tr>
                                              <td class="text-left">
@@ -324,13 +324,13 @@
                                              </td>
                                              <td>
                                                 <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                                                             </td>
+                                             </td>
                                           </tr>
                                        </tbody>
                                     </table>
@@ -342,18 +342,18 @@
                                  </div>
                                  <div class="col-sm-offset-5">
                                     <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm('1');" title="Save comment" type="submit" value="Save"/>
-                                                                        <input class="btn btn-default" onclick="return disableComment('1');" type="button" value="Cancel"/>
-                                                                     </div>
+                                    <input class="btn btn-default" onclick="return disableComment('1');" type="button" value="Cancel"/>
+                                 </div>
                               </div>
                               <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit"/>
-                                                            <input name="commentid" type="hidden" value="${comment.id}"/>
-                                                            <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
-                                                            <input name="commentpage" type="hidden" value="true"/>
-                                                            <input name="showcommentsto" type="hidden" value="TEAM"/>
-                                                            <input name="showgiverto" type="hidden" value=""/>
-                                                            <input name="showrecipientto" type="hidden" value=""/>
-                                                            <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
-                                                         </form>
+                              <input name="commentid" type="hidden" value="${comment.id}"/>
+                              <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
+                              <input name="commentpage" type="hidden" value="true"/>
+                              <input name="showcommentsto" type="hidden" value="TEAM"/>
+                              <input name="showgiverto" type="hidden" value=""/>
+                              <input name="showrecipientto" type="hidden" value=""/>
+                              <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
+                           </form>
                         </li>
                      </ul>
                   </div>
@@ -362,7 +362,7 @@
          </div>
          <div id="panel_display-2">
             <br/>
-                        <div class="panel panel-primary">
+            <div class="panel panel-primary">
                <div class="panel-heading" onclick="loadFeedbackResponseComments('comments.idOfInstructorOfCourseWithUriChars','comments.idOfUriCharsCourse','comments.Session with name ,?:@=+$#', '1', this);" style="cursor: pointer;">
                   <strong>
                      Comments in session: comments.Session with name ,?:@=+$#
@@ -424,11 +424,11 @@
                                                 </span>
                                              </a>
                                              <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
-                                                                                          <input name="responsecommentid" type="hidden" value="${comment.id}"/>
-                                                                                          <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
-                                                                                          <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
-                                                                                          <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
-                                                                                       </form>
+                                             <input name="responsecommentid" type="hidden" value="${comment.id}"/>
+                                             <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
+                                             <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
+                                             <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
+                                          </form>
                                           <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit this comment" data-placement="top" data-toggle="tooltip" id="commentedit-1-1-1-1" onclick="showResponseCommentEditForm(1,1,1,1)" style="display: none;" title="" type="button">
                                              <span class="glyphicon glyphicon-pencil glyphicon-primary">
                                              </span>
@@ -443,7 +443,7 @@
                                                 <p>
                                                    Giver: student In Course# (Team #.1)
                                                    <br/>
-                                                                                                      Recipient: student In Course# (Team #.1)
+                                                   Recipient: student In Course# (Team #.1)
                                                 </p>
                                                 You may change comment's visibility using the visibility options on the right hand side.
                                              </div>
@@ -478,10 +478,10 @@
                                                       </td>
                                                       <td>
                                                          <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER"/>
-                                                                                                               </td>
+                                                      </td>
                                                       <td>
                                                          <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER"/>
-                                                                                                               </td>
+                                                      </td>
                                                    </tr>
                                                    <tr id="response-instructors-1-1-1-1">
                                                       <td class="text-left">
@@ -491,10 +491,10 @@
                                                       </td>
                                                       <td>
                                                          <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS"/>
-                                                                                                               </td>
+                                                      </td>
                                                       <td>
                                                          <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS"/>
-                                                                                                               </td>
+                                                      </td>
                                                    </tr>
                                                 </tbody>
                                              </table>
@@ -509,15 +509,15 @@
                                                 Save
                                              </a>
                                              <input class="btn btn-default" onclick="return hideResponseCommentEditForm(1,1,1,1);" type="button" value="Cancel"/>
-                                                                                       </div>
+                                          </div>
                                           <input name="responsecommentid" type="hidden" value="${comment.id}"/>
-                                                                                    <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
-                                                                                    <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
-                                                                                    <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
-                                                                                    <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
-                                                                                    <input name="showresponsecommentsto" type="hidden" value=""/>
-                                                                                    <input name="showresponsegiverto" type="hidden" value=""/>
-                                                                                 </form>
+                                          <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
+                                          <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
+                                          <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
+                                          <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
+                                          <input name="showresponsecommentsto" type="hidden" value=""/>
+                                          <input name="showresponsegiverto" type="hidden" value=""/>
+                                       </form>
                                     </li>
                                     <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display: none;">
                                        <form class="responseCommentAddForm">
@@ -526,7 +526,7 @@
                                                 <p>
                                                    Giver: student In Course# (Team #.1)
                                                    <br/>
-                                                                                                      Recipient: student In Course# (Team #.1)
+                                                   Recipient: student In Course# (Team #.1)
                                                 </p>
                                                 You may change comment's visibility using the visibility options on the right hand side.
                                              </div>
@@ -561,10 +561,10 @@
                                                       </td>
                                                       <td>
                                                          <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER"/>
-                                                                                                               </td>
+                                                      </td>
                                                       <td>
                                                          <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER"/>
-                                                                                                               </td>
+                                                      </td>
                                                    </tr>
                                                    <tr id="response-instructors-1-1-1">
                                                       <td class="text-left">
@@ -574,10 +574,10 @@
                                                       </td>
                                                       <td>
                                                          <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS"/>
-                                                                                                               </td>
+                                                      </td>
                                                       <td>
                                                          <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS"/>
-                                                                                                               </td>
+                                                      </td>
                                                    </tr>
                                                 </tbody>
                                              </table>
@@ -591,15 +591,15 @@
                                                 Add
                                              </a>
                                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1);" type="button" value="Cancel"/>
-                                                                                       </div>
+                                          </div>
                                           <input name="questionid" type="hidden" value="${question.id}"/>
-                                                                                    <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
-                                                                                    <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
-                                                                                    <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
-                                                                                    <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
-                                                                                    <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS"/>
-                                                                                    <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS"/>
-                                                                                 </form>
+                                          <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt"/>
+                                          <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse"/>
+                                          <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#"/>
+                                          <input name="user" type="hidden" value="comments.idOfInstructorOfCourseWithUriChars"/>
+                                          <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS"/>
+                                          <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS"/>
+                                       </form>
                                     </li>
                                  </ul>
                               </td>
@@ -629,4 +629,3 @@
          </li>
       </ul>
    </div>
-

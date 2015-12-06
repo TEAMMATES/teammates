@@ -5,11 +5,11 @@
          Submit Feedback
       </h1>
       <br/>
-            <form action="/page/instructorFeedbackSubmissionEditSave" method="post" name="form_submit_response">
+      <form action="/page/instructorFeedbackSubmissionEditSave" method="post" name="form_submit_response">
          <input name="fsname" type="hidden" value="Private Session"/>
-                  <input name="courseid" type="hidden" value="IFSubmitUiT.CS2104"/>
-                  <input name="user" type="hidden" value="IFSubmitUiT.instr"/>
-                  <div id="statusMessage" style="display: none;">
+         <input name="courseid" type="hidden" value="IFSubmitUiT.CS2104"/>
+         <input name="user" type="hidden" value="IFSubmitUiT.instr"/>
+         <div id="statusMessage" style="display: none;">
          </div>
          <div class="well well-plain" id="course1">
             <div class="panel-body">
@@ -41,7 +41,7 @@
                         </label>
                         <div class="col-sm-10">
                            <p class="form-control-static">
-                              Sun, 01 Apr 2012, 23:59
+                              Sun, 01 Apr 2012, 11:59 PM
                            </p>
                         </div>
                      </div>
@@ -69,15 +69,15 @@
             </div>
          </div>
          <br/>
-                  <input name="questiontype-1" type="hidden" value="TEXT"/>
-                  <input name="questionid-1" type="hidden" value="${question.id}"/>
-                  <input name="questionresponsetotal-1" type="hidden" value="1"/>
-                  <div class="form-horizontal">
+         <input name="questiontype-1" type="hidden" value="TEXT"/>
+         <input name="questionid-1" type="hidden" value="${question.id}"/>
+         <input name="questionresponsetotal-1" type="hidden" value="1"/>
+         <div class="form-horizontal">
             <div class="panel panel-primary">
                <div class="panel-heading">
                   Question 1:
                   <br/>
-                                    <span class="text-preserve-space">
+                  <span class="text-preserve-space">
                      Give feedback to your instructors
                   </span>
                </div>
@@ -91,7 +91,7 @@
                      </li>
                   </ul>
                   <br/>
-                                    <div class="form-group margin-0">
+                  <div class="form-group margin-0">
                      <div class="col-sm-2 form-inline" style="display:none">
                         <label for="input">
                            To:
@@ -116,12 +116,11 @@
             </div>
          </div>
          <br/>
-                  <br/>
-                  <div class="bold align-center">
-            <input class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback"/>
-                     </div>
          <br/>
-                  <br/>
-               </form>
+         <div class="bold align-center">
+            <input class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback"/>
+         </div>
+         <br/>
+         <br/>
+      </form>
    </div>
-

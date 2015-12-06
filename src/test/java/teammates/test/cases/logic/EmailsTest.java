@@ -148,12 +148,12 @@ public class EmailsTest extends BaseComponentTestCase {
         // check email body
         String encryptedKey = StringHelper.encrypt(s.key);
 
-        String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        String submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(c.id)
                             .withSessionName(fsa.feedbackSessionName)
                             .withRegistrationKey(encryptedKey)
                             .withStudentEmail(s.email)
-                            .toString();
+                            .toAbsoluteString();
 
         String deadline = TimeHelper.formatTime12H(fsa.endTime);
 
@@ -175,12 +175,12 @@ public class EmailsTest extends BaseComponentTestCase {
 
         assertFalse(emailBody.contains(submitUrl));
 
-        String reportUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        String reportUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(c.id)
                             .withSessionName(fsa.feedbackSessionName)
                             .withRegistrationKey(encryptedKey)
                             .withStudentEmail(s.email)
-                            .toString();
+                            .toAbsoluteString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name
                 + "{*}is now open for viewing{*}" + c.id + "{*}"
@@ -288,7 +288,7 @@ public class EmailsTest extends BaseComponentTestCase {
                 email.getSubject());
 
         // check email body
-        String joinUrl = s.getRegistrationUrl();
+        String joinUrl = new Url(s.getRegistrationUrl()).toAbsoluteString();
         String emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name

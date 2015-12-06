@@ -5,28 +5,28 @@
          Comments from Instructors
       </h1>
       <br/>
-            <div class="well well-plain">
+      <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
                <form action="/page/instructorSearchPage?user=comments.idOfHelperOfCourse1" method="get" name="search_form">
                   <div class="input-group">
                      <input class="form-control" id="searchBox" name="searchkey" placeholder="Any info related to comments" title="Search for comment" type="text"/>
-                                          <span class="input-group-btn">
+                     <span class="input-group-btn">
                         <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
                            Search
                         </button>
                      </span>
                   </div>
                   <input name="searchcommentforstudents" type="hidden" value="true"/>
-                                    <input name="searchcommentforresponses" type="hidden" value="true"/>
-                                    <input name="user" type="hidden" value="comments.idOfHelperOfCourse1"/>
-                                 </form>
+                  <input name="searchcommentforresponses" type="hidden" value="true"/>
+                  <input name="user" type="hidden" value="comments.idOfHelperOfCourse1"/>
+               </form>
                <div class="well well-plain">
                   <div class="row">
                      <div class="col-md-2">
                         <div class="checkbox">
                            <input id="option-check" type="checkbox"/>
-                                                      <label for="option-check">
+                           <label for="option-check">
                               Show More Options
                            </label>
                         </div>
@@ -34,7 +34,7 @@
                      <div class="col-md-3">
                         <div class="checkbox">
                            <input id="displayArchivedCourses_check" type="checkbox"/>
-                                                      <label for="displayArchivedCourses_check">
+                           <label for="displayArchivedCourses_check">
                               Include Archived Courses
                            </label>
                            <div id="displayArchivedCourses_link" style="display:none;">
@@ -56,24 +56,24 @@
                                     </strong>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="panel_all" type="checkbox"/>
-                                                                        <label for="panel_all">
+                                    <label for="panel_all">
                                        <strong>
                                           All
                                        </strong>
                                     </label>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="panel_check-1" type="checkbox"/>
-                                                                        <label for="panel_check-1">
+                                    <label for="panel_check-1">
                                        Students
                                     </label>
                                  </div>
                                  <div class="checkbox">
                                     <input checked="checked" id="panel_check-2" type="checkbox"/>
-                                                                        <label for="panel_check-2">
+                                    <label for="panel_check-2">
                                        Session: comments.First feedback session
                                     </label>
                                  </div>
@@ -85,24 +85,24 @@
                                     </strong>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="giver_all" type="checkbox" value=""/>
-                                                                        <label for="giver_all">
+                                    <label for="giver_all">
                                        <strong>
                                           All
                                        </strong>
                                     </label>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="giver_check-by-you" type="checkbox"/>
-                                                                        <label for="giver_check-by-you">
+                                    <label for="giver_check-by-you">
                                        You
                                     </label>
                                  </div>
                                  <div class="checkbox">
                                     <input checked="checked" id="giver_check-by-others" type="checkbox"/>
-                                                                        <label for="giver_check-by-others">
+                                    <label for="giver_check-by-others">
                                        Others
                                     </label>
                                  </div>
@@ -114,24 +114,24 @@
                                     </strong>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="status_all" type="checkbox" value=""/>
-                                                                        <label for="status_all">
+                                    <label for="status_all">
                                        <strong>
                                           All
                                        </strong>
                                     </label>
                                  </div>
                                  <br/>
-                                                                  <div class="checkbox">
+                                 <div class="checkbox">
                                     <input checked="checked" id="status_check-public" type="checkbox"/>
-                                                                        <label for="status_check-public">
+                                    <label for="status_check-public">
                                        Public
                                     </label>
                                  </div>
                                  <div class="checkbox">
                                     <input checked="checked" id="status_check-private" type="checkbox"/>
-                                                                        <label for="status_check-private">
+                                    <label for="status_check-private">
                                        Private
                                     </label>
                                  </div>
@@ -145,7 +145,7 @@
          </div>
       </div>
       <br/>
-            <div id="statusMessage" style="display: none;">
+      <div id="statusMessage" style="display: none;">
       </div>
       <ul class="pagination">
          <li>
@@ -187,7 +187,7 @@
          </div>
          <div id="no-comment-panel" style="display:none;">
             <br/>
-                        <div class="panel">
+            <div class="panel">
                <div class="panel-body">
                   You don't have any comment in this course.
                </div>
@@ -195,7 +195,7 @@
          </div>
          <div id="panel_display-1">
             <br/>
-                        <div class="panel panel-primary">
+            <div class="panel panel-primary">
                <div class="panel-heading">
                   <strong>
                      Comments for students
@@ -274,13 +274,13 @@
                                              </td>
                                              <td>
                                                 <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" type="checkbox" value="COURSE"/>
-                                                                                             </td>
+                                             </td>
                                           </tr>
                                           <tr>
                                              <td class="text-left">
@@ -290,13 +290,13 @@
                                              </td>
                                              <td>
                                                 <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                                                             </td>
+                                             </td>
                                              <td>
                                                 <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR"/>
-                                                                                             </td>
+                                             </td>
                                           </tr>
                                        </tbody>
                                     </table>
@@ -308,18 +308,18 @@
                                  </div>
                                  <div class="col-sm-offset-5">
                                     <input class="btn btn-primary" id="commentsave-1" onclick="return submitCommentForm('1');" title="Save comment" type="submit" value="Save"/>
-                                                                        <input class="btn btn-default" onclick="return disableComment('1');" type="button" value="Cancel"/>
-                                                                     </div>
+                                    <input class="btn btn-default" onclick="return disableComment('1');" type="button" value="Cancel"/>
+                                 </div>
                               </div>
                               <input id="commentedittype-1" name="commentedittype" type="hidden" value="edit"/>
-                                                            <input name="commentid" type="hidden" value="${comment.id}"/>
-                                                            <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1"/>
-                                                            <input name="commentpage" type="hidden" value="true"/>
-                                                            <input name="showcommentsto" type="hidden" value=""/>
-                                                            <input name="showgiverto" type="hidden" value=""/>
-                                                            <input name="showrecipientto" type="hidden" value=""/>
-                                                            <input name="user" type="hidden" value="comments.idOfHelperOfCourse1"/>
-                                                         </form>
+                              <input name="commentid" type="hidden" value="${comment.id}"/>
+                              <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1"/>
+                              <input name="commentpage" type="hidden" value="true"/>
+                              <input name="showcommentsto" type="hidden" value=""/>
+                              <input name="showgiverto" type="hidden" value=""/>
+                              <input name="showrecipientto" type="hidden" value=""/>
+                              <input name="user" type="hidden" value="comments.idOfHelperOfCourse1"/>
+                           </form>
                         </li>
                      </ul>
                   </div>
@@ -348,7 +348,7 @@
          </div>
          <div id="panel_display-2">
             <br/>
-                        <div class="panel panel-primary">
+            <div class="panel panel-primary">
                <div class="panel-heading" onclick="loadFeedbackResponseComments('comments.idOfHelperOfCourse1','comments.idOfTypicalCourse1','comments.First feedback session', '1', this);" style="cursor: pointer;">
                   <strong>
                      Comments in session: comments.First feedback session
@@ -359,7 +359,7 @@
                <div class="panel-body">
                   <div id="no-comment-panel" style="">
                      <br/>
-                                          <div class="panel panel-info">
+                     <div class="panel panel-info">
                         <ul class="list-group comments">
                            <li class="list-group-item list-group-item-warning">
                               You don't have any comment in this session.
@@ -389,4 +389,3 @@
          </li>
       </ul>
    </div>
-

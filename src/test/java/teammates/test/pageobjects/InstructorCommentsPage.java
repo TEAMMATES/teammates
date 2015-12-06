@@ -28,29 +28,34 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public void loadResponseComments() throws Exception{
-        browser.driver.findElement(By.xpath("//*[@id=\"panel_display-2\"]/div/div[1]")).click();
+        String pathToSecondDisplayPanelHeading = "//*[@id=\"panel_display-2\"]/div/div[1]";
+        browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
         waitForPageToLoad();
         try{
-            waitForElementVisibility(browser.driver.findElement(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div")));
+            String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div";
+            waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
         } catch (StaleElementReferenceException e){
             ;//do nothing
         }
     }
 
     public void clickSendEmailNotificationButton(){
-        browser.driver.findElement(By.xpath("//*[@id=\"mainContent\"]/div[4]/div[1]/div/a")).click();
+        String pathToSendEmailNotificationButton = "//*[@id=\"mainContent\"]/div[4]/div[1]/div/a";
+        browser.driver.findElement(By.xpath(pathToSendEmailNotificationButton)).click();
         waitForPageToLoad();
     }
     
     public InstructorHomePage clickHomePageLinkInHeader(){
-        browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")).click();
+        String pathToHomePageLink = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a";
+        browser.driver.findElement(By.xpath(pathToHomePageLink)).click();
         waitForPageToLoad();
         waitForAjaxLoaderGifToDisappear();
         return changePageType(InstructorHomePage.class);
     }
     
     public void clickCommentsPageLinkInHeader(){
-        browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")).click();
+        String pathToCommentsPageLink = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a";
+        browser.driver.findElement(By.xpath(pathToCommentsPageLink)).click();
         waitForPageToLoad();
     }
     
@@ -99,13 +104,13 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public WebElement getNextCourseLink() {
-        String xpathExp = "//*[@id=\"mainContent\"]/ul[1]/li[4]/a";
-        return browser.driver.findElement(By.xpath(xpathExp));
+        String pathToNextCourseLink = "//*[@id=\"mainContent\"]/ul[1]/li[4]/a";
+        return browser.driver.findElement(By.xpath(pathToNextCourseLink));
     }
     
     public WebElement getPreviousCourseLink() {
-        String xpathExp = "//*[@id=\"mainContent\"]/ul[1]/li[1]/a";
-        return browser.driver.findElement(By.xpath(xpathExp));
+        String pathToPreviousCourseLink = "//*[@id=\"mainContent\"]/ul[1]/li[1]/a";
+        return browser.driver.findElement(By.xpath(pathToPreviousCourseLink));
     }
     
     public WebElement getStudentCommentRow(int rowIdx) {

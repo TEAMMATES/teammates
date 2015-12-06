@@ -11,6 +11,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 
@@ -24,8 +25,22 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         Assumption.assertNotNull(regkey);
-        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        String nextUrl;
+        if (regkey.contains("${amp}" + Const.ParamsNames.NEXT_URL + "=")) {
+            /* 
+             * Here regkey may contain the nextUrl as well. This is due to
+             * a workaround which replaces "&" with a placeholder "${amp}", thus the
+             * next parameter, nextUrl, is treated as part of the "regkey".
+             * TODO move this process to Action class is possible.
+             */
+            String[] split = regkey.split("\\$\\{amp\\}" + Const.ParamsNames.NEXT_URL + "=");
+            regkey = split[0];
+            nextUrl = split[1];
+        } else {
+            nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        }
         Assumption.assertNotNull(nextUrl);
+        nextUrl = Sanitizer.desanitizeFromNextUrl(nextUrl);
         
         ensureStudentExists();
         

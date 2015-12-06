@@ -45,6 +45,11 @@ public class Url {
         return this;
     }
 
+    public Url withInstructorInstitution(String institute) {
+        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        return this;
+    }
+
     public Url withCourseId(String courseId) {
         this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.COURSE_ID, courseId);
         return this;
@@ -111,4 +116,13 @@ public class Url {
         return urlString;
     }
 
+    /**
+     * Returns the absolute version of the URL by appending the application's URL
+     * as defined in build.properties to the URL input if the URL input not yet
+     * absolute, or just the URL input otherwise.
+     */
+    public String toAbsoluteString() {
+        return urlString.startsWith(Config.APP_URL) ? urlString : Config.APP_URL + urlString;
+    }
+    
 }

@@ -430,17 +430,29 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testSortAction() throws Exception{
-        ______TS("sort by id");
+        ______TS("sort courses by id");
         homePage.clickSortByIdButton();
         homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortById.html");
-        
-        ______TS("sort by name");
+
+        ______TS("sort courses by name");
         homePage.clickSortByNameButton();
         homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortByName.html");
-        
-        ______TS("sort by date");
+
+        ______TS("sort courses by date");
         homePage.clickSortByDateButton();
         homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortByDate.html");
+
+        ______TS("sort sessions by session name");
+        homePage.sortTablesByName();
+        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortSessionsByName.html");
+
+        ______TS("sort sessions by session start date");
+        homePage.sortTablesByStartDate();
+        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortSessionsByStartDate.html");
+
+        ______TS("sort sessions by session end date");
+        homePage.sortTablesByEndDate();
+        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortSessionsByEndDate.html");
     }
     
     private void loginAsCommonInstructor(){

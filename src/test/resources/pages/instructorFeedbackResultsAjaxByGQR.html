@@ -5,7 +5,7 @@
          Session Results
       </h1>
       <br/>
-            <div class="well well-plain padding-0">
+      <div class="well well-plain padding-0">
          <div class="form-horizontal">
             <div class="panel-heading">
                <div class="row">
@@ -41,11 +41,11 @@
                         </label>
                         <div class="col-sm-8">
                            <p class="form-control-static">
-                              Sun, 01 Apr 2012, 23:59   
+                              Sun, 01 Apr 2012, 11:59 PM   
                               <b>
                                  to
                               </b>
-                                 Sat, 30 Apr 2016, 23:59
+                                 Sat, 30 Apr 2016, 11:59 PM
                            </p>
                         </div>
                      </div>
@@ -55,7 +55,7 @@
                         </label>
                         <div class="col-sm-8">
                            <p class="form-control-static">
-                              Tue, 01 May 2012, 23:59
+                              Tue, 01 May 2012, 11:59 PM
                            </p>
                         </div>
                      </div>
@@ -66,14 +66,14 @@
                            <form action="/page/instructorFeedbackResultsDownload" method="post">
                               <div id="feedbackDataButtons">
                                  <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
-                                                               </div>
+                              </div>
                               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                            <input name="fsname" type="hidden" value="First Session"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                            <input name="sectionname" type="hidden" value="All"/>
-                                                         </form>
+                              <input name="fsname" type="hidden" value="First Session"/>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="sectionname" type="hidden" value="All"/>
+                           </form>
                            <br/>
-                                                      <div>
+                           <div>
                               <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation('First Session');" title="">
                                  Unpublish Results
                               </a>
@@ -95,11 +95,11 @@
       </div>
       <form id="csvToHtmlForm">
          <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="fsname" type="hidden" value="First Session"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                  <input name="frgroupbysection" type="hidden" value="All"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
+         <input name="fsname" type="hidden" value="First Session"/>
+         <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+         <input name="frgroupbysection" type="hidden" value="All"/>
+         <input name="csvtohtmltable" type="hidden" value="true"/>
+      </form>
       <div class="modal fade align-center" id="fsResultsTableWindow">
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -128,7 +128,7 @@
                      <div id="fsModalTable">
                      </div>
                      <br/>
-                                          <div id="ajaxStatus">
+                     <div id="ajaxStatus">
                      </div>
                   </div>
                </div>
@@ -175,7 +175,7 @@
                         <div class="col-sm-10">
                            <div class="input-group">
                               <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text"/>
-                                                            <a class="input-group-addon btn btn-default">
+                              <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
                               </a>
@@ -188,7 +188,7 @@
                         <div class="checkbox padding-top-0 min-height-0">
                            <label>
                               <input id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"/>
-                                                            Group by Teams
+                              Group by Teams
                            </label>
                         </div>
                      </div>
@@ -196,7 +196,7 @@
                         <div class="checkbox padding-top-0 min-height-0">
                            <label>
                               <input id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
-                                                            Show Statistics
+                              Show Statistics
                            </label>
                         </div>
                      </div>
@@ -237,18 +237,18 @@
             </div>
          </div>
          <input name="fsname" type="hidden" value="First Session"/>
-                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-               </form>
+         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+         <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+      </form>
       <br/>
-            <div class="alert alert-danger" id="statusMessage">
+      <div class="alert alert-danger" id="statusMessage">
          This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
       </div>
       <script src="/js/statusMessage.js" type="text/javascript">
       </script>
       <br/>
-            <br/>
-            <div class="panel panel-success">
+      <br/>
+      <div class="panel panel-success">
          <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
             <div class="row">
                <div class="col-sm-9 panel-heading-text">
@@ -271,14 +271,14 @@
             </div>
             <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                              <input name="fsname" type="hidden" value="First Session"/>
-                              <input name="frgroupbysection" type="hidden" value="Section A"/>
-                              <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                              <input name="frgroupbyteam" type="hidden" value="null"/>
-                              <input name="frsorttype" type="hidden" value="giver-question-recipient"/>
-                              <input id="showStats-0" name="frshowstats" type="hidden" value="off"/>
-                              <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1"/>
-                           </form>
+               <input name="fsname" type="hidden" value="First Session"/>
+               <input name="frgroupbysection" type="hidden" value="Section A"/>
+               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+               <input name="frgroupbyteam" type="hidden" value="null"/>
+               <input name="frsorttype" type="hidden" value="giver-question-recipient"/>
+               <input id="showStats-0" name="frshowstats" type="hidden" value="off"/>
+               <input id="mainIndex-0" name="frmainindex" type="hidden" value="-1"/>
+            </form>
          </div>
          <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
             <div class="panel-body" id="sectionBody-0">
@@ -290,17 +290,17 @@
                            Alice Betsy
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
+                        <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
                            [CFResultsUiT.alice.b@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="First Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -355,7 +355,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Benny Charles
@@ -374,7 +374,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Drop out
@@ -437,7 +437,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -465,7 +465,7 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-7-giver-0-question-3" style="display:none;">
+                                    <span id="questionAdditionalInfo-7-giver-0-question-3" style="display:none;">
                                        Multiple-choice (single answer) question options:
                                        <ul style="list-style-type: disc;margin-left: 20px;">
                                           <li>
@@ -597,7 +597,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -625,7 +625,7 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-8-giver-0-question-4" style="display:none;">
+                                    <span id="questionAdditionalInfo-8-giver-0-question-4" style="display:none;">
                                        Multiple-choice (multiple answers) question options:
                                        <ul style="list-style-type: disc;margin-left: 20px;">
                                           <li>
@@ -757,7 +757,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -792,10 +792,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-9-giver-0-question-5" style="display:none;">
+                                    <span id="questionAdditionalInfo-9-giver-0-question-5" style="display:none;">
                                        Multiple-choice (single answer) question options:
                                        <br/>
-                                                                              The options for this question is automatically generated from the list of all students in this course.
+                                       The options for this question is automatically generated from the list of all students in this course.
                                     </span>
                                  </span>
                               </span>
@@ -879,7 +879,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -907,10 +907,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-10-giver-0-question-6" style="display:none;">
+                                    <span id="questionAdditionalInfo-10-giver-0-question-6" style="display:none;">
                                        Multiple-choice (single answer) question options:
                                        <br/>
-                                                                              The options for this question is automatically generated from the list of all teams in this course.
+                                       The options for this question is automatically generated from the list of all teams in this course.
                                     </span>
                                  </span>
                               </span>
@@ -994,7 +994,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -1023,17 +1023,17 @@
                            Benny Charles
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">
+                        <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">
                            [CFResultsUiT.benny.c@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="First Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1088,7 +1088,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Charlie Dávis
@@ -1107,7 +1107,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Danny Engrid
@@ -1135,7 +1135,7 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-8-giver-1-question-2" style="display:none;">
+                                    <span id="questionAdditionalInfo-8-giver-1-question-2" style="display:none;">
                                        Multiple-choice (multiple answers) question options:
                                        <ul style="list-style-type: disc;margin-left: 20px;">
                                           <li>
@@ -1193,7 +1193,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Benny Charles
@@ -1221,17 +1221,17 @@
                            Charlie Dávis
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
+                        <a class="link-in-dark-bg" href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
                            [CFResultsUiT.charlie.d@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="First Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1286,7 +1286,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Emily
@@ -1315,17 +1315,17 @@
                            Drop out
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a class="link-in-dark-bg" href="mailto:drop.out@gmail.tmt">
+                        <a class="link-in-dark-bg" href="mailto:drop.out@gmail.tmt">
                            [drop.out@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="First Session"/>
+                           <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1380,7 +1380,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -1399,7 +1399,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Benny Charles
@@ -1418,7 +1418,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Danny Engrid
@@ -1446,7 +1446,7 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-7-giver-4-question-2" style="display:none;">
+                                    <span id="questionAdditionalInfo-7-giver-4-question-2" style="display:none;">
                                        Multiple-choice (single answer) question options:
                                        <ul style="list-style-type: disc;margin-left: 20px;">
                                           <li>
@@ -1578,7 +1578,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Drop out
@@ -1606,10 +1606,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-10-giver-4-question-3" style="display:none;">
+                                    <span id="questionAdditionalInfo-10-giver-4-question-3" style="display:none;">
                                        Multiple-choice (single answer) question options:
                                        <br/>
-                                                                              The options for this question is automatically generated from the list of all teams in this course.
+                                       The options for this question is automatically generated from the list of all teams in this course.
                                     </span>
                                  </span>
                               </span>
@@ -1693,7 +1693,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Drop out
@@ -1804,17 +1804,17 @@
                            Danny Engrid
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
+                        <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
                            [CFResultsUiT.danny.e@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="First Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1838,17 +1838,17 @@
                            Extra guy
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:extra.guy@gmail.tmt">
+                        <a href="mailto:extra.guy@gmail.tmt">
                            [extra.guy@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="First Session"/>
+                           <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1890,14 +1890,14 @@
             </div>
             <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-1" id="seeMore-1" style="display:none;">
                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                              <input name="fsname" type="hidden" value="First Session"/>
-                              <input name="frgroupbysection" type="hidden" value="Section B"/>
-                              <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                              <input name="frgroupbyteam" type="hidden" value="null"/>
-                              <input name="frsorttype" type="hidden" value="giver-question-recipient"/>
-                              <input id="showStats-1" name="frshowstats" type="hidden" value="on"/>
-                              <input id="mainIndex-1" name="frmainindex" type="hidden" value="on"/>
-                           </form>
+               <input name="fsname" type="hidden" value="First Session"/>
+               <input name="frgroupbysection" type="hidden" value="Section B"/>
+               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+               <input name="frgroupbyteam" type="hidden" value="null"/>
+               <input name="frsorttype" type="hidden" value="giver-question-recipient"/>
+               <input id="showStats-1" name="frshowstats" type="hidden" value="on"/>
+               <input id="mainIndex-1" name="frmainindex" type="hidden" value="on"/>
+            </form>
          </div>
          <div class="panel-collapse collapse " id="panelBodyCollapse-2">
             <div class="panel-body" id="sectionBody-1">
@@ -1927,14 +1927,14 @@
             </div>
             <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-2" id="seeMore-2" style="display:none;">
                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                              <input name="fsname" type="hidden" value="First Session"/>
-                              <input name="frgroupbysection" type="hidden" value="None"/>
-                              <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                              <input name="frgroupbyteam" type="hidden" value="null"/>
-                              <input name="frsorttype" type="hidden" value="giver-question-recipient"/>
-                              <input id="showStats-2" name="frshowstats" type="hidden" value="on"/>
-                              <input id="mainIndex-2" name="frmainindex" type="hidden" value="on"/>
-                           </form>
+               <input name="fsname" type="hidden" value="First Session"/>
+               <input name="frgroupbysection" type="hidden" value="None"/>
+               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+               <input name="frgroupbyteam" type="hidden" value="null"/>
+               <input name="frsorttype" type="hidden" value="giver-question-recipient"/>
+               <input id="showStats-2" name="frshowstats" type="hidden" value="on"/>
+               <input id="mainIndex-2" name="frmainindex" type="hidden" value="on"/>
+            </form>
          </div>
          <div class="panel-collapse collapse " id="panelBodyCollapse-3">
             <div class="panel-body" id="sectionBody-2">
@@ -1945,10 +1945,10 @@
          <div class="panel-heading ajax_response_rate_submit" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
             <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                              <input name="fsname" type="hidden" value="First Session"/>
-                              <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                              <input name="questionid" type="hidden" value="-1"/>
-                           </form>
+               <input name="fsname" type="hidden" value="First Session"/>
+               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+               <input name="questionid" type="hidden" value="-1"/>
+            </form>
             <div class="display-icon pull-right">
                <span class="glyphicon glyphicon-chevron-down pull-right">
                </span>
@@ -1959,4 +1959,3 @@
          </div>
       </div>
    </div>
-

@@ -31,8 +31,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                      List<String> sectionNames) {
         this.index = tableIndex;
         this.courseTable = createCourseTable(
-                courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments,
-                sectionNames);
+                courseSummary.course, instructor, courseSummary.feedbackSessions, pendingComments);
     }
     
     public CourseTable getCourseTable() {
@@ -44,12 +43,11 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
     
     private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
-            List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount,
-            List<String> sectionNames) {
+            List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
         String courseId = course.id;
         return new CourseTable(course,
                                createCourseTableLinks(instructor, courseId, pendingCommentsCount),
-                               createSessionRows(feedbackSessions, instructor, courseId, sectionNames));
+                               createSessionRows(feedbackSessions, instructor, courseId));
     }
     
     private ElementTag createButton(String text, String className, String href, String tooltip) {
@@ -126,7 +124,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
     
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
-            InstructorAttributes instructor, String courseId, List<String> sectionNames) {
+            InstructorAttributes instructor, String courseId) {
         List<HomeFeedbackSessionRow> rows = new ArrayList<>();
         
         int statsToDisplayLeft = MAX_CLOSED_SESSION_STATS;
@@ -143,10 +141,12 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     sanitizeForHtml(session.feedbackSessionName),
                     getInstructorHoverMessageForFeedbackSession(session),
                     getInstructorStatusForFeedbackSession(session),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.startTime),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.endTime),
                     getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
                     isRecent,
                     getInstructorFeedbackSessionActions(
-                            session, false, instructor, sectionNames));
+                            session, false, instructor));
 
             rows.add(row);
         }

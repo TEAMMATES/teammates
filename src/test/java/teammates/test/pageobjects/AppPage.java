@@ -246,6 +246,14 @@ public abstract class AppPage {
     }
     
     /**
+     * Waits for text contained in the element to appear in the page, or timeout
+     */
+    public void waitForTextContainedInElementPresence(By by, String text) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
+    }
+    
+    /**
      * Switches to the new browser window just opened.
      */
     protected void switchToNewWindow() {
@@ -374,6 +382,17 @@ public abstract class AppPage {
         return changePageType(StudentCommentsPage.class);
     }
 
+    public LoginPage clickLoginAsStudentButton() {
+        WebElement loginButton = browser.driver.findElement(By.id("btnStudentLogin"));
+        loginButton.click();
+        waitForPageToLoad();
+        if (TestProperties.inst().isDevServer()) {
+            return changePageType(DevServerLoginPage.class);
+        } else {
+            return changePageType(GoogleLoginPage.class);
+        }
+    }
+
     /**
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      * @return 
@@ -388,6 +407,7 @@ public abstract class AppPage {
      */
     public static void logout(Browser currentBrowser){
         currentBrowser.driver.get(TestProperties.inst().TEAMMATES_URL + Const.ViewURIs.LOGOUT);
+        currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
         currentBrowser.isAdminLoggedIn = false;
     }
     
@@ -441,10 +461,13 @@ public abstract class AppPage {
     }
     
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
-        if (fileName.isEmpty()) return;
-        fileBoxElement.setFileDetector(new UselessFileDetector());
-        String newFilePath = new File(fileName).getAbsolutePath();
-        fileBoxElement.sendKeys(newFilePath);
+        if (fileName.isEmpty()) {
+            fileBoxElement.clear();
+        } else {
+            fileBoxElement.setFileDetector(new UselessFileDetector());
+            String newFilePath = new File(fileName).getAbsolutePath();
+            fileBoxElement.sendKeys(newFilePath);
+        }
     }
 
     protected String getTextBoxValue(WebElement textBox) {
@@ -747,6 +770,7 @@ public abstract class AppPage {
         String actual = getPageSource(by);
         try {
             String expected = FileHelper.readFile(filePath);
+            expected = injectTestProperties(expected);
             if (isAfterAjaxLoad) {
                 int maxRetryCount = 5;
                 int waitDuration = 1000;
@@ -777,9 +801,21 @@ public abstract class AppPage {
         waitForAjaxLoaderGifToDisappear();
         String actual = by == null ? getPageSource()
                                    : browser.driver.findElement(by).getAttribute("outerHTML");
-        return processPageSourceForGodMode(actual);
+        return processPageSourceForHtmlComparison(actual);
     }
 
+    private static String injectTestProperties(String htmlString) {
+        return htmlString.replace("${app.url}", Config.APP_URL)
+                         .replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+                         .replace("${version}", TestProperties.inst().TEAMMATES_VERSION)
+                         .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                         .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+                         .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                         .replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT)
+                         .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT)
+                         .replace("${support.email}", Config.SUPPORT_EMAIL);
+    }
+    
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
         if (content != null && !content.isEmpty() && 
                 System.getProperty("godmode") != null && 
@@ -787,7 +823,7 @@ public abstract class AppPage {
             TestProperties.inst().verifyReadyForGodMode();
             try {
                 String processedPageSource = HtmlHelper.convertToStandardHtml(content, isPart);
-                processedPageSource = processPageSourceForGodMode(processedPageSource);
+                processedPageSource = processPageSourceForExpectedHtmlRegeneration(processedPageSource);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -798,24 +834,35 @@ public abstract class AppPage {
         }
     }
     
-    public static String processPageSourceForFailureCase(String content) {
-        return processPageSourceForGodMode(content);
+    private static String processPageSourceForHtmlComparison(String content) {
+        return replaceUnpredictableValuesWithPlaceholders(
+                                        suppressVariationsInInjectedValues(content));
     }
-    
-    
-    private static String processPageSourceForGodMode(String content) {
+
+    private static String suppressVariationsInInjectedValues(String content) {
+        return content // this replaces dev server admin absolute URLs (/_ah/...) with their relative counterparts
+                      .replace("\"" + TestProperties.inst().TEAMMATES_URL + "/_ah", "\"/_ah")
+                      // this replaces all printed version of TEAMMATES tested with the current version
+                      .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
+                      // this replaces truncated long accounts with their original counterpart
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT),
+                               TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT),
+                               TestProperties.inst().TEST_STUDENT2_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT),
+                               TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT),
+                               TestProperties.inst().TEST_ADMIN_ACCOUNT)
+                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT),
+                               TestProperties.inst().TEST_UNREG_ACCOUNT);
+    }
+
+    private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
-        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
+        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(now), TimeHelper.formatTime12H(now));
         return content
-                .replaceAll("<#comment[ ]*</#comment>", "<!---->")
-                .replace(Config.APP_URL, "${app.url}")
-                .replace(TestProperties.inst().TEAMMATES_URL, "${test.url}")
-                .replace(TestProperties.inst().TEAMMATES_URL.replace("http", "https"), "${test.url}")
-                // this is to handle dev server case where url is relative
-                .replace("\"/_ah", "\"${test.url}/_ah")
                 // this handles the logout url that google generates
-                .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue={*}\"")
-                .replaceAll("V[0-9]+(\\.[0-9]+)+", "V\\${version}")
+                .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue=\\${continue\\.url}\"")
                 // photo from instructor
                 .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
                         + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
@@ -825,6 +872,11 @@ public abstract class AppPage {
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "=\\${course\\.id\\.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}")
+                //blob-key in student profile page
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.BLOB_KEY+"=([a-zA-Z0-9-_:]){10,}", 
+                            Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.BLOB_KEY+ "=\\${blobkey}")
+                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.BLOB_KEY+"\" ?|id=\"blobKey\" ?|value=\"([a-zA-Z0-9-_:]){10,}\" ?){4}",
+                            "id=\"blobKey\" name=\""+Const.ParamsNames.BLOB_KEY+"\" type=\"hidden\" value=\"\\${blobkey}\"")
                 //regkey in urls
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){10,}", Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){10,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
@@ -844,34 +896,19 @@ public abstract class AppPage {
                 .replaceAll("commentBar-[0-9]{16}", "commentBar-\\${comment\\.id}")
                 .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-\\${comment\\.id}")
                 .replaceAll("commentdelete-[0-9]{16}", "commentdelete-\\${comment\\.id}")
-                // tooltip style
-                .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
-                            "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#\\${comment\\.id}")
-                // the test accounts/ email
-                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT), "${test.student1}")
-                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT), "${test.student2}")
-                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT), "${test.instructor}")
-                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT), "${test.admin}")
-                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
-                .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT), "${test.unreg}")
-                .replace(Config.SUPPORT_EMAIL, "${support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
                 .replace(TimeHelper.formatDate(now), "${today}")
                 // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
-                // now (used in opening time/closing time Grace period)
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "\\${grace\\.period\\.date}")
+                // now (date, time)
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M", "\\${datetime\\.now}")
                 // dynamic feedback submission numbers
                 .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
                 // admin footer, test institute section
-                .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "{*}")
+                .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "\\${admin\\.institute}")
                 // jQuery local
                 .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
                 // jQuery CDN
@@ -879,7 +916,29 @@ public abstract class AppPage {
                 // jQuery-ui local
                 .replace("/js/lib/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
                 // jQuery-ui CDN
-                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js");
+                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
+                // top HTML tag with xmlns defined
+                // TODO check if this is necessary
+                .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
+                // noscript is to be cleared
+                // TODO check if wildcarding this is better; better yet, check if not removing at all works
+                .replaceFirst("(?s)<noscript>.*</noscript>", "");
+    }
+    
+    private static String processPageSourceForExpectedHtmlRegeneration(String content) {
+        return replaceInjectedValuesWithPlaceholders(content);
+    }
+
+    private static String replaceInjectedValuesWithPlaceholders(String content) {
+        return content.replace(Config.APP_URL, "${app.url}")
+                      .replace(Config.STUDENT_MOTD_URL, "${studentmotd.url}")
+                      .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
+                      .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
+                      .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
+                      .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
+                      .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
 
     /**

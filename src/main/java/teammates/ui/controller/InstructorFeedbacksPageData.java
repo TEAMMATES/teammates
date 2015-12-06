@@ -57,7 +57,7 @@ public class InstructorFeedbacksPageData extends PageData {
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
                      Map<String, InstructorAttributes> instructors,
                      FeedbackSessionAttributes defaultFormValues, String feedbackSessionType, 
-                     String highlightedFeedbackSession, Map<String, List<String>> courseIdToSectionNameMap) {
+                     String highlightedFeedbackSession) {
 
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
         
@@ -67,30 +67,27 @@ public class InstructorFeedbacksPageData extends PageData {
         
         
         buildFsList(courseIdForNewSession, existingFeedbackSessions, 
-                    instructors, highlightedFeedbackSession,
-                    courseIdToSectionNameMap);
+                    instructors, highlightedFeedbackSession);
         
         
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
-                           defaultFormValues, highlightedFeedbackSession,
-                           courseIdToSectionNameMap);
+                           defaultFormValues, highlightedFeedbackSession);
     }
     
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession, 
                                           List<FeedbackSessionAttributes> existingFeedbackSessions,
                                           Map<String, InstructorAttributes> instructors,
-                                          FeedbackSessionAttributes defaultFormValues, String feedbackSessionType, 
-                                          Map<String, List<String>> courseIdToSectionNameMap) {
+                                          FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
 
-        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null, courseIdToSectionNameMap);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null);
     }
     
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession, 
                                              List<FeedbackSessionAttributes> existingFeedbackSessions,
                                              Map<String, InstructorAttributes> instructors,
-                                             String highlightedFeedbackSession, Map<String, List<String>> courseIdToSectionNameMap) {
+                                             String highlightedFeedbackSession) {
 
-         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession, courseIdToSectionNameMap);
+         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
     }
     
     
@@ -100,8 +97,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
                                     Map<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession,
-                                    String feedbackSessionNameForSessionList,
-                                    Map<String, List<String>> courseIdToSectionNameMap) {
+                                    String feedbackSessionNameForSessionList) {
         List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes existingFeedbackSession : existingFeedbackSessions) {
             if (instructors.get(existingFeedbackSession.courseId)
@@ -115,7 +111,7 @@ public class InstructorFeedbacksPageData extends PageData {
         List<FeedbackSessionsTableRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                         filteredFeedbackSessions,
                                                                         instructors, feedbackSessionNameForSessionList,
-                                                                        courseIdForNewSession, courseIdToSectionNameMap);
+                                                                        courseIdForNewSession);
         
         String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
@@ -125,13 +121,11 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     private void buildFsList(String courseIdToHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
-                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameToHighlight, 
-                             Map<String, List<String>> courseIdToSectionNameMap) {
+                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameToHighlight) {
         
         List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                              existingFeedbackSessions, instructors, 
-                                                                             feedbackSessionNameToHighlight, courseIdToHighlight,
-                                                                             courseIdToSectionNameMap);
+                                                                             feedbackSessionNameToHighlight, courseIdToHighlight);
         fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow, 
                                            feedbackSessionNameToHighlight, 
                                            courseIdToHighlight);
@@ -182,8 +176,7 @@ public class InstructorFeedbacksPageData extends PageData {
     private List<FeedbackSessionsTableRow> convertFeedbackSessionAttributesToSessionRows(
                                                  List<FeedbackSessionAttributes> sessions, 
                                                  Map<String, InstructorAttributes> instructors, 
-                                         String feedbackSessionNameForSessionList, String courseIdForNewSession,
-                                         Map<String, List<String>> courseIdToSectionNameMap) {
+                                         String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         
         List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();
@@ -206,8 +199,7 @@ public class InstructorFeedbacksPageData extends PageData {
             }
             
             InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, false,
-                                                                                           instructors.get(courseId),
-                                                                                 courseIdToSectionNameMap.get(courseId));
+                                                                                           instructors.get(courseId));
             
             ElementTag elementAttributes ;
             if (session.courseId.equals(courseIdForNewSession) && session.feedbackSessionName.equals(feedbackSessionNameForSessionList)) {

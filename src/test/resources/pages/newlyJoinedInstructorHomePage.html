@@ -5,35 +5,35 @@
          Instructor Home
       </h1>
       <br/>
-            <div class="well well-plain">
+      <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
                <form action="/page/instructorSearchPage?user=${test.instructor}" method="get" name="search_form">
                   <div class="input-group">
                      <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text"/>
-                                          <span class="input-group-btn">
+                     <span class="input-group-btn">
                         <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
                            Search
                         </button>
                      </span>
                   </div>
                   <input name="searchstudents" type="hidden" value="true"/>
-                                    <input name="searchcommentforstudents" type="hidden" value="false"/>
-                                    <input name="searchcommentforresponses" type="hidden" value="false"/>
-                                    <input name="user" type="hidden" value="${test.instructor}"/>
-                                 </form>
+                  <input name="searchcommentforstudents" type="hidden" value="false"/>
+                  <input name="searchcommentforresponses" type="hidden" value="false"/>
+                  <input name="user" type="hidden" value="${test.instructor}"/>
+               </form>
             </div>
          </div>
       </div>
       <br/>
-            <div class="alert alert-info" id="statusMessage">
+      <div class="alert alert-info" id="statusMessage">
          New to TEAMMATES? You may wish to have a look at our
          <a href="/instructorHelp.html#gs" target="_blank">
             Getting Started Guide
          </a>
          .
          <br/>
-                  A video tour is also available in our
+         A video tour is also available in our
          <a href="/index.html" target="_blank">
             home page
          </a>
@@ -65,8 +65,8 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" type="submit" value="Remind"/>
-                                          <input name="user" type="hidden" value="${test.instructor}"/>
-                                       </div>
+                     <input name="user" type="hidden" value="${test.instructor}"/>
+                  </div>
                </form>
             </div>
          </div>
@@ -86,21 +86,21 @@
             <div class="btn-group pull-right" data-toggle="buttons">
                <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
                   <input type="radio"/>
-                                    Course ID
+                  Course ID
                </label>
                <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
                   <input name="sortby" type="radio" value="name"/>
-                                    Course Name
+                  Course Name
                </label>
                <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
                   <input type="radio"/>
-                                    Creation Date
+                  Creation Date
                </label>
             </div>
          </div>
       </div>
       <br/>
-            <div class="panel panel-primary" id="course-0">
+      <div class="panel panel-primary" id="course-0">
          <div class="panel-heading">
             <div class="row">
                <div class="col-md-6">
@@ -135,8 +135,18 @@
          <table class="table-responsive table table-striped table-bordered">
             <thead>
                <tr>
-                  <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,1);">
+                  <th class="button_sortname button-sort-none" onclick="toggleSort(this,1);">
                      Session Name
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,2,instructorHomeDateComparator);">
+                     Start Date
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,3,instructorHomeDateComparator);">
+                     End Date
                      <span class="icon-sort unsorted">
                      </span>
                   </th>
@@ -157,6 +167,12 @@
                <tr id="session0">
                   <td>
                      Second team feedback session
+                  </td>
+                  <td>
+                     1 Apr 11:59 PM
+                  </td>
+                  <td>
+                     2 Apr 11:59 PM
                   </td>
                   <td>
                      <span data-original-title="The feedback session has been created, is visible, and is open for submissions.<br />The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
@@ -217,6 +233,12 @@
                      First team feedback session
                   </td>
                   <td>
+                     1 Apr 11:59 PM
+                  </td>
+                  <td>
+                     2 Apr 11:59 PM
+                  </td>
+                  <td>
                      <span data-original-title="The feedback session has been created, is visible, and has ended.<br />The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
                         Published
                      </span>
@@ -275,6 +297,12 @@
                <tr id="session2">
                   <td>
                      Session with different question types
+                  </td>
+                  <td>
+                     1 Apr 11:59 PM
+                  </td>
+                  <td>
+                     2 Apr 11:59 PM
                   </td>
                   <td>
                      <span data-original-title="The feedback session has been created, is visible, and has ended.<br />The responses for this session are visible." data-placement="top" data-toggle="tooltip" title="">
@@ -346,7 +374,7 @@
                      <h4 class="modal-title">
                         Copy this feedback session to other courses
                         <br/>
-                                                <small>
+                        <small>
                            (Select the course(s) you want to copy this feedback session to)
                         </small>
                      </h4>
@@ -360,11 +388,10 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                                          <input name="user" type="hidden" value="${test.instructor}"/>
-                                       </div>
+                     <input name="user" type="hidden" value="${test.instructor}"/>
+                  </div>
                </form>
             </div>
          </div>
       </div>
    </div>
-

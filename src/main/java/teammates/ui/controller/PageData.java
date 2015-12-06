@@ -109,7 +109,7 @@ public class PageData {
     }
     
     public static String displayDateTime (Date date) {
-        return TimeHelper.formatTime(date);
+        return TimeHelper.formatTime12H(date);
     }
     
     public String addUserIdToUrl(String link) {
@@ -751,9 +751,8 @@ public class PageData {
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
                                                                                 boolean isHome,
-                                                                                InstructorAttributes instructor,
-                                                                                List<String> sectionsInCourse) {
-        return new InstructorFeedbackSessionActions(this, session, isHome, instructor, sectionsInCourse);
+                                                                                InstructorAttributes instructor) {
+        return new InstructorFeedbackSessionActions(this, session, isHome, instructor);
     }
 
     /**

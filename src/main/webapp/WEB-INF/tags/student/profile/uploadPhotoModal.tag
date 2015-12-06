@@ -27,17 +27,21 @@
                     <div class="col-xs-4 profile-pic-edit-col">
                         <div class="center-block align-center">
                             <form id="profilePictureUploadForm" method="post"> 
-                                <input id="studentPhoto"
-                                       class="inline"
-                                       type="file"
-                                       name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
-                                <p class="help-block">
+                                <span class="btn btn-primary profile-pic-file-selector">
+                                    Browse...
+                                    <input id="studentPhoto"
+                                           type="file"
+                                           name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
+                                </span>
+                                <input type="text" class="filename-preview" value="No File Selected" disabled="disabled" />
+                                <p class="help-block align-left">
                                     Max Size: 5 MB
                                 </p>
                                 <button type="button"
                                         id="profileUploadPictureSubmit"
-                                        class="btn btn-primary center-block"
-                                        onclick="finaliseUploadPictureForm()">
+                                        class="btn btn-primary width-100-pc"
+                                        onclick="finaliseUploadPictureForm()"
+                                        disabled="disabled">
                                     Upload Picture
                                 </button>
                                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
@@ -53,20 +57,41 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="profile-pic-edit">
-                                    <div class="profile-pic-edit-container">
-                                        <img id="editableProfilePicture" src="${modal.pictureUrl}">
+                                    <div class="alert alert-info">
+                                        Zoom, pan and rotate to crop your image to the desired area.
                                     </div>
+                                    <button id="profilePicEditPanUp" type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-arrow-up"></span>
+                                    </button>
+                                    <div class="profile-pic-edit-container row">
+                                        <div class="col-xs-2">
+                                            <button id="profilePicEditPanLeft" type="button" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-arrow-left"></span>
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <img id="editableProfilePicture" src="${modal.pictureUrl}">
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <button id="profilePicEditPanRight" type="button" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button id="profilePicEditPanDown" type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </button>
                                     <div class="profile-pic-edit-toolbar">
-                                        <button id="profilePicEditRotateLeft" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditRotateLeft" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-repeat glyphicon-flipped"></span>
                                         </button>
-                                        <button id="profilePicEditZoomIn" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditZoomIn" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-zoom-in"></span>
                                         </button>
-                                        <button id="profilePicEditZoomOut" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditZoomOut" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-zoom-out"></span>
                                         </button>
-                                        <button id="profilePicEditRotateRight" type="button" class="btn btn-inverse">
+                                        <button id="profilePicEditRotateRight" type="button" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-repeat"></span>
                                         </button>
                                     </div>

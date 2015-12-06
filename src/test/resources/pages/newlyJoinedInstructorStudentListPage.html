@@ -5,7 +5,7 @@
          Student List
       </h1>
       <br/>
-            <div class="well well-plain">
+      <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
                <form action="/page/instructorSearchPage?user=${test.instructor}" method="get" name="search_form">
@@ -13,7 +13,7 @@
                      <div class="col-md-10">
                         <div class="form-group">
                            <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz" title="" type="text" value=""/>
-                                                   </div>
+                        </div>
                      </div>
                      <div class="col-md-2 nav">
                         <div class="form-group">
@@ -26,15 +26,15 @@
                      </div>
                   </div>
                   <input name="searchstudents" type="hidden" value="true"/>
-                                    <input name="searchcommentforstudents" type="hidden" value="false"/>
-                                    <input name="searchcommentforresponses" type="hidden" value="false"/>
-                                    <input name="user" type="hidden" value="${test.instructor}"/>
-                                 </form>
+                  <input name="searchcommentforstudents" type="hidden" value="false"/>
+                  <input name="searchcommentforresponses" type="hidden" value="false"/>
+                  <input name="user" type="hidden" value="${test.instructor}"/>
+               </form>
             </div>
          </div>
       </div>
       <br/>
-            <h2>
+      <h2>
          Filter Students
       </h2>
       <div class="well well-plain" id="moreOptionsDiv">
@@ -42,7 +42,7 @@
             <div class="col-md-3">
                <div class="checkbox">
                   <input id="displayArchivedCourses_check" type="checkbox"/>
-                                    <label for="displayArchivedCourses_check">
+                  <label for="displayArchivedCourses_check">
                      Display Archived Courses
                   </label>
                </div>
@@ -57,18 +57,18 @@
                      </strong>
                   </div>
                   <br/>
-                                    <div class="checkbox">
+                  <div class="checkbox">
                      <input id="course_all" type="checkbox" value=""/>
-                                          <label for="course_all">
+                     <label for="course_all">
                         <strong>
                            Select all
                         </strong>
                      </label>
                   </div>
                   <br/>
-                                    <div class="checkbox">
+                  <div class="checkbox">
                      <input id="course_check-0" type="checkbox"/>
-                                          <label for="course_check-0">
+                     <label for="course_check-0">
                         [AHPUiT.instr1.gma-demo] : Sample Course 101
                      </label>
                   </div>
@@ -80,16 +80,16 @@
                      </strong>
                   </div>
                   <br/>
-                                    <div class="checkbox" style="display:none;">
+                  <div class="checkbox" style="display:none;">
                      <input id="section_all" type="checkbox" value=""/>
-                                          <label for="section_all">
+                     <label for="section_all">
                         <strong>
                            Select all
                         </strong>
                      </label>
                   </div>
                   <br/>
-                                    <div id="sectionChoices">
+                  <div id="sectionChoices">
                   </div>
                </div>
                <div class="col-sm-3">
@@ -99,16 +99,16 @@
                      </strong>
                   </div>
                   <br/>
-                                    <div class="checkbox" style="display:none;">
+                  <div class="checkbox" style="display:none;">
                      <input id="team_all" type="checkbox"/>
-                                          <label for="team_all">
+                     <label for="team_all">
                         <strong>
                            Select All
                         </strong>
                      </label>
                   </div>
                   <br/>
-                                    <div id="teamChoices">
+                  <div id="teamChoices">
                   </div>
                </div>
                <div class="col-sm-3">
@@ -118,16 +118,16 @@
                      </strong>
                   </div>
                   <br/>
-                                    <div class="checkbox" style="display:none;">
+                  <div class="checkbox" style="display:none;">
                      <input checked="checked" id="show_email" type="checkbox"/>
-                                          <label for="show_email">
+                     <label for="show_email">
                         <strong>
                            Show Emails
                         </strong>
                      </label>
                   </div>
                   <br/>
-                                    <div id="emails">
+                  <div id="emails">
                   </div>
                </div>
             </div>
@@ -136,17 +136,17 @@
       <div id="statusMessage" style="display: none;">
       </div>
       <br/>
-            <div class="text-muted">
+      <div class="text-muted">
          Click on the panels below to expand
       </div>
       <br/>
-            <div class="panel panel-info">
+      <div class="panel panel-info">
          <div class="panel-heading ajax_submit" data-target="#panelBodyCollapse-0" id="panelHeading-0" style="cursor: pointer;">
             <form action="/page/instructorStudentListAjaxPage" class="seeMoreForm-0" id="seeMore-0" style="display:none;">
                <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
-                              <input name="user" type="hidden" value="${test.instructor}"/>
-                              <input id="numStudents-0" type="hidden" value="0"/>
-                           </form>
+               <input name="user" type="hidden" value="${test.instructor}"/>
+               <input id="numStudents-0" type="hidden" value="0"/>
+            </form>
             <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&user=${test.instructor}" id="enroll-0" title="">
                <span class="glyphicon glyphicon-list">
                </span>
@@ -165,4 +165,3 @@
          </div>
       </div>
    </div>
-

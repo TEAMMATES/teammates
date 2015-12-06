@@ -48,7 +48,6 @@ public class InstructorFeedbacksPageAction extends Action {
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         
         List<FeedbackSessionAttributes> existingFeedbackSessions;
-        Map<String, List<String>> courseIdToSectionName = null;
         if (courses.isEmpty() || !data.isUsingAjax()) {
             existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
@@ -56,7 +55,6 @@ public class InstructorFeedbacksPageAction extends Action {
             if (existingFeedbackSessions.isEmpty()) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, StatusMessageColor.WARNING));
             }
-            courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);
         }
         
         if (courses.isEmpty()) {
@@ -68,7 +66,7 @@ public class InstructorFeedbacksPageAction extends Action {
         
         
         data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
-                                        instructors, feedbackSessionToHighlight, courseIdToSectionName);
+                                        instructors, feedbackSessionToHighlight);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }

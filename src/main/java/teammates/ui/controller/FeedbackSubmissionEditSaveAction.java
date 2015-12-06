@@ -44,6 +44,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
+        String userTeamForCourse = getUserTeamForCourse();
         String userSectionForCourse = getUserSectionForCourse();
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);        
@@ -119,7 +120,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     // deletes the response since answer is empty
                     saveResponse(response);
                 } else {
-                    response.giverEmail = userEmailForCourse;
+                    response.giverEmail = questionAttributes.giverType.isTeam() ? userTeamForCourse
+                                                                                : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }
@@ -330,6 +332,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected abstract void verifyAccesibleForSpecificUser();
 
     protected abstract String getUserEmailForCourse();
+    
+    protected abstract String getUserTeamForCourse();
     
     protected abstract String getUserSectionForCourse();
 

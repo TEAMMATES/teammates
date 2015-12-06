@@ -423,6 +423,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
+        },
+        "contribSession2":{
+            "feedbackSessionName":"CONTRIB Session 2",
+            "courseId":"FSQTT.idOfTypicalCourse2",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please answer the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
         }
     },
     "feedbackQuestions":{
@@ -752,6 +770,28 @@
                 "INSTRUCTORS"
             ],
             "showRecipientNameTo":[
+            ]
+        },
+        "qn1InContribSession2InCourse2":{
+            "feedbackSessionName":"CONTRIB Session 2",
+            "courseId":"FSQTT.idOfTypicalCourse2",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
+            },
+            "questionNumber":"1",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
             ]
         },
         "qn1InSession1InCourse2":{
@@ -1266,6 +1306,17 @@
             },
             "giverSection":"Section 2",
             "recipientSection":"Section 2"
+        },
+        "response1ForQ1ContribSession2Course2":{
+            "feedbackSessionName":"CONTRIB Session 2",
+            "courseId":"FSQTT.idOfTypicalCourse2",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student2InCourse1@gmail.tmt",
+            "recipientEmail":"student2InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
+            }
         }
     }
 }

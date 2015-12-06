@@ -68,6 +68,18 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id = "profilePicEditRotateRight")
     protected WebElement editPictureRotateRight;
 
+    @FindBy(id = "profilePicEditPanUp")
+    protected WebElement editPicturePanUp;
+
+    @FindBy(id = "profilePicEditPanLeft")
+    protected WebElement editPicturePanLeft;
+
+    @FindBy(id = "profilePicEditPanRight")
+    protected WebElement editPicturePanRight;
+
+    @FindBy(id = "profilePicEditPanDown")
+    protected WebElement editPicturePanDown;
+
     public StudentProfilePage(Browser browser) {
         super(browser);
     }
@@ -181,6 +193,14 @@ public class StudentProfilePage extends AppPage {
         editPictureRotateLeft.click();
         editPictureRotateRight.click();
 
+        editPicturePanDown.click();
+        editPicturePanUp.click();
+        editPicturePanDown.click();
+
+        editPicturePanLeft.click();
+        editPicturePanRight.click();
+        editPicturePanLeft.click();
+
         editPictureSubmit.click();
     }
 
@@ -189,6 +209,11 @@ public class StudentProfilePage extends AppPage {
                                                            .getAttribute("value"));
         assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))
                                                           .getAttribute("value"));
+    }
+
+    public void verifyUploadButtonState(boolean expectedState) {
+        assertEquals(expectedState, uploadPictureSubmit.isEnabled());
+        
     }
 
 }

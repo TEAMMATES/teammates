@@ -154,11 +154,9 @@ public class TestProperties {
                             + "test.properties in order to use God mode, e.g change alice.tmms to "
                             + "alice.tmms.<yourName>, charlie.tmms to charlie.tmms.<yourName>, etc.");
         }
-        if (!areAppUrlsDifferent()) {
-            Assumption.fail("App URLs defined in test.properties and build.properties must be different, "
-                            + "and neither one can be a substring of the other, e.g localhost:8888 as "
-                            + "the URL in test.properties, and localhost:88889 as the URL in build.properties, "
-                            + "or vice versa, is not an acceptable combination.");
+        if (isStudentMotdUrlEmpty()) {
+            Assumption.fail("Student MOTD URL defined in app.student.motd.url in build.properties "
+                            + "must not be empty. It is advised to use test-student-motd.html to test it.");
         }
     }
 
@@ -177,8 +175,8 @@ public class TestProperties {
         }
     }
 
-    private boolean areAppUrlsDifferent() {
-        return !Config.APP_URL.contains(inst().TEAMMATES_URL) && !inst().TEAMMATES_URL.contains(Config.APP_URL);
+    private boolean isStudentMotdUrlEmpty() {
+        return Config.STUDENT_MOTD_URL.isEmpty();
     }
-
+    
 }

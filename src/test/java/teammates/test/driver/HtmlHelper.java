@@ -4,12 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import org.cyberneko.html.parsers.DOMParser;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -17,9 +14,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
-import teammates.test.pageobjects.AppPage;
 
 public class HtmlHelper {
+    
+    private static final String INDENTATION_STEP = "   ";
 
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores
@@ -53,8 +51,6 @@ public class HtmlHelper {
 
         if (!AssertHelper.isContainsRegex(processedExpected, processedActual)) {
             if (isDifferenceToBeShown) {
-                processedActual = AppPage.processPageSourceForFailureCase(processedActual);
-                processedExpected = AppPage.processPageSourceForFailureCase(processedExpected);
                 assertEquals("<expected>\n" + processedExpected + "</expected>",
                              "<actual>\n" + processedActual + "</actual>");
             }
@@ -67,189 +63,122 @@ public class HtmlHelper {
      * Transform the HTML text to follow a standard format. 
      * Element attributes are reordered in alphabetical order.
      * Spacing and line breaks are standardized too.
+     * @param rawHtml the raw HTML string to be converted
+     * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
+     *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
+     * @return converted HTML string
      */
-    public static String convertToStandardHtml(String rawHtml, boolean isHtmlPartPassedIn) {
-        String preProcessedHtml = preProcessHtml(rawHtml);
-        
-        return convertRawHtmlString(preProcessedHtml, isHtmlPartPassedIn);
-    }
-    
-    private static String convertRawHtmlString(String preProcessedHtml, boolean isHtmlPartPassedIn) {
+    public static String convertToStandardHtml(String rawHtml, boolean isPart) {
         try {
-            Node currentNode = getNodeFromString(preProcessedHtml);
-            StringBuilder currentHtml = new StringBuilder();
-            String initialIndentation = "";
-            convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
-            return currentHtml.toString()
-                    .replace("%20", " ")
-                    .replace("%27", "'")
-                    .replace("<#document", "")
-                    .replace("   <html   </html>", "")
-                    .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
+            Node currentNode = getNodeFromString(rawHtml);
+            String initialIndentation = INDENTATION_STEP; // TODO start from zero indentation
+            return convertToStandardHtmlRecursively(currentNode, initialIndentation, isPart);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    /**
-     * Modifies the HTML to deal with wild cards (e.g., "{*}") and some other
-     * inconsistencies in the HTML code produced by the DOM parser and the Browsers.
-     */
-    private static String preProcessHtml(String htmlString){
-        htmlString = replaceInRawHtmlString(htmlString);
-
-        if (!htmlString.contains("<!DOCTYPE")){
-            htmlString = "<!DOCTYPE html>\n" + htmlString;
-        }
-        return htmlString;
-    }
-
-    private static String replaceInRawHtmlString(String htmlString) {
-        htmlString = htmlString.replace("${version}", TestProperties.inst().TEAMMATES_VERSION);
-        htmlString = htmlString.replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT);
-        htmlString = htmlString.replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
-        htmlString = htmlString.replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        htmlString = htmlString.replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
-        htmlString = htmlString.replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
-        htmlString = htmlString.replace("${support.email}", Config.SUPPORT_EMAIL);
-        htmlString = htmlString.replace("${app.url}", Config.APP_URL);
-        htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
-        htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
-        htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
-        return htmlString;
-    }
-
-    
     private static Node getNodeFromString(String string) throws SAXException, IOException {
         DOMParser parser = new DOMParser();
         parser.parse(new InputSource(new StringReader(string)));
         return parser.getDocument();
     }
 
-    public static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
-        StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
+    private static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
+                                                           boolean isPart) {
         
-        if(currentNode.getNodeType() == Node.TEXT_NODE){
-            String text = currentNode.getNodeValue();
-            if(!text.trim().isEmpty()){
-                currentHtmlText.append(indentation + text.trim() + "\n");
-            }
-            return;
-        } else if(isToolTip(currentNode)){
-            String tooltip = currentNode.getTextContent();
-            if(!tooltip.trim().isEmpty()){
-                //ignore tool tip
-            }
-            return;
-        } else if (isMotdComponent(currentNode)) {
-            return;
+        if (currentNode.getNodeType() == Node.TEXT_NODE) {
+            String text = currentNode.getNodeValue().trim();
+            return text.isEmpty() ? "" : indentation + text + "\n";
+        } else if (isToolTip(currentNode)
+                   || isPopOver(currentNode)
+                   || (Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapper(currentNode))) {
+            return "";
+        } else if (isMotdContainer(currentNode)) {
+            return indentation + "${studentmotd.container}\n";
         }
 
-        //Add the start of opening tag
+        StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
-        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isHtmlPartPassedIn, currentNodeName);
+        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isPart, currentNode);
 
         if (shouldIncludeCurrentNode) {
-            currentHtmlText.append(indentation + "<" + currentNodeName);
-            
-            //Add the attributes of the tag
-            NamedNodeMap actualAttributeList = currentNode.getAttributes();
-            if(actualAttributeList!=null){
-                
-                List<Node> nodesList = getAttributesAsNodeList(actualAttributeList);
-                sortAttributes(nodesList);
-                
-                for (int i = 0; i < actualAttributeList.getLength(); i++){
-                    Node actualAttribute = actualAttributeList.item(i);
-                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue().replace("\"", "'") + "\"");
-                }
-                //close the tag
-                currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");
-            }
+            String nodeOpeningTag = indentation + getNodeOpeningTag(currentNode);
+            currentHtmlText.append(nodeOpeningTag);
+        }
+        if (isVoidElement(currentNodeName)) {
+            return currentHtmlText.toString();
         }
         
-        // Recursively add contents of the child nodes 
-        NodeList actualChildNodes = currentNode.getChildNodes();
-        int numberOfChildNodes = actualChildNodes.getLength();
-        for (int i = 0; i < numberOfChildNodes; i++){
-            if (shouldIncludeCurrentNode) {
-                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation + "   ", currentHtmlText, isHtmlPartPassedIn);
-            } else {
-                convertToStandardHtmlRecursively(actualChildNodes.item(i), indentation, currentHtmlText, isHtmlPartPassedIn);
-            }
-        }
+        String nodeContent = getNodeContent(currentNode,
+                                            indentation + (shouldIncludeCurrentNode ? INDENTATION_STEP : ""),
+                                            isPart);
+        currentHtmlText.append(nodeContent);
         
         if (shouldIncludeCurrentNode) {
-            if (currentNode.getNodeType() != Node.TEXT_NODE){
-                currentHtmlText.append(indentation + getEndTag(currentNode));
-            }
+            String nodeClosingTag = indentation + getNodeClosingTag(currentNodeName);
+            currentHtmlText.append(nodeClosingTag);
         }
-    
+        
+        return currentHtmlText.toString();
     }
 
-    private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, String currentNodeName) {
-        boolean shouldIncludeCurrentNode = !(isHtmlPartPassedIn && (currentNodeName.equals("html")
-                                                                         || currentNodeName.equals("head")
-                                                                         || currentNodeName.equals("body")
-                                                                         || currentNodeName.equals("#comment")));
-        return shouldIncludeCurrentNode;
+    /**
+     * Ignores all non-{@link Element} {@link Node}s which include <code>#comment</code>,
+     * <code>#document</code>, and <code>doctype</code>.<br>
+     * In addition, if <code>isPart</code> (i.e only partial HTML checking is done),
+     * ignores the top-level HTML tags, i.e <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>,
+     * and <code>&lt;body&gt;</code>
+     */
+    private static boolean shouldIncludeCurrentNode(boolean isPart, Node currentNode) {
+        if (currentNode.getNodeType() != Node.ELEMENT_NODE) {
+            return false;
+        } else {
+            String currentNodeName = currentNode.getNodeName().toLowerCase();
+            return !(isPart && (currentNodeName.equals("html")
+                                || currentNodeName.equals("head")
+                                || currentNodeName.equals("body")));
+        }
     }
 
+    /**
+     * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
+     */
     private static boolean isToolTip(Node currentNode) {
-        
-        if(!currentNode.getNodeName().equalsIgnoreCase("div")){
-            return false;
-        }
-        
-        NamedNodeMap attributes = currentNode.getAttributes();
-        
-        if(attributes == null){ 
-            return false;
-        }
-            
-        for (int i = 0; i < attributes.getLength(); i++) {
-            Node attribute = attributes.item(i);
-            if(attribute.getNodeName().equalsIgnoreCase("class")
-                    && attribute.getNodeValue().contains("tooltip")){
-                return true;
-            }
-        }
-        
-        return false;
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "class", "tooltip");
     }
     
-    private static boolean isMotdComponent(Node currentNode) {      
-        if (currentNode.getNodeName().equalsIgnoreCase("script")) {
+    /**
+     * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it)
+     */
+    private static boolean isPopOver(Node currentNode) {
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "class", "popover");
+    }
+    
+    /**
+     * Checks for Message of the Day (MOTD) wrapper (i.e a <code>div</code> with id
+     * <code>student-motd-wrapper</code>).
+     */
+    private static boolean isMotdWrapper(Node currentNode) {
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "id", "student-motd-wrapper");
+    }
+    
+    /**
+     * Checks for Message of the Day (MOTD) container (i.e a <code>div</code> with id
+     * <code>student-motd-container</code>).
+     */
+    private static boolean isMotdContainer(Node currentNode) {
+        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "id", "student-motd-container");
+    }
+    
+    private static boolean checkForNodeWithSpecificAttributeValue(Node currentNode, String nodeType,
+                                                                  String attrType, String attrValue) {
+        if (currentNode.getNodeName().equalsIgnoreCase(nodeType)) {
             NamedNodeMap attributes = currentNode.getAttributes();
-            
-            if (attributes != null) { 
-                for (int i = 0; i < attributes.getLength(); i++) {
-                    Node attribute = attributes.item(i);
-                    
-                    // script to include studentMotd.js
-                    if (attribute.getNodeName().equalsIgnoreCase("src")
-                          && attribute.getNodeValue().contains("studentMotd.js")) {
-                        return true;
-                    }
-                }
-            }
-                
-            // script with variable motdUrl
-            return currentNode.getTextContent().contains("motdUrl");
-            
-        } else if (currentNode.getNodeName().equalsIgnoreCase("div")) {
-            NamedNodeMap attributes = currentNode.getAttributes();
-            
-            if (attributes == null) { 
-                return false;
-            }
-                
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
-                
-                // Motd container
-                if (attribute.getNodeName().equalsIgnoreCase("id")
-                      && attribute.getNodeValue().contains("student-motd-container")) {
+                if (attribute.getNodeName().equalsIgnoreCase(attrType)
+                        && attribute.getNodeValue().contains(attrValue)) {
                     return true;
                 }
             }
@@ -258,29 +187,46 @@ public class HtmlHelper {
         return false;
     }
 
-    private static List<Node> getAttributesAsNodeList(NamedNodeMap actualAttributeList) {
-        List<Node> nodesList= new ArrayList<Node>();
-        for (int i = 0; i < actualAttributeList.getLength(); i++){
-            nodesList.add(actualAttributeList.item(i));
+    private static String getNodeOpeningTag(Node currentNode) {
+        StringBuilder openingTag = new StringBuilder();
+        // add the start of opening tag
+        openingTag.append("<" + currentNode.getNodeName().toLowerCase());
+        
+        // add the attributes of the tag (getAttributes() returns the attributes sorted alphabetically)
+        NamedNodeMap attributes = currentNode.getAttributes();
+        for (int i = 0; i < attributes.getLength(); i++) {
+            Node attribute = attributes.item(i);
+            openingTag.append(" " + attribute.getNodeName().toLowerCase() + "="
+                                  + "\"" + attribute.getNodeValue().replace("\"", "&quot;") + "\"");
         }
-        return nodesList;
+        
+        // close the tag
+        openingTag.append(getEndOfOpeningTag(currentNode) + "\n");
+        return openingTag.toString();
+    }
+    
+    private static String getNodeContent(Node currentNode, String indentation, boolean isPart) {
+        StringBuilder nodeContent = new StringBuilder();
+        NodeList childNodes = currentNode.getChildNodes();
+        // recursively add contents of the child nodes
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            String childNode = convertToStandardHtmlRecursively(childNodes.item(i), indentation, isPart);
+            nodeContent.append(childNode);
+        }
+        return nodeContent.toString();
+    }
+    
+    private static String getNodeClosingTag(String currentNodeName) {
+        return "</" + currentNodeName + ">\n";
     }
 
+    // TODO remove this method and use > for all cases, as defined in our style guide
     private static String getEndOfOpeningTag(Node node) {
         String tagName = node.getNodeName().toLowerCase();
         if(isVoidElement(tagName)){
             return "/>";
         }else {
             return ">";
-        }
-    }
-    
-    private static String getEndTag(Node node) {
-        String tagName = node.getNodeName().toLowerCase();
-        if(isVoidElement(tagName)){
-            return "";
-        }else {
-            return "</"+tagName+">\n";
         }
     }
     
@@ -301,15 +247,6 @@ public class HtmlHelper {
                 || elementName.equals("source")
                 || elementName.equals("track")
                 || elementName.equals("wbr");
-    }
-
-    private static void sortAttributes(List<Node> attributeList) {
-        Collections.sort(attributeList, new Comparator<Node>() {
-            public int compare(Node n1, Node n2) {
-                return n1.getNodeName().compareTo(n2.getNodeName());
-            }
-        });
-        
     }
 
 }

@@ -5,11 +5,11 @@
          Submit Feedback
       </h1>
       <br/>
-            <form action="/page/instructorEditStudentFeedbackSave" method="post" name="form_student_submit_response">
+      <form action="/page/instructorEditStudentFeedbackSave" method="post" name="form_student_submit_response">
          <input name="fsname" type="hidden" value="First feedback session"/>
-                  <input name="courseid" type="hidden" value="IESFPTCourse"/>
-                  <input name="user" type="hidden" value="IESFPTCourseinstr"/>
-                  <div class="alert alert-success" id="statusMessage">
+         <input name="courseid" type="hidden" value="IESFPTCourse"/>
+         <input name="user" type="hidden" value="IESFPTCourseinstr"/>
+         <div class="alert alert-success" id="statusMessage">
             All responses submitted succesfully!
          </div>
          <script src="/js/statusMessage.js" type="text/javascript">
@@ -44,7 +44,7 @@
                         </label>
                         <div class="col-sm-10">
                            <p class="form-control-static">
-                              Sun, 01 Apr 2012, 23:59
+                              Sun, 01 Apr 2012, 11:59 PM
                            </p>
                         </div>
                      </div>
@@ -54,7 +54,7 @@
                         </label>
                         <div class="col-sm-10">
                            <p class="form-control-static">
-                              Sun, 30 Apr 2017, 23:59
+                              Sun, 30 Apr 2017, 11:59 PM
                            </p>
                         </div>
                      </div>
@@ -73,20 +73,20 @@
             </div>
          </div>
          <br/>
-                  <div class="row">
+         <div class="row">
             <span class="help-block align-center">
                Some questions may be hidden due to visibility options
             </span>
          </div>
          <input name="questiontype-1" type="hidden" value="TEXT"/>
-                  <input name="questionid-1" type="hidden" value="${question.id}"/>
-                  <input name="questionresponsetotal-1" type="hidden" value="1"/>
-                  <div class="form-horizontal">
+         <input name="questionid-1" type="hidden" value="${question.id}"/>
+         <input name="questionresponsetotal-1" type="hidden" value="1"/>
+         <div class="form-horizontal">
             <div class="panel panel-primary">
                <div class="panel-heading">
                   Question 1:
                   <br/>
-                                    <span class="text-preserve-space">
+                  <span class="text-preserve-space">
                      What is the best selling point of your product?
                   </span>
                </div>
@@ -100,7 +100,7 @@
                      </li>
                   </ul>
                   <br/>
-                                    <div class="form-group margin-0">
+                  <div class="form-group margin-0">
                      <div class="col-sm-2 form-inline" style="display:none">
                         <label for="input">
                            To:
@@ -121,22 +121,22 @@
                            Good design
                         </textarea>
                         <input name="responseid-1-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt"/>
-                                             </div>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
          <br/>
-                  <br/>
-                  <input name="questiontype-2" type="hidden" value="NUMSCALE"/>
-                  <input name="questionid-2" type="hidden" value="${question.id}"/>
-                  <input name="questionresponsetotal-2" type="hidden" value="1"/>
-                  <div class="form-horizontal">
+         <br/>
+         <input name="questiontype-2" type="hidden" value="NUMSCALE"/>
+         <input name="questionid-2" type="hidden" value="${question.id}"/>
+         <input name="questionresponsetotal-2" type="hidden" value="1"/>
+         <div class="form-horizontal">
             <div class="panel panel-primary">
                <div class="panel-heading">
                   Question 2:
                   <br/>
-                                    <span class="text-preserve-space">
+                  <span class="text-preserve-space">
                      Rate your product.
                   </span>
                </div>
@@ -153,7 +153,7 @@
                      </li>
                   </ul>
                   <br/>
-                                    <div class="form-group margin-0">
+                  <div class="form-group margin-0">
                      <div class="col-sm-2 form-inline" style="display:none">
                         <label for="input">
                            To:
@@ -172,27 +172,26 @@
                      <div class="col-sm-12">
                         <div class="col-sm-3">
                            <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-2-0" onchange="validateNumScaleAnswer(2, 0)" step="0.5" type="number" value="4"/>
-                                                      <input name="numscalemin-2-0" type="hidden" value="1"/>
-                                                      <input name="numscalemax-2-0" type="hidden" value="5"/>
-                                                      <input name="numscalestep-2-0" type="hidden" value="0.5"/>
-                                                   </div>
+                           <input name="numscalemin-2-0" type="hidden" value="1"/>
+                           <input name="numscalemax-2-0" type="hidden" value="5"/>
+                           <input name="numscalestep-2-0" type="hidden" value="0.5"/>
+                        </div>
                         <div class="text-muted form-control-static">
                            [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
                         </div>
                         <input name="responseid-2-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt"/>
-                                             </div>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
          <br/>
-                  <br/>
-                  <div class="bold align-center">
-            <input name="moderatedstudent" type="hidden" value="student1InIESFPTCourse@gmail.tmt"/>
-                        <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback"/>
-                     </div>
          <br/>
-                  <br/>
-               </form>
+         <div class="bold align-center">
+            <input name="moderatedstudent" type="hidden" value="student1InIESFPTCourse@gmail.tmt"/>
+            <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback"/>
+         </div>
+         <br/>
+         <br/>
+      </form>
    </div>
-

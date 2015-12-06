@@ -55,7 +55,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             new HashMap<String, Map<String, TeamEvalResult>>();
     
     /* 
-     * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor 
+     * sectionTeamNameTable takes into account the section viewing privileges of the logged-in instructor
+     * and the selected section for viewing
      * whereas rosterSectionTeamNameTable doesn't. 
      * As a result, sectionTeamNameTable only contains sections viewable to the logged-in instructor 
      * whereas rosterSectionTeamNameTable contains all sections in the course.
@@ -106,9 +107,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         // We change user email to team name here for display purposes.
         for (FeedbackResponseAttributes response : responses) {
-            if (questions.get(response.feedbackQuestionId).giverType == FeedbackParticipantType.TEAMS) {
-                // for TEAMS giver type, the giverEmail is stored as the student giver's email in the database
-                // but we convert it to the team name for use in FeedbackSessionResultsBundle
+            if (questions.get(response.feedbackQuestionId).giverType == FeedbackParticipantType.TEAMS
+                && roster.isStudentInCourse(response.giverEmail)) {
+                // for TEAMS giver type, for older responses, 
+                // the giverEmail is stored as the student giver's email in the database
+                // so we convert it to the team name for use in FeedbackSessionResultsBundle
                 response.giverEmail = emailNameTable.get(response.giverEmail + Const.TEAM_OF_EMAIL_OWNER);
             }
             // Copy the data before hiding response recipient and giver.

@@ -11,6 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackPreviewAsInstructorAction;
 import teammates.ui.controller.ShowPageResult;
 
@@ -57,7 +58,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         
         assertEquals("", showPageResult.getStatusMessage());
         
-        assertEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsInstructor|||instructorFeedbackPreviewAsInstructor" +
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsInstructor|||instructorFeedbackPreviewAsInstructor" +
                      "|||true|||Instructor|||Instructor 1 of Course 1" +
                      "|||" + idOfInstructor1 + "|||instr1@course1.tmt|||" +
                      "Preview feedback session as instructor (" + instructor2.email + ")<br>" +
@@ -89,7 +90,7 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends BaseActionT
         
         assertEquals("", showPageResult.getStatusMessage());
         
-        assertEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsInstructor|||instructorFeedbackPreviewAsInstructor" +
+        AssertHelper.assertLogMessageEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsInstructor|||instructorFeedbackPreviewAsInstructor" +
                      "|||true|||Instructor|||Instructor 2 of Course 1" +
                      "|||" + idOfInstructor2 + "|||instr2@course1.tmt|||" +
                      "Preview feedback session as instructor (" + instructor1.email + ")<br>" +

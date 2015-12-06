@@ -1,16 +1,14 @@
-
    <html>
       <head>
          <title>
             TEAMMATES - Instructor
          </title>
          <link href="/favicon.png" rel="shortcut icon"/>
-                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-                  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
-                  <!---->
+         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
          <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
@@ -24,7 +22,7 @@
          <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript">
          </script>
          <link href="/stylesheets/datepicker.css" media="screen" rel="stylesheet" type="text/css"/>
-                  <script src="/js/date.js" type="text/javascript">
+         <script src="/js/date.js" type="text/javascript">
          </script>
          <script src="/js/datepicker.js" type="text/javascript">
          </script>
@@ -38,8 +36,10 @@
          </script>
          <script src="/js/instructorFeedbacks.js" type="text/javascript">
          </script>
+         <script src="/js/instructorFeedbacksSpecific.js" type="text/javascript">
+         </script>
       </head>
-      <body onload="readyFeedbackPage();">
+      <body>
          <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                <div class="navbar-header">
@@ -119,7 +119,7 @@
                Add New Feedback Session
             </h1>
             <br/>
-                        <div class="well well-plain">
+            <div class="well well-plain">
                <form action="/page/instructorFeedbackAdd" class="form-group" id="form_feedbacksession" method="post">
                   <div class="row">
                      <h4 class="label-control col-md-2 text-md">
@@ -155,7 +155,7 @@
                      </div>
                   </div>
                   <br/>
-                                    <div class="panel panel-primary">
+                  <div class="panel panel-primary">
                      <div class="panel-body">
                         <div class="row">
                            <div class="col-md-6" data-original-title="Please select the course for which the feedback session is to be created." data-placement="top" data-toggle="tooltip" title="">
@@ -306,7 +306,7 @@
                            </div>
                         </div>
                         <br/>
-                                                <div class="row">
+                        <div class="row">
                            <div class="col-md-12" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
                               <div class="form-group">
                                  <h5 class="col-sm-2">
@@ -316,12 +316,12 @@
                                  </h5>
                                  <div class="col-sm-10">
                                     <input class="form-control" id="fsname" maxlength="38" name="fsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value=""/>
-                                                                     </div>
+                                 </div>
                               </div>
                            </div>
                         </div>
                         <br/>
-                                                <div class="row" id="instructionsRow">
+                        <div class="row" id="instructionsRow">
                            <div class="col-md-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
                               <div class="form-group">
                                  <h5 class="col-sm-2">
@@ -353,7 +353,7 @@
                               <div class="row">
                                  <div class="col-md-6">
                                     <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="${today}"/>
-                                                                     </div>
+                                 </div>
                                  <div class="col-md-6">
                                     <select class="form-control" id="starttime" name="starttime">
                                        <option value="1">
@@ -443,7 +443,7 @@
                               <div class="row">
                                  <div class="col-md-6">
                                     <input class="form-control col-sm-2 hasDatepicker" id="enddate" name="enddate" placeholder="Date" type="text" value=""/>
-                                                                     </div>
+                                 </div>
                                  <div class="col-md-6">
                                     <select class="form-control" id="endtime" name="endtime">
                                        <option value="1">
@@ -566,14 +566,14 @@
                         <span id="uncommonSettingsInfoText">
                            Session is visible at submission opening time, responses are only visible when you publish the results.
                            <br/>
-                                                      Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
+                           Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
                         </span>
                         <a data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsButton">
                            [Edit]
                         </a>
                         <br/>
-                                                <br/>
-                                             </div>
+                        <br/>
+                     </div>
                   </div>
                   <div class="panel panel-primary" id="sessionResponsesVisiblePanel" style="display:none;">
                      <div class="panel-body">
@@ -592,10 +592,10 @@
                                        At
                                     </label>
                                     <input id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom"/>
-                                                                     </div>
+                                 </div>
                                  <div class="col-md-5">
                                     <input class="form-control col-sm-2 hasDatepicker" disabled="disabled" id="visibledate" name="visibledate" type="text" value=""/>
-                                                                     </div>
+                                 </div>
                                  <div class="col-md-4">
                                     <select class="form-control" disabled="disabled" id="visibletime" name="visibletime">
                                        <option value="1">
@@ -679,7 +679,7 @@
                                        Submission opening time
                                     </label>
                                     <input checked="checked" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen"/>
-                                                                     </div>
+                                 </div>
                               </div>
                               <div class="row radio">
                                  <div class="col-md-6" data-original-title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session." data-placement="top" data-toggle="tooltip" title="">
@@ -687,7 +687,7 @@
                                        Never (this is a private session)
                                     </label>
                                     <input id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never"/>
-                                                                     </div>
+                                 </div>
                               </div>
                            </div>
                            <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
@@ -704,10 +704,10 @@
                                        At
                                     </label>
                                     <input id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom"/>
-                                                                     </div>
+                                 </div>
                                  <div class="col-md-5">
                                     <input class="form-control hasDatepicker" disabled="disabled" id="publishdate" name="publishdate" type="text" value=""/>
-                                                                     </div>
+                                 </div>
                                  <div class="col-md-4">
                                     <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="disabled" id="publishtime" name="publishtime" title="">
                                        <option value="1">
@@ -791,7 +791,7 @@
                                        Immediately
                                     </label>
                                     <input id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible"/>
-                                                                     </div>
+                                 </div>
                               </div>
                               <div class="row radio">
                                  <div class="col-md-4" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
@@ -799,7 +799,7 @@
                                        Publish manually
                                     </label>
                                     <input checked="checked" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later"/>
-                                                                     </div>
+                                 </div>
                               </div>
                               <div class="row radio">
                                  <div class="col-md-2" data-original-title="Select this option if you intend never to publish the responses." data-placement="top" data-toggle="tooltip" title="">
@@ -807,7 +807,7 @@
                                        Never
                                     </label>
                                     <input id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never"/>
-                                                                     </div>
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -829,7 +829,7 @@
                                     Session opening reminder
                                  </label>
                                  <input checked="checked" disabled="disabled" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING"/>
-                                                               </div>
+                              </div>
                            </div>
                            <div class="col-sm-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
                               <div class="checkbox">
@@ -837,7 +837,7 @@
                                     Session closing reminder
                                  </label>
                                  <input checked="checked" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING"/>
-                                                               </div>
+                              </div>
                            </div>
                            <div class="col-sm-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
                               <div class="checkbox">
@@ -845,7 +845,7 @@
                                     Results published announcement
                                  </label>
                                  <input checked="checked" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED"/>
-                                                               </div>
+                              </div>
                            </div>
                         </div>
                      </div>
@@ -867,14 +867,14 @@
                      </div>
                   </div>
                   <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
-                                 </form>
+               </form>
             </div>
             <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
                <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
-                              <input name="isusingAjax" type="hidden" value="on"/>
-                           </form>
+               <input name="isusingAjax" type="hidden" value="on"/>
+            </form>
             <br/>
-                        <div class="alert alert-warning" id="statusMessage">
+            <div class="alert alert-warning" id="statusMessage">
                You have not created any courses yet, or you have no active courses. Go
                <a href="/page/instructorCoursesPage?user=CFeedbackUiT.nocourses">
                   here
@@ -884,7 +884,7 @@
             <script src="/js/statusMessage.js" type="text/javascript">
             </script>
             <br/>
-                        <div class="" id="sessionList">
+            <div class="" id="sessionList">
                <table class="table-responsive table table-striped table-bordered" id="table-sessions">
                   <thead>
                      <tr class="fill-primary">
@@ -930,15 +930,15 @@
                   Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.
                </p>
                <br/>
-                              <br/>
-                              <br/>
-                              <div class="align-center">
+               <br/>
+               <br/>
+               <div class="align-center">
                   No records found.
                </div>
                <br/>
-                              <br/>
-                              <br/>
-                           </div>
+               <br/>
+               <br/>
+            </div>
             <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
                <div class="modal-dialog">
                   <div class="modal-content">
@@ -963,8 +963,8 @@
                               Cancel
                            </button>
                            <input class="btn btn-primary" type="submit" value="Remind"/>
-                                                      <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
-                                                   </div>
+                           <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
+                        </div>
                      </form>
                   </div>
                </div>
@@ -1002,7 +1002,7 @@
                                  Name for new session
                               </label>
                               <input class="form-control" id="modalCopiedSessionName" maxlength="38" name="copiedfsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value=""/>
-                                                         </div>
+                           </div>
                            <label>
                               Copy sessions/questions from
                            </label>
@@ -1022,9 +1022,9 @@
                               </thead>
                            </table>
                            <input id="modalSessionName" name="fsname" type="hidden" value=""/>
-                                                      <input id="modalCourseId" name="courseid" type="hidden" value=""/>
-                                                      <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
-                                                   </form>
+                           <input id="modalCourseId" name="courseid" type="hidden" value=""/>
+                           <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
+                        </form>
                      </div>
                      <div class="modal-footer margin-0">
                         <button class="btn btn-primary" disabled="disabled" id="button_copy_submit" type="button">
@@ -1048,7 +1048,7 @@
                            <h4 class="modal-title">
                               Copy this feedback session to other courses
                               <br/>
-                                                            <small>
+                              <small>
                                  (Select the course(s) you want to copy this feedback session to)
                               </small>
                            </h4>
@@ -1062,8 +1062,8 @@
                               Cancel
                            </button>
                            <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                                                      <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
-                                                   </div>
+                           <input name="user" type="hidden" value="CFeedbackUiT.nocourses"/>
+                        </div>
                      </form>
                   </div>
                </div>
@@ -1104,4 +1104,3 @@
          </div>
       </body>
    </html>
-

@@ -124,11 +124,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     public String getStartTimeString() {
-        return TimeHelper.formatTime(startTime);
+        return TimeHelper.formatTime12H(startTime);
     }
     
     public String getEndTimeString() {
-        return TimeHelper.formatTime(endTime);
+        return TimeHelper.formatTime12H(endTime);
     }
     
     public String getInstructionsString() {

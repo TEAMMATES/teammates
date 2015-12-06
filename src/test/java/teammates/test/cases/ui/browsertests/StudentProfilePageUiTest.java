@@ -41,7 +41,27 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         testNavLinkToPage();
         testContent();
         testActions();
+        testJsFunctions();
         testAjaxPictureUrl();
+    }
+
+    private void testJsFunctions() throws Exception {
+        ______TS("Test disabling and enabling of upload button");
+        // initial disabled state
+        profilePage.verifyUploadButtonState(false);
+        
+        //enabled when a file is selected
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
+        profilePage.verifyUploadButtonState(true);
+        
+        // disabled when file is cancelled
+        profilePage.fillProfilePic("");
+        profilePage.verifyUploadButtonState(false);
+        
+        // re-enabled when a new file is selected
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
+        profilePage.verifyUploadButtonState(true);
+        
     }
 
     private void testNavLinkToPage() {
@@ -76,7 +96,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         // Verify with retry after upload picture due to inconsistency of .click in detecting page load
         profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
-        profilePage.verifyHtmlPart(By.className("profile-pic-edit-toolbar"), "/studentProfilePictureModalEdit.html");
+        profilePage.verifyHtmlMainContent("/studentProfilePageFilled.html");
         
         profilePage.click(By.className("close"));
     }

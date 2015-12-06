@@ -1817,7 +1817,7 @@ public class FeedbackSessionsLogic {
                     new ResponseCommentCreationDateComparator());
         }
         
-        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName);
+        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
 
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
@@ -1968,7 +1968,7 @@ public class FeedbackSessionsLogic {
                               : null;
             }
             
-            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName);
+            addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
             
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
@@ -2103,7 +2103,7 @@ public class FeedbackSessionsLogic {
             }
         }
         
-        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName);
+        addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
         
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
@@ -2116,7 +2116,7 @@ public class FeedbackSessionsLogic {
 
     private void addSectionTeamNamesToTable(Map<String, Set<String>> sectionTeamNameTable,
                                     CourseRoster roster, String courseId, String userEmail, Role role,
-                                    String feedbackSessionName) {
+                                    String feedbackSessionName, String sectionToView) {
         InstructorAttributes instructor = null;
         if (role == Role.INSTRUCTOR) {
             instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
@@ -2128,7 +2128,11 @@ public class FeedbackSessionsLogic {
                                            student.section,
                                            feedbackSessionName, 
                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-                if (isVisibleResponse) {
+                boolean isStudentInSelectedSection = student.section.equals(sectionToView);
+                boolean isViewingAllSections = sectionToView == null;
+                
+                if (isVisibleResponse && (isViewingAllSections 
+                                          || isStudentInSelectedSection)) {
                     String section = student.section;
                     if (!sectionTeamNameTable.containsKey(section)) {
                         Set<String> teamNames = new HashSet<String>();
@@ -2240,7 +2244,8 @@ public class FeedbackSessionsLogic {
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question, CourseRoster roster,
             int pairType) throws EntityDoesNotExistException {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.giverType == FeedbackParticipantType.TEAMS 
+            && roster.isStudentInCourse(response.giverEmail)) {
             if (emailNameTable.containsKey(response.giverEmail
                     + Const.TEAM_OF_EMAIL_OWNER) == false) {
                 emailNameTable.put(

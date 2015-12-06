@@ -15,6 +15,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -90,7 +91,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) "
                                     + "question:</span> What do you like best about the class?"
                                     + "|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Generated options");
 
@@ -130,7 +131,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
                              + "Who do you like in the class?|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         
         ______TS("Enable other option");
 
@@ -174,7 +175,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
                              + "Choose all the food you like|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
@@ -231,7 +232,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + " created.<br><span class=\"bold\">Multiple-choice (single answer) "
                                     + "question:</span> What do you like best about the class?"
                                     + "|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Generated options");
 
@@ -271,7 +272,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> "
                              + "Who do you like best in the class?|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
         
         ______TS("Enable other option");
 
@@ -316,7 +317,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> "
                              + "What can be improved for this class?|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
@@ -366,7 +367,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                                     + " created.<br><span class=\"bold\">Numerical-scale question:</span> "
                                     + "Rate the class?|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
@@ -421,7 +422,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + " created.<br><span class=\"bold\">Distribute points (among options) "
                                     + "question:</span> Split points among the options."
                                     + "|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
@@ -473,7 +474,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "(among recipients) question:</span> Split points among students." 
                                     + "|||/page/instructorFeedbackQuestionAdd";
 
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
@@ -521,7 +522,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + " created.<br><span class=\"bold\">Team contribution question:</span> "
                                     + "How much has each team member including yourself, contributed to the project?"
                                     + "|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Invalid giver case");
 
@@ -560,7 +561,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + " created.<br><span class=\"bold\">Team contribution question:</span> "
                              + "How much has each team member including yourself, contributed to the project?"
                              + "|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         assertEquals(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH
                      + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
@@ -620,7 +621,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + " created.<br><span class=\"bold\">Rubric question:</span> "
                                     + "Please choose the most appropriate choices for the sub-questions below."
                                     + "|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test
@@ -730,7 +731,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                                     + " created.<br><span class=\"bold\">Essay question:</span> "
                                     + "question|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Custom number of students to give feedback to");
 
@@ -753,7 +754,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Essay question:</span> "
                              + "question|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Custom number of teams to give feedback to");
 
@@ -778,7 +779,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Essay question:</span> "
                              + "question|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Remnant custom number of entities when recipient is changed to non-student and non-team");
 
@@ -803,7 +804,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Essay question:</span> "
                              + "question|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Failure: Empty or null participant lists");
 
@@ -854,7 +855,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, "NONE", FieldValidator.GIVER_TYPE_NAME)
                              + "|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Masquerade mode");
 
@@ -881,7 +882,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Essay question:</span> "
                              + "question|||/page/instructorFeedbackQuestionAdd";
-        assertEquals(expectedLogMessage, action.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
     private InstructorFeedbackQuestionAddAction getAction (String... params) throws Exception {

@@ -5,11 +5,11 @@
          Enroll Students for CCEnrollUiT.CS2104
       </h1>
       <br/>
-            <div class="instructionImg">
+      <div class="instructionImg">
          <img border="0" class="img-responsive" src="/images/enrollInstructions.gif"/>
-               </div>
+      </div>
       <br/>
-            <div class="panel panel-primary">
+      <div class="panel panel-primary">
          <div class="panel-body fill-plain">
             <div class="text-muted">
                <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary">
@@ -25,7 +25,7 @@
                students.
             </div>
             <br/>
-                        <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" method="post" role="form">
+            <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" method="post" role="form">
                <div class="col-md-12">
                   <div class="form-group">
                      <label class="col-sm-1 control-label" for="instructions">
@@ -40,7 +40,7 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | Robert Downey | 
 Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | longname@email.tmt | This student name is too long
                         </textarea>
                         <br/>
-                                                <div class="alert alert-danger" id="statusMessage">
+                        <div class="alert alert-danger" id="statusMessage">
                            <p>
                               <span class="bold">
                                  Problem in line :
@@ -49,12 +49,12 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                  </span>
                               </span>
                               <br/>
-                                                            <span class="problemDetail">
+                              <span class="problemDetail">
                                  • Enroll line had fewer than the minimally expected 3 columns (Team, Name and Email)
                               </span>
                            </p>
                            <br/>
-                                                      <p>
+                           <p>
                               <span class="bold">
                                  Problem in line :
                                  <span class="invalidLine">
@@ -62,12 +62,12 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                  </span>
                               </span>
                               <br/>
-                                                            <span class="problemDetail">
-                                 • "bjack.gmail.tmt" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces.
+                              <span class="problemDetail">
+                                 • "bjack.gmail.tmt" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.
                               </span>
                            </p>
                            <br/>
-                                                      <p>
+                           <p>
                               <span class="bold">
                                  Problem in line :
                                  <span class="invalidLine">
@@ -75,12 +75,12 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                  </span>
                               </span>
                               <br/>
-                                                            <span class="problemDetail">
+                              <span class="problemDetail">
                                  • "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 60 characters. It should not be empty.
                               </span>
                            </p>
                            <br/>
-                                                      <p>
+                           <p>
                               <span class="bold">
                                  Problem in line :
                                  <span class="invalidLine">
@@ -88,7 +88,7 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                                  </span>
                               </span>
                               <br/>
-                                                            <span class="problemDetail">
+                              <span class="problemDetail">
                                  • "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" is not acceptable to TEAMMATES as a person name because it is too long. The value of a person name should be no longer than 100 characters. It should not be empty.
                               </span>
                            </p>
@@ -105,19 +105,19 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
          </div>
       </div>
       <br/>
-            <div class="moreInfo">
+      <div class="moreInfo">
          <h2>
             More info
          </h2>
          <hr style="width: 80%; margin-left: 0px;"/>
-                  <ul>
+         <ul>
             <li>
                <span class="moreInfoPointTitle">
                   Sample spreadsheet
                </span>
                <div class="moreInfoPointDetails">
                   If you are not sure about the format of the spreadsheet,
-                  <a href="/files/Course Enroll Sample Spreadsheet.csv" id="spreadsheet_download">
+                  <a href="/files/Course%20Enroll%20Sample%20Spreadsheet.csv" id="spreadsheet_download">
                      here
                   </a>
                   is a sample file.
@@ -176,7 +176,7 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                         </samp>
                         [Compulsory]: The email address used to contact the student.
                         <br/>
-                                                <div class="moreInfoPointDetails">
+                        <div class="moreInfoPointDetails">
                            <ul>
                               <li class="moreInfoEmailDetails">
                                  This need not be a Gmail address.
@@ -221,10 +221,10 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                   The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, 
                         not to be confused with upper case i or lower case L) to separate values.
                   <br/>
-                                    Here is an example.
+                  Here is an example.
                   <br/>
-                                    <br/>
-                                    <div id="moreInfoEnrollWOSpreadSheetEg">
+                  <br/>
+                  <div id="moreInfoEnrollWOSpreadSheetEg">
                      <samp>
                         <span class="enrollLines">
                            <b>
@@ -232,19 +232,19 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                            </b>
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com
                         </span>
                         <br/>
-                                                <span class="enrollLines">
+                        <span class="enrollLines">
                            Tut Group 2   |   Team 3   |   Thora Parker  |  thora@email.com
                         </span>
                      </samp>
@@ -254,4 +254,3 @@ Team 2 | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
          </ul>
       </div>
    </div>
-

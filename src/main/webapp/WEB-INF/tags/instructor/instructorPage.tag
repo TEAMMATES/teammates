@@ -4,8 +4,7 @@
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="bodyTitle" required="true" %>
-<%@ attribute name="bodyOnload" %>
-<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}" bodyOnload="${bodyOnload}">
+<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
     <jsp:attribute name="jsIncludes">
         ${jsIncludes}
     </jsp:attribute>

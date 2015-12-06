@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.*;
 
 import java.util.List;
 
+import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 import org.testng.annotations.BeforeClass;
@@ -87,7 +88,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                                     + "Viewing team details for <span class=\"bold\">[idOfTypicalCourse1] "
                                     + "Typical Course 1 with 2 Evals</span>|||/page/studentCourseDetailsPage";
 
-        assertEquals(expectedLogMessage, pageAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
 
         ______TS("Typical case, the student is not in the course");
         studentId = student1InCourse1.googleId;
@@ -110,7 +111,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
                              + "Viewing team details for <span class=\"bold\">[idOfTypicalCourse1] "
                              + "Typical Course 1 with 2 Evals</span>|||/page/studentCourseDetailsPage";
 
-        assertEquals(expectedLogMessage, pageAction.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, pageAction.getLogMessage());
         
         
     }

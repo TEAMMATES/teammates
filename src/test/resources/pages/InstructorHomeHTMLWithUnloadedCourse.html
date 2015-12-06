@@ -5,28 +5,28 @@
          Instructor Home
       </h1>
       <br/>
-            <div class="well well-plain">
+      <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
                <form action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms.unloaded" method="get" name="search_form">
                   <div class="input-group">
                      <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text"/>
-                                          <span class="input-group-btn">
+                     <span class="input-group-btn">
                         <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
                            Search
                         </button>
                      </span>
                   </div>
                   <input name="searchstudents" type="hidden" value="true"/>
-                                    <input name="searchcommentforstudents" type="hidden" value="false"/>
-                                    <input name="searchcommentforresponses" type="hidden" value="false"/>
-                                    <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded"/>
-                                 </form>
+                  <input name="searchcommentforstudents" type="hidden" value="false"/>
+                  <input name="searchcommentforresponses" type="hidden" value="false"/>
+                  <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded"/>
+               </form>
             </div>
          </div>
       </div>
       <br/>
-            <div id="statusMessage" style="display: none;">
+      <div id="statusMessage" style="display: none;">
       </div>
       <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
@@ -52,8 +52,8 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" type="submit" value="Remind"/>
-                                          <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded"/>
-                                       </div>
+                     <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded"/>
+                  </div>
                </form>
             </div>
          </div>
@@ -73,21 +73,21 @@
             <div class="btn-group pull-right" data-toggle="buttons">
                <label class="btn btn-default" data="id" id="sortById" name="sortby">
                   <input type="radio"/>
-                                    Course ID
+                  Course ID
                </label>
                <label class="btn btn-default" data="name" id="sortByName" name="sortby">
                   <input name="sortby" type="radio" value="name"/>
-                                    Course Name
+                  Course Name
                </label>
                <label class="btn btn-default active" data="createdAt" id="sortByDate" name="sortby">
                   <input type="radio"/>
-                                    Creation Date
+                  Creation Date
                </label>
             </div>
          </div>
       </div>
       <br/>
-            <div class="panel panel-primary" id="course-0">
+      <div class="panel panel-primary" id="course-0">
          <div class="panel-heading">
             <div class="row">
                <div class="col-md-6">
@@ -122,8 +122,18 @@
          <table class="table-responsive table table-striped table-bordered">
             <thead>
                <tr>
-                  <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,1);">
+                  <th class="button_sortname button-sort-none" onclick="toggleSort(this,1);">
                      Session Name
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,2,instructorHomeDateComparator);">
+                     Start Date
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,3,instructorHomeDateComparator);">
+                     End Date
                      <span class="icon-sort unsorted">
                      </span>
                   </th>
@@ -146,6 +156,10 @@
                      <span class="text-muted">
                         This course does not have any sessions yet.
                      </span>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
                   </td>
                   <td>
                   </td>
@@ -192,8 +206,18 @@
          <table class="table-responsive table table-striped table-bordered">
             <thead>
                <tr>
-                  <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,1);">
+                  <th class="button_sortname button-sort-none" onclick="toggleSort(this,1);">
                      Session Name
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,2,instructorHomeDateComparator);">
+                     Start Date
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,3,instructorHomeDateComparator);">
+                     End Date
                      <span class="icon-sort unsorted">
                      </span>
                   </th>
@@ -216,6 +240,10 @@
                      <span class="text-muted">
                         This course does not have any sessions yet.
                      </span>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
                   </td>
                   <td>
                   </td>
@@ -262,8 +290,18 @@
          <table class="table-responsive table table-striped table-bordered">
             <thead>
                <tr>
-                  <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,1);">
+                  <th class="button_sortname button-sort-none" onclick="toggleSort(this,1);">
                      Session Name
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortstartdate button-sort-none" onclick="toggleSort(this,2,instructorHomeDateComparator);">
+                     Start Date
+                     <span class="icon-sort unsorted">
+                     </span>
+                  </th>
+                  <th class="button_sortenddate button-sort-none" onclick="toggleSort(this,3,instructorHomeDateComparator);">
+                     End Date
                      <span class="icon-sort unsorted">
                      </span>
                   </th>
@@ -293,6 +331,10 @@
                   </td>
                   <td>
                   </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
                </tr>
             </tbody>
          </table>
@@ -315,9 +357,9 @@
          </div>
          <form>
             <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded"/>
-                        <input name="coursetoload" type="hidden" value="ins.wit-Unloaded"/>
-                        <input name="index" type="hidden" value="3"/>
-                     </form>
+            <input name="coursetoload" type="hidden" value="ins.wit-Unloaded"/>
+            <input name="index" type="hidden" value="3"/>
+         </form>
       </div>
       <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
@@ -330,7 +372,7 @@
                      <h4 class="modal-title">
                         Copy this feedback session to other courses
                         <br/>
-                                                <small>
+                        <small>
                            (Select the course(s) you want to copy this feedback session to)
                         </small>
                      </h4>
@@ -344,11 +386,10 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                                          <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded"/>
-                                       </div>
+                     <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded"/>
+                  </div>
                </form>
             </div>
          </div>
       </div>
    </div>
-

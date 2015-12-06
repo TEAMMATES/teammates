@@ -10,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentAddAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -149,7 +150,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical success case from comments page");
         
@@ -181,7 +182,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical success case from student details page");
         
@@ -214,7 +215,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical success case from course details page");
         
@@ -246,7 +247,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical success case for course as recipient");
         
@@ -278,7 +279,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical success case for section as recipient");
         
@@ -310,7 +311,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Typical success case for team as recipient");
         
@@ -342,7 +343,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Success case for null recipient type");
         
@@ -373,7 +374,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Success case for show comment to recipient");
         
@@ -406,7 +407,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Success case for show giver to recipient");
         
@@ -439,7 +440,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
     }
     
     private InstructorStudentCommentAddAction getAction(String... params) throws Exception {

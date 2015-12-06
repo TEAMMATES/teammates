@@ -5,7 +5,7 @@
          Session Results
       </h1>
       <br/>
-            <div class="well well-plain padding-0">
+      <div class="well well-plain padding-0">
          <div class="form-horizontal">
             <div class="panel-heading">
                <div class="row">
@@ -41,11 +41,11 @@
                         </label>
                         <div class="col-sm-8">
                            <p class="form-control-static">
-                              Mon, 02 Apr 2012, 23:59   
+                              Mon, 02 Apr 2012, 11:59 PM   
                               <b>
                                  to
                               </b>
-                                 Sat, 30 Apr 2016, 23:59
+                                 Sat, 30 Apr 2016, 11:59 PM
                            </p>
                         </div>
                      </div>
@@ -55,7 +55,7 @@
                         </label>
                         <div class="col-sm-8">
                            <p class="form-control-static">
-                              Sun, 01 May 2016, 23:59
+                              Sun, 01 May 2016, 11:59 PM
                            </p>
                         </div>
                      </div>
@@ -66,14 +66,14 @@
                            <form action="/page/instructorFeedbackResultsDownload" method="post">
                               <div id="feedbackDataButtons">
                                  <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
-                                                               </div>
+                              </div>
                               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                            <input name="sectionname" type="hidden" value="All"/>
-                                                         </form>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="sectionname" type="hidden" value="All"/>
+                           </form>
                            <br/>
-                                                      <div>
+                           <div>
                               <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" onclick="return togglePublishEvaluation('Second Session', true);" title="">
                                  Publish Results
                               </a>
@@ -95,11 +95,11 @@
       </div>
       <form id="csvToHtmlForm">
          <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="fsname" type="hidden" value="Second Session"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                  <input name="frgroupbysection" type="hidden" value="All"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
+         <input name="fsname" type="hidden" value="Second Session"/>
+         <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+         <input name="frgroupbysection" type="hidden" value="All"/>
+         <input name="csvtohtmltable" type="hidden" value="true"/>
+      </form>
       <div class="modal fade align-center" id="fsResultsTableWindow">
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -128,7 +128,7 @@
                      <div id="fsModalTable">
                      </div>
                      <br/>
-                                          <div id="ajaxStatus">
+                     <div id="ajaxStatus">
                      </div>
                   </div>
                </div>
@@ -175,7 +175,7 @@
                         <div class="col-sm-10">
                            <div class="input-group">
                               <input class="form-control" id="results-search-box" onchange="updateResultsFilter()" placeholder="Type student/team name/section name to filter" type="text"/>
-                                                            <a class="input-group-addon btn btn-default">
+                              <a class="input-group-addon btn btn-default">
                                  <span class="glyphicon glyphicon-search">
                                  </span>
                               </a>
@@ -188,7 +188,7 @@
                         <div class="checkbox padding-top-0 min-height-0">
                            <label>
                               <input id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"/>
-                                                            Group by Teams
+                              Group by Teams
                            </label>
                         </div>
                      </div>
@@ -196,7 +196,7 @@
                         <div class="checkbox padding-top-0 min-height-0">
                            <label>
                               <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
-                                                            Show Statistics
+                              Show Statistics
                            </label>
                         </div>
                      </div>
@@ -235,15 +235,15 @@
             </div>
          </div>
          <input name="fsname" type="hidden" value="Second Session"/>
-                  <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-               </form>
+         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+         <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+      </form>
       <br/>
-            <div id="statusMessage" style="display: none;">
+      <div id="statusMessage" style="display: none;">
       </div>
       <br/>
-            <br/>
-            <div class="panel panel-success">
+      <br/>
+      <div class="panel panel-success">
          <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
             <div class="row">
                <div class="col-sm-9 panel-heading-text">
@@ -273,17 +273,17 @@
                            Alice Betsy
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
+                        <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
                            [CFResultsUiT.alice.b@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -303,10 +303,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-2-giver-1-question-1" style="display:none;">
+                                    <span id="questionAdditionalInfo-2-giver-1-question-1" style="display:none;">
                                        Multiple-choice (multiple answers) question options:
                                        <br/>
-                                                                              The options for this question is automatically generated from the list of all students in this course.
+                                       The options for this question is automatically generated from the list of all students in this course.
                                     </span>
                                  </span>
                               </span>
@@ -390,7 +390,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -422,10 +422,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-3-giver-1-question-2" style="display:none;">
+                                    <span id="questionAdditionalInfo-3-giver-1-question-2" style="display:none;">
                                        Multiple-choice (multiple answers) question options:
                                        <br/>
-                                                                              The options for this question is automatically generated from the list of all teams in this course.
+                                       The options for this question is automatically generated from the list of all teams in this course.
                                     </span>
                                  </span>
                               </span>
@@ -520,7 +520,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -555,10 +555,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-4-giver-1-question-3" style="display:none;">
+                                    <span id="questionAdditionalInfo-4-giver-1-question-3" style="display:none;">
                                        Numerical-scale question:
                                        <br/>
-                                                                              Minimum value: 1. Increment: 0.5. Maximum value: 5.
+                                       Minimum value: 1. Increment: 0.5. Maximum value: 5.
                                     </span>
                                  </span>
                               </span>
@@ -670,7 +670,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -698,7 +698,7 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-5-giver-1-question-4" style="display:none;">
+                                    <span id="questionAdditionalInfo-5-giver-1-question-4" style="display:none;">
                                        Distribute points (among options) question options:
                                        <ul style="list-style-type: disc;margin-left: 20px;">
                                           <li>
@@ -809,7 +809,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -844,10 +844,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-6-giver-1-question-5" style="display:none;">
+                                    <span id="questionAdditionalInfo-6-giver-1-question-5" style="display:none;">
                                        Distribute points (among recipients) question
                                        <br/>
-                                                                              Points per recipient: 100
+                                       Points per recipient: 100
                                     </span>
                                  </span>
                               </span>
@@ -987,7 +987,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -1006,7 +1006,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Benny Charles
@@ -1025,7 +1025,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Charlie Dávis
@@ -1044,7 +1044,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Danny Engrid
@@ -1072,7 +1072,7 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-7-giver-1-question-6" style="display:none;">
+                                    <span id="questionAdditionalInfo-7-giver-1-question-6" style="display:none;">
                                        Team contribution question
                                     </span>
                                  </span>
@@ -1116,7 +1116,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Alice Betsy
@@ -1144,7 +1144,7 @@
                                                       View Photo
                                                    </a>
                                                    <img alt="No Image Given" class="hidden" src=""/>
-                                                                                                   </div>
+                                                </div>
                                              </td>
                                              <td class="middlealign">
                                                 Benny Charles
@@ -1174,10 +1174,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-8-giver-1-question-7" style="display:none;">
+                                    <span id="questionAdditionalInfo-8-giver-1-question-7" style="display:none;">
                                        Numerical-scale question:
                                        <br/>
-                                                                              Minimum value: 1. Increment: 0.5. Maximum value: 5.
+                                       Minimum value: 1. Increment: 0.5. Maximum value: 5.
                                     </span>
                                  </span>
                               </span>
@@ -1265,7 +1265,7 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-10-giver-1-question-8" style="display:none;">
+                                    <span id="questionAdditionalInfo-10-giver-1-question-8" style="display:none;">
                                        Team contribution question
                                     </span>
                                  </span>
@@ -1379,10 +1379,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-9-giver-0-question-1" style="display:none;">
+                                    <span id="questionAdditionalInfo-9-giver-0-question-1" style="display:none;">
                                        Numerical-scale question:
                                        <br/>
-                                                                              Minimum value: -5. Increment: 0.25. Maximum value: 5.
+                                       Minimum value: -5. Increment: 0.25. Maximum value: 5.
                                     </span>
                                  </span>
                               </span>
@@ -1603,10 +1603,10 @@
                                        [more]
                                     </a>
                                     <br/>
-                                                                        <span id="questionAdditionalInfo-12-giver-2-question-2" style="display:none;">
+                                    <span id="questionAdditionalInfo-12-giver-2-question-2" style="display:none;">
                                        Numerical-scale question:
                                        <br/>
-                                                                              Minimum value: 0. Increment: 5.0. Maximum value: 1000.
+                                       Minimum value: 0. Increment: 5.0. Maximum value: 1000.
                                     </span>
                                  </span>
                               </span>
@@ -1746,17 +1746,17 @@
                            Benny Charles
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:CFResultsUiT.benny.c@gmail.tmt">
+                        <a href="mailto:CFResultsUiT.benny.c@gmail.tmt">
                            [CFResultsUiT.benny.c@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1780,17 +1780,17 @@
                            Charlie Dávis
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
+                        <a href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
                            [CFResultsUiT.charlie.d@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1814,17 +1814,17 @@
                            Danny Engrid
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
+                        <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
                            [CFResultsUiT.danny.e@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1848,17 +1848,17 @@
                            Drop out
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:drop.out@gmail.tmt">
+                        <a href="mailto:drop.out@gmail.tmt">
                            [drop.out@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1882,17 +1882,17 @@
                            Extra guy
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:extra.guy@gmail.tmt">
+                        <a href="mailto:extra.guy@gmail.tmt">
                            [extra.guy@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1941,17 +1941,17 @@
                            Emily
                         </strong>
                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a href="mailto:CFResultsUiT.emily.f@gmail.tmt">
+                        <a href="mailto:CFResultsUiT.emily.f@gmail.tmt">
                            [CFResultsUiT.emily.f@gmail.tmt]
                         </a>
                      </div>
                      <div class="pull-right">
                         <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt"/>
-                                                   </form>
+                           <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                           <input name="fsname" type="hidden" value="Second Session"/>
+                           <input name="moderatedstudent" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt"/>
+                        </form>
                          
                         <div class="display-icon" style="display:inline;">
                            <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1974,10 +1974,10 @@
          <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
             <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                              <input name="fsname" type="hidden" value="Second Session"/>
-                              <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                              <input name="questionid" type="hidden" value="-1"/>
-                           </form>
+               <input name="fsname" type="hidden" value="Second Session"/>
+               <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+               <input name="questionid" type="hidden" value="-1"/>
+            </form>
             <div class="display-icon pull-right">
                <span class="glyphicon pull-right glyphicon-chevron-up">
                </span>
@@ -2015,10 +2015,10 @@
                         <td>
                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt"/>
-                                                         </form>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt"/>
+                           </form>
                         </td>
                      </tr>
                      <tr>
@@ -2031,10 +2031,10 @@
                         <td>
                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt"/>
-                                                         </form>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt"/>
+                           </form>
                         </td>
                      </tr>
                      <tr>
@@ -2047,10 +2047,10 @@
                         <td>
                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt"/>
-                                                         </form>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt"/>
+                           </form>
                         </td>
                      </tr>
                      <tr>
@@ -2063,10 +2063,10 @@
                         <td>
                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt"/>
-                                                         </form>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt"/>
+                           </form>
                         </td>
                      </tr>
                      <tr>
@@ -2079,10 +2079,10 @@
                         <td>
                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                               <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses"/>
-                                                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                            <input name="fsname" type="hidden" value="Second Session"/>
-                                                            <input name="moderatedstudent" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt"/>
-                                                         </form>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="fsname" type="hidden" value="Second Session"/>
+                              <input name="moderatedstudent" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt"/>
+                           </form>
                         </td>
                      </tr>
                   </tbody>
@@ -2091,4 +2091,3 @@
          </div>
       </div>
    </div>
-

@@ -1,16 +1,14 @@
-
    <html>
       <head>
          <title>
             TEAMMATES - Student Profile
          </title>
          <link href="/favicon.png" rel="shortcut icon"/>
-                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-                  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-                  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
-                  <!---->
+         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
          <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
          </script>
          <script src="/js/googleAnalytics.js" type="text/javascript">
@@ -24,7 +22,7 @@
          <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript">
          </script>
          <link href="/stylesheets/lib/jquery.guillotine.css" rel="stylesheet" type="text/css"/>
-                  <script src="/js/lib/jquery.guillotine.min.js" type="text/javascript">
+         <script src="/js/lib/jquery.guillotine.min.js" type="text/javascript">
          </script>
          <script src="/js/student.js" type="text/javascript">
          </script>
@@ -95,10 +93,10 @@
                Student Profile
             </h1>
             <br/>
-                        <div id="statusMessage" style="display: none;">
+            <div id="statusMessage" style="display: none;">
             </div>
             <br/>
-                        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentPhotoUploader" role="dialog">
+            <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentPhotoUploader" role="dialog">
                <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                      <div class="modal-header">
@@ -111,19 +109,23 @@
                      </div>
                      <div class="modal-body center-block align-center">
                         <br/>
-                                                <div class="row">
+                        <div class="row">
                            <div class="col-xs-4 profile-pic-edit-col">
                               <div class="center-block align-center">
                                  <form id="profilePictureUploadForm" method="post">
-                                    <input class="inline" id="studentPhoto" name="studentprofilephoto" type="file"/>
-                                                                        <p class="help-block">
+                                    <span class="btn btn-primary profile-pic-file-selector">
+                                       Browse...
+                                       <input id="studentPhoto" name="studentprofilephoto" type="file"/>
+                                    </span>
+                                    <input class="filename-preview" disabled="disabled" type="text" value="No File Selected"/>
+                                    <p class="help-block align-left">
                                        Max Size: 5 MB
                                     </p>
-                                    <button class="btn btn-primary center-block" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
+                                    <button class="btn btn-primary width-100-pc" disabled="disabled" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
                                        Upload Picture
                                     </button>
                                     <input name="user" type="hidden" value="SHomeUiT.benny.c"/>
-                                                                     </form>
+                                 </form>
                               </div>
                            </div>
                            <div class="col-xs-8 profile-pic-edit-col border-left-gray">
@@ -145,10 +147,10 @@
                   </strong>
                </h3>
                <br/>
-                              <div class="form-group row">
+               <div class="form-group row">
                   <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
                      <img class="profile-pic" data-edit="false" data-target="#studentPhotoUploader" data-toggle="modal" id="profilePic" src="/images/profile_picture_default.png"/>
-                                       </div>
+                  </div>
                   <div class="">
                      <button class="btn btn-primary" data-target="#studentPhotoUploader" data-toggle="modal" id="uploadEditPhoto" type="button">
                         Upload/Edit Photo
@@ -161,7 +163,7 @@
                         The name you prefer to be called by Instructors
                      </label>
                      <input class="form-control" data-actual-value="" id="studentShortname" name="studentshortname" placeholder="How the instructor should call you" type="text" value=""/>
-                                       </div>
+                  </div>
                   <div class="form-group" data-original-title="This is a long term contact email" data-placement="top" data-toggle="tooltip" title="">
                      <label for="studentEmail">
                         Long term contact email
@@ -170,19 +172,19 @@
                         </em>
                      </label>
                      <input class="form-control" data-actual-value="" id="studentEmail" name="studentprofileemail" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email" value=""/>
-                                       </div>
+                  </div>
                   <div class="form-group" data-original-title="This is the institution that you represent" data-placement="top" data-toggle="tooltip" title="">
                      <label for="studentInstitution">
                         Institution
                      </label>
                      <input class="form-control" data-actual-value="" id="studentInstitution" name="studentprofileinstitute" placeholder="Your Institution" type="text" value=""/>
-                                       </div>
+                  </div>
                   <div class="form-group" data-original-title="This is your nationality" data-placement="top" data-toggle="tooltip" title="">
                      <label for="studentNationality">
                         Nationality
                      </label>
                      <input class="form-control" data-actual-value="" id="studentNationality" name="studentnationality" placeholder="Nationality" type="text" value=""/>
-                                       </div>
+                  </div>
                   <div class="form-group">
                      <label for="studentGender">
                         Gender
@@ -190,15 +192,15 @@
                      <div id="studentGender">
                         <label class="radio-inline" for="genderMale">
                            <input class="radio" id="genderMale" name="studentgender" type="radio" value="male"/>
-                                                      Male
+                           Male
                         </label>
                         <label class="radio-inline" for="genderFemale">
                            <input class="radio" id="genderFemale" name="studentgender" type="radio" value="female"/>
-                                                      Female
+                           Female
                         </label>
                         <label class="radio-inline" for="genderOther">
                            <input checked="checked" class="radio" id="genderOther" name="studentgender" type="radio" value="other"/>
-                                                      Not Specified
+                           Not Specified
                         </label>
                      </div>
                   </div>
@@ -210,17 +212,17 @@
                      </textarea>
                   </div>
                   <br/>
-                                    <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
+                  <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
                      Save Profile
                   </button>
                   <br/>
-                                    <p class="text-muted text-color-disclaimer">
+                  <p class="text-muted text-color-disclaimer">
                      <i>
                         * This profile will be visible to all your Instructors and Coursemates
                      </i>
                   </p>
                   <input name="user" type="hidden" value="SHomeUiT.benny.c"/>
-                                 </form>
+               </form>
             </div>
          </div>
          <div class="container-fluid" id="footerComponent">
@@ -256,4 +258,3 @@
          </div>
       </body>
    </html>
-
