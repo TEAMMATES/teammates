@@ -170,10 +170,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
             result.add(
-                "<option value=\"" + pair.getKey() + "\"" 
+                "<option value=\"" + sanitizeForHtml(pair.getKey()) + "\"" 
                 + (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption)  
                                                 ? " selected=\"selected\"" : "")
-                + ">" + sanitizeForHtml(pair.getValue()) 
+                + ">" + sanitizeForHtml(pair.getValue())
                 + "</option>"
             );
         }
