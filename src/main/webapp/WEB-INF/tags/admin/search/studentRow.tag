@@ -1,12 +1,13 @@
 <%@ tag description="studentResultsTable.tag - student results row" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="student" type="teammates.ui.template.AdminSearchStudentRow" required="true" %>
 
 <tr id="${student.id}" class="studentRow">
     <%-- Institute --%>
-    <td><c:out value="${empty student.institute ? "" : student.institute}"/></td> <%-- also checks if it is null --%>
-    
+    <td>${empty student.institute ? "" : fn:escapeXml(student.institute)}</td> <%-- also checks if it is null --%>
+
     <%-- Course [Section] (Team) --%>
     <c:choose>
         <c:when test="${not empty student.courseName}">
