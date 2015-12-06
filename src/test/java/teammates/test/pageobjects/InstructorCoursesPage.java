@@ -142,6 +142,13 @@ public class InstructorCoursesPage extends AppPage {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("$('#ajaxForCourses [name=\"user\"]').val('" + newUserId + "')");
     }
+
+    public void changeHrefInAjaxLoadCourseStatsLink(String newLink) {
+        By element = By.id("ajaxForCourses");
+        waitForElementPresence(element);
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('td[id^=\"course-stats\"] > a').attr('href', '" + newLink + "')");
+    }
     
     public void triggerAjaxLoadCourses() {
         By element = By.id("ajaxForCourses");
@@ -172,6 +179,15 @@ public class InstructorCoursesPage extends AppPage {
         waitForElementToDisappear(element);
         By loaderElement = By.className("course-stats-loader");
         waitForElementToDisappear(loaderElement);
+    }
+
+    public void waitForAjaxLoadCourseStatsError(int rowIndex) {
+        By element = By.className("course-stats-link-" + rowIndex);
+        waitForElementToDisappear(element);
+        AssertHelper.assertContains("Failed", getSectionStatsField(rowIndex));
+        AssertHelper.assertContains("Failed", getTeamStatsField(rowIndex));
+        AssertHelper.assertContains("Failed", getTotalStudentStatsField(rowIndex));
+        AssertHelper.assertContains("Failed", getUnregisteredStudentStatsField(rowIndex));
     }
     
     public String getSectionStatsField(int rowIndex) {

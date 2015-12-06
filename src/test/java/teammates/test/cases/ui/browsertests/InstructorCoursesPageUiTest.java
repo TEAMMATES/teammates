@@ -159,6 +159,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         assertEquals("0", coursesPage.getTeamStatsField(1));
         assertEquals("0", coursesPage.getTotalStudentStatsField(1));
         assertEquals("0", coursesPage.getUnregisteredStudentStatsField(1));
+
+        ______TS("Course Stats Failed");
+        coursesPage = getCoursesPage();
+        coursesPage.changeHrefInAjaxLoadCourseStatsLink("invalidLink");
+        coursesPage.triggerAjaxLoadCourseStats(1);
+        coursesPage.waitForAjaxLoadCourseStatsError(1);
+        coursesPage = getCoursesPage();
     }
 
     public void testLinks() throws Exception{

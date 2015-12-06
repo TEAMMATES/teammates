@@ -2,7 +2,7 @@ function linkAjaxForCourseStats(){
     var courseStatsClickHandler = function(e) {
         var row = $(this).parent().parent();
         var ajaxCols = $(row).children('td[id^="course-stats"]');
-        var hyperlinkObject = $(this).clone();
+        var hyperlinkObject = $(this);
 
         e.preventDefault();
         $.ajax({
@@ -12,13 +12,17 @@ function linkAjaxForCourseStats(){
                 ajaxCols.html('<img class="course-stats-loader" src="/images/ajax-loader.gif"/>');
             },
             error: function() {
-                ajaxCols.html('Failed. ')
-                    .append(hyperlinkObject);
-                hyperlinkObject.attr('data-toggle', 'tooltip')
-                               .attr('data-placement', 'top')
-                               .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
-                               .html('Try again?')
-                               .click(courseStatsClickHandler);
+                for (var i in ajaxCols) {
+                    var tryAgainLink = hyperlinkObject.clone();
+                    $(ajaxCols[i]).html('Failed. ')
+                        .append(tryAgainLink);
+                    tryAgainLink
+                        .attr('data-toggle', 'tooltip')
+                        .attr('data-placement', 'top')
+                        .prop('title', 'Error occured while trying to fetch course stats. Click to retry.')
+                        .html('Try again?')
+                        .click(courseStatsClickHandler);    
+                }
             },
             success: function(data) {
                 $(ajaxCols[0]).text(data.courseDetails.stats.sectionsTotal);
