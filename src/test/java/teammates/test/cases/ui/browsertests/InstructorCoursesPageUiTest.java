@@ -95,7 +95,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         // Explanation: Checks the rendering of the page content.
         testContent();
         
-     // Explanation: Checks the ajax request for course stats.
+        // Explanation: Checks the ajax request for course stats.
         testCourseStats();
         
         // Explanation: Checks if links going out of the page are correct 
