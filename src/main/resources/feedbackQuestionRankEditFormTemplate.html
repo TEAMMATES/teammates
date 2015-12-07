@@ -1,0 +1,24 @@
+<div class="row">
+    <br>
+    <div class="col-sm-6" id="rankOptionTable-${questionNumber}" ${rankOptionTableVisibility}>
+        ${rankEditFormOptionFragments}            
+        <div id="rankAddOptionRow-${questionNumber}">
+            <div colspan="2">
+                <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink"
+                        onclick="addRankOption(${questionNumber})" style="display:none">
+                    <span class="glyphicon glyphicon-plus">
+                    </span> add more options
+                </a>
+            </div>
+        </div>
+        
+        <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
+            id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
+            value="${numOfRankOptions}">
+        <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}"
+            id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${questionNumber}" 
+            value="${rankToRecipientsValue}">
+    </div>
+
+    <br>
+</div>

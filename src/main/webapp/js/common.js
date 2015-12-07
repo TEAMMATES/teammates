@@ -71,6 +71,12 @@ var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = 'Distribute points (among optio
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = 'Distribute points (among recipients) question';
 var FEEDBACK_QUESTION_TYPENAME_CONTRIB = 'Team contribution question';
 var FEEDBACK_QUESTION_TYPENAME_RUBRIC = 'Rubric question';
+var FEEDBACK_QUESTION_TYPENAME_RANK_OPTION = 'Rank options question';
+var FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT = 'Rank recipients question';
+var FEEDBACK_QUESTION_RANKOPTION = 'rankOption';
+var FEEDBACK_QUESTION_RANKOPTIONTABLE = 'rankOptionTable';
+var FEEDBACK_QUESTION_RANKTORECIPIENTS = 'rankToRecipients';
+
 
 // Used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = 'responseid';
