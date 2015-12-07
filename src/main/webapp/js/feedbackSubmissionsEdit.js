@@ -2,6 +2,10 @@ var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 
+function isPreview() {
+    return $(document).find('.navbar').text().indexOf('Preview') !== -1;
+}
+
 $(document).ready(function() {
     $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
         formatRubricQuestions();
@@ -9,6 +13,7 @@ $(document).ready(function() {
         var validationStatus = true;
 
         validationStatus &= validateConstSumQuestions();
+        validationStatus &= validateRankQuestions();
         validationStatus &= validateAllAnswersHaveRecipient();
         
         updateMcqOtherOptionField();
@@ -65,6 +70,8 @@ $(document).ready(function() {
     prepareRubricQuestions();
 
     prepareMCQQuestions();
+
+    prepareRankQuestions();
 
     focusModeratedQuestion();
 });
@@ -357,7 +364,7 @@ function prepareConstSumQuestions() {
         var qnNum = constSumQuestionNums[i];
 
         if (!$('#response_submit_button').is(':disabled')
-            || $(document).find('.navbar').text().indexOf('Preview') !== -1) {
+            || isPreview()) {
             if ($('#constSumToRecipients-' + qnNum).val() === 'true') {
                 var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
                 numResponses = parseInt(numResponses);
@@ -664,4 +671,171 @@ function validateAllAnswersHaveRecipient() {
     }
 
     return isAllAnswersToMissingRecipientEmpty;
+}
+
+function prepareRankQuestions() {
+    var rankQuestionNums = getQuestionTypeNumbers('RANK');
+
+    for (var i = 0; i < rankQuestionNums.length; i++) {
+        var qnNum = rankQuestionNums[i];
+
+        var isRankingRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
+
+        if (!$('#response_submit_button').is(':disabled')
+            || isPreview()) {
+
+            if (isRankingRecipients) {
+                var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+                numResponses = parseInt(numResponses);
+
+                $('#rankInfo-' + qnNum + '-' + (numResponses - 1)).show();
+            }
+        } else {
+            $('[id^="rankInfo-' + qnNum + '-"]').hide();
+        }
+
+        if (isRankingRecipients) {
+            var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
+
+        }
+    }
+    updateRankMessages();
+}
+
+function updateRankMessages() {
+    var rankQuestionNums = getQuestionTypeNumbers('RANK');
+
+    for (var i = 0; i < rankQuestionNums.length; i++) {;
+        var qnNum = rankQuestionNums[i];
+        updateRankMessageQn(qnNum);
+    }
+}
+
+function validateRankQuestions() {
+    updateRankMessages();
+
+    // When any of the rank questions has an error.
+    if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
+        var rankQuestionNums = getQuestionTypeNumbers('RANK');
+        var statusMessage = 'Please fix the error(s) for rank question(s)';
+        var errorCount = 0;
+
+        for (var i = 0; i < rankQuestionNums.length; i++) {
+            var qnNum = rankQuestionNums[i];
+
+            // indicate the question number where the errors are located at
+            if ($('p[id^="rankMessage-' + qnNum + '-"].text-color-red').length > 0) {
+                statusMessage += (errorCount === 0) ? '' : ',';
+                statusMessage += ' ';
+                statusMessage += qnNum;
+                errorCount++;
+            }
+        }
+
+        statusMessage += '. ';
+        statusMessage += 'To skip a rank question, leave all the boxes blank.';
+
+        setStatusMessage(statusMessage, true);
+        return false;
+    }
+
+    return true;
+}
+
+function updateRankMessageQn(qnNum) {
+    var numOptions = 0;
+    var distributeToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true' ? true : false;
+    var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
+
+    if (distributeToRecipients) {
+        numOptions = numRecipients;
+    } else {
+        numOptions = parseInt($('#rankNumOption-' + qnNum).val());
+    }
+
+    var remainingRanks = [];
+    var allUnique = true;
+    var allNotNumbers = true;
+    var answerSet = {};
+
+    function checkAndDisplayMessage(messageElement) {
+        var message = '';
+
+        if (allNotNumbers) {
+            message = 'Please rank the above ' + (distributeToRecipients ? 'recipients. ' : 'options. ');
+            messageElement.addClass('text-color-blue');
+            messageElement.removeClass('text-color-red');
+            messageElement.removeClass('text-color-green');
+        } else if (!allUnique) {
+            message += ' The same rank should not be given multiple times. ';
+            messageElement.addClass('text-color-red');
+            messageElement.removeClass('text-color-green');
+        }
+
+        var numberOfAnswers = Object.keys(answerSet).length;
+        console.log('num answers');
+        console.log(answerSet);
+        if (numberOfAnswers > 0) {
+            for (var i = 1; i <= numOptions; i++) {
+               if (!(i in answerSet)) {
+                    message += 'Missing rank ' + i + '. ';
+                    messageElement.addClass('text-color-red');
+                    messageElement.removeClass('text-color-green');
+                }
+            }
+        }
+
+        if (numberOfAnswers === numOptions) {
+            if (message === '') {
+                message = 'All ranks assigned!';
+                messageElement.addClass('text-color-green');
+                messageElement.removeClass('text-color-red');
+                messageElement.removeClass('text-color-blue');
+            }
+        }
+
+        messageElement.text(message);
+    }
+
+    function updateAnswerSet(ranksAllocated) {
+        if (isNumber(ranksAllocated)) {
+            if (ranksAllocated in answerSet) {
+                allUnique = false;
+            }
+        
+            allNotNumbers = false;
+            answerSet[ranksAllocated] = true;
+        }
+    }
+
+    if (distributeToRecipients) {
+        var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + (numOptions - 1));
+        console.log("dist to recic");
+
+        for (var i = 0; i < numOptions; i++) {
+            var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val());
+            console.log(pointsAllocated);
+            updateAnswerSet(pointsAllocated);
+        }
+
+
+        checkAndDisplayMessage($rankMessageElement);
+    } else {
+        console.log('dist to options');
+        for (var j = 0; j < numRecipients; j++) {
+            console.log('recipient: ' +  j);
+            allNotNumbers = true;
+            answerSet = {};
+            allUnique = true;
+
+            var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + j);
+
+            for (var i = 0; i < numOptions; i++) {
+                var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + j + '-' + i).val());
+                updateAnswerSet(pointsAllocated);
+            }
+
+            checkAndDisplayMessage($rankMessageElement);
+        }
+    }
 }

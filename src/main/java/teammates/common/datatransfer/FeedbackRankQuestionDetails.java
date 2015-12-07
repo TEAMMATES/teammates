@@ -22,13 +22,13 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
     
     public List<String> options;
-    public boolean distributeToRecipients;
+    public boolean isRankRecipients;
     
     public FeedbackRankQuestionDetails() {
         super(FeedbackQuestionType.RANK);
         
         this.options = new ArrayList<String>();
-        this.distributeToRecipients = false;
+        this.isRankRecipients = false;
     }
 
     public FeedbackRankQuestionDetails(String questionText,
@@ -36,13 +36,13 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.RANK, questionText);
         
         this.options = rankOptions;
-        this.distributeToRecipients = false;     
+        this.isRankRecipients = false;     
     }
 
     public FeedbackRankQuestionDetails(String questionText) {
         super(FeedbackQuestionType.RANK, questionText);
         this.options = new ArrayList<String>();
-        this.distributeToRecipients = true;
+        this.isRankRecipients = true;
     }
     
     @Override
@@ -58,7 +58,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
         distributeToRecipients = distributeToRecipientsString != null && Boolean.parseBoolean(distributeToRecipientsString);
         
         if (!distributeToRecipients) {
-            String numOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION);
+            String numOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
             Assumption.assertNotNull("Null number of choice for Rank", numOptionsCreatedString);
             int numOptionsCreated = Integer.parseInt(numOptionsCreatedString);
             
@@ -76,25 +76,26 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
     private void setRankQuestionDetails(List<String> options) {
         this.options = options;
-        this.distributeToRecipients = options.isEmpty();
+        this.isRankRecipients = options.isEmpty();
     }
 
     @Override
     public String getQuestionTypeDisplayName() {
-        return distributeToRecipients ? Const.FeedbackQuestionTypeNames.RANK_RECIPIENT
+        return isRankRecipients ? Const.FeedbackQuestionTypeNames.RANK_RECIPIENT
                                       : Const.FeedbackQuestionTypeNames.RANK_OPTION; 
     }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+                        int totalNumRecipients,
                         FeedbackResponseDetails existingResponseDetails) {
         
         FeedbackRankResponseDetails existingResponse = (FeedbackRankResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
-        if (distributeToRecipients) {
+        if (isRankRecipients) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
@@ -102,7 +103,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
                             "${optionIdx}", "0",
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${rankOptionVisibility}", "style=\"display:none\"",
-                            "${rankOptionPoint}", existingResponse.getAnswerString(),
+                            "${options}", getOptionsHtml(totalNumRecipients, existingResponse.getAnswerList().get(0)),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${rankOptionValue}", "");
             optionListHtml.append(optionFragment + Const.EOL);
@@ -115,7 +116,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
                                 "${optionIdx}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                                 "${rankOptionVisibility}", "",
-                                "${rankOptionPoint}", Integer.toString(existingResponse.getAnswerList().get(i)),
+                                "${options}",getOptionsHtml(existingResponse.getAnswerList().get(i)),
                                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
                 optionListHtml.append(optionFragment + Const.EOL);
@@ -128,10 +129,11 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${rankOptionVisibility}", distributeToRecipients? "style=\"display:none\"" : "",
-                "${rankToRecipientsValue}", (distributeToRecipients)? "true" : "false",
+                "${rankOptionVisibility}", isRankRecipients? "style=\"display:none\"" : "",
+                "${rankToRecipientsValue}", (isRankRecipients)? "true" : "false",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION,
+                "${rankNumOptionValue}", Integer.toString(options.size())
                 );
         
         return html;
@@ -139,12 +141,12 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
         
-        if(distributeToRecipients){
+        if (isRankRecipients) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${qnIdx}", Integer.toString(qnIdx),
@@ -152,12 +154,12 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
                             "${optionIdx}", "0",
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${rankOptionVisibility}", "style=\"display:none\"",
-                            "${rankOptionPoint}", "",
+                            "${options}", getOptionsHtml(totalNumRecipients, Const.INT_UNINITIALIZED),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${rankOptionValue}", "");
             optionListHtml.append(optionFragment + Const.EOL);
         } else {
-            for(int i = 0; i <options.size(); i++) {
+            for(int i = 0; i < options.size(); i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                                 "${qnIdx}", Integer.toString(qnIdx),
@@ -165,7 +167,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
                                 "${optionIdx}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                                 "${rankOptionVisibility}", "",
-                                "${rankOptionPoint}", "",
+                                "${options}", getOptionsHtml(Const.INT_UNINITIALIZED),
                                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                                 "${rankOptionValue}",  Sanitizer.sanitizeForHtml(options.get(i)));
                 optionListHtml.append(optionFragment + Const.EOL);
@@ -178,13 +180,63 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
                 "${rankSubmissionFormOptionFragments}", optionListHtml.toString(),
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
-                "${rankOptionVisibility}", distributeToRecipients ? "style=\"display:none\"" : "",
-                "${rankToRecipientsValue}", (distributeToRecipients) ? "true" : "false",
+                "${rankOptionVisibility}", isRankRecipients ? "style=\"display:none\"" : "",
+                "${rankToRecipientsValue}", (isRankRecipients) ? "true" : "false",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION
+                "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION,
+                "${rankNumOptionValue}", Integer.toString(options.size())
                 );
         
         return html;
+    }
+    
+    private String getOptionsHtml(int rankGiven) {       
+       
+        StringBuilder result = new StringBuilder();
+        result.append("<option" 
+                    + " value=\"\""
+                    + (rankGiven == Const.INT_UNINITIALIZED ? " selected=\"selected\"" 
+                                                            : "") 
+                    + ">"
+                    + "" + "</option>");
+        if (!isRankRecipients) {
+            for (int i = 1; i < options.size() + 1; i++) {
+                result.append("<option" 
+                              + " value=\"" + i + "\""
+                              + (rankGiven == i ? " selected=\"selected\"" 
+                                                : "") 
+                              + ">"
+                              + i + "</option>");
+            }
+        } 
+       
+         System.out.println(result.toString());
+        return result.toString();
+    }
+    
+    private String getOptionsHtml(int totalNumRecipients, int rankGiven) {       
+        
+        StringBuilder result = new StringBuilder();
+        result.append("<option" 
+                    + " value=\"\""
+                    + (rankGiven == Const.INT_UNINITIALIZED ? " selected=\"selected\"" 
+                                                            : "") 
+                    + ">"
+                    + "" + "</option>");
+        if (isRankRecipients) {
+            
+            for (int i = 1; i <= totalNumRecipients; i++) {
+                result.append("<option" 
+                              + " value=\"" + i + "\""
+                              + (rankGiven == i ? " selected=\"selected\"" 
+                                                : "") 
+                              + ">"
+                              + i + "</option>");
+            }
+        } 
+       
+        System.out.println(result.toString());
+        return result.toString();
     }
 
     @Override
@@ -206,9 +258,10 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
                 "${rankEditFormOptionFragments}", optionListHtml.toString(),
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
-                "${rankToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
-                "${rankOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
-                "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient": "option",
+                "${numOfRankOptions}", String.valueOf(options.size()), 
+                "${rankToRecipientsValue}", (isRankRecipients) ? "true" : "false",
+                "${rankOptionTableVisibility}", (isRankRecipients) ? "style=\"display:none\"" : "",
+                "${optionRecipientDisplayName}", (isRankRecipients) ? "recipient": "option",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS);
         
         return html;
@@ -233,7 +286,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
         String additionalInfo = "";
         
-        if (this.distributeToRecipients) {
+        if (this.isRankRecipients) {
             additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
         } else if (!options.isEmpty()) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
@@ -290,7 +343,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
             double average = computeAverage(points);
             String pointsReceived = getListOfRanksReceivedAsString(points);
             
-            if (distributeToRecipients) {
+            if (isRankRecipients) {
                 String participantIdentifier = entry.getKey();
                 String name = bundle.getNameForEmail(participantIdentifier);
                 String teamName = bundle.getTeamNameForEmail(participantIdentifier);
@@ -311,7 +364,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         
-        if (distributeToRecipients) {
+        if (isRankRecipients) {
             html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
                     "${optionRecipientDisplayName}", "Recipient",
                     "${fragments}", fragments);
@@ -343,7 +396,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
         
         for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
             String option;
-            if (distributeToRecipients) {
+            if (isRankRecipients) {
                 String teamName = bundle.getTeamNameForEmail(entry.getKey());
                 String recipientName = bundle.getNameForEmail(entry.getKey());
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
@@ -358,7 +411,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
             
         }
         
-        csv += (distributeToRecipients? "Team, Recipient":"Option") + ", Average Points" + Const.EOL; 
+        csv += (isRankRecipients? "Team, Recipient":"Option") + ", Average Points" + Const.EOL; 
         csv += fragments + Const.EOL;
         
         return csv;
@@ -376,10 +429,10 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
         
         Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
         for(FeedbackResponseAttributes response : responses) {
-            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails();
+            FeedbackRankResponseDetails frd = (FeedbackRankResponseDetails)response.getResponseDetails();
             
             for (int i = 0; i < frd.getAnswerList().size(); i++) {
-                String optionReceivingPoints = distributeToRecipients ? 
+                String optionReceivingPoints = isRankRecipients ? 
                                                response.recipientEmail : 
                                                String.valueOf(i);
                 
@@ -455,7 +508,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
-        if (this.distributeToRecipients != newRankQuestionDetails.distributeToRecipients) {
+        if (this.isRankRecipients != newRankQuestionDetails.isRankRecipients) {
             return true;
         }
         
@@ -465,7 +518,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getCsvHeader() {
-        if (distributeToRecipients) {
+        if (isRankRecipients) {
             return "Feedback";
         } else {
             List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(options);
@@ -483,7 +536,7 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
-        if (!distributeToRecipients && options.size() < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS){
+        if (!isRankRecipients && options.size() < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS){
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS+".");
         }
         return errors;
@@ -512,19 +565,28 @@ public class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
         numRecipients = numOfResponseSpecific;
         
         Set<Integer> responseRank = new HashSet<>();
+        int numRanks = 0;
         for (FeedbackResponseAttributes response : responses) {
             FeedbackRankResponseDetails frd = (FeedbackRankResponseDetails) response.getResponseDetails();
             
-            if (!distributeToRecipients) {
+            if (!isRankRecipients) {
                 for (int i : frd.getAnswerList()) {
                     if (!responseRank.add(i)) {
                         errors.add("Duplicate rank");
                     }
                 }
+                numRanks = frd.getAnswerList().size();
             } else {
                 if (!responseRank.add(frd.getAnswerList().get(0))) {
                     errors.add("Duplicate rank");
                 }
+                numRanks = responses.size();
+            }
+        }
+        
+        for (int i = 1; i <= numRanks; i++) {
+            if (!responseRank.contains(i)) {
+                errors.add("Missing rank " + i);
             }
         }
         
