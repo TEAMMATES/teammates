@@ -26,7 +26,7 @@ public class FeedbackRankResponseDetails extends FeedbackResponseDetails {
             }
         }
         FeedbackRankQuestionDetails rankQuestion = (FeedbackRankQuestionDetails) questionDetails;
-        this.setRankResponseDetails(rankAnswer, rankQuestion.options, rankQuestion.distributeToRecipients);
+        this.setRankResponseDetails(rankAnswer, rankQuestion.options, rankQuestion.isRankRecipients);
     }
 
     /**
@@ -45,7 +45,7 @@ public class FeedbackRankResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRankQuestionDetails rankQuestion = (FeedbackRankQuestionDetails) questionDetails;
-        if (rankQuestion.distributeToRecipients){
+        if (rankQuestion.isRankRecipients){
             return getAnswerString();
         } else {
             StringBuilder htmlBuilder = new StringBuilder();
@@ -68,7 +68,7 @@ public class FeedbackRankResponseDetails extends FeedbackResponseDetails {
         StringBuilder csvBuilder = new StringBuilder();
         
         for (int i=0 ; i < answers.size(); i++) {
-            if (!((FeedbackRankQuestionDetails) questionDetails).distributeToRecipients){
+            if (!((FeedbackRankQuestionDetails) questionDetails).isRankRecipients){
                 csvBuilder.append(",");
             }
             csvBuilder.append(answers.get(i));
