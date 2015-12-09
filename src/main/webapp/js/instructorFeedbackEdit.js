@@ -448,6 +448,7 @@ function hideAllNewQuestionForms() {
     $('#constSumForm').hide();
     $('#rubricForm').hide();
     $('#contribForm').hide();
+    $('#rankForm').hide();
 }
 
 function prepareQuestionForm(type) {

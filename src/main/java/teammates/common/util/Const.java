@@ -465,7 +465,8 @@ public class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";
         public static final String FEEDBACK_QUESTION_RANKOPTION = "rankOption";
         public static final String FEEDBACK_QUESTION_RANKTORECIPIENTS = "rankToRecipients";
-        public static final String FEEDBACK_QUESTION_RANKNUMOPTION = "rankNumOption";
+        public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
+        public static final String FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED = "rankAreDuplicatesAllowed";
     
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";

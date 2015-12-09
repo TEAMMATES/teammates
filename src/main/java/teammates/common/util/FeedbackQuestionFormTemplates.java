@@ -65,7 +65,8 @@ public class FeedbackQuestionFormTemplates {
     
     public static String RANK_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionRankSubmissionFormTemplate.html");
     public static String RANK_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankSubmissionFormOptionFragment.html");
-    public static String RANK_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionRankEditFormTemplate.html");
+    public static String RANK_EDIT_RECIPIENTS_FORM = FileHelper.readResourseFile("feedbackQuestionRankRecipientsEditFormTemplate.html");
+    public static String RANK_EDIT_OPTIONS_FORM = FileHelper.readResourseFile("feedbackQuestionRankOptionsEditFormTemplate.html");
     public static String RANK_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankEditFormOptionFragment.html");
     public static String RANK_RESULT_OPTION_STATS = FileHelper.readResourseFile("feedbackQuestionRankResultStatsTemplate.html");
     public static String RANK_RESULT_STATS_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankResultStatsOptionFragment.html");

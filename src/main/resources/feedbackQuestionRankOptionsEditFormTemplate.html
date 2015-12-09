@@ -1,6 +1,6 @@
 <div class="row">
     <br>
-    <div class="col-sm-6" id="rankOptionTable-${questionNumber}" ${rankOptionTableVisibility}>
+    <div class="col-sm-6" id="rankOptionTable-${questionNumber}">
         ${rankEditFormOptionFragments}            
         <div id="rankAddOptionRow-${questionNumber}">
             <div colspan="2">
@@ -17,8 +17,14 @@
             value="${numOfRankOptions}">
         <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}"
             id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${questionNumber}" 
-            value="${rankToRecipientsValue}">
+            value="false">
     </div>
-
+    <div class="col-sm-6">
+        <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}" 
+               id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}-${questionNumber}" 
+               ${areDuplicatesAllowedChecked}>
+        <span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
+    </div>
+    
     <br>
 </div>

@@ -743,15 +743,12 @@ function validateRankQuestions() {
 }
 
 function updateRankMessageQn(qnNum) {
-    var numOptions = 0;
-    var distributeToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true' ? true : false;
+    var distributeToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
+    var areDuplicateRanksAllowed = $('#rankAreDuplicatesAllowed-' + qnNum).val() === 'true';
     var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
 
-    if (distributeToRecipients) {
-        numOptions = numRecipients;
-    } else {
-        numOptions = parseInt($('#rankNumOption-' + qnNum).val());
-    }
+    var numOptions = distributeToRecipients ? numRecipients
+                                            : parseInt($('#rankNumOptions-' + qnNum).val());    
 
     var remainingRanks = [];
     var allUnique = true;
@@ -760,38 +757,19 @@ function updateRankMessageQn(qnNum) {
 
     function checkAndDisplayMessage(messageElement) {
         var message = '';
+        messageElement.removeClass('text-color-red');
+        messageElement.removeClass('text-color-green');
+        messageElement.removeClass('text-color-blue');
 
         if (allNotNumbers) {
             message = 'Please rank the above ' + (distributeToRecipients ? 'recipients. ' : 'options. ');
             messageElement.addClass('text-color-blue');
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
-        } else if (!allUnique) {
+        } else if (!areDuplicateRanksAllowed && !allUnique) {
             message += ' The same rank should not be given multiple times. ';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
-        }
-
-        var numberOfAnswers = Object.keys(answerSet).length;
-        console.log('num answers');
-        console.log(answerSet);
-        if (numberOfAnswers > 0) {
-            for (var i = 1; i <= numOptions; i++) {
-               if (!(i in answerSet)) {
-                    message += 'Missing rank ' + i + '. ';
-                    messageElement.addClass('text-color-red');
-                    messageElement.removeClass('text-color-green');
-                }
-            }
-        }
-
-        if (numberOfAnswers === numOptions) {
-            if (message === '') {
-                message = 'All ranks assigned!';
-                messageElement.addClass('text-color-green');
-                messageElement.removeClass('text-color-red');
-                messageElement.removeClass('text-color-blue');
-            }
         }
 
         messageElement.text(message);
@@ -810,7 +788,6 @@ function updateRankMessageQn(qnNum) {
 
     if (distributeToRecipients) {
         var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + (numOptions - 1));
-        console.log("dist to recic");
 
         for (var i = 0; i < numOptions; i++) {
             var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val());
@@ -821,17 +798,16 @@ function updateRankMessageQn(qnNum) {
 
         checkAndDisplayMessage($rankMessageElement);
     } else {
-        console.log('dist to options');
-        for (var j = 0; j < numRecipients; j++) {
-            console.log('recipient: ' +  j);
+        for (var i = 0; i < numRecipients; i++) {
+            
             allNotNumbers = true;
             answerSet = {};
             allUnique = true;
 
-            var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + j);
+            var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + i);
 
-            for (var i = 0; i < numOptions; i++) {
-                var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + j + '-' + i).val());
+            for (var j = 0; j < numOptions; j++) {
+                var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-' + j).val());
                 updateAnswerSet(pointsAllocated);
             }
 
