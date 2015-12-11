@@ -133,7 +133,6 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         Assumption.assertNotNull("Null question type", questionType);
         questionType = FeedbackQuestionType.standardizeIfConstSum(questionType);
-        questionType = FeedbackQuestionType.standardizeIfRank(questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
 
         FeedbackQuestionDetails questionDetails = FeedbackQuestionDetails.createQuestionDetails(

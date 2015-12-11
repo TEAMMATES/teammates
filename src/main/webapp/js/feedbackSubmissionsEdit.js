@@ -674,7 +674,7 @@ function validateAllAnswersHaveRecipient() {
 }
 
 function prepareRankQuestions() {
-    var rankQuestionNums = getQuestionTypeNumbers('RANK');
+    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'));
 
     for (var i = 0; i < rankQuestionNums.length; i++) {
         var qnNum = rankQuestionNums[i];
@@ -703,7 +703,7 @@ function prepareRankQuestions() {
 }
 
 function updateRankMessages() {
-    var rankQuestionNums = getQuestionTypeNumbers('RANK');
+    var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
 
     for (var i = 0; i < rankQuestionNums.length; i++) {;
         var qnNum = rankQuestionNums[i];
@@ -714,9 +714,9 @@ function updateRankMessages() {
 function validateRankQuestions() {
     updateRankMessages();
 
-    // When any of the rank questions has an error.
+    // if any of the rank questions has an error.
     if ($('p[id^="rankMessage-"].text-color-red').length > 0) {
-        var rankQuestionNums = getQuestionTypeNumbers('RANK');
+        var rankQuestionNums = getQuestionTypeNumbers('RANK_OPTIONS').concat(getQuestionTypeNumbers('RANK_RECIPIENTS'))
         var statusMessage = 'Please fix the error(s) for rank question(s)';
         var errorCount = 0;
 
@@ -742,76 +742,90 @@ function validateRankQuestions() {
     return true;
 }
 
+
 function updateRankMessageQn(qnNum) {
     var distributeToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
     var areDuplicateRanksAllowed = $('#rankAreDuplicatesAllowed-' + qnNum).val() === 'true';
-    var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
+    var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val(), 10);
 
     var numOptions = distributeToRecipients ? numRecipients
-                                            : parseInt($('#rankNumOptions-' + qnNum).val());    
+                                            : parseInt($('#rankNumOptions-' + qnNum, 10).val());    
 
-    var remainingRanks = [];
-    var allUnique = true;
-    var allNotNumbers = true;
-    var answerSet = {};
+    var areAllAnswersUnique;
+    var answerSet;
 
-    function checkAndDisplayMessage(messageElement) {
+    resetState();
+    function resetState() {
+        answerSet = {};
+        areAllAnswersUnique = true;
+    }
+
+
+    function updateRankMessages(messageElement) {
+        messageElement.removeClass('text-color-red text-color-green text-color-blue');
+
         var message = '';
-        messageElement.removeClass('text-color-red');
-        messageElement.removeClass('text-color-green');
-        messageElement.removeClass('text-color-blue');
-
-        if (allNotNumbers) {
-            message = 'Please rank the above ' + (distributeToRecipients ? 'recipients. ' : 'options. ');
+        var isContainsAnswer = Object.keys(answerSet).length !== 0;
+        if (!isContainsAnswer) {
+            message = 'Please rank the above ' + (distributeToRecipients ? 'recipients. ' 
+                                                                         : 'options. ');
             messageElement.addClass('text-color-blue');
-            messageElement.removeClass('text-color-red');
-            messageElement.removeClass('text-color-green');
-        } else if (!areDuplicateRanksAllowed && !allUnique) {
+        } else if (!areDuplicateRanksAllowed && !areAllAnswersUnique) {
             message += ' The same rank should not be given multiple times. ';
             messageElement.addClass('text-color-red');
-            messageElement.removeClass('text-color-green');
         }
 
         messageElement.text(message);
     }
 
     function updateAnswerSet(ranksAllocated) {
-        if (isNumber(ranksAllocated)) {
-            if (ranksAllocated in answerSet) {
-                allUnique = false;
-            }
-        
-            allNotNumbers = false;
-            answerSet[ranksAllocated] = true;
+        if (!isNumber(ranksAllocated)) {
+            return;
         }
+        if (ranksAllocated in answerSet) {
+            areAllAnswersUnique = false;
+        }
+    
+        answerSet[ranksAllocated] = true;
+    }
+
+    function updateDropdownOptions(qnNum, recipientIndex) {
+        var dropdownSelect = $('select[id^="responsetext-' + qnNum + '-' + recipientIndex + '-"]');
+
+        dropdownSelect.find('option').each(function(index) {
+            if (answerSet.hasOwnProperty($(this).val())) {
+                $(this).addClass('color_neutral');
+            } else {
+                $(this).removeClass('color_neutral');
+            }
+        });
     }
 
     if (distributeToRecipients) {
+        // for Rank Recipients question
         var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + (numOptions - 1));
 
         for (var i = 0; i < numOptions; i++) {
-            var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val());
-            console.log(pointsAllocated);
+            var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val(), 10);
             updateAnswerSet(pointsAllocated);
+            updateDropdownOptions(qnNum, i);
         }
 
-
-        checkAndDisplayMessage($rankMessageElement);
+        updateRankMessages($rankMessageElement);
     } else {
+        // for Rank options question
         for (var i = 0; i < numRecipients; i++) {
-            
-            allNotNumbers = true;
-            answerSet = {};
-            allUnique = true;
+            resetState();
 
             var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + i);
 
             for (var j = 0; j < numOptions; j++) {
-                var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-' + j).val());
+                var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-' + j).val(), 10);
                 updateAnswerSet(pointsAllocated);
             }
 
-            checkAndDisplayMessage($rankMessageElement);
+            updateDropdownOptions(qnNum, i);
+            updateRankMessages($rankMessageElement);
         }
     }
 }

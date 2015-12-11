@@ -448,7 +448,8 @@ function hideAllNewQuestionForms() {
     $('#constSumForm').hide();
     $('#rubricForm').hide();
     $('#contribForm').hide();
-    $('#rankForm').hide();
+    $('#rankOptionsForm').hide();
+    $('#rankRecipientsForm').hide();
 }
 
 function prepareQuestionForm(type) {
@@ -523,7 +524,7 @@ function prepareQuestionForm(type) {
             
             $('#rubricForm').show();
             break;
-        case 'RANK_OPTION':
+        case 'RANK_OPTIONS':
             $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
             $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('false');
             $('#rankOption_Recipient' + '--1').hide();
@@ -531,9 +532,9 @@ function prepareQuestionForm(type) {
             
             hideAllNewQuestionForms();
             
-            $('#rankForm').show();
+            $('#rankOptionsForm').show();
             break;
-        case 'RANK_RECIPIENT':
+        case 'RANK_RECIPIENTS':
             $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
             $('#rankOption_Option' + '--1').hide();
             hideRankOptionTable(-1);
@@ -541,7 +542,7 @@ function prepareQuestionForm(type) {
             
             hideAllNewQuestionForms();
             
-            $('#rankForm').show();
+            $('#rankRecipientsForm').show();
             break;
     }
 }
@@ -1604,10 +1605,10 @@ function removeRankOption(index, questionNumber) {
     var idSuffix = getQuestionIdSuffix(questionNumber);
     var $thisRow = $('#rankOptionRow-' + index + idSuffix);
     
-    // count number of child rows the table have and - 1 because of add option button
+    // count number of child rows the table have and - 1 because of 'add option' button
     var numberOfOptions = $thisRow.parent().children('div').length - 1;
     
-    if (numberOfOptions <= 1) {
+    if (numberOfOptions <= 2) {
         $thisRow.find('input').val('');
     } else {
         $thisRow.remove();

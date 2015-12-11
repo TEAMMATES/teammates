@@ -83,7 +83,6 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
 
         Assumption.assertNotNull("Null question type", questionType);
         questionType = FeedbackQuestionType.standardizeIfConstSum(questionType);
-        questionType = FeedbackQuestionType.standardizeIfRank(questionType);
 
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
         newQuestion.removeIrrelevantVisibilityOptions();

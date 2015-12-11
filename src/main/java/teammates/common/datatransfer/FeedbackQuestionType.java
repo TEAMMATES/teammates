@@ -14,7 +14,8 @@ public enum FeedbackQuestionType {
     CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
     CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class),
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
-    RANK(FeedbackRankQuestionDetails.class, FeedbackRankResponseDetails.class);
+    RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
+    RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
 
     /**
      * Returns an instance of a corresponding Feedback*QuestionDetails class
@@ -51,8 +52,11 @@ public enum FeedbackQuestionType {
             case RUBRIC:
                 feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
                 break;
-            case RANK:
-                feedbackQuestionDetails = new FeedbackRankQuestionDetails();
+            case RANK_OPTIONS:
+                feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+                break;
+            case RANK_RECIPIENTS:
+                feedbackQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
                 break;
             default:
                 Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
@@ -100,8 +104,11 @@ public enum FeedbackQuestionType {
             case RUBRIC:
                 feedbackResponseDetails = new FeedbackRubricResponseDetails();
                 break;
-            case RANK:
-                feedbackResponseDetails = new FeedbackRankResponseDetails();
+            case RANK_OPTIONS:
+                feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
+                break;
+            case RANK_RECIPIENTS:
+                feedbackResponseDetails = new FeedbackRankRecipientsResponseDetails();
                 break;
             default:
                 Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for "
@@ -177,17 +184,4 @@ public enum FeedbackQuestionType {
             return questionType;
         }
     }
-    
-    /**
-     * Returns CONSTSUM if passed RANK_OPTION or RANK_RECIPIENT as argument.
-     * Any other string is returned as is.
-     */
-    public static String standardizeIfRank(String questionType) {
-        if (questionType.equals("RANK_OPTION") || questionType.equals("RANK_RECIPIENT")) {
-            return "RANK";
-        } else {
-            return questionType;
-        }
-    }
-
 }

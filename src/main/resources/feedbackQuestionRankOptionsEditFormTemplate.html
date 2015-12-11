@@ -4,7 +4,7 @@
         ${rankEditFormOptionFragments}            
         <div id="rankAddOptionRow-${questionNumber}">
             <div colspan="2">
-                <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink"
+                <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-${questionNumber}"
                         onclick="addRankOption(${questionNumber})" style="display:none">
                     <span class="glyphicon glyphicon-plus">
                     </span> add more options
@@ -15,9 +15,6 @@
         <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}"
             id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
             value="${numOfRankOptions}">
-        <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}"
-            id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${questionNumber}" 
-            value="false">
     </div>
     <div class="col-sm-6">
         <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}" 
