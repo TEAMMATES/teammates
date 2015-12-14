@@ -1,5 +1,8 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
+
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
@@ -522,6 +525,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
     
+    public boolean verifyNewRankOptionsQuestionFormIsDisplayed() {
+        WebElement contribForm = browser.driver.findElement(By.id("rankOptionsForm"));
+        return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    public boolean verifyNewRankRecipientsQuestionFormIsDisplayed() {
+        WebElement contribForm = browser.driver.findElement(By.id("rankRecipientsForm"));
+        return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
     public boolean verifyEndDatesBeforeTodayAreDisabled() {
         Calendar cal = Calendar.getInstance();
         
@@ -753,6 +765,72 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement removeRubricColLink =
                 browser.driver.findElement(By.id("rubricRemoveChoiceLink" + idSuffix + "-" + col));
         clickAndConfirm(removeRubricColLink);
+    }
+    
+    
+    public void verifyRankOptionIsHiddenForNewQuestion(int optionIndex) {
+        WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "--1"));
+        assertFalse(optionBox.isDisplayed());
+    }
+    
+    public void fillRankOptionForNewQuestion(int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "--1"));
+        fillTextBox(optionBox, optionText);
+    }
+    
+    public void fillRankOptionForQuestion(int qnIndx, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("rankOption-" + optionIndex + "-" + qnIndx));
+        fillTextBox(optionBox, optionText);
+    }
+    
+    public void tickDuplicatesAllowedCheckboxForNewQuestion() {
+        tickDuplicatesAllowedCheckboxForQuestion(-1);
+    }
+    
+    public void tickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
+        WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
+        assertTrue(checkBox.isSelected());
+    }
+    
+    public void untickDuplicatesAllowedCheckboxForQuestion(int qnIndex) {
+        WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
+        assertFalse(checkBox.isSelected());
+    }
+    private WebElement toggleDuplicatesAllowedCheckBox(int qnIndex) {
+        WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
+        checkBox.click();
+        return checkBox;
+    }
+    
+    public boolean isRankDuplicatesAllowedChecked(int qnIndex) {
+        WebElement checkBox = browser.driver.findElement(By.id("rankAreDuplicatesAllowed-" + qnIndex));
+        return checkBox.isSelected();
+    }
+    
+    public void clickAddMoreRankOptionLinkForNewQn() {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("rankAddOptionLink--1"));
+        addMoreOptionLink.click();
+    }
+    
+    public void clickAddMoreRankOptionLink(int qnIndex) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("rankAddOptionLink-" + qnIndex));
+        addMoreOptionLink.click();
+    }
+    
+    public void clickRemoveRankOptionLink(int qnIndex, int optionIndex) {
+        String idSuffix = getIdSuffix(qnIndex);
+        
+        WebElement msqOptionRow = browser.driver.findElement(By.id("rankOptionRow-" + optionIndex + idSuffix));
+        WebElement removeOptionLink = msqOptionRow.findElement(By.id("rankRemoveOptionLink"));
+        removeOptionLink.click();
+    }
+    
+    public int getNumOfOptionsInRankOptionsQuestion(int qnIndex) {
+        WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
+        List<WebElement> optionInputFields = rankOptionsTable
+                                                .findElements(
+                                                     By.cssSelector("input[id^='rankOption-']"));
+        return optionInputFields.size();
     }
     
     public FeedbackSubmitPage clickPreviewAsStudentButton() {
