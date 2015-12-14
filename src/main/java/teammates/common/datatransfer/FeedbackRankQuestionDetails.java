@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 
@@ -113,7 +112,6 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         average = average / values.size();
         return average;
     }
-    
-    
+   
 
 }

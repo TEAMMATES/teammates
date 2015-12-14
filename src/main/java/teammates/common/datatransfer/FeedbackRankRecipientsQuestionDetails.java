@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,8 +13,10 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionDetails {
     
@@ -317,14 +320,45 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
                 
-                if (!areDuplicatesAllowed && responseRank.contains(frd.answer)) {
-                    errors.add("Duplicate rank");
+                if (responseRank.contains(frd.answer)) {
+                    errors.add("Duplicate rank " + frd.answer + " in question");
+                } else if (frd.answer > numRecipients) {
+                    errors.add("Invalid rank " + frd.answer + " in question");
                 }
                 responseRank.add(frd.answer);
             }
         
             return errors;
         }
+    }
+    
+    @Override
+    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
+        return new Comparator<InstructorFeedbackResultsResponseRow>() {
 
+            @Override
+            public int compare(InstructorFeedbackResultsResponseRow o1,
+                               InstructorFeedbackResultsResponseRow o2) {
+                
+                if (!o1.getGiverTeam().equals(o2.getGiverTeam())) {
+                    return o1.getGiverTeam().compareTo(o2.getGiverTeam());
+                }
+                
+                if (!o1.getGiverDisplayableIdentifier().equals(o2.getGiverDisplayableIdentifier())) {
+                    return o1.getGiverDisplayableIdentifier().compareTo(o2.getGiverDisplayableIdentifier());
+                }
+                
+                if (!o1.getDisplayableResponse().equals(o2.getDisplayableResponse())) {
+                    return o1.getDisplayableResponse().compareTo(o2.getDisplayableResponse());
+                }
+                
+                if (!o1.getRecipientTeam().equals(o2.getRecipientTeam())) {
+                    return o1.getRecipientTeam().compareTo(o2.getRecipientTeam());
+                }
+                
+                return o1.getRecipientDisplayableIdentifier().compareTo(o2.getRecipientDisplayableIdentifier());
+            }
+            
+        };
     }
 }

@@ -1,7 +1,11 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -31,9 +35,9 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     }
 
     /**
-     * @return List of answers, with uninitialised values filtered out
+     * @return List of sorted answers, with uninitialised values filtered out
      */
-    public List<Integer> getFilteredAnswerList() {
+    public List<Integer> getFilteredSortedAnswerList() {
         List<Integer> filteredAnswers = new ArrayList<>();
         
         for (int answer : answers) {
@@ -42,6 +46,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             }
         }
         
+        Collections.sort(filteredAnswers);
         return filteredAnswers;
     }
     
@@ -51,7 +56,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     
     @Override
     public String getAnswerString() {
-        String listString = getFilteredAnswerList().toString(); //[1, 2, 3] format
+        String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
         return listString.substring(1, listString.length() - 1); //remove []
     }
 
@@ -59,22 +64,25 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
         
+        SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
+        
         StringBuilder htmlBuilder = new StringBuilder();
         htmlBuilder.append("<ul>");
         
-        for (int i = 0 ; i < answers.size() ; i++) {
-            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+        for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
+            Integer rank = rankAndOption.getKey();
+            if (rank == Const.POINTS_NOT_SUBMITTED) {
                 continue;
             }
-            String answer = answers.get(i).toString();
-            String option = rankQuestion.options.get(i);
             
-            
-            htmlBuilder.append("<li>");
-            htmlBuilder.append(option);
-            htmlBuilder.append(": ");
-            htmlBuilder.append(Sanitizer.sanitizeForHtml(answer));
-            htmlBuilder.append("</li>");
+            List<String> optionsWithGivenRank = rankAndOption.getValue();
+            for (String option : optionsWithGivenRank) {
+                htmlBuilder.append("<li>");
+                htmlBuilder.append(Sanitizer.sanitizeForHtml(rank.toString()));
+                htmlBuilder.append(": ");
+                htmlBuilder.append(option);
+                htmlBuilder.append("</li>");
+            }
         }
         
         htmlBuilder.append("</ul>");
@@ -83,18 +91,44 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
 
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
+        FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
+        
+        SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
+        
         StringBuilder csvBuilder = new StringBuilder();
         
-        for (int answer : answers) {
-            if (answer == Const.POINTS_NOT_SUBMITTED) {
+        for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
+            Integer rank = rankAndOption.getKey();
+            if (rank == Const.POINTS_NOT_SUBMITTED) {
                 continue;
             }
             
-            csvBuilder.append(",");
-            csvBuilder.append(answer);
+            List<String> optionsWithGivenRank = rankAndOption.getValue();
+            for (String option : optionsWithGivenRank) {
+                csvBuilder.append(rank.toString());
+                csvBuilder.append(": ");
+                csvBuilder.append(option);
+                csvBuilder.append(", \n");
+            }
         }
+        
+        return Sanitizer.sanitizeForCsv(csvBuilder.toString());
+    }
 
-        return csvBuilder.toString();
+    private SortedMap<Integer, List<String>> generateMapOfRanksToOptions(
+                                    FeedbackRankOptionsQuestionDetails rankQuestion) {
+        SortedMap<Integer, List<String>> orderedOptions = new TreeMap<>();
+        for (int i = 0 ; i < answers.size() ; i++) {
+            String option = rankQuestion.options.get(i);
+            Integer answer = answers.get(i);
+            
+            if (!orderedOptions.containsKey(answer)) {
+                orderedOptions.put(answer, new ArrayList<String>());
+            }
+            List<String> optionsWithGivenRank = orderedOptions.get(answer);
+            optionsWithGivenRank.add(option);
+        }
+        return orderedOptions;
     }
 
     private void setRankResponseDetails(List<Integer> answers, List<String> options) {

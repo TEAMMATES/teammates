@@ -744,19 +744,18 @@ function validateRankQuestions() {
 
 
 function updateRankMessageQn(qnNum) {
-    var distributeToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
+    var isDistributingToRecipients = $('#rankToRecipients-' + qnNum).val() === 'true';
     var areDuplicateRanksAllowed = $('#rankAreDuplicatesAllowed-' + qnNum).val() === 'true';
     var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val(), 10);
 
-    var numOptions = distributeToRecipients ? numRecipients
-                                            : parseInt($('#rankNumOptions-' + qnNum, 10).val());    
+    var numOptions = isDistributingToRecipients ? numRecipients
+                                                : parseInt($('#rankNumOptions-' + qnNum).val(), 10); 
 
     var areAllAnswersUnique;
-    var answerSet;
+    var allocatedRanks;
 
-    resetState();
     function resetState() {
-        answerSet = {};
+        allocatedRanks = {};
         areAllAnswersUnique = true;
     }
 
@@ -765,9 +764,9 @@ function updateRankMessageQn(qnNum) {
         messageElement.removeClass('text-color-red text-color-green text-color-blue');
 
         var message = '';
-        var isContainsAnswer = Object.keys(answerSet).length !== 0;
+        var isContainsAnswer = Object.keys(allocatedRanks).length !== 0;
         if (!isContainsAnswer) {
-            message = 'Please rank the above ' + (distributeToRecipients ? 'recipients. ' 
+            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. ' 
                                                                          : 'options. ');
             messageElement.addClass('text-color-blue');
         } else if (!areDuplicateRanksAllowed && !areAllAnswersUnique) {
@@ -778,22 +777,22 @@ function updateRankMessageQn(qnNum) {
         messageElement.text(message);
     }
 
-    function updateAnswerSet(ranksAllocated) {
-        if (!isNumber(ranksAllocated)) {
+    function updateAllocatedRanks(rankAllocated) {
+        if (!isNumber(rankAllocated)) {
             return;
         }
-        if (ranksAllocated in answerSet) {
+        if (rankAllocated in allocatedRanks) {
             areAllAnswersUnique = false;
         }
     
-        answerSet[ranksAllocated] = true;
+        allocatedRanks[rankAllocated] = true;
     }
 
     function updateDropdownOptions(qnNum, recipientIndex) {
         var dropdownSelect = $('select[id^="responsetext-' + qnNum + '-' + recipientIndex + '-"]');
 
         dropdownSelect.find('option').each(function(index) {
-            if (answerSet.hasOwnProperty($(this).val())) {
+            if (allocatedRanks.hasOwnProperty($(this).val())) {
                 $(this).addClass('color_neutral');
             } else {
                 $(this).removeClass('color_neutral');
@@ -801,13 +800,17 @@ function updateRankMessageQn(qnNum) {
         });
     }
 
-    if (distributeToRecipients) {
+    if (isDistributingToRecipients) {
         // for Rank Recipients question
+        resetState();
+        
         var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + (numOptions - 1));
 
         for (var i = 0; i < numOptions; i++) {
-            var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val(), 10);
-            updateAnswerSet(pointsAllocated);
+            var rankAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val(), 10);
+            updateAllocatedRanks(rankAllocated);
+        }
+        for (var i = 0; i < numOptions; i++) {
             updateDropdownOptions(qnNum, i);
         }
 
@@ -820,8 +823,8 @@ function updateRankMessageQn(qnNum) {
             var $rankMessageElement = $('#rankMessage-' + qnNum + '-' + i);
 
             for (var j = 0; j < numOptions; j++) {
-                var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-' + j).val(), 10);
-                updateAnswerSet(pointsAllocated);
+                var rankAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-' + j).val(), 10);
+                updateAllocatedRanks(rankAllocated);
             }
 
             updateDropdownOptions(qnNum, i);

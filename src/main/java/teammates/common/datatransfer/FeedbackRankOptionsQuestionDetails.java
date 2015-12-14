@@ -331,9 +331,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         for (FeedbackResponseAttributes response : responses) {
             FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails)response.getResponseDetails();
             
-            for (int i = 0; i < frd.getFilteredAnswerList().size(); i++) {
+            for (int i = 0; i < frd.getFilteredSortedAnswerList().size(); i++) {
                 String optionReceivingPoints =  String.valueOf(i);
-                int ranksReceived = frd.getFilteredAnswerList().get(i);
+                int ranksReceived = frd.getFilteredSortedAnswerList().get(i);
                 
                 updateOptionRanksMapping(optionPoints, optionReceivingPoints, ranksReceived);
             }
@@ -384,26 +384,26 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         if (responses.isEmpty()) {
             return new ArrayList<String>();
         }
-
-        List<String> errors = new ArrayList<>();
         
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails ) response.getResponseDetails();
-            Set<Integer> responseRank = new HashSet<>();
+        if (areDuplicatesAllowed) {
+            return new ArrayList<String>();
+        } else {
+            List<String> errors = new ArrayList<>();
             
-            for (int i : frd.getFilteredAnswerList()) {
-                if (i == Const.POINTS_NOT_SUBMITTED) {
-                    continue;
-                }
+            Set<Integer> responseRank = new HashSet<>();
+            for (FeedbackResponseAttributes response : responses) {
+                FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
                 
-                if (!areDuplicatesAllowed && responseRank.contains(i)) {
-                    errors.add("Duplicate rank " + i);
+                for (int answer : frd.getFilteredSortedAnswerList()) {
+                    if (responseRank.contains(answer)) {
+                        errors.add("Duplicate rank " + answer);
+                    }
+                    responseRank.add(answer);
                 }
-                responseRank.add(i);
             }
-        }
         
-        return errors;
+            return errors;
+        }
     }
 
 }

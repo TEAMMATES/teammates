@@ -1023,6 +1023,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isCollapsible = true;
         List<InstructorFeedbackResultsResponseRow> responseRows = null;
         
+        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         if (isShowingResponseRows) {
             switch (viewType) {
                 case QUESTION:
@@ -1044,9 +1045,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 default:
                     Assumption.fail("View type should not involve question tables");
             }
+            
+            if (questionDetails.isQuestionSpecificSortingRequired()) {
+                Collections.sort(responseRows, questionDetails.getResponseRowsSortOrder());
+            }
+            
         }
         
-        FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         String studentEmail = (student != null) ? student.email : null;
         String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, studentEmail, 
                                                                                  bundle, viewType.toString());
