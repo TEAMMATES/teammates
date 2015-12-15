@@ -18,6 +18,7 @@
     <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
     <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/responsive.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

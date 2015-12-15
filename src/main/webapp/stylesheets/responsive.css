@@ -1,0 +1,13 @@
+/*
+    CSS for adding responsiveness
+*/
+
+@media (max-width: 768px) {
+    .mobile-no-padding {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .mobile-align-left {
+        text-align: left !important;
+    }
+}
