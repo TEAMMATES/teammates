@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="/favicon.png" />
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
     <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>

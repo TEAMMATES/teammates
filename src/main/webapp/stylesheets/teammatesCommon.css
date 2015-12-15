@@ -64,6 +64,10 @@ a#editUncommonSettingsButton:hover{
     padding-top: 10px;
 }
 
+.bold-label {
+    font-weight: 700 !important;
+}
+
 .cell-hover {
     background-color: #d9edf7 !important;
 }
