@@ -108,9 +108,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
        
-        assertTrue(homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
-                                        + expectedjoinUrl));
-          
+        assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
+                     homePage.getStatus());
         
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
@@ -126,8 +125,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
        
-        homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
-                                      + expectedjoinUrl);
+        assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
+                     homePage.getStatus());
         homePage.verifyHtml("/adminHomePageCreateInstructorSuccess.html");
         
         homePage.logout();
