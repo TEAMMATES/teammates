@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -50,7 +49,6 @@ public class GodModeTest extends BaseUiTestCase {
         testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT);
         testAccounts += TestProperties.inst().TEST_STUDENT2_ACCOUNT;
         testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT);
-        testAccounts += Config.APP_URL;
         testAccounts += "</div>";
         String changedContent = initialContent.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts);
         changedContent = changedContent.replace("<!-- DATETODAY -->", 

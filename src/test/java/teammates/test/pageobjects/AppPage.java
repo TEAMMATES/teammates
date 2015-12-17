@@ -805,8 +805,7 @@ public abstract class AppPage {
     }
 
     private static String injectTestProperties(String htmlString) {
-        return htmlString.replace("${app.url}", Config.APP_URL)
-                         .replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+        return htmlString.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
                          .replace("${version}", TestProperties.inst().TEAMMATES_VERSION)
                          .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
                          .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
@@ -922,8 +921,7 @@ public abstract class AppPage {
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replace(Config.APP_URL, "${app.url}")
-                      .replace(Config.STUDENT_MOTD_URL, "${studentmotd.url}")
+        return content.replace(Config.STUDENT_MOTD_URL, "${studentmotd.url}")
                       .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
