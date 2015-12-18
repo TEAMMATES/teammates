@@ -78,6 +78,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPageForAdminUiTests(browser, homeUrl, AdminHomePage.class);
+        
+        homePage.verifyHtml("/adminHomePage.html");
     }
 
     @SuppressWarnings("deprecation")
@@ -128,7 +130,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
        
         homePage.getStatus().contains("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" 
                                       + expectedjoinUrl);
-        homePage.verifyHtml("/adminHomePageCreateInstructorSuccess.html");
         
         homePage.logout();
         //verify the instructor and the demo course have been created
