@@ -16,11 +16,11 @@
                      <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
                         Save Changes
                      </button>
-                     <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FRubricQnUiT.CS2104&fsname=First+Session&next=%3Fuser%3DFRubricQnUiT.instructor&user=FRubricQnUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation('FRubricQnUiT.CS2104','First Session');" title="">
+                     <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FRankUiT.CS4221&fsname=Edit+Session&next=%3Fuser%3DFRankUiT.instructor&user=FRankUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation('FRankUiT.CS4221','Edit Session');" title="">
                         Delete
                      </a>
                      <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-                        <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=FRubricQnUiT.instructor" data-courseid="FRubricQnUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+                        <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=FRankUiT.instructor" data-courseid="FRankUiT.CS4221" data-fsname="Edit Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
                            Copy
                         </a>
                      </span>
@@ -40,7 +40,7 @@
                            </h5>
                            <div class="col-sm-8">
                               <div class="form-control-static">
-                                 FRubricQnUiT.CS2104
+                                 FRankUiT.CS4221
                               </div>
                            </div>
                         </div>
@@ -187,7 +187,7 @@
                            </h5>
                            <div class="col-sm-10">
                               <div class="form-control-static">
-                                 First Session
+                                 Edit Session
                               </div>
                            </div>
                         </div>
@@ -204,7 +204,7 @@
                            </h5>
                            <div class="col-sm-10">
                               <textarea class="form-control" cols="100%" disabled="" id="instructions" name="instructions" placeholder="e.g. Please answer all the given questions." rows="4">
-                                 Instructions for first session
+                                 Please edit this session
                               </textarea>
                            </div>
                         </div>
@@ -732,14 +732,14 @@
                   </div>
                </div>
             </div>
-            <input disabled="" name="fsname" type="hidden" value="First Session"/>
-            <input disabled="" name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-            <input disabled="" name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+            <input disabled="" name="fsname" type="hidden" value="Edit Session"/>
+            <input disabled="" name="courseid" type="hidden" value="FRankUiT.CS4221"/>
+            <input disabled="" name="user" type="hidden" value="FRankUiT.instructor"/>
          </form>
       </div>
       <br/>
       <div class="alert alert-success" id="statusMessage">
-         The changes to the question has been updated.
+         The question has been added to this feedback session.
       </div>
       <script src="/js/statusMessage.js" type="text/javascript">
       </script>
@@ -768,7 +768,7 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                     <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+                     <input name="user" type="hidden" value="FRankUiT.instructor"/>
                   </div>
                </form>
             </div>
@@ -788,14 +788,17 @@
                            <option value="1">
                               1
                            </option>
+                           <option value="2">
+                              2
+                           </option>
                         </select>
-                         Rubric question
+                         Rank (options) question
                      </span>
                      <span class="pull-right">
                         <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-1" onclick="getQuestionLink(1)" title="">
                            Get Link
                         </a>
-                        <a class="btn btn-primary btn-xs" data-original-title="Edit this question" data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,1)" title="">
+                        <a class="btn btn-primary btn-xs" data-original-title="Edit this question" data-placement="top" data-toggle="tooltip" id="questionedittext-1" onclick="enableEdit(1,2)" title="">
                            Edit
                         </a>
                         <a class="btn btn-primary btn-xs" id="questionsavechangestext-1" style="display:none">
@@ -815,136 +818,50 @@
                <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                   <div>
                      <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="disabled" id="questiontext-1" name="questiontext" rows="5" tabindex="9" title="">
-                        edited RUBRIC qn text
+                        Rank qn
                      </textarea>
                   </div>
                   <div class="row">
                      <br/>
-                     <div class="col-sm-12 table-responsive">
-                        <table class="table table-bordered margin-0" id="rubricEditTable-1">
-                           <thead>
-                              <tr>
-                                 <th>
-                                 </th>
-                                 <th class="rubricCol-1-0">
-                                    <div class="col-sm-12 input-group">
-                                       <input class="form-control" disabled="disabled" id="rubricChoice-1-0" name="rubricChoice-0" type="text" value="Agree"/>
-                                       <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-0" onclick="removeRubricCol(0, 1)" onmouseout="highlightRubricCol(0, 1, false)" onmouseover="highlightRubricCol(0, 1, true)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove">
-                                          </span>
-                                       </span>
-                                    </div>
-                                 </th>
-                                 <th class="rubricCol-1-1">
-                                    <div class="col-sm-12 input-group">
-                                       <input class="form-control" disabled="disabled" id="rubricChoice-1-1" name="rubricChoice-1" type="text" value="Disagree"/>
-                                       <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-1" onclick="removeRubricCol(1, 1)" onmouseout="highlightRubricCol(1, 1, false)" onmouseover="highlightRubricCol(1, 1, true)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove">
-                                          </span>
-                                       </span>
-                                    </div>
-                                 </th>
-                                 <th class="rubricCol-1-2">
-                                    <div class="col-sm-12 input-group">
-                                       <input class="form-control" disabled="disabled" id="rubricChoice-1-2" name="rubricChoice-2" type="text" value="Strongly Disagree"/>
-                                       <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-2" onclick="removeRubricCol(2, 1)" onmouseout="highlightRubricCol(2, 1, false)" onmouseover="highlightRubricCol(2, 1, true)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove">
-                                          </span>
-                                       </span>
-                                    </div>
-                                 </th>
-                                 <th class="rubricCol-1-3">
-                                    <div class="col-sm-12 input-group">
-                                       <input class="form-control" disabled="disabled" id="rubricChoice-1-3" name="rubricChoice-3" type="text" value="New(2) choice"/>
-                                       <span class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-3" onclick="removeRubricCol(3, 1)" onmouseout="highlightRubricCol(3, 1, false)" onmouseover="highlightRubricCol(3, 1, true)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove">
-                                          </span>
-                                       </span>
-                                    </div>
-                                 </th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr id="rubricRow-1-0">
-                                 <td>
-                                    <div class="col-sm-12 input-group">
-                                       <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-0" onclick="removeRubricRow(0,1)" onmouseout="highlightRubricRow(0, 1, false)" onmouseover="highlightRubricRow(0, 1, true)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove">
-                                          </span>
-                                       </span>
-                                       <textarea class="form-control" disabled="disabled" id="rubricSubQn-1-0" name="rubricSubQn-0" rows="3">
-                                          New(2) sub-question text
-                                       </textarea>
-                                    </div>
-                                 </td>
-                                 <td class="align-center rubricCol-1-0">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-0-0" name="rubricDesc-0-0" rows="3">
-                                       New(0) description
-                                    </textarea>
-                                 </td>
-                                 <td class="align-center rubricCol-1-1">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-0-1" name="rubricDesc-0-1" rows="3">
-                                    </textarea>
-                                 </td>
-                                 <td class="align-center rubricCol-1-2">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-0-2" name="rubricDesc-0-2" rows="3">
-                                    </textarea>
-                                 </td>
-                                 <td class="align-center rubricCol-1-3">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-0-3" name="rubricDesc-0-3" rows="3">
-                                    </textarea>
-                                 </td>
-                              </tr>
-                              <tr id="rubricRow-1-1">
-                                 <td>
-                                    <div class="col-sm-12 input-group">
-                                       <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-1" onclick="removeRubricRow(1,1)" onmouseout="highlightRubricRow(1, 1, false)" onmouseover="highlightRubricRow(1, 1, true)" style="display: none;">
-                                          <span class="glyphicon glyphicon-remove">
-                                          </span>
-                                       </span>
-                                       <textarea class="form-control" disabled="disabled" id="rubricSubQn-1-1" name="rubricSubQn-1" rows="3">
-                                          New sub-question text
-                                       </textarea>
-                                    </div>
-                                 </td>
-                                 <td class="align-center rubricCol-1-0">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-1-0" name="rubricDesc-1-0" rows="3">
-                                       New(1) description
-                                    </textarea>
-                                 </td>
-                                 <td class="align-center rubricCol-1-1">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-1-1" name="rubricDesc-1-1" rows="3">
-                                    </textarea>
-                                 </td>
-                                 <td class="align-center rubricCol-1-2">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-1-2" name="rubricDesc-1-2" rows="3">
-                                    </textarea>
-                                 </td>
-                                 <td class="align-center rubricCol-1-3">
-                                    <textarea class="form-control nonDestructive" disabled="disabled" id="rubricDesc-1-1-3" name="rubricDesc-1-3" rows="3">
-                                    </textarea>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
+                     <div class="col-sm-6" id="rankOptionTable-1">
+                        <div id="rankOptionRow-0-1">
+                           <div class="input-group col-sm-12">
+                              <input class="form-control" disabled="disabled" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>"/>
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default removeOptionLink" disabled="disabled" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="display:none" tabindex="-1" type="button">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>
+                                 </button>
+                              </span>
+                           </div>
+                        </div>
+                        <div id="rankOptionRow-1-1">
+                           <div class="input-group col-sm-12">
+                              <input class="form-control" disabled="disabled" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  "/>
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default removeOptionLink" disabled="disabled" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="display:none" tabindex="-1" type="button">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>
+                                 </button>
+                              </span>
+                           </div>
+                        </div>
+                        <div id="rankAddOptionRow-1">
+                           <div colspan="2">
+                              <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink-1" onclick="addRankOption(1)" style="display:none">
+                                 <span class="glyphicon glyphicon-plus">
+                                 </span>
+                                 add more options
+                              </a>
+                           </div>
+                        </div>
+                        <input disabled="disabled" id="noofchoicecreated-1" name="noofchoicecreated" type="hidden" value="2"/>
                      </div>
-                     <input disabled="disabled" id="rubricNumRows-1" name="rubricNumRows" type="hidden" value="2"/>
-                     <input disabled="disabled" id="rubricNumCols-1" name="rubricNumCols" type="hidden" value="4"/>
-                  </div>
-                  <div class="row">
-                     <div class="col-sm-6 align-left">
-                        <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-1" onclick="addRubricRow(1)" style="display: none;">
-                           <span class="glyphicon glyphicon-arrow-down">
-                           </span>
-                           add row
-                        </a>
-                     </div>
-                     <div class="col-sm-6 align-right">
-                        <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-1" onclick="addRubricCol(1)" style="display: none;">
-                           add column
-                           <span class="glyphicon glyphicon-arrow-right">
-                           </span>
-                        </a>
+                     <div class="col-sm-6">
+                        <input checked="checked" disabled="disabled" id="rankAreDuplicatesAllowed-1" name="rankAreDuplicatesAllowed" type="checkbox"/>
+                        <span style="margin-left: 5px; font-weight: bold;">
+                           Allow response giver to give the same rank to multiple options
+                        </span>
                      </div>
                      <br/>
                   </div>
@@ -1179,16 +1096,318 @@
                </div>
             </div>
          </div>
-         <input name="fsname" type="hidden" value="First Session"/>
-         <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+         <input name="fsname" type="hidden" value="Edit Session"/>
+         <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
          <input name="questionid" type="hidden" value="${question.id}"/>
          <input name="questionnum" type="hidden" value="1"/>
-         <input name="questiontype" type="hidden" value="RUBRIC"/>
+         <input name="questiontype" type="hidden" value="RANK_OPTIONS"/>
          <input id="questionedittype-1" name="questionedittype" type="hidden" value="edit"/>
          <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
          <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
          <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
-         <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+         <input name="user" type="hidden" value="FRankUiT.instructor"/>
+      </form>
+      <br/>
+      <br/>
+      <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-2" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(2)" role="form">
+         <div class="panel panel-primary questionTable" id="questionTable2">
+            <div class="panel-heading">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <span>
+                        <strong>
+                           Question
+                        </strong>
+                        <select class="questionNumber nonDestructive text-primary" disabled="" id="questionnum-2" name="questionnum">
+                           <option value="1">
+                              1
+                           </option>
+                           <option value="2">
+                              2
+                           </option>
+                        </select>
+                         Rank (recipients) question
+                     </span>
+                     <span class="pull-right">
+                        <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-2" onclick="getQuestionLink(2)" title="">
+                           Get Link
+                        </a>
+                        <a class="btn btn-primary btn-xs" data-original-title="Edit this question" data-placement="top" data-toggle="tooltip" id="questionedittext-2" onclick="enableEdit(2,2)" title="">
+                           Edit
+                        </a>
+                        <a class="btn btn-primary btn-xs" id="questionsavechangestext-2" style="display:none">
+                           Save Changes
+                        </a>
+                        <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questioncanceledit-2" onclick="cancelEdit(2)" style="display:none" title="">
+                           Cancel
+                        </a>
+                        <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(2)" title="">
+                           Delete
+                        </a>
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <div class="panel-body">
+               <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+                  <div>
+                     <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="disabled" id="questiontext-2" name="questiontext" rows="5" tabindex="9" title="">
+                        Rank recipients qn
+                     </textarea>
+                  </div>
+                  <div class="row">
+                     <br/>
+                     <div class="col-sm-6" id="rankOptionTable-2" style="display:none">
+                     </div>
+                     <div class="col-sm-6">
+                        <input disabled="disabled" id="rankAreDuplicatesAllowed-2" name="rankAreDuplicatesAllowed" type="checkbox"/>
+                        <span style="margin-left: 5px; font-weight: bold;">
+                           Allow response giver to give the same rank to multiple options
+                        </span>
+                     </div>
+                     <br/>
+                  </div>
+               </div>
+               <br/>
+               <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                  <div class="col-sm-12 padding-0">
+                     <b>
+                        Feedback Path
+                     </b>
+                     (Who is giving feedback about whom?)
+                  </div>
+                  <div class="col-sm-6 padding-0" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
+                     <label class="col-sm-5 control-label">
+                        Who will give the feedback:
+                     </label>
+                     <div class="col-sm-7">
+                        <select class="form-control participantSelect" disabled="disabled" id="givertype-2" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+                           <option selected="selected" value="SELF">
+                              Me (Session creator)
+                           </option>
+                           <option value="STUDENTS">
+                              Students in this course
+                           </option>
+                           <option value="INSTRUCTORS">
+                              Instructors in this course
+                           </option>
+                           <option value="TEAMS">
+                              Teams in this course
+                           </option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 padding-0" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
+                     <label class="col-sm-5 control-label">
+                        Who the feedback is about:
+                     </label>
+                     <div class="col-sm-7">
+                        <select class="form-control participantSelect" disabled="disabled" id="recipienttype-2" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+                           <option selected="selected" value="SELF">
+                              Giver (Self feedback)
+                           </option>
+                           <option value="STUDENTS">
+                              Other students in the course
+                           </option>
+                           <option value="INSTRUCTORS">
+                              Instructors in the course
+                           </option>
+                           <option value="TEAMS">
+                              Other teams in the course
+                           </option>
+                           <option value="OWN_TEAM">
+                              Giver's team
+                           </option>
+                           <option value="OWN_TEAM_MEMBERS">
+                              Giver's team members
+                           </option>
+                           <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+                              Giver's team members and Giver
+                           </option>
+                           <option value="NONE">
+                              Nobody specific (For general class feedback)
+                           </option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                  </div>
+                  <div class="col-sm-6 numberOfEntitiesElements2" style="display: none;">
+                     <label class="control-label col-sm-4 small" id="numofrecipients_text-2">
+                        The maximum number of
+                        <span id="numofrecipients_text_inner-2">
+                        </span>
+                        each respondant should give feedback to:
+                     </label>
+                     <div class="col-sm-8 form-control-static">
+                        <div class="col-sm-6">
+                           <input class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="custom"/>
+                           <input class="nonDestructive numberOfEntitiesBox" disabled="disabled" id="numofrecipients-2" max="250" min="1" name="numofrecipients" type="number" value="1"/>
+                        </div>
+                        <div class="col-sm-6">
+                           <input checked="checked" class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="max"/>
+                           <span class="">
+                              Unlimited
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <br/>
+               <div class="col-sm-12 padding-15px background-color-light-green">
+                  <div class="col-sm-12 padding-0">
+                     <b>
+                        Visibility
+                     </b>
+                     (Who can see the responses?)
+                  </div>
+                  <div class="col-sm-6 btn-group" data-toggle="buttons">
+                     <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-2" onchange="toggleVisibilityOptions(this)">
+                        <input disabled="disabled" type="radio"/>
+                        <span class="glyphicon glyphicon-pencil">
+                        </span>
+                        Edit Visibility
+                     </label>
+                     <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-2" onchange="toggleVisibilityMessage(this)">
+                        <input disabled="disabled" type="radio"/>
+                        <span class="glyphicon glyphicon-eye-open">
+                        </span>
+                        Preview Visibility
+                     </label>
+                  </div>
+               </div>
+               <div class="col-sm-12 background-color-light-green">
+                  <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-2">
+                     This is the visibility as seen by the feedback giver.
+                     <ul class="background-color-warning">
+                        <li>
+                           You can see your own feedback in the results page later on.
+                        </li>
+                        <li>
+                           Instructors in this course can see your response, the name of the recipient, and your name.
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+               <div class="col-sm-12 margin-bottom-15px background-color-light-green">
+                  <div class="visibilityOptions" id="visibilityOptions-2" style="display: none;">
+                     <table class="dataTable participantTable table table-striped text-center background-color-white">
+                        <tbody>
+                           <tr>
+                              <th class="text-center">
+                                 User/Group
+                              </th>
+                              <th class="text-center">
+                                 Can see answer
+                              </th>
+                              <th class="text-center">
+                                 Can see giver's name
+                              </th>
+                              <th class="text-center">
+                                 Can see recipient's name
+                              </th>
+                           </tr>
+                           <tr>
+                              <td class="text-left">
+                                 <div data-original-title="Control what feedback recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient(s)
+                                 </div>
+                              </td>
+                              <td>
+                                 <input checked="checked" class="visibilityCheckbox answerCheckbox2 centered" disabled="disabled" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER"/>
+                              </td>
+                              <td>
+                                 <input checked="checked" class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER"/>
+                              </td>
+                              <td>
+                                 <input checked="checked" class="visibilityCheckbox recipientCheckbox2" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER"/>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-left">
+                                 <div data-original-title="Control what team members of feedback giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Giver's Team Members
+                                 </div>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS"/>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS"/>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS"/>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-left">
+                                 <div data-original-title="Control what team members of feedback recipients can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Recipient's Team Members
+                                 </div>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS"/>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS"/>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS"/>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-left">
+                                 <div data-original-title="Control what other students can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Other students
+                                 </div>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="STUDENTS"/>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="STUDENTS"/>
+                              </td>
+                              <td>
+                                 <input class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="STUDENTS"/>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td class="text-left">
+                                 <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                    Instructors
+                                 </div>
+                              </td>
+                              <td>
+                                 <input checked="checked" class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="INSTRUCTORS"/>
+                              </td>
+                              <td>
+                                 <input checked="checked" class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="INSTRUCTORS"/>
+                              </td>
+                              <td>
+                                 <input checked="checked" class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="INSTRUCTORS"/>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div>
+                  <span class="pull-right">
+                     <input class="btn btn-primary" disabled="disabled" id="button_question_submit-2" style="display:none" tabindex="0" type="submit" value="Save Changes"/>
+                  </span>
+               </div>
+            </div>
+         </div>
+         <input name="fsname" type="hidden" value="Edit Session"/>
+         <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
+         <input name="questionid" type="hidden" value="${question.id}"/>
+         <input name="questionnum" type="hidden" value="2"/>
+         <input name="questiontype" type="hidden" value="RANK_RECIPIENTS"/>
+         <input id="questionedittype-2" name="questionedittype" type="hidden" value="edit"/>
+         <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+         <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+         <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+         <input name="user" type="hidden" value="FRankUiT.instructor"/>
       </form>
       <br/>
       <br/>
@@ -1253,7 +1472,7 @@
                   </a>
                </div>
                <div class="col-sm-2">
-                  <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=FRubricQnUiT.instructor&courseid=FRubricQnUiT.CS2104&fsname=First+Session">
+                  <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=FRankUiT.instructor&courseid=FRankUiT.CS4221&fsname=Edit+Session">
                         Done Editing   
                   </a>
                </div>
@@ -1270,6 +1489,9 @@
                   </option>
                   <option value="2">
                      2
+                  </option>
+                  <option value="3">
+                     3
                   </option>
                </select>
                 
@@ -1985,13 +2207,13 @@
                </div>
             </div>
          </div>
-         <input name="questionnum" type="hidden" value="2"/>
-         <input name="fsname" type="hidden" value="First Session"/>
-         <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+         <input name="questionnum" type="hidden" value="3"/>
+         <input name="fsname" type="hidden" value="Edit Session"/>
+         <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
          <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
          <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
          <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
-         <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+         <input name="user" type="hidden" value="FRankUiT.instructor"/>
          <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE"/>
       </form>
       <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
@@ -2046,16 +2268,16 @@
                                  <input type="checkbox"/>
                               </td>
                               <td>
-                                 FRubricQnUiT.CS2104
+                                 FRankUiT.CS4221
                               </td>
                               <td>
                                  Closed Session
                               </td>
                               <td>
-                                 Rubric question
+                                 Rank (options) question
                               </td>
                               <td>
-                                 Please choose the best choice for the following sub-questions.
+                                 As an instructor, rank for every team, the areas of improve that they should work on
                               </td>
                               <input type="hidden" value="${question.id}"/>
                            </tr>
@@ -2064,34 +2286,16 @@
                                  <input type="checkbox"/>
                               </td>
                               <td>
-                                 FRubricQnUiT.CS2104
+                                 FRankUiT.CS4221
                               </td>
                               <td>
                                  Closed Session
                               </td>
                               <td>
-                                 Rubric question
+                                 Rank (options) question
                               </td>
                               <td>
-                                 Please choose the best choice for the following sub-questions.
-                              </td>
-                              <input type="hidden" value="${question.id}"/>
-                           </tr>
-                           <tr style="cursor:pointer;">
-                              <td>
-                                 <input type="checkbox"/>
-                              </td>
-                              <td>
-                                 FRubricQnUiT.CS2104
-                              </td>
-                              <td>
-                                 First Session
-                              </td>
-                              <td>
-                                 Rubric question
-                              </td>
-                              <td>
-                                 edited RUBRIC qn text
+                                 As an student, rank for every team, the areas of improve that they should work on
                               </td>
                               <input type="hidden" value="${question.id}"/>
                            </tr>
@@ -2100,16 +2304,16 @@
                                  <input type="checkbox"/>
                               </td>
                               <td>
-                                 FRubricQnUiT.CS2104
+                                 FRankUiT.CS4221
                               </td>
                               <td>
-                                 Second Session
+                                 Edit Session
                               </td>
                               <td>
-                                 Rubric question
+                                 Rank (options) question
                               </td>
                               <td>
-                                 Please choose the best choice for the following sub-questions.
+                                 Rank qn
                               </td>
                               <input type="hidden" value="${question.id}"/>
                            </tr>
@@ -2118,24 +2322,366 @@
                                  <input type="checkbox"/>
                               </td>
                               <td>
-                                 FRubricQnUiT.CS2104
+                                 FRankUiT.CS4221
                               </td>
                               <td>
-                                 Third Session
+                                 Edit Session
                               </td>
                               <td>
-                                 Rubric question
+                                 Rank (recipients) question
                               </td>
                               <td>
-                                 Please choose the best choice for the following sub-questions.
+                                 Rank recipients qn
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (options) question
+                              </td>
+                              <td>
+                                 As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (options) question
+                              </td>
+                              <td>
+                                 As a student, rank the areas of improvement you think you should make progress on.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (options) question
+                              </td>
+                              <td>
+                                 As an instructor, rank for every team, the areas of improve that they should work on
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (options) question
+                              </td>
+                              <td>
+                                 As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 As a student, rank the instructors
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 As an instructor, rank the teams. You are allowed to give the same rank multiple times.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 As instructor, among the 2 reports you have reviewed, rank them
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank the other teams, you can give the same rank multiple times.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank up to 7 students in the course
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank you and your team members
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Instructor Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank your team members
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (options) question
+                              </td>
+                              <td>
+                                 As a student, rank every instructors on their feedback provided. Give the quality that the instructor should improve on most rank 1. You can give the same rank multiple times
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (options) question
+                              </td>
+                              <td>
+                                 As a student, rank the areas of improvement you think you should make progress on.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (options) question
+                              </td>
+                              <td>
+                                 As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 As a student, rank the instructors
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank the other teams, you can give the same rank multiple times.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank up to 7 students in the course. All students can see the responses, but not the giver's name.
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank you and your team members, own team members can see the responses but not recipient name
+                              </td>
+                              <input type="hidden" value="${question.id}"/>
+                           </tr>
+                           <tr style="cursor:pointer;">
+                              <td>
+                                 <input type="checkbox"/>
+                              </td>
+                              <td>
+                                 FRankUiT.CS4221
+                              </td>
+                              <td>
+                                 Student Session
+                              </td>
+                              <td>
+                                 Rank (recipients) question
+                              </td>
+                              <td>
+                                 Rank your team members
                               </td>
                               <input type="hidden" value="${question.id}"/>
                            </tr>
                         </tbody>
                      </table>
-                     <input name="fsname" type="hidden" value="First Session"/>
-                     <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
-                     <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                     <input name="fsname" type="hidden" value="Edit Session"/>
+                     <input name="user" type="hidden" value="FRankUiT.instructor"/>
+                     <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
                   </form>
                </div>
                <div class="modal-footer margin-0">
@@ -2169,31 +2715,43 @@
                            <option value="benny.c.tmms@gmail.tmt">
                               [Team 1] Benny Charles
                            </option>
+                           <option value="charlie.d.tmms@gmail.tmt">
+                              [Team 2] Charlie Davis
+                           </option>
+                           <option value="danny.e.tmms@gmail.tmt">
+                              [Team 2] Danny Engrid
+                           </option>
+                           <option value="emily.f.tmms@gmail.tmt">
+                              [Team 3] Emily F.
+                           </option>
                         </select>
                      </div>
-                     <input name="fsname" type="hidden" value="First Session"/>
-                     <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                     <input name="fsname" type="hidden" value="Edit Session"/>
+                     <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
                      <div class="col-sm-6">
                         <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student"/>
                      </div>
-                     <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+                     <input name="user" type="hidden" value="FRankUiT.instructor"/>
                   </form>
                </div>
                <div class="col-sm-5" data-original-title="View how this session would look like to an instructor who is submitting feedback." data-placement="top" data-toggle="tooltip" title="">
                   <form action="/page/instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
                      <div class="col-sm-6">
                         <select class="form-control" name="previewas">
+                           <option value="tmms.helper1@gmail.tmt">
+                              Teammates Helper who can only see section 1
+                           </option>
                            <option value="tmms.test@gmail.tmt">
                               Teammates Test
                            </option>
                         </select>
                      </div>
-                     <input name="fsname" type="hidden" value="First Session"/>
-                     <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                     <input name="fsname" type="hidden" value="Edit Session"/>
+                     <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
                      <div class="col-sm-6">
                         <input class="btn btn-primary" id="button_preview_instructor" type="submit" value="Preview as Instructor"/>
                      </div>
-                     <input name="user" type="hidden" value="FRubricQnUiT.instructor"/>
+                     <input name="user" type="hidden" value="FRankUiT.instructor"/>
                   </form>
                </div>
             </div>

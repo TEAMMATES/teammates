@@ -1168,6 +1168,12 @@
                         <option value="RUBRIC">
                            Rubric question
                         </option>
+                        <option value="RANK_OPTIONS">
+                           Rank (options) question
+                        </option>
+                        <option value="RANK_RECIPIENTS">
+                           Rank (recipients) question
+                        </option>
                      </select>
                   </div>
                   <div class="col-sm-1">
@@ -1633,6 +1639,66 @@
                               <span class="glyphicon glyphicon-arrow-right">
                               </span>
                            </a>
+                        </div>
+                        <br/>
+                     </div>
+                  </div>
+                  <div id="rankOptionsForm">
+                     <div class="row">
+                        <br/>
+                        <div class="col-sm-6" id="rankOptionTable--1">
+                           <div id="rankOptionRow-0--1">
+                              <div class="input-group col-sm-12">
+                                 <input class="form-control" disabled="disabled" id="rankOption-0--1" name="rankOption-0" type="text" value=""/>
+                                 <span class="input-group-btn">
+                                    <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                                       <span class="glyphicon glyphicon-remove">
+                                       </span>
+                                    </button>
+                                 </span>
+                              </div>
+                           </div>
+                           <div id="rankOptionRow-1--1">
+                              <div class="input-group col-sm-12">
+                                 <input class="form-control" disabled="disabled" id="rankOption-1--1" name="rankOption-1" type="text" value=""/>
+                                 <span class="input-group-btn">
+                                    <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                                       <span class="glyphicon glyphicon-remove">
+                                       </span>
+                                    </button>
+                                 </span>
+                              </div>
+                           </div>
+                           <div id="rankAddOptionRow--1">
+                              <div colspan="2">
+                                 <a class="btn btn-primary btn-xs addOptionLink" id="rankAddOptionLink--1" onclick="addRankOption(-1)" style="display:none">
+                                    <span class="glyphicon glyphicon-plus">
+                                    </span>
+                                    add more options
+                                 </a>
+                              </div>
+                           </div>
+                           <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2"/>
+                        </div>
+                        <div class="col-sm-6">
+                           <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox"/>
+                           <span style="margin-left: 5px; font-weight: bold;">
+                              Allow response giver to give the same rank to multiple options
+                           </span>
+                        </div>
+                        <br/>
+                     </div>
+                  </div>
+                  <div id="rankRecipientsForm">
+                     <div class="row">
+                        <br/>
+                        <div class="col-sm-6" id="rankOptionTable--1" style="display:none">
+                        </div>
+                        <div class="col-sm-6">
+                           <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox"/>
+                           <span style="margin-left: 5px; font-weight: bold;">
+                              Allow response giver to give the same rank to multiple options
+                           </span>
                         </div>
                         <br/>
                      </div>
