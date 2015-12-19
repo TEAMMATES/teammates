@@ -220,26 +220,26 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String mobilePanelTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL;
         String mobilePanelFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT;
 
-        for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder panelBody = new StringBuilder();
-            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+            for (int j = 0; j < numOfRubricChoices; j++) {
                 String panelBodyFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(mobilePanelFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${respIndex}", responseNumberString,
-                                "${col}", Integer.toString(i),
-                                "${row}", Integer.toString(j),
+                                "${col}", Integer.toString(j),
+                                "${row}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
-                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
-                                "${checked}", (frd.getAnswer(j) == i)? "checked":"", //Check if existing choice for sub-question == current choice
-                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
+                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
+                                "${checked}", (frd.getAnswer(i) == j)? "checked":"", //Check if existing choice for sub-question == current choice
+                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
             String panel = 
                 FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
                     "${panelBody}", panelBody.toString(),
-                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)));
+                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel + Const.EOL);
         }
 
@@ -316,26 +316,26 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String mobilePanelTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL;
         String mobilePanelFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT;
 
-        for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder panelBody = new StringBuilder();
-            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+            for (int j = 0; j < numOfRubricChoices; j++) {
                 String panelBodyFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(mobilePanelFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${respIndex}", responseNumberString,
-                                "${col}", Integer.toString(i),
-                                "${row}", Integer.toString(j),
+                                "${col}", Integer.toString(j),
+                                "${row}", Integer.toString(i),
                                 "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
-                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
+                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
                                 "${checked}", "",
-                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
+                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
             }
             String panel = 
                 FeedbackQuestionFormTemplates.populateTemplate(mobilePanelTemplate,
                     "${panelBody}", panelBody.toString(),
-                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)));
+                    "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i)));
             mobileHtml.append(panel + Const.EOL);
         }
 
