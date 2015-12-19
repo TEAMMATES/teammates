@@ -711,3 +711,17 @@ Prevent Long URL From Breaking Out of Container
     -moz-hyphens: auto;
     hyphens: auto;
 }
+
+/*//////////////////////////////////////////////////////////
+////////////////////// Responsiveness //////////////////////
+//////////////////////////////////////////////////////////*/
+
+@media (max-width: 767px) {
+    .mobile-no-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .mobile-align-left {
+        text-align: left !important;
+    }
+}
