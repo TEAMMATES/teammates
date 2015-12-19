@@ -170,7 +170,6 @@ public class TestProperties {
         } else {
             return inst().TEST_STUDENT2_ACCOUNT.equals("charlie.tmms." + uniqueId)
                 && inst().TEST_INSTRUCTOR_ACCOUNT.equals("teammates.coord." + uniqueId)
-                && inst().TEST_UNREG_ACCOUNT.equals("teammates.unreg." + uniqueId)
                 && inst().TEST_ADMIN_ACCOUNT.equals("yourGoogleId." + uniqueId);
         }
     }

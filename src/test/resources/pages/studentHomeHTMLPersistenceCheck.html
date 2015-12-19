@@ -1,34 +1,147 @@
-   <div class="container" id="mainContent">
-      <div id="topOfPage">
-      </div>
-      <h1>
-         Student Home
-      </h1>
-      <br/>
-      <div id="statusMessage" style="display: none;">
-      </div>
-      <br/>
-      <div class="panel panel-primary">
-         <div class="panel-heading">
-            <strong>
-               [SHomeUiT.CS2104] : Programming Language Concepts
-            </strong>
-            <span class="pull-right">
-               <a class="btn btn-primary btn-xs" data-original-title="View and edit information regarding your team" data-placement="top" data-toggle="tooltip" href="/page/studentCourseDetailsPage?user=unreg_user&courseid=SHomeUiT.CS2104" title="">
-                  View Team
-               </a>
-            </span>
+   <html>
+      <head>
+         <title>
+            TEAMMATES - Student
+         </title>
+         <link href="/favicon.png" rel="shortcut icon"/>
+         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+         <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
+         <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+         </script>
+         <script src="/js/googleAnalytics.js" type="text/javascript">
+         </script>
+         <script src="${lib.path}/jquery.min.js" type="text/javascript">
+         </script>
+         <script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
+         </script>
+         <script src="/js/common.js" type="text/javascript">
+         </script>
+         <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript">
+         </script>
+         <script src="/js/student.js" type="text/javascript">
+         </script>
+         <script src="/js/studentHome.js" type="text/javascript">
+         </script>
+      </head>
+      <body>
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+                     <span class="sr-only">
+                        Toggle navigation
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                     <span class="icon-bar">
+                     </span>
+                  </button>
+                  <a class="navbar-brand" href="/index.html">
+                     TEAMMATES
+                  </a>
+               </div>
+               <div class="collapse navbar-collapse" id="contentLinks">
+                  <ul class="nav navbar-nav">
+                     <li class="active">
+                        <a class="navLinks" href="/page/studentHomePage?user=unreg_user" id="studentHomeNavLink">
+                           Home
+                        </a>
+                     </li>
+                     <li>
+                        <a class="navLinks" href="/page/studentProfilePage?user=unreg_user" id="studentProfileNavLink">
+                           Profile
+                        </a>
+                     </li>
+                     <li>
+                        <a class="navLinks" href="/page/studentCommentsPage?user=unreg_user" id="studentCommentsNavLink">
+                           Comments
+                        </a>
+                     </li>
+                     <li>
+                        <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+                           Help
+                        </a>
+                     </li>
+                  </ul>
+                  <ul class="nav navbar-nav pull-right">
+                     <li>
+                        <a class="nav logout" href="/logout.jsp">
+                           Logout
+                            (
+                           <span class="text-info" data-original-title="unreg_user" data-placement="bottom" data-toggle="tooltip" title="">
+                              unreg_user
+                           </span>
+                           )
+                        </a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
          </div>
-         <table class="table-responsive table table-striped">
-            <tbody>
-               <tr>
-                  <th class="align-center bold color_white">
-                     Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
-                  </th>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <br/>
-      <br/>
-   </div>
+         <div class="container" id="mainContent">
+            <div id="topOfPage">
+            </div>
+            <h1>
+               Student Home
+            </h1>
+            <br/>
+            <div id="statusMessage" style="display: none;">
+            </div>
+            <br/>
+            <div class="panel panel-primary">
+               <div class="panel-heading">
+                  <strong>
+                     [SHomeUiT.CS2104] : Programming Language Concepts
+                  </strong>
+                  <span class="pull-right">
+                     <a class="btn btn-primary btn-xs" data-original-title="View and edit information regarding your team" data-placement="top" data-toggle="tooltip" href="/page/studentCourseDetailsPage?user=unreg_user&courseid=SHomeUiT.CS2104" title="">
+                        View Team
+                     </a>
+                  </span>
+               </div>
+               <table class="table-responsive table table-striped">
+                  <tbody>
+                     <tr>
+                        <th class="align-center bold color_white">
+                           Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+                        </th>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <br/>
+            <br/>
+         </div>
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-2">
+                     <span>
+                        [
+                        <a href="/index.html">
+                           TEAMMATES
+                        </a>
+                        V${version}]
+                     </span>
+                  </div>
+                  <div class="col-md-8">
+                  </div>
+                  <div class="col-md-2">
+                     <span>
+                        [Send
+                        <a class="link" href="../contact.html" target="_blank">
+                           Feedback
+                        </a>
+                        ]
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </html>
