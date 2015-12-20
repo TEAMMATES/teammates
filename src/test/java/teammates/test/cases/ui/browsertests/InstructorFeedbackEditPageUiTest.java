@@ -293,7 +293,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         .withCourseId(courseId)
                                         .withSessionName(feedbackSessionName)
                                         .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId)
-                                        .toAbsoluteString();
+                                        .toAbsoluteString()
+                                        .replace("+", "%20");
+        // different sanitization because the one in actual is sanitized via JS (encodeURIComponent)
 
         assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
         assertEquals("Link for question 1: " + expectedUrl, feedbackEditPage.getStatus());

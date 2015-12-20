@@ -105,7 +105,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email + " | " + institute);
         
         String encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
-        String expectedjoinUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String expectedjoinUrl = new teammates.common.util.Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
@@ -122,7 +122,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage.createInstructor(shortName,instructor,institute);
         
         encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
-        expectedjoinUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        expectedjoinUrl = new teammates.common.util.Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();

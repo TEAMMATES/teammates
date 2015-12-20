@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.util.Url;
 
 /** Covers the table sorting functionality
  */
@@ -22,7 +21,8 @@ public class AppPageUiTest extends BaseUiTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();        
-        page = AppPage.getNewPageInstance(browser).navigateTo(new Url(getPath(0)));
+        browser.driver.get(getPath(0));
+        page = AppPage.getNewPageInstance(browser);
     }
     
     @Test
