@@ -89,7 +89,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         // this test uses the accounts from test.properties
         studentHome.verifyHtmlMainContent("/studentHomeHTML.html");
         
-        Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        Url detailsPageUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
@@ -101,7 +101,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     
     private void testLinks(){
         
-        Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        Url detailsPageUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
@@ -173,7 +173,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     
     private void testLinkAndContentAfterDelete(){
         
-        Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        Url detailsPageUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
@@ -189,7 +189,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
 
     private void loginWithPersistenceProblem() {
-        Url homeUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        Url homeUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "SHomeUiT.CS2104")
                     .withUserId("unreg_user");
         

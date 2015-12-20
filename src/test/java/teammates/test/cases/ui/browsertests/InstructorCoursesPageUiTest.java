@@ -352,7 +352,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCoursesPage getCoursesPage() {
-        Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+        Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();

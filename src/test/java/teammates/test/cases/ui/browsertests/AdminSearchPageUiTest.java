@@ -76,7 +76,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     private AdminSearchPage getAdminSearchPage(String instructorId) {
-        Url commentsPageUrl = createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE);
+        Url commentsPageUrl = new Url(Const.ActionURIs.ADMIN_SEARCH_PAGE);
 
         return loginAdminToPage(browser, commentsPageUrl, AdminSearchPage.class);
     }

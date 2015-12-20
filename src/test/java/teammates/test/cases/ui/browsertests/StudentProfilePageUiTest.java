@@ -65,7 +65,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void testNavLinkToPage() {
-        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        Url profileUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
                                    .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
         StudentHomePage shp = loginAdminToPage(browser, profileUrl, StudentHomePage.class);
         profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
@@ -248,7 +248,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private StudentProfilePicturePage getProfilePicturePage(String instructorId, String email,
                                                             String courseId) {
-        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+        Url profileUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withUserId(testData.accounts.get(instructorId).googleId)
                                    .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
                                    .withParam(Const.ParamsNames.COURSE_ID, courseId);
@@ -256,7 +256,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private StudentProfilePicturePage getProfilePicturePage(String studentId, String pictureKey) {
-        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+        Url profileUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withUserId(testData.accounts.get(studentId).googleId)
                                    .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
         return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
@@ -267,7 +267,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private StudentProfilePage getProfilePageForStudent(String studentId) {
-        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
+        Url profileUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PAGE)
                                    .withUserId(testData.accounts.get(studentId).googleId);
         return loginAdminToPage(browser, profileUrl, StudentProfilePage.class);
     }

@@ -33,7 +33,7 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical case");
         
-        Url commentsPageUrl = createUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
+        Url commentsPageUrl = new Url(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("student1InCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, StudentCommentsPage.class);
@@ -41,14 +41,14 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
         // This is the full HTML verification for Student Comments Page, the rest can all be verifyMainHtml
         commentsPage.verifyHtml("/studentCommentsPageForStudent1.html");
         
-        commentsPageUrl = createUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
+        commentsPageUrl = new Url(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("student2InCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, StudentCommentsPage.class);
 
         commentsPage.verifyHtmlMainContent("/studentCommentsPageForStudent2.html");
         
-        commentsPageUrl = createUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
+        commentsPageUrl = new Url(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("student3InCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, StudentCommentsPage.class);

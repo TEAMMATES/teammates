@@ -39,7 +39,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private void testContent() throws Exception {
         ______TS("content: no course");
         
-        Url commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+        Url commentsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
@@ -49,7 +49,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: course with no comment");
         
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+        commentsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructorWithOnlyOneSampleCourse").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
@@ -58,7 +58,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical course with comments with helper view");
         
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+        commentsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("helperOfCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
@@ -68,7 +68,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: course with comments with session name containing characters to be URI encoded");
         
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+        commentsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructorOfCourseWithUriChars").googleId);
         
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
@@ -78,7 +78,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical course with comments");
         
-        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+        commentsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
         
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);

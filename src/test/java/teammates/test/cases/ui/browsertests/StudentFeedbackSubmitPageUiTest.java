@@ -514,19 +514,17 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
-        String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        Url submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
                                              .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
-                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
-                                .toString();
-        browser.driver.get(submitUrl);
+                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
 
-        return AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
+        return AppPage.getNewPageInstance(browser, submitUrl, FeedbackSubmitPage.class);
     }
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -535,7 +533,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);

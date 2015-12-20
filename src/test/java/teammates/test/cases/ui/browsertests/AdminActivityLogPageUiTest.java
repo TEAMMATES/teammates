@@ -56,18 +56,18 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical page");
         
-        Url logPageUrl = createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE);
+        Url logPageUrl = new Url(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE);
         logPage = loginAdminToPage(browser, logPageUrl, AdminActivityLogPage.class);
         logPage.verifyIsCorrectPage();
         
         ______TS("content: navigate to other pages to get some logs");
-        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
+        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_HOME_PAGE));
         logPage.waitForPageToLoad();
-        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE));
+        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE));
         logPage.waitForPageToLoad();
-        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE));
+        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_SEARCH_PAGE));
         logPage.waitForPageToLoad();
-        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
+        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
         assertNotNull(logPage.getFirstActivityLogRow());
         assertTrue(logPage.isLogsTableVisible());

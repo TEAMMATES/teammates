@@ -158,7 +158,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("link: download student list");
         
-        Url studentListDownloadUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
+        Url studentListDownloadUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
                                         .withUserId("CCDetailsUiT.instr")
                                         .withCourseId("CCDetailsUiT.CS2104");
         
@@ -233,7 +233,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {
-        Url detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        Url detailsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                 .withUserId(instructorId)
                                 .withCourseId(courseId);
 

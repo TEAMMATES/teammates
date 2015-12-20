@@ -168,7 +168,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {
-        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+        Url viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                            .withUserId(instructorId)
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);

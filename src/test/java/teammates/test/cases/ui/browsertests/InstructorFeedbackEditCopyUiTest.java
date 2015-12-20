@@ -99,7 +99,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        Url feedbackPageLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                              .withUserId(instructorId)
                                              .withCourseId(courseId)
                                              .withSessionName(feedbackSessionName);

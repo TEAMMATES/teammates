@@ -165,7 +165,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, "Teammates Instructor",
                                                   "InsCrsEdit.instructor@gmail.tmt"));
         
-        Url courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        Url courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                     .withCourseId(courseId)
                                     .withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
             
@@ -483,7 +483,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCourseEditPage getCourseEditPage() {        
-        Url courseEditPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
+        Url courseEditPageLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);
         

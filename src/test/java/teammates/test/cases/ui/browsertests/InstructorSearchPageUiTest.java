@@ -120,7 +120,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
-        Url commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
+        Url commentsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
         return loginAdminToPage(browser, commentsPageUrl, InstructorSearchPage.class);

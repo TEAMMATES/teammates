@@ -43,7 +43,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical page");
         
-        Url logPageUrl = createUrl(Const.ActionURIs.ADMIN_EMAIL_LOG_PAGE);
+        Url logPageUrl = new Url(Const.ActionURIs.ADMIN_EMAIL_LOG_PAGE);
         emailLogPage = loginAdminToPage(browser, logPageUrl, AdminEmailLogPage.class);
         emailLogPage.verifyIsCorrectPage();
         assertTrue(isEmailLogDataDisplayCorrect());

@@ -43,7 +43,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical page");
         
-        Url sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
+        Url sessionsUrl = new Url(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
         assertFalse(isTimeFramePanelVisible());
         assertTrue(isSessionDataDisplayCorrect());

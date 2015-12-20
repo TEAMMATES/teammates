@@ -55,7 +55,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         
         ______TS("AssertionError testing");
         
-        Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
+        Url url = new Url(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
                 .withParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
         page.navigateTo(url);
         print("AssertionError triggered, please check your crash report at "
@@ -66,7 +66,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         
         ______TS("EntityDoesNotExistException testing");
         
-        Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
+        Url url = new Url(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, EntityDoesNotExistException.class.getSimpleName());
         page.navigateTo(url);
         print("This exception is handled by system, make sure you don't receive any emails. ");
@@ -76,7 +76,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         
         ______TS("NullPointerException testing");
         
-        Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
+        Url url = new Url(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
         page.navigateTo(url);
         print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);    
@@ -86,7 +86,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         
         ______TS("Deadline Exceeded testing");
         
-        Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
+        Url url = new Url(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
         page.navigateTo(url);
         print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);    
@@ -102,7 +102,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         
         ______TS("UnauthorizedAccessException testing");
         
-        Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
+        Url url = new Url(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
         page.navigateTo(url);
         print("This exception is handled by system, make sure you don't receive any emails. ");
@@ -111,7 +111,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     public void testNullPostParamException() {
         ______TS("NullPostParamException testing");
         
-        Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
+        Url url = new Url(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, NullPostParameterException.class.getSimpleName());
         page.navigateTo(url);
         page.verifyStatus(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE.replace("<br>", "\n"));

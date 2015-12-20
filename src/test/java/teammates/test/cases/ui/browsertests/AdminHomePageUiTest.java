@@ -76,7 +76,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("content: typical page");
         
-        Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
+        Url homeUrl = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPageForAdminUiTests(browser, homeUrl, AdminHomePage.class);
         
         homePage.verifyHtml("/adminHomePage.html");
@@ -255,7 +255,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("action failure : invalid parameter");
         
-        Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
+        Url homeUrl = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
         instructor.email = "AHPUiT.email.tmt";        

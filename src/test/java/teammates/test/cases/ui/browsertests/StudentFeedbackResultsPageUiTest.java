@@ -162,7 +162,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -171,13 +171,11 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,
                                                                     Class<T> typeOfPage) {
-        String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        Url submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
                                             .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
-                                            .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
-                                .toString();
-        browser.driver.get(submitUrl);
-        return AppPage.getNewPageInstance(browser, typeOfPage);
+                                            .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
+        return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }
 }

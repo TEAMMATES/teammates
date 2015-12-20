@@ -209,8 +209,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
             String studentName, String fsName, String questionId) {
-        Url editUrl = createUrl(
-                Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
@@ -221,17 +220,14 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private FeedbackQuestionSubmitPage goToStudentFeedbackQuestionSubmitPage(
             StudentAttributes s, String fsName, String questionId) {
-        String editUrl = createUrl(
-                Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
                 .withStudentEmail(s.email)
                 .withCourseId(s.course)
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
-                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId)
-                .toString();
+                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
-        browser.driver.get(editUrl);
-        return AppPage.getNewPageInstance(browser, FeedbackQuestionSubmitPage.class);
+        return AppPage.getNewPageInstance(browser, editUrl, FeedbackQuestionSubmitPage.class);
     }
     
     @AfterClass

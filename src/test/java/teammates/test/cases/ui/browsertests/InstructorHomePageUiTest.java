@@ -460,14 +460,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     private void loginAsInstructor(String googleId){
-         Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+         Url editUrl = new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
         
         homePage = loginAdminToPage(browser, editUrl, InstructorHomePage.class);
     }
 
     private void loginWithPersistenceProblem() {
-        Url homeUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+        Url homeUrl = new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something")
                     .withUserId("unreg_user");
         

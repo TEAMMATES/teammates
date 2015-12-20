@@ -44,7 +44,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
         
         ______TS("content: typical page");
         
-        Url detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
+        Url detailsPageUrl = new Url(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
             .withInstructorId("AAMgtUiT.instr2");
         detailsPage = loginAdminToPageForAdminUiTests(browser, detailsPageUrl, AdminAccountDetailsPage.class);
         
