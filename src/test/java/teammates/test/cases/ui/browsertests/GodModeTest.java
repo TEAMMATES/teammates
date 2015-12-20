@@ -14,12 +14,12 @@ import teammates.common.util.Assumption;
 import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 public class GodModeTest extends BaseUiTestCase {
     private static Browser browser;

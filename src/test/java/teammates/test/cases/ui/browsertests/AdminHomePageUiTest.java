@@ -18,7 +18,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -44,6 +43,7 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.util.Priority;
+import teammates.test.util.Url;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -136,13 +136,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         assertNotNull(BackDoor.getInstructorByEmail(instructor.email, demoCourseId));
         
         //get the joinURL which sent to the requester's email
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId,instructor.email));
+        String joinLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                        .withRegistrationKey(regkey)
+                                        .withInstructorInstitution(institute)
+                                        .toAbsoluteString();
       
-        String joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY,
-                                            StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email)));
-       
-        joinLink = Url.addParamToUrl(joinLink, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        
         //simulate the user's verification here because it is added by admin 
         browser.driver.get(joinLink);        
         confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
@@ -191,11 +190,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePageSampleCourseArchived.html");
         
         ______TS("new instructor can unarchive sample course");
-        String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
-                                       Const.ParamsNames.USER_ID, 
-                                       TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        browser.driver.get(url);
-        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
+        Url url = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+                                        .withUserId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.unarchiveCourse(demoCourseId);
         coursesPage.verifyHtmlMainContent("/newlyJoinedInstructorCoursesPageSampleCourseUnarhived.html");

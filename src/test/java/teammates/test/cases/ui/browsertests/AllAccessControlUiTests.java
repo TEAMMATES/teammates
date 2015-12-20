@@ -10,7 +10,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -22,6 +21,7 @@ import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.util.Priority;
+import teammates.test.util.Url;
 
 /**
  * We do not test all access control at UI level. This class contains a few
@@ -118,7 +118,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         
         ______TS("incorrect URL");
         
-        Url nonExistentActionUrl = new Url(TestProperties.inst().TEAMMATES_URL + "/page/nonExistentAction");
+        Url nonExistentActionUrl = new Url("/page/nonExistentAction");
         @SuppressWarnings("unused") //We simply ensures it is the right page type
         NotFoundPage notFoundPage = AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
@@ -233,7 +233,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
     private void verifyCannotMasquerade(Url url, String otherInstructorId) {
-        verifyRedirectToNotAuthorized(url.withUserId(otherInstructorId));
+        Url masqueradeUrl = url.withUserId(otherInstructorId);
+        verifyRedirectToNotAuthorized(masqueradeUrl);
     }
 
     private void verifyRedirectToWelcomeStrangerPage(String path, String unregUsername) {
@@ -259,7 +260,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
     private void verifyRedirectToNotAuthorized(Url url) {
-        printUrl(url.toString());
+        printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         verifyRedirectToNotAuthorized();
     }

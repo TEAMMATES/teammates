@@ -11,11 +11,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
+import teammates.test.util.Url;
 
 public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;

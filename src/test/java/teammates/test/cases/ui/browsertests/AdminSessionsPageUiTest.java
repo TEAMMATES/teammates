@@ -14,10 +14,10 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.pageobjects.AdminSessionsPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 /**
  * Covers the home page for admins.

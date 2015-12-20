@@ -3,7 +3,6 @@ package teammates.test.cases.ui.browsertests;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -12,6 +11,7 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
+import teammates.test.util.Url;
 
 public class BaseUiTestCase extends BaseTestCase {
 
@@ -57,7 +57,7 @@ public class BaseUiTestCase extends BaseTestCase {
         }
         
         if(browser.isAdminLoggedIn){
-            browser.driver.get(url.toString());
+            browser.driver.get(url.toAbsoluteString());
             try {
                 return AppPage.getNewPageInstance(browser, typeOfPage);
             } catch(Exception e) {
@@ -68,7 +68,7 @@ public class BaseUiTestCase extends BaseTestCase {
         //logout and attempt to load the requested URL. This will be 
         //  redirected to a dev-server/google login page
         AppPage.logout(browser);
-        browser.driver.get(url.toString());
+        browser.driver.get(url.toAbsoluteString());
         String pageSource = browser.driver.getPageSource();
         
         //login based on the login page type

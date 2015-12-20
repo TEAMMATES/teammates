@@ -13,10 +13,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.test.pageobjects.AdminActivityLogPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     

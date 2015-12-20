@@ -11,7 +11,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -20,6 +19,7 @@ import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.pageobjects.StudentProfilePicturePage;
 import teammates.test.util.Priority;
+import teammates.test.util.Url;
 
 @Priority(-3)
 public class StudentProfilePageUiTest extends BaseUiTestCase {

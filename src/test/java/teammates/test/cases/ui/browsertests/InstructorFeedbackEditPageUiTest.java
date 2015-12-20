@@ -17,10 +17,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
@@ -28,6 +26,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.util.Priority;
+import teammates.test.util.Url;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -290,11 +289,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickGetLinkButton();
         String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
         
-        String expectedUrl = TestProperties.inst().TEAMMATES_URL
-                             + Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE
-                             + "?courseid=" + courseId
-                             + "&fsname=First%20Session"
-                             + "&questionid=" + questionId;
+        String expectedUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+                                        .withCourseId(courseId)
+                                        .withSessionName(feedbackSessionName)
+                                        .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId)
+                                        .toAbsoluteString();
 
         assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
         assertEquals("Link for question 1: " + expectedUrl, feedbackEditPage.getStatus());
@@ -461,12 +460,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Compare URLs");
         
-        String expectedRedirectUrl = TestProperties.inst().TEAMMATES_URL
-                                     + Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?"
-                                     + Const.ParamsNames.USER_ID + "=" + instructorId + "&"
-                                     + Const.ParamsNames.COURSE_ID + "=" + courseId + "&"
-                                     + Const.ParamsNames.FEEDBACK_SESSION_NAME + "="
-                                     + feedbackSessionName.replaceAll(" ", "+");
+        String expectedRedirectUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                                        .withUserId(instructorId)
+                                        .withCourseId(courseId)
+                                        .withSessionName(feedbackSessionName)
+                                        .toAbsoluteString();
         assertEquals(expectedRedirectUrl, feedbackPage.getPageUrl());
         
         

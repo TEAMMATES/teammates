@@ -6,10 +6,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentCommentsPage;
+import teammates.test.util.Url;
 
 public class StudentCommentsPageUiTest extends BaseUiTestCase {
     private static Browser browser;

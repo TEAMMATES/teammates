@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -18,6 +17,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
+import teammates.test.util.Url;
 
 /**
  * Tests 'Feedback Results' view of students.

@@ -1,9 +1,9 @@
 package teammates.test.cases.ui.browsertests;
 
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.util.Url;
 
 public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
 

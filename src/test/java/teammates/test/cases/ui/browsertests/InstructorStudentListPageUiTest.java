@@ -14,8 +14,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -27,6 +27,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 import teammates.test.util.Priority;
+import teammates.test.util.Url;
 
 /**
  * Covers the 'student list' view for instructors.
@@ -156,14 +157,17 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
 
         viewPage.clickShowPhoto(student.course, student.name);
-        viewPage.verifyProfilePhoto(student.course, student.name, Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
+        viewPage.verifyProfilePhoto(student.course, student.name, new Url(Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH));
 
         ______TS("student has uploaded an image");
 
         StudentAttributes student2 = testData.students.get("Student3Course3");
         viewPage.clickShowPhoto(student2.course, student2.name);
-        viewPage.verifyProfilePhoto(student2.course, student2.name,
-                                    Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?" + Const.ParamsNames.STUDENT_EMAIL);
+        Url photoUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+                                        .withStudentEmail(StringHelper.encrypt(student2.email))
+                                        .withCourseId(StringHelper.encrypt(student2.course))
+                                        .withUserId(instructorId);
+        viewPage.verifyProfilePhoto(student2.course, student2.name, photoUrl);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
 

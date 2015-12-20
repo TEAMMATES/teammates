@@ -18,7 +18,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -26,6 +25,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.util.Priority;
+import teammates.test.util.Url;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -620,7 +620,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                                               .withUserId("CFResultsUiT.instr");
-        browser.driver.get(reportUrl.toString());
+        browser.driver.get(reportUrl.toAbsoluteString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertFalse(reportUrl.equals(afterReportDownloadUrl));
         // Get an error page due to missing parameters in URL

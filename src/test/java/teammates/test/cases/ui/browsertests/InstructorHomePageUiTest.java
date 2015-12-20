@@ -16,9 +16,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -27,6 +25,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
+import teammates.test.util.Url;
 
 /**
  * Tests Home page and login page for instructors. 
@@ -191,40 +190,40 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("link: course enroll");
         InstructorCourseEnrollPage enrollPage = homePage.clickCourseErollLink(courseId);
         enrollPage.verifyContains("Enroll Students for CHomeUiT.CS1101");
-        String expectedEnrollLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + 
-                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
-                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        String expectedEnrollLinkText = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+                                        .withCourseId(courseId)
+                                        .withUserId(instructorId)
+                                        .toAbsoluteString();
         assertEquals(expectedEnrollLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course view");
         InstructorCourseDetailsPage detailsPage = homePage.clickCourseViewLink(courseId);
         detailsPage.verifyContains("Course Details");
-        String expectedViewLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE + 
-                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
-                "&" + Const.ParamsNames.USER_ID + "=" + instructorId;
+        String expectedViewLinkText = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+                                        .withCourseId(courseId)
+                                        .withUserId(instructorId)
+                                        .toAbsoluteString();
         assertEquals(expectedViewLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course edit");
         InstructorCourseEditPage editPage = homePage.clickCourseEditLink(courseId);
         editPage.verifyContains("Edit Course Details");
-        String expectedEditLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE + 
-                "?" + Const.ParamsNames.COURSE_ID + "=" + courseId + 
-                "&" +  Const.ParamsNames.USER_ID + "=" + instructorId;
+        String expectedEditLinkText = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
+                                        .withCourseId(courseId)
+                                        .withUserId(instructorId)
+                                        .toAbsoluteString();
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("link: course add session");
         InstructorFeedbacksPage feedbacksPage =  homePage.clickCourseAddEvaluationLink(courseId);
         feedbacksPage.verifyContains("Add New Feedback Session");
-        String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
-                "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
-                "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
+        String expectedAddSessionLinkText = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                                        .withUserId(instructorId)
+                                        .withCourseId(courseId)
+                                        .toAbsoluteString();
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
@@ -336,7 +335,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         //delete the course, then submit archive request to it
         Url urlToArchive = homePage.getArchiveCourseLink(courseIdForCS2104);
         homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseIdForCS2104));
-        browser.driver.get(urlToArchive.toString());
+        browser.driver.get(urlToArchive.toAbsoluteString());
         assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ViewURIs.UNAUTHORIZED));
         
         //restore

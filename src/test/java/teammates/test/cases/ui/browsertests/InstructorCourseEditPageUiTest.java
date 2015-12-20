@@ -14,7 +14,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -22,6 +21,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
+import teammates.test.util.Url;
 
 /**
  * Tests 'Edit Course Details' functionality for Instructors.

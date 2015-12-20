@@ -42,11 +42,11 @@ import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.Url;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -148,7 +148,7 @@ public abstract class AppPage {
      * the type indicated by the parameter {@code typeOfPage}.
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage){
-        currentBrowser.driver.get(url.toString());
+        currentBrowser.driver.get(url.toAbsoluteString());
         return createNewPage(currentBrowser, typeOfPage);
     }
 
@@ -189,7 +189,7 @@ public abstract class AppPage {
      * Simply loads the given URL. 
      */
     public AppPage navigateTo(Url url){
-        browser.driver.get(url.toString());
+        browser.driver.get(url.toAbsoluteString());
         return this;
     }
 
@@ -406,7 +406,7 @@ public abstract class AppPage {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     public static void logout(Browser currentBrowser){
-        currentBrowser.driver.get(TestProperties.inst().TEAMMATES_URL + Const.ViewURIs.LOGOUT);
+        currentBrowser.driver.get(new Url(Const.ViewURIs.LOGOUT).toAbsoluteString());
         currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
         currentBrowser.isAdminLoggedIn = false;
     }
@@ -1055,7 +1055,7 @@ public abstract class AppPage {
         //TODO: implement a better way to download a file and check content 
         // (may be using HtmlUnit as the Webdriver?)
         String beforeReportDownloadUrl = browser.driver.getCurrentUrl();
-        browser.driver.get(url.toString());
+        browser.driver.get(url.toAbsoluteString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
     }

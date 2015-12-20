@@ -10,7 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Url;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
@@ -18,6 +17,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.test.util.Url;
 
 /**
  * Covers the 'edit student details' functionality for instructors.

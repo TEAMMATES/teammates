@@ -10,10 +10,10 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.pageobjects.AdminEmailLogPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 public class AdminEmailLogPageUiTest extends BaseUiTestCase {
     private static Browser browser;
