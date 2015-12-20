@@ -15,8 +15,6 @@ import teammates.test.util.Url;
 
 public class BaseUiTestCase extends BaseTestCase {
 
-    protected static final String appUrl = TestProperties.inst().TEAMMATES_URL;
-    
     /**
      * Do an initial loginAdminToPage (may or may not involve explicit logging in action),
      * logs out, then logs in again (this time it will be an explicit logging in).

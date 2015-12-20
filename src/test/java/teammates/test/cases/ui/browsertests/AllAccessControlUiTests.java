@@ -44,7 +44,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
     private static AppPage currentPage;
-    private static String link;
 
     private static InstructorAttributes otherInstructor;
 
@@ -77,17 +76,17 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         ______TS("student pages");
 
-        verifyRedirectToLogin(Const.ActionURIs.STUDENT_HOME_PAGE);
+        verifyRedirectToLogin(new Url(Const.ActionURIs.STUDENT_HOME_PAGE));
         
 
         ______TS("instructor pages");
 
-        verifyRedirectToLogin(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        verifyRedirectToLogin(new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
         
 
         ______TS("admin pages");
 
-        verifyRedirectToLogin(Const.ActionURIs.ADMIN_HOME_PAGE);
+        verifyRedirectToLogin(new Url(Const.ActionURIs.ADMIN_HOME_PAGE));
         
         
     }
@@ -99,7 +98,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         loginStudent(unregUsername, unregPassword);
 
-        verifyRedirectToWelcomeStrangerPage(Const.ActionURIs.STUDENT_HOME_PAGE, unregUsername);
+        verifyRedirectToWelcomeStrangerPage(new Url(Const.ActionURIs.STUDENT_HOME_PAGE), unregUsername);
 
 
         ______TS("instructor pages");
@@ -136,8 +135,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         
         ______TS("cannot view other homepage");
         
-        link = Const.ActionURIs.STUDENT_HOME_PAGE;
-        verifyCannotMasquerade(link, otherInstructor.googleId);
+        verifyCannotMasquerade(new Url(Const.ActionURIs.STUDENT_HOME_PAGE), otherInstructor.googleId);
     }
     
     @Test
@@ -147,8 +145,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     
         ______TS("cannot view other homepage");
     
-        link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-        verifyCannotMasquerade(link, otherInstructor.googleId);
+        verifyCannotMasquerade(new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE), otherInstructor.googleId);
     }
     
     @Test
@@ -227,19 +224,14 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         verifyRedirectToNotAuthorized(url);
     }
 
-    private void verifyCannotMasquerade(String link, String otherInstructorId) {
-        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, otherInstructorId);
-        verifyRedirectToNotAuthorized(link);
-    }
-    
     private void verifyCannotMasquerade(Url url, String otherInstructorId) {
         Url masqueradeUrl = url.withUserId(otherInstructorId);
         verifyRedirectToNotAuthorized(masqueradeUrl);
     }
 
-    private void verifyRedirectToWelcomeStrangerPage(String path, String unregUsername) {
-        printUrl(appUrl + path);
-        currentPage.navigateTo(new Url(path));
+    private void verifyRedirectToWelcomeStrangerPage(Url url, String unregUsername) {
+        printUrl(url.toAbsoluteString());
+        currentPage.navigateTo(url);
         // A simple regex check is enough because we do full HTML tests
         // elsewhere
         AssertHelper.assertContainsRegex("{*}" + unregUsername + "{*}Welcome stranger{*}",
@@ -253,21 +245,15 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
                 pageSource.contains("Your client does not have permission"));
     }
 
-    private void verifyRedirectToNotAuthorized(String path) {
-        printUrl(appUrl + path);
-        currentPage.navigateTo(new Url(path));
-        verifyRedirectToNotAuthorized();
-    }
-    
     private void verifyRedirectToNotAuthorized(Url url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         verifyRedirectToNotAuthorized();
     }
 
-    private void verifyRedirectToLogin(String path) {
-        printUrl(appUrl + path);
-        currentPage.navigateTo(new Url(path));
+    private void verifyRedirectToLogin(Url url) {
+        printUrl(url.toAbsoluteString());
+        currentPage.navigateTo(url);
         assertTrue(isLoginPage(currentPage));
     }
 

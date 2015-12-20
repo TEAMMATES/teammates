@@ -20,12 +20,8 @@ public class HomePage extends AppPage {
         super(browser);
     }
 
-    public static HomePage getNewInstance(){
-        return getNewPageInstance(HOMEPAGE, HomePage.class);
-    }
-    
     public static HomePage getNewInstance(Browser browser){
-        return getNewPageInstance(browser, new Url(HOMEPAGE), HomePage.class);
+        return getNewPageInstance(browser, new Url(""), HomePage.class);
     }
 
     @Override
