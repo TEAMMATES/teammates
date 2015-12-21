@@ -753,32 +753,40 @@ function updateRankMessageQn(qnNum) {
 
     var areAllAnswersUnique;
     var allocatedRanks;
+    var isAllOptionsRanked;
 
     function resetState() {
         allocatedRanks = {};
         areAllAnswersUnique = true;
+        isAllOptionsRanked = true;
     }
 
 
-    function updateRankMessages(messageElement) {
-        messageElement.removeClass('text-color-red text-color-green text-color-blue');
+    function updateRankMessages($messageElement) {
+        $messageElement.removeClass('text-color-red text-color-green text-color-blue');
 
         var message = '';
-        var isContainsAnswer = Object.keys(allocatedRanks).length !== 0;
-        if (!isContainsAnswer) {
-            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. ' 
-                                                                         : 'options. ');
-            messageElement.addClass('text-color-blue');
-        } else if (!areDuplicateRanksAllowed && !areAllAnswersUnique) {
+
+        if (!areDuplicateRanksAllowed && !areAllAnswersUnique) {
             message += ' The same rank should not be given multiple times. ';
-            messageElement.addClass('text-color-red');
+            $messageElement.addClass('text-color-red');
+        } else if (!isAllOptionsRanked) {
+            message = 'Please rank the above ' + (isDistributingToRecipients ? 'recipients. ' 
+                                                                             : 'options. ');
+            $messageElement.addClass('text-color-blue');
         }
 
-        messageElement.text(message);
+        $messageElement.text(message);
+        if (message === '') {
+            $messageElement.parent().find('hr').hide();
+        } else {
+            $messageElement.parent().find('hr').show();
+        }
     }
 
     function updateAllocatedRanks(rankAllocated) {
         if (!isNumber(rankAllocated)) {
+            isAllOptionsRanked = false;
             return;
         }
         if (rankAllocated in allocatedRanks) {
