@@ -142,7 +142,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("Please fix the error(s) for rank question(s) 5. To skip a rank question, leave all the boxes blank.", submitPage.getStatus());
         
         submitPage.selectResponseTextDropdown(5, 1, 0, "1");
-        assertTrue(submitPage.getRankMessage(5, 3).isEmpty());
+        assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));
         
         // Submit
         submitPage.clickSubmitButton();
@@ -181,6 +181,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue("No error message expected", submitPage.getRankMessage(6, 0).isEmpty());
         
         submitPage.selectResponseTextDropdown(1, 0, 0, "3");
+        assertEquals("The display message indicating this is a rank question is displayed until all options are ranked",
+                      "Please rank the above options.", submitPage.getRankMessage(1, 0));
         submitPage.selectResponseTextDropdown(1, 0, 1, "3");
         submitPage.selectResponseTextDropdown(1, 0, 2, "1");
         submitPage.selectResponseTextDropdown(1, 0, 3, "4");
