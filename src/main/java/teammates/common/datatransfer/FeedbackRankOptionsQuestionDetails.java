@@ -253,35 +253,35 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                         FeedbackSessionResultsBundle bundle,
                         String view) {
         
-        if (view.equals("student") || responses.isEmpty()){
+        if (view.equals("student") || responses.isEmpty()) {
             return "";
         }
         
         String html = "";
         String fragments = "";
         
-        Map<String, List<Integer>> optionPoints = generateOptionRanksMapping(responses);
+        Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+        for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
             
-            List<Integer> points = entry.getValue();
-            double average = computeAverage(points);
-            String pointsReceived = getListOfRanksReceivedAsString(points);
+            List<Integer> ranks = entry.getValue();
+            double average = computeAverage(ranks);
+            String ranksReceived = getListOfRanksReceivedAsString(ranks);
 
-            String option = options.get(Integer.parseInt(entry.getKey()));
+            String option = entry.getKey();
             
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
-                                "${rankOptionValue}",  Sanitizer.sanitizeForHtml(option),
-                                "${pointsReceived}", pointsReceived,
-                                "${averagePoints}", df.format(average));
+                                                                        "${rankOptionValue}",  Sanitizer.sanitizeForHtml(option),
+                                                                        "${pointsReceived}", ranksReceived,
+                                                                        "${averagePoints}", df.format(average));
         
         }
  
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_OPTION_STATS,
-                "${optionRecipientDisplayName}", "Option",
-                "${fragments}", fragments);
+                                                             "${optionRecipientDisplayName}", "Option",
+                                                             "${fragments}", fragments);
         
         return html;
     }
@@ -292,18 +292,18 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                         List<FeedbackResponseAttributes> responses,
                         FeedbackQuestionAttributes question,
                         FeedbackSessionResultsBundle bundle) {
-        if (responses.isEmpty()){
+        if (responses.isEmpty()) {
             return "";
         }
         
         String csv = "";
         String fragments = "";
-        Map<String, List<Integer>> optionPoints = generateOptionRanksMapping(responses);
+        Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
-            String option = Sanitizer.sanitizeForCsv(options.get(Integer.parseInt(entry.getKey())));
+        for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
+            String option = Sanitizer.sanitizeForCsv(entry.getKey());
           
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
@@ -321,24 +321,41 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     /**
      * From the feedback responses, generate a mapping of the option to a list of 
      * ranks received for that option.
-     * The key of the map returned is the option name / recipient's participant identifier.
+     * The key of the map returned is the option name.
      * The values of the map are list of points received by the key.   
      * @param responses  a list of responses 
      */
     private Map<String, List<Integer>> generateOptionRanksMapping(
-            List<FeedbackResponseAttributes> responses) {
-        Map<String, List<Integer>> optionPoints = new HashMap<>();
+                                            List<FeedbackResponseAttributes> responses) {
+        Map<String, List<Integer>> optionRanks = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
             FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails)response.getResponseDetails();
             
-            for (int i = 0; i < frd.getFilteredSortedAnswerList().size(); i++) {
-                String optionReceivingPoints =  String.valueOf(i);
-                int ranksReceived = frd.getFilteredSortedAnswerList().get(i);
+            List<Integer> answers = frd.getAnswerList();
+            Map<String, Integer> mapOfOptionToRank = new HashMap<>();
+            
+            Assumption.assertEquals(answers.size(), options.size());
+            
+            
+            for (int i = 0; i < options.size(); i++) {
+                int rankReceived = answers.get(i);
+                mapOfOptionToRank.put(options.get(i), rankReceived);
+            }
+            
+            Map<String, Integer> normalisedRankForOption 
+                    = obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
+            
+            
+            for (int i = 0; i < options.size(); i++) {
+                String optionReceivingRanks =  options.get(i);
+                int rankReceived = normalisedRankForOption.get(optionReceivingRanks);
                 
-                updateOptionRanksMapping(optionPoints, optionReceivingPoints, ranksReceived);
+                if (rankReceived != Const.POINTS_NOT_SUBMITTED) { 
+                    updateOptionRanksMapping(optionRanks, optionReceivingRanks, rankReceived);
+                }
             }
         }
-        return optionPoints;
+        return optionRanks;
     }
 
 

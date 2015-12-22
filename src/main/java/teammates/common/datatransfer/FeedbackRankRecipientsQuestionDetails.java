@@ -13,7 +13,6 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -243,8 +242,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String teamName = bundle.getTeamNameForEmail(entry.getKey());
             String recipientName = bundle.getNameForEmail(entry.getKey());
             String option = Sanitizer.sanitizeForCsv(teamName) 
-                   + "," 
-                   + Sanitizer.sanitizeForCsv(recipientName);
+                            + "," 
+                            + Sanitizer.sanitizeForCsv(recipientName);
            
             
             List<Integer> points = entry.getValue();
@@ -263,22 +262,56 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     /**
      * From the feedback responses, generate a mapping of the option to a list of 
      * ranks received for that option.
-     * The key of the map returned is the option name / recipient's participant identifier.
-     * The values of the map are list of points received by the key.   
+     * The key of the map returned is the recipient's participant identifier.
+     * The values of the map are list of ranks received by the recipient.   
      * @param responses  a list of responses 
      */
-    private Map<String, List<Integer>> generateOptionRanksMapping(
-            List<FeedbackResponseAttributes> responses) {
+    private Map<String, List<Integer>> generateOptionRanksMapping(List<FeedbackResponseAttributes> responses) {
         
-        Map<String, List<Integer>> optionPoints = new HashMap<>();
+        Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = getNormalisedRankForEachResponse(responses);
+
+        Map<String, List<Integer>> optionRanks = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails)response.getResponseDetails();
-            
-            updateOptionRanksMapping(optionPoints, response.recipientEmail, frd.answer);
+            updateOptionRanksMapping(optionRanks, response.recipientEmail, normalisedRankOfResponse.get(response));
         }
         
-        return optionPoints;
+        return optionRanks;
     }
+
+    /**
+     * Returns a map of response to the normalised rank by resolving ties for each giver's set of responses
+     * @param responses
+     * @see FeedbackRankQuestionDetails#obtainMappingToNormalisedRanksForRanking(Map, List) for how ties are resolved
+     */
+    private Map<FeedbackResponseAttributes, Integer> getNormalisedRankForEachResponse(
+                                                            List<FeedbackResponseAttributes> responses) {
+
+        // collect each giver's responses
+        Map<String, List<FeedbackResponseAttributes>> responsesGivenByPerson = new HashMap<>();
+        for (FeedbackResponseAttributes response : responses) {
+            if (!responsesGivenByPerson.containsKey(response.giverEmail)) {
+                responsesGivenByPerson.put(response.giverEmail, new ArrayList<FeedbackResponseAttributes>());
+            }
+            
+            responsesGivenByPerson.get(response.giverEmail)
+                                  .add(response);
+        }
+        
+        // resolve ties for each giver's responses
+        Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = new HashMap<>();
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : responsesGivenByPerson.entrySet()) {
+            Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
+            for (FeedbackResponseAttributes res : responses) {
+                FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails)res.getResponseDetails();
+                rankOfResponse.put(res, frd.answer);
+            }
+            
+            normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse, entry.getValue()));
+        }
+        
+        return normalisedRankOfResponse;
+    }
+
     
     
     @Override

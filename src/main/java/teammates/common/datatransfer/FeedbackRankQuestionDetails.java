@@ -2,8 +2,10 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -55,22 +57,22 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
 
     /**
-     * Used to update the OptionPointsMapping for the option optionReceivingPoints
+     * Used to update the mapping of ranks for the option optionReceivingPoints
      * 
-     * @param optionPoints
-     * @param optionReceivingPoints
-     * @param pointsReceived
+     * @param optionRanks
+     * @param optionReceivingRanks
+     * @param rankReceived
      */
     protected void updateOptionRanksMapping(
-            Map<String, List<Integer>> optionPoints,
-            String optionReceivingPoints, int pointsReceived) {
-        List<Integer> points = optionPoints.get(optionReceivingPoints);
-        if (points == null) {
-            points = new ArrayList<Integer>();
-            optionPoints.put(optionReceivingPoints, points);
+                        Map<String, List<Integer>> optionRanks,
+                        String optionReceivingRanks, int rankReceived) {
+        if (!optionRanks.containsKey(optionReceivingRanks)) {
+            List<Integer> ranks = new ArrayList<Integer>();
+            optionRanks.put(optionReceivingRanks, ranks);
         }
         
-        points.add(pointsReceived);
+        List<Integer> ranksReceived = optionRanks.get(optionReceivingRanks);
+        ranksReceived.add(rankReceived);
     }
 
     /**
@@ -106,12 +108,51 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
     protected double computeAverage(List<Integer> values) {
         double average = 0;
-        for (int value : values) {
-            average += value;
+        for (double value : values) {
+            average = average + value;
         }
-        average = average / values.size();
-        return average;
+        return average / values.size();
     }
    
+    /**
+     * For a single set of ranking (options / feedback responses), 
+     * fix ties by assigning the MIN value of the ordering to all the tied options
+     * e.g. the normalised ranks of the set of ranks (1,4,1,4) is (1,3,1,3)
+     * @param rankOfOption  a map containing the original unfiltered answer for each options
+     * @param options  a list of options 
+     * @return a map of the option to the normalised rank of the response
+     */
+    protected <K> Map<K, Integer> obtainMappingToNormalisedRanksForRanking(
+                                                        Map<K, Integer> rankOfOption,
+                                                        List<K> options) {
+        Map<K, Integer> normalisedRankForSingleSetOfRankings = new HashMap<>();
+        
+        // group the options/feedback response by its rank 
+        TreeMap<Integer, List<K>> rankToAnswersMap = new TreeMap<>();
+        for (K answer : options) {
+            int rankGiven = rankOfOption.get(answer);
+            if (rankGiven == Const.POINTS_NOT_SUBMITTED) {
+                normalisedRankForSingleSetOfRankings.put(answer, Const.POINTS_NOT_SUBMITTED);
+                continue;
+            }
+            
+            if (!rankToAnswersMap.containsKey(rankGiven)) {
+                rankToAnswersMap.put(rankGiven, new ArrayList<K>());
+            }
+            rankToAnswersMap.get(rankGiven).add(answer);
+        }
+        
+        // every answer in the same group is given the same rank
+        int currentRank = 1;
+        for (List<K> answersWithSameRank : rankToAnswersMap.values()) {
+            for (K answer : answersWithSameRank) {
+                normalisedRankForSingleSetOfRankings.put(answer, currentRank);
+            }
+            
+            currentRank += answersWithSameRank.size();
+        }
+        
+        return normalisedRankForSingleSetOfRankings;
+    }
 
 }
