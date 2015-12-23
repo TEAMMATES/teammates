@@ -255,22 +255,12 @@ public class HtmlHelper {
     }
     
     private static boolean isVoidElement(String elementName){
-        return elementName.equals("area")
-                || elementName.equals("base")
-                || elementName.equals("br")
-                || elementName.equals("col")
-                || elementName.equals("command")
-                || elementName.equals("embed")
+        return elementName.equals("br")
                 || elementName.equals("hr")
                 || elementName.equals("img")
                 || elementName.equals("input")
-                || elementName.equals("keygen")
                 || elementName.equals("link")
-                || elementName.equals("meta")
-                || elementName.equals("param")
-                || elementName.equals("source")
-                || elementName.equals("track")
-                || elementName.equals("wbr");
+                || elementName.equals("meta");
     }
 
 }
