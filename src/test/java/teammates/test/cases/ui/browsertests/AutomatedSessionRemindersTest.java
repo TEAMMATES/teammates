@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -28,6 +29,20 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
         
+        /* 
+         * In this test, we set the email address of the accounts to be the same as the
+         * support email address. When running the test against a production server,
+         * email alerts will be sent to the specified support email address.
+         * The tester should manually check the email box after running the test suite. 
+         */
+        
+        testData.accounts.get("instructorWithEvals").email = Config.SUPPORT_EMAIL;
+        testData.instructors.get("AutSessRem.instructor").email = Config.SUPPORT_EMAIL;
+        testData.students.get("alice.tmms@AutSessRem.course").email = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("closingSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("openingSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackSessions.get("publishedSession").creatorEmail = Config.SUPPORT_EMAIL;
+        testData.feedbackQuestions.get("question").creatorEmail = Config.SUPPORT_EMAIL;
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
@@ -41,13 +56,6 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
-    
-    /* In these tests, we set the email address of a student to be the same as the
-     * support email address and trigger email alerts. When running these tests
-     * against a production server, these alerts will appear in the admin's
-     * email box. The admin should manually check the email box after running 
-     * the test suite. 
-     */
     
     @Test
     public void testFeedbackSessionOpeningReminders(){

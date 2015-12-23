@@ -72,7 +72,8 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     @Test
     public void testUserNotLoggedIn() throws Exception {
         
-        currentPage.logout().verifyHtml("/login.html");
+        currentPage.logout();
+        AppPage.getNewPageInstance(browser, HomePage.class);
 
         ______TS("student pages");
 

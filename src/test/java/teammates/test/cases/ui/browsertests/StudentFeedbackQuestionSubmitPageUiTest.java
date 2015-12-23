@@ -165,7 +165,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(1, 0, "this is a response edited during grace period");
         submitPage.clickSubmitButton();
 
-        assertTrue(submitPage.getStatus().contains("All responses submitted succesfully!"));
+        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED));
 
         // test if the button is disabled after the response has been submitted
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());

@@ -177,7 +177,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 }
                 
                 backdoor.persistDataBundle(data);   
-                statusToUser.add(new StatusMessage("<br>Data Persistence was Checked Twice in This Request<br>", StatusMessageColor.WARNING));         
+                log.warning("Data Persistence was Checked Twice in This Request");
             }
         }
         

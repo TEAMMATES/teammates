@@ -215,7 +215,7 @@ public class TimeHelper {
         if (date == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm:ss zzz");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, hh:mm a zzz");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }

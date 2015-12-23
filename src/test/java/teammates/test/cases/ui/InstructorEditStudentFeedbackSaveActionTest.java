@@ -79,7 +79,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
@@ -105,7 +105,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
@@ -130,7 +130,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
@@ -155,7 +155,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
@@ -328,7 +328,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCoursehelper1&courseid=IESFPTCourse" + 
@@ -392,7 +392,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCoursehelper2&courseid=IESFPTCourse" + 
@@ -429,7 +429,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCoursehelper3&courseid=IESFPTCourse" + 
@@ -598,7 +598,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
                      "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 

@@ -805,15 +805,12 @@ public abstract class AppPage {
     }
 
     private static String injectTestProperties(String htmlString) {
-        return htmlString.replace("${app.url}", Config.APP_URL)
-                         .replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+        return htmlString.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
                          .replace("${version}", TestProperties.inst().TEAMMATES_VERSION)
                          .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
                          .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
                          .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                         .replace("${test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT)
-                         .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT)
-                         .replace("${support.email}", Config.SUPPORT_EMAIL);
+                         .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
     
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
@@ -852,9 +849,7 @@ public abstract class AppPage {
                       .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT),
                                TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
                       .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT),
-                               TestProperties.inst().TEST_ADMIN_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_UNREG_ACCOUNT),
-                               TestProperties.inst().TEST_UNREG_ACCOUNT);
+                               TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
 
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
@@ -901,12 +896,8 @@ public abstract class AppPage {
                 // today's date
                 .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
                 .replace(TimeHelper.formatDate(now), "${today}")
-                // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "\\${comment\\.date}")
-                // now (date, time)
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M", "\\${datetime\\.now}")
-                // dynamic feedback submission numbers
-                .replaceAll("(?s)<span class=\"submissionsNumber\".*?</span>", "<span class=\"submissionsNumber\" id=\"submissionsNumber\">\\${submissions\\.number}</span>")
+                // now (date, time) e.g. [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M( UTC)?", "\\${datetime\\.now}")
                 // admin footer, test institute section
                 .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "\\${admin\\.institute}")
                 // jQuery local
@@ -930,15 +921,12 @@ public abstract class AppPage {
     }
 
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replace(Config.APP_URL, "${app.url}")
-                      .replace(Config.STUDENT_MOTD_URL, "${studentmotd.url}")
+        return content.replace(Config.STUDENT_MOTD_URL, "${studentmotd.url}")
                       .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}")
-                      .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "${test.unreg}")
-                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
+                      .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}");
     }
 
     /**
