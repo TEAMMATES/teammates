@@ -13,6 +13,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
 
 public class HtmlHelper {
     
@@ -45,17 +47,39 @@ public class HtmlHelper {
     
     private static boolean assertSameHtml(String expected, String actual, boolean isPart,
                                           boolean isDifferenceToBeShown) {
-        String processedExpected = convertToStandardHtml(expected, isPart);
+        String processedExpected = standardizeLineBreaks(expected);
         String processedActual = convertToStandardHtml(actual, isPart);
 
-        if (!AssertHelper.isContainsRegex(processedExpected, processedActual)) {
+        if (areSameHtmls(processedExpected, processedActual)) {
+            return true;
+        }
+        
+        // the first failure might be caused by non-standardized conversion
+        processedExpected = convertToStandardHtml(expected, isPart);
+
+        if (areSameHtmls(processedExpected, processedActual)) {
+            return true;
+        } else {
+            // if it still fails, then it is a failure after all
             if (isDifferenceToBeShown) {
                 assertEquals("<expected>\n" + processedExpected + "</expected>",
                              "<actual>\n" + processedActual + "</actual>");
             }
             return false;
         }
-        return true;
+    }
+    
+    private static boolean areSameHtmls(String expected, String actual) {
+        return AssertHelper.isContainsRegex(expected, actual);
+    }
+    
+    /**
+     * {@link FileHelper#readFile} uses the system's line separator as line break,
+     * while {@link #convertToStandardHtml} uses LF <code>\n</code> character.
+     * Standardize by replacing each line separator with LF character.
+     */
+    private static String standardizeLineBreaks(String expected) {
+        return expected.replace(Const.EOL, "\n");
     }
 
     /**
