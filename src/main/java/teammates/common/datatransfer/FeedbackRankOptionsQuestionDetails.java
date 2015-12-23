@@ -274,8 +274,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                                                                         "${rankOptionValue}",  Sanitizer.sanitizeForHtml(option),
-                                                                        "${pointsReceived}", ranksReceived,
-                                                                        "${averagePoints}", df.format(average));
+                                                                        "${ranksReceived}", ranksReceived,
+                                                                        "${averageRank}", df.format(average));
         
         }
  
@@ -305,14 +305,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         for (Entry<String, List<Integer>> entry : optionRanks.entrySet()) {
             String option = Sanitizer.sanitizeForCsv(entry.getKey());
           
-            List<Integer> points = entry.getValue();
-            double average = computeAverage(points);
-            fragments += option + "," + 
-                         df.format(average) + Const.EOL;
+            List<Integer> ranksAssigned = entry.getValue();
+            double average = computeAverage(ranksAssigned);
+            fragments += option + "," + df.format(average) + Const.EOL;
             
         }
         
-        csv += "Option" + ", Average Points" + Const.EOL 
+        csv += "Option" + ", Average Rank" + Const.EOL 
              + fragments + Const.EOL;
         
         return csv;
@@ -322,7 +321,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
      * From the feedback responses, generate a mapping of the option to a list of 
      * ranks received for that option.
      * The key of the map returned is the option name.
-     * The values of the map are list of points received by the key.   
+     * The values of the map are list of ranks received by the key.   
      * @param responses  a list of responses 
      */
     private Map<String, List<Integer>> generateOptionRanksMapping(
@@ -375,8 +374,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     @Override
     public String getCsvHeader() {
-        List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(options);
-        return "Feedbacks:," + StringHelper.toString(sanitizedOptions, ",");
+        return "Feedback:" ;
     }
 
     @Override

@@ -167,12 +167,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
                 
         String html = FeedbackQuestionFormTemplates.populateTemplate(
-                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                "${more}", "[more]",
-                "${less}", "[less]",
-                "${questionNumber}", Integer.toString(questionNumber),
-                "${additionalInfoId}", additionalInfoId,
-                "${questionAdditionalInfo}", additionalInfo);
+                        FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                        "${more}", "[more]",
+                        "${less}", "[less]",
+                        "${questionNumber}", Integer.toString(questionNumber),
+                        "${additionalInfoId}", additionalInfoId,
+                        "${questionAdditionalInfo}", additionalInfo);
         
         return html;
     }
@@ -185,38 +185,38 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         FeedbackSessionResultsBundle bundle,
                         String view) {
         
-        if (view.equals("student") || responses.isEmpty()){
+        if (view.equals("student") || responses.isEmpty()) {
             return "";
         }
         
         String html = "";
         String fragments = "";
         
-        Map<String, List<Integer>> optionPoints = generateOptionRanksMapping(responses);
+        Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+        for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
             
-            List<Integer> points = entry.getValue();
-            double average = computeAverage(points);
-            String pointsReceived = getListOfRanksReceivedAsString(points);
+            List<Integer> ranks = entry.getValue();
+            double average = computeAverage(ranks);
+            String ranksReceived = getListOfRanksReceivedAsString(ranks);
             
             String participantIdentifier = entry.getKey();
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
             
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
-                    "${rankOptionValue}",  Sanitizer.sanitizeForHtml(name),
-                    "${team}", teamName,
-                    "${pointsReceived}", pointsReceived,
-                    "${averagePoints}", df.format(average));
+                                                                        "${rankOptionValue}",  Sanitizer.sanitizeForHtml(name),
+                                                                        "${team}", teamName,
+                                                                        "${ranksReceived}", ranksReceived,
+                                                                        "${averageRank}", df.format(average));
 
         }
      
         html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_RECIPIENT_STATS,
-                "${optionRecipientDisplayName}", "Recipient",
-                "${fragments}", fragments);
+                                                             "${optionRecipientDisplayName}", "Recipient",
+                                                             "${fragments}", fragments);
         
         return html;
     }
@@ -233,11 +233,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         
         String csv = "";
         String fragments = "";
-        Map<String, List<Integer>> optionPoints = generateOptionRanksMapping(responses);
+        Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for (Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+        for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
             
             String teamName = bundle.getTeamNameForEmail(entry.getKey());
             String recipientName = bundle.getNameForEmail(entry.getKey());
@@ -246,15 +246,15 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             + Sanitizer.sanitizeForCsv(recipientName);
            
             
-            List<Integer> points = entry.getValue();
-            double average = computeAverage(points);
-            fragments += option + "," + 
-                         df.format(average) + Const.EOL;
+            List<Integer> ranks = entry.getValue();
+            double average = computeAverage(ranks);
+            fragments += option + "," 
+                         + df.format(average) + Const.EOL;
             
         }
         
-        csv += "Team, Recipient" + ", Average Points" + Const.EOL 
-             + fragments + Const.EOL;
+        csv += "Team, Recipient" + ", Average Rank" + Const.EOL 
+                + fragments + Const.EOL;
         
         return csv;
     }
