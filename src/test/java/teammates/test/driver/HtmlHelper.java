@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import org.cyberneko.html.parsers.DOMParser;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -70,9 +69,9 @@ public class HtmlHelper {
      */
     public static String convertToStandardHtml(String rawHtml, boolean isPart) {
         try {
-            Node currentNode = getNodeFromString(rawHtml);
+            Node documentNode = getNodeFromString(rawHtml);
             String initialIndentation = INDENTATION_STEP; // TODO start from zero indentation
-            return convertToStandardHtmlRecursively(currentNode, initialIndentation, isPart);
+            return getNodeContent(documentNode, initialIndentation, isPart);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -90,6 +89,10 @@ public class HtmlHelper {
         if (currentNode.getNodeType() == Node.TEXT_NODE) {
             String text = currentNode.getNodeValue().trim();
             return text.isEmpty() ? "" : indentation + text + "\n";
+        } else if (currentNode.getNodeType() == Node.DOCUMENT_TYPE_NODE
+                    || currentNode.getNodeType() == Node.COMMENT_NODE) {
+            // ignore the doctype definition and all HTML comments
+            return "";
         }
 
         if (currentNode.getNodeName().equalsIgnoreCase("div")) {
@@ -110,45 +113,36 @@ public class HtmlHelper {
         
         StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
-        boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isPart, currentNode);
+        boolean shouldIncludeOpeningAndClosingTags = shouldIncludeOpeningAndClosingTags(isPart, currentNodeName);
 
-        if (shouldIncludeCurrentNode) {
+        if (shouldIncludeOpeningAndClosingTags) {
             String nodeOpeningTag = indentation + getNodeOpeningTag(currentNode);
             currentHtmlText.append(nodeOpeningTag);
         }
-        if (isVoidElement(currentNodeName)) {
-            return currentHtmlText.toString();
-        }
         
-        String nodeContent = getNodeContent(currentNode,
-                                            indentation + (shouldIncludeCurrentNode ? INDENTATION_STEP : ""),
-                                            isPart);
-        currentHtmlText.append(nodeContent);
-        
-        if (shouldIncludeCurrentNode) {
-            String nodeClosingTag = indentation + getNodeClosingTag(currentNodeName);
-            currentHtmlText.append(nodeClosingTag);
+        if (!isVoidElement(currentNodeName)) {
+            String newIndentation = indentation + (shouldIncludeOpeningAndClosingTags ? INDENTATION_STEP : "");
+            String nodeContent = getNodeContent(currentNode, newIndentation, isPart);
+            currentHtmlText.append(nodeContent);
+
+            if (shouldIncludeOpeningAndClosingTags) {
+                String nodeClosingTag = indentation + getNodeClosingTag(currentNodeName);
+                currentHtmlText.append(nodeClosingTag);
+            }
         }
         
         return currentHtmlText.toString();
     }
 
     /**
-     * Ignores all non-{@link Element} {@link Node}s which include <code>#comment</code>,
-     * <code>#document</code>, and <code>doctype</code>.<br>
-     * In addition, if <code>isPart</code> (i.e only partial HTML checking is done),
-     * ignores the top-level HTML tags, i.e <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>,
-     * and <code>&lt;body&gt;</code>
+     * If <code>isPart</code> (i.e only partial HTML checking is done),
+     * do not generate opening/closing tags for top level elements
+     * (i.e <code>html</code>, <code>head</code>, <code>body</code>).
      */
-    private static boolean shouldIncludeCurrentNode(boolean isPart, Node currentNode) {
-        if (currentNode.getNodeType() != Node.ELEMENT_NODE) {
-            return false;
-        } else {
-            String currentNodeName = currentNode.getNodeName().toLowerCase();
-            return !(isPart && (currentNodeName.equals("html")
-                                || currentNodeName.equals("head")
-                                || currentNodeName.equals("body")));
-        }
+    private static boolean shouldIncludeOpeningAndClosingTags(boolean isPart, String currentNodeName) {
+        return !(isPart && (currentNodeName.equals("html")
+                            || currentNodeName.equals("head")
+                            || currentNodeName.equals("body")));
     }
 
     /**
