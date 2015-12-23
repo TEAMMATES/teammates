@@ -85,16 +85,24 @@ public class HtmlHelper {
 
     private static String convertToStandardHtmlRecursively(Node currentNode, String indentation,
                                                            boolean isPart) {
-        
-        if (currentNode.getNodeType() == Node.TEXT_NODE) {
-            String text = currentNode.getNodeValue().trim();
-            return text.isEmpty() ? "" : indentation + text + "\n";
-        } else if (currentNode.getNodeType() == Node.DOCUMENT_TYPE_NODE
-                    || currentNode.getNodeType() == Node.COMMENT_NODE) {
-            // ignore the doctype definition and all HTML comments
-            return "";
+        switch (currentNode.getNodeType()) {
+            case Node.TEXT_NODE:
+                return generateNodeTextContent(currentNode, indentation);
+            case Node.DOCUMENT_TYPE_NODE:
+            case Node.COMMENT_NODE:
+                // ignore the doctype definition and all HTML comments
+                return ignoreNode();
+            default: // in HTML this can only be Node.ELEMENT_NODE
+                return convertElementNode(currentNode, indentation, isPart);
         }
+    }
+    
+    private static String generateNodeTextContent(Node currentNode, String indentation) {
+        String text = currentNode.getNodeValue().trim();
+        return text.isEmpty() ? "" : indentation + text + "\n";
+    }
 
+    private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
         if (currentNode.getNodeName().equalsIgnoreCase("div")) {
             NamedNodeMap attributes = currentNode.getAttributes();
             for (int i = 0; i < attributes.getLength(); i++) {
@@ -103,14 +111,26 @@ public class HtmlHelper {
                      || isPopoverAttribute(attribute)
                      || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
-                    return "";
+                    return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {
                     // replace MOTD content with placeholder
-                    return indentation + "${studentmotd.container}\n";
+                    return generateStudentMotdPlaceholder(indentation);
                 }
             }
         }
         
+        return generateNodeStringRepresentation(currentNode, indentation, isPart);
+    }
+    
+    private static String ignoreNode() {
+        return "";
+    }
+    
+    private static String generateStudentMotdPlaceholder(String indentation) {
+        return indentation + "${studentmotd.container}\n";
+    }
+    
+    private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
         boolean shouldIncludeOpeningAndClosingTags = shouldIncludeOpeningAndClosingTags(isPart, currentNodeName);
