@@ -90,14 +90,24 @@ public class HtmlHelper {
         if (currentNode.getNodeType() == Node.TEXT_NODE) {
             String text = currentNode.getNodeValue().trim();
             return text.isEmpty() ? "" : indentation + text + "\n";
-        } else if (isToolTip(currentNode)
-                   || isPopOver(currentNode)
-                   || (Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapper(currentNode))) {
-            return "";
-        } else if (isMotdContainer(currentNode)) {
-            return indentation + "${studentmotd.container}\n";
         }
 
+        if (currentNode.getNodeName().equalsIgnoreCase("div")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if (isTooltipAttribute(attribute)
+                     || isPopoverAttribute(attribute)
+                     || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
+                    // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
+                    return "";
+                } else if (isMotdContainerAttribute(attribute)) {
+                    // replace MOTD content with placeholder
+                    return indentation + "${studentmotd.container}\n";
+                }
+            }
+        }
+        
         StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
         boolean shouldIncludeCurrentNode = shouldIncludeCurrentNode(isPart, currentNode);
@@ -144,47 +154,36 @@ public class HtmlHelper {
     /**
      * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
      */
-    private static boolean isToolTip(Node currentNode) {
-        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "class", "tooltip");
+    private static boolean isTooltipAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "class", "tooltip");
     }
     
     /**
      * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it)
      */
-    private static boolean isPopOver(Node currentNode) {
-        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "class", "popover");
+    private static boolean isPopoverAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "class", "popover");
     }
     
     /**
      * Checks for Message of the Day (MOTD) wrapper (i.e a <code>div</code> with id
      * <code>student-motd-wrapper</code>).
      */
-    private static boolean isMotdWrapper(Node currentNode) {
-        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "id", "student-motd-wrapper");
+    private static boolean isMotdWrapperAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-wrapper");
     }
     
     /**
      * Checks for Message of the Day (MOTD) container (i.e a <code>div</code> with id
      * <code>student-motd-container</code>).
      */
-    private static boolean isMotdContainer(Node currentNode) {
-        return checkForNodeWithSpecificAttributeValue(currentNode, "div", "id", "student-motd-container");
+    private static boolean isMotdContainerAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-container");
     }
     
-    private static boolean checkForNodeWithSpecificAttributeValue(Node currentNode, String nodeType,
-                                                                  String attrType, String attrValue) {
-        if (currentNode.getNodeName().equalsIgnoreCase(nodeType)) {
-            NamedNodeMap attributes = currentNode.getAttributes();
-            for (int i = 0; i < attributes.getLength(); i++) {
-                Node attribute = attributes.item(i);
-                if (attribute.getNodeName().equalsIgnoreCase(attrType)
-                        && attribute.getNodeValue().contains(attrValue)) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
+    private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
+        return attribute.getNodeName().equalsIgnoreCase(attrType)
+                && attribute.getNodeValue().contains(attrValue);
     }
 
     private static String getNodeOpeningTag(Node currentNode) {
