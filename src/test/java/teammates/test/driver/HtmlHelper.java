@@ -182,8 +182,19 @@ public class HtmlHelper {
     }
     
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
-        return attribute.getNodeName().equalsIgnoreCase(attrType)
-                && attribute.getNodeValue().contains(attrValue);
+        if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
+            return attrType.equals("class") ? isClassContainingValue(attrValue, attribute.getNodeValue())
+                                            : attribute.getNodeValue().equals(attrValue);
+        } else {
+            return false;
+        }
+    }
+    
+    private static boolean isClassContainingValue(String expected, String actual) {
+        return actual.equals(expected)
+                || actual.startsWith(expected + " ")
+                || actual.endsWith(" " + expected)
+                || actual.contains(" " + expected + " ");
     }
 
     private static String getNodeOpeningTag(Node currentNode) {
