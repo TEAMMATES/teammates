@@ -17,7 +17,10 @@
     <br>
     <t:statusMessage />
     <div class="pull-right">
-        <a href="../instructorHelp.html#editCourse" class="small" target="_blank">More about configuring access permissions</a>
+        <a href="../instructorHelp.html#editCourse" class="small" target="_blank">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            More about configuring access permissions
+        </a>
     </div>
     <br>
     <br>
