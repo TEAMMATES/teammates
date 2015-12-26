@@ -15,13 +15,13 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
@@ -158,12 +158,13 @@ public abstract class Action {
                 if (student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
                     String expectedId = StringHelper.obscure(student.googleId);
                     expectedId = StringHelper.encrypt(expectedId);
-                    Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
+                    String redirectUrl = Config.getAppUrl(Const.ViewURIs.LOGOUT)
+                                              .withUserId(StringHelper.encrypt(loggedInUserId))
                                               .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
                                               .withParam(Const.ParamsNames.HINT, expectedId)
-                                              .withUserId(StringHelper.encrypt(loggedInUserId)); 
+                                              .toString();
                     
-                    setRedirectPage(redirectUrl.toString());
+                    setRedirectPage(redirectUrl);
                     return false;
                 }
             }
@@ -229,7 +230,7 @@ public abstract class Action {
                 if (regkey != null && student != null) {
                     // TODO: encrypt the email as currently anyone with the regkey can
                     //       get the email because of this redirect:                    
-                    String joinUrl = new Url(student.getRegistrationUrl())
+                    String joinUrl = Config.getAppUrl(student.getRegistrationUrl())
                                         .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
                                         .toString();
                     setRedirectPage(joinUrl);
@@ -238,9 +239,10 @@ public abstract class Action {
                 
                 throw new UnauthorizedAccessException("Unregistered user for a page that needs registration");
             } else if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
-                Url redirectUrl = new Url(student.getRegistrationUrl())
-                                      .withParam(Const.ParamsNames.NEXT_URL, requestUrl);
-                setRedirectPage(redirectUrl.toString());
+                String redirectUrl = Config.getAppUrl(student.getRegistrationUrl())
+                                      .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                                      .toString();
+                setRedirectPage(redirectUrl);
                 return null;
             }
         } else if (loggedInUserType.isAdmin) {

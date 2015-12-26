@@ -8,7 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.test.util.Url;
 
 public class InstructorStudentListPage extends AppPage {
 
@@ -106,8 +105,7 @@ public class InstructorStudentListPage extends AppPage {
         displayArchiveOptions.click();
     }
 
-    public void verifyProfilePhoto(String courseId, String studentName, Url photoUrl) {
-        String profilePhotoSrc = photoUrl.toAbsoluteString();
+    public void verifyProfilePhoto(String courseId, String studentName, String profilePhotoSrc) {
         String rowId = getStudentRowId(courseId, studentName);
         assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
                                                     .findElement(By.tagName("img"))

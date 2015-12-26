@@ -20,7 +20,6 @@ import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
-import teammates.test.util.Url;
 
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -59,7 +58,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("Click join link then cancel");
         
-        String joinLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(invalidEncryptedKey)
                                         .toAbsoluteString();
         AppPage.logout(browser);
@@ -88,7 +87,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
         String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail));
-        joinLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .toAbsoluteString();
         

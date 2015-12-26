@@ -23,10 +23,10 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseTestCase;
 
@@ -282,7 +282,7 @@ public class StudentAttributesTest extends BaseTestCase {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
                                                      "comment 1", "course1");
         sd.key = "testkey";
-        String regUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        String regUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                 .withRegistrationKey(StringHelper.encrypt("testkey"))
                                 .withStudentEmail("email@email.com")
                                 .withCourseId("course1")
@@ -294,7 +294,7 @@ public class StudentAttributesTest extends BaseTestCase {
     public void testGetPublicProfilePictureUrl() {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
                                                      "comment 1", "course1");
-        String profilePicUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+        String profilePicUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                        .withStudentEmail(StringHelper.encrypt("email@email.com"))
                                        .withCourseId(StringHelper.encrypt("course1"))
                                        .toString();

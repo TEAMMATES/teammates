@@ -15,6 +15,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.AppUrl;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -43,7 +45,6 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.util.Priority;
-import teammates.test.util.Url;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -76,7 +77,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("content: typical page");
         
-        Url homeUrl = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
+        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPageForAdminUiTests(browser, homeUrl, AdminHomePage.class);
         
         homePage.verifyHtml("/adminHomePage.html");
@@ -105,7 +106,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email + " | " + institute);
         
         String encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
-        String expectedjoinUrl = new teammates.common.util.Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        // use AppUrl from Config because the join link takes its base URL from build.properties
+        String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
@@ -122,7 +124,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage.createInstructor(shortName,instructor,institute);
         
         encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
-        expectedjoinUrl = new teammates.common.util.Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        // use AppUrl from Config because the join link takes its base URL from build.properties
+        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
@@ -137,7 +140,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         //get the joinURL which sent to the requester's email
         String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId,instructor.email));
-        String joinLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+        String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(regkey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
@@ -190,7 +193,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePageSampleCourseArchived.html");
         
         ______TS("new instructor can unarchive sample course");
-        Url url = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
                                         .withUserId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
@@ -255,7 +258,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("action failure : invalid parameter");
         
-        Url homeUrl = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
+        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
         instructor.email = "AHPUiT.email.tmt";        

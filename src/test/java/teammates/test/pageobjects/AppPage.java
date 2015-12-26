@@ -42,11 +42,11 @@ import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.Url;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -394,7 +394,7 @@ public abstract class AppPage {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     public static void logout(Browser currentBrowser){
-        currentBrowser.driver.get(new Url(Const.ViewURIs.LOGOUT).toAbsoluteString());
+        currentBrowser.driver.get(TestProperties.getAppUrl(Const.ViewURIs.LOGOUT).toAbsoluteString());
         currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
         currentBrowser.isAdminLoggedIn = false;
     }

@@ -16,6 +16,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
@@ -23,7 +24,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.util.Priority;
-import teammates.test.util.Url;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks
@@ -35,7 +35,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private InstructorCourseEnrollPage enrollPage;
     
     private static String enrollString = "";
-    private Url enrollUrl;
+    private AppUrl enrollUrl;
     
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -101,7 +101,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
     
     private void loadEnrollmentPage() {
-        enrollUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+        enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
                 .withCourseId(testData.courses.get("typicalCourse1").id);
                 

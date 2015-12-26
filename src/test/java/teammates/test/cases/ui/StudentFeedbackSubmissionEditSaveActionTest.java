@@ -20,10 +20,10 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -762,7 +762,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         // Setting uri for unregistered student which contains the key of the student
         String studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course,
                                                                            unregisteredStudent.email);
-        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
+        uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
                                           .withCourseId(unregisteredStudent.course)
                                           .withSessionName(fsa.feedbackSessionName)
                                           .withRegistrationKey(studentKey)
@@ -800,7 +800,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         // Setting uri for unregistered student which contains the key of the student
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
-        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
+        uri = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
                                           .withCourseId(unregisteredStudent.course)
                                           .withSessionName(fsa.feedbackSessionName)
                                           .withRegistrationKey(studentKey)

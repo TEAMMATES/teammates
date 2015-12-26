@@ -35,7 +35,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -148,7 +147,7 @@ public class EmailsTest extends BaseComponentTestCase {
         // check email body
         String encryptedKey = StringHelper.encrypt(s.key);
 
-        String submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(c.id)
                             .withSessionName(fsa.feedbackSessionName)
                             .withRegistrationKey(encryptedKey)
@@ -175,7 +174,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         assertFalse(emailBody.contains(submitUrl));
 
-        String reportUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(c.id)
                             .withSessionName(fsa.feedbackSessionName)
                             .withRegistrationKey(encryptedKey)
@@ -288,7 +287,7 @@ public class EmailsTest extends BaseComponentTestCase {
                 email.getSubject());
 
         // check email body
-        String joinUrl = new Url(s.getRegistrationUrl()).toAbsoluteString();
+        String joinUrl = Config.getAppUrl(s.getRegistrationUrl()).toAbsoluteString();
         String emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name

@@ -7,13 +7,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.util.Priority;
-import teammates.test.util.Url;
 
 /**
  * Covers the 'accounts management' view for admins.
@@ -44,7 +44,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
         
         ______TS("content: typical page");
         
-        Url detailsPageUrl = new Url(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_DETAILS_PAGE)
             .withInstructorId("AAMgtUiT.instr2");
         detailsPage = loginAdminToPageForAdminUiTests(browser, detailsPageUrl, AdminAccountDetailsPage.class);
         

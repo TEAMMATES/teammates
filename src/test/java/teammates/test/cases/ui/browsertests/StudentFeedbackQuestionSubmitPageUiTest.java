@@ -17,13 +17,13 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
-import teammates.test.util.Url;
 
 public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
@@ -209,7 +209,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
             String studentName, String fsName, String questionId) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
@@ -220,7 +220,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private FeedbackQuestionSubmitPage goToStudentFeedbackQuestionSubmitPage(
             StudentAttributes s, String fsName, String questionId) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                 .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
                 .withStudentEmail(s.email)
                 .withCourseId(s.course)

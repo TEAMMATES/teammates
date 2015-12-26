@@ -24,10 +24,10 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
@@ -80,14 +80,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
-        assertEquals((new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink());
+        assertEquals((Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink());
         assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
         assertFalse(fsForm.isFeedbackSessionTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
         assertNull(fsForm.getFeedbackSessionTypeOptions());
-        assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction());
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction());
         
         assertEquals(data.getInstructorFeedbackDeleteLink(fs.courseId, fs.feedbackSessionName, ""), fsForm.getFsDeleteLink());
         assertEquals(TimeHelper.formatDate(fs.endTime), fsForm.getFsEndDate());
@@ -185,14 +185,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         // test question add form
         FeedbackQuestionEditForm newQuestionForm = data.getNewQnForm();
-        assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                         .withUserId(instructor.googleId)
                         .withCourseId(fs.courseId)
                         .withSessionName(fs.feedbackSessionName).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertTrue(newQuestionForm.getQuestionNumberSuffix().isEmpty());
         
-        assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                             .withUserId(instructor.googleId)
                             .withCourseId(fs.courseId)
                             .withSessionName(fs.feedbackSessionName).toString(),
@@ -225,7 +225,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         fsForm = data.getFsForm();
-        assertEquals((new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
+        assertEquals((Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
                           .withUserId(instructor.googleId)).toString(), 
                       fsForm.getCopyToLink());
         assertEquals(fs.courseId, fsForm.getCourseId());
@@ -262,13 +262,13 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(instructorList.size(), previewForm.getInstructorToPreviewAsOptions().size());
         
         newQuestionForm = data.getNewQnForm();
-        assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                         .withUserId(instructor.googleId)
                         .withCourseId(fs.courseId)
                         .withSessionName(fs.feedbackSessionName).toString(), newQuestionForm.getDoneEditingLink());
         assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         
-        assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                          .withUserId(instructor.googleId)
                          .withCourseId(fs.courseId)
                          .withSessionName(fs.feedbackSessionName).toString(),

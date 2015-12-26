@@ -10,9 +10,9 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.ui.template.FeedbackSubmissionEditQuestion;
 import teammates.ui.template.FeedbackSubmissionEditResponse;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
@@ -39,7 +39,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     public void init(String regKey, String email, String courseId) {
-        String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(regKey)
                                         .withStudentEmail(email)
                                         .withCourseId(courseId)

@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
@@ -18,7 +19,6 @@ import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
-import teammates.test.util.Url;
 
 /**
  * Covers Homepage and Login page for students. Some part of it is using a 
@@ -89,7 +89,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         // this test uses the accounts from test.properties
         studentHome.verifyHtmlMainContent("/studentHomeHTML.html");
         
-        Url detailsPageUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
@@ -101,7 +101,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     
     private void testLinks(){
         
-        Url detailsPageUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
@@ -173,7 +173,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     
     private void testLinkAndContentAfterDelete(){
         
-        Url detailsPageUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
@@ -189,8 +189,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
 
     private void loginWithPersistenceProblem() {
-        Url homeUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE)
-                    .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "SHomeUiT.CS2104")
+        AppUrl homeUrl = ((AppUrl) createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                    .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "SHomeUiT.CS2104"))
                     .withUserId("unreg_user");
         
         studentHome = loginAdminToPage(browser, homeUrl, StudentHomePage.class);

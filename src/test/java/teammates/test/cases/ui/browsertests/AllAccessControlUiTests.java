@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
@@ -21,7 +22,6 @@ import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.util.Priority;
-import teammates.test.util.Url;
 
 /**
  * We do not test all access control at UI level. This class contains a few
@@ -76,17 +76,17 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         ______TS("student pages");
 
-        verifyRedirectToLogin(new Url(Const.ActionURIs.STUDENT_HOME_PAGE));
+        verifyRedirectToLogin(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE));
         
 
         ______TS("instructor pages");
 
-        verifyRedirectToLogin(new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        verifyRedirectToLogin(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
         
 
         ______TS("admin pages");
 
-        verifyRedirectToLogin(new Url(Const.ActionURIs.ADMIN_HOME_PAGE));
+        verifyRedirectToLogin(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
         
         
     }
@@ -98,14 +98,14 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         loginStudent(unregUsername, unregPassword);
 
-        verifyRedirectToWelcomeStrangerPage(new Url(Const.ActionURIs.STUDENT_HOME_PAGE), unregUsername);
+        verifyRedirectToWelcomeStrangerPage(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE), unregUsername);
 
 
         ______TS("instructor pages");
 
         loginInstructorUnsuccessfully(unregUsername, unregPassword);
 
-        Url url = new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        AppUrl url = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         verifyRedirectToNotAuthorized(url);
         verifyCannotMasquerade(url, otherInstructor.googleId);
 
@@ -117,7 +117,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         
         ______TS("incorrect URL");
         
-        Url nonExistentActionUrl = new Url("/page/nonExistentAction");
+        AppUrl nonExistentActionUrl = createUrl("/page/nonExistentAction");
         @SuppressWarnings("unused") //We simply ensures it is the right page type
         NotFoundPage notFoundPage = AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
@@ -135,7 +135,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         
         ______TS("cannot view other homepage");
         
-        verifyCannotMasquerade(new Url(Const.ActionURIs.STUDENT_HOME_PAGE), otherInstructor.googleId);
+        verifyCannotMasquerade(createUrl(Const.ActionURIs.STUDENT_HOME_PAGE), otherInstructor.googleId);
     }
     
     @Test
@@ -145,7 +145,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     
         ______TS("cannot view other homepage");
     
-        verifyCannotMasquerade(new Url(Const.ActionURIs.INSTRUCTOR_HOME_PAGE), otherInstructor.googleId);
+        verifyCannotMasquerade(createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE), otherInstructor.googleId);
     }
     
     @Test
@@ -155,32 +155,32 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         // has been covered in testUserNotLoggedIn method
         
         ______TS("unauthorized page");
-        Url url = new Url(Const.ViewURIs.UNAUTHORIZED);
+        AppUrl url = createUrl(Const.ViewURIs.UNAUTHORIZED);
         currentPage.navigateTo(url);
         verifyRedirectToNotAuthorized();
         
         ______TS("error page");
-        url = new Url(Const.ViewURIs.ERROR_PAGE);
+        url = createUrl(Const.ViewURIs.ERROR_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/errorPage.html");
         
         ______TS("deadline exceeded error page");
-        url = new Url(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
+        url = createUrl(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/deadlineExceededErrorPage.html");
         
         ______TS("entity not found page");
-        url = new Url(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
+        url = createUrl(Const.ViewURIs.ENTITY_NOT_FOUND_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/entityNotFoundPage.html");
         
         ______TS("action not found page");
-        url = new Url(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
+        url = createUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/pageNotFound.html");
         
         ______TS("show message page");
-        url = new Url(Const.ViewURIs.SHOW_MESSAGE);
+        url = createUrl(Const.ViewURIs.SHOW_MESSAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/showMessage.html");
     }
@@ -217,19 +217,19 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     private void verifyCannotAccessAdminPages() {
         //cannot access directly
-        Url url = new Url(Const.ActionURIs.ADMIN_HOME_PAGE);
+        AppUrl url = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         verifyRedirectToNotAuthorized(url);
         //cannot access by masquerading either
         url = url.withUserId(adminUsername);
         verifyRedirectToNotAuthorized(url);
     }
 
-    private void verifyCannotMasquerade(Url url, String otherInstructorId) {
-        Url masqueradeUrl = url.withUserId(otherInstructorId);
+    private void verifyCannotMasquerade(AppUrl url, String otherInstructorId) {
+        AppUrl masqueradeUrl = url.withUserId(otherInstructorId);
         verifyRedirectToNotAuthorized(masqueradeUrl);
     }
 
-    private void verifyRedirectToWelcomeStrangerPage(Url url, String unregUsername) {
+    private void verifyRedirectToWelcomeStrangerPage(AppUrl url, String unregUsername) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         // A simple regex check is enough because we do full HTML tests
@@ -245,13 +245,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
                 pageSource.contains("Your client does not have permission"));
     }
 
-    private void verifyRedirectToNotAuthorized(Url url) {
+    private void verifyRedirectToNotAuthorized(AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         verifyRedirectToNotAuthorized();
     }
 
-    private void verifyRedirectToLogin(Url url) {
+    private void verifyRedirectToLogin(AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
         assertTrue(isLoginPage(currentPage));
