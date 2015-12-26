@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import teammates.common.util.AppUrl;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
@@ -111,6 +112,9 @@ public class TestProperties {
         return instance;
     }
 
+    public static AppUrl getAppUrl(String relativeUrl) {
+        return new AppUrl(inst().TEAMMATES_URL + relativeUrl);
+    }
 
     public static String getChromeDriverPath() {
         String os = System.getProperty("os.name");

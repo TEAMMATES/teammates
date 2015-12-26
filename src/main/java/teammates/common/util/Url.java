@@ -1,19 +1,31 @@
 package teammates.common.util;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * The Url class represents a URL string.
  * It provides methods to manipulate the URL string and extract values from it.
  */
 public class Url {
 
-    private String relativeUrl;
+    private final String baseUrl;
+    private final String relativeUrl;
+    private String query;
 
-    public Url(String url) {
-        this.relativeUrl = url == null ? "" : url.replace(getAppUrl(), ""); // force the URL to be relative
-    }
-
-    protected String getAppUrl() {
-        return Config.APP_URL;
+    public Url(String urlString) {
+        // parse and validate the urlString with the built-in URL object
+        URL url = null;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Assumption.fail("MalformedURLException for [" + urlString + "]: " + e.getMessage());
+        }
+        
+        this.baseUrl = url.getProtocol() + "://" + url.getAuthority();
+        this.relativeUrl = StringHelper.convertToEmptyStringIfNull(url.getPath());
+        String query = url.getQuery();
+        this.query = query == null ? "" : "?" + query;
     }
     
     /**
@@ -21,79 +33,20 @@ public class Url {
      * such parameter.
      */
     public String get(String parameterName) {
-        String startIndicator = "?" + parameterName + "=";
-
-        int startIndicationLocation = relativeUrl.indexOf(startIndicator);
-        if (startIndicationLocation < 0) {
-            startIndicator = "&" + parameterName + "=";
-            startIndicationLocation = relativeUrl.indexOf(startIndicator);
-        }
-
-        if (startIndicationLocation < 0) {
-            return null;
-        }
-
-        int startIndex = startIndicationLocation + parameterName.length() + 2;
-        String prefixStripped = relativeUrl.substring(startIndex);
-        int endIndex = prefixStripped.indexOf('&');
-        if (endIndex > 0) {
-            return prefixStripped.substring(0, endIndex);
-        } else {
-            return prefixStripped;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withUserId(String userId) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.USER_ID, userId);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withRegistrationKey(String key) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.REGKEY, key);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withInstructorInstitution(String institute) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withCourseId(String courseId) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.COURSE_ID, courseId);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withSessionName(String feedbackSessionName) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withStudentEmail(String email) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.STUDENT_EMAIL, email);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withInstructorId(String instructorId) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.INSTRUCTOR_ID, instructorId);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Url> T withCourseName(String courseName) {
-        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.COURSE_NAME, courseName);
-        return (T) this;
+        /*
+         * Regex meaning: from the start of the string, try to find either:
+         * 1. "?" followed by "{parameterName}="
+         * 2. Any amount of any character followed by "&{parameterName}="
+         * followed by as many characters as possible until the first & is found.
+         * Returns the first occurrence if found, null otherwise.
+         */
+        String keyValuePairRegex = "^(\\?|.*&)" + parameterName + "=([^&]*).*";
+        return query.matches(keyValuePairRegex) ? query.replaceFirst(keyValuePairRegex, "$2") : null;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withParam(String paramName, String paramValue) {
-        relativeUrl = addParamToUrl(relativeUrl, paramName, paramValue);
+        query = addParamToUrl(query, paramName, paramValue);
         return (T) this;
     }
 
@@ -124,18 +77,27 @@ public class Url {
     public static String trimTrailingSlash(String url) {
         return url.trim().replaceAll("/(?=$)", "");
     }
+    
+    /**
+     * Gets the relative path of a full URL. Useful for http/https-based URLs.
+     * @throws MalformedURLException if the given {@code url} is malformed
+     */
+    public static String getRelativePath(String url) throws MalformedURLException {
+        new URL(url); // ensure that the given URL is not malformed
+        return new Url(url).toString();
+    }
 
     @Override
     public String toString() {
-        return relativeUrl;
+        return relativeUrl + query;
     }
 
     /**
-     * Returns the absolute version of the URL by appending the application's URL
+     * Returns the absolute version of the URL by appending the base URL
      * to the URL input.
      */
     public String toAbsoluteString() {
-        return getAppUrl() + relativeUrl;
+        return baseUrl + toString();
     }
     
 }
