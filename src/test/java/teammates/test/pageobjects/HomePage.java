@@ -3,7 +3,7 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.Url;
+import teammates.test.util.Url;
 
 /**
  * Represents the home page of the website (i.e., index.html)
@@ -20,12 +20,8 @@ public class HomePage extends AppPage {
         super(browser);
     }
 
-    public static HomePage getNewInstance(){
-        return getNewPageInstance(HOMEPAGE, HomePage.class);
-    }
-    
     public static HomePage getNewInstance(Browser browser){
-        return getNewPageInstance(browser, new Url(HOMEPAGE), HomePage.class);
+        return getNewPageInstance(browser, new Url(""), HomePage.class);
     }
 
     @Override

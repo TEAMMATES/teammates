@@ -13,10 +13,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.pageobjects.AdminSearchPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 public class AdminSearchPageUiTest extends BaseUiTestCase {
     public static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
@@ -76,7 +76,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     }
 
     private AdminSearchPage getAdminSearchPage(String instructorId) {
-        Url commentsPageUrl = createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE);
+        Url commentsPageUrl = new Url(Const.ActionURIs.ADMIN_SEARCH_PAGE);
 
         return loginAdminToPage(browser, commentsPageUrl, AdminSearchPage.class);
     }

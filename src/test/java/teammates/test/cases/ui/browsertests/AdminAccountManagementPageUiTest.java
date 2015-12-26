@@ -14,13 +14,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.AdminAccountManagementPage;
 import teammates.test.pageobjects.AdminActivityLogPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 /**
  * Covers the 'accounts management' view for admins.
@@ -96,7 +96,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         ______TS("action: delete account");
         
-        browser.driver.get(accountsPageUrl.toString());;
+        browser.driver.get(accountsPageUrl.toAbsoluteString());;
         
         String googleId = "AAMgtUiT.instr3";
         accountsPage.clickAndCancelDeleteAccountLink(googleId);
@@ -108,7 +108,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
     }
 
     private void loginToAdminAccountsManagementPage() {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
+        accountsPageUrl = new Url(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
         accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
         // Extra 60 seconds of wait as it can take a longer time to load in non-dev environments
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();

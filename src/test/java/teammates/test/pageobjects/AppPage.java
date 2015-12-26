@@ -42,11 +42,11 @@ import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.util.Url;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -60,8 +60,6 @@ import teammates.test.driver.TestProperties;
 @SuppressWarnings("deprecation")
 public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
-    /**Home page of the application, as per test.properties file*/
-    protected static final String HOMEPAGE = TestProperties.inst().TEAMMATES_URL;
     private static final By MAIN_CONTENT = By.id("mainContent");
     
     static final long ONE_MINUTE_IN_MILLIS=60000;
@@ -148,7 +146,7 @@ public abstract class AppPage {
      * the type indicated by the parameter {@code typeOfPage}.
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage){
-        currentBrowser.driver.get(url.toString());
+        currentBrowser.driver.get(url.toAbsoluteString());
         return createNewPage(currentBrowser, typeOfPage);
     }
 
@@ -169,16 +167,6 @@ public abstract class AppPage {
 
     /**
      * Fails if the new page content does not match content expected in a page of
-     * the type indicated by the parameter {@code typeOfPage}.
-     */
-    public static <T extends AppPage> T getNewPageInstance(String url, Class<T> typeOfPage){
-        Browser b = new Browser();
-        b.driver.get(url);
-        return createNewPage(b, typeOfPage);
-    }
-
-    /**
-     * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfDestinationPage}.
      */
     public <T extends AppPage> T navigateTo(Url url, Class<T> typeOfDestinationPage){
@@ -189,7 +177,7 @@ public abstract class AppPage {
      * Simply loads the given URL. 
      */
     public AppPage navigateTo(Url url){
-        browser.driver.get(url.toString());
+        browser.driver.get(url.toAbsoluteString());
         return this;
     }
 
@@ -406,7 +394,7 @@ public abstract class AppPage {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     public static void logout(Browser currentBrowser){
-        currentBrowser.driver.get(TestProperties.inst().TEAMMATES_URL + Const.ViewURIs.LOGOUT);
+        currentBrowser.driver.get(new Url(Const.ViewURIs.LOGOUT).toAbsoluteString());
         currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
         currentBrowser.isAdminLoggedIn = false;
     }
@@ -1055,7 +1043,7 @@ public abstract class AppPage {
         //TODO: implement a better way to download a file and check content 
         // (may be using HtmlUnit as the Webdriver?)
         String beforeReportDownloadUrl = browser.driver.getCurrentUrl();
-        browser.driver.get(url.toString());
+        browser.driver.get(url.toAbsoluteString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
     }
@@ -1067,13 +1055,9 @@ public abstract class AppPage {
      * 
      * Compute the expected hash of a file from http://onlinemd5.com/ (SHA-1)
      */
-    public void verifyDownloadableFile(String url, String expectedHash) throws Exception {
+    public void verifyDownloadableFile(Url url, String expectedHash) throws Exception {
         
-        if (!url.startsWith("http") ){
-            url = HOMEPAGE + url;
-        }
-        
-        URL fileToDownload = new URL(url);
+        URL fileToDownload = new URL(url.toAbsoluteString());
         
         String localDownloadPath = System.getProperty("java.io.tmpdir");
         File downloadedFile = new File(localDownloadPath + fileToDownload.getFile().replaceFirst("/|\\\\", ""));

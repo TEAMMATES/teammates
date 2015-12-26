@@ -14,7 +14,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -22,6 +21,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
+import teammates.test.util.Url;
 
 /**
  * Tests 'Edit Course Details' functionality for Instructors.
@@ -165,7 +165,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, "Teammates Instructor",
                                                   "InsCrsEdit.instructor@gmail.tmt"));
         
-        Url courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        Url courseDetailsLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                     .withCourseId(courseId)
                                     .withUserId(testData.instructors.get("InsCrsEdit.test").googleId);
             
@@ -483,7 +483,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCourseEditPage getCourseEditPage() {        
-        Url courseEditPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
+        Url courseEditPageLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);
         

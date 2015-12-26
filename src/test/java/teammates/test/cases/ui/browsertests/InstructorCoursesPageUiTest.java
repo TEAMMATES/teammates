@@ -16,7 +16,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -24,6 +23,7 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
+import teammates.test.util.Url;
 
 /**
  * Covers the 'Courses' page for instructors. 
@@ -352,7 +352,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCoursesPage getCoursesPage() {
-        Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+        Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();
