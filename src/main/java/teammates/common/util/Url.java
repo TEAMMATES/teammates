@@ -1,11 +1,15 @@
 package teammates.common.util;
 
+/**
+ * The Url class represents a URL string.
+ * It provides methods to manipulate the URL string and extract values from it.
+ */
 public class Url {
 
-    protected String urlString;
+    private String relativeUrl;
 
     public Url(String url) {
-        this.urlString = url.replace(getAppUrl(), ""); // force the URL to be relative
+        this.relativeUrl = url == null ? "" : url.replace(getAppUrl(), ""); // force the URL to be relative
     }
 
     protected String getAppUrl() {
@@ -19,10 +23,10 @@ public class Url {
     public String get(String parameterName) {
         String startIndicator = "?" + parameterName + "=";
 
-        int startIndicationLocation = urlString.indexOf(startIndicator);
+        int startIndicationLocation = relativeUrl.indexOf(startIndicator);
         if (startIndicationLocation < 0) {
             startIndicator = "&" + parameterName + "=";
-            startIndicationLocation = urlString.indexOf(startIndicator);
+            startIndicationLocation = relativeUrl.indexOf(startIndicator);
         }
 
         if (startIndicationLocation < 0) {
@@ -30,7 +34,7 @@ public class Url {
         }
 
         int startIndex = startIndicationLocation + parameterName.length() + 2;
-        String prefixStripped = urlString.substring(startIndex);
+        String prefixStripped = relativeUrl.substring(startIndex);
         int endIndex = prefixStripped.indexOf('&');
         if (endIndex > 0) {
             return prefixStripped.substring(0, endIndex);
@@ -41,60 +45,61 @@ public class Url {
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withUserId(String userId) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.USER_ID, userId);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.USER_ID, userId);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withRegistrationKey(String key) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.REGKEY, key);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.REGKEY, key);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withInstructorInstitution(String institute) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withCourseId(String courseId) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.COURSE_ID, courseId);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.COURSE_ID, courseId);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withSessionName(String feedbackSessionName) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withStudentEmail(String email) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.STUDENT_EMAIL, email);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.STUDENT_EMAIL, email);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withInstructorId(String instructorId) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.INSTRUCTOR_ID, instructorId);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.INSTRUCTOR_ID, instructorId);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withCourseName(String courseName) {
-        this.urlString = addParamToUrl(this.urlString, Const.ParamsNames.COURSE_NAME, courseName);
+        relativeUrl = addParamToUrl(relativeUrl, Const.ParamsNames.COURSE_NAME, courseName);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Url> T withParam(String paramName, String paramValue) {
-        this.urlString = addParamToUrl(this.urlString, paramName, paramValue);
+        relativeUrl = addParamToUrl(relativeUrl, paramName, paramValue);
         return (T) this;
     }
 
     /**
      * Returns the URL with the specified key-value pair parameter added.
+     * The parameter will also be sanitized according to URL specification.
      * Unchanged if either the key or value is null, or the key already exists<br />
      * Example:
      * <ul>
@@ -107,17 +112,13 @@ public class Url {
      * </ul>
      */
     public static String addParamToUrl(String url, String key, String value) {
-        if (key == null || value == null) {
-            // return the url if any of the key or the value is null
+        if (key == null || key.isEmpty() || value == null || value.isEmpty()
+             || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
+            // return the url if any of the key or the value is null or empty
+            // or if the key is already included in the url
             return url;
         }
-        if (url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
-            // return the url if the key is already included in the url
-            return url;
-        }
-        url += url.indexOf('?') >= 0 ? '&' : '?';
-        url += key + "=" + Sanitizer.sanitizeForUri(value);
-        return url;
+        return url + (url.contains("?") ? "&" : "?") + key + "=" + Sanitizer.sanitizeForUri(value);
     }
 
     public static String trimTrailingSlash(String url) {
@@ -126,7 +127,7 @@ public class Url {
 
     @Override
     public String toString() {
-        return urlString;
+        return relativeUrl;
     }
 
     /**
@@ -134,7 +135,7 @@ public class Url {
      * to the URL input.
      */
     public String toAbsoluteString() {
-        return getAppUrl() + urlString;
+        return getAppUrl() + relativeUrl;
     }
     
 }

@@ -95,7 +95,7 @@ public class Config {
     }
 
     private String getAppUrl() {
-        return props.getProperty("app.url");
+        return Url.trimTrailingSlash(props.getProperty("app.url"));
     }
 
     private String getBackdoorKey() {
