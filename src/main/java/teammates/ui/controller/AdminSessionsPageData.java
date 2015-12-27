@@ -21,6 +21,7 @@ public class AdminSessionsPageData extends PageData {
     private static final String UNKNOWN_INSTITUTION = "Unknown";
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
+    private int totalInstitutes;
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
@@ -35,10 +36,11 @@ public class AdminSessionsPageData extends PageData {
     
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap, 
-            int totalOngoingSessions, int totalOpenStatusSessions, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
+            int totalOngoingSessions, int totalOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
 
         this.totalOngoingSessions = totalOngoingSessions;
         this.totalOpenStatusSessions = totalOpenStatusSessions;
+        this.totalInstitutes = totalInstitutes;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeEnd;
         this.zone = zone;
@@ -53,6 +55,10 @@ public class AdminSessionsPageData extends PageData {
     
     public int getTotalOpenStatusSessions() {
         return totalOpenStatusSessions;
+    }
+    
+    public int gettotalInstitutes() {
+        return totalInstitutes;
     }
 
     public int getTableCount() {

@@ -18,6 +18,8 @@
             <br>
             Opened: ${data.totalOpenStatusSessions}
             <br>
+            Institutions: ${data.totalInstitutes}
+            <br>
             ${data.rangeStartString}&nbsp;&nbsp;
             <span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;${data.rangeEndString}
             &nbsp;${data.timeZoneAsString}

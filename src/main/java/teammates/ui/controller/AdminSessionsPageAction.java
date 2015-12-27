@@ -18,15 +18,18 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
+import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageAction extends Action {
     
     AdminSessionsPageData data;
 
+    private static final String UNKNOWN_INSTITUTION = "Unknown";
     private Map<String, List<FeedbackSessionAttributes>> map;
     private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
+    private int totalInstitutes;
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
@@ -77,6 +80,8 @@ public class AdminSessionsPageAction extends Action {
     private void prepareDefaultPageData(Calendar calStart, Calendar calEnd) {        
         this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
         this.totalOngoingSessions = 0;
+        this.totalOpenStatusSessions = 0;
+        this.totalInstitutes = 0;
         this.rangeStart = calStart.getTime();
         this.rangeEnd = calEnd.getTime();
     }
@@ -127,7 +132,8 @@ public class AdminSessionsPageAction extends Action {
     
                 prepareDefaultPageData(calStart, calEnd);
                 data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
-                     this.totalOpenStatusSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                     this.totalOpenStatusSessions, this.totalInstitutes, this.rangeStart, 
+                     this.rangeEnd, this.zone, this.isShowAll);
                 return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             }
           
@@ -140,7 +146,8 @@ public class AdminSessionsPageAction extends Action {
 
             prepareDefaultPageData(calStart, calEnd);
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
-                 this.totalOngoingSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                 this.totalOngoingSessions, this.totalInstitutes, this.rangeStart, 
+                 this.rangeEnd, this.zone, this.isShowAll);
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             
         }
@@ -163,8 +170,11 @@ public class AdminSessionsPageAction extends Action {
 
             this.map = new HashMap<String, List<FeedbackSessionAttributes>>();;
             this.totalOngoingSessions = 0;
+            this.totalOpenStatusSessions = 0;
+            this.totalInstitutes = 0;
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
-                      this.totalOpenStatusSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                      this.totalOpenStatusSessions, this.totalInstitutes, this.rangeStart, 
+                      this.rangeEnd, this.zone, this.isShowAll);
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
         }
         
@@ -203,6 +213,7 @@ public class AdminSessionsPageAction extends Action {
             }
         }
         this.map = map;
+        this.totalInstitutes = getTotalInstitutes(map);
         statusToAdmin = "Admin Sessions Page Load<br>" +
                         "<span class=\"bold\">Total Ongoing Sessions:</span> " +
                         this.totalOngoingSessions +
@@ -211,7 +222,8 @@ public class AdminSessionsPageAction extends Action {
         
         constructSessionToInstructorIdMap();
         data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
-                  this.totalOpenStatusSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                  this.totalOpenStatusSessions, this.totalInstitutes, this.rangeStart, 
+                  this.rangeEnd, this.zone, this.isShowAll);
         return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
     }
     
@@ -272,6 +284,18 @@ public class AdminSessionsPageAction extends Action {
             }
         }
         
+        return numOfTotal;
+    }
+    
+    
+    private int getTotalInstitutes(HashMap<String, List<FeedbackSessionAttributes>> map) {
+        
+        int numOfTotal = 0;
+        for (String key : map.keySet()) {
+            if (!key.equals(UNKNOWN_INSTITUTION)) {
+                numOfTotal += 1;
+            }
+        }
         return numOfTotal;
     }
     
