@@ -14,8 +14,10 @@
 <ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="TEAMMATES - Administrator Sessions" jsIncludes="${jsIncludes}">
     <h1>
         <small> 
-            Total: ${data.totalOngoingSessions}
-            <br> 
+            Ongoing: ${data.totalOngoingSessions}
+            <br>
+            Opened: ${data.totalOpenStatusSessions}
+            <br>
             ${data.rangeStartString}&nbsp;&nbsp;
             <span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;${data.rangeEndString}
             &nbsp;${data.timeZoneAsString}

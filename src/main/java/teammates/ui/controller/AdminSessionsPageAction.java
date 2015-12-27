@@ -26,6 +26,7 @@ public class AdminSessionsPageAction extends Action {
     private Map<String, List<FeedbackSessionAttributes>> map;
     private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     private int totalOngoingSessions;
+    private int totalOpenStatusSessions;
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
@@ -125,8 +126,8 @@ public class AdminSessionsPageAction extends Action {
                                 "<span class=\"bold\"> Error: invalid filter range</span>";
     
                 prepareDefaultPageData(calStart, calEnd);
-                data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
-                     this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
+                     this.totalOpenStatusSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
                 return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             }
           
@@ -139,7 +140,7 @@ public class AdminSessionsPageAction extends Action {
 
             prepareDefaultPageData(calStart, calEnd);
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
-                      this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                 this.totalOngoingSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             
         }
@@ -163,7 +164,7 @@ public class AdminSessionsPageAction extends Action {
             this.map = new HashMap<String, List<FeedbackSessionAttributes>>();;
             this.totalOngoingSessions = 0;
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
-                      this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                      this.totalOpenStatusSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
         }
         
@@ -174,6 +175,7 @@ public class AdminSessionsPageAction extends Action {
     private ActionResult createAdminSessionPageResult(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<String, List<FeedbackSessionAttributes>>();
         this.totalOngoingSessions = allOpenFeedbackSessionsList.size();
+        this.totalOpenStatusSessions = getTotalNumOfOpenStatusSession(allOpenFeedbackSessionsList);
 
         for (FeedbackSessionAttributes fs : allOpenFeedbackSessionsList) {
 
@@ -203,11 +205,13 @@ public class AdminSessionsPageAction extends Action {
         this.map = map;
         statusToAdmin = "Admin Sessions Page Load<br>" +
                         "<span class=\"bold\">Total Ongoing Sessions:</span> " +
-                        this.totalOngoingSessions;
+                        this.totalOngoingSessions +
+                        "<span class=\"bold\">Total Opened Sessions:</span> " + 
+                        this.totalOpenStatusSessions;
         
         constructSessionToInstructorIdMap();
         data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
-                  this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
+                  this.totalOpenStatusSessions, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
         return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
     }
     
@@ -256,6 +260,19 @@ public class AdminSessionsPageAction extends Action {
         }
         
         return null;
+    }
+    
+    
+    private int getTotalNumOfOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
+        
+        int numOfTotal = 0;
+        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+            if (sessionAttributes.isOpened()) {
+                numOfTotal += 1;
+            }
+        }
+        
+        return numOfTotal;
     }
     
     
