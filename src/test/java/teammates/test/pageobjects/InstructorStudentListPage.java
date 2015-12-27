@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.test.driver.TestProperties;
+import teammates.test.util.Url;
 
 public class InstructorStudentListPage extends AppPage {
 
@@ -106,20 +106,18 @@ public class InstructorStudentListPage extends AppPage {
         displayArchiveOptions.click();
     }
 
-    public void verifyProfilePhoto(String courseId, String studentName, String profilePhotoSrc) {
-        profilePhotoSrc = TestProperties.inst().TEAMMATES_URL + profilePhotoSrc;
+    public void verifyProfilePhoto(String courseId, String studentName, Url photoUrl) {
+        String profilePhotoSrc = photoUrl.toAbsoluteString();
         String rowId = getStudentRowId(courseId, studentName);
-        assertTrue(browser.driver.findElement(By.id("studentphoto-c" + rowId))
-                                 .findElement(By.tagName("img"))
-                                 .getAttribute("src")
-                                 .contains(profilePhotoSrc));
+        assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
+                                                    .findElement(By.tagName("img"))
+                                                    .getAttribute("src"));
         WebElement photo = browser.driver.findElement(By.id("studentphoto-c" + rowId))
                                          .findElement(By.cssSelector(".profile-pic-icon-click > img"));
         Actions action = new Actions(browser.driver);
         action.click(photo).build().perform();
-        assertTrue(browser.driver.findElement(By.cssSelector(".popover-content > .profile-pic"))
-                                 .getAttribute("src")
-                                 .contains(profilePhotoSrc));
+        assertEquals(profilePhotoSrc, browser.driver.findElement(By.cssSelector(".popover-content > .profile-pic"))
+                                                    .getAttribute("src"));
     }
 
     private int getCourseNumber(String courseId) {

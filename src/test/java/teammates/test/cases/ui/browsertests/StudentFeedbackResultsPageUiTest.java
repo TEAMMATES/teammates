@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -18,6 +17,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
+import teammates.test.util.Url;
 
 /**
  * Tests 'Feedback Results' view of students.
@@ -162,7 +162,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -171,13 +171,11 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,
                                                                     Class<T> typeOfPage) {
-        String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        Url submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
                                             .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
-                                            .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
-                                .toString();
-        browser.driver.get(submitUrl);
-        return AppPage.getNewPageInstance(browser, typeOfPage);
+                                            .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
+        return AppPage.getNewPageInstance(browser, submitUrl, typeOfPage);
     }
 }
