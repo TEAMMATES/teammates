@@ -236,7 +236,7 @@ public abstract class Action {
                     return null;
                 }
                 
-                throw new UnauthorizedAccessException("Unregistered user for a page that needs one");
+                throw new UnauthorizedAccessException("Unregistered user for a page that needs registration");
             } else if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() && isUserLoggedIn) {
                 Url redirectUrl = new Url(student.getRegistrationUrl())
                                       .withParam(Const.ParamsNames.NEXT_URL, requestUrl);

@@ -13,7 +13,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
@@ -23,6 +22,7 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
+import teammates.test.util.Url;
 
 /**
  * Tests 'Course Details' view for Instructors.
@@ -158,7 +158,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("link: download student list");
         
-        Url studentListDownloadUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
+        Url studentListDownloadUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
                                         .withUserId("CCDetailsUiT.instr")
                                         .withCourseId("CCDetailsUiT.CS2104");
         
@@ -233,7 +233,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {
-        Url detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        Url detailsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                 .withUserId(instructorId)
                                 .withCourseId(courseId);
 

@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.test.util.Url;
 
 public class InstructorCourseEnrollPage extends AppPage {
     
@@ -39,16 +40,8 @@ public class InstructorCourseEnrollPage extends AppPage {
         return getTextBoxValue(enrollTextBox);
     }
 
-    public String getSpreadsheetLink() {
-        String link = spreadsheetLink.getAttribute("href");
-        if (!link.startsWith("http"))
-            return link;
-        String[] tokens = link.split("/");
-        String result = "";
-        for (int i = 3; i < tokens.length; i++) {
-            result += "/"+ tokens[i] ;
-        }
-        return result;
+    public Url getSpreadsheetLink() {
+        return new Url(spreadsheetLink.getAttribute("href"));
     }
     
     public InstructorCourseEnrollResultPage enroll(String enrollString) {

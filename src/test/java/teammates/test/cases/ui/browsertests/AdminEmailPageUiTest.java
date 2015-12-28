@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.AdminEmailPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 public class AdminEmailPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -42,7 +43,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
         ______TS("email compose page");
         
         emailPage = loginAdminToPageForAdminUiTests(
-                        browser, createUrl(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
+                        browser, new Url(Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE), AdminEmailPage.class);
         assertTrue(isEmailComposeElementsPresent());
         
         ______TS("send email - no recipient");

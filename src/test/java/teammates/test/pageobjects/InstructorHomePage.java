@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
+import teammates.test.util.Url;
 
 
 
