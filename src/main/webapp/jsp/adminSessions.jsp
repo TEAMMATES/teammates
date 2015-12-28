@@ -14,11 +14,9 @@
 <ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="TEAMMATES - Administrator Sessions" jsIncludes="${jsIncludes}">
     <h1>
         <small> 
-            Ongoing: ${data.totalOngoingSessions}
-            <br>
-            Opened: ${data.totalOpenStatusSessions}
-            <br>
-            Institutions: ${data.totalInstitutes}
+            Total: ${data.totalOngoingSessions} &nbsp; &nbsp;
+            Opened: ${data.totalOpenStatusSessions} &nbsp; &nbsp;
+            Institutions: ${data.totalInstitutes} 
             <br>
             ${data.rangeStartString}&nbsp;&nbsp;
             <span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;${data.rangeEndString}
