@@ -1020,7 +1020,7 @@ public class Const {
         public static final String INSTRUCTOR_ACCOUNT_DELETED = "The Account has been deleted";
         public static final String INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
         
-        public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course";
+        public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course. Click <a href=\"%s\">here</a> to enroll students.";
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
