@@ -131,7 +131,7 @@ public class DataMigrationForSanitizedData extends RemoteApiClient {
             boolean hasSanitizedData = checkStudentHasSanitizedData(student);
             if (hasSanitizedData) {
                 fixSanitizationForStudent(student);
-                StudentsLogic.inst().updateStudentCascade(student.email, student);
+                StudentsLogic.inst().updateStudent(student.email, student);
             }
         } catch (InvalidParametersException e) {
             Utils.getLogger().log(Level.INFO, "Student " + student.email + " invalid!");
