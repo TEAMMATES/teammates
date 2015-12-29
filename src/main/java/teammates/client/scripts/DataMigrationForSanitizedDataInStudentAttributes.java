@@ -14,11 +14,11 @@ import teammates.common.util.Utils;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.datastore.Datastore;
 
-public class DataMigrationForSanitizedData extends RemoteApiClient {
+public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiClient {
     private final boolean isPreview = true;
     
     public static void main(String[] args) throws IOException {
-        DataMigrationForSanitizedData migrator = new DataMigrationForSanitizedData();
+        DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();
         migrator.doOperationRemotely();
     }
 
