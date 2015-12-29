@@ -16,7 +16,10 @@
         <small> 
             Total: ${data.totalOngoingSessions} &nbsp; &nbsp;
             Opened: ${data.totalOpenStatusSessions} &nbsp; &nbsp;
-            Institutions: ${data.totalInstitutes} 
+            Closed: ${data.totalClosedStatusSessions} &nbsp; &nbsp;
+            Waiting To Open: ${data.totalWaitToOpenStatusSessions} 
+            <br> 
+            Institutions: ${data.totalInstitutes} &nbsp; &nbsp;
             <br>
             ${data.rangeStartString}&nbsp;&nbsp;
             <span class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;${data.rangeEndString}

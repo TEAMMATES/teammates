@@ -29,6 +29,8 @@ public class AdminSessionsPageAction extends Action {
     private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
+    private int totalClosedStatusSessions;
+    private int totalWaitToOpenStatusSessions;
     private int totalInstitutes;
     private Date rangeStart;
     private Date rangeEnd;
@@ -81,6 +83,8 @@ public class AdminSessionsPageAction extends Action {
         this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
         this.totalOngoingSessions = 0;
         this.totalOpenStatusSessions = 0;
+        this.totalClosedStatusSessions = 0;
+        this.totalOpenStatusSessions = 0;
         this.totalInstitutes = 0;
         this.rangeStart = calStart.getTime();
         this.rangeEnd = calEnd.getTime();
@@ -132,8 +136,9 @@ public class AdminSessionsPageAction extends Action {
     
                 prepareDefaultPageData(calStart, calEnd);
                 data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
-                     this.totalOpenStatusSessions, this.totalInstitutes, this.rangeStart, 
-                     this.rangeEnd, this.zone, this.isShowAll);
+                          this.totalOpenStatusSessions, this.totalClosedStatusSessions,
+                          this.totalWaitToOpenStatusSessions, this.totalInstitutes, this.rangeStart, 
+                          this.rangeEnd, this.zone, this.isShowAll);
                 return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             }
           
@@ -145,9 +150,9 @@ public class AdminSessionsPageAction extends Action {
                             "<span class=\"bold\"> Error: Missing Parameters</span>";
 
             prepareDefaultPageData(calStart, calEnd);
-            data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
-                 this.totalOngoingSessions, this.totalInstitutes, this.rangeStart, 
-                 this.rangeEnd, this.zone, this.isShowAll);
+            data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
+                      this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions, 
+                      this.totalInstitutes, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
             
         }
@@ -171,10 +176,12 @@ public class AdminSessionsPageAction extends Action {
             this.map = new HashMap<String, List<FeedbackSessionAttributes>>();;
             this.totalOngoingSessions = 0;
             this.totalOpenStatusSessions = 0;
+            this.totalClosedStatusSessions = 0;
+            this.totalWaitToOpenStatusSessions = 0;
             this.totalInstitutes = 0;
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
-                      this.totalOpenStatusSessions, this.totalInstitutes, this.rangeStart, 
-                      this.rangeEnd, this.zone, this.isShowAll);
+                      this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
+                      this.totalInstitutes, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
         }
         
@@ -186,6 +193,8 @@ public class AdminSessionsPageAction extends Action {
         HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<String, List<FeedbackSessionAttributes>>();
         this.totalOngoingSessions = allOpenFeedbackSessionsList.size();
         this.totalOpenStatusSessions = getTotalNumOfOpenStatusSession(allOpenFeedbackSessionsList);
+        this.totalClosedStatusSessions = getTotalNumOfCloseStatusSession(allOpenFeedbackSessionsList);
+        this.totalWaitToOpenStatusSessions = getTotalNumOfWaitToOpenStatusSession(allOpenFeedbackSessionsList);
 
         for (FeedbackSessionAttributes fs : allOpenFeedbackSessionsList) {
 
@@ -222,8 +231,8 @@ public class AdminSessionsPageAction extends Action {
         
         constructSessionToInstructorIdMap();
         data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions, 
-                  this.totalOpenStatusSessions, this.totalInstitutes, this.rangeStart, 
-                  this.rangeEnd, this.zone, this.isShowAll);
+                  this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
+                  this.totalInstitutes, this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
         return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
     }
     
@@ -280,6 +289,32 @@ public class AdminSessionsPageAction extends Action {
         int numOfTotal = 0;
         for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
             if (sessionAttributes.isOpened()) {
+                numOfTotal += 1;
+            }
+        }
+        
+        return numOfTotal;
+    }
+    
+    
+    private int getTotalNumOfCloseStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
+        
+        int numOfTotal = 0;
+        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+            if (sessionAttributes.isClosed()) {
+                numOfTotal += 1;
+            }
+        }
+        
+        return numOfTotal;
+    }
+    
+    
+    private int getTotalNumOfWaitToOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
+        
+        int numOfTotal = 0;
+        for (FeedbackSessionAttributes sessionAttributes: allOpenFeedbackSessionsList) {
+            if (sessionAttributes.isWaitingToOpen()) {
                 numOfTotal += 1;
             }
         }

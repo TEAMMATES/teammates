@@ -21,6 +21,8 @@ public class AdminSessionsPageData extends PageData {
     private static final String UNKNOWN_INSTITUTION = "Unknown";
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
+    private int totalClosedStatusSessions;
+    private int totalWaitToOpenStatusSessions;
     private int totalInstitutes;
     private Date rangeStart;
     private Date rangeEnd;
@@ -36,10 +38,13 @@ public class AdminSessionsPageData extends PageData {
     
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap, 
-            int totalOngoingSessions, int totalOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
+            int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
+            int totalWaitToOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
 
         this.totalOngoingSessions = totalOngoingSessions;
         this.totalOpenStatusSessions = totalOpenStatusSessions;
+        this.totalClosedStatusSessions = totalClosedStatusSessions;
+        this.totalWaitToOpenStatusSessions = totalWaitToOpenStatusSessions;
         this.totalInstitutes = totalInstitutes;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeEnd;
@@ -55,6 +60,14 @@ public class AdminSessionsPageData extends PageData {
     
     public int getTotalOpenStatusSessions() {
         return totalOpenStatusSessions;
+    }
+    
+    public int getTotalClosedStatusSessions() {
+        return totalClosedStatusSessions;
+    }
+    
+    public int getTotalWaitToOpenStatusSessions() {
+        return totalWaitToOpenStatusSessions;
     }
     
     public int gettotalInstitutes() {
