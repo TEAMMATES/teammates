@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.io.File;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,8 +19,7 @@ public class AppPageUiTest extends BaseUiTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();        
-        browser.driver.get(getPath(0));
-        page = AppPage.getNewPageInstance(browser);
+        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/appPage0.html"));
     }
     
     @Test
@@ -54,11 +51,6 @@ public class AppPageUiTest extends BaseUiTestCase {
     }
     
     //TODO: add test cases for other methods in AppPage
-
-    private static String getPath(int pageNumber) throws Exception{
-        String workingDirectory = new File(".").getCanonicalPath();
-        return "file:///"+workingDirectory+"/src/test/resources/pages/appPage" + pageNumber + ".html";
-    }
 
     @AfterClass
     public static void classTearDown() throws Exception {

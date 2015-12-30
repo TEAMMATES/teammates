@@ -1,9 +1,13 @@
 package teammates.test.cases.ui.browsertests;
 
+import java.io.File;
+import java.io.IOException;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -22,6 +26,16 @@ public class BaseUiTestCase extends BaseTestCase {
      */
     protected static AppUrl createUrl(String relativeUrl) {
         return TestProperties.getAppUrl(relativeUrl);
+    }
+    
+    /**
+     * Creates a {@link Url} to navigate to the file named {@code testFileName}
+     * inside {@link TestProperties#TEST_PAGES_FOLDER}.
+     * {@code testFileName} must start with a "/".
+     */
+    protected static Url createLocalUrl(String testFileName) throws IOException {
+        return new Url("file:///" + new File(".").getCanonicalPath() + "/" 
+                                  + TestProperties.TEST_PAGES_FOLDER + testFileName);
     }
     
     /**
