@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.jdo.PersistenceManager;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -12,10 +13,13 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiClient {
     private final boolean isPreview = true;
+    private StudentsDb studentsDb = new StudentsDb();
+    private StudentsLogic studentsLogic = StudentsLogic.inst();
     
     public static void main(String[] args) throws IOException {
         DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();
@@ -131,7 +135,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             boolean hasSanitizedData = checkStudentHasSanitizedData(student);
             if (hasSanitizedData) {
                 fixSanitizationForStudent(student);
-                StudentsLogic.inst().updateStudent(student.email, student);
+                updateStudent(student.email, student);
             }
         } catch (InvalidParametersException e) {
             Utils.getLogger().log(Level.INFO, "Student " + student.email + " invalid!");
@@ -147,7 +151,24 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     }
 
     protected List<StudentAttributes> getAllStudents() {
-        StudentsLogic studentsLogic = StudentsLogic.inst();
         return studentsLogic.getAllStudents();
+    }
+    
+    /*
+     * update students without affecting other classes. Use with caution!!!
+     */
+    public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
+                                                                                      EntityDoesNotExistException {
+        studentsDb.verifyStudentExists(student.course, originalEmail);
+        StudentAttributes originalStudent = studentsLogic.getStudentForEmail(student.course, originalEmail);
+        
+        // prepare new student
+        student.updateWithExistingRecord(originalStudent);
+        
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
+        
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);    
     }
 }

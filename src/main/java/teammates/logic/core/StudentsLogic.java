@@ -207,24 +207,6 @@ public class StudentsLogic {
         return isStudentInTeam(courseId, student1.team, student2Email);
     }
     
-    /*
-     * update students without affecting other classes. Use with caution!!!
-     */
-    public void updateStudent(String originalEmail, StudentAttributes student) throws InvalidParametersException,
-                                                                                      EntityDoesNotExistException {
-        studentsDb.verifyStudentExists(student.course, originalEmail);
-        StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-        
-        // prepare new student
-        student.updateWithExistingRecord(originalStudent);
-        
-        if (!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
-        }
-        
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, true);    
-    }
-    
     public void updateStudentCascade(String originalEmail,
             StudentAttributes student) throws InvalidParametersException,
             EntityDoesNotExistException {
