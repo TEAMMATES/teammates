@@ -182,7 +182,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         assertEquals("this is a response edited during grace period", submitPage.getTextArea(1, 0).getText());
 
-        submitPage.logout();
+        logout(browser);
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
 

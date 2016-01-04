@@ -422,7 +422,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // this should not give any error since the value will be automatically adjusted before the form is submitted
         // adjusted value should be 1
-        submitPage.logout();
+        logout(browser);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");

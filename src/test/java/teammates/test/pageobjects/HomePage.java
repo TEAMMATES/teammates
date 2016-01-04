@@ -32,6 +32,9 @@ public class HomePage extends AppPage {
             //already logged in. We need to logout because the return type of
             //  this method is a LoginPage
             logout();
+            instructorLoginLink.click();
+            waitForPageToLoad();
+            pageSource = getPageSource();
         }
         return createCorretLoginPageType(pageSource);
         

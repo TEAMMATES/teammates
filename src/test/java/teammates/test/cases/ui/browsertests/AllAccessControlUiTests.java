@@ -71,7 +71,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     @Test
     public void testUserNotLoggedIn() throws Exception {
         
-        currentPage.logout();
+        logout(browser);
         AppPage.getNewPageInstance(browser, HomePage.class);
 
         ______TS("student pages");
@@ -187,19 +187,19 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     
 
     private void loginStudent(String userName, String password) {
-        currentPage.logout();
+        logout(browser);
         LoginPage loginPage = getHomePage(browser).clickStudentLogin();
         currentPage = loginPage.loginAsStudent(userName, password);
     }
     
     private void loginInstructorUnsuccessfully(String userName, String password) {
-        currentPage.logout();
+        logout(browser);
         LoginPage loginPage = getHomePage(browser).clickInstructorLogin();
         currentPage = loginPage.loginAsInstructorUnsuccessfully(userName, password);
     }
     
     private void loginInstructor(String userName, String password) {
-        currentPage.logout();
+        logout(browser);
         LoginPage loginPage = getHomePage(browser).clickInstructorLogin();
         currentPage = loginPage.loginAsInstructor(userName, password);
     }
