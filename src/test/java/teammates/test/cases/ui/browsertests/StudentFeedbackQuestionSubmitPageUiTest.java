@@ -53,7 +53,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
         
-        AppPage.logout(browser);
+        logout(browser);
         
         fqOpen = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
         fqClosed = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);

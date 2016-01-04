@@ -3,8 +3,6 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.test.driver.TestProperties;
-
 /**
  * Represents the home page of the website (i.e., index.html)
  */
@@ -18,10 +16,6 @@ public class HomePage extends AppPage {
     
     public HomePage(Browser    browser){
         super(browser);
-    }
-
-    public static HomePage getNewInstance(Browser browser){
-        return getNewPageInstance(browser, TestProperties.getAppUrl(""), HomePage.class);
     }
 
     @Override

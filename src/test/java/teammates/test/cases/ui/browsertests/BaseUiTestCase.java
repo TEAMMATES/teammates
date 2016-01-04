@@ -16,6 +16,7 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
+import teammates.test.pageobjects.HomePage;
 
 public class BaseUiTestCase extends BaseTestCase {
 
@@ -25,7 +26,7 @@ public class BaseUiTestCase extends BaseTestCase {
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createUrl(String relativeUrl) {
-        return TestProperties.getAppUrl(relativeUrl);
+        return new AppUrl(TestProperties.inst().TEAMMATES_URL + relativeUrl);
     }
     
     /**
@@ -47,7 +48,7 @@ public class BaseUiTestCase extends BaseTestCase {
     protected static <T extends AppPage> T loginAdminToPageForAdminUiTests(Browser browser, AppUrl url,
                                                                            Class<T> typeOfPage) {
         loginAdminToPage(browser, url, typeOfPage);
-        AppPage.logout(browser);
+        logout(browser);
         return loginAdminToPage(browser, url, typeOfPage);
     }
 
@@ -76,7 +77,7 @@ public class BaseUiTestCase extends BaseTestCase {
         
         //logout and attempt to load the requested URL. This will be 
         //  redirected to a dev-server/google login page
-        AppPage.logout(browser);
+        logout(browser);
         browser.driver.get(url.toAbsoluteString());
         String pageSource = browser.driver.getPageSource();
         
@@ -96,6 +97,24 @@ public class BaseUiTestCase extends BaseTestCase {
         //After login, the browser should be redirected to the page requested originally.
         //  No need to reload. In fact, reloading might results in duplicate request to the server.
         return AppPage.getNewPageInstance(browser, typeOfPage);
+    }
+    
+    /**
+     * Navigates to the application's home page (as defined in test.properties)
+     * and gives the {@link HomePage} instance based on it.
+     */
+    protected static HomePage getHomePage(Browser browser) {
+        return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
+    }
+
+    /**
+     * Equivalent to clicking the 'logout' link in the top menu of the page.
+     */
+    @SuppressWarnings("deprecation")
+    protected static void logout(Browser currentBrowser) {
+        currentBrowser.driver.get(createUrl(Const.ViewURIs.LOGOUT).toAbsoluteString());
+        currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
+        currentBrowser.isAdminLoggedIn = false;
     }
     
     /**

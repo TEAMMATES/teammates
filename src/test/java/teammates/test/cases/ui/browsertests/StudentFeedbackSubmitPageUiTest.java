@@ -82,7 +82,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        AppPage.logout(browser);
+        logout(browser);
         
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 

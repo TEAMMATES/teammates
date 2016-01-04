@@ -29,7 +29,6 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.GoogleLoginPage;
-import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -277,9 +276,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         //verify sample course is accessible for newly joined instructor as an student
         
-        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
-                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        StudentHomePage studentHomePage = getHomePage(browser).clickStudentLogin()
+                                                              .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                              TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
         
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
@@ -310,9 +309,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         studentHomePage.logout();
         
         //login in as instructor again to test sample course deletion
-        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
-                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        instructorHomePage = getHomePage(browser).clickInstructorLogin()
+                                                 .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                    TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
         
   
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));

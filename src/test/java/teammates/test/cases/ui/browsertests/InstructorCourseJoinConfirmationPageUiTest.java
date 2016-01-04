@@ -61,7 +61,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String joinLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                         .withRegistrationKey(invalidEncryptedKey)
                                         .toAbsoluteString();
-        AppPage.logout(browser);
+        logout(browser);
         browser.driver.get(joinLink);
         confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
                            .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,

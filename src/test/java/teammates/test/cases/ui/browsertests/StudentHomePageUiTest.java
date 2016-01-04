@@ -12,10 +12,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -62,9 +60,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         String unregPassword = TestProperties.inst().TEST_UNREG_PASSWORD;
         BackDoor.deleteAccount(unregUserId); //delete account if it exists
         
-        AppPage.logout(browser);
-        studentHome = HomePage.getNewInstance(browser).clickStudentLogin()
-                                                      .loginAsStudent(unregUserId, unregPassword);
+        logout(browser);
+        studentHome = getHomePage(browser).clickStudentLogin()
+                                          .loginAsStudent(unregUserId, unregPassword);
 
         // this test uses the accounts from test.properties
         // do not do full HTML verification here as the unregistered username is not predictable
@@ -79,7 +77,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         ______TS("login");
         
-        studentHome = HomePage.getNewInstance(browser)
+        studentHome = getHomePage(browser)
                               .clickStudentLogin()
                               .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT, 
                                               TestProperties.inst().TEST_STUDENT1_PASSWORD);

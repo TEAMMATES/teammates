@@ -107,6 +107,9 @@ public abstract class AppPage {
     @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;
     
+    @FindBy(id = "btnLogout")
+    protected WebElement logoutButton;
+    
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement studentLogoutLink;
     
@@ -382,21 +385,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Equivalent to clicking the 'logout' link in the top menu of the page.
-     * @return 
+     * Click the 'logout' link in the top menu of the page.
      */
     public AppPage logout(){
-        logout(browser);
+        logoutButton.click();
         return this;
-    }
-    
-    /**
-     * Equivalent to clicking the 'logout' link in the top menu of the page.
-     */
-    public static void logout(Browser currentBrowser){
-        currentBrowser.driver.get(TestProperties.getAppUrl(Const.ViewURIs.LOGOUT).toAbsoluteString());
-        currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
-        currentBrowser.isAdminLoggedIn = false;
     }
     
     @SuppressWarnings("unused")

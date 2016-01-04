@@ -36,7 +36,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
         browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();
-        AppPage.logout(browser);
+        logout(browser);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
      
     
     private void testJoinConfirmation() throws Exception {
-        AppPage.logout(browser);
+        logout(browser);
         removeAndRestoreTestDataOnServer(testData);
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();

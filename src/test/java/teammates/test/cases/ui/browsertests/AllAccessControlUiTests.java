@@ -63,7 +63,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         browser = BrowserPool.getBrowser();
         
-        currentPage = HomePage.getNewInstance(browser);
+        currentPage = getHomePage(browser);
         
         restoreSpecialTestData();
     }
@@ -188,19 +188,19 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     private void loginStudent(String userName, String password) {
         currentPage.logout();
-        LoginPage loginPage = HomePage.getNewInstance(browser).clickStudentLogin();
+        LoginPage loginPage = getHomePage(browser).clickStudentLogin();
         currentPage = loginPage.loginAsStudent(userName, password);
     }
     
     private void loginInstructorUnsuccessfully(String userName, String password) {
         currentPage.logout();
-        LoginPage loginPage = HomePage.getNewInstance(browser).clickInstructorLogin();
+        LoginPage loginPage = getHomePage(browser).clickInstructorLogin();
         currentPage = loginPage.loginAsInstructorUnsuccessfully(userName, password);
     }
     
     private void loginInstructor(String userName, String password) {
         currentPage.logout();
-        LoginPage loginPage = HomePage.getNewInstance(browser).clickInstructorLogin();
+        LoginPage loginPage = getHomePage(browser).clickInstructorLogin();
         currentPage = loginPage.loginAsInstructor(userName, password);
     }
     

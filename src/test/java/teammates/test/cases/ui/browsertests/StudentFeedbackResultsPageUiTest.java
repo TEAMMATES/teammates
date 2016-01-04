@@ -41,7 +41,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        AppPage.logout(browser);
+        logout(browser);
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
@@ -126,7 +126,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT; 
         String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
         
-        AppPage.logout(browser);
+        logout(browser);
         LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
@@ -142,7 +142,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("unreg student logged in as a student in another course: registered without logging out");
         
-        AppPage.logout(browser);
+        logout(browser);
         loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
