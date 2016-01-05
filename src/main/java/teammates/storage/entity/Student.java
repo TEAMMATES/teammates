@@ -1,10 +1,14 @@
 package teammates.storage.entity;
 
+import java.util.Date;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.listener.StoreCallback;
 
 import teammates.common.util.StringHelper;
 
@@ -16,9 +20,15 @@ import com.google.gson.annotations.SerializedName;
  * [enrolled in] --> Course.
  */
 @PersistenceCapable
-public class Student {
+public class Student implements StoreCallback {
     // TODO: some of the serialized names are not correct.
-
+    
+    @Persistent
+    private Date created;
+    
+    @Persistent
+    private Date lastUpdate;
+    
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private transient Long registrationKey = null;
@@ -93,6 +103,25 @@ public class Student {
         this.setCourseId(courseId);
         this.setTeamName(teamName);
         this.setSectionName(sectionName);
+        
+        this.setCreated(new Date());
+    }
+    
+    public Date getCreated() {
+        return created;
+    }
+    
+    public void setCreated(Date created) {
+        this.created = created;
+        this.lastUpdate = created;
+    }
+    
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+    
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public String getEmail() {
@@ -180,5 +209,12 @@ public class Student {
 
     public static String getStringKeyForLongKey(long longKey) {
         return KeyFactory.createKeyString(Student.class.getSimpleName(), longKey);
+    }
+    
+    /**
+     * Called by jdo before storing takes place.
+     */
+    public void jdoPreStore() {
+        this.setLastUpdate(new Date());
     }
 }
