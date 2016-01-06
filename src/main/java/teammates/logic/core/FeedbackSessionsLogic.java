@@ -1891,82 +1891,83 @@ public class FeedbackSessionsLogic {
         
         if (params.get("questionId") != null) {
             String questionId = params.get("questionId");
-            FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
-                                                                    questionId);
-            if (question != null) {
-                relevantQuestions.put(question.getId(), question);
-                
-                List<FeedbackResponseAttributes> responsesForThisQn;
-
-                boolean isPrivateSessionCreatedByThisUser = session
-                        .isCreator(userEmail) && session.isPrivateSession();
-                if (isPrivateSessionCreatedByThisUser) {
-                    responsesForThisQn = frLogic
-                            .getFeedbackResponsesForQuestion(question.getId());
-                } else {
-                    responsesForThisQn = frLogic
-                            .getViewableFeedbackResponsesForQuestionInSection(
-                                    question, userEmail, Role.INSTRUCTOR, section);
-                }
-
-                boolean thisQuestionHasResponses = (!responsesForThisQn
-                        .isEmpty());
-                if (thisQuestionHasResponses) {
-                    for (FeedbackResponseAttributes response : responsesForThisQn) {
-                        boolean isVisibleResponse = false;
-                        if ((response.giverEmail.equals(userEmail))
-                                || (response.recipientEmail.equals(userEmail) && question
-                                        .isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
-                                || (role == Role.INSTRUCTOR && question
-                                        .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))
-                                || (role == Role.STUDENT && question
-                                        .isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
-                            isVisibleResponse = true;
-                        }
-                        InstructorAttributes instructor = null;
-                        if (role == Role.INSTRUCTOR) {
-                            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-                        }
-                        if (isVisibleResponse && instructor != null) {
-                            boolean isGiverSectionRestricted 
-                                    = !(instructor.isAllowedForPrivilege(response.giverSection,
-                                                                         response.feedbackSessionName, 
-                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                            // If instructors are not restricted to view the giver's section,
-                            // they are allowed to view responses to GENERAL, subject to visibility options
-                            boolean isRecipientSectionRestricted 
-                                    = !(question.recipientType == FeedbackParticipantType.NONE)
-                                   && !(instructor.isAllowedForPrivilege(response.recipientSection,
-                                                                         response.feedbackSessionName, 
-                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                            boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
-                            if (isNotAllowedForInstructor) {
-                                isVisibleResponse = false;
+            boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
+            
+            if (isQueryingResponseRateStatus) {
+                responseStatus = (section == null && isIncludeResponseStatus) 
+                               ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
+                               : null;
+            } else {
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(questionId);
+                if (question != null) {
+                    relevantQuestions.put(question.getId(), question);
+                    
+                    List<FeedbackResponseAttributes> responsesForThisQn;
+    
+                    boolean isPrivateSessionCreatedByThisUser = session
+                            .isCreator(userEmail) && session.isPrivateSession();
+                    if (isPrivateSessionCreatedByThisUser) {
+                        responsesForThisQn = frLogic
+                                .getFeedbackResponsesForQuestion(question.getId());
+                    } else {
+                        responsesForThisQn = frLogic
+                                .getViewableFeedbackResponsesForQuestionInSection(
+                                        question, userEmail, Role.INSTRUCTOR, section);
+                    }
+    
+                    boolean thisQuestionHasResponses = (!responsesForThisQn
+                            .isEmpty());
+                    if (thisQuestionHasResponses) {
+                        for (FeedbackResponseAttributes response : responsesForThisQn) {
+                            boolean isVisibleResponse = false;
+                            if ((response.giverEmail.equals(userEmail))
+                                    || (response.recipientEmail.equals(userEmail) && question
+                                            .isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
+                                    || (role == Role.INSTRUCTOR && question
+                                            .isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))
+                                    || (role == Role.STUDENT && question
+                                            .isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
+                                isVisibleResponse = true;
                             }
+                            InstructorAttributes instructor = null;
+                            if (role == Role.INSTRUCTOR) {
+                                instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+                            }
+                            if (isVisibleResponse && instructor != null) {
+                                boolean isGiverSectionRestricted 
+                                        = !(instructor.isAllowedForPrivilege(response.giverSection,
+                                                                             response.feedbackSessionName, 
+                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                                // If instructors are not restricted to view the giver's section,
+                                // they are allowed to view responses to GENERAL, subject to visibility options
+                                boolean isRecipientSectionRestricted 
+                                        = !(question.recipientType == FeedbackParticipantType.NONE)
+                                       && !(instructor.isAllowedForPrivilege(response.recipientSection,
+                                                                             response.feedbackSessionName, 
+                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                                boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
+                                if (isNotAllowedForInstructor) {
+                                    isVisibleResponse = false;
+                                }
+                            }
+                            if (isVisibleResponse) {
+                                responses.add(response);
+                                addEmailNamePairsToTable(emailNameTable, response,
+                                        question, roster);
+                                addEmailLastNamePairsToTable(emailLastNameTable, response,
+                                        question, roster);
+                                addEmailTeamNamePairsToTable(emailTeamNameTable,
+                                        response,
+                                        question, roster);
+                                addVisibilityToTable(visibilityTable, question,
+                                        response, userEmail, role, roster);
+                            }
+                            isVisibleResponse = false;
                         }
-                        if (isVisibleResponse) {
-                            responses.add(response);
-                            addEmailNamePairsToTable(emailNameTable, response,
-                                    question, roster);
-                            addEmailLastNamePairsToTable(emailLastNameTable, response,
-                                    question, roster);
-                            addEmailTeamNamePairsToTable(emailTeamNameTable,
-                                    response,
-                                    question, roster);
-                            addVisibilityToTable(visibilityTable, question,
-                                    response, userEmail, role, roster);
-                        }
-                        isVisibleResponse = false;
                     }
                 }
             }
             
-            boolean isQueryingResponseRateStatus = questionId.equals(QUESTION_ID_FOR_RESPONSE_RATE);
-            if (isQueryingResponseRateStatus) {
-              responseStatus = (section == null && isIncludeResponseStatus) 
-                              ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
-                              : null;
-            }
             
             addSectionTeamNamesToTable(sectionTeamNameTable, roster, courseId, userEmail, role, feedbackSessionName, section);
             
