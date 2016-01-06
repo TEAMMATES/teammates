@@ -16,7 +16,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
+import teammates.test.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -441,7 +441,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     
         
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        Url feedbackPageLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                         .withUserId(instructorId).withCourseId(instructorCourseId).withSessionName(instructorEditFSName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
@@ -449,65 +449,65 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
             String instructorName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        Url submitPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withUserId(testData.instructors.get(instructorName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
     }
     
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
             String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        Url submitPageUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPage(browser, submitPageUrl, FeedbackSubmitPage.class);
     }
     
     
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
             String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        Url resultsPageUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        return loginAdminToPage(browser, editUrl,
+        return loginAdminToPage(browser, resultsPageUrl,
                 StudentFeedbackResultsPage.class);
     }
     
     
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
             String instructorName, String fsName, boolean needAjax, String viewType) {
-        Url editUrl 
-            = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        Url resultsPageUrl 
+            = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
                     .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                     .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         
         if (needAjax){
-            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
+            resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
         }
         
         if (viewType != null){
-            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
+            resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
         
-        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
+        return loginAdminToPage(browser, resultsPageUrl, InstructorFeedbackResultsPage.class);
     }
     
     
     private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
             String studentName, String fsName, String questionId) {
         StudentAttributes s = testData.students.get(studentName);
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+        Url submitPageUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                             .withUserId(s.googleId)
                             .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                             .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                             .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
-        return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
+        return loginAdminToPage(browser, submitPageUrl, FeedbackQuestionSubmitPage.class);
     }
 
     @AfterClass

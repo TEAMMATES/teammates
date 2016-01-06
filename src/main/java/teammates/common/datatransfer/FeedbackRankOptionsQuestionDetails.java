@@ -14,7 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.StringHelper;
 import teammates.ui.controller.PageData;
 import teammates.ui.template.ElementTag;
 
