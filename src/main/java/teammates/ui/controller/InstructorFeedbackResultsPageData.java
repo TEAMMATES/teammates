@@ -55,7 +55,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
-    private List<String> sections = null;
+    
     private String selectedSection = null;
     private String sortType = null;
     private String groupByTeam = null;
@@ -1716,7 +1716,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     public List<String> getSections() {
-        return sections;
+        List<String> sectionNames = new ArrayList<>();
+        for (String section : bundle.sectionsInCourse()) {
+            if (!section.equals(Const.DEFAULT_SECTION)) {
+                sectionNames.add(section);
+            }
+        }
+        
+        Collections.sort(sectionNames);
+        return sectionNames;
     }
 
     public String getSelectedSection() {
@@ -1805,10 +1813,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
                                                             buildModerateButtonsForNoResponsePanel());
-    }
-
-    public void setSections(List<String> sections) {
-        this.sections = sections;
     }
 
     public void setStartIndex(int startIndex) {
