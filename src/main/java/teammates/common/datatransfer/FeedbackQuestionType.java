@@ -13,7 +13,9 @@ public enum FeedbackQuestionType {
     NUMSCALE(FeedbackNumericalScaleQuestionDetails.class, FeedbackNumericalScaleResponseDetails.class),
     CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
     CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class),
-    RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class);
+    RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
+    RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
+    RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
 
     /**
      * Returns an instance of a corresponding Feedback*QuestionDetails class
@@ -49,6 +51,12 @@ public enum FeedbackQuestionType {
                 break;
             case RUBRIC:
                 feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
+                break;
+            case RANK_OPTIONS:
+                feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+                break;
+            case RANK_RECIPIENTS:
+                feedbackQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
                 break;
             default:
                 Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
@@ -95,6 +103,12 @@ public enum FeedbackQuestionType {
                 break;
             case RUBRIC:
                 feedbackResponseDetails = new FeedbackRubricResponseDetails();
+                break;
+            case RANK_OPTIONS:
+                feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
+                break;
+            case RANK_RECIPIENTS:
+                feedbackResponseDetails = new FeedbackRankRecipientsResponseDetails();
                 break;
             default:
                 Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for "
@@ -170,5 +184,4 @@ public enum FeedbackQuestionType {
             return questionType;
         }
     }
-
 }

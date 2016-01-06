@@ -573,6 +573,49 @@
               "STUDENTS"
           ]
       },
+      "qn13InSession1" : {
+        "feedbackSessionName":"Session with different question types",
+        "courseId":"demo.course",
+        "creatorEmail":"teammates.demo.instructor@demo.course",
+        "questionMetaData":{"value":"{
+          \"areDuplicatesAllowed\": true,
+          \"questionType\": \"RANK_RECIPIENTS\",
+          \"questionText\": \"Rank the other teams, you can give the same rank multiple times.\"
+          }"},
+        "questionNumber":13,
+        "questionType":"RANK_RECIPIENTS",
+        "giverType":"STUDENTS",
+        "recipientType":"TEAMS",
+        "numberOfEntitiesToGiveFeedbackTo":-100,
+        "showResponsesTo":["RECEIVER", "INSTRUCTORS"],
+        "showGiverNameTo":["RECEIVER", "INSTRUCTORS"],
+        "showRecipientNameTo":["RECEIVER",
+        "INSTRUCTORS"]
+      },
+      "qn14InSession1" : {
+        "feedbackSessionName":"Session with different question types",
+        "courseId":"demo.course",
+        "creatorEmail":"teammates.demo.instructor@demo.course",
+        "questionMetaData":{"value":"{
+          \"areDuplicatesAllowed\": true,
+          \"options\": [
+            \"Quality of work\",
+            \"Quality of progress reports\",
+            \"Time management\",
+            \"Teamwork and communication\"
+          ],
+          \"questionType\": \"RANK_OPTIONS\",
+          \"questionText\": \"Rank the areas of improvement you think you should make progress in.\"
+          }"},
+        "questionNumber":14,
+        "questionType":"RANK_OPTIONS",
+        "giverType":"STUDENTS",
+        "recipientType":"SELF",
+        "numberOfEntitiesToGiveFeedbackTo":-100,
+        "showResponsesTo":["RECEIVER", "INSTRUCTORS"],
+        "showGiverNameTo":["RECEIVER", "INSTRUCTORS"],
+        "showRecipientNameTo":["RECEIVER", "INSTRUCTORS"]
+      },
 
 
       "qn1InSession2": {
@@ -1105,6 +1148,45 @@
           "giverSection":"Tutorial Group 1",
           "recipientSection":"Tutorial Group 1"
       },
+      "aliceResponse11.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"13",
+          "feedbackQuestionType":"RANK_RECIPIENTS",
+          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "recipientEmail":"Team 2",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 2}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "aliceResponse11.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"13",
+          "feedbackQuestionType":"RANK_RECIPIENTS",
+          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "recipientEmail":"Team 3",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 1}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "aliceResponse12.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"14",
+          "feedbackQuestionType":"RANK_OPTIONS",
+          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RANK_OPTIONS\",\"answers\" : [1,3,2,4]}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
       "charlieResponse1":{
           "feedbackSessionName":"Session with different question types",
           "courseId":"demo.course",
@@ -1374,6 +1456,45 @@
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
               "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [0,0]}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse11.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"13",
+          "feedbackQuestionType":"RANK_RECIPIENTS",
+          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "recipientEmail":"Team 1",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 1}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "charlieResponse11.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"13",
+          "feedbackQuestionType":"RANK_RECIPIENTS",
+          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "recipientEmail":"Team 3",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RANK_RECIPIENTS\",\"answer\" : 2}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse12.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"14",
+          "feedbackQuestionType":"RANK_OPTIONS",
+          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RANK_OPTIONS\",\"answers\" : [4,1,2,3]}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"

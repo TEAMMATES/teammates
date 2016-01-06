@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
@@ -64,6 +65,15 @@ public class FeedbackSubmitPage extends AppPage {
         return element.getAttribute("value");
     }
     
+    public void selectResponseTextDropdown(int qnNumber, int responseNumber, int responseSubNumber, String text) {
+        WebElement element = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" 
+                      + qnNumber + "-" + responseNumber 
+                      + "-" + responseSubNumber));
+        Select dropdown = new Select(element);
+        dropdown.selectByVisibleText(text);
+    }
+    
     public String getConstSumMessage(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("constSumMessage-" + qnNumber + "-" + responseNumber));
@@ -102,6 +112,12 @@ public class FeedbackSubmitPage extends AppPage {
         // Gets the parent element.
         WebElement cell = radio.findElement(By.xpath(".."));
         cell.click();
+    }
+    
+    public String getRankMessage(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("rankMessage-" + qnNumber + "-" + responseNumber));
+        return element.getText();
     }
     
     public void clickSubmitButton() {

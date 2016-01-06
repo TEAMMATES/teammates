@@ -448,6 +448,8 @@ function hideAllNewQuestionForms() {
     $('#constSumForm').hide();
     $('#rubricForm').hide();
     $('#contribForm').hide();
+    $('#rankOptionsForm').hide();
+    $('#rankRecipientsForm').hide();
 }
 
 function prepareQuestionForm(type) {
@@ -521,6 +523,26 @@ function prepareQuestionForm(type) {
             hideAllNewQuestionForms();
             
             $('#rubricForm').show();
+            break;
+        case 'RANK_OPTIONS':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+            $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('false');
+            $('#rankOption_Recipient' + '--1').hide();
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
+            
+            hideAllNewQuestionForms();
+            
+            $('#rankOptionsForm').show();
+            break;
+        case 'RANK_RECIPIENTS':
+            $('#' + FEEDBACK_QUESTION_RANKTORECIPIENTS + '--1').val('true');
+            $('#rankOption_Option' + '--1').hide();
+            hideRankOptionTable(-1);
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
+            
+            hideAllNewQuestionForms();
+            
+            $('#rankRecipientsForm').show();
             break;
     }
 }
@@ -1529,5 +1551,70 @@ function highlightRubricCol(index, questionNumber, highlight) {
         $rubricCol.addClass('cell-selected-negative');
     } else {
         $rubricCol.removeClass('cell-selected-negative');
+    }
+}
+
+/**
+ * ----------------------------------------------------------------------------
+ * Rank Question
+ * ----------------------------------------------------------------------------
+ */
+
+function updateRankPointsValue(questionNumber) {
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
+    if ($('#' + FEEDBACK_QUESTION_RANKPOINTS + idSuffix).val() < 1) {
+        $('#' + FEEDBACK_QUESTION_RANKPOINTS + idSuffix).val(1);
+    }
+}
+
+function addRankOption(questionNumber) {
+    var idOfQuestion = '#form_editquestion-' + questionNumber;
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
+    var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
+        
+    $(    "<div id=\"rankOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group\">"
+        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+"\" "
+        +               "id=\""+FEEDBACK_QUESTION_RANKOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control rankOptionTextBox\">"
+        +       "<span class=\"input-group-btn\">"
+        +           "<button class=\"btn btn-default removeOptionLink\" id=\"rankRemoveOptionLink\" "
+        +                   "onclick=\"removeRankOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +               "<span class=\"glyphicon glyphicon-remove\"></span>"
+        +           "</button>"
+        +       "</span>"
+        +   "</div>"
+        + '</div>'
+    ).insertBefore($('#rankAddOptionRow' + idSuffix));
+
+    $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
+    
+    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+    }
+}
+
+function hideRankOptionTable(questionNumber) {
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    $('#' + FEEDBACK_QUESTION_RANKOPTIONTABLE + idSuffix).hide();
+}
+
+function removeRankOption(index, questionNumber) {
+    var idOfQuestion = '#form_editquestion-' + questionNumber;
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    var $thisRow = $('#rankOptionRow-' + index + idSuffix);
+    
+    // count number of child rows the table have and - 1 because of 'add option' button
+    var numberOfOptions = $thisRow.parent().children('div').length - 1;
+    
+    if (numberOfOptions <= 2) {
+        $thisRow.find('input').val('');
+    } else {
+        $thisRow.remove();
+    
+        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        }
     }
 }

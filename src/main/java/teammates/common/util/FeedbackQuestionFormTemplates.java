@@ -63,6 +63,15 @@ public class FeedbackQuestionFormTemplates {
     public static String RUBRIC_RESULT_STATS_BODY = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBody.html");
     public static String RUBRIC_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
     
+    public static String RANK_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionRankSubmissionFormTemplate.html");
+    public static String RANK_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankSubmissionFormOptionFragment.html");
+    public static String RANK_EDIT_RECIPIENTS_FORM = FileHelper.readResourseFile("feedbackQuestionRankRecipientsEditFormTemplate.html");
+    public static String RANK_EDIT_OPTIONS_FORM = FileHelper.readResourseFile("feedbackQuestionRankOptionsEditFormTemplate.html");
+    public static String RANK_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankEditFormOptionFragment.html");
+    public static String RANK_RESULT_OPTION_STATS = FileHelper.readResourseFile("feedbackQuestionRankResultStatsTemplate.html");
+    public static String RANK_RESULT_STATS_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankResultStatsOptionFragment.html");
+    public static String RANK_RESULT_RECIPIENT_STATS = FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientTemplate.html");
+    public static String RANK_RESULT_STATS_RECIPIENTFRAGMENT = FileHelper.readResourseFile("feedbackQuestionRankResultStatsRecipientFragment.html");
     
     
     /** Populates the feedback question form html templates by replacing 
