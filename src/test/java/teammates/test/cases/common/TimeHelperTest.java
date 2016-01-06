@@ -85,5 +85,16 @@ public class TimeHelperTest extends BaseTestCase {
         assertNull(TimeHelper.combineDateTime("invalid date", testDate));
     }
     
+    @Test
+    public void testEndOfYearDates() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal.clear();
+        cal.set(2015, 11, 30, 12, 0, 0);
+        Date date = cal.getTime();
+        assertEquals("30/12/2015", TimeHelper.formatDate(date));
+        assertEquals("Wed, 30 Dec 2015, 12:00 PM", TimeHelper.formatTime12H(date));
+        assertEquals("Wed, 30 Dec 2015, 12:00 PM UTC", TimeHelper.formatDateTimeForComments(date));
+        assertEquals("30 Dec 12:00 PM", TimeHelper.formatDateTimeForInstructorHomePage(date));
+    }
     
 }

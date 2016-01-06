@@ -14,10 +14,10 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.pageobjects.AdminSessionsPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Url;
 
 /**
  * Covers the home page for admins.
@@ -43,7 +43,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical page");
         
-        Url sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
+        Url sessionsUrl = new Url(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
         assertFalse(isTimeFramePanelVisible());
         assertTrue(isSessionDataDisplayCorrect());

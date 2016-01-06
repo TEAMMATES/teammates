@@ -3,7 +3,6 @@ package teammates.test.cases.ui.browsertests;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -12,22 +11,9 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
+import teammates.test.util.Url;
 
 public class BaseUiTestCase extends BaseTestCase {
-
-    protected static final String appUrl = TestProperties.inst().TEAMMATES_URL;
-    
-    /** 
-     * Creates a {@link Url} for the supplied {@code url} parameter.
-     * If url given is a relative one (e.g., "/page/adminHomePage"), 
-     * adds test.app.url (from test.properties) to it.
-     */
-    protected static Url createUrl(String url){
-        if(url.startsWith("/")){
-            url = TestProperties.inst().TEAMMATES_URL + url;
-        }
-        return new Url(url);
-    }
 
     /**
      * Do an initial loginAdminToPage (may or may not involve explicit logging in action),
@@ -57,7 +43,7 @@ public class BaseUiTestCase extends BaseTestCase {
         }
         
         if(browser.isAdminLoggedIn){
-            browser.driver.get(url.toString());
+            browser.driver.get(url.toAbsoluteString());
             try {
                 return AppPage.getNewPageInstance(browser, typeOfPage);
             } catch(Exception e) {
@@ -68,7 +54,7 @@ public class BaseUiTestCase extends BaseTestCase {
         //logout and attempt to load the requested URL. This will be 
         //  redirected to a dev-server/google login page
         AppPage.logout(browser);
-        browser.driver.get(url.toString());
+        browser.driver.get(url.toAbsoluteString());
         String pageSource = browser.driver.getPageSource();
         
         //login based on the login page type
@@ -193,7 +179,7 @@ public class BaseUiTestCase extends BaseTestCase {
     }
 
     protected static AdminHomePage loginAdmin(Browser currentBrowser) {
-        return loginAdminToPage(currentBrowser, createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
+        return loginAdminToPage(currentBrowser, new Url(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
 
 }

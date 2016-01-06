@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -21,6 +20,7 @@ import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.util.Url;
 
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -59,11 +59,9 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         
         ______TS("Click join link then cancel");
         
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL 
-                               + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-
-        String joinLink = Url.addParamToUrl(joinActionUrl,
-                                            Const.ParamsNames.REGKEY, invalidEncryptedKey);
+        String joinLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                        .withRegistrationKey(invalidEncryptedKey)
+                                        .toAbsoluteString();
         AppPage.logout(browser);
         browser.driver.get(joinLink);
         confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
@@ -89,8 +87,10 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("ICJConfirmationUiT.CS1101").id;
         String instructorEmail = testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email;
 
-        joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY,
-                                     StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail)));
+        String regkey = StringHelper.encrypt(BackDoor.getKeyForInstructor(courseId, instructorEmail));
+        joinLink = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                        .withRegistrationKey(regkey)
+                                        .toAbsoluteString();
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, InstructorCourseJoinConfirmationPage.class);

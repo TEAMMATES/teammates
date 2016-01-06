@@ -14,7 +14,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -34,7 +33,8 @@ public class GodModeTest extends BaseUiTestCase {
             writeToFile(getOutputFilePath(), 
                     "<div id='mainContent'>test</div>");
             browser = BrowserPool.getBrowser();
-            page = AppPage.getNewPageInstance(browser).navigateTo(new Url(getPath()));
+            browser.driver.get(getPath());
+            page = AppPage.getNewPageInstance(browser);
         }
     }
     

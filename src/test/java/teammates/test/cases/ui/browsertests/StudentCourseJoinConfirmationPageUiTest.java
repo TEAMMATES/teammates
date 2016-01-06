@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -23,6 +22,7 @@ import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentHomePage;
+import teammates.test.util.Url;
 
 public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -52,8 +52,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     
     private void testJoinNewConfirmation() {
         String expectedMsg;
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
-        String homePageActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_HOME_PAGE;
+        String homePageActionUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
         String joinLink;
         StudentHomePage studentHomePage;
         
@@ -62,11 +61,11 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
         String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
-        joinLink = new Url(joinActionUrl)
+        joinLink = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                         .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
                         .withCourseId(courseId)
                         .withStudentEmail(studentEmail)
-                        .toString();
+                        .toAbsoluteString();
         
         browser.driver.get(joinLink);
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
@@ -84,8 +83,9 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
         courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
-        joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
-                                     getKeyFromBackDoor(courseId, studentEmail));
+        joinLink = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                        .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
+                                        .toAbsoluteString();
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
@@ -142,8 +142,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         AppPage.logout(browser);
         removeAndRestoreTestDataOnServer(testData);
         String expectedMsg;
-        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
-        String homePageActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_HOME_PAGE;
+        String homePageActionUrl = new Url(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
         String joinLink;
         StudentHomePage studentHomePage;
         
@@ -152,8 +151,9 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
         String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
-        joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
-                                     getKeyFromBackDoor(courseId, studentEmail));
+        joinLink = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN)
+                                        .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
+                                        .toAbsoluteString();
         
         browser.driver.get(joinLink);
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
@@ -171,8 +171,9 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
         courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
-        joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
-                                     getKeyFromBackDoor(courseId, studentEmail));
+        joinLink = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN)
+                                        .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
+                                        .toAbsoluteString();
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);

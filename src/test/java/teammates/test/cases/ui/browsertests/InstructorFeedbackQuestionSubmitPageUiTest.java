@@ -11,11 +11,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
+import teammates.test.util.Url;
 
 public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
@@ -118,7 +118,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     
     private FeedbackQuestionSubmitPage loginToInstructorFeedbackQuestionSubmitPage(
             String instructorName, String fsName, String questionId) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE).
+        Url editUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE).
                 withUserId(testData.instructors.get(instructorName).googleId).
                 withCourseId(testData.feedbackSessions.get(fsName).courseId).
                 withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName).
