@@ -404,9 +404,9 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         } else {
             List<String> errors = new ArrayList<>();
             
-            Set<Integer> responseRank = new HashSet<>();
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+                Set<Integer> responseRank = new HashSet<>();
                 
                 for (int answer : frd.getFilteredSortedAnswerList()) {
                     if (responseRank.contains(answer)) {

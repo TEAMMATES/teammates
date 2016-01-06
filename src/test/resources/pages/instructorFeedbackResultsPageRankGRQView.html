@@ -310,17 +310,60 @@
                            <div class="col-md-10">
                               <div class="panel panel-info">
                                  <div class="panel-heading">
-                                    Question 3:
+                                    Question 2:
                                     <span class="text-preserve-space">
-                                       As instructor, among the 2 reports you have reviewed, rank them 
+                                       As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good.  
                                        <span style=" white-space: normal;">
-                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('3-giver-0-recipient-1')">
+                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-2-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('2-giver-0-recipient-1')">
                                              [more]
                                           </a>
                                           <br/>
-                                          <span id="questionAdditionalInfo-3-giver-0-recipient-1" style="display:none;">
-                                             Rank (recipients) question
-                                             <br/>
+                                          <span id="questionAdditionalInfo-2-giver-0-recipient-1" style="display:none;">
+                                             Rank (options) question options:
+                                             <ul style="list-style-type: disc;margin-left: 20px;">
+                                                <li>
+                                                   Style
+                                                </li>
+                                                <li>
+                                                   Organisation
+                                                </li>
+                                                <li>
+                                                   Related work
+                                                </li>
+                                                <li>
+                                                   Progress made
+                                                </li>
+                                                <li>
+                                                   Future work
+                                                </li>
+                                                <li>
+                                                   Motivation
+                                                </li>
+                                                <li>
+                                                   Pictures
+                                                </li>
+                                                <li>
+                                                   Graphs
+                                                </li>
+                                                <li>
+                                                   Reporting
+                                                </li>
+                                                <li>
+                                                   Level of detail
+                                                </li>
+                                                <li>
+                                                   Samples of data collected and work
+                                                </li>
+                                                <li>
+                                                   ;
+                                                </li>
+                                                <li>
+                                                   Originality
+                                                </li>
+                                                <li>
+                                                   Introduction
+                                                </li>
+                                             </ul>
                                           </span>
                                        </span>
                                     </span>
@@ -328,7 +371,14 @@
                                  <div class="panel-body">
                                     <div style="clear:both; overflow: hidden">
                                        <div class="pull-left text-preserve-space">
-                                          1
+                                          <ul>
+                                             <li>
+                                                1: ;
+                                             </li>
+                                             <li>
+                                                2: Organisation
+                                             </li>
+                                          </ul>
                                        </div>
                                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,1)" title="" type="button">
                                           <span class="glyphicon glyphicon-comment glyphicon-primary">
@@ -421,6 +471,132 @@
                                                    Add
                                                 </a>
                                                 <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,1);" type="button" value="Cancel"/>
+                                             </div>
+                                             <input name="questionid" type="hidden" value="${question.id}"/>
+                                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%alice.b.tmms@gmail.tmt"/>
+                                             <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
+                                             <input name="fsname" type="hidden" value="Instructor Session"/>
+                                             <input name="user" type="hidden" value="FRankUiT.instructor"/>
+                                             <input name="showresponsecommentsto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS"/>
+                                             <input name="showresponsegiverto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS"/>
+                                          </form>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                              <div class="panel panel-info">
+                                 <div class="panel-heading">
+                                    Question 3:
+                                    <span class="text-preserve-space">
+                                       As instructor, among the 2 reports you have reviewed, rank them 
+                                       <span style=" white-space: normal;">
+                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-3-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('3-giver-0-recipient-1')">
+                                             [more]
+                                          </a>
+                                          <br/>
+                                          <span id="questionAdditionalInfo-3-giver-0-recipient-1" style="display:none;">
+                                             Rank (recipients) question
+                                             <br/>
+                                          </span>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body">
+                                    <div style="clear:both; overflow: hidden">
+                                       <div class="pull-left text-preserve-space">
+                                          1
+                                       </div>
+                                       <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,2)" title="" type="button">
+                                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                                          </span>
+                                       </button>
+                                    </div>
+                                    <ul class="list-group" id="responseCommentTable-1-0-2" style="display:none">
+                                       <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-0-2" style="display: none;">
+                                          <form class="responseCommentAddForm">
+                                             <div class="form-group form-inline">
+                                                <div class="form-group text-muted">
+                                                   <p>
+                                                      Giver: Teammates Test (Instructors)
+                                                      <br/>
+                                                      Recipient: Alice Betsy (Team 1)
+                                                   </p>
+                                                   You may change comment's visibility using the visibility options on the right hand side.
+                                                </div>
+                                                <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-2" onclick="toggleVisibilityEditForm(1,0,2)">
+                                                   <span class="glyphicon glyphicon-eye-close">
+                                                   </span>
+                                                   Show Visibility Options
+                                                </a>
+                                             </div>
+                                             <div class="panel panel-default" id="visibility-options-1-0-2" style="display: none;">
+                                                <div class="panel-heading">
+                                                   Visibility Options
+                                                </div>
+                                                <table class="table text-center" style="color: #000;">
+                                                   <tbody>
+                                                      <tr>
+                                                         <th class="text-center">
+                                                            User/Group
+                                                         </th>
+                                                         <th class="text-center">
+                                                            Can see your comment
+                                                         </th>
+                                                         <th class="text-center">
+                                                            Can see your name
+                                                         </th>
+                                                      </tr>
+                                                      <tr id="response-giver-1-0-2">
+                                                         <td class="text-left">
+                                                            <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                                               Response Giver
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER"/>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER"/>
+                                                         </td>
+                                                      </tr>
+                                                      <tr id="response-recipient-1-0-2">
+                                                         <td class="text-left">
+                                                            <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                                               Response Recipient(s)
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER"/>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER"/>
+                                                         </td>
+                                                      </tr>
+                                                      <tr id="response-instructors-1-0-2">
+                                                         <td class="text-left">
+                                                            <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                               Instructors
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                         </td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </div>
+                                             <div class="form-group">
+                                                <textarea class="form-control" id="responseCommentAddForm-1-0-2" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
+                                                </textarea>
+                                             </div>
+                                             <div class="col-sm-offset-5">
+                                                <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-2" type="button">
+                                                   Add
+                                                </a>
+                                                <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,2);" type="button" value="Cancel"/>
                                              </div>
                                              <input name="questionid" type="hidden" value="${question.id}"/>
                                              <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%alice.b.tmms@gmail.tmt"/>
@@ -589,9 +765,12 @@
                            <div class="col-md-2">
                               <div class="col-md-12">
                                  To:
-                                 <strong>
-                                    Team 1
-                                 </strong>
+                                 <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                                    <strong>
+                                       Emily F. (Team 3)
+                                    </strong>
+                                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
+                                 </div>
                               </div>
                               <div class="col-md-12 text-muted small">
                                  <br/>
@@ -605,25 +784,58 @@
                            <div class="col-md-10">
                               <div class="panel panel-info">
                                  <div class="panel-heading">
-                                    Question 1:
+                                    Question 2:
                                     <span class="text-preserve-space">
-                                       As an instructor, rank for every team, the areas of improve that they should work on 
+                                       As an instructor, rank for the 4 students you are mentoring, their areas of their reports that were good.  
                                        <span style=" white-space: normal;">
-                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-giver-0-recipient-3" onclick="toggleAdditionalQuestionInfo('1-giver-0-recipient-3')">
+                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-2-giver-0-recipient-3" onclick="toggleAdditionalQuestionInfo('2-giver-0-recipient-3')">
                                              [more]
                                           </a>
                                           <br/>
-                                          <span id="questionAdditionalInfo-1-giver-0-recipient-3" style="display:none;">
+                                          <span id="questionAdditionalInfo-2-giver-0-recipient-3" style="display:none;">
                                              Rank (options) question options:
                                              <ul style="list-style-type: disc;margin-left: 20px;">
                                                 <li>
-                                                   Teamwork
+                                                   Style
                                                 </li>
                                                 <li>
-                                                   Time management
+                                                   Organisation
                                                 </li>
                                                 <li>
-                                                   Quality Control
+                                                   Related work
+                                                </li>
+                                                <li>
+                                                   Progress made
+                                                </li>
+                                                <li>
+                                                   Future work
+                                                </li>
+                                                <li>
+                                                   Motivation
+                                                </li>
+                                                <li>
+                                                   Pictures
+                                                </li>
+                                                <li>
+                                                   Graphs
+                                                </li>
+                                                <li>
+                                                   Reporting
+                                                </li>
+                                                <li>
+                                                   Level of detail
+                                                </li>
+                                                <li>
+                                                   Samples of data collected and work
+                                                </li>
+                                                <li>
+                                                   ;
+                                                </li>
+                                                <li>
+                                                   Originality
+                                                </li>
+                                                <li>
+                                                   Introduction
                                                 </li>
                                              </ul>
                                           </span>
@@ -635,13 +847,10 @@
                                        <div class="pull-left text-preserve-space">
                                           <ul>
                                              <li>
-                                                1: Time management
+                                                1: Introduction
                                              </li>
                                              <li>
-                                                2: Quality Control
-                                             </li>
-                                             <li>
-                                                3: Teamwork
+                                                2: Organisation
                                              </li>
                                           </ul>
                                        </div>
@@ -658,7 +867,7 @@
                                                    <p>
                                                       Giver: Teammates Test (Instructors)
                                                       <br/>
-                                                      Recipient: Team 1
+                                                      Recipient: Emily F. (Team 3)
                                                    </p>
                                                    You may change comment's visibility using the visibility options on the right hand side.
                                                 </div>
@@ -736,6 +945,172 @@
                                                    Add
                                                 </a>
                                                 <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,0,1);" type="button" value="Cancel"/>
+                                             </div>
+                                             <input name="questionid" type="hidden" value="${question.id}"/>
+                                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%emily.f.tmms@gmail.tmt"/>
+                                             <input name="courseid" type="hidden" value="FRankUiT.CS4221"/>
+                                             <input name="fsname" type="hidden" value="Instructor Session"/>
+                                             <input name="user" type="hidden" value="FRankUiT.instructor"/>
+                                             <input name="showresponsecommentsto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS"/>
+                                             <input name="showresponsegiverto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS"/>
+                                          </form>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row border-top-gray">
+                           <div class="col-md-2">
+                              <div class="col-md-12">
+                                 To:
+                                 <strong>
+                                    Team 1
+                                 </strong>
+                              </div>
+                              <div class="col-md-12 text-muted small">
+                                 <br/>
+                                 From:
+                                 <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
+                                    Teammates Test (Instructors)
+                                    <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-10">
+                              <div class="panel panel-info">
+                                 <div class="panel-heading">
+                                    Question 1:
+                                    <span class="text-preserve-space">
+                                       As an instructor, rank for every team, the areas of improve that they should work on 
+                                       <span style=" white-space: normal;">
+                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-1-giver-0-recipient-4" onclick="toggleAdditionalQuestionInfo('1-giver-0-recipient-4')">
+                                             [more]
+                                          </a>
+                                          <br/>
+                                          <span id="questionAdditionalInfo-1-giver-0-recipient-4" style="display:none;">
+                                             Rank (options) question options:
+                                             <ul style="list-style-type: disc;margin-left: 20px;">
+                                                <li>
+                                                   Teamwork
+                                                </li>
+                                                <li>
+                                                   Time management
+                                                </li>
+                                                <li>
+                                                   Quality Control
+                                                </li>
+                                             </ul>
+                                          </span>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body">
+                                    <div style="clear:both; overflow: hidden">
+                                       <div class="pull-left text-preserve-space">
+                                          <ul>
+                                             <li>
+                                                1: Time management
+                                             </li>
+                                             <li>
+                                                2: Quality Control
+                                             </li>
+                                             <li>
+                                                3: Teamwork
+                                             </li>
+                                          </ul>
+                                       </div>
+                                       <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(4,0,1)" title="" type="button">
+                                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                                          </span>
+                                       </button>
+                                    </div>
+                                    <ul class="list-group" id="responseCommentTable-4-0-1" style="display:none">
+                                       <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-4-0-1" style="display: none;">
+                                          <form class="responseCommentAddForm">
+                                             <div class="form-group form-inline">
+                                                <div class="form-group text-muted">
+                                                   <p>
+                                                      Giver: Teammates Test (Instructors)
+                                                      <br/>
+                                                      Recipient: Team 1
+                                                   </p>
+                                                   You may change comment's visibility using the visibility options on the right hand side.
+                                                </div>
+                                                <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-4-0-1" onclick="toggleVisibilityEditForm(4,0,1)">
+                                                   <span class="glyphicon glyphicon-eye-close">
+                                                   </span>
+                                                   Show Visibility Options
+                                                </a>
+                                             </div>
+                                             <div class="panel panel-default" id="visibility-options-4-0-1" style="display: none;">
+                                                <div class="panel-heading">
+                                                   Visibility Options
+                                                </div>
+                                                <table class="table text-center" style="color: #000;">
+                                                   <tbody>
+                                                      <tr>
+                                                         <th class="text-center">
+                                                            User/Group
+                                                         </th>
+                                                         <th class="text-center">
+                                                            Can see your comment
+                                                         </th>
+                                                         <th class="text-center">
+                                                            Can see your name
+                                                         </th>
+                                                      </tr>
+                                                      <tr id="response-giver-4-0-1">
+                                                         <td class="text-left">
+                                                            <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                                               Response Giver
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER"/>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER"/>
+                                                         </td>
+                                                      </tr>
+                                                      <tr id="response-recipient-4-0-1">
+                                                         <td class="text-left">
+                                                            <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
+                                                               Response Recipient(s)
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER"/>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER"/>
+                                                         </td>
+                                                      </tr>
+                                                      <tr id="response-instructors-4-0-1">
+                                                         <td class="text-left">
+                                                            <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                               Instructors
+                                                            </div>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                         </td>
+                                                         <td>
+                                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                         </td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </div>
+                                             <div class="form-group">
+                                                <textarea class="form-control" id="responseCommentAddForm-4-0-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
+                                                </textarea>
+                                             </div>
+                                             <div class="col-sm-offset-5">
+                                                <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-4-0-1" type="button">
+                                                   Add
+                                                </a>
+                                                <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,0,1);" type="button" value="Cancel"/>
                                              </div>
                                              <input name="questionid" type="hidden" value="${question.id}"/>
                                              <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%Team 1"/>
