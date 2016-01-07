@@ -146,7 +146,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         }
 
         assertEquals(questions.size(),numToCreate);
-        assertTrue(TestHelper.isSameContentIgnoreOrder(expected, questions));
+        AssertHelper.assertSameContentIgnoreOrder(expected, questions);
 
         ______TS("null params");
 

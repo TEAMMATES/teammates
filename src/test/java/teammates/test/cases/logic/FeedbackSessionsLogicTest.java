@@ -111,12 +111,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String instructorGoogleId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         
         for (FeedbackSessionAttributes fsa : allFsa) {
-            if (fsa.courseId == courseId) {
+            if (fsa.courseId.equals(courseId)) {
                 finalFsa.add(fsa);
             }
         }
-        
-        TestHelper.isSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
+        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
         
     }
     

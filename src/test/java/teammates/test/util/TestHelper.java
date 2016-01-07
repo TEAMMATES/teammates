@@ -6,8 +6,6 @@ import static org.testng.AssertJUnit.assertNull;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -42,7 +40,6 @@ import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
-import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 import com.google.gson.Gson;
 
 public class TestHelper extends BaseComponentTestCase{
@@ -315,27 +312,6 @@ public class TestHelper extends BaseComponentTestCase{
 
     @SuppressWarnings("unused")
     private void ____test_object_manipulation_methods__() {
-    }
-    
-    //this function used to check whether two lists have same contents,ignoring order
-    
-    @SuppressWarnings("rawtypes")
-    
-    public static boolean isSameContentIgnoreOrder(List a, List b) {
-
-        String expectedListAsString = Joiner.on("\t").join(a);
-        String actualListAsString = Joiner.on("\t").join(b);
-
-        List<String> expectedStringTypeList = new ArrayList<String>(
-                Arrays.asList(expectedListAsString.split("\t")));
-        List<String> actualStringTypeList = new ArrayList<String>(
-                Arrays.asList(actualListAsString.split("\t")));
-
-        Collections.sort(expectedStringTypeList);
-        Collections.sort(actualStringTypeList);
-
-        return expectedStringTypeList.equals(actualStringTypeList);
-
     }
 
 }
