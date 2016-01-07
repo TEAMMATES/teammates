@@ -13,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class EntitiesDbTest extends BaseComponentTestCase {
     
@@ -33,9 +32,9 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         c.id = "Computing101-fresh";
         c.name = "Basic Computing";
         coursesDb.deleteCourse(c.id);
-        TestHelper.verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         
         ______TS("fails: entity already exists");
         try {

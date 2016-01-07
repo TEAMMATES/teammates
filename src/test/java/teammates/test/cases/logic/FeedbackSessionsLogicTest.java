@@ -54,7 +54,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -272,7 +271,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fs = getNewFeedbackSession();
         fsLogic.createFeedbackSession(fs);
-        TestHelper.verifyPresentInDatastore(fs);
+        verifyPresentInDatastore(fs);
         
         ______TS("test create with invalid session name");
         fs.feedbackSessionName = "test & test";
@@ -311,8 +310,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         fqLogic.createFeedbackQuestion(fq);
         
         fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
-        TestHelper.verifyAbsentInDatastore(fs);
-        TestHelper.verifyAbsentInDatastore(fq);
+        verifyAbsentInDatastore(fs);
+        verifyAbsentInDatastore(fq);
     }
     
     public void testCopyFeedbackSession() throws Exception {
@@ -326,7 +325,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Copied Session", typicalCourse2.id,
                 session1InCourse1.feedbackSessionName,
                 session1InCourse1.courseId, instructor2OfCourse1.email);
-        TestHelper.verifyPresentInDatastore(copiedSession);
+        verifyPresentInDatastore(copiedSession);
         
         assertEquals("Copied Session", copiedSession.feedbackSessionName);
         assertEquals(typicalCourse2.id, copiedSession.courseId);

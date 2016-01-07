@@ -49,7 +49,6 @@ import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -159,7 +158,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
         verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
-        TestHelper.verifyPresentInDatastore(student1);
+        verifyPresentInDatastore(student1);
 
         ______TS("add existing student");
 
@@ -271,7 +270,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("typical edit");
 
         StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
-        TestHelper.verifyPresentInDatastore(student4InCourse1);
+        verifyPresentInDatastore(student4InCourse1);
         String originalEmail = student4InCourse1.email;
         student4InCourse1.name = student4InCourse1.name + "y";
         student4InCourse1.googleId = student4InCourse1.googleId + "y";
@@ -294,14 +293,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         copyOfStudent1.email = newEmail;
 
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
-        TestHelper.verifyPresentInDatastore(student4InCourse1);
+        verifyPresentInDatastore(student4InCourse1);
 
         ______TS("check for KeepExistingPolicy : change nothing");    
         
         originalEmail = student4InCourse1.email;
         copyOfStudent1.email = null;
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
-        TestHelper.verifyPresentInDatastore(copyOfStudent1);
+        verifyPresentInDatastore(copyOfStudent1);
         
         ______TS("non-existent student");
         
@@ -1156,18 +1155,18 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         // this is the student to be deleted
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        TestHelper.verifyPresentInDatastore(student2InCourse1);
+        verifyPresentInDatastore(student2InCourse1);
 
         studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
-        TestHelper.verifyAbsentInDatastore(student2InCourse1);
+        verifyAbsentInDatastore(student2InCourse1);
 
         // verify that other students in the course are intact
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        TestHelper.verifyPresentInDatastore(student1InCourse1);
+        verifyPresentInDatastore(student1InCourse1);
 
         // verify comments made to this student are gone
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
+        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 

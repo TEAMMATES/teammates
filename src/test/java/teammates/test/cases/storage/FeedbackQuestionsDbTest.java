@@ -24,7 +24,6 @@ import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -42,7 +41,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         fqDb.createEntity(fqa);
-        TestHelper.verifyPresentInDatastore(fqa, true);
+        verifyPresentInDatastore(fqa, true);
 
         ______TS("duplicate - with same id.");
 
@@ -58,7 +57,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("delete - with id specified");
 
         fqDb.deleteEntity(fqa);
-        TestHelper.verifyAbsentInDatastore(fqa);
+        verifyAbsentInDatastore(fqa);
 
         ______TS("null params");
 
@@ -281,7 +280,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes modifiedQuestion = getNewFeedbackQuestionAttributes();
         fqDb.deleteEntity(modifiedQuestion);
         fqDb.createEntity(modifiedQuestion);
-        TestHelper.verifyPresentInDatastore(modifiedQuestion, true);
+        verifyPresentInDatastore(modifiedQuestion, true);
 
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
@@ -291,7 +290,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         modifiedQuestion.setQuestionDetails(fqd);
         fqDb.updateFeedbackQuestion(modifiedQuestion);
 
-        TestHelper.verifyPresentInDatastore(modifiedQuestion);
+        verifyPresentInDatastore(modifiedQuestion);
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);

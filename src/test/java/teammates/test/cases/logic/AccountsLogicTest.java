@@ -33,7 +33,6 @@ import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.Priority;
-import teammates.test.util.TestHelper;
 
 public class AccountsLogicTest extends BaseComponentTestCase {
 
@@ -147,7 +146,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
                 true, "test@email", "dev", spa);
         
         accountsLogic.createAccount(accountToCreate);
-        TestHelper.verifyPresentInDatastore(accountToCreate);
+        verifyPresentInDatastore(accountToCreate);
         
         accountsLogic.deleteAccountCascade("id");
         
@@ -261,7 +260,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
         
-        TestHelper.verifyPresentInDatastore(studentData);
+        verifyPresentInDatastore(studentData);
 
         ______TS("failure: wrong key");
 
@@ -311,7 +310,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
 
         studentData.googleId = accountData.googleId;
-        TestHelper.verifyPresentInDatastore(studentData);
+        verifyPresentInDatastore(studentData);
         assertEquals(
                 correctStudentId,
                 logic.getStudentForEmail(studentData.course, studentData.email).googleId);
@@ -357,7 +356,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         String encryptedKey = StringHelper.encrypt(studentData.key);
         accountsLogic.joinCourseForStudent(encryptedKey, correctStudentId);
         studentData.googleId = correctStudentId;
-        TestHelper.verifyPresentInDatastore(studentData);
+        verifyPresentInDatastore(studentData);
         assertEquals(correctStudentId,
                 logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
@@ -366,7 +365,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         accountData.email = originalEmail;
         accountData.name = "name";
         accountData.isInstructor = false;
-        TestHelper.verifyPresentInDatastore(accountData);
+        verifyPresentInDatastore(accountData);
         
         ______TS("success: join course as student does not revoke instructor status");
 
@@ -545,15 +544,15 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         StudentAttributes student = new StudentAttributes(instructor.googleId,
                 "email@com", instructor.name, "", instructor.courseId, "team", "section");
         studentsLogic.createStudentCascadeWithoutDocument(student);
-        TestHelper.verifyPresentInDatastore(account);
-        TestHelper.verifyPresentInDatastore(instructor);
-        TestHelper.verifyPresentInDatastore(student);
+        verifyPresentInDatastore(account);
+        verifyPresentInDatastore(instructor);
+        verifyPresentInDatastore(student);
 
         accountsLogic.deleteAccountCascade(instructor.googleId);
 
-        TestHelper.verifyAbsentInDatastore(account);
-        TestHelper.verifyAbsentInDatastore(instructor);
-        TestHelper.verifyAbsentInDatastore(student);
+        verifyAbsentInDatastore(account);
+        verifyAbsentInDatastore(instructor);
+        verifyAbsentInDatastore(student);
     }
     
     @AfterClass

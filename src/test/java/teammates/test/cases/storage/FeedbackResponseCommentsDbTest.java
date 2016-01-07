@@ -28,7 +28,6 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
@@ -95,12 +94,12 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("Entity creation");
         
         frcDb.createEntity(frcaTemp);
-        TestHelper.verifyPresentInDatastore(frcaTemp);
+        verifyPresentInDatastore(frcaTemp);
         
         ______TS("Entity deletion");
 
         frcDb.deleteEntity(frcaTemp);
-        TestHelper.verifyAbsentInDatastore(frcaTemp);
+        verifyAbsentInDatastore(frcaTemp);
     }
     
     public void testGetFeedbackResponseCommentFromId() throws Exception {

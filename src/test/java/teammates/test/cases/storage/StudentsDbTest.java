@@ -21,7 +21,6 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class StudentsDbTest extends BaseComponentTestCase {
     
@@ -57,12 +56,12 @@ public class StudentsDbTest extends BaseComponentTestCase {
                             REASON_INCORRECT_FORMAT),
                     e.getMessage());
         }
-        TestHelper.verifyAbsentInDatastore(s);
+        verifyAbsentInDatastore(s);
 
         ______TS("success : valid params");
         s.course = "valid-course";
         studentsDb.createEntity(s);
-        TestHelper.verifyPresentInDatastore(s);
+        verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertEquals(true, retrievedStudent.isEnrollInfoSameAs(s));
         assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));

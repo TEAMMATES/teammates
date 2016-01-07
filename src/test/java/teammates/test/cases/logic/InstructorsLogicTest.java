@@ -28,7 +28,6 @@ import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class InstructorsLogicTest extends BaseComponentTestCase{
 
@@ -85,7 +84,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructorsLogic.createInstructor(instr);
         
-        TestHelper.verifyPresentInDatastore(instr);
+        verifyPresentInDatastore(instr);
         
         ______TS("failure: instructor already exists");
         
@@ -685,8 +684,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         instructorsLogic.deleteInstructorCascade(courseId, email);
         
-        TestHelper.verifyAbsentInDatastore(instructorDeleted);
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
+        verifyAbsentInDatastore(instructorDeleted);
+        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("typical case: delete a non-existent instructor");
 
@@ -724,8 +723,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);      
         assertEquals(instructorList.isEmpty(), true);
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
+        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
+        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
         
         ______TS("typical case: delete an non-existent googleId");
 
