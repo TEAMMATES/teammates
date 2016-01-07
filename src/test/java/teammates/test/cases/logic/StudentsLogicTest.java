@@ -7,6 +7,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -1127,25 +1129,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         List<MimeMessage> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
         assertEquals(3, msgsForCourse.size());
-        Emails emailMgr = new Emails();
-        @SuppressWarnings("static-access")
-        String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));
-        String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.tmt|from=TEAMMATES Admin " + 
-                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
-                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail0, emailInfo0);
-        @SuppressWarnings("static-access")
-        String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));
-        String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.tmt|from=TEAMMATES Admin " + 
-                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
-                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail1, emailInfo1);
-        @SuppressWarnings("static-access")
-        String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));
-        String expectedEmailInfoForEmail2 = "[Email sent]to=e2@google.tmt|from=" + 
-                "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
-                " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail2, emailInfo2);
+        verifyJoinInviteToStudent(newsStudent0Info, msgsForCourse.get(0));
+        verifyJoinInviteToStudent(newsStudent1Info, msgsForCourse.get(1));
+        verifyJoinInviteToStudent(newsStudent2Info, msgsForCourse.get(2));
         
         studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
         studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
@@ -1222,6 +1208,13 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         printTestClassFooter();
         
         turnLoggingDown(StudentsLogic.class);
+    }
+    
+    private void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email)
+                                    throws MessagingException {
+        assertEquals(student.email, email.getAllRecipients()[0].toString());
+        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN, email.getSubject());
+        AssertHelper.assertContains(student.course, email.getSubject());
     }
 
 }

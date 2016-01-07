@@ -7,6 +7,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -22,6 +23,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.Emails;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -779,14 +781,13 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
         MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
     
-        TestHelper.verifyJoinInviteToInstructor(instructor, email);
-    
+        verifyJoinInviteToInstructor(instructor, email);
         
         ______TS("success: send invite to instructor using instructor attributes");
 
         email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor);
     
-        TestHelper.verifyJoinInviteToInstructor(instructor, email);
+        verifyJoinInviteToInstructor(instructor, email);
         
         ______TS("failure: send to non-existing instructor");
     
@@ -838,6 +839,13 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     @AfterClass()
     public static void classTearDown() throws Exception {
         turnLoggingDown(InstructorsLogic.class);
+    }
+    
+    private void verifyJoinInviteToInstructor(InstructorAttributes instr, MimeMessage email)
+                                    throws MessagingException {
+        assertEquals(instr.email, email.getAllRecipients()[0].toString());
+        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN, email.getSubject());
+        AssertHelper.assertContains(instr.courseId, email.getSubject());
     }
 
 }
