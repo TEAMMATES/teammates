@@ -172,13 +172,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
             questionToDetailsMap.put(question, questionDetails);
         }
         
-        this.sections = sectionNames();
+        this.sections = getSectionsFromBundle();
         
         displayableFsName = sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
         displayableCourseId = sanitizeForHtml(bundle.feedbackSession.courseId);
     }
 
-    private List<String> sectionNames() {
+    private List<String> getSectionsFromBundle() {
         List<String> sectionNames = new ArrayList<>();
         for (String section : bundle.sectionsInCourse()) {
             if (!section.equals(Const.DEFAULT_SECTION)) {
