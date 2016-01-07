@@ -55,7 +55,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     private FeedbackSessionResultsBundle bundle = null;
     private InstructorAttributes instructor = null;
-    
+    private List<String> sections = null;
     private String selectedSection = null;
     private String sortType = null;
     private String groupByTeam = null;
@@ -172,8 +172,22 @@ public class InstructorFeedbackResultsPageData extends PageData {
             questionToDetailsMap.put(question, questionDetails);
         }
         
+        this.sections = sectionNames();
+        
         displayableFsName = sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
         displayableCourseId = sanitizeForHtml(bundle.feedbackSession.courseId);
+    }
+
+    private List<String> sectionNames() {
+        List<String> sectionNames = new ArrayList<>();
+        for (String section : bundle.sectionsInCourse()) {
+            if (!section.equals(Const.DEFAULT_SECTION)) {
+                sectionNames.add(section);
+            }
+        }
+        
+        Collections.sort(sectionNames);
+        return sectionNames;
     }
     
   
@@ -1715,16 +1729,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return instructor;
     }
 
-    public List<String> getSections() {
-        List<String> sectionNames = new ArrayList<>();
-        for (String section : bundle.sectionsInCourse()) {
-            if (!section.equals(Const.DEFAULT_SECTION)) {
-                sectionNames.add(section);
-            }
-        }
-        
-        Collections.sort(sectionNames);
-        return sectionNames;
+    public List<String> getSections() {        
+        return sections;
     }
 
     public String getSelectedSection() {
