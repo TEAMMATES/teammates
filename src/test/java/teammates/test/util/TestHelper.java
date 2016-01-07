@@ -17,7 +17,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.StringHelper;
@@ -49,28 +48,6 @@ public class TestHelper extends BaseComponentTestCase{
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
     private static Gson gson = Utils.getTeammatesGson();
-
-    
-
-    public static void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent,
-            String oldTeam, StudentEnrollDetails enrollmentResult, StudentAttributes.UpdateStatus status) {
-        assertEquals(expectedStudent.email, enrollmentResult.email);
-        assertEquals(expectedStudent.team, enrollmentResult.newTeam);
-        assertEquals(expectedStudent.course, enrollmentResult.course);
-        assertEquals(oldTeam, enrollmentResult.oldTeam);
-        assertEquals(status, enrollmentResult.updateStatus);
-    }
-    
-    public static void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
-            StudentAttributes enrollmentResult, StudentAttributes.UpdateStatus status) {
-        String errorMessage = "mismatch! \n expected:\n"
-                + Utils.getTeammatesGson().toJson(expectedStudent)
-                + "\n actual \n"
-                + Utils.getTeammatesGson().toJson(enrollmentResult);
-        assertEquals(errorMessage, true,
-                enrollmentResult.isEnrollInfoSameAs(expectedStudent) &&
-                enrollmentResult.updateStatus == status);
-    }
 
     public static void verifyAbsentInDatastore(AccountAttributes account)
             throws Exception {
