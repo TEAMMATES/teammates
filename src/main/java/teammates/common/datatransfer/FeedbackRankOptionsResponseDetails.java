@@ -111,9 +111,9 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
                 csvBuilder.append(", \n");
             }
             
-            // remove the \n for the last option
-            csvBuilder.delete(csvBuilder.length() - ", \n".length(), csvBuilder.length());
         }
+        // remove the \n for the last option
+        csvBuilder.delete(csvBuilder.length() - ", \n".length(), csvBuilder.length());
         
         return Sanitizer.sanitizeForCsv(csvBuilder.toString());
     }

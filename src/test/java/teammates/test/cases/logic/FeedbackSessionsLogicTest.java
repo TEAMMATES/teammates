@@ -1848,10 +1848,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback:
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Quality of work2: Quality of progress reports3: Time management4: Teamwork and communication"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Teamwork and communication2: Time management3: Quality of progress reports4: Quality of work"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Teamwork and communication2: Quality of work"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Teamwork and communication2: Time management3: Quality of work"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Quality of work, \n2: Quality of progress reports, \n3: Time management, \n4: Teamwork and communication"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Teamwork and communication, \n2: Time management, \n3: Quality of progress reports, \n4: Quality of work"
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Teamwork and communication, \n2: Quality of work"
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Teamwork and communication, \n2: Time management, \n3: Quality of work"
         "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","","Team 1.2","Team 1.2","-","1: Quality of work"
          */
         exportLines = export.split(Const.EOL);
@@ -1887,10 +1887,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         assertEquals(exportLines[29],"");
         assertEquals(exportLines[30],"");
         assertEquals(exportLines[31],"Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback:");
-        assertEquals(exportLines[32],"\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Quality of work2: Quality of progress reports3: Time management4: Teamwork and communication\"");
-        assertEquals(exportLines[33],"\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication2: Time management3: Quality of progress reports4: Quality of work\"");
-        assertEquals(exportLines[34],"\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication2: Quality of work\"");
-        assertEquals(exportLines[35],"\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication2: Time management3: Quality of work\"");
+        assertEquals(exportLines[32],"\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Quality of work, \n2: Quality of progress reports, \n3: Time management, \n4: Teamwork and communication\"");
+        assertEquals(exportLines[33],"\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Time management, \n3: Quality of progress reports, \n4: Quality of work\"");
+        assertEquals(exportLines[34],"\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Quality of work\"");
+        assertEquals(exportLines[35],"\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Time management, \n3: Quality of work\"");
         assertEquals(exportLines[36],"\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",\"1: Quality of work\"");
         
         ______TS("Non-existent Course/Session");
