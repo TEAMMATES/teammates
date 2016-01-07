@@ -5,8 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNull;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -58,33 +56,6 @@ public class TestHelper extends BaseComponentTestCase{
     private static Gson gson = Utils.getTeammatesGson();
 
     
-    public static MimeMessage getEmailToStudent(StudentAttributes s,
-            List<MimeMessage> emailsSent) throws MessagingException {
-        for (MimeMessage m : emailsSent) {
-            boolean emailSentToThisStudent = m.getAllRecipients()[0].toString()
-                    .equalsIgnoreCase(s.email);
-            if (emailSentToThisStudent) {
-                print("email sent to:" + s.email);
-                return m;
-            }
-        }
-        return null;
-    }
-    
-    public static List<MimeMessage> getEmailsToInstructor(InstructorAttributes i,
-            List<MimeMessage> emailsSent) throws MessagingException {
-        List<MimeMessage> emailsToInstructor = new ArrayList<MimeMessage>();
-        for (MimeMessage m : emailsSent) {
-            boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString()
-                    .equalsIgnoreCase(i.email);
-            if (emailSentToThisInstructor) {
-                print("email sent to:" + i.email);
-                emailsToInstructor.add(m);
-            }
-        }
-        return emailsToInstructor;
-    }
-
     public static void verifyJoinInviteToStudent(StudentAttributes student,
             MimeMessage email) throws MessagingException {
         assertEquals(student.email, email.getAllRecipients()[0].toString());

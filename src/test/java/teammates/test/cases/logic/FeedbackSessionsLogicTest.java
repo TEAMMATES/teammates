@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -2158,7 +2159,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
-            MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
+            MimeMessage emailToStudent = getEmailToStudent(s, emailsSent);
             if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
                 assertNull(errorMessage, emailToStudent);
@@ -2174,7 +2175,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
         String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session
@@ -2234,7 +2235,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                         fs.courseId, fs.feedbackSessionName, usersToRemind);
         assertEquals(7, emailsSent.size());
 
-        MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
+        MimeMessage emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
         assertNotNull(errorMessage, emailToStudent);
         AssertHelper.assertContains(
@@ -2245,7 +2246,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
         String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if(!i.email.equals(instrToRemind.email)) {
                 // Only send notification (no reminder) if instructor is not selected
@@ -2384,6 +2385,31 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
 
         return paramMap;
+    }
+    
+    private MimeMessage getEmailToStudent(StudentAttributes s, List<MimeMessage> emailsSent)
+                                    throws MessagingException {
+        for (MimeMessage m : emailsSent) {
+            boolean emailSentToThisStudent = m.getAllRecipients()[0].toString().equalsIgnoreCase(s.email);
+            if (emailSentToThisStudent) {
+                print("email sent to:" + s.email);
+                return m;
+            }
+        }
+        return null;
+    }
+
+    private List<MimeMessage> getEmailsToInstructor(InstructorAttributes i, List<MimeMessage> emailsSent)
+                                    throws MessagingException {
+        List<MimeMessage> emailsToInstructor = new ArrayList<MimeMessage>();
+        for (MimeMessage m : emailsSent) {
+            boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString().equalsIgnoreCase(i.email);
+            if (emailSentToThisInstructor) {
+                print("email sent to:" + i.email);
+                emailsToInstructor.add(m);
+            }
+        }
+        return emailsToInstructor;
     }
 
 }
