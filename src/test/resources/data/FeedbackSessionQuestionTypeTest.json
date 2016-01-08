@@ -441,6 +441,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
+        },
+        "rankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please answer the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
         }
     },
     "feedbackQuestions":{
@@ -837,7 +855,63 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS"
             ]
+        },
+        "qn1InRANKSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{"value":"{
+              \"areDuplicatesAllowed\": false,
+              \"questionType\": \"RANK_RECIPIENTS\",
+              \"questionText\": \"Rank the other students.\"
+               }"
+            },
+            "questionNumber":"1",
+            "questionType":"RANK_RECIPIENTS",
+            "giverType":"STUDENTS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]            
+        },
+        "qn2InRANKSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{"value":"{
+                  \"areDuplicatesAllowed\": true,
+                  \"options\": [
+                    \"Quality of work\",
+                    \"Quality of progress reports\",
+                    \"Time management\",
+                    \"Teamwork and communication\"
+                  ],
+                  \"questionType\": \"RANK_OPTIONS\",
+                  \"questionText\": \"Rank the areas of improvement you think your team should make progress in.\"
+            }"},
+            "questionNumber":"2",
+            "questionType":"RANK_OPTIONS",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]            
         }
+
     },
     "feedbackResponses":{
         "response1ForQ1S1C1":{
@@ -1316,6 +1390,105 @@
             "recipientEmail":"student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
+            }
+        },
+        "response1ForQ1RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"RANK_RECIPIENTS",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_RECIPIENTS\", \"answer\" : 4}"
+            }
+        },
+        "response2ForQ1RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"RANK_RECIPIENTS",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student2InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_RECIPIENTS\", \"answer\" : 3}"
+            }
+        },
+        "response3ForQ1RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"RANK_RECIPIENTS",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student3InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_RECIPIENTS\", \"answer\" : 2}"
+            }
+        },
+        "response4ForQ1RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"RANK_RECIPIENTS",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student4InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_RECIPIENTS\", \"answer\" : 1}"
+            }
+        },
+         "response1ForQ2RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"RANK_OPTIONS",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"Team 1.1",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [1,2,3,4]}"
+            }
+        },
+        "response2ForQ2RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"RANK_OPTIONS",
+            "giverEmail":"student2InCourse1@gmail.tmt",
+            "recipientEmail":"Team 1.1",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [4,3,2,1]}"
+            }
+        },
+        "response3ForQ2RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"RANK_OPTIONS",
+            "giverEmail":"student3InCourse1@gmail.tmt",
+            "recipientEmail":"Team 1.1",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [2,-999,-999,1]}"
+            }
+        },
+        "response4ForQ2RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"RANK_OPTIONS",
+            "giverEmail":"student4InCourse1@gmail.tmt",
+            "recipientEmail":"Team 1.1",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [3,-999,2,1]}"
+            }
+        },
+        "response5ForQ2RankSession":{
+            "feedbackSessionName":"RANK Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"RANK_OPTIONS",
+            "giverEmail":"student5InCourse1@gmail.tmt",
+            "recipientEmail":"Team 1.2",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [1,-999,-999,-999]}"
             }
         }
     }

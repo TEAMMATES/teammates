@@ -146,6 +146,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+            int totalNumRecipients,
             FeedbackResponseDetails existingResponseDetails) {
         
         FeedbackConstantSumResponseDetails existingConstSumResponse = (FeedbackConstantSumResponseDetails) existingResponseDetails;
@@ -204,7 +205,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;

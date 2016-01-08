@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
 
-public class FeedbackQuestionSubmitPage extends AppPage {
+public class FeedbackQuestionSubmitPage extends FeedbackSubmitPage {
 
     public FeedbackQuestionSubmitPage(Browser browser) {
         super(browser);
