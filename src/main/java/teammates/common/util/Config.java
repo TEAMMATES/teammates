@@ -95,7 +95,16 @@ public class Config {
     }
 
     private String getAppUrl() {
-        return props.getProperty("app.url");
+        return Url.trimTrailingSlash(props.getProperty("app.url"));
+    }
+    
+    /**
+     * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
+     * The base URL will be the value of app.url in build.properties.
+     * {@code relativeUrl} must start with a "/".
+     */
+    public static AppUrl getAppUrl(String relativeUrl) {
+        return new AppUrl(APP_URL + relativeUrl);
     }
 
     private String getBackdoorKey() {

@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -17,7 +18,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
-import teammates.test.util.Url;
 
 /**
  * Covers the 'edit student details' functionality for instructors.
@@ -53,7 +53,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         ______TS("content: unregistered student");
         
-        Url editPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+        AppUrl editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
         .withUserId(instructorId)
         .withCourseId(courseId)
         .withStudentEmail(testData.students.get("unregisteredStudent").email);
@@ -63,7 +63,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         ______TS("content: registered student");
         
-        editPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+        editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
             .withUserId(instructorId)
             .withCourseId(courseId)
             .withStudentEmail(testData.students.get("registeredStudent").email);

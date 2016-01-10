@@ -13,8 +13,8 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionCopyTable;
@@ -177,11 +177,12 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession, int nextQnNum) {
       
-        Url doneEditingLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        String doneEditingLink = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                 .withUserId(account.googleId)
                                 .withCourseId(feedbackSession.courseId)
-                                .withSessionName(feedbackSession.feedbackSessionName);
-        newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink.toString(), feedbackSession,
+                                .withSessionName(feedbackSession.feedbackSessionName)
+                                .toString();
+        newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
                                                           getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),
                                                           getParticipantOptions(null, false), getQuestionNumberOptions(nextQnNum), 
                                                           getNewQuestionSpecificEditFormHtml());

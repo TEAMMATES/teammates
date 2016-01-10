@@ -17,12 +17,12 @@ import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
-import teammates.test.util.Url;
 
 /**
  * Tests 'Submit Feedback' view of instructors.
@@ -592,7 +592,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(String instructorName, String fsName) {
-        Url editUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.instructors.get(instructorName).googleId)
                           .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                           .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -601,7 +601,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
             String studentName, String fsName) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                           .withUserId(testData.students.get(studentName).googleId)
                           .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                           .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);

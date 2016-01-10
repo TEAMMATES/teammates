@@ -24,6 +24,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.test.driver.BackDoor;
@@ -32,7 +33,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
-import teammates.test.util.Url;
 
 /**
  * Tests 'Submit Feedback' view of students.
@@ -82,7 +82,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        AppPage.logout(browser);
+        logout(browser);
         
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
@@ -422,7 +422,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // this should not give any error since the value will be automatically adjusted before the form is submitted
         // adjusted value should be 1
-        submitPage.logout();
+        logout(browser);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");
@@ -514,7 +514,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
-        Url submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
                                              .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
@@ -524,7 +524,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -533,7 +533,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
