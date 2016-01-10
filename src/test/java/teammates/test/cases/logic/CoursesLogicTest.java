@@ -34,7 +34,6 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class CoursesLogicTest extends BaseComponentTestCase {
  
@@ -1033,7 +1032,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.id = "Computing101-fresh";
         c.name = "Basic Computing";
         coursesLogic.createCourse(c.id, c.name);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         coursesLogic.deleteCourseCascade(c.id);
         ______TS("Null parameter");
     
@@ -1071,8 +1070,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("for a non-existent instructor", e.getMessage());
         }
-        TestHelper.verifyAbsentInDatastore(c);
-        TestHelper.verifyAbsentInDatastore(i);
+        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(i);
         
         ______TS("fails: account doesn't have instructor privileges");
         
@@ -1091,8 +1090,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("doesn't have instructor privileges", e.getMessage());
         }
-        TestHelper.verifyAbsentInDatastore(c);
-        TestHelper.verifyAbsentInDatastore(i);
+        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(i);
         
         ______TS("fails: error during course creation");
         
@@ -1107,8 +1106,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID", e.getMessage());
         }
-        TestHelper.verifyAbsentInDatastore(c);
-        TestHelper.verifyAbsentInDatastore(i);
+        verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(i);
         
         ______TS("fails: error during instructor creation due to duplicate instructor");
         
@@ -1121,7 +1120,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
         }
-        TestHelper.verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(c);
 
         ______TS("fails: error during instructor creation due to invalid parameters");
 
@@ -1133,7 +1132,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         } catch (AssertionError e) {
             AssertHelper.assertContains("Unexpected exception while trying to create instructor for a new course", e.getMessage());
         }
-        TestHelper.verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(c);
        
         ______TS("success: typical case");
 
@@ -1143,8 +1142,8 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         instructorsDb.deleteInstructor(i.courseId, i.email);
         
         coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
-        TestHelper.verifyPresentInDatastore(c);
-        TestHelper.verifyPresentInDatastore(i);
+        verifyPresentInDatastore(c);
+        verifyPresentInDatastore(i);
         
         ______TS("Null parameter");
     
@@ -1188,30 +1187,30 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         // Ensure there are entities in the datastore under this course
         assertTrue(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.id).size() != 0);
         
-        TestHelper.verifyPresentInDatastore(course1OfInstructor);
-        TestHelper.verifyPresentInDatastore(studentInCourse);
-        TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
-        TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
-        TestHelper.verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
-        TestHelper.verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
-        TestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        TestHelper.verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        verifyPresentInDatastore(course1OfInstructor);
+        verifyPresentInDatastore(studentInCourse);
+        verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+        verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
+        verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
+        verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
         assertEquals(course1OfInstructor.id, studentInCourse.course);
         
         coursesLogic.deleteCourseCascade(course1OfInstructor.id);
     
         // Ensure the course and related entities are deleted
-        TestHelper.verifyAbsentInDatastore(course1OfInstructor);
-        TestHelper.verifyAbsentInDatastore(studentInCourse);
-        TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
+        verifyAbsentInDatastore(course1OfInstructor);
+        verifyAbsentInDatastore(studentInCourse);
+        verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
+        verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
+        verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
+        verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
+        verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
+        verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
+        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
     
         ______TS("non-existent");
     

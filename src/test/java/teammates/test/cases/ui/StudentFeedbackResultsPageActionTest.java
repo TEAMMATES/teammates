@@ -1,7 +1,6 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.test.util.TestHelper;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackResultsPageAction;
 import teammates.ui.controller.StudentFeedbackResultsPageData;
@@ -212,7 +211,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         expectedInfoList.add(dataBundle.feedbackSessions.get("session1InCourse1"));
         actualInfoList.add(pageData.getBundle().feedbackSession);
 
-        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedInfoList, actualInfoList));
+        AssertHelper.assertSameContentIgnoreOrder(expectedInfoList, actualInfoList);
         assertEquals(student1InCourse1.googleId, pageData.account.googleId);
         assertEquals(student1InCourse1.getIdentificationString(), pageData.student.getIdentificationString());
     }

@@ -25,7 +25,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.logic.core.CommentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class CommentsLogicTest extends BaseComponentTestCase {
 
@@ -82,7 +81,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.commentText = new Text("New Comment from instructor2 to student3 in course 1");
         
         commentsLogic.createComment(c);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         
         //delete afterwards
         commentsLogic.deleteComment(c);
@@ -366,7 +365,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         c.courseId = existingComment.courseId;
 
         commentsLogic.updateComment(c);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         
         List<CommentAttributes> actual = commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON, c.recipients.iterator().next());
         assertEquals(1, actual.size());
@@ -388,12 +387,12 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         commentsLogic.deleteComment(c);
         c.courseId = existingComment1.courseId;
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         
         ______TS("typical success case");
         
         commentsLogic.deleteComment(c);
-        TestHelper.verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(c);
     }
     
     // TODO: add tests for those one level down api call if test coverage is considered

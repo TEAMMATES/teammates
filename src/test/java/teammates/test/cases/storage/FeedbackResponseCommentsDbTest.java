@@ -27,7 +27,7 @@ import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.util.TestHelper;
+import teammates.test.driver.AssertHelper;
 
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
@@ -94,12 +94,12 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("Entity creation");
         
         frcDb.createEntity(frcaTemp);
-        TestHelper.verifyPresentInDatastore(frcaTemp);
+        verifyPresentInDatastore(frcaTemp);
         
         ______TS("Entity deletion");
 
         frcDb.deleteEntity(frcaTemp);
-        TestHelper.verifyAbsentInDatastore(frcaTemp);
+        verifyAbsentInDatastore(frcaTemp);
     }
     
     public void testGetFeedbackResponseCommentFromId() throws Exception {
@@ -429,16 +429,22 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
             throws InvalidParametersException, EntityAlreadyExistsException {
         List<String> courseIds = new ArrayList<String>();
         courseIds.add("idOfTypicalCourse1");
-        List<FeedbackResponseComment> expectedFrcs =
-                new ArrayList<FeedbackResponseComment>();
-        expectedFrcs.add(frcaData.toEntity());
-        expectedFrcs.add(anotherFrcaData.toEntity());
+        List<FeedbackResponseCommentAttributes> expectedFrcas =
+                new ArrayList<FeedbackResponseCommentAttributes>();
+        expectedFrcas.add(frcaData);
+        expectedFrcas.add(anotherFrcaData);
         
         ______TS("successful get feedback response comment for courses");
         
         List<FeedbackResponseComment> actualFrcs =
                 frcDb.getFeedbackResponseCommentEntitiesForCourses(courseIds);
-        TestHelper.isSameContentIgnoreOrder(expectedFrcs, actualFrcs);
+        List<FeedbackResponseCommentAttributes> actualFrcas =
+                new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseComment frc: actualFrcs) {
+            actualFrcas.add(new FeedbackResponseCommentAttributes(frc));
+        }
+        
+        verifyListsContainSameResponseCommentAttributes(expectedFrcas, actualFrcas);
         
         ______TS("successful delete feedback response comment for courses");
         
@@ -464,7 +470,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
             frca.setId(0L);
         }
         
-        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedFrcas, actualFrcas));
+        AssertHelper.assertSameContentIgnoreOrder(expectedFrcas, actualFrcas);
         
     }
 

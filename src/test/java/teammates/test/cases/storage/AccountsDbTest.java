@@ -25,7 +25,6 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class AccountsDbTest extends BaseComponentTestCase {
 
@@ -74,9 +73,14 @@ public class AccountsDbTest extends BaseComponentTestCase {
         
         List<AccountAttributes> instructorAccountsExpected = createInstructorAccounts(numOfInstructors);
         List<AccountAttributes> instructorAccountsActual = accountsDb.getInstructorAccounts();
+        for (AccountAttributes aa : instructorAccountsActual) {
+            // remove the created/modified dates due to their unpredictable nature
+            aa.createdAt = null;
+            aa.studentProfile.modifiedDate = null;
+        }
         
         assertEquals(numOfInstructors, instructorAccountsActual.size());
-        TestHelper.isSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
+        AssertHelper.assertSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
         
         deleteInstructorAccounts(numOfInstructors);
     }
