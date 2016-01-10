@@ -12,7 +12,7 @@ import teammates.test.driver.GaeSimulation;
 
 public class BaseComponentUsingTaskQueueTestCase extends BaseComponentTestCase {
     
-    protected static GaeSimulation gaeSimulation;
+    protected static GaeSimulation gaeSimulation = GaeSimulation.inst();
     
     @BeforeTest
     public void testSetUp() throws Exception {
