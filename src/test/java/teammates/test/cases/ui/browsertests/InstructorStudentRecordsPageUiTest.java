@@ -7,11 +7,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
-import teammates.test.util.Url;
 
 /**
  * Covers the 'student records' view for instructors.
@@ -168,7 +168,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {
-        Url viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                            .withUserId(instructorId)
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);

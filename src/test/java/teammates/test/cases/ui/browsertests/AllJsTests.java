@@ -2,7 +2,6 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.openqa.selenium.By;
@@ -10,6 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
@@ -23,17 +23,14 @@ public class AllJsTests extends BaseUiTestCase{
     private static Browser browser;
     
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws IOException {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
+        AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/allJsUnitTests.html"));
     }
 
     @Test
-    public void executeJsTests() throws IOException {
-        
-        String workingDirectory = new File(".").getCanonicalPath();
-        browser.driver.get("file:///"+workingDirectory+"/src/test/javascript/AllJsUnitTests.html");
-
+    public void executeJsTests() {
         String totalCasesXpathQuery = "//span[@class='total']",
                failedCasesXpathQuery = "//span[@class='failed']";
         

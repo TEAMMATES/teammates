@@ -5,11 +5,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
-import teammates.test.util.Url;
 
 /**
  * Covers the 'student details' view for instructors.
@@ -68,7 +68,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
 
 
     private InstructorCourseStudentDetailsViewPage getCourseStudentDetailsPage(String studentStr) {
-        Url viewPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
+        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
             .withUserId(instructorId)
             .withCourseId(courseId)
             .withStudentEmail(testData.students.get(studentStr).email);

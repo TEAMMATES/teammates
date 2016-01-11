@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -17,7 +18,6 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
-import teammates.test.util.Url;
 
 /**
  * Tests 'Feedback Results' view of students.
@@ -41,7 +41,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        AppPage.logout(browser);
+        logout(browser);
         
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
@@ -126,7 +126,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         String student1Username = TestProperties.inst().TEST_STUDENT1_ACCOUNT; 
         String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
         
-        AppPage.logout(browser);
+        logout(browser);
         LoginPage loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
@@ -142,7 +142,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("unreg student logged in as a student in another course: registered without logging out");
         
-        AppPage.logout(browser);
+        logout(browser);
         loginPage = resultsPage.clickLoginAsStudentButton();
         loginPage.loginAsStudent(student1Username, student1Password);
 
@@ -162,7 +162,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -171,7 +171,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,
                                                                     Class<T> typeOfPage) {
-        Url submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
                                             .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)

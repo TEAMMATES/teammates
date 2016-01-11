@@ -31,7 +31,6 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -67,7 +66,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fsa = getNewFeedbackSession();
         fsDb.createEntity(fsa);
-        TestHelper.verifyPresentInDatastore(fsa);
+        verifyPresentInDatastore(fsa);
         
         ______TS("duplicate");
         try {
@@ -80,7 +79,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         }
         
         fsDb.deleteEntity(fsa);
-        TestHelper.verifyAbsentInDatastore(fsa);
+        verifyAbsentInDatastore(fsa);
         
         ______TS("null params");
         
@@ -266,12 +265,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();
         fsDb.deleteEntity(modifiedSession);
         fsDb.createEntity(modifiedSession);
-        TestHelper.verifyPresentInDatastore(modifiedSession);
+        verifyPresentInDatastore(modifiedSession);
         modifiedSession.instructions = new Text("new instructions");
         modifiedSession.gracePeriod = 0;
         modifiedSession.sentOpenEmail = false;
         fsDb.updateFeedbackSession(modifiedSession);
-        TestHelper.verifyPresentInDatastore(modifiedSession);
+        verifyPresentInDatastore(modifiedSession);
     }
     
     private FeedbackSessionAttributes getNewFeedbackSession() {

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -53,7 +54,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -111,12 +111,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String instructorGoogleId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         
         for (FeedbackSessionAttributes fsa : allFsa) {
-            if (fsa.courseId == courseId) {
+            if (fsa.courseId.equals(courseId)) {
                 finalFsa.add(fsa);
             }
         }
-        
-        TestHelper.isSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
+        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
         
     }
     
@@ -272,7 +271,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fs = getNewFeedbackSession();
         fsLogic.createFeedbackSession(fs);
-        TestHelper.verifyPresentInDatastore(fs);
+        verifyPresentInDatastore(fs);
         
         ______TS("test create with invalid session name");
         fs.feedbackSessionName = "test & test";
@@ -311,8 +310,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         fqLogic.createFeedbackQuestion(fq);
         
         fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
-        TestHelper.verifyAbsentInDatastore(fs);
-        TestHelper.verifyAbsentInDatastore(fq);
+        verifyAbsentInDatastore(fs);
+        verifyAbsentInDatastore(fq);
     }
     
     public void testCopyFeedbackSession() throws Exception {
@@ -326,7 +325,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Copied Session", typicalCourse2.id,
                 session1InCourse1.feedbackSessionName,
                 session1InCourse1.courseId, instructor2OfCourse1.email);
-        TestHelper.verifyPresentInDatastore(copiedSession);
+        verifyPresentInDatastore(copiedSession);
         
         assertEquals("Copied Session", copiedSession.feedbackSessionName);
         assertEquals(typicalCourse2.id, copiedSession.courseId);
@@ -2159,7 +2158,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
-            MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
+            MimeMessage emailToStudent = getEmailToStudent(s, emailsSent);
             if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
                 assertNull(errorMessage, emailToStudent);
@@ -2175,7 +2174,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
         String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session
@@ -2235,7 +2234,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                         fs.courseId, fs.feedbackSessionName, usersToRemind);
         assertEquals(7, emailsSent.size());
 
-        MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
+        MimeMessage emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
         assertNotNull(errorMessage, emailToStudent);
         AssertHelper.assertContains(
@@ -2246,7 +2245,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
         String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if(!i.email.equals(instrToRemind.email)) {
                 // Only send notification (no reminder) if instructor is not selected
@@ -2385,6 +2384,31 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
 
         return paramMap;
+    }
+    
+    private MimeMessage getEmailToStudent(StudentAttributes s, List<MimeMessage> emailsSent)
+                                    throws MessagingException {
+        for (MimeMessage m : emailsSent) {
+            boolean emailSentToThisStudent = m.getAllRecipients()[0].toString().equalsIgnoreCase(s.email);
+            if (emailSentToThisStudent) {
+                print("email sent to:" + s.email);
+                return m;
+            }
+        }
+        return null;
+    }
+
+    private List<MimeMessage> getEmailsToInstructor(InstructorAttributes i, List<MimeMessage> emailsSent)
+                                    throws MessagingException {
+        List<MimeMessage> emailsToInstructor = new ArrayList<MimeMessage>();
+        for (MimeMessage m : emailsSent) {
+            boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString().equalsIgnoreCase(i.email);
+            if (emailSentToThisInstructor) {
+                print("email sent to:" + i.email);
+                emailsToInstructor.add(m);
+            }
+        }
+        return emailsToInstructor;
     }
 
 }

@@ -39,7 +39,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav pull-right">
-                <li><a class='nav logout' href="/logout.jsp">Logout
+                <li><a id="btnLogout" class='nav logout' href="/logout.jsp">Logout
                         
                         (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
                                 title="${data.account.googleId}">

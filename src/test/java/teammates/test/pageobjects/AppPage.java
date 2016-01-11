@@ -42,11 +42,11 @@ import teammates.common.util.FileHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
-import teammates.test.util.Url;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -106,6 +106,9 @@ public abstract class AppPage {
     
     @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;
+    
+    @FindBy(id = "btnLogout")
+    protected WebElement logoutButton;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement studentLogoutLink;
@@ -382,21 +385,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Equivalent to clicking the 'logout' link in the top menu of the page.
-     * @return 
+     * Click the 'logout' link in the top menu of the page.
      */
     public AppPage logout(){
-        logout(browser);
+        logoutButton.click();
         return this;
-    }
-    
-    /**
-     * Equivalent to clicking the 'logout' link in the top menu of the page.
-     */
-    public static void logout(Browser currentBrowser){
-        currentBrowser.driver.get(new Url(Const.ViewURIs.LOGOUT).toAbsoluteString());
-        currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
-        currentBrowser.isAdminLoggedIn = false;
     }
     
     @SuppressWarnings("unused")

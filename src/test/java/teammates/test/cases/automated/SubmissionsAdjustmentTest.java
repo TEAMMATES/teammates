@@ -39,7 +39,6 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.util.TestHelper;
 
 public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCase {
     
@@ -172,7 +171,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
 
         studentsLogic.updateStudentCascadeWithoutDocument(oldEmail, updatedAttributes);
 
-        TestHelper.verifyPresentInDatastore(updatedAttributes);
+        verifyPresentInDatastore(updatedAttributes);
 
         //Verify no tasks sent to task queue 
         if(!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){

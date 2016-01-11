@@ -30,7 +30,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorServlet;
-import teammates.test.util.Url;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -617,7 +616,7 @@ public class BackDoor {
     private static String makePOSTRequest(HashMap<String, Object> map) {
         try {
             String paramString = encodeParameters(map);
-            String urlString = new Url(Const.ActionURIs.BACKDOOR).toAbsoluteString();
+            String urlString = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.BACKDOOR;
             URLConnection conn = getConnectionToUrl(urlString);
             sendRequest(paramString, conn);
             return readResponse(conn);

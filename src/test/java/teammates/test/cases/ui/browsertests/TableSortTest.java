@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.io.File;
-
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -22,8 +20,7 @@ public class TableSortTest extends BaseUiTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();        
-        browser.driver.get(getPath());
-        page = AppPage.getNewPageInstance(browser);
+        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/tableSort.html"));
     }
     
     @Test
@@ -208,12 +205,6 @@ public class TableSortTest extends BaseUiTestCase {
             searchString += values[i-1]+"{*}";
         }
         page.verifyContains(searchString);
-    }
-
-
-    private static String getPath() throws Exception{
-        String workingDirectory = new File(".").getCanonicalPath();
-        return "file:///"+workingDirectory+"/src/test/resources/pages/tableSort.html";
     }
 
     @AfterClass

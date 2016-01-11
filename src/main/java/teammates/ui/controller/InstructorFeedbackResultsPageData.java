@@ -172,8 +172,22 @@ public class InstructorFeedbackResultsPageData extends PageData {
             questionToDetailsMap.put(question, questionDetails);
         }
         
+        this.sections = getSectionsFromBundle();
+        
         displayableFsName = sanitizeForHtml(bundle.feedbackSession.feedbackSessionName);
         displayableCourseId = sanitizeForHtml(bundle.feedbackSession.courseId);
+    }
+
+    private List<String> getSectionsFromBundle() {
+        List<String> sectionNames = new ArrayList<>();
+        for (String section : bundle.sectionsInCourse()) {
+            if (!section.equals(Const.DEFAULT_SECTION)) {
+                sectionNames.add(section);
+            }
+        }
+        
+        Collections.sort(sectionNames);
+        return sectionNames;
     }
     
   
@@ -1715,7 +1729,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return instructor;
     }
 
-    public List<String> getSections() {
+    public List<String> getSections() {        
         return sections;
     }
 
@@ -1805,10 +1819,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
         return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus,
                                                             buildModerateButtonsForNoResponsePanel());
-    }
-
-    public void setSections(List<String> sections) {
-        this.sections = sections;
     }
 
     public void setStartIndex(int startIndex) {

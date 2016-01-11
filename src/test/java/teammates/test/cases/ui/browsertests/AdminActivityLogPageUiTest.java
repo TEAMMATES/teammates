@@ -11,12 +11,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.pageobjects.AdminActivityLogPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.util.Url;
 
 public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     
@@ -56,18 +56,18 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical page");
         
-        Url logPageUrl = new Url(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE);
+        AppUrl logPageUrl = createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE);
         logPage = loginAdminToPage(browser, logPageUrl, AdminActivityLogPage.class);
         logPage.verifyIsCorrectPage();
         
         ______TS("content: navigate to other pages to get some logs");
-        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_HOME_PAGE));
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_HOME_PAGE));
         logPage.waitForPageToLoad();
-        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE));
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE));
         logPage.waitForPageToLoad();
-        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_SEARCH_PAGE));
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE));
         logPage.waitForPageToLoad();
-        logPage.navigateTo(new Url(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
         logPage.waitForPageToLoad();
         assertNotNull(logPage.getFirstActivityLogRow());
         assertTrue(logPage.isLogsTableVisible());

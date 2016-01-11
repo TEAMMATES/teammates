@@ -31,7 +31,6 @@ import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class InstructorsDbTest extends BaseComponentTestCase {
     
@@ -75,7 +74,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorsDb.deleteEntity(i);
         instructorsDb.createEntity(i);
         
-        TestHelper.verifyPresentInDatastore(i);
+        verifyPresentInDatastore(i);
         
         ______TS("Failure: create a duplicate instructor");
 

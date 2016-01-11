@@ -14,7 +14,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.util.Url;
 
 /**
  * Loads the Mashup page for the tester to do a visual inspection.
@@ -36,7 +35,7 @@ public class MashupPageUiTest extends BaseUiTestCase {
     public void loadWebpageCompilation() throws Exception {
         AppPage page = loginAdmin(browser);
         uploadNewPhotoForStudent();
-        page.navigateTo(new Url(Const.ViewURIs.MASHUP));
+        page.navigateTo(createUrl(Const.ViewURIs.MASHUP));
     }
 
     private void uploadNewPhotoForStudent() throws Exception {

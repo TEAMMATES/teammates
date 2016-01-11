@@ -31,7 +31,6 @@ import teammates.common.util.Const;
 import teammates.storage.api.CommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class CommentsDbTest extends BaseComponentTestCase {
     
@@ -63,20 +62,20 @@ public class CommentsDbTest extends BaseComponentTestCase {
                     e.getLocalizedMessage());
         }
 
-        TestHelper.verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(c);
 
         ______TS("success : valid params");
 
         c.courseId = "course-id";
         commentsDb.createEntity(c);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         commentsDb.deleteEntity(c);
         
         ______TS("success: another comment with different text");
         
         c.createdAt = new Date();
         commentsDb.createEntity(c);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         commentsDb.deleteEntity(c);
         
         ______TS("null params check");
@@ -207,7 +206,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.createdAt = existing.createdAt;
         c.commentText = new Text("new comment");
         commentsDb.updateComment(c);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
     }
     
     @Test
@@ -326,7 +325,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         CommentAttributes currentComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
         c.setCommentId(currentComment.getCommentId());
         commentsDb.deleteEntity(currentComment);
-        TestHelper.verifyAbsentInDatastore(c);
+        verifyAbsentInDatastore(c);
         
         ______TS("invalid delete non-existing comment fails silently");
         commentsDb.deleteEntity(currentComment); //currentComment doesn't exist anymore

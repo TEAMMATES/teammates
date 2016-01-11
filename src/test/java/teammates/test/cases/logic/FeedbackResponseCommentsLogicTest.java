@@ -24,7 +24,6 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
@@ -92,7 +91,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         frComment.feedbackResponseId = getResponseIdInDataBundle("response2ForQ1S1C1", "qn1InSession1InCourse1");
         
         frcLogic.createFeedbackResponseComment(frComment);
-        TestHelper.verifyPresentInDatastore(frComment);
+        verifyPresentInDatastore(frComment);
         
         ______TS("typical successful case: frComment already exists");
         frcLogic.createFeedbackResponseComment(frComment);
@@ -207,7 +206,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
 
         frComment.commentText = new Text("Updated feedback response comment");
         frcLogic.updateFeedbackResponseComment(frComment);
-        TestHelper.verifyPresentInDatastore(frComment);
+        verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments = 
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
         
@@ -258,21 +257,21 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         FeedbackResponseCommentAttributes actualFrComment = 
                 frcLogic.getFeedbackResponseCommentForSession(
                                  frComment.courseId, frComment.feedbackSessionName).get(0);
-        TestHelper.verifyPresentInDatastore(actualFrComment);
+        verifyPresentInDatastore(actualFrComment);
         
         ______TS("typical success case");
         
         frcLogic.deleteFeedbackResponseComment(actualFrComment);
-        TestHelper.verifyAbsentInDatastore(actualFrComment);
+        verifyAbsentInDatastore(actualFrComment);
         
 
         ______TS("typical success case for response");
         
         FeedbackResponseCommentAttributes anotherFrComment = new FeedbackResponseCommentAttributes();
         restoreFrCommentFromDataBundle(anotherFrComment, "comment1FromT1C1ToR1Q2S1C1");
-        TestHelper.verifyPresentInDatastore(anotherFrComment);
+        verifyPresentInDatastore(anotherFrComment);
         frcLogic.deleteFeedbackResponseCommentsForResponse(anotherFrComment.feedbackResponseId);
-        TestHelper.verifyAbsentInDatastore(anotherFrComment);
+        verifyAbsentInDatastore(anotherFrComment);
         
     }
     
