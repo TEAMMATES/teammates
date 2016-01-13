@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.Dimension;
 
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
@@ -114,6 +115,11 @@ public class FeedbackSubmitPage extends AppPage {
         cell.click();
     }
     
+    public void clickRubricRadioMobile(int qnIndex, int respIndex, int row, int col) {
+        WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        radio.click();
+    }
+
     public String getRankMessage(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("rankMessage-" + qnNumber + "-" + responseNumber));
@@ -144,5 +150,13 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void waitForCellHoverToDisappear() {
         waitForElementToDisappear(By.className("cell-hover"));
+    }
+
+    public void changeToMobileView() {
+        browser.driver.manage().window().setSize(new Dimension(360,640));
+    }
+
+    public void changeToDesktopView() {
+        browser.driver.manage().window().maximize();
     }
 }

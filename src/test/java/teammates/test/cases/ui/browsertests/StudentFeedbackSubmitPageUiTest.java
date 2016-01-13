@@ -60,6 +60,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testSubmitAction();
         testInputValidation();
         testLinks();
+        testResponsiveSubmission();
         testModifyData();
     }
 
@@ -482,6 +483,62 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("You did not specify a recipient for your response in question(s) 2.", submitPage.getStatus());
     }
 
+    private void testResponsiveSubmission() {
+        ______TS("mobile test");
+        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
+
+        // Select the first option for the first question for each student
+        submitPage.clickRubricCell(21, 0, 0, 0);
+        submitPage.clickRubricCell(21, 1, 0, 0);
+        submitPage.clickRubricCell(21, 2, 0, 0);
+        submitPage.clickRubricCell(21, 3, 0, 0);
+
+        // Switch to mobile view
+        submitPage.changeToMobileView();
+
+        // Select the second option for the second question for each student
+        submitPage.clickRubricRadioMobile(21, 0, 1, 1);
+        submitPage.clickRubricRadioMobile(21, 1, 1, 1);
+        submitPage.clickRubricRadioMobile(21, 2, 1, 1);
+        submitPage.clickRubricRadioMobile(21, 3, 1, 1);
+
+        // Clear option for the first question for the first and second student
+        submitPage.clickRubricRadioMobile(21, 0, 0, 0);
+        submitPage.clickRubricRadioMobile(21, 1, 0, 0);
+
+        // Switch option for the first question for the third and fourth student
+        submitPage.clickRubricRadioMobile(21, 2, 0, 1);
+        submitPage.clickRubricRadioMobile(21, 3, 0, 1);
+
+        // Switch to desktop view
+        submitPage.changeToDesktopView();
+
+        // Clear options for second and fourth student
+        submitPage.clickRubricCell(21, 1, 1, 1);
+        submitPage.clickRubricCell(21, 3, 0, 1);
+        submitPage.clickRubricCell(21, 3, 1, 1);
+
+        // Switch to mobile view
+        submitPage.changeToMobileView();
+        submitPage.clickSubmitButton();
+
+        // Switch to desktop view
+        submitPage.changeToDesktopView();
+
+        FeedbackQuestionAttributes fqRubric = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 22);
+        assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "SFSubmitUiT.danny.e@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "extra.guy@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "drop.out@gmail.tmt"));
+        assertNotNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "SFSubmitUiT.charlie.d@gmail.tmt"));
+    }
 
     private void testModifyData() throws EnrollException {
         ______TS("modify data");
