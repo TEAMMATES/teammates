@@ -423,5 +423,27 @@ public class HtmlHelper {
                       .replace(TP.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
                       .replace(TP.TEST_ADMIN_ACCOUNT, "${test.admin}");
     }
+    
+    /**
+     * This method is only used for testing.
+     */
+    public static String injectContextDependentValuesForTest(String content) {
+        Date now = new Date();
+        String testAccounts = "<div>"
+                            + TP.TEST_ADMIN_ACCOUNT
+                            + StringHelper.truncateLongId(TP.TEST_ADMIN_ACCOUNT)
+                            + TP.TEST_INSTRUCTOR_ACCOUNT
+                            + StringHelper.truncateLongId(TP.TEST_INSTRUCTOR_ACCOUNT)
+                            + TP.TEST_STUDENT1_ACCOUNT
+                            + StringHelper.truncateLongId(TP.TEST_STUDENT1_ACCOUNT)
+                            + TP.TEST_STUDENT2_ACCOUNT
+                            + StringHelper.truncateLongId(TP.TEST_STUDENT2_ACCOUNT)
+                            + "</div>";
+        
+        return content.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts)
+                      .replace("<!-- VERSION -->", TP.TEAMMATES_VERSION)
+                      .replace("<!-- DATETODAY -->", TimeHelper.formatDate(now))
+                      .replace("<!-- DATETIMETODAY -->", TimeHelper.formatTime12H(now));
+    }
 
 }
