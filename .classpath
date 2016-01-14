@@ -7,7 +7,7 @@
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry excluding="**/*.java" kind="src" output="target/test-classes" path="src/test/resources"/>
-	<classpathentry kind="src" path="src/test/javascript"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/javascript"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/xercesImpl-2.9.1.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-remote-api.jar"/>
