@@ -165,7 +165,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
 
-    public void testRemindAction() {
+    public void testRemindAction() throws Exception {
 
         //Charlie is yet to register
         StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
@@ -240,7 +240,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
     }
     
-    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) {
+    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) 
+                                            throws Exception {
         String keyToSend = StringHelper.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
     
         ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
