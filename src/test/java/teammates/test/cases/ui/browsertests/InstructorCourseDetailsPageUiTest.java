@@ -174,7 +174,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         //Alice is already registered
         StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        String alicePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
+        String alicePassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
         
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
         boolean isEmailEnabled = !TestProperties.inst().isDevServer();
