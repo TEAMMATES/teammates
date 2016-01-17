@@ -34,7 +34,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
 
         List<StudentAttributes> allStudents = getAllStudents();
         if (isPreview) {
-            System.out.println("Fixing Sanitization for students...");
+            System.out.println("Checking Sanitization for students...");
         }
         int numberOfAffectedStudents = 0;
         numberOfSanitizedEmail = 0;
@@ -51,7 +51,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
         if (isPreview) {
             System.out.println("There are/is " + this.numberOfSanitizedEmail + " sanitized email(s)!");
             System.out.println("There are/is " + this.numberOfSanitizedGoogleId + " sanitized Google Id(s)!");
-            System.out.println("There are/is " + numberOfAffectedStudents + " student(s) affected!");
+            System.out.println("There are/is " + numberOfAffectedStudents + " student(s) with sanitized data!");
         } else {
             System.out.println("Sanitization fixing done!");
         }
@@ -60,7 +60,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     private boolean previewSanitizedDataForStudent(StudentAttributes student) {
         boolean hasSanitizedData = checkStudentHasSanitizedData(student);
         if (hasSanitizedData) {
-            System.out.println("Updating student having email: " + student.email);
+            System.out.println("Checking student having email: " + student.email);
             
             if (isSanitizedString(student.comments)) {
                 System.out.println("comments: " + student.comments);
