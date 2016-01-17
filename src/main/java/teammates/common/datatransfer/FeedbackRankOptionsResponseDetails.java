@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 
 public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDetails {
     private List<Integer> answers;
@@ -97,25 +98,20 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         
         StringBuilder csvBuilder = new StringBuilder();
         
-        for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
-            Integer rank = rankAndOption.getKey();
-            if (rank == Const.POINTS_NOT_SUBMITTED) {
+        for (int rank = 1; rank <= rankQuestion.options.size(); rank ++) {
+            if (!orderedOptions.containsKey(rank)) {
+                csvBuilder.append(",");
                 continue;
             }
+            List<String> optionsWithGivenRank = orderedOptions.get(rank);
             
-            List<String> optionsWithGivenRank = rankAndOption.getValue();
-            for (String option : optionsWithGivenRank) {
-                csvBuilder.append(rank.toString());
-                csvBuilder.append(": ");
-                csvBuilder.append(option);
-                csvBuilder.append(", \n");
-            }
+            String optionsInCsv = Sanitizer.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ","));
             
+            csvBuilder.append(optionsInCsv + ",");
         }
-        // remove the \n for the last option
-        csvBuilder.delete(csvBuilder.length() - ", \n".length(), csvBuilder.length());
-        
-        return Sanitizer.sanitizeForCsv(csvBuilder.toString());
+
+        csvBuilder.deleteCharAt(csvBuilder.length() - 1); // remove last comma
+        return csvBuilder.toString();
     }
 
     private SortedMap<Integer, List<String>> generateMapOfRanksToOptions(
