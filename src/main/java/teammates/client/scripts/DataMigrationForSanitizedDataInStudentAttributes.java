@@ -20,6 +20,8 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
     private final boolean isPreview = true;
     private StudentsDb studentsDb = new StudentsDb();
     private StudentsLogic studentsLogic = StudentsLogic.inst();
+    private int numberOfSanitizedEmail = 0;
+    private int numberOfSanitizedGoogleId = 0;
     
     public static void main(String[] args) throws IOException {
         DataMigrationForSanitizedDataInStudentAttributes migrator = new DataMigrationForSanitizedDataInStudentAttributes();
@@ -35,6 +37,8 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             System.out.println("Fixing Sanitization for students...");
         }
         int numberOfAffectedStudents = 0;
+        numberOfSanitizedEmail = 0;
+        numberOfSanitizedGoogleId = 0;
         for (StudentAttributes student : allStudents) {
             if (!isPreview) {
                 fixSanitizedDataForStudent(student);
@@ -45,6 +49,8 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
             }
         }
         if (isPreview) {
+            System.out.println("There are/is " + this.numberOfSanitizedEmail + " sanitized email(s)!");
+            System.out.println("There are/is " + this.numberOfSanitizedGoogleId + " sanitized Google Id(s)!");
             System.out.println("There are/is " + numberOfAffectedStudents + " student(s) affected!");
         } else {
             System.out.println("Sanitization fixing done!");
@@ -65,10 +71,12 @@ public class DataMigrationForSanitizedDataInStudentAttributes extends RemoteApiC
                 System.out.println("new course: " + fixSanitization(student.course));
             }
             if (isSanitizedString(student.email)) {
+                numberOfSanitizedEmail++;
                 System.out.println("email: " + student.email);
                 System.out.println("new email: " + fixSanitization(student.email));
             }
             if (isSanitizedString(student.googleId)) {
+                numberOfSanitizedGoogleId++;
                 System.out.println("googleId: " + student.googleId);
                 System.out.println("new googleId: " + fixSanitization(student.googleId));
             }
