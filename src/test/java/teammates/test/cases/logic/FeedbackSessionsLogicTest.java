@@ -1841,15 +1841,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Summary Statistics,
         Option, Average Rank
         "Teamwork and communication",1.75
-        "Time management",2.33
+        "Time management",2
         "Quality of progress reports",2.5
-        "Quality of work",2.2
+        "Quality of work",2.4
         
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Rank 1,Rank 2,Rank 3,Rank 4
         "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Quality of work","Quality of progress reports","Time management","Teamwork and communication"
         "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Teamwork and communication","Time management","Quality of progress reports","Quality of work"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Teamwork and communication","Quality of work",,
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Time management, Teamwork and communication","Quality of work",,
         "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Teamwork and communication","Time management","Quality of work","
         "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","","Team 1.2","Team 1.2","-","Quality of work",,,
          */
