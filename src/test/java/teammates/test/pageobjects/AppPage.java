@@ -22,6 +22,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
@@ -1139,6 +1140,14 @@ public abstract class AppPage {
         } catch (NoSuchElementException alreadydisappears) {
             // ok to ignore
         }
+    }
+
+    public void changeToMobileView() {
+        browser.driver.manage().window().setSize(new Dimension(360,640));
+    }
+
+    public void changeToDesktopView() {
+        browser.driver.manage().window().maximize();
     }
 
 }
