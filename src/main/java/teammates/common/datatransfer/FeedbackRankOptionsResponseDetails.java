@@ -105,7 +105,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             }
             List<String> optionsWithGivenRank = orderedOptions.get(rank);
             
-            String optionsInCsv = Sanitizer.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ","));
+            String optionsInCsv = Sanitizer.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
             
             csvBuilder.append(optionsInCsv + ",");
         }
