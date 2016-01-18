@@ -148,11 +148,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
             "",
             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
             "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-
             "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
         };
         
         assertTrue(fileContent.startsWith(StringUtils.join(expected, Const.EOL)));
+        
     }    
 
     private void verifyFileContentForSession1InCourse1WithNewLastName(String fileContent,
