@@ -120,6 +120,28 @@ public class FeedbackSubmitPage extends AppPage {
         radio.click();
     }
 
+    public boolean isRubricRadioMobileChecked(int qnIndex, int respIndex, int row, int col) {
+        WebElement radio = browser.driver.findElement(By.id("mobile-" + Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        String isChecked = radio.getAttribute("checked");
+        // getAttributes can return null when attribute does'nt exist
+        if (isChecked != null && isChecked.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isRubricRadioChecked(int qnIndex, int respIndex, int row, int col) {
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
+        String isChecked = radio.getAttribute("checked");
+        // getAttributes can return null when attribute does'nt exist
+        if (isChecked != null && isChecked.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String getRankMessage(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("rankMessage-" + qnNumber + "-" + responseNumber));
