@@ -50,6 +50,8 @@ public class FeedbackQuestionFormTemplates {
     public static String CONTRIB_RESULT_STATS_STUDENT_INFO = FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
     
     public static String RUBRIC_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormTemplate.html");
+    public static String RUBRIC_SUBMISSION_FORM_MOBILE_PANEL_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormMobilePanelFragment.html");
+    public static String RUBRIC_SUBMISSION_FORM_MOBILE_PANEL = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormMobilePanel.html");
     public static String RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormHeaderFragment.html");
     public static String RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBodyFragment.html");
     public static String RUBRIC_SUBMISSION_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBody.html");

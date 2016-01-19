@@ -64,6 +64,10 @@ a#editUncommonSettingsButton:hover{
     padding-top: 10px;
 }
 
+.bold-label {
+    font-weight: 700 !important;
+}
+
 .cell-hover {
     background-color: #d9edf7 !important;
 }
@@ -706,4 +710,18 @@ Prevent Long URL From Breaking Out of Container
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
+}
+
+/*//////////////////////////////////////////////////////////
+////////////////////// Responsiveness //////////////////////
+//////////////////////////////////////////////////////////*/
+
+@media (max-width: 767px) {
+    .mobile-no-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .mobile-align-left {
+        text-align: left !important;
+    }
 }
