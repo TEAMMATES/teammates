@@ -1,9 +1,11 @@
 <tr>
     <td>
-        <label><input type="checkbox"
-            name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
-            ${disabled}
-            ${checked}
-            value="${msqChoiceValue}"> ${msqChoiceText}</label>
+        <div class="checkbox">
+            <label class="bold-label"><input type="checkbox"
+                    name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
+                    ${disabled}
+                    ${checked}
+                    value="${msqChoiceValue}"> ${msqChoiceText}</label>
+        </div>
     </td>
 </tr>
