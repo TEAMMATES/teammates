@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -28,6 +28,14 @@ public class Student implements StoreCallback {
     
     @Persistent
     private Date lastUpdate;
+    
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp.
+     * Set to true when using scripts to update entities when you want to 
+     * preserve the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public boolean keepUpdateTimestamp = false;
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -113,7 +121,7 @@ public class Student implements StoreCallback {
     
     public void setCreated(Date created) {
         this.created = created;
-        this.lastUpdate = created;
+        setLastUpdate(created);
     }
     
     public Date getLastUpdate() {
@@ -121,7 +129,9 @@ public class Student implements StoreCallback {
     }
     
     public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+        if (keepUpdateTimestamp == false) {
+            this.lastUpdate = lastUpdate;
+        }
     }
 
     public String getEmail() {
