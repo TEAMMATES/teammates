@@ -28,7 +28,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);

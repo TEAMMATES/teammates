@@ -21,7 +21,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private static String feedbackSessionName;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
         removeAndRestoreTestDataOnServer(testData);

@@ -24,7 +24,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     private static AdminActivityLogPage logPage;
        
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }

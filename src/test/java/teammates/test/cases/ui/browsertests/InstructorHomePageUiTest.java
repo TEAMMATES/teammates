@@ -48,7 +48,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     // TODO: refactor this test. try to use admin login or create instructors and courses not using json 
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorHomePageUiTest1.json");
         removeTestDataOnServer(loadDataBundle("/InstructorHomePageUiTest3.json"));

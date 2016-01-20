@@ -29,7 +29,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static StudentCourseJoinConfirmationPage confirmationPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);

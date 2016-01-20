@@ -26,7 +26,7 @@ public class GodModeTest extends BaseUiTestCase {
     private static String initialContent; 
 
     @BeforeClass
-    public static void classSetUp() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         if (TestProperties.inst().isDevServer()) {
             injectRealAccountsIntoFile();

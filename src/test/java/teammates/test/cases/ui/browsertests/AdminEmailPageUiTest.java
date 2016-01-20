@@ -25,7 +25,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     public static final int ADMIN_EMAIL_TABLE_NUM_COLUMNS = 5;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }

@@ -29,7 +29,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     private StudentFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);

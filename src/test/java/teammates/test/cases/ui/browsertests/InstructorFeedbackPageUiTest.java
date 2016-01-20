@@ -53,7 +53,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes newSession;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         
         newSession = new FeedbackSessionAttributes();

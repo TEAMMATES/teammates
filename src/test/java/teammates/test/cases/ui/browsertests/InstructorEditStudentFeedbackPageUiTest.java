@@ -28,7 +28,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     private FeedbackSubmitPage submitPage;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreTestDataOnServer(testData);

@@ -26,7 +26,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static String studentEmail;
 
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
         testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
