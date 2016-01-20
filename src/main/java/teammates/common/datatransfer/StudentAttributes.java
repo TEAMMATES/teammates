@@ -5,7 +5,10 @@ import static teammates.common.util.Const.EOL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+
+import javax.jdo.annotations.Persistent;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -67,6 +70,13 @@ public class StudentAttributes extends EntityAttributes {
     public String key = null;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
+    
+    /*
+     * Creation and update time stamps. 
+     * Updated automatically in Student.java, jdoPreStore()
+     */
+    private Date created;
+    private Date lastUpdate;
 
     public StudentAttributes(String id, String email, String name, String comments, String courseId,
                              String team, String section) {
@@ -109,6 +119,10 @@ public class StudentAttributes extends EntityAttributes {
          * Old system considers "" as unregistered.
          * It should be changed to consider null as unregistered.
          */
+        
+        this.created = student.getCreated();
+        this.lastUpdate = student.getLastUpdate();
+        
     }
 
     public String toEnrollmentString() {
@@ -356,5 +370,13 @@ public class StudentAttributes extends EntityAttributes {
         } else {
             return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
+    }
+    
+    public Date getCreated() {
+        return created;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
     }
 }
