@@ -41,6 +41,22 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
+        
+        // use both the student accounts injected for this test
+        
+        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1Email = student1GoogleId + "@gmail.com";
+        String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
+        String student2Email = student2GoogleId + "@gmail.com";
+        testData.accounts.get("Alice").googleId = student1GoogleId;
+        testData.accounts.get("Charlie").googleId = student2GoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").googleId = student1GoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").email = student1Email;
+        testData.students.get("charlie.tmms@CCDetailsUiT.CS2104").email = student2Email;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").googleId = student1GoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").email = student1Email;
+        testData.students.get("charlie.tmms@CCDetailsUiT.CS2103").email = student2Email;
+        
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
     }
