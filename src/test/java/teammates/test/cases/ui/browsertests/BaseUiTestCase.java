@@ -20,6 +20,42 @@ import teammates.test.pageobjects.HomePage;
 
 public class BaseUiTestCase extends BaseTestCase {
 
+    /** used by child classes to indicate if they should be run using godmode */
+    protected Boolean enableGodMode = false;
+
+    /** 
+     * saves the existing godmode status before the test 
+     * and resets to this value after the test 
+     */
+    protected Boolean preexistingGodModeStatus = false;
+
+    /**
+     * Checks if child class should be run using godmode, 
+     * if yes, enables GodMode
+     */
+    @BeforeMethod
+    public void checkAndEnableGodMode() {
+        // store existing godmode status
+        String preexistingGodModeStatus = System.getProperty("godmode");
+
+        if (enableGodMode) {
+            System.setProperty("godmode", "true");
+        }
+    }
+
+    /**
+     * resets godmode status to what it was before the
+     * test method was executed
+     */
+    @AfterMethod
+    public void resetGodMode() {
+        if (preexistingGodModeStatus == null) {
+            System.clearProperty("godmode");
+        } else {
+            System.setProperty("godmode", preexistingGodModeStatus);
+        }
+    }
+
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
      * The base URL will be the value of test.app.url in test.properties.
