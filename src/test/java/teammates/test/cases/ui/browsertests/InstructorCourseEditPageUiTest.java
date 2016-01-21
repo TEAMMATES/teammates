@@ -464,7 +464,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("delete course then proceed");
         
         InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLinkAndConfirm();
-        coursePage.verifyContains("Add New Course");
+        coursePage.verifyContains("The course{*}has been deleted.");
     }
     
     private void testUnregisteredInstructorEmailNotEditable() {
