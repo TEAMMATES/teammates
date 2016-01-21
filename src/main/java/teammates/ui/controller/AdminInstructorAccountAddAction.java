@@ -61,6 +61,7 @@ public class AdminInstructorAccountAddAction extends Action {
             } catch (InvalidParametersException e1) {
                 data.statusForAjax = e1.getMessage();
                 data.instructorAddingResultForAjax = false;
+                statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
                 return createAjaxResult(data);
             }
         } else {
@@ -84,6 +85,7 @@ public class AdminInstructorAccountAddAction extends Action {
         } catch (InvalidParametersException e1) {
             data.statusForAjax = e1.getMessage();
             data.instructorAddingResultForAjax = false;
+            statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
             return createAjaxResult(data);
         }
             
