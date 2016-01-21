@@ -24,6 +24,6 @@
     </div><br/>
     
     <div>
-        <button class="btn btn-primary addInstructorFormControl addInstructorBtn" onclick="addInstructorByAjax()">Add Instructor</button>
+        <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructor" onclick="addInstructorByAjax()">Add Instructor</button>
     </div>
 </div>
