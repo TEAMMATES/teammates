@@ -68,7 +68,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackSessionsLogic.class);
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
     }
@@ -2566,7 +2565,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        turnLoggingDown(FeedbackSessionsLogic.class);
     }
 
     private HashMap<String, String> createParamMapForAction(FeedbackSessionAttributes fs) {

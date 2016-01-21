@@ -8,7 +8,6 @@ import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -30,7 +29,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(StudentsDb.class);
     }
     
     @Test
@@ -239,11 +237,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
       //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
       //       Reason: Difficult to reproduce a persistence delay during testing
-    }
-    
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        turnLoggingDown(StudentsDb.class);
     }
     
     private StudentAttributes createNewStudent() throws InvalidParametersException {

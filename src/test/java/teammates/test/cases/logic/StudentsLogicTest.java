@@ -63,7 +63,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(StudentsLogic.class);
         removeAndRestoreTypicalDataInDatastore();
     }
     
@@ -1205,9 +1204,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     @AfterClass()
     public static void classTearDown() throws Exception {
         AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
-        printTestClassFooter();
-        
-        turnLoggingDown(StudentsLogic.class);
+        printTestClassFooter();    
     }
     
     private void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email)

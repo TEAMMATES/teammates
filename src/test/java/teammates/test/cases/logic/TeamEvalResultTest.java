@@ -1,12 +1,10 @@
 package teammates.test.cases.logic;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import java.util.Arrays;
-import java.util.logging.Level;
 
 import teammates.logic.core.TeamEvalResult;
 import teammates.test.cases.BaseTestCase;
@@ -22,9 +20,6 @@ public class TeamEvalResultTest extends BaseTestCase{
     @BeforeClass
     public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
         printTestClassHeader();
-        setGeneralLoggingLevel(Level.WARNING);
-        setLogLevelOfClass(TeamEvalResult.class, Level.FINE);
-        setConsoleLoggingLevel(Level.FINE);
     }
 
      @Test
@@ -493,15 +488,8 @@ public class TeamEvalResultTest extends BaseTestCase{
         TeamEvalResult t = new TeamEvalResult(input);
         print(t.toString());
     }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception{
-        setLogLevelOfClass(TeamEvalResult.class, Level.WARNING);
-        setConsoleLoggingLevel(Level.WARNING);
-    }
     
     public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-        turnLoggingUp(TeamEvalResult.class);
         int[][] input = 
             {{  100,  100,  110 }, 
              { 100,  100,  110 },

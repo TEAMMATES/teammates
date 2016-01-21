@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.List;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,7 +44,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(AccountsLogic.class);
         removeAndRestoreTypicalDataInDatastore();
         
     }
@@ -553,11 +551,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         verifyAbsentInDatastore(account);
         verifyAbsentInDatastore(instructor);
         verifyAbsentInDatastore(student);
-    }
-    
-    @AfterClass
-    public static void classTearDown() throws Exception {
-        turnLoggingDown(AccountsLogic.class);
     }
     
     //TODO: add missing test cases

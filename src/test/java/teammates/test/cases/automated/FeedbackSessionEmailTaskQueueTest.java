@@ -61,7 +61,6 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionsEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
-        turnLoggingUp(FeedbackSessionsLogic.class);
     }
     
     @Test
@@ -73,7 +72,6 @@ public class FeedbackSessionEmailTaskQueueTest extends BaseComponentUsingTaskQue
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        turnLoggingDown(FeedbackSessionsLogic.class);
     }
     
 

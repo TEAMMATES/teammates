@@ -32,9 +32,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        setGeneralLoggingLevel(Level.WARNING);
-        setLogLevelOfClass(Emails.class, Level.FINE);
-        setConsoleLoggingLevel(Level.FINE);
 
         browser = BrowserPool.getBrowser();
         page = loginAdmin(browser);
@@ -122,8 +119,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     @AfterClass()
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        setLogLevelOfClass(Emails.class, Level.WARNING);
-        setConsoleLoggingLevel(Level.WARNING);
         BrowserPool.release(browser);
     }
 }
