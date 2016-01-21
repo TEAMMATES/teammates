@@ -37,13 +37,4 @@ public class AdminHomePageData extends PageData {
     public String getInstructorDetailsSingleLine() {
         return instructorDetailsSingleLine;
     }
-    
-    public boolean getInstructorAddingResultForAjax() {
-        return instructorAddingResultForAjax;
-    }
-    
-    public String getStatusForAjax() {
-        return statusForAjax;
-    }
-    
 }
