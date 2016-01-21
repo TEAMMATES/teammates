@@ -38,7 +38,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private static String courseId;
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);

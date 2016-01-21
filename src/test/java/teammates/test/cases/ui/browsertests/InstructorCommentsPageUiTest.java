@@ -20,7 +20,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
 
     @BeforeClass
-    public void classSetup() throws Exception {
+    public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCommentsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);

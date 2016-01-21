@@ -30,7 +30,7 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     private static AppPage page;
 
     @BeforeClass
-    public void classSetup() throws Exception {
+    public static void classSetUp() throws Exception {
         printTestClassHeader();
         setGeneralLoggingLevel(Level.WARNING);
         setLogLevelOfClass(Emails.class, Level.FINE);

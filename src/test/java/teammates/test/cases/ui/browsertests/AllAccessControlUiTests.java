@@ -52,7 +52,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private static CourseAttributes ownCourse;
     
     @BeforeClass
-    public void classSetup() {
+    public static void classSetup() {
 
         printTestClassHeader();
 

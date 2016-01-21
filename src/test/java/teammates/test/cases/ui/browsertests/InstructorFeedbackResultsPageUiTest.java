@@ -40,7 +40,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private InstructorFeedbackResultsPage resultsPage;
 
     @BeforeClass
-    public void classSetup() throws Exception {
+    public static void classSetup() throws Exception {
         printTestClassHeader();
         browser = BrowserPool.getBrowser();
     }

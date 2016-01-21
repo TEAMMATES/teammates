@@ -33,7 +33,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     private AppUrl enrollUrl;
 
     @BeforeClass
-    public void classSetup() throws Exception {
+    public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);

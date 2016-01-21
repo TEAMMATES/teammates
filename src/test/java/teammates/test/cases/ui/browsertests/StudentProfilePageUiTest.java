@@ -28,7 +28,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     private StudentProfilePage profilePage;
 
     @BeforeClass
-    public void classSetup() throws Exception {
+    public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);

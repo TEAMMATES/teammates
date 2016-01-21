@@ -31,7 +31,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     
     
     @BeforeClass
-    public void classSetup() throws Exception {
+    public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentHomePageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
