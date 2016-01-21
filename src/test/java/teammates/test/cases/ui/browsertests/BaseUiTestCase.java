@@ -21,38 +21,16 @@ import teammates.test.pageobjects.HomePage;
 public class BaseUiTestCase extends BaseTestCase {
 
     /** used by child classes to indicate if they should be run using godmode */
-    protected Boolean enableGodMode = false;
-
-    /** 
-     * saves the existing godmode status before the test 
-     * and resets to this value after the test 
-     */
-    protected Boolean preexistingGodModeStatus = false;
+    protected static Boolean enableGodMode = false;
 
     /**
-     * Checks if child class should be run using godmode, 
+     * Checks if the current test run should use godmode, 
      * if yes, enables GodMode
      */
-    @BeforeMethod
-    public void checkAndEnableGodMode() {
-        // store existing godmode status
-        String preexistingGodModeStatus = System.getProperty("godmode");
-
+    @BeforeSuite
+    public static void checkAndEnableGodMode() {
         if (enableGodMode) {
             System.setProperty("godmode", "true");
-        }
-    }
-
-    /**
-     * resets godmode status to what it was before the
-     * test method was executed
-     */
-    @AfterMethod
-    public void resetGodMode() {
-        if (preexistingGodModeStatus == null) {
-            System.clearProperty("godmode");
-        } else {
-            System.setProperty("godmode", preexistingGodModeStatus);
         }
     }
 
