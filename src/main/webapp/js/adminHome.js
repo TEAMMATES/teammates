@@ -49,9 +49,7 @@ function addInstructorByAjaxRecursively() {
             disableAddInstructorForm();
         },
         error : function() {
-            var rowText = createRowForResultTable(data.instructorShortName, data.instructorName, 
-                                                  data.instructorEmail,data.instructorInstitution,
-                                                  false, data.statusForAjax);
+            var rowText = createRowForResultTable("", "", "", "", false, "Cannot send Ajax Request!");
             $("#addInstructorResultTable tbody").append(rowText);
             if (isInputFromFirstPanel) {
                 var errorInstructorsText = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
