@@ -462,9 +462,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getCourseAsJson(courseId));
         
         ______TS("delete course then proceed");
-        
+
         InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLinkAndConfirm();
-        coursePage.verifyContains("The course{*}has been deleted.");
+        assertTrue(coursePage.getStatus().contains(String.format(Const.StatusMessages.COURSE_DELETED, courseId)));
     }
     
     private void testUnregisteredInstructorEmailNotEditable() {
