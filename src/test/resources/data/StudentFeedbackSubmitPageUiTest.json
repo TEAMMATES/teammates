@@ -765,7 +765,38 @@
                 "INSTRUCTORS"
             ]
         },
-        
+        "qn22InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{
+                    \"questionText\":\"Please choose the best choice for the following sub-questions.\",
+                    \"questionType\":\"RUBRIC\",
+                    \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
+                    \"rubricChoices\" : [\"Yes\", \"No\"],
+                    \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
+                    \"rubricDescriptions\" : [[\"Most of the time\",\"Less than half the time\"],[\"Most of the time\",\"Less than half the time\"]]
+                }"
+              },
+              "questionNumber":"22",
+              "questionType":"RUBRIC",
+              "giverType":"STUDENTS",
+              "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+              "numberOfEntitiesToGiveFeedbackTo":-100,
+              "showResponsesTo":[
+                  "INSTRUCTORS",
+                  "STUDENTS"
+              ],
+              "showGiverNameTo":[
+                  "INSTRUCTORS",
+                  "STUDENTS"
+              ],
+              "showRecipientNameTo":[
+                  "INSTRUCTORS",
+                  "STUDENTS"
+              ]
+        },
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFSubmitUiT.CS2104",
