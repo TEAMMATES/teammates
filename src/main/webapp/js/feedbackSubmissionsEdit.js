@@ -265,11 +265,17 @@ function updateOtherOptionAttributes(otherOption, indexSuffix) {
     }
 }
 
+
+function prepareRubricQuestions() {
+    prepareDesktopRubricQuestions();
+    prepareMobileRubricQuestions();
+}
+
 /**
- * Prepares rubric questions by setting cells to highlight on hover, highlight when checked
+ * Prepares desktop view for rubric questions by setting cells to highlight on hover, highlight when checked
  * and bind the cells click to click radio buttons
  */
-function prepareRubricQuestions() {
+function prepareDesktopRubricQuestions() {
     var $rubricRadioInputs = $('[name^="rubricChoice-"]');
 
     for (var i = 0; i < $rubricRadioInputs.length; i++) {
@@ -296,7 +302,7 @@ function prepareRubricQuestions() {
         });
 
         // Bind refresh highlights on check
-        $($rubricRadioInputs[i]).on('change', function() {
+        $($rubricRadioInputs[i]).on('change', function(event, isSync) {
                 // Update all radio inputs in the same row.
                 var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
                 var tableRow = $(this).closest('tr');
@@ -308,6 +314,11 @@ function prepareRubricQuestions() {
                 for (var j = 0; j < $rowRadioInputs.length; j++) {
                     updateRubricCellSelectedColor($rowRadioInputs[j]);
                 }
+
+                if (isSync === undefined) {
+                    // Sync mobile UI
+                    syncRubricsMobileUi(this);
+                }
             });
 
         // First time update of checked cells
@@ -315,7 +326,86 @@ function prepareRubricQuestions() {
             updateRubricCellSelectedColor($rubricRadioInputs[j]);
         }
     }
+}
 
+/**
+ * Prepares mobile view for rubric questions by setting panels
+ * to change color on clicking the radio buttons and uncheck logic
+ */
+function prepareMobileRubricQuestions() {
+    var $rubricRadioInputs = $('[name^="mobile-rubricChoice-"]');
+
+    // setup initial panel colors
+    var $filledInPanels = $rubricRadioInputs.filter(':checked').closest('.panel');
+    $filledInPanels.removeClass('panel-default').addClass('panel-success');
+
+    // setup panel highlighting when changing an option
+    $rubricRadioInputs.on('change', function(event, isSync) {
+        var $self = $(this);
+        var $parentPanel = $self.closest('.panel');
+        if ($self.is(':checked')) {
+            $parentPanel.removeClass('panel-default').addClass('panel-success');
+        } else {
+            $parentPanel.addClass('panel-default').removeClass('panel-success');
+        }
+        if (isSync === undefined) {
+            syncRubricsDesktopUi(this);
+        }
+    });
+
+    // setup unchecking when clicking on selected radio button
+    // reference: http://stackoverflow.com/a/6246260
+    $rubricRadioInputs.closest('label').mousedown(function(e) {
+        var $self = $(this);
+        var $radioInput = $self.find('[name^="mobile-rubricChoice-"]');
+        if($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
+            var uncheck = function() {
+                setTimeout(function() {
+                    $radioInput.removeAttr('checked');
+                    $radioInput.trigger('change');
+                }, 0);
+            };
+            var unbind = function() {
+                $self.unbind('mouseup', up);
+            };
+            var up = function() {
+                uncheck();
+                unbind();
+            };
+            $self.bind('mouseup', up);
+            $self.one('mouseout', unbind);
+        }
+    });
+}
+
+/**
+ * Syncs the mobile ui for rubrics on changes to the desktop ui
+ */
+function syncRubricsMobileUi(changedInput) {
+    var $changedInput = $(changedInput);
+    var mobileInputId = '#mobile-' + changedInput.id;
+    var mobileInputName = '[name^="mobile-' + changedInput.name + '"]';
+    if ($changedInput.is(':checked')) {
+        $(mobileInputId).click();
+    } else {
+        $(mobileInputName).removeAttr('checked');
+        $(mobileInputId).trigger('change', [true]);
+    }
+}
+
+/**
+ * Syncs the desktop ui for rubrics on changes to the mobile ui
+ */
+ function syncRubricsDesktopUi(changedInput) {
+     var $changedInput = $(changedInput);
+     var desktopInputId = '#' + changedInput.id.replace('mobile-', '');
+     var desktopInputName = '[name^="' + changedInput.name.replace('mobile-', '') + '"]';
+     if ($changedInput.is(':checked')) {
+         $(desktopInputId).click();
+     } else {
+         $(desktopInputName).removeAttr('checked');
+         $(desktopInputId).trigger('change', [true]);
+     }
 }
 
 /**
