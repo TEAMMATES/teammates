@@ -196,24 +196,22 @@ public class BaseComponentTestCase extends BaseTestCase {
         expectedStudent.setCreated(actualStudent.getCreated());
         expectedStudent.setLastUpdate(actualStudent.getLastUpdate());
         
-        
         // For these fields, we consider null and "" equivalent.
-        if ((expectedStudent.googleId == null) && (actualStudent.googleId.equals(""))) {
-            actualStudent.googleId = null;
+        if (expectedStudent.googleId == null && actualStudent.googleId.equals("")) {
+            expectedStudent.googleId = "";
         }
-        if ((expectedStudent.team == null) && (actualStudent.team.equals(""))) {
-            actualStudent.team = null;
+        if (expectedStudent.team == null && actualStudent.team.equals("")) {
+            expectedStudent.team = "";
         }
-        if ((expectedStudent.comments == null)
-                && (actualStudent.comments.equals(""))) {
-            actualStudent.comments = null;
+        if (expectedStudent.comments == null && actualStudent.comments.equals("")) {
+            expectedStudent.comments = "";
         }
 
         // pretend keys match because the key is generated on the server side
         // and cannot be anticipated
-        if ((actualStudent.key != null)) {
+        if (actualStudent.key != null) {
             expectedStudent.key = actualStudent.key;
-        }
+        }    
     }
     
     @AfterTest
