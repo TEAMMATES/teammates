@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
@@ -17,7 +18,6 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorSearchPage;
-import teammates.test.util.Url;
 
 public class InstructorSearchPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -120,7 +120,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
-        Url commentsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
+        AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
         return loginAdminToPage(browser, commentsPageUrl, InstructorSearchPage.class);

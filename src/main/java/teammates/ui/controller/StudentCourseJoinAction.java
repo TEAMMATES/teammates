@@ -2,9 +2,9 @@ package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Url;
 import teammates.logic.api.Logic;
 
 /**
@@ -62,7 +62,7 @@ public class StudentCourseJoinAction extends Action {
 
     protected ActionResult createRedirectToAuthenticatedJoinPage(String nextUrl) {
         // send straight to next page as the user can choose to login as he wishes
-        String redirectUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED)
+        String redirectUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED)
                 .withRegistrationKey(regkey)
                 .withParam(Const.ParamsNames.NEXT_URL, nextUrl)
                 .toString();

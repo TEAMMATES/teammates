@@ -9,12 +9,12 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Student;
 
@@ -141,7 +141,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public String getRegistrationUrl() {
-        return new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+        return Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                            .withRegistrationKey(StringHelper.encrypt(key))
                                            .withStudentEmail(email)
                                            .withCourseId(course)
@@ -149,7 +149,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public String getPublicProfilePictureUrl() {
-        return new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+        return Config.getAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                            .withStudentEmail(StringHelper.encrypt(email))
                            .withCourseId(StringHelper.encrypt(course))
                            .toString();

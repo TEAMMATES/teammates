@@ -27,7 +27,6 @@ import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.util.Priority;
-import teammates.test.util.TestHelper;
 
 @Priority(-1)
 public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTaskQueueTestCase {
@@ -99,20 +98,20 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         session1.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         fsLogic.updateFeedbackSession(session1);
-        TestHelper.verifyPresentInDatastore(session1);
+        verifyPresentInDatastore(session1);
         
         // Do a manual publish
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse1");
         session2.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
         fsLogic.updateFeedbackSession(session2);
-        TestHelper.verifyPresentInDatastore(session2);
+        verifyPresentInDatastore(session2);
         
         // Publish session by moving automated publish time and disable publish reminder
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("gracePeriodSession");
         session3.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         session3.isPublishedEmailEnabled = false;
         fsLogic.updateFeedbackSession(session3);
-        TestHelper.verifyPresentInDatastore(session3);
+        verifyPresentInDatastore(session3);
             
         // Check that 3 published sessions will have emails sent as
         // Manually publish sessions have emails also added to the task queue

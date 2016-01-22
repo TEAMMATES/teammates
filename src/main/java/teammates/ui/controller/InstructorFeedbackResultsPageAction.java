@@ -80,8 +80,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
             sortType = new String("question");
         }
         
-        data.setSections(logic.getSectionNamesForCourse(courseId));
-        
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         
         if (ALL_SECTION_OPTION.equals(selectedSection) && questionId == null && !sortType.equals("question")) {

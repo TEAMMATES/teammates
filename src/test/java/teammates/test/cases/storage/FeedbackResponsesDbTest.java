@@ -26,7 +26,6 @@ import teammates.common.util.FieldValidator;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
@@ -60,7 +59,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.createEntity(fra);
         
         // sets the id for fra
-        TestHelper.verifyPresentInDatastore(fra, true);
+        verifyPresentInDatastore(fra, true);
         
         ______TS("duplicate - with same id.");
         
@@ -76,7 +75,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("delete - with id specified");
         
         frDb.deleteEntity(fra);
-        TestHelper.verifyAbsentInDatastore(fra);
+        verifyAbsentInDatastore(fra);
         
         ______TS("null params");
         
@@ -738,7 +737,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         modifiedResponse.setResponseDetails(frd);
         frDb.updateFeedbackResponse(modifiedResponse);
         
-        TestHelper.verifyPresentInDatastore(modifiedResponse);
+        verifyPresentInDatastore(modifiedResponse);
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
         assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
         

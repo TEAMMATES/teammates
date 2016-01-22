@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
@@ -26,7 +27,6 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.util.Priority;
-import teammates.test.util.Url;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -289,18 +289,17 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickGetLinkButton();
         String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
         
-        String expectedUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+        AppUrl expectedUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
                                         .withCourseId(courseId)
                                         .withSessionName(feedbackSessionName)
-                                        .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId)
-                                        .toAbsoluteString()
-                                        .replace("+", "%20");
-        // different sanitization because the one in actual is sanitized via JS (encodeURIComponent)
+                                        .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
 
         assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
-        assertEquals("Link for question 1: " + expectedUrl, feedbackEditPage.getStatus());
+        // different sanitization because the one in actual is sanitized via JS (encodeURIComponent)
+        assertEquals("Link for question 1: " + expectedUrl.toAbsoluteString().replace("+", "%20"),
+                     feedbackEditPage.getStatus());
         
-        Url url = new Url(expectedUrl).withUserId(instructorId);
+        AppUrl url = expectedUrl.withUserId(instructorId);
         FeedbackQuestionSubmitPage questionPage =
                 loginAdminToPage(browser, url, FeedbackQuestionSubmitPage.class);
         
@@ -462,7 +461,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Compare URLs");
         
-        String expectedRedirectUrl = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        String expectedRedirectUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                         .withUserId(instructorId)
                                         .withCourseId(courseId)
                                         .withSessionName(feedbackSessionName)
@@ -499,7 +498,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private static InstructorFeedbackEditPage getFeedbackEditPage() {
-        Url feedbackPageLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName);

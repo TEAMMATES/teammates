@@ -19,7 +19,6 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 public class CoursesDbTest extends BaseComponentTestCase {
 
@@ -45,7 +44,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         c.id = "CDbT.tCC.newCourse";
         c.name = "Basic Computing";
         coursesDb.createEntity(c);
-        TestHelper.verifyPresentInDatastore(c);
+        verifyPresentInDatastore(c);
         
         ______TS("Failure: create duplicate course");
 

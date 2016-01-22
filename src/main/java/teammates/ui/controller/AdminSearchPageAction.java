@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
@@ -118,7 +119,7 @@ public class AdminSearchPageAction extends Action {
             String googleIdOfAlreadyRegisteredInstructor = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
             
             if(!googleIdOfAlreadyRegisteredInstructor.isEmpty()){
-                String joinLinkWithoutInsititute = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                String joinLinkWithoutInsititute = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
                                                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                                                 .toAbsoluteString();
                 data.instructorCourseJoinLinkMap.put(instructor.getIdentificationString(),
@@ -301,7 +302,7 @@ public class AdminSearchPageAction extends Action {
                                                                AdminSearchPageData data, 
                                                                StudentAttributes student){
          
-         String submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                 .withCourseId(student.course)
                                 .withSessionName(fsa.feedbackSessionName)
                                 .withRegistrationKey(StringHelper.encrypt(student.key))
@@ -333,7 +334,7 @@ public class AdminSearchPageAction extends Action {
          }
          
          
-         String viewResultUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+         String viewResultUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                     .withCourseId(student.course)
                                     .withSessionName(fsa.feedbackSessionName)
                                     .withRegistrationKey(StringHelper.encrypt(student.key))

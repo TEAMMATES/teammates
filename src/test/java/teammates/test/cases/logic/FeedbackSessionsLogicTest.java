@@ -14,8 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -53,7 +55,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -111,12 +112,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String instructorGoogleId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
         
         for (FeedbackSessionAttributes fsa : allFsa) {
-            if (fsa.courseId == courseId) {
+            if (fsa.courseId.equals(courseId)) {
                 finalFsa.add(fsa);
             }
         }
-        
-        TestHelper.isSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
+        AssertHelper.assertSameContentIgnoreOrder(finalFsa, fsLogic.getFeedbackSessionsListForInstructor(instructorGoogleId));
         
     }
     
@@ -272,7 +272,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fs = getNewFeedbackSession();
         fsLogic.createFeedbackSession(fs);
-        TestHelper.verifyPresentInDatastore(fs);
+        verifyPresentInDatastore(fs);
         
         ______TS("test create with invalid session name");
         fs.feedbackSessionName = "test & test";
@@ -311,8 +311,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         fqLogic.createFeedbackQuestion(fq);
         
         fsLogic.deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
-        TestHelper.verifyAbsentInDatastore(fs);
-        TestHelper.verifyAbsentInDatastore(fq);
+        verifyAbsentInDatastore(fs);
+        verifyAbsentInDatastore(fq);
     }
     
     public void testCopyFeedbackSession() throws Exception {
@@ -326,7 +326,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Copied Session", typicalCourse2.id,
                 session1InCourse1.feedbackSessionName,
                 session1InCourse1.courseId, instructor2OfCourse1.email);
-        TestHelper.verifyPresentInDatastore(copiedSession);
+        verifyPresentInDatastore(copiedSession);
         
         assertEquals("Copied Session", copiedSession.feedbackSessionName);
         assertEquals(typicalCourse2.id, copiedSession.courseId);
@@ -1121,46 +1121,68 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
         "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","Response from student 1 to student 2."
         "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","Response from student 2 to student 1."
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student2 In" Course1,"Course1","student2InCourse1@gmail.tmt","Response from student 3 ""to"" student 2.
-        Multiline test."
-        
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student2 In" Course1,"Course1","student2InCourse1@gmail.tmt","Response from student 3 ""to"" student 2.\r\nMultiline test."
         
         Question 3,"My comments on the class",
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
         "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","-","-","-","-","Good work, keep it up!"
-        */
-        String[] exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"What is the best selling point of your product?\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[7], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"");
-        // checking single quotes inside cell
-        assertEquals(exportLines[8], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"");
-        assertEquals(exportLines[9], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[10], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[11],"\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[12], "");
-        assertEquals(exportLines[13], "");
-        assertEquals(exportLines[14], "Question 2,\"Rate 1 other student's product\"");
-        assertEquals(exportLines[15], "");
-        assertEquals(exportLines[16], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[17], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"");
-        assertEquals(exportLines[18], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"");
-        // checking double quotes inside cell + multiline cell
-        assertEquals(exportLines[19].trim(), "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2.");
-        assertEquals(exportLines[20], "Multiline test.\"");
-        assertEquals(exportLines[21], "");
-        assertEquals(exportLines[22], "");
-        assertEquals(exportLines[23], "Question 3,\"My comments on the class\"");
-        assertEquals(exportLines[24], "");
-        assertEquals(exportLines[25], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        // checking comma inside cell
-        assertEquals(exportLines[26], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"");
         
+        Question 4,"Instructor comments on the class"
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Instructors","Helper Course1","Helper Course1","helper@course1.tmt","-","-","-","-","No Response"
+        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","-","-","-","-","No Response"
+        "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","-","-","-","-","No Response"
+        "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","-","-","-","-","No Response"
+        "Instructors","Instructor Not Yet Joined Course 1","Instructor Not Yet Joined Course 1","instructorNotYetJoinedCourse1@email.tmt","-","-","-","-","No Response"
+        */
+       
+        String[] expected = {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"What is the best selling point of your product?\"",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+            // checking single quotes inside cell
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            "Question 2,\"Rate 1 other student's product\"",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2.\r\nMultiline test.\"",
+            "",
+            "",
+            "Question 3,\"My comments on the class\"",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            // checking comma inside cell
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"",
+            "",
+            "",
+            "Question 4,\"Instructor comments on the class\"",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Instructors\",\"Helper Course1\",\"Helper Course1\",\"helper@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+            "\"Instructors\",\"Instructor Not Yet Joined Course 1\",\"Instructor Not Yet Joined Course 1\",\"instructorNotYetJoinedCourse1@email.tmt\",\"-\",\"-\",\"-\",\"-\",\"No Response\"",
+            "",
+            "",
+            ""
+        };
+        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+
         ______TS("MCQ results");
         
         removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
@@ -1206,40 +1228,78 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","It's good"
         "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","It's perfect"
         "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt""Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt""No Response"
+        
+        
+        Question 3,"What can be improved for this class?"
+        
+        Summary Statistics,
+        Choice, Response Count, Percentage
+        "Content",0,0
+        "Teaching style",0,0
+        "Other",1,100
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Lecture notes"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
+        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
         */
         
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"What do you like best about our product?\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[8], "\"It's good\",1,50");
-        assertEquals(exportLines[9], "\"It's perfect\",1,50");
-        assertEquals(exportLines[10], "");
-        assertEquals(exportLines[11], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"It's good\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\"");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[16], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[17], "");
-        assertEquals(exportLines[18], "");
-        assertEquals(exportLines[19], "Question 2,\"What do you like best about the class' product?\"");
-        assertEquals(exportLines[20], "");
-        assertEquals(exportLines[21], "Summary Statistics,");
-        assertEquals(exportLines[22], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[23], "\"It's good\",1,50");
-        assertEquals(exportLines[24], "\"It's perfect\",1,50");
-        assertEquals(exportLines[25], "");
-        assertEquals(exportLines[26], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[27], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"");
-        assertEquals(exportLines[28], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\"");
-        assertEquals(exportLines[29], "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"");
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"What do you like best about our product?\"",
+            "",
+            "Summary Statistics,",
+            "Choice, Response Count, Percentage",
+            "\"It's good\",1,50",
+            "\"It's perfect\",1,50",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"It's good\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"It's perfect\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            "Question 2,\"What do you like best about the class' product?\"",
+            "",
+            "Summary Statistics,",
+            "Choice, Response Count, Percentage",
+            "\"It's good\",1,50",
+            "\"It's perfect\",1,50",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"",
+            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"It's perfect\"",
+            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+            "",
+            "",
+            "Question 3,\"What can be improved for this class?\"",
+            "",
+            "Summary Statistics,",
+            "Choice, Response Count, Percentage",
+            "\"Content\",0,0",
+            "\"Teaching style\",0,0",
+            "\"Other\",1,100",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Lecture notes\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            ""
+        };
         
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+
         ______TS("MSQ results");
         
         session = newDataBundle.feedbackSessions.get("msqSession");
@@ -1283,42 +1343,83 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt",,"It's good","It's perfect"
         "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt",,,"It's perfect"
         "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt",,,"No Response"
-        */
         
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"What do you like best about our product?\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[8], "\"It's good\",2,66.67");
-        assertEquals(exportLines[9], "\"It's perfect\",1,33.33");
-        assertEquals(exportLines[10], "");
-        assertEquals(exportLines[11], "");
-        assertEquals(exportLines[12], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,\"It's good\",");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",");
-        assertEquals(exportLines[16], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[17], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[18], "");
-        assertEquals(exportLines[19], "");
-        assertEquals(exportLines[20], "Question 2,\"What do you like best about the class' product?\"");
-        assertEquals(exportLines[21], "");
-        assertEquals(exportLines[22], "Summary Statistics,");
-        assertEquals(exportLines[23], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[24], "\"It's good\",1,33.33");
-        assertEquals(exportLines[25], "\"It's perfect\",2,66.67");
-        assertEquals(exportLines[26], "");
-        assertEquals(exportLines[27], "");
-        assertEquals(exportLines[28], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[29], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[30], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",,,\"It's perfect\"");
-        assertEquals(exportLines[31], "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",");
+        Question 3,"Choose all the food you like"
+
+        Summary Statistics,
+        Choice, Response Count, Percentage
+        "Pizza",1,16.67
+        "Pasta",2,33.33
+        "Chicken rice",1,16.67
+        "Other",2,33.33
+
+
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,"Pizza","Pasta","Chicken rice"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt",,"Pizza","Pasta","Chicken rice"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt",,,"Pasta",
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt",,,,
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
+        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
+        */
        
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"What do you like best about our product?\"",
+            "",
+            "Summary Statistics,",
+            "Choice, Response Count, Percentage",
+            "\"It's good\",2,66.67",
+            "\"It's perfect\",1,33.33",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",,\"It's good\",\"It's perfect\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,\"It's good\",",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            "Question 2,\"What do you like best about the class' product?\"",
+            "",
+            "Summary Statistics,",
+            "Choice, Response Count, Percentage",
+            "\"It's good\",1,33.33",
+            "\"It's perfect\",2,66.67",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",,\"It's good\",\"It's perfect\"",
+            "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",,,\"It's perfect\"",
+            "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",",
+            "",
+            "",
+            "Question 3,\"Choose all the food you like\"",
+            "",
+            "Summary Statistics,",
+            "Choice, Response Count, Percentage",
+            "\"Pizza\",1,16.67",
+            "\"Pasta\",2,33.33",
+            "\"Chicken rice\",1,16.67",
+            "\"Other\",2,33.33",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Pizza\",\"Pasta\",\"Chicken rice\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",,\"Pizza\",\"Pasta\",\"Chicken rice\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,,\"Pasta\",",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",,,,",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",                   
+            "",
+            "",
+            ""
+        };
+       
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+
         ______TS("NUMSCALE results");
         
         session = newDataBundle.feedbackSessions.get("numscaleSession");
@@ -1363,40 +1464,45 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt",1
         "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","No Response"
         */
-        
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"Rate our product.\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "Team, Recipient, Average, Minimum, Maximum");
-        assertEquals(exportLines[8], "\"Team 1.1\",\"student2 In Course1\",2,2,2");
-        assertEquals(exportLines[9], "\"Team 1.1\",\"student1 In Course1\",3.5,3.5,3.5");
-        assertEquals(exportLines[10], "");
-        assertEquals(exportLines[11], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",3.5");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",2");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[16], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[17], "");
-        assertEquals(exportLines[18], "");
-        assertEquals(exportLines[19], "Question 2,\"Rate our product.\"");
-        assertEquals(exportLines[20], "");
-        assertEquals(exportLines[21], "Summary Statistics,");
-        assertEquals(exportLines[22], "Team, Recipient, Average, Minimum, Maximum");
-        assertEquals(exportLines[23], "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5");
-        assertEquals(exportLines[24], "\"Instructors\",\"Instructor2 Course1\",1,1,1");
-        assertEquals(exportLines[25], "");
-        assertEquals(exportLines[26], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[27], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",4.5");
-        assertEquals(exportLines[28], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",1");
-        assertEquals(exportLines[29], "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"");
        
-        
+        expected = new String[] {
+             "Course,\"" + session.courseId + "\"",
+             "Session Name,\"" + session.feedbackSessionName + "\"",
+             "",
+             "",
+             "Question 1,\"Rate our product.\"",
+             "",
+             "Summary Statistics,",
+             "Team, Recipient, Average, Minimum, Maximum",
+             "\"Team 1.1\",\"student2 In Course1\",2,2,2",
+             "\"Team 1.1\",\"student1 In Course1\",3.5,3.5,3.5",
+             "",
+             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+             "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",3.5",
+             "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",2",
+             "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+             "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+             "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+             "",
+             "",
+             "Question 2,\"Rate our product.\"",
+             "",
+             "Summary Statistics,",
+             "Team, Recipient, Average, Minimum, Maximum",
+             "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5",
+             "\"Instructors\",\"Instructor2 Course1\",1,1,1",
+             "",
+             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+             "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",4.5",
+             "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",1",
+             "\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"Instructors\",\"Instructor3 Course1\",\"Instructor3 Course1\",\"instructor3@course1.tmt\",\"No Response\"",
+             "",
+             "",
+             ""
+        };
+
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+
         ______TS("CONSTSUM results");
         
         session = newDataBundle.feedbackSessions.get("constSumSession");
@@ -1460,58 +1566,64 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt",10
         */
         
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"How important are the following factors to you? Give points accordingly.\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "Option, Average Points");
-        assertEquals(exportLines[8], "\"Fun\",50.5");
-        assertEquals(exportLines[9], "\"Grades\",49.5");
-        assertEquals(exportLines[10], "");
-        assertEquals(exportLines[11], "");
-        assertEquals(exportLines[12], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",,19,81");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,80,20");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[16], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[17], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[18], "");
-        assertEquals(exportLines[19], "");
-        assertEquals(exportLines[20], "Question 2,\"Split points among the teams\"");
-        assertEquals(exportLines[21], "");
-        assertEquals(exportLines[22], "Summary Statistics,");
-        assertEquals(exportLines[23], "Team, Recipient, Average Points");
-        assertEquals(exportLines[24], "\"\",\"Team 1.1\",80");
-        assertEquals(exportLines[25], "\"\",\"Team 1.2\",20");
-        assertEquals(exportLines[26], "");
-        assertEquals(exportLines[27], "");
-        assertEquals(exportLines[28], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[29], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",80");
-        assertEquals(exportLines[30], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",20");
-        assertEquals(exportLines[31], "");
-        assertEquals(exportLines[32], "");
-        assertEquals(exportLines[33], "Question 3,\"How much has each student worked?\"");
-        assertEquals(exportLines[34], "");
-        assertEquals(exportLines[35], "Summary Statistics,");
-        assertEquals(exportLines[36], "Team, Recipient, Average Points");
-        assertEquals(exportLines[37], "\"Team 1.2\",\"student5 In Course1\",10");
-        assertEquals(exportLines[38], "\"Team 1.1\",\"student4 In Course1\",10");
-        assertEquals(exportLines[39], "\"Team 1.1\",\"student2 In Course1\",20");
-        assertEquals(exportLines[40], "\"Team 1.1\",\"student1 In Course1\",30");
-        assertEquals(exportLines[41], "\"Team 1.1\",\"student3 In Course1\",30");
-        assertEquals(exportLines[42], "");
-        assertEquals(exportLines[43], "");
-        assertEquals(exportLines[44], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[45], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",30");
-        assertEquals(exportLines[46], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",20");
-        assertEquals(exportLines[47], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",30");
-        assertEquals(exportLines[48], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",10");
-        assertEquals(exportLines[49], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",10");
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"How important are the following factors to you? Give points accordingly.\"",
+            "",
+            "Summary Statistics,",
+            "Option, Average Points",
+            "\"Fun\",50.5",
+            "\"Grades\",49.5",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",,19,81",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,80,20",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            "Question 2,\"Split points among the teams\"",
+            "",
+            "Summary Statistics,",
+            "Team, Recipient, Average Points",
+            "\"\",\"Team 1.1\",80",
+            "\"\",\"Team 1.2\",20",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",80",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",20",
+            "",
+            "",
+            "Question 3,\"How much has each student worked?\"",
+            "",
+            "Summary Statistics,",
+            "Team, Recipient, Average Points",
+            "\"Team 1.2\",\"student5 In Course1\",10",
+            "\"Team 1.1\",\"student4 In Course1\",10",
+            "\"Team 1.1\",\"student2 In Course1\",20",
+            "\"Team 1.1\",\"student1 In Course1\",30",
+            "\"Team 1.1\",\"student3 In Course1\",30",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",30",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",20",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",30",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",10",
+            "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",10",
+            "",
+            "",
+            ""
+        };
         
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+
         ______TS("Instructor without privilege to view responses");
         
         instructor = newDataBundle.instructors.get("instructor2OfCourse1");
@@ -1519,11 +1631,63 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
         
-        exportLines = export.split(Const.EOL);
         System.out.println(export);
-        assertEquals(22, exportLines.length);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
+        
+        /*This is how the export should look like
+         ======================================
+        Course,"FSQTT.idOfTypicalCourse1"
+        Session Name,"CONSTSUM Session"
+        
+        
+        Question 1,"How important are the following factors to you? Give points accordingly."
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,"Grades","Fun"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
+        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
+        
+        
+        Question 2,"Split points among the teams"
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        
+        
+        Question 3,"How much has each student worked?"
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+         */
+        
+        expected = new String[] {
+            "Course,\"FSQTT.idOfTypicalCourse1\"",
+            "Session Name,\"CONSTSUM Session\"",
+            "",
+            "",
+            "Question 1,\"How important are the following factors to you? Give points accordingly.\"",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            "Question 2,\"Split points among the teams\"",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "",
+            "",
+            "Question 3,\"How much has each student worked?\"",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "",
+            "",
+            ""                                
+        };
+        
+        assertEquals(StringUtils.join(expected, Const.EOL), export);
         
         ______TS("CONTRIB results");
         
@@ -1557,44 +1721,50 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1,"Course1","student1InCourse3@gmail.tmt","Equal share + 10%"
         "Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1,"Course1","student1InCourse4@gmail.tmt","Equal share + 30%"
         */
+     
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
+            "",
+            "Summary Statistics,",
+            "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+            "Claimed Contribution (CC) = the contribution claimed by the student.",
+            "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
+            "Team, Name, Email, CC, PC, Ratings Recieved",
+            "\"Team 1.1\",\"student1 In Course1\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"student5InCourse1@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            ""
+        };
         
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
-        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
-        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
-        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
-        assertEquals(exportLines[11], "\"Team 1.1\",\"student1 In Course1\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",\"N/A, N/A, N/A\"");
-        assertEquals(exportLines[12], "\"Team 1.1\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"");
-        assertEquals(exportLines[15], "\"Team 1.2\",\"student5 In Course1\",\"student5InCourse1@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"");
-        assertEquals(exportLines[16], "");
-        assertEquals(exportLines[17], "");
-        assertEquals(exportLines[18], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"");
-        assertEquals(exportLines[20], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"");
-        assertEquals(exportLines[21], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"");
-        assertEquals(exportLines[22], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"");
-        assertEquals(exportLines[23], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[24], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[25], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[26], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[27], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[28], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[29], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[30], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[31], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[32], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[33], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[34], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[35], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
         
         ______TS("CONTRIB summary visibility variations");
         
@@ -1634,33 +1804,39 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
         "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
         
-        */
+        */        
+
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
+            "",
+            "Summary Statistics,",
+            "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+            "Claimed Contribution (CC) = the contribution claimed by the student.",
+            "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
+            "Team, Name, Email, CC, PC, Ratings Recieved",
+            "\"Anonymous student 283462789's Team\",\"Anonymous student 283462789\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"Anonymous student 412545508's Team\",\"Anonymous student 412545508\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"Anonymous student 541628227's Team\",\"Anonymous student 541628227\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"Anonymous student 670710946's Team\",\"Anonymous student 670710946\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"Anonymous student 799793665's Team\",\"Anonymous student 799793665\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Anonymous student 283462789&#39;s Team\",\"Anonymous student 283462789\",\"Unknown user\",\"-\",\"\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            ""
+        };
         
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
-        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
-        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
-        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
-        assertEquals(exportLines[11], "\"Anonymous student 283462789's Team\",\"Anonymous student 283462789\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"");
-        assertEquals(exportLines[12], "\"Anonymous student 412545508's Team\",\"Anonymous student 412545508\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
-        assertEquals(exportLines[13], "\"Anonymous student 541628227's Team\",\"Anonymous student 541628227\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
-        assertEquals(exportLines[14], "\"Anonymous student 670710946's Team\",\"Anonymous student 670710946\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"");
-        assertEquals(exportLines[15], "\"Anonymous student 799793665's Team\",\"Anonymous student 799793665\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"");
-        assertEquals(exportLines[16], "");
-        assertEquals(exportLines[17], "");
-        assertEquals(exportLines[18], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Anonymous student 283462789&#39;s Team\",\"Anonymous student 283462789\",\"Unknown user\",\"-\",\"\"");
-        assertEquals(exportLines[20], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[21], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[22], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[23], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
 
         // instructor not allowed to view student responses in section
         session = newDataBundle.feedbackSessions.get("contribSessionInstructorSectionRestricted");
@@ -1695,32 +1871,37 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","No Response"
         "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","No Response"
         "Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","No Response"
-
         */
+      
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"How much has each team member including yourself, contributed to the project?\"",
+            "",
+            "Summary Statistics,",
+            "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".",
+            "Claimed Contribution (CC) = the contribution claimed by the student.",
+            "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
+            "Team, Name, Email, CC, PC, Ratings Recieved",
+            "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",\"N/A\"",
+            "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Equal share\"",
+            "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"",
+            "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"",
+            "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"",
+            "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"",
+            "\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"No Response\"",
+            "",
+            "",
+            ""
+        };
         
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
-        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
-        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
-        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
-        assertEquals(exportLines[11], "\"Team 2\",\"student3 In Course With Sections\",\"student3InCourseWithSections@gmail.tmt\",\"100\",\"N/A\",\"N/A\"");
-        assertEquals(exportLines[12], "\"Team 3\",\"student4 In Course With Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Not Submitted\",\"N/A\",\"N/A\"");
-        assertEquals(exportLines[13], "");
-        assertEquals(exportLines[14], "");
-        assertEquals(exportLines[15], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[16], "\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Team 2\",\"student3 In Course With Sections\",\"Sections\",\"student3InCourseWithSections@gmail.tmt\",\"Equal share\"");
-        assertEquals(exportLines[17], "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[18], "\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[19], "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student1 In Course With Sections\",\"Sections\",\"student1InCourseWithSections@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[20], "\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"Team 1\",\"student2 In Course With Sections\",\"Sections\",\"student2InCourseWithSections@gmail.tmt\",\"No Response\"");
-        assertEquals(exportLines[21], "\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"Team 3\",\"student4 In Course With Sections\",\"Sections\",\"student4InCourseWithSections@gmail.tmt\",\"No Response\"");
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
         
         ______TS("RUBRIC results");
         
@@ -1767,43 +1948,48 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","All Sub-Questions","No Response"
         "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","All Sub-Questions","No Response"
         "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","All Sub-Questions","No Response"
-
         */
         
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2], "");
-        assertEquals(exportLines[3], "");
-        assertEquals(exportLines[4], "Question 1,\"Please choose the best choice for the following sub-questions.\"");
-        assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], ",\"Yes\",\"No\"");
-        assertEquals(exportLines[8], "\"a) This student has done a good job.\",67% (2),33% (1)");
-        assertEquals(exportLines[9], "\"b) This student has tried his/her best.\",75% (3),25% (1)");
-        assertEquals(exportLines[10], "");
-        assertEquals(exportLines[11], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number");
-        assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"b\",\"No\",\"2\"");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"No\",\"2\"");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"");
-        assertEquals(exportLines[16], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"");
-        assertEquals(exportLines[17], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"");
-        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"a\",\"No Response\",\"\"");
-        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"");
-        assertEquals(exportLines[20], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[21], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[22], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[23], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[24], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[25], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[26], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[27], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[28], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[29], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[30], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[31], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
-        assertEquals(exportLines[32], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"Please choose the best choice for the following sub-questions.\"",
+            "",
+            "Summary Statistics,",
+            ",\"Yes\",\"No\"",
+            "\"a) This student has done a good job.\",67% (2),33% (1)",
+            "\"b) This student has tried his/her best.\",75% (3),25% (1)",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"b\",\"No\",\"2\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"No\",\"2\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"a\",\"No Response\",\"\"",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"b\",\"Yes\",\"1\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"",
+            "",
+            "",
+            ""
+        };
+
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
         
         ______TS("RANK results");
         
@@ -1854,45 +2040,52 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","1: Teamwork and communication, \n2: Time management, \n3: Quality of work"
         "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","","Team 1.2","Team 1.2","-","1: Quality of work"
          */
-        exportLines = export.split(Const.EOL);
-        assertEquals(exportLines[0 ], "Course,\"" + session.courseId + "\"");
-        assertEquals(exportLines[1 ], "Session Name,\"" + session.feedbackSessionName + "\"");
-        assertEquals(exportLines[2 ], "");
-        assertEquals(exportLines[3 ], "");
-        assertEquals(exportLines[4 ],"Question 1,\"Rank the other students.\"");
-        assertEquals(exportLines[5 ],"");
-        assertEquals(exportLines[6 ],"Summary Statistics,");
-        assertEquals(exportLines[7 ],"Team, Recipient, Average Rank");
-        assertEquals(exportLines[8 ],"\"Team 1.1\",\"student4 In Course1\",1");
-        assertEquals(exportLines[9 ],"\"Team 1.1\",\"student2 In Course1\",3");
-        assertEquals(exportLines[10],"\"Team 1.1\",\"student1 In Course1\",4");
-        assertEquals(exportLines[11],"\"Team 1.1\",\"student3 In Course1\",2");
-        assertEquals(exportLines[12],"");
-        assertEquals(exportLines[13],"");
-        assertEquals(exportLines[14],"Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[15],"\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",4");
-        assertEquals(exportLines[16],"\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",3");
-        assertEquals(exportLines[17],"\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",2");
-        assertEquals(exportLines[18],"\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",1");
-        assertEquals(exportLines[19],"");
-        assertEquals(exportLines[20],"");
-        assertEquals(exportLines[21],"Question 2,\"Rank the areas of improvement you think your team should make progress in.\"");
-        assertEquals(exportLines[22],"");
-        assertEquals(exportLines[23],"Summary Statistics,");
-        assertEquals(exportLines[24],"Option, Average Rank");
-        assertEquals(exportLines[25],"\"Teamwork and communication\",1.75");
-        assertEquals(exportLines[26],"\"Time management\",2.33");
-        assertEquals(exportLines[27],"\"Quality of progress reports\",2.5");
-        assertEquals(exportLines[28],"\"Quality of work\",2.2");
-        assertEquals(exportLines[29],"");
-        assertEquals(exportLines[30],"");
-        assertEquals(exportLines[31],"Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback:");
-        assertEquals(exportLines[32],"\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Quality of work, \n2: Quality of progress reports, \n3: Time management, \n4: Teamwork and communication\"");
-        assertEquals(exportLines[33],"\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Time management, \n3: Quality of progress reports, \n4: Quality of work\"");
-        assertEquals(exportLines[34],"\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Quality of work\"");
-        assertEquals(exportLines[35],"\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Time management, \n3: Quality of work\"");
-        assertEquals(exportLines[36],"\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",\"1: Quality of work\"");
+
+        expected = new String[] {
+            "Course,\"" + session.courseId + "\"",
+            "Session Name,\"" + session.feedbackSessionName + "\"",
+            "",
+            "",
+            "Question 1,\"Rank the other students.\"",
+            "",
+            "Summary Statistics,",
+            "Team, Recipient, Average Rank",
+            "\"Team 1.1\",\"student4 In Course1\",1",
+            "\"Team 1.1\",\"student2 In Course1\",3",
+            "\"Team 1.1\",\"student1 In Course1\",4",
+            "\"Team 1.1\",\"student3 In Course1\",2",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",4",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",3",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",2",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",1",
+            "",
+            "",
+            "Question 2,\"Rank the areas of improvement you think your team should make progress in.\"",
+            "",
+            "Summary Statistics,",
+            "Option, Average Rank",
+            "\"Teamwork and communication\",1.75",
+            "\"Time management\",2.33",
+            "\"Quality of progress reports\",2.5",
+            "\"Quality of work\",2.2",
+            "",
+            "",
+            "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback:",
+            "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Quality of work, \n2: Quality of progress reports, \n3: Time management, \n4: Teamwork and communication\"",
+            "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Time management, \n3: Quality of progress reports, \n4: Quality of work\"",
+            "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Quality of work\"",
+            "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",\"1: Teamwork and communication, \n2: Time management, \n3: Quality of work\"",
+            "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",\"1: Quality of work\"",
+            "",
+            "",
+            ""
+        };
         
+        assertEquals(StringUtils.join(expected, Const.EOL), export);        
+       
         ______TS("Non-existent Course/Session");
         
         try {
@@ -2159,7 +2352,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
-            MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
+            MimeMessage emailToStudent = getEmailToStudent(s, emailsSent);
             if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
                 assertNull(errorMessage, emailToStudent);
@@ -2175,7 +2368,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
         String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
                 // Only send notification (no reminder) if instructor already completed the session
@@ -2235,7 +2428,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                         fs.courseId, fs.feedbackSessionName, usersToRemind);
         assertEquals(7, emailsSent.size());
 
-        MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
+        MimeMessage emailToStudent = getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
         assertNotNull(errorMessage, emailToStudent);
         AssertHelper.assertContains(
@@ -2246,7 +2439,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
         String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
         for (InstructorAttributes i : instructorList) {
-            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+            List<MimeMessage> emailsToInstructor = getEmailsToInstructor(i, emailsSent);
             
             if(!i.email.equals(instrToRemind.email)) {
                 // Only send notification (no reminder) if instructor is not selected
@@ -2385,6 +2578,31 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         paramMap.put(ParamsNames.EMAIL_COURSE, fs.courseId);
 
         return paramMap;
+    }
+    
+    private MimeMessage getEmailToStudent(StudentAttributes s, List<MimeMessage> emailsSent)
+                                    throws MessagingException {
+        for (MimeMessage m : emailsSent) {
+            boolean emailSentToThisStudent = m.getAllRecipients()[0].toString().equalsIgnoreCase(s.email);
+            if (emailSentToThisStudent) {
+                print("email sent to:" + s.email);
+                return m;
+            }
+        }
+        return null;
+    }
+
+    private List<MimeMessage> getEmailsToInstructor(InstructorAttributes i, List<MimeMessage> emailsSent)
+                                    throws MessagingException {
+        List<MimeMessage> emailsToInstructor = new ArrayList<MimeMessage>();
+        for (MimeMessage m : emailsSent) {
+            boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString().equalsIgnoreCase(i.email);
+            if (emailSentToThisInstructor) {
+                print("email sent to:" + i.email);
+                emailsToInstructor.add(m);
+            }
+        }
+        return emailsToInstructor;
     }
 
 }

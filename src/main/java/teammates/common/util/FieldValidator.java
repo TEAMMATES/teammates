@@ -73,7 +73,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Person name 
      */
-    private static final String PERSON_NAME_FIELD_NAME = "a person name";
+    public static final String PERSON_NAME_FIELD_NAME = "a person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
     public static final String PERSON_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as "+PERSON_NAME_FIELD_NAME+" because it %s. " +
@@ -113,7 +113,7 @@ public class FieldValidator {
      * ======================================================================= 
      * Field: Nationality
      */
-    private static final String NATIONALITY_FIELD_NAME = "nationality";
+    public static final String NATIONALITY_FIELD_NAME = "nationality";
     // one more than longest official nationality name
     public static final int NATIONALITY_MAX_LENGTH = 55;
     public static final String NATIONALITY_ERROR_MESSAGE = 

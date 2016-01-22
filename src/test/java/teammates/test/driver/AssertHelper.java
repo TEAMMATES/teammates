@@ -3,9 +3,14 @@ package teammates.test.driver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
@@ -146,6 +151,22 @@ public class AssertHelper {
     
     public static void assertLogMessageEqualsForUnregisteredStudentUser(String expected, String actual, String studentEmail, String courseId) {        
         assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    public static void assertSameContentIgnoreOrder(List a, List b) {
+
+        String expectedListAsString = Joiner.on("\t").join(a);
+        String actualListAsString = Joiner.on("\t").join(b);
+
+        List<String> expectedStringTypeList = new ArrayList<String>(Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<String>(Arrays.asList(actualListAsString.split("\t")));
+
+        Collections.sort(expectedStringTypeList);
+        Collections.sort(actualStringTypeList);
+
+        assertEquals(expectedStringTypeList, actualStringTypeList);
+
     }
 
 }

@@ -33,8 +33,7 @@ public class GodModeTest extends BaseUiTestCase {
             writeToFile(getOutputFilePath(), 
                     "<div id='mainContent'>test</div>");
             browser = BrowserPool.getBrowser();
-            browser.driver.get(getPath());
-            page = AppPage.getNewPageInstance(browser);
+            page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/godmode.html"));
         }
     }
     
@@ -153,11 +152,6 @@ public class GodModeTest extends BaseUiTestCase {
         }
     }
 
-    private static String getPath() throws Exception{
-        String workingDirectory = new File(".").getCanonicalPath();
-        return "file:///"+workingDirectory+"/src/test/resources/pages/godmode.html";
-    }
-    
     private static String getOutputFilePath() throws Exception{
         return TestProperties.TEST_PAGES_FOLDER + "/godmodeOutput.html";
     }

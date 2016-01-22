@@ -24,6 +24,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.test.driver.BackDoor;
@@ -32,7 +33,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
-import teammates.test.util.Url;
 
 /**
  * Tests 'Submit Feedback' view of students.
@@ -60,6 +60,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testSubmitAction();
         testInputValidation();
         testLinks();
+        testResponsiveSubmission();
         testModifyData();
     }
 
@@ -82,7 +83,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("unreg student");
 
-        AppPage.logout(browser);
+        logout(browser);
         
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
 
@@ -422,7 +423,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // this should not give any error since the value will be automatically adjusted before the form is submitted
         // adjusted value should be 1
-        submitPage.logout();
+        logout(browser);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");
@@ -482,6 +483,76 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("You did not specify a recipient for your response in question(s) 2.", submitPage.getStatus());
     }
 
+    private void testResponsiveSubmission() {
+        ______TS("mobile test");
+        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
+
+        // Select the first option for the first question for each student
+        submitPage.clickRubricCell(21, 0, 0, 0);
+        submitPage.clickRubricCell(21, 1, 0, 0);
+        submitPage.clickRubricCell(21, 2, 0, 0);
+        submitPage.clickRubricCell(21, 3, 0, 0);
+
+        // Switch to mobile view
+        submitPage.changeToMobileView();
+        // Test if changes on desktop view persisted to mobile view
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
+
+        // Select the second option for the second question for each student
+        submitPage.clickRubricRadioMobile(21, 0, 1, 1);
+        submitPage.clickRubricRadioMobile(21, 1, 1, 1);
+        submitPage.clickRubricRadioMobile(21, 2, 1, 1);
+        submitPage.clickRubricRadioMobile(21, 3, 1, 1);
+
+        // Clear option for the first question for each student
+        submitPage.clickRubricRadioMobile(21, 0, 0, 0);
+        submitPage.clickRubricRadioMobile(21, 1, 0, 0);
+        submitPage.clickRubricRadioMobile(21, 2, 0, 0);
+        submitPage.clickRubricRadioMobile(21, 3, 0, 0);
+
+        // Switch to desktop view
+        submitPage.changeToDesktopView();
+        // Test if changes on mobile view persisted to desktop view
+        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 0, 0, 0));
+        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 1, 0, 0));
+        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 2, 0, 0));
+        assertEquals(false, submitPage.isRubricRadioMobileChecked(21, 3, 0, 0));
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 0, 1, 1));
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 1, 1, 1));
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 2, 1, 1));
+        assertEquals(true, submitPage.isRubricRadioMobileChecked(21, 3, 1, 1));
+
+
+        FeedbackQuestionAttributes fqRubric = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 22);
+        assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "SFSubmitUiT.danny.e@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "extra.guy@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "drop.out@gmail.tmt"));
+        assertNull(BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "SFSubmitUiT.charlie.d@gmail.tmt"));
+        submitPage.clickSubmitButton();
+        assertEquals("[-1, 1]", BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "SFSubmitUiT.danny.e@gmail.tmt").getResponseDetails().getAnswerString());
+        assertEquals("[-1, 1]", BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "extra.guy@gmail.tmt").getResponseDetails().getAnswerString());
+        assertEquals("[-1, 1]", BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "drop.out@gmail.tmt").getResponseDetails().getAnswerString());
+        assertEquals("[-1, 1]", BackDoor.getFeedbackResponse(fqRubric.getId(),
+                                        "drop.out@gmail.tmt",
+                                        "SFSubmitUiT.charlie.d@gmail.tmt").getResponseDetails().getAnswerString());
+    }
 
     private void testModifyData() throws EnrollException {
         ______TS("modify data");
@@ -514,7 +585,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
-        Url submitUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
                                              .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
@@ -524,7 +595,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
@@ -533,7 +604,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private FeedbackSessionNotVisiblePage loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
-        Url editUrl = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                                         .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);

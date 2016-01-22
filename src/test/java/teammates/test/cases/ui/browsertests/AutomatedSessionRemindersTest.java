@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -14,7 +15,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.GenericAppPage;
 import teammates.test.util.Priority;
-import teammates.test.util.Url;
 
 /** This is considered a UI test case because it uses a Browser */
 @Priority(5)
@@ -58,19 +58,19 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     
     @Test
     public void testFeedbackSessionOpeningReminders(){
-        Url openingRemindersUrl = new Url(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
+        AppUrl openingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(browser, openingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
     public void testFeedbackSesssionClosingReminders(){
-        Url closingRemindersUrl = new Url(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
+        AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
     }
     
     @Test
     public void testFeedbackSessionPublishedReminders(){
-        Url publishedRemindersUrl = new Url(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
+        AppUrl publishedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(browser, publishedRemindersUrl, GenericAppPage.class);
     }
     

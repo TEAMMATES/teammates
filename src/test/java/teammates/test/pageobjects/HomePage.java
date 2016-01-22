@@ -3,8 +3,6 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.test.util.Url;
-
 /**
  * Represents the home page of the website (i.e., index.html)
  */
@@ -18,10 +16,6 @@ public class HomePage extends AppPage {
     
     public HomePage(Browser    browser){
         super(browser);
-    }
-
-    public static HomePage getNewInstance(Browser browser){
-        return getNewPageInstance(browser, new Url(""), HomePage.class);
     }
 
     @Override
@@ -38,6 +32,9 @@ public class HomePage extends AppPage {
             //already logged in. We need to logout because the return type of
             //  this method is a LoginPage
             logout();
+            instructorLoginLink.click();
+            waitForPageToLoad();
+            pageSource = getPageSource();
         }
         return createCorretLoginPageType(pageSource);
         

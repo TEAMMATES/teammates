@@ -26,32 +26,27 @@ public class EmailAccount {
      * @param username
      * @param password
      * @return registration key (null if cannot be found).
-     * @throws Exception
+     * @throws MessagingException
+     * @throws IOException
      */
     public static String getRegistrationKeyFromGmail(String username,
-            String password, String courseId) {
-        try {
-            Folder inbox = getGmailInbox(username, password);
-            Message[] messages = getMessages(inbox);
-            
-            // Loop over up to 5 unread messages at the top of the inbox
-            int maxEmailsToCheck = Math.min(messages.length, 5);
-            for (int i = messages.length - 1; i >= messages.length - maxEmailsToCheck; i--) {
-                Message message = messages[i];
-                
-                if (isRegistrationEmail(message, courseId)) {
-                    String body = getEmailBody(message);
-                    String key = getKey(body);
-                    message.setFlag(Flags.Flag.SEEN, true);
-                    
-                    inbox.close(true);
-                    return key;
-                }
+            String password, String courseId) throws IOException, MessagingException {
+        Folder inbox = getGmailInbox(username, password);
+        Message[] messages = getMessages(inbox);
+
+        // Loop over up to 5 unread messages at the top of the inbox
+        int maxEmailsToCheck = Math.min(messages.length, 5);
+        for (int i = messages.length - 1; i >= messages.length - maxEmailsToCheck; i--) {
+            Message message = messages[i];
+
+            if (isRegistrationEmail(message, courseId)) {
+                String body = getEmailBody(message);
+                String key = getKey(body);
+                message.setFlag(Flags.Flag.SEEN, true);
+
+                inbox.close(true);
+                return key;
             }
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
         }
 
         return null;

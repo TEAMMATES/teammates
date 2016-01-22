@@ -7,6 +7,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -22,6 +24,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -34,6 +37,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -45,7 +49,6 @@ import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.util.TestHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -153,22 +156,22 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         // add a new student and verify it is added and treated as a new student
         StudentEnrollDetails enrollmentResult = invokeEnrollStudent(student1);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
-        TestHelper.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
+        verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
-        TestHelper.verifyPresentInDatastore(student1);
+        verifyPresentInDatastore(student1);
 
         ______TS("add existing student");
 
         // Verify it was not added
         enrollmentResult = invokeEnrollStudent(student1);
-        TestHelper.verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
+        verifyEnrollmentDetailsForStudent(student1, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.UNMODIFIED);
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
         StudentAttributes student2 = new StudentAttributes("sect 1", "t1", "n2", "e2@g", "c", instructorCourse);
         enrollmentResult = invokeEnrollStudent(student2);
-        TestHelper.verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
+        verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentAttributes.UpdateStatus.NEW);
         
         //add some more students to the same course (we add more than one 
@@ -267,7 +270,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("typical edit");
 
         StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
-        TestHelper.verifyPresentInDatastore(student4InCourse1);
+        verifyPresentInDatastore(student4InCourse1);
         String originalEmail = student4InCourse1.email;
         student4InCourse1.name = student4InCourse1.name + "y";
         student4InCourse1.googleId = student4InCourse1.googleId + "y";
@@ -290,14 +293,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         copyOfStudent1.email = newEmail;
 
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
-        TestHelper.verifyPresentInDatastore(student4InCourse1);
+        verifyPresentInDatastore(student4InCourse1);
 
         ______TS("check for KeepExistingPolicy : change nothing");    
         
         originalEmail = student4InCourse1.email;
         copyOfStudent1.email = null;
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
-        TestHelper.verifyPresentInDatastore(copyOfStudent1);
+        verifyPresentInDatastore(copyOfStudent1);
         
         ______TS("non-existent student");
         
@@ -641,11 +644,11 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(5, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
         // Test enroll result
         line0 = "t1|n1|e1@g|c1";
-        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest), 
+        verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest), 
                 enrollResults.get(0), StudentAttributes.UpdateStatus.NEW);
-        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
+        verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
                 enrollResults.get(1), StudentAttributes.UpdateStatus.NEW);
-        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseIdForEnrollTest),
+        verifyEnrollmentResultForStudent(saf.makeStudent(line4, courseIdForEnrollTest),
                 enrollResults.get(4), StudentAttributes.UpdateStatus.NEW);
             
         CourseDetailsBundle cd = coursesLogic.getCourseDetails(courseIdForEnrollTest);
@@ -660,19 +663,18 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
         assertEquals(6, enrollResults.size());
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
-        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest),
+        verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest),
                 enrollResults.get(0), StudentAttributes.UpdateStatus.UNMODIFIED);
-        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0_1, courseIdForEnrollTest),
+        verifyEnrollmentResultForStudent(saf.makeStudent(line0_1, courseIdForEnrollTest),
                 enrollResults.get(1), StudentAttributes.UpdateStatus.MODIFIED);
-        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
+        verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
                 enrollResults.get(2), StudentAttributes.UpdateStatus.UNMODIFIED);
-        TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line5, courseIdForEnrollTest),
+        verifyEnrollmentResultForStudent(saf.makeStudent(line5, courseIdForEnrollTest),
                 enrollResults.get(3), StudentAttributes.UpdateStatus.NEW);
         assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
                 enrollResults.get(4).updateStatus);
         assertEquals(StudentAttributes.UpdateStatus.NOT_IN_ENROLL_LIST,
                 enrollResults.get(5).updateStatus);
-        
         
         ______TS("includes an incorrect line");
         
@@ -1127,25 +1129,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         List<MimeMessage> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
         assertEquals(3, msgsForCourse.size());
-        Emails emailMgr = new Emails();
-        @SuppressWarnings("static-access")
-        String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));
-        String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.tmt|from=TEAMMATES Admin " + 
-                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
-                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail0, emailInfo0);
-        @SuppressWarnings("static-access")
-        String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));
-        String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.tmt|from=TEAMMATES Admin " + 
-                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
-                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail1, emailInfo1);
-        @SuppressWarnings("static-access")
-        String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));
-        String expectedEmailInfoForEmail2 = "[Email sent]to=e2@google.tmt|from=" + 
-                "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
-                " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail2, emailInfo2);
+        verifyJoinInviteToStudent(newsStudent0Info, msgsForCourse.get(0));
+        verifyJoinInviteToStudent(newsStudent1Info, msgsForCourse.get(1));
+        verifyJoinInviteToStudent(newsStudent2Info, msgsForCourse.get(2));
         
         studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
         studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
@@ -1169,18 +1155,18 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         // this is the student to be deleted
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        TestHelper.verifyPresentInDatastore(student2InCourse1);
+        verifyPresentInDatastore(student2InCourse1);
 
         studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
-        TestHelper.verifyAbsentInDatastore(student2InCourse1);
+        verifyAbsentInDatastore(student2InCourse1);
 
         // verify that other students in the course are intact
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        TestHelper.verifyPresentInDatastore(student1InCourse1);
+        verifyPresentInDatastore(student1InCourse1);
 
         // verify comments made to this student are gone
-        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
+        verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 
@@ -1222,6 +1208,32 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         printTestClassFooter();
         
         turnLoggingDown(StudentsLogic.class);
+    }
+    
+    private void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email)
+                                    throws MessagingException {
+        assertEquals(student.email, email.getAllRecipients()[0].toString());
+        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN, email.getSubject());
+        AssertHelper.assertContains(student.course, email.getSubject());
+    }
+    
+    private void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent, String oldTeam,
+                                                   StudentEnrollDetails enrollmentResult, UpdateStatus status) {
+        assertEquals(expectedStudent.email, enrollmentResult.email);
+        assertEquals(expectedStudent.team, enrollmentResult.newTeam);
+        assertEquals(expectedStudent.course, enrollmentResult.course);
+        assertEquals(oldTeam, enrollmentResult.oldTeam);
+        assertEquals(status, enrollmentResult.updateStatus);
+    }
+    
+    private void verifyEnrollmentResultForStudent(StudentAttributes expectedStudent,
+                                                  StudentAttributes enrollmentResult, UpdateStatus status) {
+        String errorMessage = "mismatch! \n expected:\n"
+                            + Utils.getTeammatesGson().toJson(expectedStudent)
+                            + "\n actual \n"
+                            + Utils.getTeammatesGson().toJson(enrollmentResult);
+        assertEquals(errorMessage, true, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
+                                             && enrollmentResult.updateStatus == status);
     }
 
 }

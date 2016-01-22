@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -23,7 +24,6 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
-import teammates.test.util.Url;
 
 /**
  * Covers the 'Courses' page for instructors. 
@@ -352,7 +352,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCoursesPage getCoursesPage() {
-        Url coursesUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+        AppUrl coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
             .withUserId(instructorId);
         InstructorCoursesPage page = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();

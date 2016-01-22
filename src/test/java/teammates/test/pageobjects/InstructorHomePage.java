@@ -9,9 +9,6 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.test.util.Url;
-
-
 
 public class InstructorHomePage extends AppPage {
     
@@ -300,9 +297,8 @@ public class InstructorHomePage extends AppPage {
         return this;
     }
     
-    public Url getArchiveCourseLink(String courseId){
-        String url = getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).getAttribute("href");
-        return new Url(url);
+    public String getArchiveCourseLink(String courseId){
+        return getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).getAttribute("href");
     }
     
     private WebElement getSessionLinkInRow(String elementClassNamePrefix, int rowId){

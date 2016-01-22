@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
@@ -22,7 +23,6 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
-import teammates.test.util.Url;
 
 /**
  * Tests 'Course Details' view for Instructors.
@@ -158,14 +158,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("link: download student list");
         
-        Url studentListDownloadUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
+        AppUrl studentListDownloadUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
                                         .withUserId("CCDetailsUiT.instr")
                                         .withCourseId("CCDetailsUiT.CS2104");
         
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
 
-    public void testRemindAction() {
+    public void testRemindAction() throws Exception {
 
         //Charlie is yet to register
         StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
@@ -174,7 +174,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         //Alice is already registered
         StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        String alicePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
+        String alicePassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
         
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
         boolean isEmailEnabled = !TestProperties.inst().isDevServer();
@@ -233,14 +233,15 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {
-        Url detailsPageUrl = new Url(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                 .withUserId(instructorId)
                                 .withCourseId(courseId);
 
         return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
     }
     
-    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) {
+    private boolean didStudentReceiveReminder(String courseId, String studentEmail, String studentPassword) 
+                                            throws Exception {
         String keyToSend = StringHelper.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
     
         ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check

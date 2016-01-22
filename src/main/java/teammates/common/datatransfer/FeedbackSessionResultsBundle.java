@@ -2261,6 +2261,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Map<String, Set<String>> getRosterTeamNameMembersTable() {
         return rosterTeamNameMembersTable;
     }
+    
+    public Set<String> sectionsInCourse() {
+        return new HashSet<>(rosterSectionTeamNameTable.keySet());
+    }
 
     public Map<String, Set<String>> getRosterSectionTeamNameTable() {
         return rosterSectionTeamNameTable;

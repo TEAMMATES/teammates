@@ -21,7 +21,6 @@ import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
-import teammates.test.util.TestHelper;
 
 import com.google.gson.Gson;
 
@@ -81,22 +80,22 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     private void verifyPresentInDatastore(DataBundle data) throws Exception {
         HashMap<String, AccountAttributes> accounts = data.accounts;
         for(AccountAttributes expectedAccount : accounts.values()) {
-            TestHelper.verifyPresentInDatastore(expectedAccount);
+            verifyPresentInDatastore(expectedAccount);
         }
         
         HashMap<String, InstructorAttributes> instructors = data.instructors;
         for (InstructorAttributes expectedInstructor : instructors.values()) {
-            TestHelper.verifyPresentInDatastore(expectedInstructor);
+            verifyPresentInDatastore(expectedInstructor);
         }
     
         HashMap<String, CourseAttributes> courses = data.courses;
         for (CourseAttributes expectedCourse : courses.values()) {
-            TestHelper.verifyPresentInDatastore(expectedCourse);
+            verifyPresentInDatastore(expectedCourse);
         }
     
         HashMap<String, StudentAttributes> students = data.students;
         for (StudentAttributes expectedStudent : students.values()) {
-            TestHelper.verifyPresentInDatastore(expectedStudent);
+            verifyPresentInDatastore(expectedStudent);
         }
     
     }

@@ -11,9 +11,9 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.util.Config;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.ui.template.AdminSearchInstructorRow;
 import teammates.ui.template.AdminSearchInstructorTable;
 import teammates.ui.template.AdminSearchStudentFeedbackSession;
@@ -198,7 +198,7 @@ public class AdminSearchPageData extends PageData {
     private AdminSearchStudentLinks createStudentLinks(StudentAttributes student) {
         String detailsPageLink = studentRecordsPageLinkMap.get(student.getIdentificationString());
         String homePageLink = studentIdToHomePageLinkMap.get(student.googleId);
-        String courseJoinLink = new Url(student.getRegistrationUrl()).toAbsoluteString();
+        String courseJoinLink = Config.getAppUrl(student.getRegistrationUrl()).toAbsoluteString();
         
         return new AdminSearchStudentLinks(detailsPageLink, homePageLink, courseJoinLink);
     }
