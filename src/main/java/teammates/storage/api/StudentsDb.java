@@ -345,14 +345,22 @@ public class StudentsDb extends EntitiesDb {
      * @throws EntityDoesNotExistException 
      * @throws InvalidParametersException 
      */
-
+    public void updateStudent(String courseId, String email, String newName,
+                                    String newTeamName, String newSectionName, String newEmail,
+                                    String newGoogleID,
+                                    String newComments,
+                                    boolean keepUpdateTimestamp) throws InvalidParametersException,
+                                    EntityDoesNotExistException {
+        updateStudent(courseId, email, newName, newTeamName, newSectionName,
+                newEmail, newGoogleID, newComments, true, keepUpdateTimestamp);
+    }
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail,
             String newGoogleID,
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleID, newComments, true);
+                newEmail, newGoogleID, newComments, true, false);
     }
 
     /**
@@ -364,15 +372,25 @@ public class StudentsDb extends EntitiesDb {
             String newName,
             String newTeamName, String newSectionName, String newEmail,
             String newGoogleID,
+            String newComments,
+            boolean keepUpdateTimestamp) throws InvalidParametersException,
+            EntityDoesNotExistException {
+        updateStudent(courseId, email, newName, newTeamName, newSectionName,
+                                        newEmail, newGoogleID, newComments, false, keepUpdateTimestamp);
+    }
+    public void updateStudentWithoutSearchability(String courseId, String email,
+            String newName,
+            String newTeamName, String newSectionName, String newEmail,
+            String newGoogleID,
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleID, newComments, false);
+                newEmail, newGoogleID, newComments, false, false);
     }
 
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleID,
-            String newComments, boolean hasDocument)
+            String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -399,6 +417,9 @@ public class StudentsDb extends EntitiesDb {
         if(hasDocument){
             putDocument(new StudentAttributes(student));   
         }
+    
+        // Set true to prevent changes to last update timestamp
+        student.keepUpdateTimestamp = keepUpdateTimestamp;
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();

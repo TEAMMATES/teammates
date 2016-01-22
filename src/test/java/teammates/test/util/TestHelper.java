@@ -276,6 +276,11 @@ public class TestHelper extends BaseComponentTestCase{
             StudentAttributes expectedStudent,
             StudentAttributes actualStudent) {
         
+        // Timestamps are ignored here, and should be tested separately.
+        expectedStudent.setCreated(actualStudent.getCreated());
+        expectedStudent.setLastUpdate(actualStudent.getLastUpdate());
+        
+        
         // For these fields, we consider null and "" equivalent.
         if ((expectedStudent.googleId == null) && (actualStudent.googleId.equals(""))) {
             actualStudent.googleId = null;

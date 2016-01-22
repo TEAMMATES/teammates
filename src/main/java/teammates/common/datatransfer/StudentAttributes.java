@@ -8,16 +8,14 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Persistent;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
@@ -378,5 +376,19 @@ public class StudentAttributes extends EntityAttributes {
 
     public Date getLastUpdate() {
         return lastUpdate;
+    }
+    
+    /**
+     * Should only be used for testing
+     **/
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    /**
+     * Should only be used for testing
+     **/
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }
