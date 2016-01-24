@@ -23,7 +23,6 @@ public class LogicTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(Logic.class);
         removeAndRestoreTypicalDataInDatastore();
     }
 
@@ -92,7 +91,6 @@ public class LogicTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        turnLoggingDown(Logic.class);
     }
 
 }

@@ -3,12 +3,7 @@ package teammates.test.cases;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FileHelper;
@@ -48,52 +43,6 @@ public class BaseTestCase {
 
     protected static void print(String message) {
         System.out.println(message);
-    }
-
-    protected static void setLogLevelOfClass(Class<?> testedClass, Level level)
-            throws NoSuchFieldException, IllegalAccessException {
-        Field logField = testedClass.getDeclaredField("log");
-        logField.setAccessible(true);
-        Logger log = (Logger) logField.get(null);
-        log.setLevel(level);
-    }
-
-    protected static void setConsoleLoggingLevel(Level level) {
-        Logger topLogger = java.util.logging.Logger.getLogger("");
-        Handler consoleHandler = null;
-        for (Handler handler : topLogger.getHandlers()) {
-            if (handler instanceof ConsoleHandler) {
-                consoleHandler = handler;
-                break;
-            }
-        }
-        consoleHandler.setLevel(level);
-    }
-
-    protected static void setGeneralLoggingLevel(Level level) {
-        java.util.logging.Logger.getLogger("").setLevel(level);
-    }
-
-    /**
-     * Sets the general logging level to WARNING <br>
-     * Sets the logging level of the given class to FINE <br>
-     * Sets the logging level of the console to FINE <br>
-     */
-    protected static void turnLoggingUp(Class<?> classBeingTested)
-            throws NoSuchFieldException, IllegalAccessException {
-        setGeneralLoggingLevel(Level.WARNING);
-        setLogLevelOfClass(classBeingTested, Level.FINE);
-        setConsoleLoggingLevel(Level.FINE);
-    }
-
-    /**
-     * Sets the logging level of the given class to WARNING <br>
-     * Sets the logging level of the console to WARNING <br>
-     */
-    protected static void turnLoggingDown(Class<?> classBeingTested)
-            throws NoSuchFieldException, IllegalAccessException {
-        setLogLevelOfClass(classBeingTested, Level.WARNING);
-        setConsoleLoggingLevel(Level.WARNING);
     }
 
     /**

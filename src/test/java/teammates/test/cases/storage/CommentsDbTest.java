@@ -14,8 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,7 +43,6 @@ public class CommentsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(CommentsDb.class);
     }
     
     @Test
@@ -521,13 +518,4 @@ public class CommentsDbTest extends BaseComponentTestCase {
         return c;
     }
     
-    @AfterMethod
-    public void caseTearDown() throws Exception {
-        turnLoggingDown(CommentsDb.class);
-    }
-    
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        turnLoggingDown(CommentsDb.class);
-    }
 }
