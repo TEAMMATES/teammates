@@ -21,8 +21,8 @@ public class AssertHelper {
      * Assert date is now +- 1 min
      */
     public static void assertDateIsNow(Date date) {
-        assertDateWithinRange(date, new Date(new Date().getTime() - (1000 * 60)),
-                                    new Date(new Date().getTime() + (1000 * 60)));
+        assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
+                                    TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
     }
     
     public static void assertDateWithinRange(Date date, Date startDate, Date endDate) {

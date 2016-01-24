@@ -73,8 +73,8 @@ public class StudentAttributes extends EntityAttributes {
      * Creation and update time stamps. 
      * Updated automatically in Student.java, jdoPreStore()
      */
-    private Date created;
-    private Date lastUpdate;
+    private Date createdAt;
+    private Date updatedAt;
 
     public StudentAttributes(String id, String email, String name, String comments, String courseId,
                              String team, String section) {
@@ -118,8 +118,8 @@ public class StudentAttributes extends EntityAttributes {
          * It should be changed to consider null as unregistered.
          */
         
-        this.created = student.getCreated();
-        this.lastUpdate = student.getLastUpdate();
+        this.createdAt = student.getCreatedAt();
+        this.updatedAt = student.getUpdatedAt();
         
     }
 
@@ -370,25 +370,25 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
     
-    public Date getCreated() {
-        return created;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public Date getLastUpdate() {
-        return lastUpdate;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
     
     /**
      * Should only be used for testing
      **/
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setCreated_NonProduction(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     /**
      * Should only be used for testing
      **/
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setUpdatedAt_NonProduction(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

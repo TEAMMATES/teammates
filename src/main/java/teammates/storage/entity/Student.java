@@ -24,10 +24,10 @@ public class Student implements StoreCallback {
     // TODO: some of the serialized names are not correct.
     
     @Persistent
-    private Date created;
+    private Date createdAt;
     
     @Persistent
-    private Date lastUpdate;
+    private Date updatedAt;
     
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
@@ -112,25 +112,25 @@ public class Student implements StoreCallback {
         this.setTeamName(teamName);
         this.setSectionName(sectionName);
         
-        this.setCreated(new Date());
+        this.setCreatedAt(new Date());
     }
     
-    public Date getCreated() {
-        return created;
+    public Date getCreatedAt() {
+        return createdAt;
     }
     
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setCreatedAt(Date created) {
+        this.createdAt = created;
         setLastUpdate(created);
     }
     
-    public Date getLastUpdate() {
-        return lastUpdate;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
     
-    public void setLastUpdate(Date lastUpdate) {
-        if (keepUpdateTimestamp == false) {
-            this.lastUpdate = lastUpdate;
+    public void setLastUpdate(Date updatedAt) {
+        if (!keepUpdateTimestamp) {
+            this.updatedAt = updatedAt;
         }
     }
 

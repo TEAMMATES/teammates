@@ -342,6 +342,7 @@ public class StudentsDb extends EntitiesDb {
      *   if the parameter is null (due to 'keep existing' policy)<br> 
      * Preconditions: <br>
      * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
+     * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
      * @throws EntityDoesNotExistException 
      * @throws InvalidParametersException 
      */
@@ -366,7 +367,7 @@ public class StudentsDb extends EntitiesDb {
     /**
      * Update student's record without searchability
      * This function is only used for testing, its purpose is to not create document if not necessary.    
-     * 
+     * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
      */
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
