@@ -58,7 +58,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         AssertHelper.assertDateIsNow(student.getUpdatedAt());
         
         
-        ______TS("success : lastUpdated");
+        ______TS("success : update lastUpdated");
         
         s.name = "new-name";
         studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team,
