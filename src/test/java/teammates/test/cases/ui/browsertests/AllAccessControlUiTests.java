@@ -179,10 +179,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/pageNotFound.html");
         
-        ______TS("show message page");
-        url = createUrl(Const.ViewURIs.SHOW_MESSAGE);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/showMessage.html");
     }
     
 
