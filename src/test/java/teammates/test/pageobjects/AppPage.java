@@ -7,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,12 +35,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
@@ -752,7 +747,7 @@ public abstract class AppPage {
         String actual = getPageSource(by);
         try {
             String expected = FileHelper.readFile(filePath);
-            expected = injectTestProperties(expected);
+            expected = HtmlHelper.injectTestProperties(expected);
             if (isAfterAjaxLoad) {
                 int maxRetryCount = 5;
                 int waitDuration = 1000;
@@ -783,26 +778,16 @@ public abstract class AppPage {
         waitForAjaxLoaderGifToDisappear();
         String actual = by == null ? getPageSource()
                                    : browser.driver.findElement(by).getAttribute("outerHTML");
-        return processPageSourceForHtmlComparison(actual);
+        return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 
-    private static String injectTestProperties(String htmlString) {
-        return htmlString.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
-                         .replace("${version}", TestProperties.inst().TEAMMATES_VERSION)
-                         .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
-                         .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
-                         .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                         .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
-    }
-    
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
         if (content != null && !content.isEmpty() && 
                 System.getProperty("godmode") != null && 
                 System.getProperty("godmode").equals("true")) {
             TestProperties.inst().verifyReadyForGodMode();
             try {
-                String processedPageSource = HtmlHelper.convertToStandardHtml(content, isPart);
-                processedPageSource = processPageSourceForExpectedHtmlRegeneration(processedPageSource);
+                String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
                 saveCurrentPage(filePath, processedPageSource);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -813,104 +798,6 @@ public abstract class AppPage {
         }
     }
     
-    private static String processPageSourceForHtmlComparison(String content) {
-        return replaceUnpredictableValuesWithPlaceholders(
-                                        suppressVariationsInInjectedValues(content));
-    }
-
-    private static String suppressVariationsInInjectedValues(String content) {
-        return content // this replaces dev server admin absolute URLs (/_ah/...) with their relative counterparts
-                      .replace("\"" + TestProperties.inst().TEAMMATES_URL + "/_ah", "\"/_ah")
-                      // this replaces all printed version of TEAMMATES tested with the current version
-                      .replaceAll("V[0-9]+(\\.[0-9]+)+", "V" + TestProperties.inst().TEAMMATES_VERSION)
-                      // this replaces truncated long accounts with their original counterpart
-                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT),
-                               TestProperties.inst().TEST_STUDENT1_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT),
-                               TestProperties.inst().TEST_STUDENT2_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT),
-                               TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                      .replace(StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT),
-                               TestProperties.inst().TEST_ADMIN_ACCOUNT);
-    }
-
-    private static String replaceUnpredictableValuesWithPlaceholders(String content) {
-        Date now = new Date();
-        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(now), TimeHelper.formatTime12H(now));
-        return content
-                // this handles the logout url that google generates
-                .replaceAll("_ah/logout\\?continue=.*?\"", "_ah/logout?continue=\\${continue\\.url}\"")
-                // photo from instructor
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
-                        + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
-                        Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
-                        + "=\\${student\\.email\\.enc}\\&amp;" + Const.ParamsNames.COURSE_ID + "=\\${course\\.id\\.enc}")
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
-                        + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
-                        Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
-                        + "=\\${course\\.id\\.enc}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "=\\${student\\.email\\.enc}")
-                //blob-key in student profile page
-                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.BLOB_KEY+"=([a-zA-Z0-9-_:]){10,}", 
-                            Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.BLOB_KEY+ "=\\${blobkey}")
-                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.BLOB_KEY+"\" ?|id=\"blobKey\" ?|value=\"([a-zA-Z0-9-_:]){10,}\" ?){4}",
-                            "id=\"blobKey\" name=\""+Const.ParamsNames.BLOB_KEY+"\" type=\"hidden\" value=\"\\${blobkey}\"")
-                //regkey in urls
-                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9-_]){10,}", Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
-                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){10,}\\%", Const.ParamsNames.REGKEY + "%3D\\${regkey\\.enc}\\%")
-                
-                // maintain order for the two below
-                // regkey in unreg student page
-                .replaceAll("(type=\"hidden\" ?|name=\""+Const.ParamsNames.REGKEY+"\" ?|value=\"([a-zA-Z0-9-_]){10,}\" ?){3}","name=\""+Const.ParamsNames.REGKEY+"\" type=\"hidden\" value=\"\\${regkey\\.enc}\"")
-                // questionid
-                .replaceAll("value=\"([a-zA-Z0-9-_]){40,}\"","value=\"\\${question\\.id}\"")
-                
-                //questionid regex in responseid
-                .replaceAll("\"([a-zA-Z0-9-_]){40,}%", "\"\\${question\\.id}%")
-                //commentid
-                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"\\${comment\\.id}\\\"")
-                // comment div ids (added after standardization)
-                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-\\${comment\\.id}")
-                .replaceAll("commentBar-[0-9]{16}", "commentBar-\\${comment\\.id}")
-                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-\\${comment\\.id}")
-                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-\\${comment\\.id}")
-                //commentid in url
-                .replaceAll("#[0-9]{16}", "#\\${comment\\.id}")
-                // today's date
-                .replace(TimeHelper.formatDate(now).replace("/", "&#x2f;"), "${today}")
-                .replace(TimeHelper.formatDate(now), "${today}")
-                // now (date, time) e.g. [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
-                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2} [AP]M( UTC)?", "\\${datetime\\.now}")
-                // admin footer, test institute section
-                .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>.*?</div>", "\\${admin\\.institute}")
-                // jQuery local
-                .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
-                // jQuery CDN
-                .replace("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "${lib.path}/jquery.min.js")
-                // jQuery-ui local
-                .replace("/js/lib/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
-                // jQuery-ui CDN
-                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
-                // top HTML tag with xmlns defined
-                // TODO check if this is necessary
-                .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
-                // noscript is to be cleared
-                // TODO check if wildcarding this is better; better yet, check if not removing at all works
-                .replaceFirst("(?s)<noscript>.*</noscript>", "");
-    }
-    
-    private static String processPageSourceForExpectedHtmlRegeneration(String content) {
-        return replaceInjectedValuesWithPlaceholders(content);
-    }
-
-    private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replace(Config.STUDENT_MOTD_URL, "${studentmotd.url}")
-                      .replace("V" + TestProperties.inst().TEAMMATES_VERSION, "V${version}")
-                      .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "${test.student1}")
-                      .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "${test.student2}")
-                      .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "${test.admin}");
-    }
-
     /**
      * Verifies that element specified in currently loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
