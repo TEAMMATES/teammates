@@ -50,7 +50,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackResponsesLogic.class);
         removeAndRestoreTypicalDataInDatastore();
         removeAndRestoreDatastoreFromJson("/SpecialCharacterTest.json");
         removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
@@ -583,6 +582,5 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        turnLoggingDown(FeedbackResponsesLogic.class);
     }
 }

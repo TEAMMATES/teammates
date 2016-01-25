@@ -47,7 +47,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(CoursesLogic.class);
         removeAndRestoreTypicalDataInDatastore();
     }
     
