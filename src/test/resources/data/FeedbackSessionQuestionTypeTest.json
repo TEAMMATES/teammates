@@ -1466,7 +1466,7 @@
             "giverEmail":"student3InCourse1@gmail.tmt",
             "recipientEmail":"Team 1.1",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [2,-999,-999,1]}"
+                "value":"{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [2,-999,1,1]}"
             }
         },
         "response4ForQ2RankSession":{

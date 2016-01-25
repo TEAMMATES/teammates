@@ -10,7 +10,6 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,7 +39,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(InstructorsLogic.class);
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
     }
@@ -833,11 +831,6 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         assertEquals(instructor1.courseId, instructor2.courseId);
         assertEquals(instructor1.name, instructor2.name);
         assertEquals(instructor1.email, instructor2.email);
-    }
-    
-    @AfterClass()
-    public static void classTearDown() throws Exception {
-        turnLoggingDown(InstructorsLogic.class);
     }
     
     private void verifyJoinInviteToInstructor(InstructorAttributes instr, MimeMessage email)

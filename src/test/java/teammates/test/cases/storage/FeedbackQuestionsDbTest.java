@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -31,7 +30,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackQuestionsDb.class);
     }
 
     @Test
@@ -384,11 +382,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             fqa.questionNumber = i;
             fqDb.deleteEntity(fqa);
         }
-    }
-
-    @AfterMethod
-    public void caseTearDown() throws Exception {
-        turnLoggingDown(FeedbackQuestionsDb.class);
     }
 
     @AfterClass

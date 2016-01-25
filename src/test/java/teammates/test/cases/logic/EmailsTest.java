@@ -9,7 +9,6 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -56,9 +55,6 @@ public class EmailsTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        setGeneralLoggingLevel(Level.WARNING);
-        setLogLevelOfClass(Emails.class, Level.FINE);
-        setConsoleLoggingLevel(Level.FINE);
     }
 
     @BeforeMethod
@@ -533,7 +529,5 @@ public class EmailsTest extends BaseComponentTestCase {
     @AfterClass()
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        setLogLevelOfClass(Emails.class, Level.WARNING);
-        setConsoleLoggingLevel(Level.WARNING);
     }
 }

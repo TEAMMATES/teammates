@@ -26,7 +26,6 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 
 public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
@@ -38,7 +37,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackSessionsLogic.class);
         removeAndRestoreTypicalDataInDatastore();
     }
     
@@ -667,7 +665,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        turnLoggingDown(FeedbackSessionsLogic.class);
     }
 
 }

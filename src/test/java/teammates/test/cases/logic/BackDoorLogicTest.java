@@ -31,7 +31,6 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(BackDoorLogic.class);
     }
 
     @Test
@@ -116,7 +115,6 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        turnLoggingDown(BackDoorLogic.class);
     }
 
 }
