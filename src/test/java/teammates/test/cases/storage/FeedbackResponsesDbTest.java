@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -36,7 +35,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackResponsesDb.class); 
         addResponsesToDb();
         fras = dataBundle.feedbackResponses;
     }
@@ -767,11 +765,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 result.courseId, result.feedbackQuestionId,
                 result.feedbackQuestionType, result.giverEmail, result.giverSection,
                 result.recipientEmail, result.recipientSection, result.responseMetaData);
-    }
-    
-    @AfterMethod
-    public void caseTearDown() throws Exception {
-        turnLoggingDown(FeedbackResponsesDb.class);
     }
     
     @AfterClass

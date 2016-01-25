@@ -16,7 +16,6 @@ import java.util.Set;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -42,7 +41,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackSessionsDb.class);
         addSessionsToDb();
     }
     
@@ -289,11 +287,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsa.sentPublishedEmail = true;
         fsa.instructions = new Text("Give feedback.");
         return fsa;
-    }
-    
-    @AfterMethod
-    public void caseTearDown() throws Exception {
-        turnLoggingDown(FeedbackSessionsDb.class);
     }
     
     @AfterClass
