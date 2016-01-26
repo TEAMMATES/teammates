@@ -3,8 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -342,12 +340,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
-    public void clickEndDateBox() {
-        endDateBox.click();
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).focus();", endDateBox);
-    }
-    
     public void clickFsCopyButton() {
         fscopyButton.click();
     }
@@ -532,53 +524,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyNewRankRecipientsQuestionFormIsDisplayed() {
         WebElement contribForm = browser.driver.findElement(By.id("rankRecipientsForm"));
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
-    }
-    
-    public boolean verifyEndDatesBeforeTodayAreDisabled() {
-        Calendar cal = Calendar.getInstance();
-        
-        // if today is the 1st day of the month, the datepicker cannot navigate to the previous month (yesterday) 
-        if (cal.get(Calendar.DATE) != 1) {
-            cal.add(Calendar.DATE, -1);       
-
-            // get month names
-            DateFormatSymbols dfs = new DateFormatSymbols();
-            String[] months = dfs.getMonths();        
-
-            // yesterday's day, month and year
-            String day = Integer.toString(cal.get(Calendar.DATE));
-            String month = months[cal.get(Calendar.MONTH)];
-            String year = Integer.toString(cal.get(Calendar.YEAR));
-
-            // go to previous month
-            while (!(getDatepickerMonth().equals(month) && getDatepickerYear().equals(year))) {
-                browser.driver.findElement(By.className("ui-datepicker-prev")).click();
-            }
-
-            // different months with the same day (e.g. first week or last week of the month) in the datepicker
-            List<WebElement> daysWithSameDayAsYesterday = browser.driver.findElements(By.xpath("//td[a[text() = \"" + day + "\"]]"));
-            
-            for (WebElement yesterday : daysWithSameDayAsYesterday) {
-                // yesterday is enabled
-                if (!yesterday.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled")) {
-                    return false;
-                }
-            }
-        }
-        
-        return true;
-    }
-
-    private String getDatepickerYear() {
-        By by = By.className("ui-datepicker-year");
-        waitForElementPresence(by);
-        return browser.driver.findElement(by).getText();
-    }
-
-    private String getDatepickerMonth() {
-        By by = By.className("ui-datepicker-month");
-        waitForElementPresence(by);
-        return browser.driver.findElement(by).getText();
     }
     
     public void selectNewQuestionType(String questionType) {
