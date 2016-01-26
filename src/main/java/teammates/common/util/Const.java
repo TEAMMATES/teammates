@@ -835,8 +835,6 @@ public class Const {
         
         public static final String LOGOUT = "/logout.jsp"; 
         
-        
-        public static final String SHOW_MESSAGE = "/showMessage.jsp"; 
         public static final String UNAUTHORIZED = "/unauthorized.jsp"; 
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
