@@ -1,7 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import java.util.logging.Level;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,7 +10,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.logic.core.Emails;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
@@ -32,9 +29,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        setGeneralLoggingLevel(Level.WARNING);
-        setLogLevelOfClass(Emails.class, Level.FINE);
-        setConsoleLoggingLevel(Level.FINE);
 
         browser = BrowserPool.getBrowser();
         page = loginAdmin(browser);
@@ -122,8 +116,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     @AfterClass()
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        setLogLevelOfClass(Emails.class, Level.WARNING);
-        setConsoleLoggingLevel(Level.WARNING);
         BrowserPool.release(browser);
     }
 }

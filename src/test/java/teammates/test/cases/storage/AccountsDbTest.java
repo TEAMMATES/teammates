@@ -34,7 +34,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(AccountsDb.class);
     }
     
     @Test

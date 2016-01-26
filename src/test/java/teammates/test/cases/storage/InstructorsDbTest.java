@@ -40,7 +40,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(InstructorsDb.class);
         addInstructorsToDb();
     }
     
