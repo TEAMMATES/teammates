@@ -478,6 +478,11 @@ public class BackDoorTest extends BaseTestCase {
             StudentAttributes expectedStudent,
             StudentAttributes actualStudent) {
         
+        // Timestamps are ignored here, and should be tested separately.
+        expectedStudent.setCreated_NonProduction(actualStudent.getCreatedAt());
+        expectedStudent.setUpdatedAt_NonProduction(actualStudent.getUpdatedAt());
+        
+        
         // For these fields, we consider null and "" equivalent.
         if ((expectedStudent.googleId == null) && (actualStudent.googleId.equals(""))) {
             actualStudent.googleId = null;

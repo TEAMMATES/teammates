@@ -1,10 +1,14 @@
 package teammates.storage.entity;
 
+import java.util.Date;
+
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.listener.StoreCallback;
 
 import teammates.common.util.StringHelper;
 
@@ -16,9 +20,23 @@ import com.google.gson.annotations.SerializedName;
  * [enrolled in] --> Course.
  */
 @PersistenceCapable
-public class Student {
+public class Student implements StoreCallback {
     // TODO: some of the serialized names are not correct.
-
+    
+    @Persistent
+    private Date createdAt;
+    
+    @Persistent
+    private Date updatedAt;
+    
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp.
+     * Set to true when using scripts to update entities when you want to 
+     * preserve the lastUpdate time stamp.
+     **/
+    @NotPersistent
+    public boolean keepUpdateTimestamp = false;
+    
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private transient Long registrationKey = null;
@@ -93,6 +111,27 @@ public class Student {
         this.setCourseId(courseId);
         this.setTeamName(teamName);
         this.setSectionName(sectionName);
+        
+        this.setCreatedAt(new Date());
+    }
+    
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(Date created) {
+        this.createdAt = created;
+        setLastUpdate(created);
+    }
+    
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+    
+    public void setLastUpdate(Date updatedAt) {
+        if (!keepUpdateTimestamp) {
+            this.updatedAt = updatedAt;
+        }
     }
 
     public String getEmail() {
@@ -180,5 +219,12 @@ public class Student {
 
     public static String getStringKeyForLongKey(long longKey) {
         return KeyFactory.createKeyString(Student.class.getSimpleName(), longKey);
+    }
+    
+    /**
+     * Called by jdo before storing takes place.
+     */
+    public void jdoPreStore() {
+        this.setLastUpdate(new Date());
     }
 }
