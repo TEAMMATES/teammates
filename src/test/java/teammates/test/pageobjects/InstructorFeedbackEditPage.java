@@ -340,6 +340,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
+    public void clickStartDateBox() {
+        startDateBox.click();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).focus();", startDateBox);
+    }
+
+    public void clickEndDateBox() {
+        endDateBox.click();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).focus();", endDateBox);
+    }
+    
     public void clickFsCopyButton() {
         fscopyButton.click();
     }
@@ -521,11 +533,36 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement contribForm = browser.driver.findElement(By.id("rankOptionsForm"));
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
+    
     public boolean verifyNewRankRecipientsQuestionFormIsDisplayed() {
         WebElement contribForm = browser.driver.findElement(By.id("rankRecipientsForm"));
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
-    
+
+    public boolean verifyDatesOfPreviousCurrentAndNextMonthAreEnabled() {
+
+        browser.driver.findElement(By.className("ui-datepicker-prev")).click();
+
+        for (int i = 0; i < 3; i++) {
+
+            List<WebElement> dates = browser.driver.findElements(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr/td"));
+
+            for (WebElement date : dates) {
+
+                boolean isDisabled = date.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled");
+                boolean isFromOtherMonth = date.getAttribute("class").contains("ui-datepicker-other-month");
+
+                if (isDisabled && !isFromOtherMonth) {
+                    return false;
+                }
+            }
+
+            browser.driver.findElement(By.className("ui-datepicker-next")).click();
+        }
+
+        return true;
+    }
+
     public void selectNewQuestionType(String questionType) {
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
     }

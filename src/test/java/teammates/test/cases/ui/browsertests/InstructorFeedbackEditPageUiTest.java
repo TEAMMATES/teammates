@@ -129,6 +129,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testEditSessionAction() throws Exception {
 
         ______TS("typical success case");
+        
+        feedbackEditPage.clickStartDateBox();
+        assertTrue(feedbackEditPage.verifyDatesOfPreviousCurrentAndNextMonthAreEnabled());
+
+        feedbackEditPage.clickEndDateBox();
+        assertTrue(feedbackEditPage.verifyDatesOfPreviousCurrentAndNextMonthAreEnabled());
 
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
