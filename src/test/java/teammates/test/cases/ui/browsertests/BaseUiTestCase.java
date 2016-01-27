@@ -20,11 +20,11 @@ import teammates.test.pageobjects.HomePage;
 
 public class BaseUiTestCase extends BaseTestCase {
 
-    /** used by child classes to indicate if they should be run using godmode */
+    /** indicates if the test-run is to use GodMode */
     protected static Boolean enableGodMode = false;
 
     /**
-     * Checks if the current test run should use godmode, 
+     * Checks if the current test-run should use godmode, 
      * if yes, enables GodMode
      */
     @BeforeSuite
