@@ -155,6 +155,8 @@ public class InstructorCourseEditPageData extends PageData {
                                     String title, String onClick, boolean isDisabled) {
         ElementTag button = new ElementTag(content);
         
+        button.setAttribute("type", "button");
+        
         if (buttonClass != null) {
             button.setAttribute("class", buttonClass);
         }
