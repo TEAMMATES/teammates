@@ -135,4 +135,25 @@ public class HtmlHelperTest {
         
         //other cases are tested in testComparison
     }
+    
+    @Test
+    public void testReplacement() throws IOException {
+        String actual = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html");
+        actual = HtmlHelper.injectContextDependentValuesForTest(actual);
+        actual = HtmlHelper.processPageSourceForHtmlComparison(actual);
+        
+        String expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedOutput.html");
+        expected = HtmlHelper.injectTestProperties(expected);
+        HtmlHelper.assertSameHtml(expected, actual, false);
+        
+        // TODO consider adding a comparison after each HtmlHelper process separately
+        
+        expected = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html");
+        expected = HtmlHelper.injectTestProperties(expected);
+        HtmlHelper.assertSameHtml(expected, actual, true);
+        
+        // HtmlHelper.replaceInjectedValuesWithPlaceholders is not tested here
+        // but in GodModeTest as it is not used outside of expected HTML regeneration
+    }
+    
 }
