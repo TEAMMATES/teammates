@@ -20,8 +20,6 @@ public class TestProperties {
     public String TEAMMATES_URL;
     public String TEAMMATES_VERSION;
 
-    public String TEAMMATES_URL_IN_EMAILS;
-
     public String TEST_INSTRUCTOR_ACCOUNT;
     public String TEST_INSTRUCTOR_PASSWORD;
 
@@ -41,8 +39,6 @@ public class TestProperties {
 
     public String BROWSER;
     public String FIREFOX_PATH;
-    public String SELENIUMRC_HOST;
-    public int SELENIUMRC_PORT;
     
     public int TEST_TIMEOUT;
     public String TEST_TIMEOUT_PAGELOAD;
@@ -71,8 +67,6 @@ public class TestProperties {
         
             TEAMMATES_VERSION = extractVersionNumber(FileHelper.readFile("src/main/webapp/WEB-INF/appengine-web.xml"));
             
-            TEAMMATES_URL_IN_EMAILS = Url.trimTrailingSlash(prop.getProperty("test.app.urlInEmails"));
-            
             TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
             TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
             
@@ -92,8 +86,6 @@ public class TestProperties {
             
             BROWSER = prop.getProperty("test.selenium.browser");
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
-            SELENIUMRC_HOST = prop.getProperty("test.selenium.host");
-            SELENIUMRC_PORT = Integer.parseInt(prop.getProperty("test.selenium.port"));
             
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
             TEST_TIMEOUT_PAGELOAD = prop.getProperty("test.timeout") + "000";
