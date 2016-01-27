@@ -188,7 +188,13 @@ public class BaseComponentTestCase extends BaseTestCase {
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
 
-    private static void equalizeIrrelevantData(StudentAttributes expectedStudent, StudentAttributes actualStudent) {
+    private static void equalizeIrrelevantData(
+            StudentAttributes expectedStudent,
+            StudentAttributes actualStudent) {
+        
+        // Timestamps are ignored here, and should be tested separately.
+        expectedStudent.setCreated_NonProduction(actualStudent.getCreatedAt());
+        expectedStudent.setUpdatedAt_NonProduction(actualStudent.getUpdatedAt());
         
         // For these fields, we consider null and "" equivalent.
         if (expectedStudent.googleId == null && actualStudent.googleId.equals("")) {
@@ -205,7 +211,7 @@ public class BaseComponentTestCase extends BaseTestCase {
         // and cannot be anticipated
         if (actualStudent.key != null) {
             expectedStudent.key = actualStudent.key;
-        }
+        }    
     }
     
     @AfterTest

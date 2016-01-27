@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,7 +46,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(FeedbackResponseCommentsDb.class);
         frcDb.createEntity(frcaData);
         frcDb.createEntity(anotherFrcaData);
         frcaData = frcDb.getFeedbackResponseComment(frcaData.feedbackResponseId, 
@@ -472,11 +470,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         
         AssertHelper.assertSameContentIgnoreOrder(expectedFrcas, actualFrcas);
         
-    }
-
-    @AfterMethod
-    public void caseTearDown() throws Exception {
-        turnLoggingDown(FeedbackResponseCommentsDb.class);
     }
 
     @AfterClass

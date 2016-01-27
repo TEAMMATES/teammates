@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Date;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,8 +11,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.FileHelper;
-import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -39,22 +36,7 @@ public class GodModeTest extends BaseUiTestCase {
     
     private static void injectRealAccountsIntoFile() throws Exception {
         initialContent = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html");
-        String testAccounts = "<div>";
-        testAccounts += TestProperties.inst().TEST_ADMIN_ACCOUNT;
-        testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_ADMIN_ACCOUNT);
-        testAccounts += TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-        testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        testAccounts += TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-        testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT1_ACCOUNT);
-        testAccounts += TestProperties.inst().TEST_STUDENT2_ACCOUNT;
-        testAccounts += StringHelper.truncateLongId(TestProperties.inst().TEST_STUDENT2_ACCOUNT);
-        testAccounts += "</div>";
-        String changedContent = initialContent.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts);
-        changedContent = changedContent.replace("<!-- DATETODAY -->", 
-                TimeHelper.formatDate(new Date()));
-        changedContent = changedContent.replace("<!-- DATETIMETODAY -->", 
-                TimeHelper.formatTime12H(new Date()));
-        
+        String changedContent = HtmlHelper.injectContextDependentValuesForTest(initialContent);
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", changedContent);
     }
 

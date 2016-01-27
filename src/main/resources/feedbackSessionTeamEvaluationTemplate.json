@@ -4,7 +4,7 @@
       "courseId": "${courseId}",
       "creatorEmail": "${creatorEmail}",
       "questionMetaData":{
-            "value":"{\"questionText\":\"Please rate the estimated contribution of the following recipients.\",
+            "value":"{\"questionText\":\"My estimate of how much each team member contributed.\",
                       \"questionType\":\"CONTRIB\"}"
       },
       "questionNumber": 1,
