@@ -1,6 +1,7 @@
 package teammates.test.cases.storage;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -29,6 +30,53 @@ public class StudentsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
+    }
+    
+    @Test
+    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException 
+    {        
+        ______TS("success : created");
+        
+        StudentAttributes s = new StudentAttributes();
+        s.name = "valid student";
+        s.lastName = "student";
+        s.email = "valid-fresh@email.com";
+        s.team = "validTeamName";
+        s.section = "validSectionName";
+        s.comments = "";
+        s.googleId = "validGoogleId";
+        s.course = "valid-course";
+        studentsDb.createEntity(s);
+        
+        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        assertNotNull(student);
+        
+        // Assert dates are now.
+        AssertHelper.assertDateIsNow(student.getCreatedAt());
+        AssertHelper.assertDateIsNow(student.getUpdatedAt());
+        
+        
+        ______TS("success : update lastUpdated");
+        
+        s.name = "new-name";
+        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team,
+                                                     s.section, s.email, s.googleId, s.comments);
+        StudentAttributes updatedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        
+        // Assert lastUpdate has changed, and is now.
+        assertFalse(student.getUpdatedAt().equals(updatedStudent.getUpdatedAt()));
+        AssertHelper.assertDateIsNow(updatedStudent.getUpdatedAt());
+        
+        ______TS("success : keep lastUpdated");
+        
+        s.name = "new-name-2";
+        studentsDb.updateStudentWithoutSearchability(s.course, s.email, s.name, s.team,
+                                                     s.section, s.email, s.googleId, s.comments, true);
+        StudentAttributes updatedStudent2 = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        
+        // Assert lastUpdate has NOT changed.
+        assertTrue(updatedStudent.getUpdatedAt().equals(updatedStudent2.getUpdatedAt()));
+        
     }
     
     @Test

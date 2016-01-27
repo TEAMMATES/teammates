@@ -5,16 +5,17 @@ import static teammates.common.util.Const.EOL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
-import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
@@ -67,6 +68,13 @@ public class StudentAttributes extends EntityAttributes {
     public String key = null;
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
+    
+    /*
+     * Creation and update time stamps. 
+     * Updated automatically in Student.java, jdoPreStore()
+     */
+    private Date createdAt;
+    private Date updatedAt;
 
     public StudentAttributes(String id, String email, String name, String comments, String courseId,
                              String team, String section) {
@@ -109,6 +117,10 @@ public class StudentAttributes extends EntityAttributes {
          * Old system considers "" as unregistered.
          * It should be changed to consider null as unregistered.
          */
+        
+        this.createdAt = student.getCreatedAt();
+        this.updatedAt = student.getUpdatedAt();
+        
     }
 
     public String toEnrollmentString() {
@@ -356,5 +368,27 @@ public class StudentAttributes extends EntityAttributes {
         } else {
             return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
+    }
+    
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+    
+    /**
+     * Should only be used for testing
+     **/
+    public void setCreated_NonProduction(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    /**
+     * Should only be used for testing
+     **/
+    public void setUpdatedAt_NonProduction(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
