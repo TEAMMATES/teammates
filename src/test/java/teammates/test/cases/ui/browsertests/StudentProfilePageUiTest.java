@@ -14,6 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentHomePage;
@@ -31,6 +32,17 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
+        
+        // use the 2nd student account injected for this test
+        
+        String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
+        String student2Email = student2GoogleId + "@gmail.com";
+        testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
+        testData.accounts.get("studentWithExistingProfile").email = student2Email;
+        testData.accounts.get("studentWithExistingProfile").studentProfile.googleId = student2GoogleId;
+        testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
+        testData.students.get("studentWithExistingProfile").email = student2Email;
+        
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
