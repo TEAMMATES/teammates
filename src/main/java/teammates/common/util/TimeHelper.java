@@ -14,22 +14,24 @@ import java.util.TimeZone;
 
 import teammates.common.util.Const.SystemParams;
 
-/** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
- * Time zone is assumed as UTC unless specifically mentioned.
+/**
+ * A helper class to hold time-related functions (e.g., converting dates to
+ * strings etc.). Time zone is assumed as UTC unless specifically mentioned.
  */
 public class TimeHelper {
-    
+
     private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<String, String>();
     private static final List<Double> TIME_ZONE_VALUES = new ArrayList<Double>();
-    
+
     /*
-     *This time zone - city map was created by selecting major cities from each time zone.
-     *reference: http://en.wikipedia.org/wiki/List_of_UTC_time_offsets 
-     *The map was verified by comparing with world clock from http://www.timeanddate.com/worldclock/
-     *Note: No DST is handled here.
+     * This time zone - city map was created by selecting major cities from each
+     * time zone.reference:
+     * http://en.wikipedia.org/wiki/List_of_UTC_time_offsetsThe map was verified
+     * by comparing with world clock from http://www.timeanddate.com/worldclock/
+     * Note: No DST is handled here.
      */
-    
-    static{
+
+    static {
         map("-12.0", "Baker Island, Howland Island");
         map("-11.0", "American Samoa, Niue");
         map("-10.0", "Hawaii, Cook Islands");
@@ -47,7 +49,8 @@ public class TimeHelper {
         map("-1.0", "Cape Verde, Greenland, Azores islands");
         map("0.0", "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
         map("1.0", "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
-        map("2.0", "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
+        map("2.0",
+                                        "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
         map("3.0", "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
         map("3.5", "Tehran");
         map("4.0", "Baku, Dubai, Moscow");
@@ -69,32 +72,34 @@ public class TimeHelper {
         map("12.75", "Chatham Islands");
         map("13.0", "Phoenix Islands, Tokelau, Tonga");
         map("14.0", "Line Islands");
-        
+
     }
-        
+
     private static void map(String timeZone, String cities) {
         TIME_ZONE_CITIES_MAP.put(timeZone, cities);
         TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
     }
-    
-    public static String getCitiesForTimeZone(String zone){
+
+    public static String getCitiesForTimeZone(String zone) {
         return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
     public static List<Double> getTimeZoneValues() {
         return new ArrayList<Double>(TIME_ZONE_VALUES);
     }
-    
+
     /**
-     * Returns the current date and time as a {@code Calendar} object for the given timezone.
+     * Returns the current date and time as a {@code Calendar} object for the
+     * given timezone.
      */
     public static Calendar now(double timeZone) {
         return TimeHelper.convertToUserTimeZone(
-                Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
+                                        Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone);
     }
-    
+
     /**
-     * Convert a date string and time string into a Date object. Returns null on error.
+     * Convert a date string and time string into a Date object. Returns null on
+     * error.
      * 
      * @param date
      *            The date in format dd/MM/yyyy
@@ -124,7 +129,7 @@ public class TimeHelper {
         cal.add(Calendar.HOUR, +offsetHours);
         return cal.getTime();
     }
-    
+
     /**
      * Returns the date object with specified offset in number of days from now
      */
@@ -162,8 +167,9 @@ public class TimeHelper {
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
-    public static String convertToOptionValueInTimeDropDown(Date date) { 
-        //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
+    public static String convertToOptionValueInTimeDropDown(Date date) {
+        // TODO: see if we can eliminate this method (i.e., merge with
+        // convertToDisplayValueInTimeDropDown)
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTime(date);
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -172,21 +178,21 @@ public class TimeHelper {
         hour = ((hour == 23) && (minutes == 59)) ? 24 : hour;
         return hour + "";
     }
-    
+
     /**
      * @return one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
-     * Note the last one is different from the others.
+     *         Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
         String optionValue = convertToOptionValueInTimeDropDown(date);
         if (optionValue.equals("24")) {
             return "2359H";
-        }else if (optionValue.length() == 1) {
+        } else if (optionValue.length() == 1) {
             return "0" + optionValue + "00H";
         } else if (optionValue.length() == 2) {
             return optionValue + "00H";
         } else {
-            throw new RuntimeException("Unrecognized time option: "+optionValue);
+            throw new RuntimeException("Unrecognized time option: " + optionValue);
         }
     }
 
@@ -200,7 +206,7 @@ public class TimeHelper {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
-    
+
     /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
      * 2:04 PM<br />
@@ -208,9 +214,14 @@ public class TimeHelper {
     public static String formatTime12H(Date date) {
         if (date == null)
             return "";
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm").format(date) + " NOON";
+        }
         return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
     }
-    
+
     public static String formatDateTimeForComments(Date date) {
         if (date == null) {
             return "";
@@ -226,7 +237,17 @@ public class TimeHelper {
     public static String formatDateTimeForInstructorHomePage(Date date) {
         if (date == null)
             return "";
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mm a");
+        
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            sdf = new SimpleDateFormat("d MMM h:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date) + " NOON";
+        }
+        
+        sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
@@ -238,7 +259,8 @@ public class TimeHelper {
     }
 
     /**
-     * @param dateInStringFormat should be in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
+     * @param dateInStringFormat
+     *            should be in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
      */
     public static Date convertToDate(String dateInStringFormat) {
         try {
@@ -257,7 +279,7 @@ public class TimeHelper {
         c.setTime(date);
         return c;
     }
-    
+
     /**
      * Returns the date object representing the next full hour from now.
      * Example: If now is 1055, this will return 1100
@@ -277,46 +299,46 @@ public class TimeHelper {
      * A null date is not a special time.
      */
     public static boolean isSpecialTime(Date date) {
-        
+
         if (date == null) {
             return false;
         }
-        
+
         return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING) ||
-            date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
-            date.equals(Const.TIME_REPRESENTS_LATER) ||
-            date.equals(Const.TIME_REPRESENTS_NEVER) ||
-            date.equals(Const.TIME_REPRESENTS_NOW);
-        
+                                        date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE) ||
+                                        date.equals(Const.TIME_REPRESENTS_LATER) ||
+                                        date.equals(Const.TIME_REPRESENTS_NEVER) ||
+                                        date.equals(Const.TIME_REPRESENTS_NOW);
+
     }
 
     public static boolean isOlderThanAYear(Date compareDate) {
         Date currentDate = new Date();
         int differenceInDays;
-        
-        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000*60*60*24));
-        
+
+        differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000 * 60 * 60 * 24));
+
         return (differenceInDays > 365);
     }
-    
+
     public static double getLocalTimezoneHourOffset() {
         // getOffset returns the offset from UTC in milliseconds
         // so we need to divide it by (1000 * 60 * 60) to get it in hours
         return TimeZone.getDefault().getOffset(new Date().getTime()) / 1000.0 / 60.0 / 60.0;
     }
-    
+
     private static Date convertToDate(String date, int time) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-    
+
         Date newDate = new Date();
-    
+
         // Perform date manipulation
         try {
             newDate = sdf.parse(date);
             calendar.setTime(newDate);
-    
+
             if (time == 2400) {
                 calendar.set(Calendar.HOUR, 23);
                 calendar.set(Calendar.MINUTE, 59);
@@ -324,44 +346,40 @@ public class TimeHelper {
                 calendar.set(Calendar.HOUR, time / 100);
                 calendar.set(Calendar.MINUTE, time % 100);
             }
-    
+
             return calendar.getTime();
         } catch (Exception e) {
             return null;
         }
-    
+
     }
-    
+
     /**
-     * @param type: Long value: time in milliseconds
-     * @return Duration in format m:s:ms
-     * Example: 1200 milliseconds ---> 0:1:200
+     * @param type
+     *            : Long value: time in milliseconds
+     * @return Duration in format m:s:ms Example: 1200 milliseconds ---> 0:1:200
      */
-    
-    public static String convertToStandardDuration(Long timeInMilliseconds){
-     
-        return timeInMilliseconds !=null? String.format("%d:%d:%d",
-                                                         timeInMilliseconds / 60000,
-                                                         timeInMilliseconds / 1000,
-                                                         timeInMilliseconds % 1000) : "";
+
+    public static String convertToStandardDuration(Long timeInMilliseconds) {
+
+        return timeInMilliseconds != null ? String.format("%d:%d:%d",
+                                        timeInMilliseconds / 60000,
+                                        timeInMilliseconds / 1000,
+                                        timeInMilliseconds % 1000) : "";
     }
-    
-  
-    
-    
-   
+
     /**
-     * All parameters not null
-     * Combine separated date, hour and minute string into standard format
-     * required parameter format:
-     * date: dd/MM/yyyy  hour: hh   min:mm
+     * All parameters not null Combine separated date, hour and minute string
+     * into standard format required parameter format: date: dd/MM/yyyy hour: hh
+     * min:mm
+     * 
      * @return Date String in the format {@link Const.DEFAULT_DATE_TIME_FORMAT}
-     * Example: If date is 01/04/2014, hour is 23, min is 59
-     *          result will be  2014-04-01 11:59 PM UTC
+     *         Example: If date is 01/04/2014, hour is 23, min is 59 result will
+     *         be 2014-04-01 11:59 PM UTC
      */
-    
+
     public static String convertToRequiredFormat(String date, String hour, String min) {
-        
+
         if (date == null || hour == null || min == null) {
             return null;
         }
@@ -380,13 +398,13 @@ public class TimeHelper {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
-        
+
         int intHour = Integer.parseInt(hour);
-        
+
         String amOrPm = intHour >= 12 ? "PM" : "AM";
         intHour = intHour >= 13 ? intHour - 12 : intHour;
-        
-        String formatedStr = date + " "+ intHour + ":" + min + " " + amOrPm + " UTC";
+
+        String formatedStr = date + " " + intHour + ":" + min + " " + amOrPm + " UTC";
 
         return formatedStr;
 
