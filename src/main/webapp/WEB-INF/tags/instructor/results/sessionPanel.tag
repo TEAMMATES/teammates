@@ -8,16 +8,16 @@
     <div class="form-horizontal">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-sm-5 col-lg-4">
                     <div class="form-group">
-                      <label class="col-md-2 control-label">Course ID:</label>
-                      <div class="col-md-10">
+                      <label class="col-lg-4 control-label">Course ID:</label>
+                      <div class="col-lg-8">
                         <p class="form-control-static">${sessionPanel.courseId}</p>
                       </div>
                   </div>
                   <div class="form-group">
-                      <label class="col-md-2 control-label">Session:</label>
-                      <div class="col-md-10">
+                      <label class="col-lg-4 control-label">Session:</label>
+                      <div class="col-lg-8">
                         <p class="form-control-static">${sessionPanel.feedbackSessionName} 
                             <c:if test="${not empty sessionPanel.editLink}">
                                 <a href="${sessionPanel.editLink}">[Edit]</a>
@@ -26,23 +26,23 @@
                     </div>
                   </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-sm-7 col-lg-6">
                   <div class="form-group">
-                    <label class="col-md-4 control-label">Session duration:</label>
-                    <div class="col-md-8">
+                    <label class="col-lg-4 control-label">Session duration:</label>
+                    <div class="col-lg-8">
                       <p class="form-control-static">${sessionPanel.startTime}&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;${sessionPanel.endTime}</p>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 control-label">Results visible from:</label>
-                    <div class="col-md-8">
+                    <label class="col-lg-4 control-label">Results visible from:</label>
+                    <div class="col-lg-8">
                         <p class="form-control-static">
                             ${sessionPanel.resultsVisibleFrom}
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-sm-4 col-lg-2">
                 <div class="form-group">
                     <div class="col-md-12">
                         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
