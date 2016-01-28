@@ -237,7 +237,6 @@ public class TimeHelper {
     public static String formatDateTimeForInstructorHomePage(Date date) {
         if (date == null)
             return "";
-        
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -246,7 +245,6 @@ public class TimeHelper {
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             return sdf.format(date) + " NOON";
         }
-        
         sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
