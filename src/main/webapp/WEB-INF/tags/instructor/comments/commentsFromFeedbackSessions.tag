@@ -7,7 +7,12 @@
     <div class="panel-heading" onclick="loadFeedbackResponseComments('${data.account.googleId}','${courseId}','${fsName}', '${fsIdx}', this);"
         style="cursor: pointer;">
         <strong>Comments in session: ${fsName}</strong>
-        <div class="placeholder-img-loading pull-right"></div>
+        <div class="pull-right">
+            <div class="placeholder-img-loading" style="display:inline-block;"></div>
+            <div class="display-icon" style="display:inline-block; margin-left:5px;">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </div>
+        </div>
     </div>
     
     <div class="panel-collapse collapse">

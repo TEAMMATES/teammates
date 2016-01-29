@@ -388,9 +388,21 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
             
             $(sender).find('div[class^="placeholder-img-loading"]').html("");
             $(sender).siblings(".collapse").collapse("toggle");
+            toggleChevron(sender);
         });
     } else {
         $(sender).siblings(".collapse").collapse("toggle");
+        toggleChevron(sender);
+    }
+}
+
+function toggleChevron(sender) {
+    if($(sender).find(".glyphicon-chevron-down").length) { 
+        $(sender).find(".glyphicon").removeClass("glyphicon-chevron-down");
+        $(sender).find(".glyphicon").addClass("glyphicon-chevron-up");
+    } else {
+        $(sender).find(".glyphicon").removeClass("glyphicon-chevron-up");
+        $(sender).find(".glyphicon").addClass("glyphicon-chevron-down");
     }
 }
 
