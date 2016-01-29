@@ -54,7 +54,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     
     
     @Test
-    public void testStudentSubmitAndResultsPages() {
+    public void testStudentSubmitAndResultsPages() throws Exception {
         ______TS("Rank submission: input disabled for closed session");
         
         FeedbackSubmitPage submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRankUiT.CS4221", "closed");
@@ -207,7 +207,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     
     
     @Test
-    public void testInstructorSubmitAndResultsPage() {
+    public void testInstructorSubmitAndResultsPage() throws Exception {
         
         ______TS("Rank submission: input disabled for closed session");
         
@@ -282,7 +282,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     
 
     @Test
-    public void testEditPage(){
+    public void testEditPage() throws Exception {
         feedbackEditPage = getFeedbackEditPage();
         testNewQuestionFrame();
         testInputValidation();
@@ -332,7 +332,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
 
-    public void testAddQuestionAction() {
+    public void testAddQuestionAction() throws Exception {
         ______TS("Rank edit: add rank option question action success");
         
         assertNull(BackDoor.getFeedbackQuestion(instructorCourseId, instructorEditFSName, 1));
@@ -386,7 +386,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     }
     
 
-    public void testEditQuestionAction() {
+    public void testEditQuestionAction() throws Exception {
         ______TS("rank edit: edit rank options question success");
         assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         

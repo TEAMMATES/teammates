@@ -23,7 +23,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EnrollException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
@@ -78,7 +77,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.clickAndCancel(browser.driver.findElement(By.id("studentCommentsNavLink")));
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
 
         ______TS("unreg student");
 
@@ -135,7 +134,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
     }
 
-    private void testSubmitAction() {
+    private void testSubmitAction() throws Exception {
 
         ______TS("create new responses");
 
@@ -553,7 +552,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                         "SFSubmitUiT.charlie.d@gmail.tmt").getResponseDetails().getAnswerString());
     }
 
-    private void testModifyData() throws EnrollException {
+    private void testModifyData() throws Exception {
         ______TS("modify data");
 
         // Next, we edit some student data to cover editing of students

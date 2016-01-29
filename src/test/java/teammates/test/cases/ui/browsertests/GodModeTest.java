@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertNull;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -73,7 +74,7 @@ public class GodModeTest extends BaseUiTestCase {
             // should fail as the expected output file does not exist
             verifyHtml(OUTPUT_FILENAME, isPart);
             signalFailureToDetectException();
-        } catch (Exception e) {
+        } catch (IOException e) {
             ignoreExpectedException();
         }
         
@@ -125,7 +126,7 @@ public class GodModeTest extends BaseUiTestCase {
         
     }
 
-    private void verifyHtml(String filePath, boolean isPart) {
+    private void verifyHtml(String filePath, boolean isPart) throws IOException {
         if (isPart) {
             page.verifyHtmlMainContent(filePath);
         } else {

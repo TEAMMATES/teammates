@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.List;
@@ -733,11 +734,11 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtml(String filePath) {
+    public AppPage verifyHtml(String filePath) throws IOException {
         return verifyHtml(null, filePath, false);
     }
 
-    private AppPage verifyHtml(By by, String filePath, boolean isAfterAjaxLoad) {
+    private AppPage verifyHtml(By by, String filePath, boolean isAfterAjaxLoad) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
         if (filePath.startsWith("/")) {
@@ -761,13 +762,9 @@ public abstract class AppPage {
             }
             HtmlHelper.assertSameHtml(expected, actual, isPart);
             
-        } catch (Exception e) {
+        } catch (IOException|AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
-                throw new RuntimeException(e);
-            }
-        } catch (AssertionError ae) {
-            if (!testAndRunGodMode(filePath, actual, isPart)) {
-                throw ae;
+                throw e;
             }
         } 
         
@@ -811,7 +808,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlPart(By by, String filePath) {
+    public AppPage verifyHtmlPart(By by, String filePath) throws IOException {
         return verifyHtml(by, filePath, false);
     }
     
@@ -824,7 +821,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlMainContent(String filePath) {
+    public AppPage verifyHtmlMainContent(String filePath) throws IOException {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
     
@@ -839,7 +836,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjaxMainContent(String filePath) throws Exception {
+    public AppPage verifyHtmlAjaxMainContent(String filePath) throws IOException {
         return verifyHtml(MAIN_CONTENT, filePath, true);
     }
 
@@ -853,7 +850,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) throws Exception {
+    public AppPage verifyHtmlAjax(String filePath) throws IOException {
         return verifyHtml(null, filePath, true);
     }
 

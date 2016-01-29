@@ -157,7 +157,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
-    private void testAddInstructorAction() {
+    private void testAddInstructorAction() throws Exception {
 
         ______TS("success: add an instructor");
         
@@ -192,7 +192,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
 
-    private void testEditInstructorAction() {
+    private void testEditInstructorAction() throws Exception {
         
         ______TS("failure: ajax error on clicking edit button");
         
