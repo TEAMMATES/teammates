@@ -4,16 +4,22 @@
 
 Typically browser tests involve comparing the source of the webpage to an existing *expected* source. This serves to verify the DOM structure (HTML) of the page. However, creating new browser tests and updating outdated ones require considerable effort on the developer's part. In addition, ensuring that the generated *expected* source code works across computers, browsers, user accountsa, and execution times is harder still. To overcome this problem, GodMode provides a simple way to create and update *expected* source files for browser tests and ensure the necessary cross-compatibility.
 
+
 ##How does GodMode work?
 
 The essential idea is to reverse the process of testing, whereby the actual source of the webpage during the test is used to overwrite the *expected* source for the test, as opposed to the usual way of using the *expected* source as the reference and checking the actual source of the webpage. In actual implementation we check if the test already passes and only if it fails do we update the *expected* source. Thus running GodMode on passing tests poses no danger.
+
 
 ##How do we use GodMode?
 
 GodMode can be activated in two different ways. 
 
-If we want to run the entire test suite using GodMode, then use the `GodMode All tests` option under the green `Run` button in the Eclipse toolbar
-If we want to execute a specific test file using GodMode, then update BaseUiTestCase class and set `enableGodMode = true` at the top of the class implementation. Please remember to set it back to false when done.
+1. If we want to execute arbitrary tests using GodMode, then update BaseUiTestCase class and set `enableGodMode = true` at the top of the class implementation. Now all test runs would have GodMode enabled. Please remember to set it back to false when done.
+
+2. If we want to run a particular test suite using GodMode, then go to `Run -> Run Configurations` and update the appropriate one with the `-Dgodmode=true` VM argument. Please remember to remove the argument before committing the changes
+
+Note: The first option encompasses the functionality of the second. By updating the BaseUiTestClass and running the intended test suite, we achieve the second option's effect.
+
 
 ##When do we use GodMode?
 
@@ -59,3 +65,5 @@ to
   </div>
 </div>
 ```
+
+Happy Testing!
