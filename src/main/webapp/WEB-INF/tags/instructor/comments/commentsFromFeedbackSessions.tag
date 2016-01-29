@@ -9,14 +9,17 @@
         <strong>Comments in session: ${fsName}</strong>
         <div class="placeholder-img-loading pull-right"></div>
     </div>
-    <div class="panel-body hidden">
-        <div class="placeholder-error-msg-${panelIdx} hidden">
-            <div class="panel panel-info">
-                <ul class="list-group comments">
-                    <li class="list-group-item list-group-item-danger">
-                        Failed to load response comments for this session. Please try again later.
-                    </li>
-                </ul>
+    
+    <div class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="placeholder-error-msg-${panelIdx} hidden">
+                <div class="panel panel-info">
+                    <ul class="list-group comments">
+                        <li class="list-group-item list-group-item-danger">
+                            Failed to load response comments for this session. Please try again later.
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

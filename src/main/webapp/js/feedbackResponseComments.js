@@ -371,27 +371,24 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
     var panelBody = $(sender).parent().find('div[class^="panel-body"]');
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
-    
-    if(panelBody.hasClass('hidden')) {
-        $(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
 
-        panelBody.load(url, function( response, status, xhr ) {
-            if (status == "success") {
-                panelBody.removeClass('hidden');
-                updateBadgeForPendingComments(panelBody.children(":first").text());
-                panelBody.children(":first").remove();
-                registerResponseCommentsEvent();
-                registerCheckboxEventForVisibilityOptions();
-                enableHoverToDisplayEditOptions();
-            } else {
-                panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
-                panelBody.removeClass('hidden');
-            }
-            $(sender).find('div[class^="placeholder-img-loading"]').html("");
-        });
-    } else {
-        panelBody.addClass('hidden');
-    }
+    $(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+
+    panelBody.load(url, function( response, status, xhr ) {
+        if (status == "success") {
+            //panelBody.removeClass('hidden');
+            updateBadgeForPendingComments(panelBody.children(":first").text());
+            panelBody.children(":first").remove();
+            registerResponseCommentsEvent();
+            registerCheckboxEventForVisibilityOptions();
+            enableHoverToDisplayEditOptions();
+        } else {
+            panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
+            //panelBody.removeClass('hidden');
+        }
+        $(sender).find('div[class^="placeholder-img-loading"]').html("");
+        $(sender).siblings(".collapse").collapse("toggle");
+    });
 }
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
