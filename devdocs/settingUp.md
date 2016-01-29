@@ -51,7 +51,8 @@ Important: When a version is specified, please install that version instead of t
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
    Create it using `test.template.properties`. 
-   Append a unique id (e.g your name) to each of the default accounts found at the bottom of this file. e.g change alice.tmms to alice.tmms.&lt;yourName&gt;<br>
+   Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
+   e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
