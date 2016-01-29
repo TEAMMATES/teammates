@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="hidden number-of-pending-comments">${data.numberOfPendingComments}</div>
+<div class="hidden loaded"></div>
 <c:choose>
     <c:when test="${empty data.questionCommentsMap}">
         <div id="no-comment-panel" style="">
