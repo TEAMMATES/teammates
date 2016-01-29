@@ -107,7 +107,7 @@ public class HtmlHelper {
      *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
      * @return converted HTML string
      */
-    public static String convertToStandardHtml(String rawHtml, boolean isPart) {
+    private static String convertToStandardHtml(String rawHtml, boolean isPart) {
         try {
             Node documentNode = getNodeFromString(rawHtml);
             String initialIndentation = INDENTATION_STEP; // TODO start from zero indentation
