@@ -782,9 +782,14 @@ public abstract class AppPage {
     }
 
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {
-        if (content != null && !content.isEmpty() && 
-                System.getProperty("godmode") != null && 
-                System.getProperty("godmode").equals("true")) {
+        if (Boolean.parseBoolean(System.getProperty("godmode"))) {
+            return regenerateHtmlFile(filePath, content, isPart);
+        }
+        return false;
+    }
+    
+    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) {
+        if (content != null && !content.isEmpty()) {
             TestProperties.inst().verifyReadyForGodMode();
             try {
                 String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
