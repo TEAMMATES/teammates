@@ -429,21 +429,24 @@ public class HtmlHelper {
      */
     public static String injectContextDependentValuesForTest(String content) {
         Date now = new Date();
-        String testAccounts = "<div>"
-                            + TP.TEST_ADMIN_ACCOUNT
-                            + StringHelper.truncateLongId(TP.TEST_ADMIN_ACCOUNT)
-                            + TP.TEST_INSTRUCTOR_ACCOUNT
-                            + StringHelper.truncateLongId(TP.TEST_INSTRUCTOR_ACCOUNT)
-                            + TP.TEST_STUDENT1_ACCOUNT
-                            + StringHelper.truncateLongId(TP.TEST_STUDENT1_ACCOUNT)
-                            + TP.TEST_STUDENT2_ACCOUNT
-                            + StringHelper.truncateLongId(TP.TEST_STUDENT2_ACCOUNT)
-                            + "</div>";
-        
-        return content.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts)
-                      .replace("<!-- VERSION -->", TP.TEAMMATES_VERSION)
-                      .replace("<!-- DATETODAY -->", TimeHelper.formatDate(now))
-                      .replace("<!-- DATETIMETODAY -->", TimeHelper.formatTime12H(now));
+        return content.replace("<!-- test.url -->", TP.TEAMMATES_URL)
+                      .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                      .replace("<!-- version -->", TP.TEAMMATES_VERSION)
+                      .replace("<!-- test.student1 -->", TP.TEST_STUDENT1_ACCOUNT)
+                      .replace("<!-- test.student1.truncated -->",
+                               StringHelper.truncateLongId(TP.TEST_STUDENT1_ACCOUNT))
+                      .replace("<!-- test.student2 -->", TP.TEST_STUDENT2_ACCOUNT)
+                      .replace("<!-- test.student2.truncated -->",
+                               StringHelper.truncateLongId(TP.TEST_STUDENT2_ACCOUNT))
+                      .replace("<!-- test.instructor -->", TP.TEST_INSTRUCTOR_ACCOUNT)
+                      .replace("<!-- test.instructor.truncated -->",
+                               StringHelper.truncateLongId(TP.TEST_INSTRUCTOR_ACCOUNT))
+                      .replace("<!-- test.admin -->", TP.TEST_ADMIN_ACCOUNT)
+                      .replace("<!-- test.admin.truncated -->",
+                               StringHelper.truncateLongId(TP.TEST_ADMIN_ACCOUNT))
+                      .replace("<!-- now.date -->", TimeHelper.formatDate(now))
+                      .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
+                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now));
     }
 
 }
