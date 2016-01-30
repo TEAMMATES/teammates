@@ -19,8 +19,8 @@ public class StudentListStudentData {
 
     public StudentListStudentData(String googleId, String studentName, String studentEmail, String course,
                                   String studentStatus, String photoUrl) {
-        this.studentName = Sanitizer.sanitizeForHtml(studentName);
-        this.studentEmail = Sanitizer.sanitizeForHtml(studentEmail);
+        this.studentName = studentName;
+        this.studentEmail = studentEmail;
         this.studentStatus = studentStatus;
         this.toggleDeleteConfirmationParams = "'" + Sanitizer.sanitizeForJs(course) + "','"
                                             + Sanitizer.sanitizeForJs(studentName) + "'";

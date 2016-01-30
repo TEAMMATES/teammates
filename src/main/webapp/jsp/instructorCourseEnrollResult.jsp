@@ -44,12 +44,12 @@
                     <c:forEach items="${enrollResultPanel.studentList}" var="student">
                         <tr>
                             <c:if test="${data.hasSection}">
-                                <td>${student.section}</td>
+                                <td><c:out value="${student.section}"/></td>
                             </c:if>
-                            <td>${student.team}</td>
-                            <td>${student.name}</td>
-                            <td>${student.email}</td>
-                            <td>${student.comments}</td>
+                            <td><c:out value="${student.team}"/></td>
+                            <td><c:out value="${student.name}"/></td>
+                            <td><c:out value="${student.email}"/></td>
+                            <td><c:out value="${student.comments}"/></td>
                         </tr>
                     </c:forEach>
                 </table>
