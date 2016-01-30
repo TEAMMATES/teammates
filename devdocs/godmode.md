@@ -23,15 +23,21 @@ Note: The first option encompasses the functionality of the second. By updating 
 
 ##When do we use GodMode?
 
-GodMode can be used to create a new source file for a new browser test. This is done by simply assuming that the *expected* source is available and writing the test code. Then by executing the method using GodMode, the *expected* source will be generated and saved with the name specified in the test code. The following code snippet illustrates this:
+GodMode is typically used in the following two situations:
 
-The following code is written WITHOUT a studentHomeTypicalHTML.html file. Then when this test is executed using GodMode, studentHomeTypicalHTML.html is automatically generated with the expected source.
+1. To create a new source file for a (new) browser test.
+2. To update existing source files to reflect intended changes to the UI of the web pages.
 
+The following example describes the behaviour of GodMode and how it can be used in practice.
+Let us consider the case where the following line of test code is executed with GodMode enabled:
 ```java
 studentHomePage.verifyHtmlMainContent("/studentHomeTypicalHTML.html");
 ```
 
-GodMode can also be used to update test cases when there are EXPECTED changes in the source of the webpage. This is done by executing those test cases with GodMode enabled. At the end of the test run, the expected source is updated with the new changes. 
+Here are three possible situations and the corresponding behaviours of GodMode when the test is executed with GodMode enabled:
+1. If `studentHomeTypicalHTML.html` exists and has the correct content, GodMode will not make any updates to the source file. 
+2. If `studentHomeTypicalHTML.html` exists but has the wrong content, GodMode will update the source file with the correct content. The effect of this is that the test case will pass subsequent test runs with/without GodMode enabled.
+3. If `studentHomeTypicalHTML.html` does not exist, GodMode will create a source file with the given name AND with the correct content. The effect of this is that the test case will pass subsequent test runs with/without GodMode enabled.
 
 
 ##Best Practices##
@@ -42,9 +48,11 @@ GodMode can also be used to update test cases when there are EXPECTED changes in
 4. After all the necessary changes have been made, run the test suite once without GodMode enabled to ensure that the tests pass without GodMode. 
 
 
-##Final Note
+##Final Notes
 
 DO NOT create or modify the *expected* html pages in the tests manually. Use GodMode even for seemingly trivial changes. Also, note that the generated html may not reflect the browser's source identically. Some modifications have been made to achieve cross-compatibility (eg: white space standardization).
+
+Running browsertests with GodMode enabled can lead to false positive results since html comparison failures are suppressed when the test is run with GodMode enabled. This further underscores the need to run the test suite WITHOUT GodMode enabled to truly test the system.
 
 In general, only the lines that are modified should be changed by GodMode. However, since GodMode standardizes the white spacing, sometimes multiple (seemingly unrelated) lines may be affected due to changes in the indentation, and as such it is not a cause for concern. An example of this is shown below:
 
