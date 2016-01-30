@@ -329,7 +329,7 @@ function getTimeZone(date) {
     return userTimeZone;
 }
 
-$(document).ready(function() {
+function convertToClientTimeZone() {
     $(".client-time").each(function() {
         var timeZoneOffset = new Date().getTimezoneOffset() * -1 * 60 * 1000;
         var time = this.innerHTML;
@@ -341,4 +341,8 @@ $(document).ready(function() {
             $(this).html(formatted + " " + userTimeZone);
         }
     });
+}
+
+$(document).ready(function() {
+    convertToClientTimeZone();
 });
