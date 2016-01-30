@@ -327,23 +327,23 @@
                   <table class="table table-striped table-bordered dataTable margin-0">
                      <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                         <tr>
-                           <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                           <th class="button-sort-none" id="button_sortFromTeam" onclick="toggleSort(this,1)" style="width: 15%;">
+                              Team
+                              <span class="icon-sort unsorted">
+                              </span>
+                           </th>
+                           <th class="button-sort-none" id="button_sortFromName" onclick="toggleSort(this,2)" style="width: 15%;">
                               Giver
                               <span class="icon-sort unsorted">
                               </span>
                            </th>
-                           <th class="button-sort-none" id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                           <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,3)" style="width: 15%;">
                               Team
                               <span class="icon-sort unsorted">
                               </span>
                            </th>
-                           <th class="button-sort-none" id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                           <th class="button-sort-none" id="button_sortToName" onclick="toggleSort(this,4)" style="width: 15%;">
                               Recipient
-                              <span class="icon-sort unsorted">
-                              </span>
-                           </th>
-                           <th class="button-sort-ascending" id="button_sortToTeam" onclick="toggleSort(this,4)" style="width: 15%;">
-                              Team
                               <span class="icon-sort unsorted">
                               </span>
                            </th>
@@ -362,6 +362,9 @@
                      <tbody>
                         <tr>
                            <td class="middlealign">
+                              Team 1
+                           </td>
+                           <td class="middlealign">
                               <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                  Alice Betsy
                                  <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
@@ -375,9 +378,6 @@
                                  Benny Charles
                                  <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                               </div>
-                           </td>
-                           <td class="middlealign">
-                              Team 1
                            </td>
                            <td class="text-preserve-space">
                               a) Yes
@@ -407,12 +407,6 @@
                         </tr>
                         <tr class="pending_response_row">
                            <td class="middlealign color_neutral">
-                              <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
-                                 Alice Betsy
-                                 <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                              </div>
-                           </td>
-                           <td class="middlealign color_neutral">
                               Team 1
                            </td>
                            <td class="middlealign color_neutral">
@@ -423,6 +417,12 @@
                            </td>
                            <td class="middlealign color_neutral">
                               Team 1
+                           </td>
+                           <td class="middlealign color_neutral">
+                              <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                 Alice Betsy
+                                 <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
+                              </div>
                            </td>
                            <td class="text-preserve-space color_neutral">
                               <i>
@@ -441,6 +441,9 @@
                         </tr>
                         <tr class="pending_response_row">
                            <td class="middlealign color_neutral">
+                              Team 1
+                           </td>
+                           <td class="middlealign color_neutral">
                               <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                  Benny Charles
                                  <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
@@ -454,9 +457,6 @@
                                  Alice Betsy
                                  <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                               </div>
-                           </td>
-                           <td class="middlealign color_neutral">
-                              Team 1
                            </td>
                            <td class="text-preserve-space color_neutral">
                               <i>
@@ -475,12 +475,6 @@
                         </tr>
                         <tr class="pending_response_row">
                            <td class="middlealign color_neutral">
-                              <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
-                                 Benny Charles
-                                 <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                              </div>
-                           </td>
-                           <td class="middlealign color_neutral">
                               Team 1
                            </td>
                            <td class="middlealign color_neutral">
@@ -491,6 +485,12 @@
                            </td>
                            <td class="middlealign color_neutral">
                               Team 1
+                           </td>
+                           <td class="middlealign color_neutral">
+                              <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                 Benny Charles
+                                 <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
+                              </div>
                            </td>
                            <td class="text-preserve-space color_neutral">
                               <i>
