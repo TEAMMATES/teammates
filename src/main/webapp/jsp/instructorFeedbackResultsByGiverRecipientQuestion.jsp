@@ -4,6 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 <c:set var="jsIncludes">    
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+        <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByGRQ.js"></script>
 </c:set>
 
