@@ -57,6 +57,7 @@ var addCommentHandler = function(e) {
                     addFormRow.prev().show();
                     addFormRow.hide();
                 }
+                convertToClientTimeZone();
             } else {
                 formObject.find("textarea").prop("disabled", false);
                 setFormErrorMessage(submitButton, data.errorMessage);
@@ -116,6 +117,7 @@ var editCommentHandler = function(e) {
                     formObject.hide();
                     displayedText.show();
                 }
+                convertToClientTimeZone();
             } else {
                 formObject.find("textarea").prop("disabled", false);
                 setFormErrorMessage(submitButton, data.errorMessage);
