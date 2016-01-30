@@ -322,3 +322,23 @@ function parseDate(val) {
 	}
 	return null;
 }
+
+function getTimeZone(date) {
+    var currentDateInString = date.toString().split(" ");
+    var userTimeZone = currentDateInString[currentDateInString.length - 1];
+    return userTimeZone;
+}
+
+$(document).ready(function() {
+    $(".client-time").each(function() {
+        var timeZoneOffset = new Date().getTimezoneOffset() * -1 * 60 * 1000;
+        var time = this.innerHTML;
+        if (time != "") {
+            var timeInUserTimeZone = time + timeZoneOffset;
+            var dateInUserTimeZone = new Date(timeInUserTimeZone);
+            var userTimeZone = getTimeZone(dateInUserTimeZone);
+            var formatted = formatDate(dateInUserTimeZone, "E, dd NNN yyyy, hh:mm a");
+            $(this).html(formatted + " " + userTimeZone);
+        }
+    });
+});
