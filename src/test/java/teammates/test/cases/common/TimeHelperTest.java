@@ -93,8 +93,19 @@ public class TimeHelperTest extends BaseTestCase {
         Date date = cal.getTime();
         assertEquals("30/12/2015", TimeHelper.formatDate(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(date));
-        assertEquals("Wed, 30 Dec 2015, 12:00 PM UTC", TimeHelper.formatDateTimeForComments(date));
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForComments(date));
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
     
+    @Test
+    public void testMidnight(){
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal.clear();
+        cal.set(2015, 9, 9, 0, 24, 0);
+        Date date = cal.getTime();
+        assertEquals("09/10/2015", TimeHelper.formatDate(date));
+        assertEquals("Fri, 09 Oct 2015, 00:24 MIDNIGHT", TimeHelper.formatTime12H(date));
+        assertEquals("Fri, 09 Oct 2015, 00:24 MIDNIGHT UTC", TimeHelper.formatDateTimeForComments(date));
+        assertEquals("9 Oct 0:24 MIDNIGHT", TimeHelper.formatDateTimeForInstructorHomePage(date));
+    }
 }
