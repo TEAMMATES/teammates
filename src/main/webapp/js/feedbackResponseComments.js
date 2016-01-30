@@ -368,15 +368,16 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
 
 function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
     $(".tooltip").hide();
-    var panelBody = $(sender).parent().find('div[class^="panel-body"]');
+    var $sender = $(sender);
+    var panelBody = $sender.parent().find('div[class^="panel-body"]');
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
-
-    if(!$(sender).siblings(".collapse").find(".loaded").length) {
-        $(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+    
+    if (!$sender.siblings(".collapse").find(".loaded").length) {
+        $sender.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
         
         panelBody.load(url, function( response, status, xhr ) {
-            if (status == "success") {
+            if (status === "success") {
                 updateBadgeForPendingComments(panelBody.children(":first").text());
                 panelBody.children(":first").remove();
                 registerResponseCommentsEvent();
@@ -386,23 +387,25 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
                 panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
             }
             
-            $(sender).find('div[class^="placeholder-img-loading"]').html("");
-            $(sender).siblings(".collapse").collapse("toggle");
+            $sender.find('div[class^="placeholder-img-loading"]').html("");
+            $sender.siblings(".collapse").collapse("toggle");
             toggleChevron(sender);
         });
     } else {
-        $(sender).siblings(".collapse").collapse("toggle");
+        $sender.siblings(".collapse").collapse("toggle");
         toggleChevron(sender);
     }
 }
 
 function toggleChevron(sender) {
-    if($(sender).find(".glyphicon-chevron-down").length) { 
-        $(sender).find(".glyphicon").removeClass("glyphicon-chevron-down");
-        $(sender).find(".glyphicon").addClass("glyphicon-chevron-up");
+    var $sender = $(sender);
+    
+    if ($sender.find(".glyphicon-chevron-down").length) { 
+        $sender.find(".glyphicon").removeClass("glyphicon-chevron-down");
+        $sender.find(".glyphicon").addClass("glyphicon-chevron-up");
     } else {
-        $(sender).find(".glyphicon").removeClass("glyphicon-chevron-up");
-        $(sender).find(".glyphicon").addClass("glyphicon-chevron-down");
+        $sender.find(".glyphicon").removeClass("glyphicon-chevron-up");
+        $sender.find(".glyphicon").addClass("glyphicon-chevron-down");
     }
 }
 
