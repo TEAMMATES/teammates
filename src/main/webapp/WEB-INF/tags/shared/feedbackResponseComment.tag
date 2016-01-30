@@ -21,7 +21,11 @@
 <li class="list-group-item list-group-item-warning${frc.extraClass}" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
         <span class="text-muted">
-            From: ${frc.giverDisplay} [${frc.createdAt}] ${frc.editedAt}
+            From: ${frc.giverDisplay}
+            [<span class="client-time">${frc.createdAt}</span>]
+            <c:if test = "${frc.editedAt != null && comment.editedAt != frc.createdAt}">
+                    (${frc.editedBy} <span class="client-time">${frc.editedAt}</span>)
+            </c:if> 
         </span>
         <c:if test="${frc.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"
