@@ -331,13 +331,10 @@ function getTimeZone(date) {
 
 function convertToClientTimeZone() {
     $(".client-time").each(function() {
-        var timeZoneOffset = new Date().getTimezoneOffset() * -1 * 60 * 1000;
-        var time = Date.parse(this.innerHTML);
+        var time = new Date(Date.parse(this.innerHTML));
         if (time != "") {
-            var timeInUserTimeZone = time + timeZoneOffset;
-            var dateInUserTimeZone = new Date(timeInUserTimeZone);
-            var userTimeZone = getTimeZone(dateInUserTimeZone);
-            var formatted = formatDate(dateInUserTimeZone, "E, dd NNN yyyy, hh:mm a");
+            var userTimeZone = getTimeZone(time);
+            var formatted = formatDate(time, "E, dd NNN yyyy, hh:mm a");
             $(this).html(formatted + " " + userTimeZone);
         }
     });
