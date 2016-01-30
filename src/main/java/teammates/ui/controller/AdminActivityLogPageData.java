@@ -233,6 +233,12 @@ public class AdminActivityLogPageData extends PageData {
             logEntry.highlightKeyStringInMessageInfoHtml();
             return logEntry;
         }
+        if (q.isIdInQuery) {
+            if (!arrayContains(q.idValues, logEntry.getId())) {
+                logEntry.setToShow(false);
+                return logEntry;
+            }
+        }
         
         if (shouldExcludeLogEntry(logEntry)) {
             logEntry.setToShow(false);
@@ -295,8 +301,7 @@ public class AdminActivityLogPageData extends PageData {
                 Date d = sdf.parse(values[0] + " 23:59");
                 Calendar cal = TimeHelper.now(0.0);
                 cal.setTime(d);
-                toDateValue = cal.getTime().getTime();       
-                
+                toDateValue = cal.getTime().getTime(); 
             } else {
                 q.add(label, values);
             }
@@ -430,6 +435,9 @@ public class AdminActivityLogPageData extends PageData {
         public boolean isInfoInQuery;
         public String[] infoValues;
         
+        public boolean isIdInQuery;
+        public String[] idValues;
+        
         public QueryParameters() {
             isRequestInQuery = false;
             isResponseInQuery = false;
@@ -437,6 +445,7 @@ public class AdminActivityLogPageData extends PageData {
             isRoleInQuery = false;
             isCutoffInQuery = false;
             isInfoInQuery = false;
+            isIdInQuery = false;
         }
         
         /**
@@ -461,6 +470,9 @@ public class AdminActivityLogPageData extends PageData {
             } else if (label.equals("info")) {
                 isInfoInQuery = true;
                 infoValues = values;
+            } else if (label.equals("id")) {
+                isIdInQuery = true;
+                idValues = values;
             } else {
                 throw new Exception("Invalid label");
             }
