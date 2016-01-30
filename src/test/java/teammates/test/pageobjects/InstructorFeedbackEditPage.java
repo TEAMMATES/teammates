@@ -539,7 +539,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
 
-    public boolean verifyDatesOfPreviousCurrentAndNextMonthAreEnabled() {
+    public boolean isDatesOfPreviousCurrentAndNextMonthEnabled() {
 
         browser.driver.findElement(By.className("ui-datepicker-prev")).click();
 
