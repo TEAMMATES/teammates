@@ -13,6 +13,7 @@ public class FeedbackResponseComment {
     private String giverDisplay;
     private String createdAt;
     private String editedAt;
+    private String editedBy;
     private String commentText;
     private String feedbackResponseId;
     private String courseId;
@@ -42,7 +43,8 @@ public class FeedbackResponseComment {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.editedAt = TimeHelper.formatDateTimeForComments(frc.lastEditedAt);
+        this.editedBy = frc.getEditedByText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
     }
 
@@ -103,6 +105,10 @@ public class FeedbackResponseComment {
 
     public String getEditedAt() {
         return editedAt;
+    }
+    
+    public String getEditedBy() {
+        return editedBy;
     }
 
     public String getCommentText() {
