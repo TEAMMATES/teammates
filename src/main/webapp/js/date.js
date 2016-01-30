@@ -332,7 +332,7 @@ function getTimeZone(date) {
 function convertToClientTimeZone() {
     $(".client-time").each(function() {
         var timeZoneOffset = new Date().getTimezoneOffset() * -1 * 60 * 1000;
-        var time = this.innerHTML;
+        var time = Date.parse(this.innerHTML);
         if (time != "") {
             var timeInUserTimeZone = time + timeZoneOffset;
             var dateInUserTimeZone = new Date(timeInUserTimeZone);
