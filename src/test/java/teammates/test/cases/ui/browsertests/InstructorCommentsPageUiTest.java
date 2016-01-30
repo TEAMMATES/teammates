@@ -31,6 +31,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception{
         testContent();
         testScripts();
+        testPanelsCollapseExpand();
         testActions();
         testSearch();
         testEmailPendingComments();
@@ -145,6 +146,21 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         commentsPage.showCommentsForStatus("private");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPrivate.html");
+    }
+    
+    private void testPanelsCollapseExpand() {
+        
+        ______TS("Typical case: panels expand/collapse");
+        
+        commentsPage.clickCommentsPageLinkInHeader();
+        assertTrue(commentsPage.verifyAllCommentsPanelBodyVisibility(false));
+        
+        commentsPage.clickAllCommentsPanelHeading();
+        assertTrue(commentsPage.verifyAllCommentsPanelBodyVisibility(true));
+        
+        commentsPage.clickAllCommentsPanelHeading();
+        assertTrue(commentsPage.verifyAllCommentsPanelBodyVisibility(false));
+        
     }
 
     private void testActions() throws Exception {

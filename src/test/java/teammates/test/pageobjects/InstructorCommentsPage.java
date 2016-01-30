@@ -10,6 +10,8 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.ThreadHelper;
+
 public class InstructorCommentsPage extends AppPage {
 
     @FindBy(id = "option-check")
@@ -206,6 +208,26 @@ public class InstructorCommentsPage extends AppPage {
         jsExecutor.executeScript("document.getElementById('"
                 + "commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
         waitForPageToLoad();
+    }
+    
+    public void clickAllCommentsPanelHeading() {
+        for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='panel_display-']"))) {
+            e.findElement(By.cssSelector(".panel-heading")).click();
+        }
+    }
+    
+    public boolean verifyAllCommentsPanelBodyVisibility(boolean visible) {
+        int numOfComments = browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse")).size();
+
+        // Wait for the total duration according to the number of collapse/expand intervals between comments
+        ThreadHelper.waitFor((numOfComments * 50) + 1000);
+
+        for (WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))) {
+            if (e.isDisplayed() != visible) {
+                return false;
+            }
+        }
+        return true;
     }
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
