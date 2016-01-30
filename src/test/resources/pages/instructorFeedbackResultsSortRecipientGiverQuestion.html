@@ -9,22 +9,22 @@
          <div class="form-horizontal">
             <div class="panel-heading">
                <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-5 col-lg-4">
                      <div class="form-group">
-                        <label class="col-sm-2 control-label">
+                        <label class="col-lg-4 control-label">
                            Course ID:
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-lg-8">
                            <p class="form-control-static">
                               CFResultsUiT.CS2104
                            </p>
                         </div>
                      </div>
                      <div class="form-group">
-                        <label class="col-sm-2 control-label">
+                        <label class="col-lg-4 control-label">
                            Session:
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-lg-8">
                            <p class="form-control-static">
                               First Session
                               <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.instr">
@@ -34,12 +34,12 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-7 col-lg-6">
                      <div class="form-group">
-                        <label class="col-sm-4 control-label">
+                        <label class="col-lg-4 control-label">
                            Session duration:
                         </label>
-                        <div class="col-sm-8">
+                        <div class="col-lg-8">
                            <p class="form-control-static">
                               Sun, 01 Apr 2012, 11:59 PM   
                               <b>
@@ -50,19 +50,19 @@
                         </div>
                      </div>
                      <div class="form-group">
-                        <label class="col-sm-4 control-label">
+                        <label class="col-lg-4 control-label">
                            Results visible from:
                         </label>
-                        <div class="col-sm-8">
+                        <div class="col-lg-8">
                            <p class="form-control-static">
                               Tue, 01 May 2012, 11:59 PM
                            </p>
                         </div>
                      </div>
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-sm-4 col-lg-2">
                      <div class="form-group">
-                        <div class="col-sm-12">
+                        <div class="col-md-12">
                            <form action="/page/instructorFeedbackResultsDownload" method="post">
                               <div id="feedbackDataButtons">
                                  <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download Results"/>
@@ -141,7 +141,7 @@
          <div class="panel panel-info margin-0">
             <div class="panel-body">
                <div class="row">
-                  <div class="col-sm-5" data-original-title="View results in different formats" data-toggle="tooltip" title="">
+                  <div class="col-sm-12 col-md-5" data-original-title="View results in different formats" data-toggle="tooltip" title="">
                      <div class="form-group">
                         <label class="col-sm-2 control-label" for="viewSelect">
                            View:
@@ -167,7 +167,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-sm-5" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
+                  <div class="col-sm-12 col-md-5" data-original-title="Filter the results in the current view" data-toggle="tooltip" title="">
                      <div class="form-group">
                         <label class="col-sm-2 control-label" for="viewSelect">
                            Filter:
@@ -183,8 +183,8 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-sm-2 pull-right">
-                     <div class="col-sm-12" data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                  <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+                     <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
                         <div class="checkbox padding-top-0 min-height-0">
                            <label>
                               <input checked="checked" id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox"/>
@@ -192,7 +192,7 @@
                            </label>
                         </div>
                      </div>
-                     <div class="col-sm-12" data-original-title="Show statistics" data-toggle="tooltip" title="">
+                     <div data-original-title="Show statistics" data-toggle="tooltip" title="">
                         <div class="checkbox padding-top-0 min-height-0">
                            <label class="text-strike">
                               <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox"/>
@@ -203,7 +203,7 @@
                   </div>
                </div>
                <div class="row">
-                  <div class="col-sm-5" data-original-title="View results by sections" data-toggle="tooltip" title="">
+                  <div class="col-sm-12 col-md-5" data-original-title="View results by sections" data-toggle="tooltip" title="">
                      <div class="form-group">
                         <label class="col-sm-2 control-label" for="sectionSelect">
                            Section:
@@ -303,17 +303,17 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Teammates Test (Instructors)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To: 
         
             
@@ -487,24 +487,24 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Alice Betsy (Team 1)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Alice Betsy (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -1238,24 +1238,24 @@
                                  </div>
                                  <div class="row border-top-gray">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Drop out (Team 2)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Alice Betsy (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -1436,24 +1436,24 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Alice Betsy (Team 1)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Benny Charles (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -1609,24 +1609,24 @@
                                  </div>
                                  <div class="row border-top-gray">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Benny Charles (Team 1)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Benny Charles (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -1791,24 +1791,24 @@
                                  </div>
                                  <div class="row border-top-gray">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Drop out (Team 2)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Benny Charles (Team 1)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -2010,24 +2010,24 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Benny Charles (Team 1)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Charlie Dávis (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -2208,24 +2208,24 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Benny Charles (Team 1)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Danny Engrid (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -2381,24 +2381,24 @@
                                  </div>
                                  <div class="row border-top-gray">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Drop out (Team 2)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Danny Engrid (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -2579,24 +2579,24 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Alice Betsy (Team 1)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Drop out (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -2752,24 +2752,24 @@
                                  </div>
                                  <div class="row border-top-gray">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Drop out (Team 2)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Drop out (Team 2)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -3096,21 +3096,21 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
                                           <strong>
                                              Team 1
                                           </strong>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To: 
         
             
             
                 Team 2
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
@@ -3339,24 +3339,24 @@
                               <div class="panel-body">
                                  <div class="row ">
                                     <div class="col-md-2">
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           From:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              <strong>
                                                 Charlie Dávis (Team 2)
                                              </strong>
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12 text-muted small">
-                                          <br/>
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
+                                          <br class="hidden-xs hidden-sm"/>
                                           To:
-                                          <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+                                          <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                                              Emily (Team 3)
                                              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                           </div>
                                        </div>
-                                       <div class="col-md-12">
+                                       <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                                           <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
                                              <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
                                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
