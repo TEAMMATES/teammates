@@ -23,7 +23,7 @@
         <span class="text-muted">
             From: ${frc.giverDisplay}
             [<span class="client-time">${frc.createdAt}</span>]
-            <c:if test = "${frc.editedAt != null && comment.editedAt != frc.createdAt}">
+            <c:if test = "${frc.editedAt != null && frc.editedAt != frc.createdAt}">
                     (${frc.editedBy} <span class="client-time">${frc.editedAt}</span>)
             </c:if> 
         </span>
