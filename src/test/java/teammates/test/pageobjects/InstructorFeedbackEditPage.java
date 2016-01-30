@@ -541,8 +541,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isDatesOfPreviousCurrentAndNextMonthEnabled() {
 
+        // Navigate to the previous month
         browser.driver.findElement(By.className("ui-datepicker-prev")).click();
 
+        // Check if the dates of previous, current and next month are enabled 
         for (int i = 0; i < 3; i++) {
 
             List<WebElement> dates = browser.driver.findElements(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr/td"));
@@ -557,6 +559,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                 }
             }
 
+            // Navigate to the next month
             browser.driver.findElement(By.className("ui-datepicker-next")).click();
         }
 
