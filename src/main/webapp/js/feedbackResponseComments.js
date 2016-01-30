@@ -380,6 +380,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
             registerResponseCommentsEvent();
             registerCheckboxEventForVisibilityOptions();
             enableHoverToDisplayEditOptions();
+            convertToClientTimeZone();
       } else {
           panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
           panelBody.removeClass('hidden');
