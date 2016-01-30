@@ -115,9 +115,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRankUiT.CS4221", "student");
         
         // verifies that question submit form without existing responses loads correctly
-        System.setProperty("godmode", "true");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRank.html");
-        System.setProperty("godmode", "false");
        
         submitPage.selectResponseTextDropdown(1, 0, 0, "1");
         submitPage.selectResponseTextDropdown(1, 0, 1, "2");
