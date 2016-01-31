@@ -8,6 +8,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.util.Date;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -30,6 +32,38 @@ public class StudentsDbTest extends BaseComponentTestCase {
     @BeforeClass
     public static void setupClass() throws Exception {
         printTestClassHeader();
+    }
+    
+    @Test
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
+        ______TS("success : created");
+        
+        StudentAttributes s = new StudentAttributes();
+        s.name = "a valid student";
+        s.lastName = "last name of student";
+        s.email = "valid-fresh-student@email.com";
+        s.team = "validTeamNameOfStudent";
+        s.section = "aValidSectionName";
+        s.comments = "";
+        s.googleId = "validGoogleIdForStudent";
+        s.course = "valid-course";
+        studentsDb.createEntity(s);
+        
+        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        assertNotNull(student);
+        
+        student.setCreated_NonProduction(null);
+        student.setUpdatedAt_NonProduction(null);
+        
+        Date defaultStudentCreationTimeStamp = new Date(Const.DEFAULT_STUDENT_CREATION_DATE);
+        
+        ______TS("success : created defaultTimeStamp");
+        
+        assertEquals(defaultStudentCreationTimeStamp, student.getCreatedAt());
+        
+        ______TS("success : update defaultTimeStamp");
+        
+        assertEquals(defaultStudentCreationTimeStamp, student.getUpdatedAt());
     }
     
     @Test
