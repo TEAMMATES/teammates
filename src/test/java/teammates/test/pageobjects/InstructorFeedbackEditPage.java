@@ -3,8 +3,12 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -340,18 +344,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
-    public void clickStartDateBox() {
-        startDateBox.click();
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).focus();", startDateBox);
-    }
-
-    public void clickEndDateBox() {
-        endDateBox.click();
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).focus();", endDateBox);
-    }
-    
     public void clickFsCopyButton() {
         fscopyButton.click();
     }
@@ -540,9 +532,24 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isDatesOfPreviousCurrentAndNextMonthEnabled() {
+        return isDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox) 
+               && isDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
+    }
+
+    /**
+     * @param dateBox
+     * @return true if the dates of previous, current and next month are
+     *         enabled, otherwise false
+     */
+    private boolean isDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) {
+
+        Calendar previousMonth = Calendar.getInstance();
+        previousMonth.add(Calendar.MONTH, -1);
 
         // Navigate to the previous month
-        browser.driver.findElement(By.className("ui-datepicker-prev")).click();
+        if (!navigate(dateBox, previousMonth)) {
+            return false;
+        }
 
         // Check if the dates of previous, current and next month are enabled 
         for (int i = 0; i < 3; i++) {
@@ -564,6 +571,71 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         return true;
+    }
+
+    /**
+     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}
+     * 
+     * @param dateBox
+     * @param date
+     * @return true if navigated to the {@code date} successfully, otherwise
+     *         false
+     */
+    private boolean navigate(WebElement dateBox, Calendar date) {
+
+        dateBox.click();
+
+        Calendar selectedDate = Calendar.getInstance();
+
+        String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
+        String year = Integer.toString(date.get(Calendar.YEAR));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (selectedDate.after(date)) {
+
+            while (!getDatepickerMonth().equals(month) || !getDatepickerYear().equals(year)) {
+
+                WebElement previousButton = browser.driver.findElement(By.className("ui-datepicker-prev"));
+                if (previousButton.getAttribute("class").contains("ui-state-disabled")) {
+                    return false;
+                } else {
+                    previousButton.click();
+                }
+            }
+
+        } else {
+
+            while (!getDatepickerMonth().equals(month) || !getDatepickerYear().equals(year)) {
+
+                WebElement nextButton = browser.driver.findElement(By.className("ui-datepicker-next"));
+                if (nextButton.getAttribute("class").contains("ui-state-disabled")) {
+                    return false;
+                } else {
+                    nextButton.click();
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private String getDatepickerYear() {
+        By by = By.className("ui-datepicker-year");
+        waitForElementPresence(by);
+        return browser.driver.findElement(by).getText();
+    }
+
+    private String getDatepickerMonth() {
+        By by = By.className("ui-datepicker-month");
+        waitForElementPresence(by);
+        return browser.driver.findElement(by).getText();
     }
 
     public void selectNewQuestionType(String questionType) {
