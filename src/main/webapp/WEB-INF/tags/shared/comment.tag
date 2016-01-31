@@ -8,10 +8,8 @@
     <div id="commentBar-${commentIndex}">
         <span class="text-muted">
             To <b>${comment.recipientDisplay}</b> 
-                [<span class="client-time">${comment.createdAt}</span>]
-                <c:if test = "${comment.editedAt != null && comment.editedAt != comment.createdAt}">
-                    (${comment.editedBy} <span class="client-time">${comment.editedAt}</span>)
-                </c:if>
+                <span class="client-time">${comment.createdAt}</span>
+                <span class="client-time">${comment.editedAt}</span>
         </span>
         <c:if test="${comment.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"
