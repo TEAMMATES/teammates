@@ -52,7 +52,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        submitButton.click();
+        clickAndConfirm(submitButton);
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
@@ -73,7 +73,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        submitButton.click();
+        clickAndConfirm(submitButton);
         return this;
     }
 
@@ -83,7 +83,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     }
 
     public InstructorCourseDetailsPage submitButtonClicked(){
-        submitButton.click();
+        clickAndConfirm(submitButton);
         return changePageType(InstructorCourseDetailsPage.class);
     }
 }
