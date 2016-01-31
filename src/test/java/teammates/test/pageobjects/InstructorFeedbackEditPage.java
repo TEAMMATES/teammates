@@ -531,7 +531,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
 
-    public boolean isDatesOfPreviousCurrentAndNextMonthEnabled() {
+    public boolean isDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
         return isDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox) 
                && isDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
     }
@@ -540,8 +540,9 @@ public class InstructorFeedbackEditPage extends AppPage {
      * @param dateBox is a {@link WebElement} that triggers a datepicker
      * @return true if the dates of previous, current and next month are
      *         enabled, otherwise false
+     * @throws ParseException if the string in {@code dateBox} cannot be parsed
      */
-    private boolean isDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) {
+    private boolean isDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
 
         Calendar previousMonth = Calendar.getInstance();
         previousMonth.add(Calendar.MONTH, -1);
@@ -580,8 +581,9 @@ public class InstructorFeedbackEditPage extends AppPage {
      * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
      * @return true if navigated to the {@code date} successfully, otherwise
      *         false
+     * @throws ParseException if the string in {@code dateBox} cannot be parsed
      */
-    private boolean navigate(WebElement dateBox, Calendar date) {
+    private boolean navigate(WebElement dateBox, Calendar date) throws ParseException {
 
         dateBox.click();
 
@@ -592,11 +594,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        try {
-            selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
-        } catch (ParseException e) {
-            return false;
-        }
+        selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
 
         if (selectedDate.after(date)) {
 
