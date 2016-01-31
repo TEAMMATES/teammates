@@ -7,7 +7,7 @@ Typically browser tests involve comparing the source of the webpage to an existi
 
 ##How does GodMode work?
 
-The essential idea is to reverse the process of testing, whereby the actual source of the webpage during the test is used to overwrite the *expected* source for the test, as opposed to the usual way of using the *expected* source as the reference and checking the actual source of the webpage. In actual implementation we check if the test already passes and only if it fails do we update the *expected* source. Thus running GodMode on passing tests poses no danger.
+The essential idea is to reverse the process of testing. We use the _actual_ source of the webpage to overwrite the _expected_ source in the test. To remove redundancy, even if GodMode is enabled this overwriting procedure only happens when a test fails during the test run. Finally before the changes are committed, a *manual* (by the developer) verification to ensure only the intended changes have occured is mandatory.
 
 
 ##How do we use GodMode?
