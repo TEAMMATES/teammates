@@ -49,11 +49,11 @@ function addInstructorByAjaxRecursively() {
             disableAddInstructorForm();
         },
         error : function() {
-            var rowText = createRowForResultTable("", "", "", "", false, "Cannot send Ajax Request!");
+            var rowText = createRowForResultTable("-", "-", "-", "-", false, "Cannot send Ajax Request!");
             $("#addInstructorResultTable tbody").append(rowText);
             if (isInputFromFirstPanel) {
-                var errorInstructorsText = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
-                $("#addInstructorDetailsSingleLine").val(errorInstructorsText);
+                var instructorsToBeRetried = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
+                $("#addInstructorDetailsSingleLine").val(instructorsToBeRetried);
             }
             paramsCounter++;
             var panelHeader = "<strong>Result (" + paramsCounter + "/" + paramsList.length + ")</strong>";
@@ -70,8 +70,8 @@ function addInstructorByAjaxRecursively() {
                                                   data.instructorAddingResultForAjax, data.statusForAjax);
             $("#addInstructorResultTable tbody").append(rowText);
             if ((!data.instructorAddingResultForAjax) && (isInputFromFirstPanel)) {
-                var errorInstructorsText = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
-                $("#addInstructorDetailsSingleLine").val(errorInstructorsText);
+                var instructorsToBeRetried = $("#addInstructorDetailsSingleLine").val() + instructorDetailsList[paramsCounter] + "\n";
+                $("#addInstructorDetailsSingleLine").val(instructorsToBeRetried);
             }
             paramsCounter++;
             var panelHeader = "<strong>Result (" + paramsCounter + "/" + paramsList.length + ")</strong>";
@@ -113,7 +113,7 @@ function addInstructorByAjax() {
     $("#addInstructorResultTable tbody").html("");    // clear table
     $("#addInstructorDetailsSingleLine").val("");    // clear input form
     $("#addInstructorResultPanel div.panel-heading").html("<strong>Result</strong>");    // clear panel header
-    if (paramsCounter < paramsList.length) {
+    if (paramsList.length > 0) {
         addInstructorByAjaxRecursively();
     }
 }
