@@ -5,7 +5,7 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByRQG.js"></script>
-    <script type="text/javascript" src="/js/date.js.js"></script>
+    <script type="text/javascript" src="/js/date.js"></script>
 </c:set>
 
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
