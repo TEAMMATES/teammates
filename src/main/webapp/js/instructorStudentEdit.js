@@ -3,5 +3,5 @@ $(document).ready(function(){
 });
 
 function changeStudnetInformationConfirmation() {
-    return confirm('Please note that the student\'s responses for the team will be deleted if the team information is changed. You can choose to download the data before you make the changes. Are you sure you want to change the student\'s information?');
+    return confirm('Editing these fields will result in some existing responses from this student to be deleted. You may download the data before you make the changes. Are you sure you want to continue?');
 }
