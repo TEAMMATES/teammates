@@ -55,11 +55,6 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
         boolean hasSanitizedData = checkInstructorHasSanitizedData(instructor);
         if (hasSanitizedData) {
             System.out.println("Checking instructor having email: " + instructor.email);
-            
-            if (isSanitizedString(instructor.email)) {
-                System.out.println("email: " + instructor.email);
-                System.out.println("new email: " + fixSanitization(instructor.email));
-            }
             if (isSanitizedString(instructor.displayedName)) {
                 System.out.println("displayedName: " + instructor.displayedName);
                 System.out.println("new displayedName: " + fixSanitization(instructor.displayedName));
@@ -72,19 +67,6 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
                 System.out.println("role: " + instructor.role);
                 System.out.println("new role: " + fixSanitization(instructor.role));
             }
-            if (isSanitizedString(instructor.instructorPrivilegesAsText)) {
-                System.out.println("instructorPrivilegesAsText: " + instructor.instructorPrivilegesAsText);
-                System.out.println("new instructorPrivilegesAsText: " + fixSanitization(instructor.instructorPrivilegesAsText));
-            }
-            if (isSanitizedString(instructor.googleId)) {
-                System.out.println("googleId: " + instructor.googleId);
-                System.out.println("new googleId: " + fixSanitization(instructor.googleId));
-            }
-            if (isSanitizedString(instructor.courseId)) {
-                System.out.println("courseId: " + instructor.courseId);
-                System.out.println("new courseId: " + fixSanitization(instructor.courseId));
-            }
-            
             System.out.println();
         }
         return hasSanitizedData;
@@ -111,18 +93,12 @@ public class DataMigrationForSanitizedDataInInstructorAttributes extends RemoteA
     
     private boolean checkInstructorHasSanitizedData(InstructorAttributes instructor) {
         
-        return isSanitizedString(instructor.role) || isSanitizedString(instructor.courseId) || 
-               isSanitizedString(instructor.email) || isSanitizedString(instructor.googleId) || 
-               isSanitizedString(instructor.displayedName) || isSanitizedString(instructor.name) || 
-               isSanitizedString(instructor.instructorPrivilegesAsText);
+        return isSanitizedString(instructor.role) || isSanitizedString(instructor.displayedName) 
+                || isSanitizedString(instructor.name);
     }
     
     private void fixSanitizationForInstructor(InstructorAttributes instructor) {
-        instructor.courseId = fixSanitization(instructor.courseId);
         instructor.displayedName = fixSanitization(instructor.displayedName);
-        instructor.email = fixSanitization(instructor.email);
-        instructor.googleId = fixSanitization(instructor.googleId);
-        instructor.instructorPrivilegesAsText = fixSanitization(instructor.instructorPrivilegesAsText);
         instructor.name = fixSanitization(instructor.name);
         instructor.role = fixSanitization(instructor.role);
     }
