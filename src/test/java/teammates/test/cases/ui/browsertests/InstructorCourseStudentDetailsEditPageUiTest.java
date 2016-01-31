@@ -120,7 +120,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         assertEquals("Team 1",student.team);
         assertEquals(testData.students.get("registeredStudent").googleId,student.googleId);
         assertEquals("CCSDEditUiT.jose.tmms@gmail.tmt",student.email);
-        assertEquals(Sanitizer.sanitizeForHtml("This student's name is José Gómez"),student.comments);
+        assertEquals("This student's name is José Gómez",student.comments);
         
         
         ______TS("edit action");
