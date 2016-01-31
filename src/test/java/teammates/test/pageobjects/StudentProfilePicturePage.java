@@ -32,7 +32,7 @@ public class StudentProfilePicturePage extends AppPage {
                      Sanitizer.sanitizeForHtml(browser.driver.getCurrentUrl()));
     }
 
-    public void verifyIsErrorPage(String expectedFilename) {
+    public void verifyIsErrorPage(String expectedFilename) throws Exception {
         if (TestProperties.inst().isDevServer()) {
             verifyHtmlPart(By.id("mainContent"), expectedFilename);
         } else {
@@ -40,11 +40,11 @@ public class StudentProfilePicturePage extends AppPage {
         }
     }
 
-    public void verifyIsUnauthorisedErrorPage(String expectedFilename) {
+    public void verifyIsUnauthorisedErrorPage(String expectedFilename) throws Exception {
         verifyHtmlPart(By.id("mainContent"), expectedFilename);
     }
 
-    public void verifyIsEntityNotFoundErrorPage(String expectedFilename) {
+    public void verifyIsEntityNotFoundErrorPage(String expectedFilename) throws Exception {
         verifyHtmlPart(By.id("mainContent"), expectedFilename);
     }
 

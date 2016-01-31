@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourseStudentDetailsEdit - Student Information with Editable Fields" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="studentInfoTable" type="teammates.ui.template.StudentInfoTable" required="true" %>
 <%@ attribute name="newEmail" required="true" %>
@@ -13,7 +14,7 @@
                 <div class="col-sm-11">
                     <input class="form-control" name="<%=Const.ParamsNames.STUDENT_NAME%>" 
                            id="<%=Const.ParamsNames.STUDENT_NAME%>"
-                           value="${studentInfoTable.name}">
+                           value="${fn:escapeXml(studentInfoTable.name)}">
                 </div>
             </div>
             <c:if test="${studentInfoTable.hasSection}">
@@ -22,7 +23,7 @@
                     <div class="col-sm-11">
                         <input class="form-control" name="<%=Const.ParamsNames.SECTION_NAME%>" 
                                id="<%=Const.ParamsNames.SECTION_NAME%>"
-                               value="${studentInfoTable.section}">
+                               value="${fn:escapeXml(studentInfoTable.section)}">
                     </div>
                 </div>
             </c:if>
@@ -31,7 +32,7 @@
                 <div class="col-sm-11">
                     <input class="form-control" name="<%=Const.ParamsNames.TEAM_NAME%>" 
                            id="<%=Const.ParamsNames.TEAM_NAME%>"
-                           value="${studentInfoTable.team}">
+                           value="${fn:escapeXml(studentInfoTable.team)}">
                 </div>
             </div>
             <div class="form-group">
@@ -50,7 +51,9 @@
                 <label class="col-sm-1 control-label">Comments:</label>
                 <div class="col-sm-11">
                     <textarea class="form-control" rows="6" name="<%=Const.ParamsNames.COMMENTS%>" 
-                              id="<%=Const.ParamsNames.COMMENTS%>">${studentInfoTable.comments}</textarea>
+                              id="<%=Const.ParamsNames.COMMENTS%>">
+                        <c:out value="${studentInfoTable.comments}"/>
+                    </textarea>
                 </div>
             </div>
             <t:statusMessage />

@@ -47,7 +47,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         //i.e. results page, submit page.
     }
     
-    private void testEditPage(){
+    private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
         testCustomizeOptions();
@@ -148,7 +148,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
     }
 
-    public void testAddQuestionAction() {
+    public void testAddQuestionAction() throws Exception {
         ______TS("NUMSCALE: add question action success");
 
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
@@ -159,7 +159,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionAddSuccess.html");
     }
 
-    public void testEditQuestionAction() {
+    public void testEditQuestionAction() throws Exception {
         ______TS("NUMSCALE: edit question success");
 
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));

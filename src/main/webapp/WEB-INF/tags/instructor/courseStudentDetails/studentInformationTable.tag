@@ -14,21 +14,21 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">Student Name:</label>
             <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_NAME%>">
-                <p class="form-control-static">${studentInfoTable.name}</p>
+                <p class="form-control-static"><c:out value="${studentInfoTable.name}"/></p>
             </div>
         </div>
         <c:if test="${studentInfoTable.hasSection}">
             <div class="form-group">
                 <label class="col-sm-1 control-label">Section Name:</label>
                 <div class="col-sm-11" id="<%= Const.ParamsNames.SECTION_NAME %>">
-                    <p class="form-control-static">${studentInfoTable.section}</p>
+                    <p class="form-control-static"><c:out value="${studentInfoTable.section}"/></p>
                 </div>
             </div>
         </c:if>
         <div class="form-group">
             <label class="col-sm-1 control-label">Team Name:</label>
             <div class="col-sm-11" id="<%= Const.ParamsNames.TEAM_NAME %>">
-                <p class="form-control-static">${studentInfoTable.team}</p>
+                <p class="form-control-static"><c:out value="${studentInfoTable.team}"/></p>
             </div>
         </div>
         <div class="form-group">
@@ -40,7 +40,7 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">Comments:</label>
             <div class="col-sm-11" id="<%= Const.ParamsNames.COMMENTS %>">
-                <p class="form-control-static">${studentInfoTable.comments}</p>
+                <p class="form-control-static"><c:out value="${studentInfoTable.comments}"/></p>
             </div>
         </div>
     </div>
@@ -50,10 +50,16 @@
         <div class="form-group form-inline">
             <label style="margin-right: 24px;">Recipient:</label>
             <select id="comment_recipient_select" class="form-control">
-                <option value="<%= CommentParticipantType.PERSON %>" selected>${studentInfoTable.name}</option>
-                <option value="<%= CommentParticipantType.TEAM %>">${studentInfoTable.team}</option>
+                <option value="<%= CommentParticipantType.PERSON %>" selected>
+                    <c:out value="${studentInfoTable.name}"/>
+                </option>
+                <option value="<%= CommentParticipantType.TEAM %>">
+                    <c:out value="${studentInfoTable.team}"/>
+                </option>
                 <c:if test="${studentInfoTable.hasSection && studentInfoTable.section != 'None'}">
-                    <option value="<%= CommentParticipantType.SECTION %>">${studentInfoTable.section}</option>
+                    <option value="<%= CommentParticipantType.SECTION %>">
+                        <c:out value="${studentInfoTable.section}"/>
+                    </option>
                 </c:if>
             </select>
             <a id="visibility-options-trigger" class="btn btn-sm btn-info pull-right">

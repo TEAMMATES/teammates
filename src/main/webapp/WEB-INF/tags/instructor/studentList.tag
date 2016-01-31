@@ -55,7 +55,7 @@
                         <div class="checkbox section-to-be-transported">
                             <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked="checked" class="section_check">
                             <label for="section_check-${courseIndex}-${sectionIndex}">
-                                [${courseId}] : ${section.sectionName}
+                                [${courseId}] : <c:out value="${section.sectionName}"/>
                             </label>
                         </div>
                     </c:if>
@@ -67,7 +67,7 @@
                             <div class="checkbox team-to-be-transported">
                                 <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked="checked" class="team_check">
                                 <label for="team_check-${courseIndex}-${sectionIndex}-${teamIndex}">
-                                    [${courseId}] : ${team.teamName}
+                                    [${courseId}] : <c:out value="${team.teamName}"/>
                                 </label>
                             </div>
                         </c:if>
@@ -92,14 +92,14 @@
                                     ${section.sectionName}
                                 </td>
                                 <td id="studentteam-c${courseIndex}.${sectionIndex}.${teamIndex}">
-                                    ${team.teamName}
+                                    <c:out value="${team.teamName}"/>
                                 </td>
                                 <td id="studentname-c${courseIndex}.${studentIndex}">
-                                    ${student.studentName}
+                                    <c:out value="${student.studentName}"/>
                                 </td>
                                 <c:if test="${not fromCourseDetailsPage}">
                                     <td id="studentemail-c${courseIndex}.${studentIndex}">
-                                        ${student.studentEmail}
+                                        <c:out value="${student.studentEmail}"/>
                                     </td>
                                 </c:if>
                                 <c:if test="${fromCourseDetailsPage}">
@@ -175,7 +175,7 @@
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=student">
-                                                    Comment on student: ${student.studentName}
+                                                    Comment on student: <c:out value="${student.studentName}"/>
                                                 </a>
                                             </li>
                                             <li role="presentation">
@@ -183,7 +183,7 @@
                                                    role="menuitem"
                                                    tabindex="-1"
                                                    href="${student.courseStudentDetailsLink}&addComment=team">
-                                                    Comment on team: ${team.teamName}
+                                                    Comment on team: <c:out value="${team.teamName}"/>
                                                 </a>
                                             </li>
                                             <c:if test="${hasSection}">
@@ -192,7 +192,7 @@
                                                        role="menuitem"
                                                        tabindex="-1"
                                                        href="${student.courseStudentDetailsLink}&addComment=section">
-                                                        Comment on section: ${section.sectionName}
+                                                        Comment on section: <c:out value="${section.sectionName}"/>
                                                     </a>
                                                 </li>
                                             </c:if>

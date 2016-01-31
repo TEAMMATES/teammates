@@ -48,7 +48,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
     }
     
-    private void testContent() {
+    private void testContent() throws Exception {
         
         ______TS("content: default search page");
         
@@ -60,7 +60,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
     }
     
-    private void testSearch() {
+    private void testSearch() throws Exception {
         
         ______TS("search for nothing");
         

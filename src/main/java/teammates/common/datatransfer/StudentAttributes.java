@@ -353,13 +353,6 @@ public class StudentAttributes extends EntityAttributes {
         team = Sanitizer.sanitizeTitle(team);
         section = Sanitizer.sanitizeTitle(section);
         comments = Sanitizer.sanitizeTextField(comments);
-        googleId = Sanitizer.sanitizeForHtml(googleId);
-        email = Sanitizer.sanitizeForHtml(email);
-        course = Sanitizer.sanitizeForHtml(course);
-        name = Sanitizer.sanitizeForHtml(name);
-        team = Sanitizer.sanitizeForHtml(team);
-        section = Sanitizer.sanitizeForHtml(section);
-        comments = Sanitizer.sanitizeForHtml(comments);
     }
     
     public String getStudentStatus() {

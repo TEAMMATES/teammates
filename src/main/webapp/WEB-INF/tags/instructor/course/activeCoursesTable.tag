@@ -33,10 +33,18 @@
         <tr>
             <td id="courseid${i.index}">${activeCourse.courseId}</td>
             <td id="coursename${i.index}">${activeCourse.courseName}</td>
-            <td class="align-center">${activeCourse.sectionNum}</td>
-            <td class="t_course_teams align-center">${activeCourse.teamNum}</td>
-            <td class="align-center">${activeCourse.totalStudentNum}</td>
-            <td class="align-center">${activeCourse.unregisteredStudentNum}</td>
+            <td id="course-stats-sectionNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            </td>
+            <td id="course-stats-teamNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            </td>
+            <td id="course-stats-totalStudentNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            </td>
+            <td id="course-stats-unregisteredStudentNum-${i.index}">
+                <a class="course-stats-link-${i.index}" oncontextmenu="return false;" href="${activeCourse.href}">Show</a>
+            </td>
             <td class="align-center no-print">
                 <c:forEach items="${activeCourse.actions}" var="button">
                     <a ${button.attributesToString}>
