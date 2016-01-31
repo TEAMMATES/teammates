@@ -537,7 +537,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * @param dateBox
+     * @param dateBox is a {@link WebElement} that triggers a datepicker
      * @return true if the dates of previous, current and next month are
      *         enabled, otherwise false
      */
@@ -576,8 +576,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     /**
      * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}
      * 
-     * @param dateBox
-     * @param date
+     * @param dateBox is a {@link WebElement} that triggers a datepicker
+     * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
      * @return true if navigated to the {@code date} successfully, otherwise
      *         false
      */
