@@ -542,6 +542,35 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return pecentageFrequency;
     }
 
+    /**
+     * Calculate the average value for rubric question 
+     * using the user-assigned weight for each choice or default weight 
+     * 
+     * Return an array to indicate the average value for each subquestion 
+     * 
+     */
+    private float[] calculateRubricAverage(List<FeedbackResponseAttributes> responses,
+                                    FeedbackQuestionAttributes question) {
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        float[][] percentageFrequency = calculateRubricStats(responses, question);
+        float[] average = new float[fqd.numOfRubricSubQuestions];
+        
+        // Calculate the average value of the responses
+        for(int i=0; i<fqd.numOfRubricSubQuestions ; i++){
+            int[] rubricChoiceWeight = getChoiceAssginedWeight(fqd.rubricChoices);
+            if(rubricChoiceWeight != null){
+                for(int j=0; j<fqd.numOfRubricChoices ; j++){
+                    average[i] += rubricChoiceWeight[j] * percentageFrequency[i][j];
+                }
+            }else{
+                for(int j=0; j<fqd.numOfRubricChoices ; j++){
+                    average[i] += (fqd.numOfRubricChoices - j) * percentageFrequency[i][j];
+                }
+            }
+        }
+        return average;
+    }
+    
     private int[][] calculateResponseFrequency(
             List<FeedbackResponseAttributes> responses,
             FeedbackRubricQuestionDetails fqd) {
@@ -581,6 +610,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (String choice : rubricChoices) {
             csv.append("," + Sanitizer.sanitizeForCsv(choice));
         }
+        csv.append("," + "Average");
         csv.append(Const.EOL);
 
         // table body
@@ -588,6 +618,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
         float[][] rubricStats = calculateRubricStats(responses, question);
+        float[] average = calculateRubricAverage(responses, question);
         
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
@@ -596,6 +627,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
             }
+            csv.append("," + average[i]);
             csv.append(Const.EOL);
         }
 
@@ -728,5 +760,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return errors;
     }
 
+    private int[] getChoiceAssginedWeight(List<String> rubricChoices){
+        int[] assignedWeight = new int[rubricChoices.size()];
+        for(int i=0; i<rubricChoices.size(); i++){
+            if(!rubricChoices.get(i).contains("(") || !rubricChoices.get(i).contains(")")){
+                return null;
+            }
+            try{
+                int indexOfOpenParen = rubricChoices.get(i).indexOf('(');
+                int indexOfCloseParen = rubricChoices.get(i).indexOf(')');
+                assignedWeight[i] = Integer.parseInt(rubricChoices.get(i).substring(indexOfOpenParen+1, indexOfCloseParen));
+            }catch(Exception e){
+                return null;
+            }
+        }
+        return assignedWeight;
+    }
 
 }
