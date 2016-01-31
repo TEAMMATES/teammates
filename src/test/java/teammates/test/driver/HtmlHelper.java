@@ -265,7 +265,7 @@ public class HtmlHelper {
         }
         
         // close the tag
-        openingTag.append(getEndOfOpeningTag(currentNode) + "\n");
+        openingTag.append(">\n");
         return openingTag.toString();
     }
     
@@ -284,16 +284,6 @@ public class HtmlHelper {
         return "</" + currentNodeName + ">\n";
     }
 
-    // TODO remove this method and use > for all cases, as defined in our style guide
-    private static String getEndOfOpeningTag(Node node) {
-        String tagName = node.getNodeName().toLowerCase();
-        if(isVoidElement(tagName)){
-            return "/>";
-        }else {
-            return ">";
-        }
-    }
-    
     private static boolean isVoidElement(String elementName){
         return elementName.equals("br")
                 || elementName.equals("hr")
