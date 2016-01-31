@@ -22,7 +22,7 @@ import teammates.common.util.TimeHelper;
 
 public class HtmlHelper {
     
-    private static final String INDENTATION_STEP = "   ";
+    private static final String INDENTATION_STEP = "  ";
     
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
@@ -110,7 +110,7 @@ public class HtmlHelper {
     private static String convertToStandardHtml(String rawHtml, boolean isPart) {
         try {
             Node documentNode = getNodeFromString(rawHtml);
-            String initialIndentation = INDENTATION_STEP; // TODO start from zero indentation
+            String initialIndentation = "";
             return getNodeContent(documentNode, initialIndentation, isPart);
         } catch (Exception e) {
             throw new RuntimeException(e);
