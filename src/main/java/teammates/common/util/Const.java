@@ -1193,6 +1193,9 @@ public class Const {
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
     
+    //represents time (in milliseconds) from epoch (1/1/1970) to default student creation date (1/1/2011) in UTC
+    public static final long DEFAULT_STUDENT_CREATION_DATE = 1293840060000L;
+    
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
