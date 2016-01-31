@@ -595,7 +595,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         try {
             selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
         } catch (ParseException e) {
-            e.printStackTrace();
+            return false;
         }
 
         if (selectedDate.after(date)) {
