@@ -51,7 +51,7 @@
                     </c:forEach>
                     <c:if test="${forRecordsPage}">
                         <c:if test="${empty commentsForStudentsTable.rows}">
-                            <li class="list-group-item list-group-item-warning">
+                            <li class="list-group-item text-muted">
                                 You don't have any comments on this student.
                             </li>
                         </c:if>
