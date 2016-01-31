@@ -364,17 +364,11 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public Date getCreatedAt() {
-        if (createdAt == null) {
-            createdAt = new Date(Const.DEFAULT_STUDENT_CREATION_DATE);
-        }
-        return createdAt;
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_STUDENT_CREATION_TIMESTAMP : createdAt;
     }
 
     public Date getUpdatedAt() {
-        if (updatedAt == null) {
-            updatedAt = new Date(Const.DEFAULT_STUDENT_CREATION_DATE);
-        }
-        return updatedAt;
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_STUDENT_CREATION_TIMESTAMP : updatedAt;
     }
     
     /**
