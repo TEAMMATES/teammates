@@ -223,11 +223,15 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         });
     }
     
+    public String getCreatedAtText() {
+        return "<span class=\"client-time\">" + TimeHelper.formatDateTimeForComments(this.createdAt) + "<//span>";
+    }
+    
     public String getEditedAtText(Boolean isGiverAnonymous) {
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
             return "(last edited "
                   + (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ")
-                  + "at " + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + ")";
+                  + "at <span class=\"client-time\">" + TimeHelper.formatDateTimeForComments(this.lastEditedAt) + "</span>)";
         } else {
             return "";
         }
