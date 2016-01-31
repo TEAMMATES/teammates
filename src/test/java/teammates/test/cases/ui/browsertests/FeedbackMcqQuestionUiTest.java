@@ -48,7 +48,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         //i.e. results page, submit page.
     }
     
-    private void testEditPage(){
+    private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
         testCustomizeOptions();
@@ -142,7 +142,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-4--1"));
     }
 
-    public void testAddQuestionAction() {
+    public void testAddQuestionAction() throws Exception {
 
         ______TS("MCQ: add question action success");
 
@@ -156,7 +156,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
 
-    public void testEditQuestionAction() {
+    public void testEditQuestionAction() throws Exception {
 
         ______TS("MCQ: edit question success");
 

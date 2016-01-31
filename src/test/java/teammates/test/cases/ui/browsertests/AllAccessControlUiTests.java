@@ -149,7 +149,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
     @Test
-    public void testPubliclyAccessiblePages() {
+    public void testPubliclyAccessiblePages() throws Exception {
         
         ______TS("log out page");
         // has been covered in testUserNotLoggedIn method
