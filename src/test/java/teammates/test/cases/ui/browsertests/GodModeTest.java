@@ -1,15 +1,15 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.FileHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
@@ -18,132 +18,127 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 
 public class GodModeTest extends BaseUiTestCase {
+    
+    private static final String PLACEHOLDER_CONTENT = "<div id=\"mainContent\">test</div>";
+    private static final String OUTPUT_FILENAME = "/godmodeOutput.html";
+    private static final String OUTPUT_FILEPATH = TestProperties.TEST_PAGES_FOLDER + OUTPUT_FILENAME;
+    private static final String ACTUAL_FILENAME = "/godmode.html";
+    private static final String ACTUAL_FILEPATH = TestProperties.TEST_PAGES_FOLDER + ACTUAL_FILENAME;
+    private static final String EXPECTED_FILEPATH = TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedOutput.html";
+    private static final String EXPECTED_PART_FILEPATH = TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
+    
     private static Browser browser;
     private static AppPage page;
-    private static String initialContent; 
+    private static String initialContent;
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        if (TestProperties.inst().isDevServer()) {
-            injectRealAccountsIntoFile();
-            writeToFile(getOutputFilePath(), 
-                    "<div id='mainContent'>test</div>");
-            browser = BrowserPool.getBrowser();
-            page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl("/godmode.html"));
-        }
+        TestProperties.inst().verifyReadyForGodMode();
+        injectContextDependentValuesIntoActualFile();
+        browser = BrowserPool.getBrowser();
+        page = AppPage.getNewPageInstance(browser).navigateTo(createLocalUrl(ACTUAL_FILENAME));
     }
     
-    private static void injectRealAccountsIntoFile() throws Exception {
-        initialContent = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html");
+    private static void injectContextDependentValuesIntoActualFile() throws Exception {
+        initialContent = FileHelper.readFile(ACTUAL_FILEPATH);
         String changedContent = HtmlHelper.injectContextDependentValuesForTest(initialContent);
-        writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", changedContent);
+        writeToFile(ACTUAL_FILEPATH, changedContent);
     }
 
     private static void writeToFile(String filePath, String content) throws Exception {
-        try {
-            FileWriter output = new FileWriter(new File(filePath));
-            output.write(content);
-            output.close();
-        } catch (Exception e) {
-            throw e;
-        }
+        FileWriter output = new FileWriter(new File(filePath));
+        output.write(content);
+        output.close();
     }
 
     @Test
     public void testGodMode() throws Exception {
-        if (!TestProperties.inst().isDevServer()) return;
+        
+        System.clearProperty("godmode");
+        assertNull(System.getProperty("godmode"));
         
         ______TS("test verifyHtml");
         
-        System.clearProperty("godmode");
-        Assumption.assertNull(System.getProperty("godmode"));
-        
-        try {
-            // should fail as the expected file "godmodeOutpout
-            page.verifyHtml("/godmodeOutput.html");
-            signalFailureToDetectException(" - Assertion Error");
-        } catch (AssertionError ae) {
-            // expected
-        }
-        
-        System.setProperty("godmode", "true");
-        // automatically generates the file and hence passes
-        page.verifyHtml("/godmodeOutput.html");
-        
-        System.clearProperty("godmode");
-        Assumption.assertNull(System.getProperty("godmode"));
-        
-        // should pass without need for godmode
-        // as the file has already been generated
-        page.verifyHtml("/godmodeOutput.html");
-        
-        String expectedOutputPage = FileHelper.readFile(getExpectedOutputFilePath());
-        String actualOutputPage = FileHelper.readFile(getOutputFilePath());
-        
-        // ensure that the generated file is as expected
-        verifyOutput(expectedOutputPage, actualOutputPage);
+        testGodMode(false);
         
         ______TS("test verifyHtmlMainContent");
-        // repeat the same procedure as above for this
         
-        writeToFile(getOutputFilePath(), 
-                "<div id='mainContent'>test</div>");
+        testGodMode(true);
+        
+    }
+    
+    private void testGodMode(boolean isPart) throws Exception {
         
         try {
-            page.verifyHtml("/godmodeOutput.html");
-            signalFailureToDetectException(" - Assertion Error");
-        } catch (AssertionError ae) {
-            // expected
+            // should fail as the expected output file does not exist
+            verifyHtml(OUTPUT_FILENAME, isPart);
+            signalFailureToDetectException();
+        } catch (IOException e) {
+            ignoreExpectedException();
         }
         
-        System.setProperty("godmode", "true");
-        page.verifyHtmlMainContent("/godmodeOutput.html");
+        // run the God mode with non-existent expected file
+        runGodModeRoutine(isPart);
         
-        System.clearProperty("godmode");
-        Assumption.assertNull(System.getProperty("godmode"));
+        writeToFile(OUTPUT_FILEPATH, PLACEHOLDER_CONTENT);
         
-        page.verifyHtmlMainContent("/godmodeOutput.html");
+        try {
+            // should fail as the expected output file has the wrong content
+            verifyHtml(OUTPUT_FILENAME, isPart);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            ignoreExpectedException();
+        }
         
-        expectedOutputPage = FileHelper.readFile(getExpectedOutputPartFilePath());
-        actualOutputPage = FileHelper.readFile(getOutputFilePath());
+        // run the God mode with wrong content in expected file
+        runGodModeRoutine(isPart);
         
-        verifyOutput(expectedOutputPage, actualOutputPage);
-        
-        
-    }
-
-    private void verifyOutput(String expected, String actual) {
-        String processedExpectedHtml = HtmlHelper.convertToStandardHtml(expected, true);
-        String processedActualHtml = HtmlHelper.convertToStandardHtml(actual, true);
-        
-        assertEquals(processedExpectedHtml, processedActualHtml);
-    }
-
-    @AfterClass
-    public static void closeClass() throws Exception {
-        BrowserPool.release(browser);
-        System.clearProperty("godmode");
-        writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
-        
-        File file = new File(getOutputFilePath());
         // delete the output file generated
-        if(!file.delete()){
-            System.out.println("Delete failed. " + file.getAbsolutePath());
+        deleteFile(OUTPUT_FILEPATH);
+    }
+    
+    private static void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if (!file.delete()) {
+            print("Delete failed: " + file.getAbsolutePath());
             file.deleteOnExit();
         }
     }
+    
+    private void runGodModeRoutine(boolean isPart) throws Exception {
+        
+        System.setProperty("godmode", "true");
+        // automatically generates the file and hence passes
+        verifyHtml(OUTPUT_FILENAME, isPart);
+        
+        System.clearProperty("godmode");
+        assertNull(System.getProperty("godmode"));
+        
+        // should pass without need for godmode as the file has already been generated
+        verifyHtml(OUTPUT_FILENAME, isPart);
+        
+        String expectedOutputPage = FileHelper.readFile(isPart ? EXPECTED_PART_FILEPATH : EXPECTED_FILEPATH);
+        String actualOutputPage = FileHelper.readFile(OUTPUT_FILEPATH);
+        
+        // ensure that the generated file is as expected
+        HtmlHelper.assertSameHtml(expectedOutputPage, actualOutputPage, isPart);
+        
+    }
 
-    private static String getOutputFilePath() throws Exception{
-        return TestProperties.TEST_PAGES_FOLDER + "/godmodeOutput.html";
+    private void verifyHtml(String filePath, boolean isPart) throws IOException {
+        if (isPart) {
+            page.verifyHtmlMainContent(filePath);
+        } else {
+            page.verifyHtml(filePath);
+        }
     }
-    
-    private static String getExpectedOutputFilePath() {
-        return TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedOutput.html";
-    }
-    
-    private String getExpectedOutputPartFilePath() {
-        return TestProperties.TEST_PAGES_FOLDER + "/godmodeExpectedPartOutput.html";
+
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
+        System.clearProperty("godmode");
+        writeToFile(ACTUAL_FILEPATH, initialContent);
     }
 
 }

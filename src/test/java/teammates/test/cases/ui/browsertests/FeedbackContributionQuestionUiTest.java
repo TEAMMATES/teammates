@@ -48,7 +48,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         //i.e. results page, submit page.
     }
     
-    private void testEditPage(){
+    private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
         testCustomizeOptions();
@@ -91,7 +91,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
-    public void testAddQuestionAction() {
+    public void testAddQuestionAction() throws Exception {
         ______TS("CONTRIB: add question action success");
         
         feedbackEditPage.fillQuestionBox("contrib qn");
@@ -102,7 +102,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
     }
 
-    public void testEditQuestionAction() {
+    public void testEditQuestionAction() throws Exception {
         ______TS("CONTRIB: edit question success");
 
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));

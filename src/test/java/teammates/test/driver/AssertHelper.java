@@ -16,7 +16,19 @@ import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.TimeHelper;
 
 public class AssertHelper {
-
+    
+    /**
+     * Assert date is now +- 1 min
+     */
+    public static void assertDateIsNow(Date date) {
+        assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
+                                    TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
+    }
+    
+    public static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
+        assertTrue(!(date.before(startDate) || date.after(endDate)));
+    }
+    
     public static void assertSameDates(Date expected, Date actual) {
         assertEquals(TimeHelper.calendarToString(TimeHelper.dateToCalendar(expected)),
                 TimeHelper.calendarToString(TimeHelper.dateToCalendar(actual)));

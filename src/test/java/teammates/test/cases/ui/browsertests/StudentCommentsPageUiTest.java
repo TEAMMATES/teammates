@@ -29,7 +29,7 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
         testContent();
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         
         ______TS("content: typical case");
         

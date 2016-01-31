@@ -20,7 +20,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
@@ -342,24 +341,43 @@ public class StudentsDb extends EntitiesDb {
      *   if the parameter is null (due to 'keep existing' policy)<br> 
      * Preconditions: <br>
      * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
+     * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
      * @throws EntityDoesNotExistException 
      * @throws InvalidParametersException 
      */
-
+    public void updateStudent(String courseId, String email, String newName,
+                                    String newTeamName, String newSectionName, String newEmail,
+                                    String newGoogleID,
+                                    String newComments,
+                                    boolean keepUpdateTimestamp) throws InvalidParametersException,
+                                    EntityDoesNotExistException {
+        updateStudent(courseId, email, newName, newTeamName, newSectionName,
+                newEmail, newGoogleID, newComments, true, keepUpdateTimestamp);
+    }
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail,
             String newGoogleID,
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleID, newComments, true);
+                newEmail, newGoogleID, newComments, true, false);
     }
 
     /**
      * Update student's record without searchability
      * This function is only used for testing, its purpose is to not create document if not necessary.    
-     * 
+     * @param keepUpdateTimestamp Set true to prevent changes to updatedAt. Use when updating entities with scripts.
      */
+    public void updateStudentWithoutSearchability(String courseId, String email,
+            String newName,
+            String newTeamName, String newSectionName, String newEmail,
+            String newGoogleID,
+            String newComments,
+            boolean keepUpdateTimestamp) throws InvalidParametersException,
+            EntityDoesNotExistException {
+        updateStudent(courseId, email, newName, newTeamName, newSectionName,
+                                        newEmail, newGoogleID, newComments, false, keepUpdateTimestamp);
+    }
     public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,
@@ -367,12 +385,12 @@ public class StudentsDb extends EntitiesDb {
             String newComments) throws InvalidParametersException,
             EntityDoesNotExistException {
         updateStudent(courseId, email, newName, newTeamName, newSectionName,
-                newEmail, newGoogleID, newComments, false);
+                newEmail, newGoogleID, newComments, false, false);
     }
 
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleID,
-            String newComments, boolean hasDocument)
+            String newComments, boolean hasDocument, boolean keepUpdateTimestamp)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -388,17 +406,20 @@ public class StudentsDb extends EntitiesDb {
             throw new InvalidParametersException(error);
         }
 
-        student.setEmail(Sanitizer.sanitizeForHtml(newEmail));
-        student.setName(Sanitizer.sanitizeForHtml(newName));
-        student.setLastName(Sanitizer.sanitizeName(StringHelper.splitName(newName)[1]));
-        student.setComments(Sanitizer.sanitizeForHtml(newComments));
-        student.setGoogleId(Sanitizer.sanitizeForHtml(newGoogleID));
-        student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));
-        student.setSectionName(Sanitizer.sanitizeForHtml(newSectionName));
+        student.setEmail(newEmail);
+        student.setName(newName);
+        student.setLastName(StringHelper.splitName(newName)[1]);
+        student.setComments(newComments);
+        student.setGoogleId(newGoogleID);
+        student.setTeamName(newTeamName);
+        student.setSectionName(newSectionName);
         
-        if(hasDocument){
+        if (hasDocument) {
             putDocument(new StudentAttributes(student));   
         }
+    
+        // Set true to prevent changes to last update timestamp
+        student.keepUpdateTimestamp = keepUpdateTimestamp;
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();

@@ -47,7 +47,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         //i.e. results page, submit page.
     }
     
-    private void testEditPage(){
+    private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
         testCustomizeOptions();
@@ -124,7 +124,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-4--1"));
     }
 
-    public void testAddQuestionAction() {
+    public void testAddQuestionAction() throws Exception {
         ______TS("CONST SUM: add question action success");
         
         feedbackEditPage.fillQuestionBox("const sum qn");
@@ -136,7 +136,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionAddSuccess.html");
     }
 
-    public void testEditQuestionAction() {
+    public void testEditQuestionAction() throws Exception {
         ______TS("CONST SUM: edit question success");
 
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));

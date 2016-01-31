@@ -149,7 +149,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     }
     
     @Test
-    public void testPubliclyAccessiblePages() {
+    public void testPubliclyAccessiblePages() throws Exception {
         
         ______TS("log out page");
         // has been covered in testUserNotLoggedIn method
@@ -178,11 +178,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         url = createUrl(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/pageNotFound.html");
-        
-        ______TS("show message page");
-        url = createUrl(Const.ViewURIs.SHOW_MESSAGE);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/showMessage.html");
+ 
     }
     
 

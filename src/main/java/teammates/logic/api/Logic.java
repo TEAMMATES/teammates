@@ -2705,8 +2705,9 @@ public class Logic {
         Assumption.assertNotNull(googleId);
         return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
+   
     
-    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
+    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         Assumption.assertNotNull(allCourses);
         Assumption.assertNotNull(instructorsForCourses);
         return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);

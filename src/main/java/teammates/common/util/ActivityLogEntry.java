@@ -354,10 +354,6 @@ public class ActivityLogEntry {
         return sdf.format(appCal.getTime());
     }
     
-    public String getRoleInfo(){
-        return role ;
-    }
-    
     public String getPersonInfo(){    
         if(url.contains("/student")){
             if(googleId.contentEquals("Unregistered")){

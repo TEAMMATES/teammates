@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -43,9 +43,9 @@ public class InstructorCoursesPageAction extends Action {
         data.setUsingAjax(isUsingAjax != null);
         
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>();
-        List<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
-        List<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
+        List<CourseAttributes> allCourses = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
 
         if (data.isUsingAjax()) {
             // Get list of InstructorAttributes that belong to the user.        
@@ -55,22 +55,20 @@ public class InstructorCoursesPageAction extends Action {
             }
             
             // Get corresponding courses of the instructors.
-            allCourses = new ArrayList<CourseDetailsBundle>(
-                logic.getCourseSummariesForInstructors(instructorList).values()
-            );
+            allCourses = logic.getCoursesForInstructor(instructorList);
             
             List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
-            for (CourseDetailsBundle cdb : allCourses) {
-                if (archivedCourseIds.contains(cdb.course.id)) {
-                    archivedCourses.add(cdb);
+            for (CourseAttributes course : allCourses) {
+                if (archivedCourseIds.contains(course.id)) {
+                    archivedCourses.add(course);
                 } else {
-                    activeCourses.add(cdb);
+                    activeCourses.add(course);
                 }
             }
             
             // Sort CourseDetailsBundle lists by course id
-            CourseDetailsBundle.sortDetailedCoursesByCourseId(activeCourses);
-            CourseDetailsBundle.sortDetailedCoursesByCourseId(archivedCourses);
+            CourseAttributes.sortById(activeCourses);
+            CourseAttributes.sortById(archivedCourses);
         }
         
         data.init(activeCourses, archivedCourses, instructorsForCourses);

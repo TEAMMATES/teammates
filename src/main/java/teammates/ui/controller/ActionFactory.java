@@ -45,6 +45,7 @@ public class ActionFactory {
         map(ADMIN_EMAIL_LOG_PAGE, AdminEmailLogPageAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
+        map(INSTRUCTOR_COURSE_STATS_PAGE, CourseStatsPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
         map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
         map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
