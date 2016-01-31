@@ -335,6 +335,6 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public String getCreatedAtText() {
-        return "<span class=\"client-time\">" + TimeHelper.formatDateTimeForComments(this.createdAt) + "<//span>";
+        return "<span class=\"client-time\">" + TimeHelper.formatDateTimeForComments(this.createdAt) + "</span>";
     }
 }
