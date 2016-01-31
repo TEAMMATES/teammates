@@ -38,13 +38,9 @@ public class Comment {
     }
 
     public String getEditedAt() {
-        return TimeHelper.formatDateTimeForComments(comment.lastEditedAt);                    
-    }
-    
-    public String getEditedBy() {
         return comment.getEditedAtText(giverDisplay.startsWith("Anonymous"));
     }
-    
+
     public String getCommentText() {
         return comment.commentText.getValue();
     }

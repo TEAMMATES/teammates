@@ -12,6 +12,7 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
@@ -324,12 +325,12 @@ public class CommentAttributes extends EntityAttributes
 
     public String getEditedAtText(Boolean isGiverAnonymous) {
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
-            return "last edited " +
+            String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
+            return "(last edited " +
                     (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
-                    "at ";
+                    "at " + displayTimeAs + ")";
         } else {
             return "";
         }
     }
-    
 }
