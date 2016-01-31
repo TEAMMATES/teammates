@@ -74,7 +74,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testDownloadAction();
     }
 
-    public void testContent() {
+    public void testContent() throws Exception {
 
         ______TS("Typical case: standard session results");
 
@@ -102,7 +102,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testExceptionalCases() {
+    public void testExceptionalCases() throws Exception {
         ______TS("Case where more than 1 question with same question number");
         // results page should be able to load incorrect data and still display it gracefully
         
@@ -162,7 +162,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testSortAction() {
+    public void testSortAction() throws Exception {
 
         ______TS("Typical case: test sort by giver > recipient > question");
         
@@ -274,7 +274,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testVisibilityOptions() {
+    public void testVisibilityOptions() throws Exception {
         ______TS("test sort by giver > recipient > question for second session");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Unpublished Session");
@@ -448,7 +448,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
     }
 
-    public void testFilterAction() {
+    public void testFilterAction() throws Exception {
 
         ______TS("Typical case: filter by section A");
 
@@ -529,7 +529,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testSearchScript() {
+    public void testSearchScript() throws Exception {
 
         ______TS("Typical case: test search/filter script");
 
@@ -540,7 +540,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
-    public void testFeedbackResponseCommentActions() {
+    public void testFeedbackResponseCommentActions() throws Exception {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();

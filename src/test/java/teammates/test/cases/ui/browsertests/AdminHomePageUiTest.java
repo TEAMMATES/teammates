@@ -72,7 +72,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         testCreateInstructorAction();
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         
         ______TS("content: typical page");
         

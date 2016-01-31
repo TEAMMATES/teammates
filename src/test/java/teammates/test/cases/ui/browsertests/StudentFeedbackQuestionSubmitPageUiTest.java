@@ -104,7 +104,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageClosed.html");
     }
 
-    private void testSubmitAction() {
+    private void testSubmitAction() throws Exception {
         removeAndRestoreTestDataOnServer(testData);
         
         ______TS("create new responses");
