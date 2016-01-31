@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourseDetails - Course Information" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseDetails" type="teammates.common.datatransfer.CourseDetailsBundle" required="true" %>
 <%@ attribute name="instructors" type="java.util.Collection" required="true" %>
@@ -46,10 +47,10 @@
             <c:forEach items="${instructors}" var="instructor" varStatus="i">
                 <c:choose>
                     <c:when test="${empty instructor.role}">
-                        <%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>: ${instructor.name} (${instructor.email})
+                        <%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>: ${fn:escapeXml(instructor.name)} (${fn:escapeXml(instructor.email)})
                     </c:when>
                     <c:otherwise>
-                        ${instructor.role}: ${instructor.name} (${instructor.email})
+                        ${fn:escapeXml(instructor.role)}: ${fn:escapeXml(instructor.name)} (${fn:escapeXml(instructor.email)})
                     </c:otherwise>
                 </c:choose>
                 <br>

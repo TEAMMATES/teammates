@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
@@ -31,7 +32,7 @@
                 <label class="col-sm-3 control-label">Name:</label>
                 <div class="col-sm-9">
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" 
-                            id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${instructorPanel.instructor.name}" 
+                            id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${fn:escapeXml(instructorPanel.instructor.name)}" 
                             data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor." 
                             maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="4" disabled="disabled">
                 </div>
@@ -41,7 +42,7 @@
                 <label class="col-sm-3 control-label">Email:</label>
                 <div class="col-sm-9">
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" 
-                            id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>${instructorPanel.index}" value="${instructorPanel.instructor.email}"
+                            id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>${instructorPanel.index}" value="${fn:escapeXml(instructorPanel.instructor.email)}"
                             data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor." 
                             maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="5" disabled="disabled"
                             <c:if test="${empty instructorPanel.instructor.googleId}">
@@ -63,7 +64,7 @@
 
                 <div class="col-sm-9">
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
-                            placeholder="E.g.Co-lecturer, Teaching Assistant" value="${instructorPanel.instructor.displayedName}"
+                            placeholder="E.g.Co-lecturer, Teaching Assistant" value="${fn:escapeXml(instructorPanel.instructor.displayedName)}"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"
                             disabled="disabled"/>
                 </div>
@@ -74,9 +75,9 @@
                     <label class="col-sm-3 control-label">Access Level:</label>
                     <div class="col-sm-9">
                         <p class="form-control-static">
-                            <span>${instructorPanel.instructor.role}</span>
+                            <span>${fn:escapeXml(instructorPanel.instructor.role)}</span>
                             <c:if test="${not instructorPanel.instructor.customRole}">
-                                <a href="javascript:;" onclick="showInstructorRoleModal('${instructorPanel.instructor.role}')">
+                                <a href="javascript:;" onclick="showInstructorRoleModal('${fn:escapeXml(instructorPanel.instructor.role)}')">
                                     &nbsp;View Details
                                 </a>
                             </c:if>
