@@ -16,7 +16,6 @@ import teammates.common.datatransfer.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EnrollException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
@@ -52,7 +51,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testQuestionTypesSubmitAction();
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         ______TS("Awaiting session");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Awaiting Session");
@@ -99,7 +98,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
     }
 
-    private void testSubmitAction() {
+    private void testSubmitAction() throws Exception {
         ______TS("create new responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -572,7 +571,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                      + qnNumber + "-" + responseNumber));
     }
 
-    private void testModifyData() throws EnrollException {
+    private void testModifyData() throws Exception {
         ______TS("modify data");
 
         // Next, we edit some student data to cover editing of students after creating the responses.

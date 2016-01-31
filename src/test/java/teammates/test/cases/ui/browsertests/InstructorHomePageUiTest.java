@@ -97,7 +97,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         removeTestDataOnServer(unloadedCourseTestData);
     }
 
-    private void testPersistenceCheck() {
+    private void testPersistenceCheck() throws Exception {
         
         ______TS("persistence check");
         

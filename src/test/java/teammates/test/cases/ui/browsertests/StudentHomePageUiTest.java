@@ -184,7 +184,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
     
     
-    private void testLinkAndContentAfterDelete(){
+    private void testLinkAndContentAfterDelete() throws Exception {
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);

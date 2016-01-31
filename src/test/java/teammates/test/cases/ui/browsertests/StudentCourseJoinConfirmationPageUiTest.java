@@ -61,7 +61,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
     
     
-    private void testJoinNewConfirmation() {
+    private void testJoinNewConfirmation() throws Exception {
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
         String joinLink;
