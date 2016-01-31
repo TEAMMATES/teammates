@@ -26,7 +26,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
@@ -387,10 +386,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(14, 0, "1");
 
         // Test partial response for question
-        submitPage.fillResponseTextBox(4, 1, "Feedback to team 3");
-        submitPage.chooseMcqOption(7, 0, "Algo");
-        submitPage.toggleMsqOption(9, 0, "UI");
-        submitPage.toggleMsqOption(9, 0, "Design");
+        submitPage.fillResponseTextBox(4, 0, "Feedback to team 3");
+        submitPage.chooseMcqOption(7, 1, "Algo");
+        submitPage.toggleMsqOption(9, 1, "UI");
+        submitPage.toggleMsqOption(9, 1, "Design");
 
         submitPage.fillResponseTextBox(18, 0, 0, "90");
         submitPage.fillResponseTextBox(18, 0, 1, "10");
