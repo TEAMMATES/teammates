@@ -7,9 +7,7 @@
 <li class="list-group-item list-group-item-warning${comment.extraClass}">
     <div id="commentBar-${commentIndex}">
         <span class="text-muted">
-            To <b>${comment.recipientDisplay}</b> 
-                <span class="client-time">${comment.createdAt}</span>
-                <span class="client-time">${comment.editedAt}</span>
+            To <b>${comment.recipientDisplay}</b> [${comment.createdAt}] ${comment.editedAt}
         </span>
         <c:if test="${comment.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"
