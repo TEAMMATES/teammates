@@ -55,7 +55,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         student.setCreated_NonProduction(null);
         student.setUpdatedAt_NonProduction(null);
         
-        Date defaultStudentCreationTimeStamp = new Date(Const.DEFAULT_STUDENT_CREATION_DATE);
+        Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_STUDENT_CREATION_TIMESTAMP;
         
         ______TS("success : created defaultTimeStamp");
         
