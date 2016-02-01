@@ -396,7 +396,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fillCopyToOtherCoursesForm("New name!");
         
         homePage.clickFsCopySubmitButton();
-        homePage.waitForPageToLoad();
+
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         
         homePage.goToPreviousPage(InstructorHomePage.class);
