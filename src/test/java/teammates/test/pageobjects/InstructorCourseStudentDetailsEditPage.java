@@ -83,7 +83,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     }
 
     public InstructorCourseDetailsPage submitButtonClicked(){
-        clickAndConfirm(submitButton);
+        submitButton.click();
         return changePageType(InstructorCourseDetailsPage.class);
     }
 }
