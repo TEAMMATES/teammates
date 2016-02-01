@@ -369,6 +369,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         
         waitForElementPresence(By.cssSelector(".popover-content"));
         
+        WebElement popoverContent = browser.driver.findElement(By.className("popover-content"));
+        
+        waitForElementVisibility(popoverContent);
+        
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
                                            ".getElementsByTagName('a')[0].click();");
 
