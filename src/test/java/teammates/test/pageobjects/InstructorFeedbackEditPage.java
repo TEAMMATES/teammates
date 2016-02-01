@@ -532,9 +532,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
 
-    public boolean isDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
-        return isDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox) 
-               && isDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
+    public boolean areDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
+        return areDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox) 
+               && areDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
     }
 
     /**
@@ -543,7 +543,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      *         enabled, otherwise false
      * @throws ParseException if the string in {@code dateBox} cannot be parsed
      */
-    private boolean isDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
+    private boolean areDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
 
         Calendar previousMonth = Calendar.getInstance();
         previousMonth.add(Calendar.MONTH, -1);
