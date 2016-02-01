@@ -210,11 +210,8 @@ public class TimeHelper {
             return "";
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12) {
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm").format(date) + " NOON";
-        }
-        if (c.get(Calendar.HOUR_OF_DAY) == 0) {
-            return new SimpleDateFormat("EEE, dd MMM yyyy, KK:mm").format(date) + " MIDNIGHT";
         }
         return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
     }
@@ -226,15 +223,10 @@ public class TimeHelper {
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12) {
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             return sdf.format(date) + " NOON UTC";
-        }
-        if (c.get(Calendar.HOUR_OF_DAY) == 0) {
-            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, KK:mm");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return sdf.format(date) + " MIDNIGHT UTC";
         }
         sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -250,15 +242,10 @@ public class TimeHelper {
         SimpleDateFormat sdf = null;
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12) {
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
             sdf = new SimpleDateFormat("d MMM h:mm");
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             return sdf.format(date) + " NOON";
-        }
-        if (c.get(Calendar.HOUR_OF_DAY) == 0) {
-            sdf = new SimpleDateFormat("d MMM K:mm");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            return sdf.format(date) + " MIDNIGHT";
         }
         sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
