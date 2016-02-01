@@ -2,6 +2,7 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -549,7 +550,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // Navigate to the previous month
         if (!navigate(dateBox, previousMonth)) {
-            return false;
+            fail("Cannot navigate to the previous month");
         }
 
         // Check if the dates of previous, current and next month are enabled 
