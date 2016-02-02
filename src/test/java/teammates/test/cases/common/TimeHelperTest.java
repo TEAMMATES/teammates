@@ -92,9 +92,9 @@ public class TimeHelperTest extends BaseTestCase {
         cal.set(2015, 11, 30, 12, 0, 0);
         Date date = cal.getTime();
         assertEquals("30/12/2015", TimeHelper.formatDate(date));
-        assertEquals("Wed, 30 Dec 2015, 12:00 PM", TimeHelper.formatTime12H(date));
-        assertEquals("Wed, 30 Dec 2015, 12:00 PM UTC", TimeHelper.formatDateTimeForComments(date));
-        assertEquals("30 Dec 12:00 PM", TimeHelper.formatDateTimeForInstructorHomePage(date));
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(date));
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForComments(date));
+        assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
     
 }
