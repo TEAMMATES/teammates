@@ -20,7 +20,6 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    
                         <div class="align-center" data-link="">
                             <a class="student-profile-pic-view-link btn-link">
                                 No Photo
@@ -30,6 +29,7 @@
              </c:choose>
                 </td>
         </c:if>
+        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.giverTeam}</td>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
@@ -43,7 +43,6 @@
             </c:otherwise>
         </c:choose>   
         </td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.giverTeam}</td>
     </c:if>
     <c:if test="${responseRow.recipientDisplayed}">
         <c:if test="${responseRow.recipientProfilePictureAColumn}">
@@ -58,17 +57,16 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        
                             <div class="align-center" data-link="">
                                 <a class="student-profile-pic-view-link btn-link">
                                     No Photo
                                 </a>
                             </div>
-                       
                     </c:otherwise>
                 </c:choose>
             </td>
         </c:if>
+        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.recipientTeam}</td>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
@@ -82,7 +80,6 @@
             </c:otherwise>
         </c:choose>   
         </td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.recipientTeam}</td>
     </c:if>
     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
     <td class="text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
@@ -93,5 +90,4 @@
             </c:if>
         </td>
     </c:if>
-
 </tr>
