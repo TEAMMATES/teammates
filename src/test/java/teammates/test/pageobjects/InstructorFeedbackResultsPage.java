@@ -387,12 +387,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
                                                        String urlRegex) throws Exception {
-        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 0, urlRegex);
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
     }
 
     public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow,
                                                            String urlRegex) throws Exception {
-        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 2, urlRegex);
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
     }
 
     public void removeNavBar() {

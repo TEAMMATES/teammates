@@ -32,6 +32,18 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
+        
+        // use the 1st student account injected for this test
+        
+        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1Email = student1GoogleId + "@gmail.com";
+        testData.accounts.get("alice.tmms").googleId = student1GoogleId;
+        testData.accounts.get("alice.tmms").email = student1Email;
+        testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email = student1Email;
+        testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email = student1Email;
+        testData.students.get("alice.tmms@SCJConfirmationUiT.CS1101").googleId = student1GoogleId;
+        testData.students.get("alice.tmms@SCJConfirmationUiT.CS1101").email = student1Email;
+
         removeAndRestoreTestDataOnServer(testData);
 
         browser = BrowserPool.getBrowser(true);
@@ -49,7 +61,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     }
     
     
-    private void testJoinNewConfirmation() {
+    private void testJoinNewConfirmation() throws Exception {
         String expectedMsg;
         String homePageActionUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).toAbsoluteString();
         String joinLink;

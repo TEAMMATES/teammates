@@ -812,12 +812,12 @@ public class CoursesLogic {
         return result;
     }
     
-    public List<String> getArchivedCourseIds(List<CourseDetailsBundle> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
+    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses, Map<String, InstructorAttributes> instructorsForCourses) {
         List<String> archivedCourseIds = new ArrayList<String>();
-        for (CourseDetailsBundle cdb : allCourses) {
-            InstructorAttributes instructor = instructorsForCourses.get(cdb.course.id);
-            if (isCourseArchived(cdb.course, instructor)) {
-                archivedCourseIds.add(cdb.course.id);
+        for (CourseAttributes course : allCourses) {
+            InstructorAttributes instructor = instructorsForCourses.get(course.id);
+            if (isCourseArchived(course, instructor)) {
+                archivedCourseIds.add(course.id);
             }
         }
         return archivedCourseIds;

@@ -35,12 +35,12 @@ public class InstructorCoursesPageData extends PageData {
         super(account);
     }
     
-    public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam,
+    public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
                      Map<String, InstructorAttributes> instructorsForCoursesParam){
         init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", ""); 
     }
     
-    public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam, 
+    public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam, 
                      Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam,
                      String courseNameToShowParam) {
         this.instructorsForCourses = instructorsForCoursesParam;
@@ -74,14 +74,12 @@ public class InstructorCoursesPageData extends PageData {
         return archivedCourses;
     }
     
-    private ArchivedCoursesTable convertToArchivedCoursesTable(List<CourseDetailsBundle> archivedCourseBundles) {
-        ArchivedCoursesTable archivedCourses = new ArchivedCoursesTable();
+    private ArchivedCoursesTable convertToArchivedCoursesTable(List<CourseAttributes> archivedCourses) {
+        ArchivedCoursesTable archivedCoursesTable = new ArchivedCoursesTable();
         
         int idx = this.activeCourses.getRows().size() - 1;
         
-        for (CourseDetailsBundle courseBundle : archivedCourseBundles) {
-            CourseAttributes course = courseBundle.course;
-
+        for (CourseAttributes course : archivedCourses) {
             idx++;
             
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
@@ -100,46 +98,44 @@ public class InstructorCoursesPageData extends PageData {
             
             ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
                                                                       Sanitizer.sanitizeForHtml(course.name), actionsParam);
-            archivedCourses.getRows().add(row);
+            archivedCoursesTable.getRows().add(row);
             
         }
         
-        return archivedCourses;
+        return archivedCoursesTable;
     }
     
-    private ActiveCoursesTable convertToActiveCoursesTable(List<CourseDetailsBundle> courseBundles) {
+    private ActiveCoursesTable convertToActiveCoursesTable(List<CourseAttributes> courses) {
         ActiveCoursesTable activeCourses = new ActiveCoursesTable();
         
         int idx = -1;
         
-        for (CourseDetailsBundle courseBundle : courseBundles) {
-            CourseAttributes course = courseBundle.course;
-
+        for (CourseAttributes course : courses) {
             idx++;
             
             List<ElementTag> actionsParam = new ArrayList<ElementTag>();
             
             ElementTag enrollButton = createButton("Enroll", "btn btn-default btn-xs t_course_enroll" + idx, "",
-                                                   getInstructorCourseEnrollLink(courseBundle.course.id),
+                                                   getInstructorCourseEnrollLink(course.id),
                                                    Const.Tooltips.COURSE_ENROLL, "", 
                                                    !instructorsForCourses.get(course.id).isAllowedForPrivilege(
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
             
             ElementTag viewButton = createButton("View", "btn btn-default btn-xs t_course_view" + idx, "",
-                                                 getInstructorCourseDetailsLink(courseBundle.course.id), 
+                                                 getInstructorCourseDetailsLink(course.id), 
                                                  Const.Tooltips.COURSE_DETAILS, "", false);
             
             ElementTag editButton = createButton("Edit", "btn btn-default btn-xs t_course_edit" + idx, "",
-                                                 getInstructorCourseEditLink(courseBundle.course.id), 
+                                                 getInstructorCourseEditLink(course.id), 
                                                  Const.Tooltips.COURSE_EDIT, "", false);
             
             ElementTag archiveButton = createButton("Archive", "btn btn-default btn-xs t_course_archive" + idx, "",
-                                                    getInstructorCourseArchiveLink(courseBundle.course.id, true, false),
+                                                    getInstructorCourseArchiveLink(course.id, true, false),
                                                     Const.Tooltips.COURSE_ARCHIVE, "", false);
             
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs t_course_delete" + idx, "",
-                                                   getInstructorCourseDeleteLink(courseBundle.course.id, false),
-                                                   Const.Tooltips.COURSE_DELETE, "return toggleDeleteCourseConfirmation('" + courseBundle.course.id + "');",
+                                                   getInstructorCourseDeleteLink(course.id, false),
+                                                   Const.Tooltips.COURSE_DELETE, "return toggleDeleteCourseConfirmation('" + course.id + "');",
                                                    !(instructorsForCourses.get(course.id).isAllowedForPrivilege(
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)));
             
@@ -151,10 +147,7 @@ public class InstructorCoursesPageData extends PageData {
             
             ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
                                                                   Sanitizer.sanitizeForHtml(course.name), 
-                                                                  courseBundle.stats.sectionsTotal,
-                                                                  courseBundle.stats.teamsTotal, 
-                                                                  courseBundle.stats.studentsTotal, 
-                                                                  courseBundle.stats.unregisteredTotal, 
+                                                                  this.getInstructorCourseStatsLink(course.id),
                                                                   actionsParam);
             activeCourses.getRows().add(row);
         }
