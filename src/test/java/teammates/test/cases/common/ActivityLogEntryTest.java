@@ -40,7 +40,7 @@ public class ActivityLogEntryTest extends BaseTestCase{
         assertEquals("01-01-1970 07:30:00", entry.getDateInfo());
         assertEquals("Message", entry.getMessageInfo());
         assertEquals("UserId", entry.getPersonInfo());
-        assertEquals("Instructor", entry.getRoleInfo());
+        assertEquals("Instructor", entry.getRole());
     }
     
     @Test

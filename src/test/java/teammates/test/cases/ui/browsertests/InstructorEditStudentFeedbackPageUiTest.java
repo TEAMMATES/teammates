@@ -43,7 +43,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         testDeleteResponse();
     }
     
-    public void testEditResponse() {
+    public void testEditResponse() throws Exception {
         ______TS("edit responses");
         
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
@@ -71,7 +71,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("Good design", fr.getResponseDetails().getAnswerString());
     }
     
-    private void testAddResponse() {
+    private void testAddResponse() throws Exception {
         ______TS("test new response");
         
         submitPage.fillResponseTextBox(2, 0, "4");

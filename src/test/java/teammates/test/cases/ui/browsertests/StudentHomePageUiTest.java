@@ -34,6 +34,21 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentHomePageUiTest.json");
+        
+        // use the 1st student account injected for this test
+       
+        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String student1Email = student1GoogleId + "@gmail.com";
+        testData.accounts.get("alice.tmms").googleId = student1GoogleId;
+        testData.accounts.get("alice.tmms").email = student1Email;
+        testData.students.get("alice.tmms@SHomeUiT.CS2104").email = student1Email;
+        testData.students.get("alice.tmms@SHomeUiT.CS1101").googleId = student1GoogleId;
+        testData.students.get("alice.tmms@SHomeUiT.CS1101").email = student1Email;
+        testData.students.get("alice.tmms@SHomeUiT.CS4215").googleId = student1GoogleId;
+        testData.students.get("alice.tmms@SHomeUiT.CS4215").email = student1Email;
+        testData.students.get("alice.tmms@SHomeUiT.CS4221").googleId = student1GoogleId;
+        testData.students.get("alice.tmms@SHomeUiT.CS4221").email = student1Email;
+        
         removeAndRestoreTestDataOnServer(testData);
         
         gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
@@ -169,7 +184,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
     
     
-    private void testLinkAndContentAfterDelete(){
+    private void testLinkAndContentAfterDelete() throws Exception {
         
         AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
