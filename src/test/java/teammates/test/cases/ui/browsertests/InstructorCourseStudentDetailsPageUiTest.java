@@ -41,7 +41,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         testContent();
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         
         ______TS("content: registered student");
         

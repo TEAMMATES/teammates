@@ -142,12 +142,24 @@ public class InstructorCoursesPage extends AppPage {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("$('#ajaxForCourses [name=\"user\"]').val('" + newUserId + "')");
     }
+
+    public void changeHrefInAjaxLoadCourseStatsLink(String newLink) {
+        By element = By.id("ajaxForCourses");
+        waitForElementPresence(element);
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('td[id^=\"course-stats\"] > a').attr('href', '" + newLink + "')");
+    }
     
     public void triggerAjaxLoadCourses() {
         By element = By.id("ajaxForCourses");
         waitForElementPresence(element);
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("$('#ajaxForCourses').trigger('submit')");
+    }
+    
+    public void triggerAjaxLoadCourseStats(int rowIndex) {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('.course-stats-link-" + rowIndex + "').first().trigger('click')");
     }
     
     public void waitForAjaxLoadCoursesError() {
@@ -160,6 +172,42 @@ public class InstructorCoursesPage extends AppPage {
     public void waitForAjaxLoadCoursesSuccess() {
         By element = By.id("tableActiveCourses");
         waitForElementPresence(element);
+    }
+    
+    public void waitForAjaxLoadCourseStatsSuccess(int rowIndex) {
+        By element = By.className("course-stats-link-" + rowIndex);
+        waitForElementToDisappear(element);
+        By loaderElement = By.className("course-stats-loader");
+        waitForElementToDisappear(loaderElement);
+    }
+
+    public void waitForAjaxLoadCourseStatsError(int rowIndex) {
+        By element = By.className("course-stats-link-" + rowIndex);
+        waitForElementToDisappear(element);
+        AssertHelper.assertContains("Failed", getSectionStatsField(rowIndex));
+        AssertHelper.assertContains("Failed", getTeamStatsField(rowIndex));
+        AssertHelper.assertContains("Failed", getTotalStudentStatsField(rowIndex));
+        AssertHelper.assertContains("Failed", getUnregisteredStudentStatsField(rowIndex));
+    }
+    
+    public String getSectionStatsField(int rowIndex) {
+        By element = By.id("course-stats-sectionNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
+    }
+    
+    public String getTeamStatsField(int rowIndex) {
+        By element = By.id("course-stats-teamNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
+    }
+    
+    public String getTotalStudentStatsField(int rowIndex) {
+        By element = By.id("course-stats-totalStudentNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
+    }
+    
+    public String getUnregisteredStudentStatsField(int rowIndex) {
+        By element = By.id("course-stats-unregisteredStudentNum-" + rowIndex);
+        return browser.driver.findElement(element).getText();
     }
 
     private int getCourseCount() {

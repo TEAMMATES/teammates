@@ -87,7 +87,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteSessionAction();
     }
     
-    private void testGeneralQuestionOperations() {
+    private void testGeneralQuestionOperations() throws Exception {
         testCancelNewOrEditQuestion();
         
         testNewQuestionLink();
@@ -110,7 +110,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteQuestionAction(1);
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
 
         ______TS("fresh new page");
 
@@ -206,7 +206,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testAddQuestionAction() {
+    private void testAddQuestionAction() throws Exception {
 
         ______TS("add question action success");
 
@@ -225,7 +225,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
     }
 
-    private void testEditQuestionAction() {
+    private void testEditQuestionAction() throws Exception {
 
         ______TS("edit question 1 to Team-to-Team");
 
@@ -360,7 +360,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
     }
 
-    private void testCopyQuestion() {
+    private void testCopyQuestion() throws Exception {
         
         ______TS("Success case: copy questions successfully");
         
@@ -418,7 +418,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
     }
     
-    private void testPreviewSessionAction() {
+    private void testPreviewSessionAction() throws Exception {
 
         // add questions for previewing
         feedbackEditPage.clickNewQuestionButton();

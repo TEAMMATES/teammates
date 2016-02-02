@@ -1,21 +1,22 @@
 <%@ tag description="studentResultsTable.tag - student results row" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="student" type="teammates.ui.template.AdminSearchStudentRow" required="true" %>
 
 <tr id="${student.id}" class="studentRow">
     <%-- Institute --%>
-    <td>${empty student.institute ? "" : student.institute}</td> <%-- also checks if it is null --%>
-    
+    <td>${empty student.institute ? "" : fn:escapeXml(student.institute)}</td> <%-- also checks if it is null --%>
+
     <%-- Course [Section] (Team) --%>
     <c:choose>
         <c:when test="${not empty student.courseName}">
             <td data-toggle="tooltip" data-placement="top" title="${student.courseName}">
-                ${student.courseId}<br>${student.section}<br>${student.team}
+                ${student.courseId}<br><c:out value="${student.section}"/><br><c:out value="${student.team}"/>
             </td>
         </c:when>
         <c:otherwise>
-            <td>${student.courseId}<br>${student.section}<br>${student.team}</td>
+            <td>${student.courseId}<br><c:out value="${student.section}"/><br><c:out value="${student.team}"/></td>
         </c:otherwise>
     </c:choose>
     
@@ -23,11 +24,11 @@
     <c:choose>
         <c:when test="${not empty student.links.detailsPageLink}">
             <td>
-                <a class="detailsPageLink" href="${student.links.detailsPageLink}" target="blank">${student.name}</a>
+                <a class="detailsPageLink" href="${student.links.detailsPageLink}" target="blank"><c:out value="${student.name}"/></a>
             </td>
         </c:when>
         <c:otherwise>
-            <td>${student.name}</td>
+            <td><c:out value="${student.name}"/></td>
         </c:otherwise>
     </c:choose>
     
@@ -39,7 +40,7 @@
     </td>
     
     <%-- Comments --%>
-    <td>${student.comments}</td>
+    <td><c:out value="${student.comments}"/></td>
     
     <%-- Options --%>
     <td>

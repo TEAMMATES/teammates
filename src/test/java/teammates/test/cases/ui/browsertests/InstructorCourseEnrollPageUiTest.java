@@ -48,7 +48,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         testEnrollAction();
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         
         ______TS("typical enroll page");
         

@@ -63,15 +63,15 @@ public class InstructorStudentListAjaxPageDataTest {
     }
 
     private void testTeamContent(StudentListTeamData team) {
-        assertEquals(Sanitizer.sanitizeForHtml(sampleTeam.name), team.getTeamName());
+        assertEquals(sampleTeam.name, team.getTeamName());
         for (StudentListStudentData student : team.getStudents()) {
             testStudentContent(student);
         }
     }
 
     private void testStudentContent(StudentListStudentData student) {
-        assertEquals(Sanitizer.sanitizeForHtml(sampleStudent.name), student.getStudentName());
-        assertEquals(Sanitizer.sanitizeForHtml(sampleStudent.email), student.getStudentEmail());
+        assertEquals(sampleStudent.name, student.getStudentName());
+        assertEquals(sampleStudent.email, student.getStudentEmail());
         assertEquals("'" + Sanitizer.sanitizeForJs(sampleStudent.course) + "','"
                          + Sanitizer.sanitizeForJs(sampleStudent.name) + "'",
                      student.getToggleDeleteConfirmationParams());

@@ -31,6 +31,16 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageUiTest.json");
+        
+        // use the instructor account injected for this test
+        
+        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").googleId = 
+                                        TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        testData.instructors.get("ICJConfirmationUiT.instr.CS2104").email = 
+                                        TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
+        testData.instructors.get("ICJConfirmationUiT.instr.CS1101").email = 
+                                        TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
+        
         removeAndRestoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser(true);

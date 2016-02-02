@@ -680,7 +680,8 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/instructorFeedbackResponseCommentDelete";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/page/instructorFeedbackResponseCommentsLoad";
-                
+        
+        public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
         public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
@@ -835,8 +836,6 @@ public class Const {
         
         public static final String LOGOUT = "/logout.jsp"; 
         
-        
-        public static final String SHOW_MESSAGE = "/showMessage.jsp"; 
         public static final String UNAUTHORIZED = "/unauthorized.jsp"; 
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 

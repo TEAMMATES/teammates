@@ -20,6 +20,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -41,6 +42,12 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
+        
+        // use the instructor account injected for this test
+        
+        testData.accounts.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        testData.accounts.get("instructor1OfCourse1").email = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT + "@gmail.com";
+        
         removeAndRestoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser();

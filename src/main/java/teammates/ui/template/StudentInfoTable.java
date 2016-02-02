@@ -25,24 +25,23 @@ public class StudentInfoTable {
     }
 
     public String getName() {
-        return Sanitizer.sanitizeForHtml(name);
+        return name;
     }
 
-    public String getEmail() {
-        // TODO: Move sanitization to frontend by <c:out> 
-        return Sanitizer.sanitizeForHtml(email);
+    public String getEmail() { 
+        return email;
     }
 
     public String getSection() {
-        return Sanitizer.sanitizeForHtml(section);
+        return section;
     }
 
     public String getTeam() {
-        return Sanitizer.sanitizeForHtml(team);
+        return team;
     }
 
     public String getComments() {
-        return Sanitizer.sanitizeForHtml(comments);
+        return comments;
     }
 
     public String getCourse() {

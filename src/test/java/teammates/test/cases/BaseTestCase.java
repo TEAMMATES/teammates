@@ -56,14 +56,12 @@ public class BaseTestCase {
         if(pathToJsonFile.startsWith("/")){
             pathToJsonFile = TestProperties.TEST_DATA_FOLDER + pathToJsonFile;
         }
-        String jsonString;
         try {
-            jsonString = FileHelper.readFile(pathToJsonFile);
+            String jsonString = FileHelper.readFile(pathToJsonFile);
+            return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        jsonString = injectRealAccounts(jsonString);
-        return Utils.getTeammatesGson().fromJson(jsonString, DataBundle.class);
     }
 
     /**
@@ -110,15 +108,6 @@ public class BaseTestCase {
 
     protected void ignoreExpectedException() {
         assertTrue(true);
-    }
-
-    private static String injectRealAccounts(String jsonString) {
-        
-        return jsonString
-                .replace("${test.student1}", TestProperties.inst().TEST_STUDENT1_ACCOUNT)
-                .replace("${test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT)
-                .replace("${test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
-                .replace("${test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
 
 }
