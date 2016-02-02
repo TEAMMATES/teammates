@@ -175,6 +175,10 @@ Apply to thead to make headers not bold.
     margin: 0;
 }
 
+.margin-bottom-7px {
+    margin-bottom: 7px;
+}
+
 .margin-bottom-10px {
     margin-bottom: 10px;
 }
@@ -497,6 +501,14 @@ Apply to thead to make headers not bold.
     margin: -15px -15px 15px;
     border-radius: 0;
     border-width: 0 0 1px
+}
+
+.course-id-table-width {
+    min-width: 100px;
+}
+
+.session-name-table-width {
+    min-width: 130px;
 }
 
 @media ( min-width :768px) {
