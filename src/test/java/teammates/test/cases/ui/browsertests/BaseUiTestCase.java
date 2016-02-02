@@ -3,6 +3,8 @@ package teammates.test.cases.ui.browsertests;
 import java.io.File;
 import java.io.IOException;
 
+import org.testng.annotations.BeforeSuite;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Assumption;
