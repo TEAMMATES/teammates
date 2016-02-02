@@ -62,6 +62,7 @@ public class FeedbackQuestionFormTemplates {
     public static String RUBRIC_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsTemplate.html");
     public static String RUBRIC_RESULT_STATS_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsHeaderFragment.html");
     public static String RUBRIC_RESULT_STATS_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBodyFragment.html");
+    public static String RUBRIC_RESULT_STATS_BODY_AVERAGE_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsAverageFragment.html");
     public static String RUBRIC_RESULT_STATS_BODY = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBody.html");
     public static String RUBRIC_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
     

@@ -451,6 +451,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         float[][] rubricStats = calculateRubricStats(responses, question);
+        float[] average = calculateRubricAverage(responses, question);
         
         
         // Create table row header fragments
@@ -468,7 +469,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY;
+        String tableBodyAverageFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_AVERAGE_FRAGMENT;
         DecimalFormat df = new DecimalFormat("#"); 
+        DecimalFormat dfAverage = new DecimalFormat("###.##");
         
         for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
@@ -478,12 +481,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${percentageFrequency}", df.format(rubricStats[j][i]*100) + "% (" + responseFrequency[j][i] +")");
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
+  
+            StringBuilder tableBodyAverageFragmentHtml = new StringBuilder();
+            String tableAverageCell = FeedbackQuestionFormTemplates.populateTemplate(tableBodyAverageFragmentTemplate, 
+                                            "${average}", dfAverage.format(average[j]));
+            tableBodyAverageFragmentHtml.append(tableAverageCell + Const.EOL);
             
             // Get entire row
             String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
-                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString(),
+                            "${averageValue}", tableBodyAverageFragmentHtml.toString());
             tableBodyHtml.append(tableRow + Const.EOL);
         }
         
@@ -491,7 +500,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
                 "${statsTitle}", (view=="student")?"Response Summary (of visible responses)":"Response Summary",
-                "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
+                "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(), 
                 "${tableBodyHtml}", tableBodyHtml.toString());
         
         return html;
