@@ -381,6 +381,7 @@ public class InstructorHomePage extends AppPage {
         waitForElementVisibility(fsCopySubmitButton);
         
         fsCopySubmitButton.click();
+        waitForPageToLoad();
     }
     
     public void fillCopyToOtherCoursesForm(String newName) {
