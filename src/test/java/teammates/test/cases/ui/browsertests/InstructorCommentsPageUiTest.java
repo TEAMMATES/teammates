@@ -148,6 +148,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPrivate.html");
     }
     
+    /**
+     * Tests to ensure the panels can be collapse / expand.
+     */
     private void testPanelsCollapseExpand() {
         
         ______TS("Typical case: panels expand/collapse");

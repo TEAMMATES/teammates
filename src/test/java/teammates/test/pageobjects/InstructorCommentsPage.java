@@ -210,16 +210,26 @@ public class InstructorCommentsPage extends AppPage {
         waitForPageToLoad();
     }
     
+    /**
+     * Clicks all the headings of the comment panel to either expand / collapse the panel body.
+     */
     public void clickAllCommentsPanelHeading() {
         for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='panel_display-']"))) {
             e.findElement(By.cssSelector(".panel-heading")).click();
         }
     }
     
+    /**
+     * Verify if the body of all the comment panel is indeed expanded / collapsed after its corresponding heading is clicked.
+     * @param visible true to verify if the comment panel body is expanded, otherwise false.
+     * @return true if all comment panel body is being expanded, otherwise false.
+     */
     public boolean verifyAllCommentsPanelBodyVisibility(boolean visible) {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
+        // wait for animation to complete
+        // wait for visibility if its expanding, else wait for disappear if its collapsing
         if (visible) {
             waitForElementsVisibility(webElements);
         } else {
