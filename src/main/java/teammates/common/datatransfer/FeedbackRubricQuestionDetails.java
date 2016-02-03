@@ -624,6 +624,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // table body
         DecimalFormat df = new DecimalFormat("#");
+        DecimalFormat dfAverage = new DecimalFormat("###.##");
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
         float[][] rubricStats = calculateRubricStats(responses, question);
@@ -636,7 +637,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
             }
-            csv.append("," + average[i]);
+            csv.append("," + dfAverage.format(average[i]));
             csv.append(Const.EOL);
         }
 

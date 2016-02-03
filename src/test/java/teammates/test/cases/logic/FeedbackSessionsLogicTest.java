@@ -1922,8 +1922,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         Summary Statistics,
         ,"Yes","No"
-        "a) This student has done a good job.",67% (2),33% (1)
-        "b) This student has tried his/her best.",75% (3),25% (1)
+        "a) This student has done a good job.",67% (2),33% (1),1.67
+        "b) This student has tried his/her best.",75% (3),25% (1),1.75
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice
         "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","a","Yes (Choice 1)"
@@ -1958,8 +1958,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             "",
             "Summary Statistics,",
             ",\"Yes\",\"No\"",
-            "\"a) This student has done a good job.\",67% (2),33% (1)",
-            "\"b) This student has tried his/her best.\",75% (3),25% (1)",
+            "\"a) This student has done a good job.\",67% (2),33% (1),1.67",
+            "\"b) This student has tried his/her best.\",75% (3),25% (1),1.75",
             "",
             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number",
             "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"",
