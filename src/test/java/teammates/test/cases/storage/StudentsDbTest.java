@@ -36,7 +36,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
     
     @Test
     public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
-        ______TS("success : created");
         
         StudentAttributes s = new StudentAttributes();
         s.name = "a valid student";
@@ -57,11 +56,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_STUDENT_CREATION_TIMESTAMP;
         
-        ______TS("success : created defaultTimeStamp");
+        ______TS("success : defaultTimeStamp for createdAt date");
         
         assertEquals(defaultStudentCreationTimeStamp, student.getCreatedAt());
         
-        ______TS("success : update defaultTimeStamp");
+        ______TS("success : defaultTimeStamp for updatedAt date");
         
         assertEquals(defaultStudentCreationTimeStamp, student.getUpdatedAt());
     }
