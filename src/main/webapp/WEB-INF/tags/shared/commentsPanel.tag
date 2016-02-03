@@ -52,7 +52,7 @@
                     <c:if test="${forRecordsPage}">
                         <c:if test="${empty commentsForStudentsTable.rows}">
                             <li class="list-group-item text-muted">
-                                You don't have any comments on this student.
+                                <em>You don't have any comments on this student.</em>
                             </li>
                         </c:if>
                         <c:set var="newCommentIndex" value="${fn:length(commentsForStudentsTable.rows)}" />
