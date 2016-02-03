@@ -1921,7 +1921,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Question 1,"Please choose the best choice for the following sub-questions."
         
         Summary Statistics,
-        ,"Yes","No"
+        ,"Yes","No",Average
         "a) This student has done a good job.",67% (2),33% (1),1.67
         "b) This student has tried his/her best.",75% (3),25% (1),1.75
         
@@ -1957,7 +1957,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             "Question 1,\"Please choose the best choice for the following sub-questions.\"",
             "",
             "Summary Statistics,",
-            ",\"Yes\",\"No\"",
+            ",\"Yes\",\"No\",Average",
             "\"a) This student has done a good job.\",67% (2),33% (1),1.67",
             "\"b) This student has tried his/her best.\",75% (3),25% (1),1.75",
             "",

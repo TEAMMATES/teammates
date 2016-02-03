@@ -54,6 +54,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<String> rubricChoices = new ArrayList<String>();
         List<String> rubricSubQuestions = new ArrayList<String>();
         List<List<String>> rubricDescriptions = new ArrayList<List<String>>();
+        List<String> rubricChoicesWithWeight = new ArrayList<String>();
         
         int numActualChoices = 0;
         int numActualSubQuestions = 0;
@@ -64,6 +65,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             if(choice != null) {
                 rubricChoices.add(choice);
                 numActualChoices++;
+            }
+        }
+        
+        if(getChoiceAssginedWeight(rubricChoices) == null){
+            for(int i=0; i<numOfRubricChoices; i++){
+                rubricChoicesWithWeight.add(rubricChoices.get(i) + "(" + (numOfRubricChoices-1) + ")");
+            }
+        }else{
+            for(int i=0; i<numOfRubricChoices; i++){
+                rubricChoicesWithWeight.add(rubricChoices.get(i));
             }
         }
         
@@ -94,7 +105,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         // Set details
-        setRubricQuestionDetails(numActualChoices, rubricChoices,
+        setRubricQuestionDetails(numActualChoices, rubricChoicesWithWeight,
                 numActualSubQuestions, rubricSubQuestions, rubricDescriptions);
         
         if (!this.isValidDescriptionSize()) {
