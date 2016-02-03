@@ -217,16 +217,21 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public boolean verifyAllCommentsPanelBodyVisibility(boolean visible) {
-        int numOfComments = browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse")).size();
-
-        // Wait for the total duration according to the number of collapse/expand intervals between comments
-        ThreadHelper.waitFor((numOfComments * 50) + 1000);
-
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        if (visible) {
+            waitForElementsVisibility(webElements);
+        } else {
+            waitForElementToDisappear(panelCollapseSelector);
+        }
+        
         for (WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))) {
             if (e.isDisplayed() != visible) {
                 return false;
             }
         }
+        
         return true;
     }
     
