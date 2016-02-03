@@ -117,7 +117,7 @@ public class Student implements StoreCallback {
     }
     
     public Date getCreatedAt() {
-        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_STUDENT_CREATION_TIMESTAMP : createdAt;
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
     
     public void setCreatedAt(Date created) {
@@ -126,7 +126,7 @@ public class Student implements StoreCallback {
     }
     
     public Date getUpdatedAt() {
-        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_STUDENT_CREATION_TIMESTAMP : updatedAt;
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     public void setLastUpdate(Date updatedAt) {
