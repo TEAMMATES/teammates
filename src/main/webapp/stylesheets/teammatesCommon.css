@@ -712,6 +712,12 @@ Prevent Long URL From Breaking Out of Container
     hyphens: auto;
 }
 
+/* highlight search keywords in result on Admin search page */
+.highlight {
+        background-color: #FFFF88;
+    }
+
+
 /*//////////////////////////////////////////////////////////
 ////////////////////// Responsiveness //////////////////////
 //////////////////////////////////////////////////////////*/
