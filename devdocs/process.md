@@ -82,8 +82,10 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      doesn't always result in a good layout.
         
    * Ensure _dev green_ (i.e., all tests are passing on dev server).
+
+    >If any of the browsertests fail, use [*GodMode*](/devdocs/godmode.md) to fix them. Ensure that dev green is reached without GodMode before submitting for review
      
-     >If your new code might behave differently on a remote server than how it 
+    >If your new code might behave differently on a remote server than how it 
      behaves on the dev server, ensure staging green 
      (i.e., all tests are passing against the modified app running on your own 
      GAE staging server).

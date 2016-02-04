@@ -130,8 +130,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("typical success case");
 
-        feedbackEditPage.clickEndDateBox();
-        assertTrue(feedbackEditPage.verifyEndDatesBeforeTodayAreDisabled());
+        assertTrue(feedbackEditPage.areDatesOfPreviousCurrentAndNextMonthEnabled());
+
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
         
