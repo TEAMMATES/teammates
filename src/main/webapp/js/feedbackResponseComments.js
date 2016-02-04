@@ -397,6 +397,8 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
     }
 }
 
+// sets the chevron of a panel from up to down or down to up
+// sender should be the parent of the chevron
 function toggleChevron(sender) {
     var $sender = $(sender);
     
