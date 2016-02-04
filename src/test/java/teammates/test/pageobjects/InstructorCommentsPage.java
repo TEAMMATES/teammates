@@ -10,8 +10,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.ThreadHelper;
-
 public class InstructorCommentsPage extends AppPage {
 
     @FindBy(id = "option-check")
@@ -220,29 +218,57 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Verify if the body of all the comment panel is indeed expanded / collapsed after its corresponding heading is clicked.
-     * @param visible true to verify if the comment panel body is expanded, otherwise false.
-     * @return true if all comment panel body is being expanded, otherwise false.
+     * Check if the body of all the comment panel is indeed expanded.
+     * @return true if all comment panel body is expanded, otherwise false.
      */
-    public boolean verifyAllCommentsPanelBodyVisibility(boolean visible) {
+    public boolean isAllCommentsPanelBodyExpanded() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
-        // wait for animation to complete
-        // wait for visibility if its expanding, else wait for disappear if its collapsing
-        if (visible) {
-            waitForElementsVisibility(webElements);
-        } else {
-            waitForElementToDisappear(panelCollapseSelector);
-        }
-        
-        for (WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))) {
-            if (e.isDisplayed() != visible) {
+        for (WebElement e : webElements) {
+            if (!e.isDisplayed()) {
                 return false;
             }
         }
         
         return true;
+    }
+
+    
+    /**
+     * Check if the body of all the comment panel is indeed collapsed.
+     * @return true if all comment panel body is collapsed, otherwise false.
+     */
+    public boolean isAllCommentsPanelBodyCollapsed() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        for (WebElement e : webElements) {
+            if (e.isDisplayed()) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Method to wait for all the panels to collapse. Typically called after clicking panel headings.
+     */
+    public void waitForPanelsToCollapse() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        
+        waitForElementToDisappear(panelCollapseSelector);
+    }
+    
+    /**
+     * Method to wait for all the panels to expand. Typically called after clicking panel headings.
+     */
+    public void waitForPanelsToExpand() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        waitForElementsVisibility(webElements);
     }
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
