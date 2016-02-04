@@ -54,7 +54,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<String> rubricChoices = new ArrayList<String>();
         List<String> rubricSubQuestions = new ArrayList<String>();
         List<List<String>> rubricDescriptions = new ArrayList<List<String>>();
-        List<String> rubricChoicesWithWeight = new ArrayList<String>();
         
         int numActualChoices = 0;
         int numActualSubQuestions = 0;
@@ -65,16 +64,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             if(choice != null) {
                 rubricChoices.add(choice);
                 numActualChoices++;
-            }
-        }
-        
-        if(getChoiceAssginedWeight(rubricChoices) == null){
-            for(int i=0; i<numOfRubricChoices; i++){
-                rubricChoicesWithWeight.add(rubricChoices.get(i) + "(" + (numOfRubricChoices-1) + ")");
-            }
-        }else{
-            for(int i=0; i<numOfRubricChoices; i++){
-                rubricChoicesWithWeight.add(rubricChoices.get(i));
             }
         }
         
@@ -105,7 +94,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         // Set details
-        setRubricQuestionDetails(numActualChoices, rubricChoicesWithWeight,
+        setRubricQuestionDetails(numActualChoices, rubricChoices,
                 numActualSubQuestions, rubricSubQuestions, rubricDescriptions);
         
         if (!this.isValidDescriptionSize()) {
@@ -225,15 +214,27 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private String getSubmissionFormTableHeaderFragmentHtml(String questionNumberString, String responseNumberString) {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
-
-        for(int i = 0 ; i < numOfRubricChoices ; i++) {
-            String tableHeaderCell = 
-                    FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${qnIndex}", questionNumberString,
-                            "${respIndex}", responseNumberString,
-                            "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", rubricChoices.get(i));
-            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+        
+        if(getChoiceAssginedWeight(rubricChoices) == null){
+            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+                String tableHeaderCell = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
+                                "${qnIndex}", questionNumberString,
+                                "${respIndex}", responseNumberString,
+                                "${col}", Integer.toString(i),
+                                "${rubricChoiceValue}", (rubricChoices.get(i) + "(" + (numOfRubricChoices-i) + ")"));
+                tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+                }
+        }else{
+            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+                String tableHeaderCell = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
+                                "${qnIndex}", questionNumberString,
+                                "${respIndex}", responseNumberString,
+                                "${col}", Integer.toString(i),
+                                "${rubricChoiceValue}", rubricChoices.get(i));
+                tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+                }
         }
         return tableHeaderFragmentHtml.toString();
     }
@@ -468,11 +469,20 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
-        for(int i = 0 ; i < numOfRubricChoices ; i++) {
-            String tableHeaderCell = 
-                    FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
-            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+        if(getChoiceAssginedWeight(rubricChoices) == null){
+            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+                String tableHeaderCell = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
+                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) + "(" + (numOfRubricChoices-i) + ")");
+                tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+            }
+        }else{
+            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+                String tableHeaderCell = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
+                                "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+                tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
+            }
         }
         
         // Create table body
@@ -784,12 +794,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private int[] getChoiceAssginedWeight(List<String> rubricChoices){
         int[] assignedWeight = new int[rubricChoices.size()];
         for(int i=0; i<rubricChoices.size(); i++){
-            if(!rubricChoices.get(i).contains("(") || !rubricChoices.get(i).contains(")")){
+            int length = rubricChoices.get(i).length();
+            if(rubricChoices.get(i).indexOf(")") == -1 ||rubricChoices.get(i).indexOf(")") != length-1){
                 return null;
             }
             try{
-                int indexOfOpenParen = rubricChoices.get(i).indexOf('(');
-                int indexOfCloseParen = rubricChoices.get(i).indexOf(')');
+                //assume the assigned number is between 0-99
+                //TODO: Figure out a better way to allow user to assign number by themselves
+                int indexOfOpenParen = rubricChoices.get(i).indexOf('(', length - 4);
+                int indexOfCloseParen = rubricChoices.get(i).indexOf(')', length - 4);
                 assignedWeight[i] = Integer.parseInt(rubricChoices.get(i).substring(indexOfOpenParen+1, indexOfCloseParen));
             }catch(Exception e){
                 return null;
