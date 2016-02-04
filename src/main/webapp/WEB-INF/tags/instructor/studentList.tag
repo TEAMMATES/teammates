@@ -31,21 +31,12 @@
                     <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,4)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <c:choose>
-                        <c:when test="${fromCourseDetailsPage}">
-                            <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
-                                Status <span class="icon-sort unsorted"></span>
-                            </th>
-                            <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,6)">
-                                Email <span class="icon-sort unsorted"></span>
-                            </th>
-                        </c:when>
-                        <c:otherwise>
-                            <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,5)">
-                                Email <span class="icon-sort unsorted"></span>
-                            </th>
-                        </c:otherwise>
-                    </c:choose>
+                    <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
+                        Status <span class="icon-sort unsorted"></span>
+                    </th>
+                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,6)">
+                        Email <span class="icon-sort unsorted"></span>
+                    </th>
                     <th>Action(s)</th>
                 </tr>
             </thead>
@@ -102,11 +93,9 @@
                                 <td id="studentname-c${courseIndex}.${studentIndex}">
                                     <c:out value="${student.studentName}"/>
                                 </td>
-                                <c:if test="${fromCourseDetailsPage}">
-                                    <td class="align-center">
-                                        ${student.studentStatus}
-                                    </td>
-                                </c:if>
+                                <td class="align-center">
+                                    ${student.studentStatus}
+                                </td>
                                 <td id="studentemail-c${courseIndex}.${studentIndex}">
                                     <c:out value="${student.studentEmail}"/>
                                 </td>
