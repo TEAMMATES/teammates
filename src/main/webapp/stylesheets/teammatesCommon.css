@@ -740,6 +740,28 @@ Prevent Long URL From Breaking Out of Container
     .mobile-align-left {
         text-align: left !important;
     }
+    .mobile-no-pull {
+        float: inherit !important;
+    }
+    .mobile-margin-top-10px {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    .tablet-no-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .tablet-bottom-align {
+        vertical-align: bottom;
+    }
+    .tablet-margin-10px {
+        margin: 10px;
+    }
+    .tablet-no-pull {
+        float: inherit !important;
+    }
 }
 
 @media (max-width: 992px) {
