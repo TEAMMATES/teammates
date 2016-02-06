@@ -767,6 +767,9 @@ Prevent Long URL From Breaking Out of Container
         padding-left: 0;
         padding-right: 0;
     }
+    .tablet-align-left {
+        text-align: left !important;
+    }
     .tablet-bottom-align {
         vertical-align: bottom;
     }

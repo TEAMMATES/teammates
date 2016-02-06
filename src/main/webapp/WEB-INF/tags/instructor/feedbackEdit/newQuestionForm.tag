@@ -35,14 +35,14 @@
         <div class="row">
             <div class="col-sm-12 row">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <a id="button_openframe" class="btn btn-primary"
+                    <a id="button_openframe" class="btn btn-primary margin-bottom-7px"
                         onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
                         Add New Question
                     </a>
-                    <a id="button_copy" class="btn btn-primary">
+                    <a id="button_copy" class="btn btn-primary margin-bottom-7px">
                         Copy Question
                     </a>
-                    <a class="btn btn-primary"
+                    <a class="btn btn-primary margin-bottom-7px"
                         href="${fqForm.doneEditingLink}">
                         Done Editing
                     </a>
