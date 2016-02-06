@@ -743,7 +743,7 @@
       <div aria-hidden="false" aria-labelledby="fsCopyModal" class="modal fade in" id="fsCopyModal" role="dialog" style="display: block;" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
-               <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+               <form action="/page/instructorFeedbackEditCopy" id="form_copy_list" method="post" role="form">
                   <div class="modal-header">
                      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
                         ×
@@ -789,6 +789,8 @@
                                  {Session currently in this course}
                               </span>
                            </label>
+                        </div>
+                        <div id="feedback-copy-modal-status">
                         </div>
                         <input name="courseid" type="hidden" value="FeedbackEditCopy.CS2104"/>
                         <input name="fsname" type="hidden" value="First Session"/>
