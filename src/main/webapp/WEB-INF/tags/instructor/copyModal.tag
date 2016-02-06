@@ -4,7 +4,7 @@
      aria-labelledby="fsCopyModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" name="form_copy_list" role="form"
+            <form method="post" id="form_copy_list" role="form"
                   action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY %>">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
