@@ -42,15 +42,15 @@
                                         </select>
                                     </c:when>
                                     <c:otherwise>
-                                            <div class="form-control-static">
+                                            <h5 class="form-control-static font-weight-normal">
                                                     ${fsForm.courseId}
-                                            </div>
+                                            </h5>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6"
+                    <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_TIMEZONE %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -100,9 +100,9 @@
                                             value="${fsForm.fsName}">
                                     </c:when>
                                     <c:otherwise>
-                                            <div class="form-control-static">
+                                            <h5 class="form-control-static font-weight-normal">
                                                 ${fsForm.fsName}
-                                            </div>
+                                            </h5>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -116,7 +116,7 @@
                         data-toggle="tooltip"
                         data-placement="top">
                         <div class="form-group">
-                            <h5 class="col-sm-2">
+                            <h5 class="col-sm-2 margin-top-0">
                                 <label class="control-label"
                                     for="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>">
                                     Instructions

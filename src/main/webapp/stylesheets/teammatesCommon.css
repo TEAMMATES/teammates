@@ -207,6 +207,10 @@ Apply to thead to make headers not bold.
     padding: 15px;
 }
 
+.padding-right-10px {
+    padding-right: 10px;
+}
+
 .padding-top-0 {
     padding-top: 0;
 }
@@ -225,6 +229,10 @@ Apply to thead to make headers not bold.
 
 .overflow-hidden {
     overflow:hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
 }
 
 .padding-top-0.checkbox,.padding-top-0 {
@@ -625,6 +633,12 @@ Apply to thead to make headers not bold.
         display: block;
     }
 
+.questionType {
+    display: inline-block;
+    width: 90%;
+    margin-right: 5px;
+}
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
@@ -748,7 +762,7 @@ Prevent Long URL From Breaking Out of Container
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .tablet-no-padding {
         padding-left: 0;
         padding-right: 0;
@@ -761,6 +775,15 @@ Prevent Long URL From Breaking Out of Container
     }
     .tablet-no-pull {
         float: inherit !important;
+    }
+    .tablet-margin-top-10px {
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .tablet-no-mobile-margin-top-20px {
+        margin-top: 20px;
     }
 }
 

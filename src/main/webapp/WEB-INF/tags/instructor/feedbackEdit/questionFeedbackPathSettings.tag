@@ -49,8 +49,6 @@
             </select>
         </div>
     </div>
-    <div class="col-sm-6">
-    </div>
     <div class="col-sm-6 numberOfEntitiesElements${fqForm.question.questionNumber}">
         <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.question.questionNumber}" class="control-label col-sm-4 small">
             The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.question.questionNumber}"></span> each respondant should give feedback to:

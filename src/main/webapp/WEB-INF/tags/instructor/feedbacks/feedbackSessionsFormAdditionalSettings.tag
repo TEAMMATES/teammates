@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="row radio">
-                    <div class="col-xs-2"
+                    <h5 class="col-xs-2"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -31,7 +31,7 @@
                             value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
                             <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked="checked"</c:if>
                         >
-                    </div>
+                    </h5>
                     <div class="col-xs-5">
                         <input class="form-control col-sm-2" type="text"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
@@ -99,7 +99,7 @@
                 </div>
                 <div class="row radio"><%
                     %>
-                    <div class="col-xs-2"
+                    <h5 class="col-xs-2"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLECUSTOM %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -112,7 +112,7 @@
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM %>"
                             <c:if test="${additionalSettings.responseVisibleDateChecked}">checked="checked"</c:if>
                         >
-                    </div>
+                    </h5>
                     <div class="col-xs-5">
                         <input class="form-control"
                             type="text"
