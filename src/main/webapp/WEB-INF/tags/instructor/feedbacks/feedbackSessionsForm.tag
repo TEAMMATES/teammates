@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <br>
+                <br class="hidden-xs">
                 <div class="row">
                     <div class="col-sm-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME %>"
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-                <br>
+                <br class="hidden-xs">
                 <div class="row" id="instructionsRow">
                     <div class="col-sm-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS %>"

@@ -8,9 +8,9 @@
 <div class="panel panel-primary" style="display:none;" id="sessionResponsesVisiblePanel">
     <div class="panel-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-xs-12 col-md-6">
                 <div class="row">
-                    <div class="col-md-6"
+                    <div class="col-xs-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLELABEL %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="row radio">
-                    <div class="col-md-2"
+                    <div class="col-xs-2"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -32,7 +32,7 @@
                             <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked="checked"</c:if>
                         >
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-xs-5">
                         <input class="form-control col-sm-2" type="text"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
@@ -40,7 +40,7 @@
                             <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-xs-5">
                         <select class="form-control"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="row radio">
-                    <div class="col-md-6"
+                    <div class="col-xs-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLEATOPEN %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="row radio">
-                    <div class="col-md-6"
+                    <div class="col-xs-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -88,9 +88,9 @@
                 </div>
             </div>
     
-            <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
+            <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                 <div class="row">
-                    <div class="col-md-6"
+                    <div class="col-xs-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -99,7 +99,7 @@
                 </div>
                 <div class="row radio"><%
                     %>
-                    <div class="col-md-2"
+                    <div class="col-xs-2"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLECUSTOM %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -113,7 +113,7 @@
                             <c:if test="${additionalSettings.responseVisibleDateChecked}">checked="checked"</c:if>
                         >
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-xs-5">
                         <input class="form-control"
                             type="text"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
@@ -122,7 +122,7 @@
                             <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-xs-5">
                         <select class="form-control"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME %>"
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="row radio">
-                    <div class="col-md-3"
+                    <div class="col-xs-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="row radio">
-                    <div class="col-md-4"
+                    <div class="col-xs-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div class="row radio">
-                    <div class="col-md-2"
+                    <div class="col-xs-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -199,7 +199,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-3"
+            <div class="col-md-3"
                 title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL %>"
                 data-toggle="tooltip"
                 data-placement="top">
@@ -212,7 +212,7 @@
                         value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled="disabled">
                 </div>
             </div>
-            <div class="col-sm-3"
+            <div class="col-md-3"
                 title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDCLOSINGEMAIL %>"
                 data-toggle="tooltip"
                 data-placement="top">
@@ -227,7 +227,7 @@
                         value="<%= EmailType.FEEDBACK_CLOSING.toString() %>">
                 </div>
             </div>
-            <div class="col-sm-4"
+            <div class="col-md-4"
                 title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDPUBLISHEDEMAIL %>"
                 data-toggle="tooltip"
                 data-placement="top">
