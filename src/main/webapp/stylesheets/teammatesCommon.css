@@ -199,6 +199,10 @@ Apply to thead to make headers not bold.
     margin-top: 0;
 }
 
+.margin-top-7px {
+    margin-top: 7px;
+}
+
 .padding-0 {
     padding: 0;
 }
@@ -791,6 +795,9 @@ Prevent Long URL From Breaking Out of Container
 @media (min-width: 768px) and (max-width: 991px) {
     .tablet-no-mobile-margin-top-20px {
         margin-top: 20px;
+    }
+    .tablet-no-mobile-margin-top-0 {
+        margin-top: 0;
     }
 }
 
