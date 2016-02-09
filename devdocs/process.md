@@ -181,7 +181,7 @@ PM:
   * Inform RL the new version is live.
  
 RL:
-  * Mere `release` to `master`.  
+  * Merge `release` to `master`.  
   * Update milestone.
     * State the release number in the milestone notes.
     * Ensure all issues and PRs included in the release are tagged with the correct milestone.
@@ -193,7 +193,7 @@ RL:
     * Update `about.html` with names of new contributors, if any.
   * Plan next release.
     * Get active developers to commit to at least 1 issue for the next milestone.
-    * Ensure all pending `p.urgent` are assigned and scheduled for next mileston.
+    * Ensure all pending `p.urgent` are assigned and scheduled for next milestone.
 
 ### Issue/PR Lifecycle
 <img src='../src/main/webapp/dev/images/IssueLifecycle.png' width='600'>
