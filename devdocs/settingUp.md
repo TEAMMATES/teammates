@@ -20,7 +20,7 @@ Important: When a version is specified, please install that version instead of t
    Go to `Window → Preferences → Google → App Engine`, click the `Add` button,
    and point it to where you extracted the SDK zip file. <br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
-8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/eclipse.html).
+8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
