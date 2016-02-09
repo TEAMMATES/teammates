@@ -13,6 +13,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.StudentListSectionData;
 
@@ -53,19 +54,26 @@ public class InstructorCourseDetailsPageData extends PageData {
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
         
-        String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
+        String photoUrlTemplate = Const.ActionURIs.STUDENT_PROFILE_PICTURE
                         + "?" + Const.ParamsNames.STUDENT_EMAIL
                         + "=%s&" + Const.ParamsNames.COURSE_ID
-                        + "=%s&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
+                        + "=%s";
 
         this.sections = new ArrayList<StudentListSectionData>();
+        String studentPhotoUrl = "";
         for (SectionDetailsBundle section: courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
-                    emailPhotoUrlMapping.put(student.email, String.format(photoUrl,
-                                                                          StringHelper.encrypt(student.email),
-                                                                          StringHelper.encrypt(student.course)));
+                    studentPhotoUrl = String.format(photoUrlTemplate,
+                                                    StringHelper.encrypt(student.email),
+                                                    StringHelper.encrypt(student.course));
+          
+                    // userid is added AFTER the formatting done above to avoid special 
+                    // characters in the userid from affecting the String.format function
+                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
+                                                    Const.ParamsNames.USER_ID, account.googleId);
+                    emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
                 }
             }
             boolean isAllowedToViewStudentInSection = currentInstructor.isAllowedForPrivilege(section.name,
