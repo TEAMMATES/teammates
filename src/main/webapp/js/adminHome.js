@@ -1,3 +1,15 @@
+/**
+ * This function generates HTML text for a row containing instructor's information
+ * and status of the action.
+ * 
+ * @param {String} shortName
+ * @param {String} name
+ * @param {String} email
+ * @param {String} institution
+ * @param isSuccess
+ * @param {String} status
+ * @returns {String} a HTML row of action result table
+ */
 function createRowForResultTable(shortName, name, email, institution, isSuccess, status) {
     var result = "<td>" + shortName + "</td>";
     result += "<td>" + name + "</td>";
@@ -22,6 +34,10 @@ var paramsList = [];    // list of parameter strings that will be sent via ajax
 var instructorDetailsList = [];
 var isInputFromFirstPanel = false;
 
+/**
+ * This function disables the form to prevent the user from editing it
+ * while the action is being processed.
+ */
 function disableAddInstructorForm() {
     $(".addInstructorBtn").each(function() {
         $(this).html("<img src='/images/ajax-loader.gif'/>");
@@ -32,6 +48,9 @@ function disableAddInstructorForm() {
     
 }
 
+/**
+ * This function enables the form after the action is finished.
+ */
 function enableAddInstructorForm() {
     $(".addInstructorBtn").each(function() {
         $(this).html("Add Instructor");
@@ -41,6 +60,10 @@ function enableAddInstructorForm() {
     });
 }
 
+/**
+ * This function sends Ajax request to add new instructor(s).
+ * It only sends another Ajax request after it finishes.
+ */
 function addInstructorByAjaxRecursively() {
     $.ajax({
         type : 'POST',
@@ -85,29 +108,23 @@ function addInstructorByAjaxRecursively() {
     });
 }
 
-function addInstructorByAjax() {
+/**
+ * This function reads information of instructor(s) from the first panel
+ * and adds each instructor one by one.
+ */
+function addInstructorFromFirstFormByAjax() {
     $("#addInstructorResultPanel").show();    // show the hidden panel
+    isInputFromFirstPanel = true;
     
     var multipleLineText = $("#addInstructorDetailsSingleLine").val();    // get input from the first panel
     multipleLineText = multipleLineText.trim();
-    
-    if (multipleLineText.length == 0) {
-        var instructorDetails = $("#instructorName").val() + "|" + $("#instructorEmail").val() + "|" + $("#instructorInstitution").val();
-        instructorDetailsList = [instructorDetails];
-        var params = "instructorshortname=" + $("#instructorShortName").val() +
-                     "&instructorname=" + $("#instructorName").val() +
-                     "&instructoremail=" + $("#instructorEmail").val() +
-                     "&instructorinstitution=" + $("#instructorInstitution").val();
-        paramsList = [params];
-        isInputFromFirstPanel = false;
-    } else {
+    if (multipleLineText.length > 0) {
         instructorDetailsList = multipleLineText.split("\n");
         paramsList = [];
         for(var i = 0; i < instructorDetailsList.length; i++) {
             instructorDetailsList[i] = instructorDetailsList[i].replace(/\t/g,"|");
             paramsList[i] = "instructordetailssingleline=" + instructorDetailsList[i];
         }
-        isInputFromFirstPanel = true;
     }
     paramsCounter = 0;
     $("#addInstructorResultTable tbody").html("");    // clear table
@@ -116,4 +133,25 @@ function addInstructorByAjax() {
     if (paramsList.length > 0) {
         addInstructorByAjaxRecursively();
     }
+}
+
+/**
+ * This functions reads information of the instructor from the second panel then add him.
+ */
+function addInstructorFromSecondFormByAjax() {
+    $("#addInstructorResultPanel").show();    // show the hidden panel
+    isInputFromFirstPanel = false;
+    
+    var instructorDetails = $("#instructorName").val() + "|" + $("#instructorEmail").val() + "|" + $("#instructorInstitution").val();
+    instructorDetailsList = [instructorDetails];
+    var params = "instructorshortname=" + $("#instructorShortName").val() +
+                 "&instructorname=" + $("#instructorName").val() +
+                 "&instructoremail=" + $("#instructorEmail").val() +
+                 "&instructorinstitution=" + $("#instructorInstitution").val();
+    paramsList = [params];
+    
+    paramsCounter = 0;
+    $("#addInstructorResultTable tbody").html("");    // clear table
+    $("#addInstructorResultPanel div.panel-heading").html("<strong>Result</strong>");    // clear panel header
+    addInstructorByAjaxRecursively();
 }
