@@ -129,6 +129,13 @@ public class AdminInstructorAccountAddAction extends Action {
         return createAjaxResult(data);
     }
 
+    /**
+     * This function extracts instructor's info from a string then store them in an array of string.
+     * @param instructorDetails This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION 
+     * or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
+     * @return A String array of size 3
+     * @throws InvalidParametersException
+     */
     private String[] extractInstructorInfo(String instructorDetails) throws InvalidParametersException {
         String[] result = instructorDetails.trim().replace('|', '\t').split("\t");
         if (result.length != Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION) {
@@ -138,6 +145,14 @@ public class AdminInstructorAccountAddAction extends Action {
         return result;
     }
 
+    /**
+     * This function imports Demo course to new instructor.
+     * @param helper data from AdminHomePageData
+     * @return the ID of Demo course
+     * @throws EntityAlreadyExistsException
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
     private String importDemoData(AdminHomePageData helper)
             throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
@@ -210,7 +225,6 @@ public class AdminInstructorAccountAddAction extends Action {
         }
         
         return courseId;
-
     }
 
     /**
@@ -301,13 +315,18 @@ public class AdminInstructorAccountAddAction extends Action {
         }
     }
 
+    /**
+     * This function trims the course ID if it is too long.
+     * @param demoCourseId
+     * @param maximumIdLength length to trim
+     * @return trimmed Course ID
+     */
     private String trimCourseIdToMaximumLengthIfNecessary(String demoCourseId, final int maximumIdLength) {
         final int courseIdLength = demoCourseId.length();
         if (courseIdLength <= maximumIdLength) {
             return demoCourseId;
         } else {
-            return demoCourseId.substring(courseIdLength
-                    - maximumIdLength);
+            return demoCourseId.substring(courseIdLength - maximumIdLength);
         }
     }
 
