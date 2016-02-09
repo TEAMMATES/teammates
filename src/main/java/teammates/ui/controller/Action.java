@@ -452,6 +452,13 @@ public abstract class Action {
                               pageData);
     }
     
+    public AjaxResult createAjaxResultWithoutClearingStatusMessage(PageData pageData) {
+        return new AjaxResult(account,
+                              requestParameters,
+                              statusToUser,
+                              pageData, false);
+    }
+    
     protected boolean isJoinedCourse(String courseId, String googleId) {
         if (student != null) {
             return true;

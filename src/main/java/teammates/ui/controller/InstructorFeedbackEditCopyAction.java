@@ -97,7 +97,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
             // Go to sessions page after copying,
             // so that the instructor can see the new feedback sessions
-            return createAjaxResult(
+            return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, ""));
             
         } catch (EntityAlreadyExistsException e) {
@@ -107,6 +107,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
                                                     Const.StatusMessages.FEEDBACK_SESSION_EXISTS, 
                                                     currentPage);
         } catch (InvalidParametersException e) {
+            setStatusForException(e, e.getMessage());
             return createAjaxResultWithErrorMessage(originalFeedbackSessionName, originalCourseId,
                                                     e.getMessage(), 
                                                     currentPage);
