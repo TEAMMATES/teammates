@@ -12,7 +12,6 @@ import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.StudentListSectionData;

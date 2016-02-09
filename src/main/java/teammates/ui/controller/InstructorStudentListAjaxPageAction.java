@@ -12,7 +12,6 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
@@ -40,12 +39,13 @@ public class InstructorStudentListAjaxPageAction extends Action {
 
         Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         Map<String, Map<String, Boolean>> sectionPrivileges = new HashMap<>();
+        String studentPhotoUrl = "";
         for (SectionDetailsBundle sectionDetails : courseSectionDetails) {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
                 for (StudentAttributes student : teamDetails.students) {
-                     studentPhotoUrl = student.getPublicProfilePictureUrl();
+                    studentPhotoUrl = student.getPublicProfilePictureUrl();
                     
-                     // userid is added AFTER the formatting done above to avoid special 
+                    // userid is added AFTER the formatting done above to avoid special 
                     // characters in the userid from affecting the String.format function
                     studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
                                                     Const.ParamsNames.USER_ID, account.googleId);
