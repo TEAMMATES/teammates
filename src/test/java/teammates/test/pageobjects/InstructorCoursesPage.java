@@ -174,42 +174,6 @@ public class InstructorCoursesPage extends AppPage {
         waitForElementPresence(element);
     }
     
-    public void waitForAjaxLoadCourseStatsSuccess(int rowIndex) {
-        By element = By.className("course-stats-link-" + rowIndex);
-        waitForElementToDisappear(element);
-        By loaderElement = By.className("course-stats-loader");
-        waitForElementToDisappear(loaderElement);
-    }
-
-    public void waitForAjaxLoadCourseStatsError(int rowIndex) {
-        By element = By.className("course-stats-link-" + rowIndex);
-        waitForElementToDisappear(element);
-        AssertHelper.assertContains("Failed", getSectionStatsField(rowIndex));
-        AssertHelper.assertContains("Failed", getTeamStatsField(rowIndex));
-        AssertHelper.assertContains("Failed", getTotalStudentStatsField(rowIndex));
-        AssertHelper.assertContains("Failed", getUnregisteredStudentStatsField(rowIndex));
-    }
-    
-    public String getSectionStatsField(int rowIndex) {
-        By element = By.id("course-stats-sectionNum-" + rowIndex);
-        return browser.driver.findElement(element).getText();
-    }
-    
-    public String getTeamStatsField(int rowIndex) {
-        By element = By.id("course-stats-teamNum-" + rowIndex);
-        return browser.driver.findElement(element).getText();
-    }
-    
-    public String getTotalStudentStatsField(int rowIndex) {
-        By element = By.id("course-stats-totalStudentNum-" + rowIndex);
-        return browser.driver.findElement(element).getText();
-    }
-    
-    public String getUnregisteredStudentStatsField(int rowIndex) {
-        By element = By.id("course-stats-unregisteredStudentNum-" + rowIndex);
-        return browser.driver.findElement(element).getText();
-    }
-
     private int getCourseCount() {
         return browser.driver.findElements(By.className("table")).get(0).findElements(By.tagName("tr")).size();
     }
