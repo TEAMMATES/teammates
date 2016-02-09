@@ -138,17 +138,23 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
-    if (isTouchDevice() === false) {
-        $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
+    /**
+     * Initializing then disabling is better than simply
+     * not initializing for mobile due to some tooltips-specific
+     * code that throws errors.
+    */
+    var $tooltips = $('[data-toggle="tooltip"]');
+    $tooltips.tooltip({html: true, container: 'body'});
+    if (isTouchDevice()) {
+        $tooltips.tooltip('disable');
     }
 });
 
 /**
  * Checks if the current device is touch based device
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
- * @returns true if touch based device, false otherwise
  */
-function isTouchDevice(){
+function isTouchDevice() {
     return true === (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
 }
 
