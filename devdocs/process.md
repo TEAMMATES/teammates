@@ -112,6 +112,10 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      is to continue until PR status changes to `s.toMerge`. After doing suggested
      changes, remember to add a comment to indicate the PR is ready for review again.
      e.g. `ready to review` or `changes done`
+
+   * As a final check, the PM will look through the changes and either suggest changes (back to `s.Ongoing`),
+     or apply the `s.mergeApproved` label to the PR. Rarely, there would be multiple jumps between `s.Ongoing` and `s.toMerge`
+     before the fix is applied the `s.mergeApproved` status.
    
 
 ###Reviewing a fix
@@ -131,11 +135,23 @@ Role: reviewer
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
       If not, ask the dev to sync with upstream. 
   * If any of the above are not OK, 
+    * change the status of the PR to `s.Ongoing`
     * Add comments in the diff to suggest changes.
     * Optionally, add a comment in the conversation thread to inform the author to refine the code.
   * To remove white space changes from being shown, append `?w=1` to url of the `/files` page of the pull request (the "Files changed" tab)
   * If the code is OK on all aspects,
     * Change issue status to `s.ToMerge`
+
+Role: PM
+
+  * Review the code for maintainability and style
+  * Ensure appropriate header comments and expected standards are followed
+    * the standards used in TEAMMATES are available at [Readme](../README.md) under the *Supplementary documents* section
+  * If any of the above are not OK,
+    * Change the issue status to `s.Ongoing`
+  * If the code is OK on all aspects,
+    * Change issue status to `s.mergeApproved`
+
 
 ###Applying a fix
 Role: committer
@@ -160,7 +176,7 @@ Role: committer
     * Remove any status labels from the corresponding issue and close it.
   * If not green,
     * Delete the merge commit, if any.
-    * Change the pull request status to `s.ongoing`
+    * Change the pull request status to `s.Ongoing`
     * Add a comment to mention the test failure.
   
     
