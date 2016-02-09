@@ -202,8 +202,11 @@ Given above is an illustration of the issue lifecycle.
 Colors indicate which roles are involved in which states/transitions. 
 
 ####Issue Labels
-The meaning of issue prefixes: `s.` status, `a.` aspect, `f.` feature, `t.` type, 
-  `d.` difficulty 
+The meaning of label group prefixes: 
+ * exclusive groups (no more than one of each label group): `s.` status, 
+   `p.` priority, `c.` category, `d.` difficulty, `m.` main owner
+ * non-exclusive groups:  `a-` aspect, `f-` feature, `t-` tech, 
+ 
 
 **Status**
 
@@ -214,11 +217,13 @@ The meaning of issue prefixes: `s.` status, `a.` aspect, `f.` feature, `t.` type
 * Open PR  
     * `s.ToReview`: Waiting for the review
     * `s.Ongoing` : The PR is being worked on.
-    * `s.ToMerge`: Reviewer accepted the changes. Ready to be merged.
+    * `s.ToMerge`: Reviewer accepted the changes. 
+    * `s.MergeApproved` : PM has approved the merge. PR ready to be merged.
+    * `s.OnHold` : The work on the PR has been put on hold pending some other event.
 * Closed issue/PR
     * No status label
 
-**Urgency**
+**Priority/Urgency**
 
 * `p.Critical`: Would like to fix it ASAP and release as a hot patch.
 * `p.Urgent`: Would like to handle in the very next release.
@@ -227,42 +232,84 @@ The meaning of issue prefixes: `s.` status, `a.` aspect, `f.` feature, `t.` type
 * `p.Low`: Very little impact, unlikely to do in the near future.
 * `p.Zero`: Unlikely to do, ever.
 
+**Category**
+
+* Changes to _functionality_, categorized based on size
+  * `c.Enhancement`: An enhancement to an existing functionality (not big enough 
+   consider as a story).
+  * `c.Story`: A user story.
+  * `c.Epic`: A feature that is worth many user stories.
+* Other work
+  * `c.Bug`
+  * `c.Task`: Other work items such as updating documentation.
+
 **Difficulty**
 
-* `d.Easy`: Minor change. No need to modify tests.
-* `d.Moderate`: Small, mostly-localized change. Usually requires changes to tests.
-* `d.Difficult`: Requires multiple, possibly non-localized changes. Requires changes to tests and possibly new tests.
-* `d.VeryDifficult`: Requires wide ranging tests, new tests and possibly, changes to the data schema.
+* `d.FirstTimers`: Easy. To do as the first issue for new developers. One developer
+  should not do more than one of these.
+* `d.Contributors`: Moderate difficulty. Small localized change. Can be done by contributors.
+* `d.Commtters`: More difficult issues that are better left for committers or more senior developers.
+
+**Main classifier**
+
+This label is used to determine whether the `a-`, `f-`, or `t-` label 
+(described below) is used to determine the issue leader (i.e. the area lead 
+in charge of the issue). 
+
+* `m.Feature` : The owner of the `f-` label is the issue leader. The issue should 
+  have exactly one `f-` label. If there is no `m.` label, `m.Feature` is assumed. 
+* `m.Aspect` : The owner of the `a-` label is the issue leader. The issue should 
+  have exactly one `a-` label.
+* `m.Feature` : The owner of the `t-` label is the issue leader. The issue should 
+  have exactly one `t-` label.
 
 **Aspect**
 
-* `a.Admin`,`a.Scalability` etc. : Used to categorize issues based on the aspect
-  it tackles. This is useful when a developer is focusing on a specific aspect.
+Classifies the issues based on the non-functional aspect it tackles. 
+
+|Label             | Lead      | Co-Leads  | Description
+|------------------|-----------|-----------|------------------------------------
+|`a-AccessControl` |Tania      |           |Controlling access to user groups, authentication, privacy, anonymity
+|`a-CodeQuality`   |Wilson     |           |Refactorings that is mainly to improve code/design quality
+|`Concurrency`     |           |           |Things related to concurrent access, session control
+|`a-DevOps`        |Wilson     |           | CI, release management, version control, dev docs
+|`a-Docs`          |Jun Hao    |           |Website, user docs
+|`a-FaultTolerance`|           |           |Resilience to user errors, environmental problems
+|`a-Performance`   |           |           |Speed of operation
+|`a-Persistence`   |WeiLin     |           |Database layer, GAE datastore
+|`a-Scalability`   |Khanh      |           |Related to behavior at increasing loads
+|`a-Security`      |           |           |Protection from security threats
+|`a-Testing`       |Wilson     |           |
+|`a-UIX`           |Josephine  |           |User interface, User experience, Responsiveness
 
 **Feature**
 
-* `f.Sessions`,`f.Comments` etc. : Used to categorize issues based on the main
-  feature they belong to. This is useful when a developer is in charge of a
-  feature. 
-  Features vs Aspects: Features are primarily about functional requirements while Aspects 
-  are primarily about non-functional requirements.
+Classifies the issue based on the feature it involves.
 
-**Type**
-
-* Changes to _functionality_, categorized based on size
-  * `t.Enhancement`: An enhancement to an existing functionality (not big enough 
-   consider as a story).
-  * `t.Story`: A user story.
-  * `t.Epic`: A feature that is worth many user stories.
-* Other work
-  * `t.Bug`
-  * `t.Task`: Other work items such as updating documentation.
+|Label       | Lead      | Co-Leads   | Description                             
+|------------|-----------|------------|-----------------------------------------
+|` f-Admin`  |Khanh      |            |Features used by Admin users 
+|`f-Comments`|Josephine  |            |Comments
+|`f-Courses` |Josephine  |You Jun     |Courses, Instructors, Students, Home page
+|`f-Email`   |Tania      |            |Code related to sending emails
+|`f-Profiles`|Josephine  |            |User profiles 
+|`f-Results` |Wilson     |            |Session results, moderation, download
+|`f-Search`  |Tania      |            |Search
+|`f-Submissions`|You Jun |Jun Hao     |Session creation, editing, submissions
 
 
-**Other**
 
-* `forFirstTimers` : To do as the first issue for new developers. One developer
-  should not do more than one of these.
-* `forContributors` : More suitable for contributors.
+**Tech**
+classifies the issue based on the technology it involves.
+
+|Label    | Lead         | Co-Leads           | Description                                
+|---------|--------------|--------------------|---------------------------------
+|`t-CSS`  |              |                    |CSS, Bootstrap
+|`t-GAE`  |              |                    |Google App Engine related technologies such as task queues
+|`t-HTML` |              |                    |HTML, Browsers
+|`t-JS`   |              |                    |Javascript, JQuery
+|`t-JSTL` |              |                    |JSTL, JSP, Servlets
+
+
 
 
