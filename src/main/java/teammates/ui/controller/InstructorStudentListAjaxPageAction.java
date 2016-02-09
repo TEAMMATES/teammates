@@ -38,20 +38,12 @@ public class InstructorStudentListAjaxPageAction extends Action {
         int courseIndex = Integer.parseInt(courseIndexString);
         boolean hasSection = logic.hasIndicatedSections(courseId);
 
-        String photoUrlTemplate = Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                        + "?" + Const.ParamsNames.STUDENT_EMAIL
-                        + "=%s&" + Const.ParamsNames.COURSE_ID
-                        + "=%s";
-
         Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         Map<String, Map<String, Boolean>> sectionPrivileges = new HashMap<>();
-        String studentPhotoUrl = "";
         for (SectionDetailsBundle sectionDetails : courseSectionDetails) {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
                 for (StudentAttributes student : teamDetails.students) {
-                     studentPhotoUrl = String.format(photoUrlTemplate,
-                                                              StringHelper.encrypt(student.email),
-                                                              StringHelper.encrypt(student.course));
+                     studentPhotoUrl = student.getPublicProfilePictureUrl();
                     
                      // userid is added AFTER the formatting done above to avoid special 
                     // characters in the userid from affecting the String.format function
