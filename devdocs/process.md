@@ -1,10 +1,14 @@
 #TEAMMATES Development Process
 
 ##Roles
-* `Dev` - Issue owner who fixes the issue. Can be a Committer or a Contributor.
+* `Dev` - Issue owner who fixes the issue. 
 * `Reviewer` - Assigned per issue. Usually, a core team member.
-* `Area lead` - Responsible for keeping all tests green, merging pull requests.
-* `PM` (Project Manager) - General project coordination and deploying to the live server
+* `Release Lead` (RL) - Responsible for the release management.
+* `Project Manager` (PM) - General project coordination and deploying to the live server.
+
+Note: *Roles* are related to the development process and they are different from *Positions*, which relate to
+the organization structure of the TEAMMATES dev community. 
+The Positions are: `Contributor`, `Committer`, `Snr Developer`, `Area Lead`, `Project Lead`, `Project Advisor`.
 
 ##Workflow
 
@@ -160,25 +164,36 @@ Role: committer
     * Add a comment to mention the test failure.
   
     
-###Deploying fixes
-Roles: PM + TL (Team Lead)
+###Making a release
+Roles: PM (Project Manager) + RL (Release Lead)
 
+RL: 
+  * Get dev green for `master`.
+  * Merge to `release` branch, tag (Format `V{major}.{minor}.{build}` e.g. `V5.01.02`.)
+  * Inform PM the next version is ready for deployment.
+  
 PM: 
-  * Pull the latest master.
+  * Pull the latest `release` branch.
   * Get dev green.
   * Deploy.
   * Get live green.
   * Make the version default.
-  * Tag the version. Format `V{major}.{minor}.{build}` e.g. `V5.01.02`.
-  * Push to master.
+  * Inform RL the new version is live.
  
-TL:
-  * Create/update milestone
-    * State the release number in the milestone notes
-    * Ensure all issues and PRs included in the release are tagged with the correct milestone
-    * Close the milestone
-  * Announce release to dev and contributor groups
-   
+RL:
+  * Merge `release` to `master`.  
+  * Update milestone.
+    * State the release number in the milestone notes.
+    * Ensure all issues and PRs included in the release are tagged with the correct milestone.
+    * Close the milestone.
+  * Announce release to dev and contributor groups.
+  * Housekeeping:
+    * Post comment in open PRs to request closure by next milestone.
+    * Close PRs that have been inactive in spite of reminders.
+    * Update `about.html` with names of new contributors, if any.
+  * Plan next release.
+    * Get active developers to commit to at least 1 issue for the next milestone.
+    * Ensure all pending `p.urgent` are assigned and scheduled for next milestone.
 
 ### Issue/PR Lifecycle
 <img src='../src/main/webapp/dev/images/IssueLifecycle.png' width='600'>
