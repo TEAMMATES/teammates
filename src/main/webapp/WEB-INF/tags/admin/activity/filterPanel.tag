@@ -89,7 +89,7 @@
                                     <li>E.g. time: 1000 (means 1000ms) </li>
                                     <li>E.g. info: Admin Account Management Page Load </li> 
                                     <li>E.g. info: Admin Account Management Page Load, Total, 90 (Use "," to search multiple key strings)</li>
-                                    <li>E.g. id: alice@gmail.com%20160131181745245, charlie@gmail.com%20160201182727734
+                                    <li>E.g. id: alice@gmail.com%20160131181745245, charlie@gmail.com%20160201182727734</li>
                                 </ul>
                             </div>
                         </div>
