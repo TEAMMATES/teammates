@@ -30,19 +30,22 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-0. Add remote names for committer repo (let's call it `upstream`)
+3. If the issue is assigned to you, a Pull Request (PR) has to be opened for it within a week. 
+   Inactivity for a longer time would open up the issue for others to work on.
+
+4. Add remote names for committer repo (let's call it `upstream`)
    ```
    git remote add   upstream      https://github.com/TEAMMATES/repo.git
    ```
 
-4. Update your local repo (the one you created when setting up the project on your computer) 
+5. Update your local repo (the one you created when setting up the project on your computer) 
    with the latest version of the code from the committer repo.
    ```
    git pull upstream master
    ```
-4. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
+6. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
 
-5. Start a new branch named `{IssueNumber}-{some-keywords}`. 
+7. Start a new branch named `{IssueNumber}-{some-keywords}`. 
    If you are already working in a branch, remember to switch to the `master` 
    before creating the new branch. e.g.,
     ```
@@ -51,7 +54,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
     //create new branch and switch to it at the same time e.g. git checkout -b 2342-remove-println
     git checkout -b {branch-name}
     ```
-6. Fix the issue.
+8. Fix the issue.
    * Have a look at our coding and testing best practices (links given [here]
    (../README.md)) before you start your first issue.
    * Keep in mind that we have 'reference' code that has extra explanatory 
@@ -78,7 +81,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
        git merge master
        ```
 
-7. When the work is ready for review:
+9. When the work is ready for review:
    * Format the code: Select the code segments you modified and apply the code 
      formatting function of Eclipse (`Source → Format`). 
      This is to ensure that the code is properly formatted. 
@@ -107,6 +110,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      Wait for the reviewer to change the PR status to `s.toMerge` or to suggest changes. 
      If you did not get a review within 2-3 days, it is OK to request for a review 
      by posting a comment in the PR. 
+
+   * Once the PR is open, try and complete it within 2 weeks. Inactivity for a longer period would necessitate a restart of the PR.
 
    * The cycle of 'update pull request' and 'review' (i.e. the previous two steps) 
      is to continue until PR status changes to `s.toMerge`. After doing suggested
