@@ -236,7 +236,7 @@ The meaning of label group prefixes:
 
 * Changes to _functionality_, categorized based on size
   * `c.Enhancement`: An enhancement to an existing functionality (not big enough 
-   consider as a story).
+   to be considered as a user story).
   * `c.Story`: A user story.
   * `c.Epic`: A feature that is worth many user stories.
 * Other work
@@ -246,9 +246,10 @@ The meaning of label group prefixes:
 **Difficulty**
 
 * `d.FirstTimers`: Easy. To do as the first issue for new developers. One developer
-  should not do more than one of these.
+  should not do more than one of these. Not to be applied for issues with a priority `p.high` or above.
 * `d.Contributors`: Moderate difficulty. Small localized change. Can be done by contributors.
-* `d.Commtters`: More difficult issues that are better left for committers or more senior developers.
+  Not to be applied for issues with a priority `p.high` or above.
+* `d.Committers`: More difficult issues that are better left for committers or more senior developers.
 
 **Main classifier**
 
@@ -260,7 +261,7 @@ in charge of the issue).
   have exactly one `f-` label. If there is no `m.` label, `m.Feature` is assumed. 
 * `m.Aspect` : The owner of the `a-` label is the issue leader. The issue should 
   have exactly one `a-` label.
-* `m.Feature` : The owner of the `t-` label is the issue leader. The issue should 
+* `m.Tech` : The owner of the `t-` label is the issue leader. The issue should 
   have exactly one `t-` label.
 
 **Aspect**
@@ -270,16 +271,16 @@ Classifies the issues based on the non-functional aspect it tackles.
 |Label             | Lead      | Co-Leads  | Description
 |------------------|-----------|-----------|------------------------------------
 |`a-AccessControl` |Tania      |           |Controlling access to user groups, authentication, privacy, anonymity
-|`a-CodeQuality`   |Wilson     |           |Refactorings that is mainly to improve code/design quality
-|`Concurrency`     |           |           |Things related to concurrent access, session control
-|`a-DevOps`        |Wilson     |           | CI, release management, version control, dev docs
+|`a-CodeQuality`   |Wilson     |           |Refactorings that are mainly to improve code/design quality
+|`a-Concurrency`   |           |           |Things related to concurrent access, session control
+|`a-DevOps`        |Wilson     |           |CI, release management, version control, dev docs
 |`a-Docs`          |Jun Hao    |           |Website, user docs
 |`a-FaultTolerance`|           |           |Resilience to user errors, environmental problems
 |`a-Performance`   |           |           |Speed of operation
 |`a-Persistence`   |WeiLin     |           |Database layer, GAE datastore
 |`a-Scalability`   |Khanh      |           |Related to behavior at increasing loads
 |`a-Security`      |           |           |Protection from security threats
-|`a-Testing`       |Wilson     |           |
+|`a-Testing`       |Wilson     |           |Testing efficiency and robustness (as opposed to testing a specific feature)
 |`a-UIX`           |Josephine  |           |User interface, User experience, Responsiveness
 
 **Feature**
@@ -288,7 +289,7 @@ Classifies the issue based on the feature it involves.
 
 |Label       | Lead      | Co-Leads   | Description                             
 |------------|-----------|------------|-----------------------------------------
-|` f-Admin`  |Khanh      |            |Features used by Admin users 
+|`f-Admin`   |Khanh      |            |Features used by Admin users 
 |`f-Comments`|Josephine  |            |Comments
 |`f-Courses` |Josephine  |You Jun     |Courses, Instructors, Students, Home page
 |`f-Email`   |Tania      |            |Code related to sending emails
