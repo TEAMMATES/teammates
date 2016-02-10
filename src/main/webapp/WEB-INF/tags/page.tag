@@ -29,7 +29,7 @@
     <script type="text/javascript" src="${data.jQueryUiFilePath}"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="http://github.com/bartaz/sandbox.js/raw/master/jquery.highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.highlight.js"></script>
     <t:enableJS />
 
     <jsp:invoke fragment="jsIncludes" />
