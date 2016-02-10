@@ -491,8 +491,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fsCopyToModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
         feedbackPage.fsCopyToModal.waitForModalToLoad();
         feedbackPage.fsCopyToModal.clickSubmitButton();
-        feedbackPage.fsCopyToModal.waitForStatusMessageVisibility();
-        assertTrue(feedbackPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         feedbackPage.fsCopyToModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
@@ -510,8 +510,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                      feedbackSessionName, courseId);
         
-        feedbackPage.fsCopyToModal.waitForStatusMessageVisibility();
-        assertTrue(feedbackPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         feedbackPage.fsCopyToModal.verifyStatusMessage(error);
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
@@ -525,8 +525,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.fsCopyToModal.clickSubmitButton();
         
-        feedbackPage.fsCopyToModal.waitForStatusMessageVisibility();
-        assertTrue(feedbackPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         feedbackPage.fsCopyToModal.verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
                 + "feedback session name because it contains invalid characters. "

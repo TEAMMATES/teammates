@@ -17,8 +17,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackEditCopyAction extends Action {
-    
+public class InstructorFeedbackEditCopyAction extends Action {    
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {        
@@ -146,6 +145,6 @@ public class InstructorFeedbackEditCopyAction extends Action {
     private AjaxResult createAjaxResultWithErrorMessage(String feedbackSessionName, String courseId, String errorToUser, String currentPage) {
         isError = true;
         return createAjaxResult(
-                   InstructorFeedbackEditCopyData.withoutRedirectUrl(account, errorToUser));
+                   new InstructorFeedbackEditCopyData(account, errorToUser));
     }
 }

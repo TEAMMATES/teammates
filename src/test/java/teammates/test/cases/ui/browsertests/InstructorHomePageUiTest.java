@@ -365,8 +365,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
         homePage.fsCopyModal.waitForModalToLoad();
         homePage.fsCopyModal.clickSubmitButton();
-        homePage.fsCopyModal.waitForStatusMessageVisibility();
-        assertTrue(homePage.fsCopyModal.isErrorMessageVisible());
+        homePage.fsCopyModal.waitForFormSubmissionStatusMessageVisibility();
+        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
         homePage.fsCopyModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
@@ -378,8 +378,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fsCopyModal.clickSubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
-        homePage.fsCopyModal.waitForStatusMessageVisibility();
-        assertTrue(homePage.fsCopyModal.isErrorMessageVisible());
+        homePage.fsCopyModal.waitForFormSubmissionStatusMessageVisibility();
+        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
         homePage.fsCopyModal.verifyStatusMessage(error);
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
@@ -389,7 +389,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fsCopyModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
         homePage.fsCopyModal.clickSubmitButton();
-        homePage.fsCopyModal.waitForStatusMessageVisibility();
+        homePage.fsCopyModal.waitForFormSubmissionStatusMessageVisibility();
         
         homePage.fsCopyModal
                 .verifyStatusMessage("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session " 
@@ -413,10 +413,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         // Change action link so that ajax will fail
         homePage.changeFsCopyButtonActionLink(courseId, feedbackSessionName, "/page/nonExistentPage?");
-        // Click copy
+
         homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
         // Wait for modal to appear and show error.
-        homePage.fsCopyModal.waitForModalErrorToLoad();
+        homePage.fsCopyModal.waitForModalLoadingError();
         
         
     }

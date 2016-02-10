@@ -12,8 +12,7 @@ import org.openqa.selenium.WebElement;
 import teammates.common.util.Const;
 
 /**
- * Utility class for handling the modal for copying a feedback session to other courses 
- *
+ * Page Object class for handling the modal for copying a feedback session multiple times to other courses.
  */
 public class InstructorCopyFsToModal extends AppPage {
     
@@ -30,6 +29,10 @@ public class InstructorCopyFsToModal extends AppPage {
         waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
     }
     
+    /**
+     * Populates the fields of the form by using the provided name, and selecting every course. 
+     * @param newFsName feedback session name of the new session
+     */
     public void fillFormWithAllCoursesSelected(String newFsName) {
         WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
         List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
@@ -41,6 +44,9 @@ public class InstructorCopyFsToModal extends AppPage {
         fillTextBox(fsNameInput, newFsName);
     }
     
+    /**
+     * Unchecks every course in the course list
+     */
     public void resetCoursesCheckboxes() {
         WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
         List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
@@ -49,48 +55,40 @@ public class InstructorCopyFsToModal extends AppPage {
         }
     }
     
-    public void fillFsName(String fsName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        fillTextBox(fsNameInput, fsName);
-    }
-    
-    public void checkCourse(String courseId) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        WebElement courseCheckBox = 
-                fsCopyModal.findElement(
-                        By.xpath("//input[@name='copiedcoursesid' and @value='" + courseId + "']"));
-        
-        assertNotNull(courseCheckBox);
-        markCheckBoxAsChecked(courseCheckBox);
-    }
-    
-    public boolean isErrorMessageVisible() {
+    /**
+     * @return true if the status message modal is visible.
+     */
+    public boolean isFormSubmissionStatusMessageVisible() {
         WebElement copyModalErrorMessage = browser.driver.findElement(By.id("feedback-copy-modal-status"));
         return copyModalErrorMessage.isDisplayed();
     }
     
-    public void waitForStatusMessageVisibility() {
+    public void waitForFormSubmissionStatusMessageVisibility() {
         WebElement statusMessage = browser.driver.findElement(
                                         By.id("feedback-copy-modal-status"));
         waitForElementVisibility(statusMessage);
     }
     
+    /**
+     * Verifies that the status message on the copy modal is the {@code expectedStatusMessage}
+     * @param expectedStatusMessage
+     */
     public void verifyStatusMessage(String expectedStatusMessage) {
-        String copyErrorMessage = getFsCopyModalStatus();
-        
-        assertEquals(expectedStatusMessage, copyErrorMessage);
+        assertEquals(expectedStatusMessage, getFsCopyStatus());
     }
     
-    private String getFsCopyModalStatus() {
+    private String getFsCopyStatus() {
         WebElement copyModalStatusMessage = browser.driver.findElement(By.id("feedback-copy-modal-status"));
         return copyModalStatusMessage.getText();
     }
     
-    public void verifyFsCopyModalStatusIsError() {
-        assertTrue("Expected status message to be an error, but css class was" 
-                                        + getFsCopyModalStatusHtmlClass(),
-                   getFsCopyModalStatusHtmlClass().contains("alert-danger"));
+    /**
+     * Verifies that the status message modal contains the html classes for styling error messages
+     */
+    public void verifyStatusContainsErrorHtmlClasses() {
+        String htmlClassesOfModalStatus = getFsCopyModalStatusHtmlClass();
+        assertTrue("Expected status message to be an error, but css class was" + htmlClassesOfModalStatus,
+                   htmlClassesOfModalStatus.contains("alert-danger"));
     }
     
     private String getFsCopyModalStatusHtmlClass() {
@@ -100,15 +98,11 @@ public class InstructorCopyFsToModal extends AppPage {
 
     public void clickSubmitButton() {
         WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
-        
         fsCopySubmitButton.click();
     }
 
     /**
-     * On InstructorHome and InstructorFeedbacks, this clicks on the 'copy' button on the 
-     * table that displays the feedback sessions
-     * @param courseId
-     * @param feedbackSessionName
+     * Clicks on the 'copy' button on the table that displays the feedback sessions
      */
     public void clickCopyButtonOnTable(String courseId, String feedbackSessionName) {
         By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
@@ -121,7 +115,10 @@ public class InstructorCopyFsToModal extends AppPage {
         fsCopyButton.click();
     }
 
-    public void waitForModalErrorToLoad() {
+    /**
+     * Waits for the error message indicating that the loading of the form modal has failed
+     */
+    public void waitForModalLoadingError() {
         waitForElementPresence(By.id("fs-copy-modal-error"));
     }
 }

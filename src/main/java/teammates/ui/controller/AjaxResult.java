@@ -35,9 +35,9 @@ public class AjaxResult extends ActionResult {
     }
     
     public AjaxResult(AccountAttributes account,
-                        Map<String, String[]> parametersFromPreviousRequest,
-                        List<StatusMessage> status, 
-                        PageData data, boolean isClearingStatusMessage) {
+                      Map<String, String[]> parametersFromPreviousRequest,
+                      List<StatusMessage> status, 
+                      PageData data, boolean isClearingStatusMessage) {
           this(account, parametersFromPreviousRequest, status, data);
           this.isClearingStatusMessage = isClearingStatusMessage;
     }

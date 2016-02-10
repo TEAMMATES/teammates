@@ -45,8 +45,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyPage.html");
         
         feedbackEditPage.fsCopyToModal.clickSubmitButton();
-        feedbackEditPage.fsCopyToModal.waitForStatusMessageVisibility();
-        feedbackEditPage.fsCopyToModal.verifyFsCopyModalStatusIsError();
+        feedbackEditPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        feedbackEditPage.fsCopyToModal.verifyStatusContainsErrorHtmlClasses();
         feedbackEditPage.fsCopyToModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
         
@@ -56,8 +56,9 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
         
         feedbackEditPage.fsCopyToModal.clickSubmitButton();
-        feedbackEditPage.fsCopyToModal.waitForStatusMessageVisibility();
-        assertTrue(feedbackEditPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackEditPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyStatusContainsErrorHtmlClasses();
         
         feedbackEditPage.fsCopyToModal
                         .verifyStatusMessage("A feedback session with the name \"" + feedbackSessionName + "\" "
@@ -75,8 +76,9 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.fsCopyToModal.clickSubmitButton();
         
-        feedbackEditPage.fsCopyToModal.waitForStatusMessageVisibility();
-        assertTrue(feedbackEditPage.fsCopyToModal.isErrorMessageVisible());
+        feedbackEditPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyStatusContainsErrorHtmlClasses();
         feedbackEditPage.fsCopyToModal.verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
                 + "feedback session name because it contains invalid characters. "
