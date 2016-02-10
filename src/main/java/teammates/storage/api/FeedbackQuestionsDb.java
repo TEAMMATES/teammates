@@ -148,6 +148,10 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         return fqList;
     }
     
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException {
+        updateFeedbackQuestion(newAttributes, false);
+    }
+    
     /**
      * Updates the feedback question identified by `{@code newAttributes.getId()} 
      * For the remaining parameters, the existing value is preserved 
@@ -156,7 +160,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         
         // TODO: Sanitize values and update tests accordingly
@@ -181,6 +185,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
         fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
+        
+        //set true to prevent changes to last update timestamp
+        fq.keepUpdateTimestamp = keepUpdateTimestamp;
         
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
