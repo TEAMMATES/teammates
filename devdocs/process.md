@@ -133,6 +133,8 @@ Role: reviewer
     e.g. unnecessary formatting changes.
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
       If not, ask the dev to sync with upstream. 
+    * Ensure appropriate header comments and expected standards are followed
+      * the standards used in TEAMMATES are available at [Readme](../README.md) under the *Supplementary documents* section
   * If any of the above are not OK, 
     * change the status of the PR to `s.Ongoing`
     * Add comments in the diff to suggest changes.
@@ -144,9 +146,7 @@ Role: reviewer
 Role: PM
 
   * Review the code for maintainability and style
-  * Ensure appropriate header comments and expected standards are followed
-    * the standards used in TEAMMATES are available at [Readme](../README.md) under the *Supplementary documents* section
-  * If any of the above are not OK,
+  * If the above is not OK,
     * Change the issue status to `s.Ongoing`
   * If the code is OK on all aspects,
     * Change issue status to `s.mergeApproved`
