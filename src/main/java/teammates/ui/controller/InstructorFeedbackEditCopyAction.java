@@ -10,6 +10,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
@@ -98,7 +99,12 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // Go to sessions page after copying,
             // so that the instructor can see the new feedback sessions
             return createAjaxResultWithoutClearingStatusMessage(
-                       new InstructorFeedbackEditCopyData(account, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, ""));
+                       new InstructorFeedbackEditCopyData(account,
+                                                       Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                                                       .withParam("error", "false")
+                                                       .withParam("user", account.googleId)
+                                                       .toString()
+                                                       , ""));
             
         } catch (EntityAlreadyExistsException e) {
             // If conflicts are checked above, this will only occur via race condition
