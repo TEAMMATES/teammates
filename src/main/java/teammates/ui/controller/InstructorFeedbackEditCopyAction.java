@@ -30,12 +30,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
         
-        String currentPage = getRequestParamValue(Const.ParamsNames.CURRENT_PAGE);
+        // TODO remove currentPage parameter sent from the form submission
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
-            return createAjaxResultWithErrorMessage(originalFeedbackSessionName, originalCourseId,
-                                                    Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED,
-                                                    currentPage);
+            return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         }
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId); 
@@ -59,9 +57,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
                                                    newFeedbackSessionName,
                                                    commaSeparatedListOfCourses);
                 
-                return createAjaxResultWithErrorMessage(originalFeedbackSessionName,
-                                                        originalCourseId,
-                                                        errorToUser, currentPage);
+                return createAjaxResultWithErrorMessage(errorToUser);
             }
             
             FeedbackSessionAttributes fs = null;
@@ -108,14 +104,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             // If conflicts are checked above, this will only occur via race condition
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
-            return createAjaxResultWithErrorMessage(originalFeedbackSessionName, originalCourseId, 
-                                                    Const.StatusMessages.FEEDBACK_SESSION_EXISTS, 
-                                                    currentPage);
+            return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
         } catch (InvalidParametersException e) {
             setStatusForException(e, e.getMessage());
-            return createAjaxResultWithErrorMessage(originalFeedbackSessionName, originalCourseId,
-                                                    e.getMessage(), 
-                                                    currentPage);
+            return createAjaxResultWithErrorMessage(e.getMessage());
         }
         
     }
@@ -142,7 +134,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return courses;
     }    
     
-    private AjaxResult createAjaxResultWithErrorMessage(String feedbackSessionName, String courseId, String errorToUser, String currentPage) {
+    private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {
         isError = true;
         return createAjaxResult(
                    new InstructorFeedbackEditCopyData(account, errorToUser));
