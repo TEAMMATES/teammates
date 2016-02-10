@@ -106,9 +106,21 @@ public class BaseComponentTestCase extends BaseTestCase {
         if (wildcardId) {
             expected.setId(actual.getId());
         }
+        
+        setEqualTimestampBetweenExpectedAndActual(expected, actual);
+        
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
     
+    private static void setEqualTimestampBetweenExpectedAndActual(FeedbackQuestionAttributes expected,
+                                    FeedbackQuestionAttributes actual) {
+        
+        //timestamps are ignored
+        expected.setCreated_NonProduction(actual.getCreatedAt());
+        expected.setUpdatedAt_NonProduction(actual.getUpdatedAt());
+        
+    }
+
     protected static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frc) {
         assertNull(frcDb.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt));
     }
