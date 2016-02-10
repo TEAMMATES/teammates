@@ -114,8 +114,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      e.g. `ready to review` or `changes done`
 
    * As a final check, the PM will look through the changes and either suggest changes (back to `s.Ongoing`),
-     or apply the `s.mergeApproved` label to the PR. Rarely, there would be multiple jumps between `s.Ongoing` and `s.toMerge`
-     before the fix is applied the `s.mergeApproved` status.
+     or apply the `s.mergeApproved` label to the PR.
    
 
 ###Reviewing a fix
