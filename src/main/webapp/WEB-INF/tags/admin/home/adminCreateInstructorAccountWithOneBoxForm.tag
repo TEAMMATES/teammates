@@ -3,14 +3,12 @@
 <%@ attribute name="instructorDetailsSingleLine" required="true" %>
 
 <div class="well well-plain">
-    <form method="post" action="<%=Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD%>" name="form_addinstructoraccount">
-        <div>
-            <label class="label-control">Instructor Details:</label>
-            <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DETAILS_SINGLE_LINE%>" value="${instructorDetailsSingleLine}">
-        </div><br/>
-        
-        <div>
-            <input id="btnAddInstructorDetailsSingleLineForm" class="btn btn-primary" type="submit" value="Add Instructor">
-        </div>
-    </form>
+    <div>
+        <label class="label-control">Instructor Details: (Name | Email | Institution)</label>
+        <textarea class="form-control addInstructorFormControl" rows="5" type="text" id="addInstructorDetailsSingleLine">${instructorDetailsSingleLine}</textarea>
+    </div><br/>
+    
+    <div>
+        <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructorDetailsSingleLineForm" onclick="addInstructorFromFirstFormByAjax()">Add Instructor</button>
+    </div>
 </div>
