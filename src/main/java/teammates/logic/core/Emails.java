@@ -663,8 +663,7 @@ public class Emails {
                 addEmailToTaskQueue(m, emailDelayTimer);
                 numberOfEmailsSent++;
             } catch (MessagingException e) {
-                log.severe("Error in sending : " + m.toString()
-                        + " Cause : " + e.getMessage());
+                logSevereForErrorInSendingItem("message", m, e);
             }
         }
 
@@ -806,23 +805,24 @@ public class Emails {
             forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
-            log.severe("Error in sending crash report: "
-                    + (email == null ? "" : email.toString()));
+            logSevereForErrorInSendingItem("crash report", email, e);
         }
     
         return email;
     }
 
     public MimeMessage sendLogReport(MimeMessage message) {
-        MimeMessage email = null;
         try {
             forceSendEmailThroughGaeWithoutLogging(message);
         } catch (Exception e) {
-            log.severe("Error in sending log report: "
-                    + (email == null ? "" : email.toString()));
+            logSevereForErrorInSendingItem("log report", message, e);
         }
+        return message;
+    }
     
-        return email;
+    private void logSevereForErrorInSendingItem(String itemType, MimeMessage message, Exception e) {
+        log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
+                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));        
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
