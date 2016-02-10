@@ -364,6 +364,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         List<String> options = constSumOptions;
         
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
+        if (distributeToRecipients) {
+            updateOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
+        }
 
         DecimalFormat df = new DecimalFormat("#.##");
         
@@ -375,8 +378,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             if (distributeToRecipients) {
                 String participantIdentifier = entry.getKey();
-                String name = bundle.getNameForEmail(participantIdentifier);
-                String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+                String name = bundle.getFullNameFromRoster(participantIdentifier);
+                String teamName = bundle.getTeamNameFromRoster(participantIdentifier);
                 
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(name),
@@ -422,14 +425,17 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String fragments = "";
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
+        if (distributeToRecipients) {
+            updateOptionPointsMappingWithDefaultValue(optionPoints, question, responses, bundle);
+        }
 
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, List<Integer>> entry : optionPoints.entrySet() ){
             String option;
             if(distributeToRecipients){
-                String teamName = bundle.getTeamNameForEmail(entry.getKey());
-                String recipientName = bundle.getNameForEmail(entry.getKey());
+                String teamName = bundle.getTeamNameFromRoster(entry.getKey());
+                String recipientName = bundle.getFullNameFromRoster(entry.getKey());
                 option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
             } else {
                 option = Sanitizer.sanitizeForCsv(options.get(Integer.parseInt(entry.getKey())));
@@ -458,7 +464,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             List<FeedbackResponseAttributes> responses) {
         
         Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
-        for(FeedbackResponseAttributes response : responses) {
+        for (FeedbackResponseAttributes response : responses) {
             FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails();
             
             for (int i = 0 ; i < frd.getAnswerList().size(); i++) {
@@ -471,6 +477,41 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
         }
         return optionPoints;
+    }
+    
+    /**
+     * Used to update the option points mapping with a default value of 0.
+     * To be used only when distributing to recipients.
+     * @param optionPoints
+     * @param question question for the option points mapping
+     * @param responses responses for the option points mapping
+     * @param bundle
+     */
+    private void updateOptionPointsMappingWithDefaultValue(
+            Map<String, List<Integer>> optionPoints,
+            FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+        
+        Map<String, Set<String>> giverRecipientsFromResponses = new HashMap<>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            if (!giverRecipientsFromResponses.containsKey(response.giverEmail)) {
+                giverRecipientsFromResponses.put(response.giverEmail, new HashSet<String>());
+            }
+            giverRecipientsFromResponses.get(response.giverEmail).add(response.recipientEmail);
+        }
+        
+        for (Entry<String, Set<String>> giverRecipients : giverRecipientsFromResponses.entrySet()) {
+            // only get recipients from givers that responded
+            List<String> possibleGiverRecipients =
+                    bundle.getPossibleRecipients(question, giverRecipients.getKey());
+            possibleGiverRecipients.removeAll(giverRecipients.getValue());
+            
+            for (String recipient : possibleGiverRecipients) {
+                updateOptionPointsMapping(optionPoints, recipient, 0);
+            }
+        }
     }
 
     /**
