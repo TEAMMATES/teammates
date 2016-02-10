@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -13,7 +14,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
-import teammates.ui.controller.RedirectResult;
+import teammates.ui.controller.AjaxResult;
+import teammates.ui.controller.InstructorFeedbackEditCopyData;
 
 
 public class InstructorFeedbackEditCopyActionTest extends
@@ -55,16 +57,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         InstructorFeedbackEditCopyAction a = getAction(params);
-        RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        AjaxResult ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        InstructorFeedbackEditCopyData editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
-        
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
         
         ______TS("Failure case: Courses not passed in, instructor feedbacks page");
         params = new String[] {
@@ -75,16 +71,11 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
         
         ______TS("Failure case: Courses not passed in, instructor feedback copy page");
         params = new String[] {
@@ -95,16 +86,11 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
+  
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
-        
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
         
         ______TS("Failure case: Courses not passed in, instructor feedback edit page");
         params = new String[] {
@@ -115,16 +101,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
-        
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, editCopyData.errorMessage);
 
         
         ______TS("Failure case: copying from course with insufficient permission");
@@ -139,11 +119,11 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         
         try {
-            rr = (RedirectResult) a.executeAndPostProcess();
+            ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
-                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]"; 
+                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]";
             assertEquals(expectedString, uae.getMessage());
         }
         
@@ -159,7 +139,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         
         try {
-            rr = (RedirectResult) a.executeAndPostProcess();
+            ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
             expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
@@ -179,7 +159,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         
         try {
-            rr = (RedirectResult) a.executeAndPostProcess();
+            ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
@@ -198,7 +178,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         
         try {
-            rr = (RedirectResult) a.executeAndPostProcess();
+            ajaxResult = (AjaxResult) a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent instructor entity",
@@ -218,18 +198,14 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
+        assertTrue(editCopyData.redirectUrl.isEmpty());
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104."; 
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedbacks page");
          
@@ -243,18 +219,14 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104."; 
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedback copy page");
         
@@ -268,18 +240,15 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
+    
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104."; 
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: course already has feedback session with same name, instructor feedback edit page");
         
@@ -293,18 +262,15 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session";
-        assertEquals(expectedString, rr.getDestinationWithParams());
+      
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104."; 
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         ______TS("Failure case: empty name, instructor home page");
         
@@ -318,19 +284,16 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session"; 
-        assertEquals(expectedString, rr.getDestinationWithParams());
+
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
                          + "The value of feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
@@ -352,19 +315,15 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
-        
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session"; 
-        assertEquals(expectedString, rr.getDestinationWithParams());
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
+
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
                          + "The value of feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
@@ -386,19 +345,16 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session"; 
-        assertEquals(expectedString, rr.getDestinationWithParams());
+
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
                          + "The value of feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
@@ -420,19 +376,15 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
-        
-        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                         + "?error=true"
-                         + "&user=" + instructor.googleId
-                         + "&courseid=" + instructor.courseId
-                         + "&fsname=First+Session"; 
-        assertEquals(expectedString, rr.getDestinationWithParams());
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
+ 
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
                          + "The value of feedback session name should be no longer than 38 characters. "
                          + "It should not be empty.";
-        assertEquals(expectedString, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
@@ -456,13 +408,12 @@ public class InstructorFeedbackEditCopyActionTest extends
         };
         
         a = getAction(params);
-        rr = (RedirectResult) a.executeAndPostProcess();
+        ajaxResult = (AjaxResult) a.executeAndPostProcess();
+        editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
                          + "?error=false&user=" + instructor.googleId;
-        assertEquals(expectedString, rr.getDestinationWithParams());
-        
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPIED, rr.getStatusMessage());
+        assertEquals(expectedString, editCopyData.redirectUrl);
         
         expectedString = "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||"
                          + "true|||Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||"

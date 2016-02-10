@@ -138,9 +138,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
-    
-    @FindBy(id = "fscopy_submit")
-    private WebElement fscopySubmitButton;
+ 
     
     @FindBy(id = "button_copy")
     private WebElement copyButton;
@@ -158,8 +156,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement getLinkButton;
     
     
+    public InstructorCopyFsToModal fsCopyToModal;
+    
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
+        fsCopyToModal = new InstructorCopyFsToModal(browser);
     }
 
     @Override
@@ -349,10 +350,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         fscopyButton.click();
     }
     
-    public void clickFsCopySubmitButton() {
-        fscopySubmitButton.click();
-    }
-    
     public void clickCopyButton() {
         copyButton.click();
     }
@@ -367,21 +364,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
         addMsqOtherOptionCheckboxForNewQuestion.click();
-    }
-    
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
-    
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        fillTextBox(fsNameInput, newName);
     }
     
     public WebElement getDeleteSessionLink() {

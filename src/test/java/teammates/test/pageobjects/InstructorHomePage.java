@@ -36,8 +36,16 @@ public class InstructorHomePage extends AppPage {
     @FindBy(className = "button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
+    
+    public InstructorCopyFsToModal fsCopyModal;
+    
     public InstructorHomePage(Browser browser){
         super(browser);
+        if (!browser.driver.findElements(By.id("fsCopyModal")).isEmpty()) {
+            // initialize fsCopyModal only if the element is present
+            // the modal will not be present if the instructor's account has not been created
+            this.fsCopyModal = new InstructorCopyFsToModal(browser);
+        }
     }
 
     @Override
@@ -360,40 +368,5 @@ public class InstructorHomePage extends AppPage {
         
     }
     
-    public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        By element = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
-        waitForElementPresence(element);
-        WebElement fsCopyButton = browser.driver.findElement(element);
-        fsCopyButton.click();
-    }
     
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
-    
-    public void waitForModalErrorToLoad() {
-        waitForElementPresence(By.id("fs-copy-modal-error"));
-    }
-    
-    public void clickFsCopySubmitButton() {
-        WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
-
-        waitForElementVisibility(fsCopySubmitButton);
-        
-        fsCopySubmitButton.click();
-        waitForPageToLoad();
-    }
-    
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        
-        fillTextBox(fsNameInput, newName);
-    }
 }
