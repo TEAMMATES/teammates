@@ -30,19 +30,22 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-0. Add remote names for committer repo (let's call it `upstream`)
+3. If the issue is assigned to you, a Pull Request (PR) has to be opened for it within a week. 
+   Inactivity for a longer time would open up the issue for others to work on.
+
+4. Add remote names for committer repo (let's call it `upstream`)
    ```
    git remote add   upstream      https://github.com/TEAMMATES/repo.git
    ```
 
-4. Update your local repo (the one you created when setting up the project on your computer) 
+5. Update your local repo (the one you created when setting up the project on your computer) 
    with the latest version of the code from the committer repo.
    ```
    git pull upstream master
    ```
-4. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
+6. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
 
-5. Start a new branch named `{IssueNumber}-{some-keywords}`. 
+7. Start a new branch named `{IssueNumber}-{some-keywords}`. 
    If you are already working in a branch, remember to switch to the `master` 
    before creating the new branch. e.g.,
     ```
@@ -51,7 +54,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
     //create new branch and switch to it at the same time e.g. git checkout -b 2342-remove-println
     git checkout -b {branch-name}
     ```
-6. Fix the issue.
+8. Fix the issue.
    * Have a look at our coding and testing best practices (links given [here]
    (../README.md)) before you start your first issue.
    * Keep in mind that we have 'reference' code that has extra explanatory 
@@ -78,7 +81,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
        git merge master
        ```
 
-7. When the work is ready for review:
+9. When the work is ready for review:
    * Format the code: Select the code segments you modified and apply the code 
      formatting function of Eclipse (`Source → Format`). 
      This is to ensure that the code is properly formatted. 
@@ -108,10 +111,15 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      If you did not get a review within 2-3 days, it is OK to request for a review 
      by posting a comment in the PR. 
 
+   * Once the PR is open, try and complete it within 2 weeks. Inactivity for a longer period would necessitate a restart of the PR.
+
    * The cycle of 'update pull request' and 'review' (i.e. the previous two steps) 
      is to continue until PR status changes to `s.toMerge`. After doing suggested
      changes, remember to add a comment to indicate the PR is ready for review again.
      e.g. `ready to review` or `changes done`
+
+   * As a final check, the PM will look through the changes and either suggest changes (back to `s.Ongoing`),
+     or apply the `s.mergeApproved` label to the PR.
    
 
 ###Reviewing a fix
@@ -130,12 +138,24 @@ Role: reviewer
     e.g. unnecessary formatting changes.
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
       If not, ask the dev to sync with upstream. 
+    * Ensure appropriate header comments and expected standards are followed
+      * the standards used in TEAMMATES are available at [Readme](../README.md) under the *Supplementary documents* section
   * If any of the above are not OK, 
+    * change the status of the PR to `s.Ongoing`
     * Add comments in the diff to suggest changes.
     * Optionally, add a comment in the conversation thread to inform the author to refine the code.
   * To remove white space changes from being shown, append `?w=1` to url of the `/files` page of the pull request (the "Files changed" tab)
   * If the code is OK on all aspects,
     * Change issue status to `s.ToMerge`
+
+Role: PM
+
+  * Review the code for maintainability and style
+  * If the above is not OK,
+    * Change the issue status to `s.Ongoing`
+  * If the code is OK on all aspects,
+    * Change issue status to `s.mergeApproved`
+
 
 ###Applying a fix
 Role: committer
@@ -160,7 +180,7 @@ Role: committer
     * Remove any status labels from the corresponding issue and close it.
   * If not green,
     * Delete the merge commit, if any.
-    * Change the pull request status to `s.ongoing`
+    * Change the pull request status to `s.Ongoing`
     * Add a comment to mention the test failure.
   
     
