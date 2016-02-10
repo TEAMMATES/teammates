@@ -221,7 +221,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", (rubricChoices.get(i) + "(" + (numOfRubricChoices-i) + ")"));
+                            "${rubricChoiceValue}", (rubricChoices.get(i) + " (" + (numOfRubricChoices-i) + ")"));
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
          }
         return tableHeaderFragmentHtml.toString();
@@ -460,7 +460,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for(int i = 0 ; i < numOfRubricChoices ; i++) {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) + "(" + (numOfRubricChoices-i) + ")");
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) + " (" + (numOfRubricChoices-i) + ")");
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
