@@ -130,7 +130,7 @@ public class AdminInstructorAccountAddAction extends Action {
     }
 
     /**
-     * This function extracts instructor's info from a string then store them in an array of string.
+     * Extracts instructor's info from a string then store them in an array of string.
      * @param instructorDetails This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION 
      * or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
      * @return A String array of size 3
@@ -146,19 +146,19 @@ public class AdminInstructorAccountAddAction extends Action {
     }
 
     /**
-     * This function imports Demo course to new instructor.
-     * @param helper data from AdminHomePageData
+     * Imports Demo course to new instructor.
+     * @param pageData data from AdminHomePageData
      * @return the ID of Demo course
      * @throws EntityAlreadyExistsException
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException
      */
-    private String importDemoData(AdminHomePageData helper)
+    private String importDemoData(AdminHomePageData pageData)
             throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
 
         String jsonString;
-        String courseId = generateDemoCourseId(helper.instructorEmail); 
+        String courseId = generateDemoCourseId(pageData.instructorEmail); 
 
         jsonString = FileHelper.readStream(Config.class.getClassLoader()
                     .getResourceAsStream("InstructorSampleData.json"));
@@ -166,10 +166,10 @@ public class AdminInstructorAccountAddAction extends Action {
         // replace email
         jsonString = jsonString.replaceAll(
                 "teammates.demo.instructor@demo.course",
-                helper.instructorEmail);
+                pageData.instructorEmail);
         // replace name
         jsonString = jsonString.replaceAll("Demo_Instructor",
-                helper.instructorName);
+                pageData.instructorName);
         // replace course
         jsonString = jsonString.replaceAll("demo.course", courseId);
         // update feedback session time
@@ -205,8 +205,8 @@ public class AdminInstructorAccountAddAction extends Action {
         
         
         //produce searchable documents
-        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, helper.instructorEmail);
-        List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, helper.instructorEmail);
+        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, pageData.instructorEmail);
+        List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         
@@ -316,7 +316,7 @@ public class AdminInstructorAccountAddAction extends Action {
     }
 
     /**
-     * This function trims the course ID if it is too long.
+     * Trims the course ID if it is too long.
      * @param demoCourseId
      * @param maximumIdLength length to trim
      * @return trimmed Course ID

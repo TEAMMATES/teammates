@@ -1,12 +1,13 @@
 /**
- * This function generates HTML text for a row containing instructor's information
+ * Generates HTML text for a row containing instructor's information
  * and status of the action.
  * 
- * @param {String} shortName
+ * @param {String} shortName 
  * @param {String} name
  * @param {String} email
  * @param {String} institution
- * @param isSuccess
+ * @param {bool} isSuccess is a flag to show the action is successful or not. 
+ * The color and status of the row is affected by its value.
  * @param {String} status
  * @returns {String} a HTML row of action result table
  */
@@ -35,8 +36,7 @@ var instructorDetailsList = [];
 var isInputFromFirstPanel = false;
 
 /**
- * This function disables the form to prevent the user from editing it
- * while the action is being processed.
+ * Disables the Add Instructor form.
  */
 function disableAddInstructorForm() {
     $(".addInstructorBtn").each(function() {
@@ -49,7 +49,7 @@ function disableAddInstructorForm() {
 }
 
 /**
- * This function enables the form after the action is finished.
+ * Enables the Add Instructor form.
  */
 function enableAddInstructorForm() {
     $(".addInstructorBtn").each(function() {
@@ -61,7 +61,7 @@ function enableAddInstructorForm() {
 }
 
 /**
- * This function sends Ajax request to add new instructor(s).
+ * Sends Ajax request to add new instructor(s).
  * It only sends another Ajax request after it finishes.
  */
 function addInstructorByAjaxRecursively() {
@@ -109,8 +109,7 @@ function addInstructorByAjaxRecursively() {
 }
 
 /**
- * This function reads information of instructor(s) from the first panel
- * and adds each instructor one by one.
+ * Reads information of instructor(s) from the first panel and adds each instructor one by one.
  */
 function addInstructorFromFirstFormByAjax() {
     $("#addInstructorResultPanel").show();    // show the hidden panel
@@ -136,7 +135,7 @@ function addInstructorFromFirstFormByAjax() {
 }
 
 /**
- * This functions reads information of the instructor from the second panel then add him.
+ * Reads information of the instructor from the second panel then add him/her.
  */
 function addInstructorFromSecondFormByAjax() {
     $("#addInstructorResultPanel").show();    // show the hidden panel
