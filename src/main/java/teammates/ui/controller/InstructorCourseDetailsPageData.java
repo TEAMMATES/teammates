@@ -54,15 +54,11 @@ public class InstructorCourseDetailsPageData extends PageData {
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
 
         this.sections = new ArrayList<StudentListSectionData>();
-        String studentPhotoUrl = "";
         for (SectionDetailsBundle section: courseDetails.sections) {
             Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
             for (TeamDetailsBundle teamDetails : section.teams) {
                 for (StudentAttributes student : teamDetails.students) {
-                    studentPhotoUrl = student.getPublicProfilePictureUrl();
-          
-                    // userid is added AFTER the formatting done above to avoid special 
-                    // characters in the userid from affecting the String.format function
+                    String studentPhotoUrl = student.getPublicProfilePictureUrl();
                     studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
                                                     Const.ParamsNames.USER_ID, account.googleId);
                     emailPhotoUrlMapping.put(student.email, studentPhotoUrl);

@@ -39,14 +39,10 @@ public class InstructorStudentListAjaxPageAction extends Action {
 
         Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         Map<String, Map<String, Boolean>> sectionPrivileges = new HashMap<>();
-        String studentPhotoUrl = "";
         for (SectionDetailsBundle sectionDetails : courseSectionDetails) {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
                 for (StudentAttributes student : teamDetails.students) {
-                    studentPhotoUrl = student.getPublicProfilePictureUrl();
-                    
-                    // userid is added AFTER the formatting done above to avoid special 
-                    // characters in the userid from affecting the String.format function
+                    String studentPhotoUrl = student.getPublicProfilePictureUrl();
                     studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
                                                     Const.ParamsNames.USER_ID, account.googleId);
                     emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
