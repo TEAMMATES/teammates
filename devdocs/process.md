@@ -204,7 +204,7 @@ Colors indicate which roles are involved in which states/transitions.
 ####Issue Labels
 The meaning of label group prefixes: 
  * exclusive groups (no more than one of each label group): `s.` status, 
-   `p.` priority, `c.` category, `d.` difficulty, `m.` main owner
+   `p.` priority, `c.` category, `d.` difficulty, `m.` main classifier
  * non-exclusive groups:  `a-` aspect, `f-` feature, `t-` tech, 
  
 
