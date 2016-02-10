@@ -107,8 +107,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testAjaxOnVisibilityMessageButton();
 
         testDeleteQuestionAction(2);
+        testDeleteQuestionAction(1);
 
-        testEditNonExistentQuestion(1);
+        testEditNonExistentQuestion();
     }
 
     private void testContent() throws Exception {
@@ -419,19 +420,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
     }
 
-    private void testEditNonExistentQuestion(int qnNumber) {
+    private void testEditNonExistentQuestion() {
 
         ______TS("test editing a non-existent question");
 
-        // Delete an existing question through the backdoor so that it still appears in the browser
-        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber).getId();
+        // Create a new question and save
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("new question");
+        feedbackEditPage.clickAddQuestionButton();
+
+        // Delete the new question through the backdoor so that it still appears in the browser
+        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
         String status = BackDoor.deleteFeedbackQuestion(questionId);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         // Edit the deleted question and save
-        feedbackEditPage.clickEditQuestionButton(qnNumber);
-        feedbackEditPage.fillEditQuestionBox("non-existent question", qnNumber);
-        feedbackEditPage.clickSaveExistingQuestionButton(qnNumber);
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillEditQuestionBox("non-existent question", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
 
         AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
 
