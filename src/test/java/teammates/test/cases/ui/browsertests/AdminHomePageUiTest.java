@@ -93,16 +93,16 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT.instr1.gma-demo";
         
-        ______TS("action fail: the number of columns is invalid");
-        homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email);
-        assertEquals(homePage.getStatus(), String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, 
-                                                         Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION)); 
-        ______TS("action success : create instructor account by Instructor Details Single Line Form");
+        String instructorDetails = instructor.name + " | " + instructor.email + "\n" + 
+                                   instructor.name + " | " + instructor.email + " | " + institute;
+        
+        ______TS("action fail & success: add multiple instructors");
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
-        
-        homePage.createInstructorByInstructorDetailsSingleLineForm(instructor.name + " | " + instructor.email + " | " + institute);
+        homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
+        assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION), 
+                     homePage.getMessageFromResultTable(1)); 
         
         String encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
         // use AppUrl from Config because the join link takes its base URL from build.properties
@@ -110,9 +110,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
-       
         assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
-                     homePage.getStatus());
+                     homePage.getMessageFromResultTable(2));
+        homePage.createInstructorByInstructorDetailsSingleLineForm(""); // to clear the first form
         
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
@@ -130,7 +130,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .toAbsoluteString();
        
         assertEquals("Instructor AHPUiT Instrúctör has been successfully created with join link:\n" + expectedjoinUrl,
-                     homePage.getStatus());
+                     homePage.getMessageFromResultTable(1));
         
         homePage.logout();
         //verify the instructor and the demo course have been created
@@ -261,7 +261,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
         instructor.email = "AHPUiT.email.tmt";        
-        homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
+        homePage.createInstructor(shortName,instructor,institute);
+        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT),
+                     homePage.getMessageFromResultTable(1));
       
         
         ______TS("action success: course is accessible for newly joined instructor as student");

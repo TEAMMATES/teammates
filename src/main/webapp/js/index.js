@@ -81,18 +81,13 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
     if (!currentDate || !baseDate) {
         return errorMsg;
     }
-    var CurrBaseDateDifference = new Date(currentDate - baseDate);
-    if (CurrBaseDateDifference < 0) {
+    var currBaseDateDifference = currentDate - baseDate;
+    if (currBaseDateDifference < 0) {
         return errorMsg;
     }
 
-    var dd = CurrBaseDateDifference.getDate();
-    var mm = CurrBaseDateDifference.getMonth();
-    var yyyy = CurrBaseDateDifference.getFullYear() - 1970;
-    var month = mm + yyyy * 12;
-    var days = dd + month * 30;
-    var hr = days * 24;
-    var numberOfSubmissions = hr * submissionPerHour;
+    var hr = currBaseDateDifference / 60 / 60 / 1000; // convert from millisecond to hour
+    var numberOfSubmissions = Math.floor(hr * submissionPerHour);
     numberOfSubmissions += baseCount;
     return formatNumber(numberOfSubmissions);
 }

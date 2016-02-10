@@ -3,6 +3,7 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+
 import java.lang.reflect.Method;
 
 import org.testng.annotations.BeforeClass;
@@ -17,8 +18,7 @@ import teammates.logic.core.CommentsLogic;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
-import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult; 
+import teammates.ui.controller.AjaxResult; 
 
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
@@ -81,14 +81,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
         
-        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
-        
-        assertEquals(false, r.isError);      
+        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
-        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
-        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
-             
-       
+        
         ______TS("Error: invalid parameter");
         
         final String anotherNewInstructorShortName = "Bond";
@@ -99,13 +94,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
-        ShowPageResult rInvalidParam = (ShowPageResult) a.executeAndPostProcess();
-        
-        assertEquals(true, rInvalidParam.isError);
+        AjaxResult rInvalidParam = (AjaxResult) a.executeAndPostProcess();
         assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a person name because it contains invalid characters. All a person name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", rInvalidParam.getStatusMessage());
-        assertEquals(Const.ViewURIs.ADMIN_HOME, rInvalidParam.destination);
-        assertEquals(Const.ViewURIs.ADMIN_HOME + "?error=true&user=" + adminUserId,
-                rInvalidParam.getDestinationWithParams());
         
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);
@@ -121,11 +111,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
-        r = (RedirectResult) a.executeAndPostProcess();
-        assertEquals(false, r.isError);
+        r = (AjaxResult) a.executeAndPostProcess();
         assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
-        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
-        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
         
         // delete the comment that was created
         CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentParticipantType.PERSON,  "alice.b.tmms@gmail.tmt").get(0);
