@@ -42,8 +42,7 @@ $(document).ready(function(){
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
-    	defaultDate: tomorrow,
-    	minDate: today
+    	defaultDate: tomorrow
     });
 
     $("#visibledate").datepicker({
