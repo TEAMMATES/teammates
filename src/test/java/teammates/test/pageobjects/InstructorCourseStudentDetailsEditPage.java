@@ -2,6 +2,7 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -35,6 +36,13 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         return getPageSource().contains("<h1>Edit Student Details</h1>");
     }
     
+    public boolean isTeamNameChanged(WebElement textBoxElement, String value){
+        String originalValue = textBoxElement.getText();
+        if(originalValue.equals(value)){
+            return false;
+        }
+        return true;
+    }
     /**
      * If the parameter value is not null, the value will be filled into the
      * relevent input filed.
@@ -52,7 +60,11 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        clickAndConfirm(submitButton);
+        if(isTeamNameChanged(teamNameTextbox, teamName)){
+            clickAndConfirm(submitButton);
+        }else{
+            submitButton.click();
+        }
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
@@ -73,7 +85,11 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        clickAndConfirm(submitButton);
+        if(teamName != null){
+            clickAndConfirm(submitButton);
+        }else{
+            submitButton.click();
+        }
         return this;
     }
 
