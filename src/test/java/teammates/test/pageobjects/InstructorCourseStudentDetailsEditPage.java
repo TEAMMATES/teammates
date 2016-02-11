@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -36,35 +35,12 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         return getPageSource().contains("<h1>Edit Student Details</h1>");
     }
     
-    public boolean isTeamNameChanged(WebElement textBoxElement, String value){
-        String originalValue = textBoxElement.getText();
-        if(originalValue.equals(value)){
-            return false;
-        }
-        return true;
-    }
     /**
      * If the parameter value is not null, the value will be filled into the
      * relevent input filed.
      */
     public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments){
-        if (studentName != null) {
-            fillTextBox(studentNameTextbox, studentName);
-        }
-        if (teamName != null) {
-            fillTextBox(teamNameTextbox, teamName);
-        }
-        if (studentEmail != null) {
-            fillTextBox(studentEmailTextbox, studentEmail);
-        }
-        if (comments != null) {
-            fillTextBox(commentsTextbox, comments);
-        }
-        if(isTeamNameChanged(teamNameTextbox, teamName)){
-            clickAndConfirm(submitButton);
-        }else{
-            submitButton.click();
-        }
+        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
@@ -73,6 +49,12 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments){
+        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
+        return this;
+    }
+
+
+    private void fillStudentDetailsForm(String studentName, String teamName, String studentEmail, String comments){
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -85,14 +67,13 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        if(teamName != null){
+        if (teamName != null) {
             clickAndConfirm(submitButton);
-        }else{
+        } else {
             submitButton.click();
         }
-        return this;
     }
-
+    
     public void verifyIsCorrectPage(String email) {
         assertTrue(containsExpectedPageContents());
         assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));
