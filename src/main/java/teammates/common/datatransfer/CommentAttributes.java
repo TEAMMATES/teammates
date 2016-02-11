@@ -326,8 +326,8 @@ public class CommentAttributes extends EntityAttributes
     public String getEditedAtText(Boolean isGiverAnonymous) {
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
             String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
-            return "(last edited " + 
-                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") + 
+            return "(last edited " +
+                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
                     "at <span class=\"client-time\">" + displayTimeAs + "</span>)";
         } else {
             return "";
