@@ -353,13 +353,6 @@ public class StudentAttributes extends EntityAttributes {
         team = Sanitizer.sanitizeTitle(team);
         section = Sanitizer.sanitizeTitle(section);
         comments = Sanitizer.sanitizeTextField(comments);
-        googleId = Sanitizer.sanitizeForHtml(googleId);
-        email = Sanitizer.sanitizeForHtml(email);
-        course = Sanitizer.sanitizeForHtml(course);
-        name = Sanitizer.sanitizeForHtml(name);
-        team = Sanitizer.sanitizeForHtml(team);
-        section = Sanitizer.sanitizeForHtml(section);
-        comments = Sanitizer.sanitizeForHtml(comments);
     }
     
     public String getStudentStatus() {
@@ -371,11 +364,11 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public Date getCreatedAt() {
-        return createdAt;
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
     public Date getUpdatedAt() {
-        return updatedAt;
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     /**

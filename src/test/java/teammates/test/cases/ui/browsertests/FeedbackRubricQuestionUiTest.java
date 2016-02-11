@@ -61,14 +61,14 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         testStudentQuestionSubmitPage();
     }
 
-    private void testStudentResultsPage() {
+    private void testStudentResultsPage() throws Exception {
         ______TS("test rubric question student results page");
 
         studentResultsPage = loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
     }
     
-    private void testInstructorResultsPage() {
+    private void testInstructorResultsPage() throws Exception {
         ______TS("test rubric question instructor results page");
 
         // Question view
@@ -116,7 +116,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
-    private void testStudentSubmitPage() {
+    private void testStudentSubmitPage() throws Exception {
         
         ______TS("test rubric question input disabled for closed session");
         
@@ -174,7 +174,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
-    private void testEditPage(){
+    private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
         testCustomizeOptions();
@@ -208,7 +208,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         
     }
 
-    public void testAddQuestionAction() {
+    public void testAddQuestionAction() throws Exception {
         ______TS("RUBRIC: add question action success");
         
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
@@ -219,7 +219,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
     }
 
-    public void testEditQuestionAction() {
+    public void testEditQuestionAction() throws Exception {
         ______TS("RUBRIC: edit question success");
         
         // Click edit button

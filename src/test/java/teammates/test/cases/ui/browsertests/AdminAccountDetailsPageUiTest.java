@@ -34,13 +34,13 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
     }
     
     @Test
-    public void testAll(){
+    public void testAll() throws Exception {
         testContent();
         //no links or input validation to check
         testRemoveFromCourseAction();
     }
     
-    public void testContent() {
+    public void testContent() throws Exception {
         
         ______TS("content: typical page");
         
@@ -53,7 +53,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
 
 
 
-    public void testRemoveFromCourseAction(){
+    public void testRemoveFromCourseAction() throws Exception {
         
         ______TS("action: remove instructor from course");
         

@@ -680,7 +680,8 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/instructorFeedbackResponseCommentDelete";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/page/instructorFeedbackResponseCommentsLoad";
-                
+        
+        public static final String INSTRUCTOR_COURSE_STATS_PAGE = "/page/courseStatsPage";
         public static final String INSTRUCTOR_FEEDBACK_STATS_PAGE = "/page/feedbackSessionStatsPage";
         
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
@@ -835,8 +836,6 @@ public class Const {
         
         public static final String LOGOUT = "/logout.jsp"; 
         
-        
-        public static final String SHOW_MESSAGE = "/showMessage.jsp"; 
         public static final String UNAUTHORIZED = "/unauthorized.jsp"; 
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
@@ -1193,13 +1192,15 @@ public class Const {
     public static final Date TIME_REPRESENTS_NEVER;
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
-    
+    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+      
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
         TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
         TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
         TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
     }
     
     /* Other Constants

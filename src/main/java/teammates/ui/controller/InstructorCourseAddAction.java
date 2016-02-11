@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -41,12 +40,33 @@ public class InstructorCourseAddAction extends Action {
         createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */
-        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
-                                                                    data.account.googleId).values());
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(allCourses);
-        List<CourseDetailsBundle> activeCourses = logic.extractActiveCourses(allCourses, data.account.googleId);
-        List<CourseDetailsBundle> archivedCourses = logic.extractArchivedCourses(allCourses, data.account.googleId);
-                                        
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
+        List<CourseAttributes> allCourses = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> activeCourses = new ArrayList<CourseAttributes>();
+        List<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
+        
+        // Get list of InstructorAttributes that belong to the user.        
+        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
+        for (InstructorAttributes instructor : instructorList) {
+            instructorsForCourses.put(instructor.courseId, instructor);
+        }
+        
+        // Get corresponding courses of the instructors.
+        allCourses = logic.getCoursesForInstructor(instructorList);
+        
+        List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
+        for (CourseAttributes course : allCourses) {
+            if (archivedCourseIds.contains(course.id)) {
+                archivedCourses.add(course);
+            } else {
+                activeCourses.add(course);
+            }
+        }
+        
+        // Sort CourseDetailsBundle lists by course id
+        CourseAttributes.sortById(activeCourses);
+        CourseAttributes.sortById(archivedCourses);
+        
         String CourseIdToShowParam = "";
         String CourseNameToShowParam = "";
         
@@ -64,12 +84,6 @@ public class InstructorCourseAddAction extends Action {
         } else {
             statusToAdmin = "Course added : " + newCourse.id;
             statusToAdmin += "<br>Total courses: " + allCourses.size();
-        }
-        
-        List<CourseAttributes> courseList = logic.getCoursesForInstructor(data.account.googleId);
-        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
-        for (CourseAttributes course : courseList) {
-            instructorsForCourses.put(course.id, logic.getInstructorForGoogleId(course.id, data.account.googleId));
         }
         
         data.init(activeCourses, archivedCourses, instructorsForCourses, CourseIdToShowParam, CourseNameToShowParam);

@@ -13,9 +13,9 @@ public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
 
     public abstract void testCustomizeOptions();
 
-    public abstract void testAddQuestionAction();
+    public abstract void testAddQuestionAction() throws Exception;
 
-    public abstract void testEditQuestionAction();
+    public abstract void testEditQuestionAction() throws Exception;
 
     public abstract void testDeleteQuestionAction();
     

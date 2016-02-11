@@ -1,44 +1,50 @@
 <html>
     <head>
-        <title>
-        </title>
     </head>
-    <div id="mainContent">
-        <input type="text" value="">
-        <a class="student-profile-pic-view-link btn-link" 
-           data-link="/page/studentProfilePic?studentemail=${student.email.enc}&amp;courseid=${course.id.enc}">
-           View Photo</a>
-        <a class="navLinks" data-unreg="true" href="/page/studentCourseJoinAuthentication?key=${regkey.enc}&">
-           Home
-        </a>
-        <input class="form-control"
-            type="text"
-            name="start"
-            id="start"
-            value="${today}">
-        <p class="form-control-static">${datetime.now}</p>
-        <input type="hidden"
-            name=commentid
-            value="${comment.id}">
-        <input
-            type="hidden"
-            name="questionid"
-            value="${question.id}">
-        
-        <!-- these must not be changed: -->
-        <a class="btn btn-default btn-xs t_course_archive0"
-           href="/page/instructorCourseArchive?courseid=testuserm.gma-demo&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=testuser.instructor"
-           data-toggle="tooltip" data-placement="top" title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">
-       </a>
-       <input name="end" 
-              value="21/05/2001">
-        
-        <div>
-            ${test.admin}${test.admin}${test.instructor}${test.instructor}${test.student1}${test.student1}${test.student2}${test.student2}
+    <body>
+        <div id="mainContent">
+            <h2>Injected values</h2>
+            <ul>
+                <li>window.location.origin + '/${studentmotd.url}';</li>
+                <li>V${version}</li>
+                <li>${test.student1}</li>
+                <li>${test.student2}</li>
+                <li>${test.instructor}</li>
+                <li>${test.admin}</li>
+            </ul>
+            <h2>Variations in injected values</h2>
+            <ul>
+                <li>${test.student1}</li>
+                <li>${test.student2}</li>
+                <li>${test.instructor}</li>
+                <li>${test.admin}</li>
+            </ul>
+            <h2>Unpredictable values</h2>
+            <ul>
+                <li>"/_ah"</li>
+                <li>_ah/logout?continue=${continue.url}"</li>
+                <li>/page/studentProfilePic?studentemail=${student.email.enc}&amp;courseid=${course.id.enc}</li>
+                <li>/page/studentProfilePic?blob-key=${blobkey}</li>
+                <li><input id="blobKey" name="blob-key" type="hidden" value="${blobkey}"></li>
+                <li>key=${regkey.enc}</li>
+                <li><input name="key" type="hidden" value="${regkey.enc}"></li>
+                <li>value="${question.id}"</li>
+                <li>"${question.id}%</li>
+                <li>"${comment.id}"</li>
+                <li>#${comment.id}</li>
+                <li>responseCommentRow-${comment.id}</li>
+                <li>commentBar-${comment.id}</li>
+                <li>plainCommentText-${comment.id}</li>
+                <li>${today}</li>
+                <li>${datetime.now}</li>
+                <li>${datetime.now}</li>
+                <li>${lib.path}/jquery.min.js</li>
+                <li>${lib.path}/jquery.min.js</li>
+                <li>${lib.path}/jquery-ui.min.js</li>
+                <li>${lib.path}/jquery-ui.min.js</li>
+                <li>${admin.institute}</li>
+                <li>${admin.institute}</li>
+            </ul>
         </div>
-        
-    </div>
-    <div class="footer">V${version}</div>
-    ${admin.institute}
-    ${admin.institute}
+    </body>
 </html>

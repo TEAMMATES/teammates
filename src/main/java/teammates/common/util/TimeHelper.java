@@ -208,6 +208,11 @@ public class TimeHelper {
     public static String formatTime12H(Date date) {
         if (date == null)
             return "";
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm").format(date) + " NOON";
+        }
         return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
     }
     
@@ -215,7 +220,15 @@ public class TimeHelper {
         if (date == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date) + " NOON UTC";
+        }
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
@@ -226,7 +239,15 @@ public class TimeHelper {
     public static String formatDateTimeForInstructorHomePage(Date date) {
         if (date == null)
             return "";
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mm a");
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            sdf = new SimpleDateFormat("d MMM h:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date) + " NOON";
+        }
+        sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }

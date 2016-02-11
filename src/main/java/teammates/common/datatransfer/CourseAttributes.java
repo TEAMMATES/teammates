@@ -122,6 +122,14 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return o.createdAt.compareTo(createdAt);
     }
     
+    public static void sortById(List<CourseAttributes> courses) {
+        Collections.sort(courses, new Comparator<CourseAttributes>() {
+            public int compare(CourseAttributes c1, CourseAttributes c2) {
+                return c1.id.compareTo(c2.id);
+            }
+        });
+    }
+    
     public static void sortByCreatedDate(List<CourseAttributes> courses) {
         Collections.sort(courses, createdDateComparator);
     }

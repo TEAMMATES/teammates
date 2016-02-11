@@ -68,7 +68,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         testShowPhoto();
     }
 
-    private void testSearch() {
+    private void testSearch() throws Exception {
 
         InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
         String instructorId = instructorWith2Courses.googleId;

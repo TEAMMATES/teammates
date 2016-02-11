@@ -6,19 +6,19 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.InstructorAttributes;
 
 public class AdminHomePage extends AppPage {
-    @FindBy (name="instructordetailssingleline")
+    @FindBy (id="addInstructorDetailsSingleLine")
     WebElement detailsSingleLineTextBox;
     
-    @FindBy (name="instructorshortname")
+    @FindBy (id="instructorShortName")
     WebElement shortNameTextBox;
 
-    @FindBy (name="instructorname")
+    @FindBy (id="instructorName")
     WebElement nameTextBox;
     
-    @FindBy (name="instructoremail")
+    @FindBy (id="instructorEmail")
     WebElement emailTextBox;
     
-    @FindBy (name="instructorinstitution")
+    @FindBy (id="instructorInstitution")
     WebElement institutionTextBox;
     
     @FindBy (id="btnAddInstructor")
@@ -58,6 +58,7 @@ public class AdminHomePage extends AppPage {
         }
 
         submitButton.click();
+        waitForAjaxLoaderGifToDisappear();
         return this;
     }
 
@@ -66,6 +67,11 @@ public class AdminHomePage extends AppPage {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
         submitButtonDetailsSingleLineForm.click();
+        waitForAjaxLoaderGifToDisappear();
+    }
+    
+    public String getMessageFromResultTable(int index) {
+        return getCellValueFromDataTable(index, 5);
     }
 
 }
