@@ -11,6 +11,6 @@ function readyStudentEditPage(){
     })
     
     $('#teamname').change(function() {
-            $('#button_submit').attr('editStatus', 'mustDeleteResponses');
-    });
+        $('#button_submit').attr('editStatus', 'mustDeleteResponses');
+    }); 
 }

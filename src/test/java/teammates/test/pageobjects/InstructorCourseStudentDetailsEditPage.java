@@ -36,18 +36,12 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         return getPageSource().contains("<h1>Edit Student Details</h1>");
     }
     
-    public boolean isTeamNameChanged(WebElement textBoxElement, String value){
-        String originalValue = textBoxElement.getText();
-        if(originalValue.equals(value)){
-            return false;
-        }
-        return true;
-    }
     /**
      * If the parameter value is not null, the value will be filled into the
      * relevent input filed.
      */
     public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments){
+        String originalTeamName = teamNameTextbox.getText();
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -60,7 +54,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        if(isTeamNameChanged(teamNameTextbox, teamName)){
+        if(originalTeamName.equals(teamName)){
             clickAndConfirm(submitButton);
         }else{
             submitButton.click();
@@ -73,6 +67,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments){
+        String originalTeamName = teamNameTextbox.getText();
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -85,7 +80,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        if(teamName != null){
+        if(originalTeamName.equals(teamName)){
             clickAndConfirm(submitButton);
         }else{
             submitButton.click();
