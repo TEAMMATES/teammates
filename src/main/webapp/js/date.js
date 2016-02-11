@@ -324,9 +324,7 @@ function parseDate(val) {
 }
 
 /**
- * Returns the timezone (in string) from a parsed date. The date is parsed in such a way
- * that, when the date string is split for every whitespace encountered, the timezone string
- * is in the last index of the splitted string.
+ * Returns the timezone (in string) from a JS date object.
  */
 function getTimeZoneStringFromDate(date) {
     var currentDateInString = date.toString().split(' ');
