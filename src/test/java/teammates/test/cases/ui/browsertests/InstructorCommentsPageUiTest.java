@@ -156,15 +156,15 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: panels expand/collapse");
         
         commentsPage.clickCommentsPageLinkInHeader();
-        assertTrue(commentsPage.isAllCommentsPanelBodyCollapsed());
+        assertTrue(commentsPage.isAllCommentPanelBodyVisibilityEquals(false));
         
         commentsPage.clickAllCommentsPanelHeading();
         commentsPage.waitForPanelsToExpand();
-        assertTrue(commentsPage.isAllCommentsPanelBodyExpanded());
+        assertTrue(commentsPage.isAllCommentPanelBodyVisibilityEquals(true));
         
         commentsPage.clickAllCommentsPanelHeading();
         commentsPage.waitForPanelsToCollapse();
-        assertTrue(commentsPage.isAllCommentsPanelBodyCollapsed());
+        assertTrue(commentsPage.isAllCommentPanelBodyVisibilityEquals(false));
         
     }
 

@@ -218,33 +218,16 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Check if the body of all the comment panel is indeed expanded.
-     * @return true if all comment panel body is expanded, otherwise false.
+     * Checks if the body of all the comment panels are collapsed or expanded.
+     * @param isVisible true to check for expanded, false to check for collapsed.
+     * @return true if all comment panel body are equals to the visibility being checked.
      */
-    public boolean isAllCommentsPanelBodyExpanded() {
+    public boolean isAllCommentPanelBodyVisibilityEquals(boolean isVisible) {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
-        for (WebElement e : webElements) {
-            if (!e.isDisplayed()) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-
-    
-    /**
-     * Check if the body of all the comment panel is indeed collapsed.
-     * @return true if all comment panel body is collapsed, otherwise false.
-     */
-    public boolean isAllCommentsPanelBodyCollapsed() {
-        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
-        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
-        
-        for (WebElement e : webElements) {
-            if (e.isDisplayed()) {
+        for(WebElement e : webElements) {
+            if(e.isDisplayed() != isVisible) {
                 return false;
             }
         }
@@ -253,7 +236,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Method to wait for all the panels to collapse. Typically called after clicking panel headings.
+     * Method to wait for all the panels to collapse.
      */
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
@@ -262,7 +245,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Method to wait for all the panels to expand. Typically called after clicking panel headings.
+     * Method to wait for all the panels to expand.
      */
     public void waitForPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
