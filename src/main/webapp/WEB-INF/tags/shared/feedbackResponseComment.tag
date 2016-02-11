@@ -20,7 +20,7 @@
 </c:choose>
 <li class="list-group-item list-group-item-warning${frc.extraClass}" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
-        <span class="text-muted"> 
+        <span class="text-muted">
             From: ${frc.giverDisplay} [${frc.createdAt}] ${frc.editedAt}
         </span>
         <c:if test="${frc.withVisibilityIcon}">
