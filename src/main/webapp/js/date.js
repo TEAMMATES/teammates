@@ -323,8 +323,13 @@ function parseDate(val) {
 	return null;
 }
 
-function getTimeZone(date) {
-    var currentDateInString = date.toString().split(" ");
+/**
+ * Returns the timezone (in string) from a parsed date. The date is parsed in such a way
+ * that, when the date string is split for every whitespace encountered, the timezone string
+ * is in the last index of the splitted string.
+ */
+function getTimeZoneStringFromDate(date) {
+    var currentDateInString = date.toString().split(' ');
     var userTimeZone = currentDateInString[currentDateInString.length - 1];
     return userTimeZone;
 }
@@ -333,7 +338,7 @@ function convertToClientTimeZone() {
     $('.client-time').each(function() {
         var time = new Date(Date.parse(this.innerHTML));
         if (time !== '') {
-            var userTimeZone = getTimeZone(time);
+            var userTimeZone = getTimeZoneStringFromDate(time);
             var formatted = formatDate(time, 'E, dd NNN yyyy, hh:mm a');
             $(this).html(formatted + ' ' + userTimeZone);
         }
