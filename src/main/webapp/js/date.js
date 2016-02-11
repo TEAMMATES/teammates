@@ -330,12 +330,12 @@ function getTimeZone(date) {
 }
 
 function convertToClientTimeZone() {
-    $(".client-time").each(function() {
+    $('.client-time').each(function() {
         var time = new Date(Date.parse(this.innerHTML));
-        if (time !== "") {
+        if (time !== '') {
             var userTimeZone = getTimeZone(time);
-            var formatted = formatDate(time, "E, dd NNN yyyy, hh:mm a");
-            $(this).html(formatted + " " + userTimeZone);
+            var formatted = formatDate(time, 'E, dd NNN yyyy, hh:mm a');
+            $(this).html(formatted + ' ' + userTimeZone);
         }
     });
 }
