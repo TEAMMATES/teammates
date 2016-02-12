@@ -139,7 +139,9 @@ public class HtmlHelper {
     
     private static String generateNodeTextContent(Node currentNode, String indentation) {
         String text = currentNode.getNodeValue().trim();
-        return text.isEmpty() ? "" : indentation + text + "\n";
+        // line breaks in text are removed as they are ignored in HTML
+        // the lines separated by line break will be joined with a single whitespace character
+        return text.isEmpty() ? "" : indentation + text.replaceAll("[ ]*(\\r?\\n[ ]*)+[ ]*", " ") + "\n";
     }
 
     private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
