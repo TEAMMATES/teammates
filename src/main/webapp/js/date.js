@@ -327,18 +327,29 @@ function parseDate(val) {
  * Returns the timezone (in string) from a JS date object.
  */
 function getTimeZoneStringFromDate(date) {
-    var currentDateInString = date.toString().split(' ');
-    var userTimeZone = currentDateInString[currentDateInString.length - 1];
-    return userTimeZone;
+    var timeZone = /\([A-Za-z0-9 ]+\)$/.exec(date.toString());
+    return timeZone[0];
 }
 
 function convertToClientTimeZone() {
     $('.client-time').each(function() {
-        var time = new Date(Date.parse(this.innerHTML));
+        var time = new Date(Date.parse(this.innerHTML.replace('12:00 NOON', '12:00 PM')));
         if (time !== '') {
             var userTimeZone = getTimeZoneStringFromDate(time);
             var formatted = formatDate(time, 'E, dd NNN yyyy, hh:mm a');
-            $(this).html(formatted + ' ' + userTimeZone);
+            $(this).html(formatted.replace('12:00 PM', '12:00 NOON') + ' ' + userTimeZone);
+        }
+    });
+}
+
+function convertToUtc() {
+    $('.client-time').each(function() {
+        if (this.innerHTML.indexOf('UTC') === -1) {
+            var time = new Date(Date.parse(this.innerHTML.replace('12:00 NOON', '12:00 PM')));
+            if (time !== '') {
+                var formatted = formatDate(new Date(time.getTime() + time.getTimezoneOffset() * 60 * 1000), 'E, dd NNN yyyy, hh:mm a');
+                $(this).html(formatted.replace('12:00 PM', '12:00 NOON') + ' UTC');
+            }
         }
     });
 }
