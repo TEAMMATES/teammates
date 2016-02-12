@@ -181,7 +181,7 @@ public class HtmlHelper {
         }
         
         if (!isVoidElement(currentNodeName)) {
-            String newIndentation = indentation + (shouldIncludeOpeningAndClosingTags ? INDENTATION_STEP : "");
+            String newIndentation = indentation + (shouldIndent(currentNodeName) ? INDENTATION_STEP : "");
             String nodeContent = getNodeContent(currentNode, newIndentation, isPart);
             currentHtmlText.append(nodeContent);
 
@@ -203,6 +203,13 @@ public class HtmlHelper {
         return !(isPart && (currentNodeName.equals("html")
                             || currentNodeName.equals("head")
                             || currentNodeName.equals("body")));
+    }
+    
+    private static boolean shouldIndent(String currentNodeName) {
+        // Indentation is not necessary for top level elements
+        return !(currentNodeName.equals("html")
+                 || currentNodeName.equals("head")
+                 || currentNodeName.equals("body"));
     }
 
     /**
