@@ -214,7 +214,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private String getSubmissionFormTableHeaderFragmentHtml(String questionNumberString, String responseNumberString) {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
-        
         for(int i = 0; i < numOfRubricChoices; i++) {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
@@ -497,7 +496,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
                 "${statsTitle}", (view=="student")?"Response Summary (of visible responses)":"Response Summary",
-                "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(), 
+                "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
                 "${tableBodyHtml}", tableBodyHtml.toString());
         
         return html;
