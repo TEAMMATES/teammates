@@ -96,8 +96,8 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account,
                                                        Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
-                                                       .withParam("error", "false")
-                                                       .withParam("user", account.googleId)
+                                                       .withParam(Const.ParamsNames.ERROR, Boolean.FALSE.toString())
+                                                       .withParam(Const.ParamsNames.USER_ID, account.googleId)
                                                        .toString()
                                                        , ""));
             

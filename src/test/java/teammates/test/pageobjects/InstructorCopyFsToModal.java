@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.List;
 
