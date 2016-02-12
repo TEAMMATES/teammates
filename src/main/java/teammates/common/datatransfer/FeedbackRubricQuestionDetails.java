@@ -214,7 +214,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private String getSubmissionFormTableHeaderFragmentHtml(String questionNumberString, String responseNumberString) {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
-        
+
         for(int i = 0; i < numOfRubricChoices; i++) {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
@@ -481,8 +481,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
 
-            String tableAverageCell = FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
-                                "${percentageFrequencyOrAverage}", dfAverage.format(average[j]));
+            String tableAverageCell = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
+                             "${percentageFrequencyOrAverage}", dfAverage.format(average[j]));
             tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
             
             // Get entire row
@@ -759,4 +760,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         return errors;
     }
+
+
 }
