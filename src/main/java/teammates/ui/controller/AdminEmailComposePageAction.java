@@ -28,7 +28,7 @@ public class AdminEmailComposePageAction extends Action {
             
             if(data.emailToEdit == null){
                 isError = true;
-                statusToUser.add(new StatusMessage("The requested email was not found", StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.STATUS_EMAIL_NOT_FOUND, StatusMessageColor.WARNING));
             }
             
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     

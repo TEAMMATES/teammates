@@ -70,7 +70,7 @@ public class AdminEmailComposeSaveAction extends Action {
         } else {
             statusToAdmin = "Email draft has been saved: <br>" +
                             "Subject: " + subject;
-            statusToUser.add(new StatusMessage("Email draft has been saved", StatusMessageColor.SUCCESS)); 
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STATUS_DRAFT, StatusMessageColor.SUCCESS)); 
         }
         
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
