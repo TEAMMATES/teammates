@@ -1,7 +1,5 @@
 package teammates.test.pageobjects;
 
-import java.util.Objects;
-
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -43,7 +41,6 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments){
-        String originalTeamName = teamNameTextbox.getText();
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -56,7 +53,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        if(!originalTeamName.equals(teamName) || teamName == "" || teamName == null){
+        if(teamName != null){
             clickAndConfirm(submitButton);
         }else{
             submitButton.click();
@@ -69,7 +66,6 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments){
-        String originalTeamName = teamNameTextbox.getText();
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -82,7 +78,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        if(!originalTeamName.equals(teamName) || teamName == "" || teamName == null){
+        if(teamName != null){
             clickAndConfirm(submitButton);
         }else{
             submitButton.click();
