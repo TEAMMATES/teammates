@@ -214,6 +214,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private String getSubmissionFormTableHeaderFragmentHtml(String questionNumberString, String responseNumberString) {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
+        
         for(int i = 0; i < numOfRubricChoices; i++) {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
@@ -222,7 +223,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", (rubricChoices.get(i) + " (" + (numOfRubricChoices-i) + ")"));
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
-         }
+        }
         return tableHeaderFragmentHtml.toString();
     }
 
@@ -481,7 +482,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             String tableAverageCell = FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
-                                            "${percentageFrequencyOrAverage}", dfAverage.format(average[j]));
+                                "${percentageFrequencyOrAverage}", dfAverage.format(average[j]));
             tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
             
             // Get entire row
@@ -555,7 +556,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * 
      */
     private float[] calculateRubricAverage(List<FeedbackResponseAttributes> responses,
-                                    FeedbackQuestionAttributes question) {
+            FeedbackQuestionAttributes question) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         float[][] percentageFrequency = calculateRubricStats(responses, question);
         float[] average = new float[fqd.numOfRubricSubQuestions];
