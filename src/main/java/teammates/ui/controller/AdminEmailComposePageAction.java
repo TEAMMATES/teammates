@@ -23,12 +23,12 @@ public class AdminEmailComposePageAction extends Action {
             
             data.emailToEdit = logic.getAdminEmailById(idOfEmailToEdit);             
             statusToAdmin = data.emailToEdit == null? 
-                            "adminEmailComposePage Page Load : Requested Email for editing was not found":
+                            "adminEmailComposePage Page Load : "+Const.StatusMessages.EMAIL_NOT_FOUND_ADMIN:
                             "adminEmailComposePage Page Load : Edit Email " + "[" + data.emailToEdit.getSubject() +"]";
             
             if(data.emailToEdit == null){
                 isError = true;
-                statusToUser.add(new StatusMessage("The requested email was not found", StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_NOT_FOUND, StatusMessageColor.WARNING));
             }
             
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
