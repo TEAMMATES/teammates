@@ -41,6 +41,18 @@
             </div>
             
             <div class="form-group">
+                <label class="col-sm-3 control-label">Time Zone:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control"
+                            name="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+                            id="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+                            value="${course.timeZone}"
+                            data-toggle="tooltip" data-placement="top" title="The time zone for the course, e.g. Asia/Singapore."
+                            tabindex="3" disabled="disabled">
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class=" col-sm-12 align-center">
                     <input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse"
                             style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
