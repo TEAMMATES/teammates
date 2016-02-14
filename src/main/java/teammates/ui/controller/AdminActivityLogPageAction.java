@@ -103,16 +103,6 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    /**
-     * Generates status message for Admin Activity Log Page.
-     * 
-     * If there is no person specified in the query, the Admin Timezone will be used as Local Timezone.
-     * Otherwise, it will use the user's google ID and the course ID to determine the Local Timezone.
-     * 
-     * @param data
-     * @param logs
-     * @param courseId is used to find the time zone of the unregistered user. 
-     */
     private void generateStatusMessage(AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
         String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
@@ -163,11 +153,6 @@ public class AdminActivityLogPageAction extends Action {
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
 
-    /**
-     * Retrives the logs for every two hours until there are enough relevant logs or 24 hours (12 times) has been reached.
-     * @param data
-     * @return
-     */
     private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         
@@ -189,11 +174,6 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
     
-    /**
-     * Retrives the logs within the exact time period.
-     * @param data
-     * @return
-     */
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminActivityLogPageData data) {
         totalLogsSearched = 0;
         LogQuery query = buildQuery(data);
@@ -201,12 +181,6 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
 
-    /**
-     * Retrives the logs by the query.
-     * @param query
-     * @param data
-     * @return
-     */
     private List<ActivityLogEntry> searchLogsByQuery(LogQuery query, AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         //fetch request log
@@ -233,11 +207,6 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
     
-    /**
-     * Builds the query based on the Page Data.
-     * @param data
-     * @return
-     */
     private LogQuery buildQuery(AdminActivityLogPageData data) {
         LogQuery query = LogQuery.Builder.withDefaults();
         List<String> versions = data.getVersions();
@@ -301,12 +270,6 @@ public class AdminActivityLogPageAction extends Action {
         return defaultVersions;
     }
     
-    /**
-     * Loads local time for known and registered users.
-     * @param userGoogleId
-     * @param userRole
-     * @return
-     */
     private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
@@ -340,11 +303,6 @@ public class AdminActivityLogPageAction extends Action {
         return localTimeZone;
     }
     
-    /**
-     * Gets the first available timezone within the courses. 
-     * @param courses
-     * @return
-     */
     private double findAvailableTimeZoneFromCourses(List<CourseAttributes> courses) {
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
@@ -364,11 +322,6 @@ public class AdminActivityLogPageAction extends Action {
         return localTimeZone;
     }
     
-    /**
-     * Gets the first available timezone within the course.
-     * @param courseId
-     * @return
-     */
     private double getLocalTimeZoneForUnregisteredUserRequest(String courseId) {
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
@@ -387,12 +340,6 @@ public class AdminActivityLogPageAction extends Action {
         
     }
     
-    /**
-     * Retrives timezone by google ID and role from the log.
-     * @param logGoogleId
-     * @param logRole
-     * @return
-     */
     private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
         if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
@@ -404,13 +351,6 @@ public class AdminActivityLogPageAction extends Action {
         }
     }
     
-    /**
-     * Gets local time.
-     * @param logGoogleId
-     * @param logRole
-     * @param logTimeInAdminTimeZone
-     * @return
-     */
     private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
         double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
         if (timeZone != Const.DOUBLE_UNINITIALIZED) {
@@ -420,12 +360,6 @@ public class AdminActivityLogPageAction extends Action {
         }
     }
     
-    /**
-     * Computes local time.
-     * @param timeZone target timezone 
-     * @param logTimeInAdminTimeZone time in millisecond in Admin Timezone
-     * @return
-     */
     private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {
         if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";

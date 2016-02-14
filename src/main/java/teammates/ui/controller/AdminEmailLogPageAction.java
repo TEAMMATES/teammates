@@ -61,11 +61,6 @@ public class AdminEmailLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    /**
-     * Builds the query based on the Page Data.
-     * @param data
-     * @return
-     */
     private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
         LogQuery query = LogQuery.Builder.withDefaults();
         
@@ -130,12 +125,6 @@ public class AdminEmailLogPageAction extends Action {
         return defaultVersions;
     }
     
-    /**
-     * Retrives all logs related to email.
-     * @param query
-     * @param data
-     * @return
-     */
     private List<EmailLogEntry> getEmailLogs(LogQuery query, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
         int totalLogsSearched = 0;
