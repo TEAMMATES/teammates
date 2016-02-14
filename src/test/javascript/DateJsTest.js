@@ -13,12 +13,12 @@ test('getTimeZoneStringFromDate(date)', function() {
 
 test('convertToClientTimeZone()', function() {
     var expectedTimeZoneString = getTimeZoneStringFromDate(new Date());
-    var cummulatedTimeStrings = [];
+    var cumulatedTimeStrings = [];
     
     convertToClientTimeZone();
     $('.client-time').each(function () {
         var date = this.innerHTML;
-        cummulatedTimeStrings.push(date);
+        cumulatedTimeStrings.push(date);
         var timeZoneOfConvertedTime = getTimeZoneStringFromDate(date);
         equal(timeZoneOfConvertedTime, expectedTimeZoneString);
     });
@@ -28,20 +28,20 @@ test('convertToClientTimeZone()', function() {
     var counter = 0;
     $('.client-time').each(function () {
         var date = this.innerHTML;
-        equal(date, cummulatedTimeStrings[counter++]);
+        equal(date, cumulatedTimeStrings[counter++]);
     });
     
 });
 
 test('convertToUtc()', function() {
-    var expecedTimeZoneString = 'UTC';
-    var cummulatedTimeStrings = [];
+    var expectedTimeZoneString = 'UTC';
+    var cumulatedTimeStrings = [];
     
     convertToClientTimeZone();
     convertToUtc();
     $('.client-time').each(function () {
         var date = this.innerHTML;
-        cummulatedTimeStrings.push(date);
+        cumulatedTimeStrings.push(date);
         equal(true, date.toString().endsWith('UTC'));
     });
     
@@ -50,7 +50,7 @@ test('convertToUtc()', function() {
     var counter = 0;
     $('.client-time').each(function () {
         var date = this.innerHTML;
-        equal(date, cummulatedTimeStrings[counter++]);
+        equal(date, cumulatedTimeStrings[counter++]);
     });
     
 });
