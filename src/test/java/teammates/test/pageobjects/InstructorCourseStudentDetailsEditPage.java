@@ -40,23 +40,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments){
-        if (studentName != null) {
-            fillTextBox(studentNameTextbox, studentName);
-        }
-        if (teamName != null) {
-            fillTextBox(teamNameTextbox, teamName);
-        }
-        if (studentEmail != null) {
-            fillTextBox(studentEmailTextbox, studentEmail);
-        }
-        if (comments != null) {
-            fillTextBox(commentsTextbox, comments);
-        }
-        if(teamName != null){
-            clickAndConfirm(submitButton);
-        }else{
-            submitButton.click();
-        }
+        fillTheFormField(studentName, teamName, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
@@ -65,6 +49,11 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments){
+        fillTheFormField(studentName, teamName, studentEmail, comments);
+        return this;
+    }
+
+    private void fillTheFormField(String studentName, String teamName, String studentEmail, String comments) {
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -77,14 +66,13 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        if(teamName != null){
+        if (teamName != null) {
             clickAndConfirm(submitButton);
-        }else{
+        }else {
             submitButton.click();
         }
-        return this;
     }
-
+    
     public void verifyIsCorrectPage(String email) {
         assertTrue(containsExpectedPageContents());
         assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));
