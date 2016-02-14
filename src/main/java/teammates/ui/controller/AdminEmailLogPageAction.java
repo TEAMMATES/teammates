@@ -3,12 +3,15 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService.LogLevel;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
+import com.google.appengine.api.modules.ModulesService;
+import com.google.appengine.api.modules.ModulesServiceFactory;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
@@ -23,7 +26,8 @@ public class AdminEmailLogPageAction extends Action {
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
-
+    private static final int MAX_DEFAULT_VERSION_NUMBER = 4;        // 4 default versions for query.
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
@@ -49,7 +53,6 @@ public class AdminEmailLogPageAction extends Action {
         LogQuery query = buildQuery(data.getOffset(), includeAppLogs, data.getVersions());
         data.setLogs(getEmailLogs(query, data));
         
-        
         statusToAdmin = "adminEmailLogPage Page Load";
         
         if (data.getOffset() == null) {
@@ -59,7 +62,11 @@ public class AdminEmailLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    
+    /**
+     * Builds the query based on the Page Data.
+     * @param data
+     * @return
+     */
     private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
         LogQuery query = LogQuery.Builder.withDefaults();
         
@@ -81,61 +88,55 @@ public class AdminEmailLogPageAction extends Action {
         return query;
     }
     
+    /**
+     * Selects versions for query.
+     * @param versions
+     * @return
+     */
     private List<String> getVersionIdsForQuery(List<String> versions){
-        
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
         if (isVersionSpecifiedInRequest) {   
-            return versions;        
+            return versions;
         }       
-        
         return getDefaultVersionIdsForQuery();
     }
     
-    private List<String> getDefaultVersionIdsForQuery(){
-    
-        String currentVersion = Config.inst().getAppVersion();
+    /**
+     * Gets a list of versions, including the current version and 3 preceding versions (if available).
+     * @return a list of default versions for query.
+     */
+    private List<String> getDefaultVersionIdsForQuery() {
         List<String> defaultVersions = new ArrayList<String>();
+        String currentVersion = Config.inst().getAppVersion();
+        defaultVersions.add(currentVersion);
         
-        //Check whether version Id contains alphabet 
-        //Eg. 5.05rc
-        if (currentVersion.matches(".*[A-z.*]")) {
-            //if current version contains alphatet,
-            //by default just prepare current version as a single element for the query
-            defaultVersions.add(currentVersion.replace(".", "-"));
-            
-        } else {
-            //current version does not contain alphabet
-            //by default prepare current version with preceding 3 versions
-            defaultVersions = getRecentVersionIdsWithDigitOnly(currentVersion);
-        }
+        ModulesService modulesService = ModulesServiceFactory.getModulesService();
+        Set<String> versionList = modulesService.getVersions(null); // null == default module
+        boolean isCurrentVersionFound = false;
         
-        return defaultVersions;        
-    }
-    
-    private List<String> getRecentVersionIdsWithDigitOnly(String currentVersion){
-        
-        List<String> recentVersions = new ArrayList<String>();
-        
-        double curVersionAsDouble = Double.parseDouble(currentVersion);
-        recentVersions.add(currentVersion.replace(".", "-"));
-        
-        //go back for three preceding versions
-        //subtract from double form of current version id
-        //Eg. current version is 4.01 --> 4.00, 3.99, 3.98  --> 4-00, 3-99, 3-98
-        for (int i = 1; i < 4; i++) {
-
-            double preVersionAsDouble = curVersionAsDouble - 0.01 * i;
-            if (preVersionAsDouble > 0) {
-                String preVersion = String.format("%.2f", preVersionAsDouble)
-                                          .replace(".", "-");
-                
-                recentVersions.add(preVersion);
+        // Find the current version then get at most 3 versions below it.
+        for(String version : versionList) {
+            if (version.equals(currentVersion)) {
+                isCurrentVersionFound = true;
+            } else {
+                if (isCurrentVersionFound) {
+                    if (defaultVersions.size() < MAX_DEFAULT_VERSION_NUMBER) {
+                        defaultVersions.add(version);
+                    } else {
+                        return defaultVersions;
+                    }
+                }
             }
         }
-        
-        return recentVersions;
+        return defaultVersions;
     }
     
+    /**
+     * Retrives all logs related to email.
+     * @param query
+     * @param data
+     * @return
+     */
     private List<EmailLogEntry> getEmailLogs(LogQuery query, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
         int totalLogsSearched = 0;
@@ -193,7 +194,4 @@ public class AdminEmailLogPageAction extends Action {
         
         return emailLogs;
     }
-    
-    
-    
 }

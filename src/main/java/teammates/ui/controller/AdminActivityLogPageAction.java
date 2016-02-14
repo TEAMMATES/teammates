@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -19,6 +20,8 @@ import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
+import com.google.appengine.api.modules.ModulesService;
+import com.google.appengine.api.modules.ModulesServiceFactory;
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogServiceFactory;
@@ -32,12 +35,12 @@ public class AdminActivityLogPageAction extends Action {
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
     private static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
     private static final int MAX_SEARCH_TIMES = 12;                 // maximum 1 day
+    private static final int MAX_DEFAULT_VERSION_NUMBER = 4;        // 4 default versions for query.
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
-        
         new GateKeeper().verifyAdminPrivileges(account);
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
@@ -101,6 +104,16 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
+    /**
+     * Generates status message for Admin Activity Log Page.
+     * 
+     * If there is no person specified in the query, the Admin Timezone will be used as Local Timezone.
+     * Otherwise, it will use the user's google ID and the course ID to determine the Local Timezone.
+     * 
+     * @param data
+     * @param logs
+     * @param courseId is used to find the time zone of the unregistered user. 
+     */
     private void generateStatusMessage(AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
         String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
@@ -151,6 +164,11 @@ public class AdminActivityLogPageAction extends Action {
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
 
+    /**
+     * Retrives the logs for every two hours until there are enough relevant logs or 24 hours (12 times) has been reached.
+     * @param data
+     * @return
+     */
     private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         
@@ -172,6 +190,11 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
     
+    /**
+     * Retrives the logs within the exact time period.
+     * @param data
+     * @return
+     */
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminActivityLogPageData data) {
         totalLogsSearched = 0;
         LogQuery query = buildQuery(data);
@@ -179,6 +202,12 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
 
+    /**
+     * Retrives the logs by the query.
+     * @param query
+     * @param data
+     * @return
+     */
     private List<ActivityLogEntry> searchLogsByQuery(LogQuery query, AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         //fetch request log
@@ -205,6 +234,11 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
     
+    /**
+     * Builds the query based on the Page Data.
+     * @param data
+     * @return
+     */
     private LogQuery buildQuery(AdminActivityLogPageData data) {
         LogQuery query = LogQuery.Builder.withDefaults();
         List<String> versions = data.getVersions();
@@ -225,64 +259,55 @@ public class AdminActivityLogPageAction extends Action {
         return query;
     }
     
+    /**
+     * Selects versions for query.
+     * @param versions
+     * @return
+     */
     private List<String> getVersionIdsForQuery(List<String> versions) {
-        
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
-        if (isVersionSpecifiedInRequest) {   
-            return versions;        
-        }       
+        if (isVersionSpecifiedInRequest) {
+            return versions;
+        }
         return getDefaultVersionIdsForQuery();
     }
     
+    /**
+     * Gets a list of versions, including the current version and 3 preceding versions (if available).
+     * @return a list of default versions for query.
+     */
     private List<String> getDefaultVersionIdsForQuery() {
-    
-        String currentVersion = Config.inst().getAppVersion();
         List<String> defaultVersions = new ArrayList<String>();
+        String currentVersion = Config.inst().getAppVersion();
+        defaultVersions.add(currentVersion);
         
-        //Check whether version Id contains alphabet 
-        //Eg. 5.05rc
-        if (currentVersion.matches(".*[A-z.*]")) {
-            //if current version contains alphatet,
-            //by default just prepare current version as a single element for the query
-            defaultVersions.add(currentVersion.replace(".", "-"));
-            
-        } else {
-            //current version does not contain alphabet
-            //by default prepare current version with preceding 3 versions
-            defaultVersions = getRecentVersionIdsWithDigitOnly(currentVersion);
-        }
+        ModulesService modulesService = ModulesServiceFactory.getModulesService();
+        Set<String> versionList = modulesService.getVersions(null); // null == default module
+        boolean isCurrentVersionFound = false;
         
-        return defaultVersions;        
-    }
-    
-    private List<String> getRecentVersionIdsWithDigitOnly(String currentVersion) {
-        
-        List<String> recentVersions = new ArrayList<String>();
-        
-        double curVersionAsDouble = Double.parseDouble(currentVersion);
-        recentVersions.add(currentVersion.replace(".", "-"));
-        
-        //go back for three preceding versions
-        //subtract from double form of current version id
-        //Eg. current version is 4.01 --> 4.00, 3.99, 3.98  --> 4-00, 3-99, 3-98
-        for (int i = 1; i < 4; i++) {
-
-            double preVersionAsDouble = curVersionAsDouble - 0.01 * i;
-            if (preVersionAsDouble > 0) {
-                String preVersion = String.format("%.2f", preVersionAsDouble)
-                                          .replace(".", "-");
-                
-                recentVersions.add(preVersion);
+        // Find the current version then get at most 3 versions below it.
+        for(String version : versionList) {
+            if (version.equals(currentVersion)) {
+                isCurrentVersionFound = true;
+            } else {
+                if (isCurrentVersionFound) {
+                    if (defaultVersions.size() < MAX_DEFAULT_VERSION_NUMBER) {
+                        defaultVersions.add(version);
+                    } else {
+                        return defaultVersions;
+                    }
+                }
             }
         }
-        
-        return recentVersions;
+        return defaultVersions;
     }
     
-    /*
-     * Functions used to load local time for activity log using AJAX
+    /**
+     * Loads local time for known and registered users.
+     * @param userGoogleId
+     * @param userRole
+     * @return
      */
-    
     private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
@@ -316,8 +341,12 @@ public class AdminActivityLogPageAction extends Action {
         return localTimeZone;
     }
     
+    /**
+     * Gets the first available timezone within the courses. 
+     * @param courses
+     * @return
+     */
     private double findAvailableTimeZoneFromCourses(List<CourseAttributes> courses) {
-        
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
         if (courses == null) {
@@ -336,6 +365,11 @@ public class AdminActivityLogPageAction extends Action {
         return localTimeZone;
     }
     
+    /**
+     * Gets the first available timezone within the course.
+     * @param courseId
+     * @return
+     */
     private double getLocalTimeZoneForUnregisteredUserRequest(String courseId) {
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
@@ -354,6 +388,12 @@ public class AdminActivityLogPageAction extends Action {
         
     }
     
+    /**
+     * Retrives timezone by google ID and role from the log.
+     * @param logGoogleId
+     * @param logRole
+     * @return
+     */
     private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
         if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
@@ -365,6 +405,13 @@ public class AdminActivityLogPageAction extends Action {
         }
     }
     
+    /**
+     * Gets local time.
+     * @param logGoogleId
+     * @param logRole
+     * @param logTimeInAdminTimeZone
+     * @return
+     */
     private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
         double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
         if (timeZone != Const.DOUBLE_UNINITIALIZED) {
@@ -374,6 +421,12 @@ public class AdminActivityLogPageAction extends Action {
         }
     }
     
+    /**
+     * Computes local time.
+     * @param timeZone target timezone 
+     * @param logTimeInAdminTimeZone time in millisecond in Admin Timezone
+     * @return
+     */
     private String computeLocalTime(double timeZone, String logTimeInAdminTimeZone) {
         if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
