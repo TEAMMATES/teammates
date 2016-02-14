@@ -46,6 +46,8 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorName = "";
         data.instructorEmail = "";
         data.instructorInstitution = "";
+        data.instructorAddingResultForAjax = true;
+        data.statusForAjax = "";
         
         // If there is input from the instructorDetailsSingleLine form, that data will be prioritized over the data from the 3-parameter form
         if (data.instructorDetailsSingleLine != null) {
@@ -57,8 +59,10 @@ public class AdminInstructorAccountAddAction extends Action {
                 data.instructorEmail = instructorInfo[1];
                 data.instructorInstitution = instructorInfo[2];
             } catch (InvalidParametersException e1) {
-                setStatusForException(e1);
-                return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+                data.statusForAjax = e1.getMessage();
+                data.instructorAddingResultForAjax = false;
+                statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
+                return createAjaxResult(data);
             }
         } else {
             data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
@@ -76,13 +80,13 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorEmail = data.instructorEmail.trim();
         data.instructorInstitution = data.instructorInstitution.trim();
         
-        String joinLink = ""; 
-                      
         try {
             logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
         } catch (InvalidParametersException e1) {
-            setStatusForException(e1);
-            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+            data.statusForAjax = e1.getMessage();
+            data.instructorAddingResultForAjax = false;
+            statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
+            return createAjaxResult(data);
         }
             
        BackDoorLogic backDoor = new BackDoorLogic();     
@@ -97,19 +101,22 @@ public class AdminInstructorAccountAddAction extends Action {
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
             retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
                        
-            statusToUser.add(new StatusMessage("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>", StatusMessageColor.DANGER));
+            String errorMessage = "<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>";
+            statusToUser.add(new StatusMessage(errorMessage, StatusMessageColor.DANGER));
             String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>";
-            message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";           
+            message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";
+            errorMessage += "<br>" + message;
             statusToUser.add(new StatusMessage("<br>" + message, StatusMessageColor.DANGER));
             statusToAdmin = message;
-            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+            data.instructorAddingResultForAjax = false;
+            data.statusForAjax = errorMessage;
+            return createAjaxResult(data);
         }
         
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
-        joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
-
-        statusToUser.add(new StatusMessage("Instructor " + data.instructorName
-                + " has been successfully created with join link:<br>" + joinLink, StatusMessageColor.SUCCESS));
+        String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
+        data.statusForAjax = "Instructor " + data.instructorName + " has been successfully created with join link:<br>" + joinLink;
+        statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
                 + "<span class=\"bold\">Id: </span>" + "ID will be assigned when the verification link was clicked and confirmed"
@@ -119,9 +126,16 @@ public class AdminInstructorAccountAddAction extends Action {
                 + data.instructorInstitution;
  
         
-        return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
+        return createAjaxResult(data);
     }
 
+    /**
+     * Extracts instructor's info from a string then store them in an array of string.
+     * @param instructorDetails This string is in the format INSTRUCTOR_NAME | INSTRUCTOR_EMAIL | INSTRUCTOR_INSTITUTION 
+     * or INSTRUCTOR_NAME \t INSTRUCTOR_EMAIL \t INSTRUCTOR_INSTITUTION
+     * @return A String array of size 3
+     * @throws InvalidParametersException
+     */
     private String[] extractInstructorInfo(String instructorDetails) throws InvalidParametersException {
         String[] result = instructorDetails.trim().replace('|', '\t').split("\t");
         if (result.length != Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION) {
@@ -131,12 +145,20 @@ public class AdminInstructorAccountAddAction extends Action {
         return result;
     }
 
-    private String importDemoData(AdminHomePageData helper)
+    /**
+     * Imports Demo course to new instructor.
+     * @param pageData data from AdminHomePageData
+     * @return the ID of Demo course
+     * @throws EntityAlreadyExistsException
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    private String importDemoData(AdminHomePageData pageData)
             throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
 
         String jsonString;
-        String courseId = generateDemoCourseId(helper.instructorEmail); 
+        String courseId = generateDemoCourseId(pageData.instructorEmail); 
 
         jsonString = FileHelper.readStream(Config.class.getClassLoader()
                     .getResourceAsStream("InstructorSampleData.json"));
@@ -144,10 +166,10 @@ public class AdminInstructorAccountAddAction extends Action {
         // replace email
         jsonString = jsonString.replaceAll(
                 "teammates.demo.instructor@demo.course",
-                helper.instructorEmail);
+                pageData.instructorEmail);
         // replace name
         jsonString = jsonString.replaceAll("Demo_Instructor",
-                helper.instructorName);
+                pageData.instructorName);
         // replace course
         jsonString = jsonString.replaceAll("demo.course", courseId);
         // update feedback session time
@@ -183,8 +205,8 @@ public class AdminInstructorAccountAddAction extends Action {
         
         
         //produce searchable documents
-        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, helper.instructorEmail);
-        List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, helper.instructorEmail);
+        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, pageData.instructorEmail);
+        List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, pageData.instructorEmail);
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         
@@ -203,7 +225,6 @@ public class AdminInstructorAccountAddAction extends Action {
         }
         
         return courseId;
-
     }
 
     /**
@@ -294,13 +315,18 @@ public class AdminInstructorAccountAddAction extends Action {
         }
     }
 
+    /**
+     * Trims the course ID if it is too long.
+     * @param demoCourseId
+     * @param maximumIdLength length to trim
+     * @return trimmed Course ID
+     */
     private String trimCourseIdToMaximumLengthIfNecessary(String demoCourseId, final int maximumIdLength) {
         final int courseIdLength = demoCourseId.length();
         if (courseIdLength <= maximumIdLength) {
             return demoCourseId;
         } else {
-            return demoCourseId.substring(courseIdLength
-                    - maximumIdLength);
+            return demoCourseId.substring(courseIdLength - maximumIdLength);
         }
     }
 
