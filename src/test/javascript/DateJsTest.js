@@ -2,10 +2,13 @@ module ('date.js');
 
 test('getTimeZoneStringFromDate(date)', function() {
     var date = 'Sun, 31 Jan 2016, 08:17 AM (AEDT)';
-    equal(getTimeZoneStringFromDate(dateTwo), '(AEDT)');
+    equal(getTimeZoneStringFromDate(date), '(AEDT)');
     
     var dateTwo = 'Sun, 31 Jan 2016, 08:17 AM (SGT)';
     equal(getTimeZoneStringFromDate(dateTwo), '(SGT)');
+    
+    var dateThree = 'Sun, 31 Jan 2016, 08:17 AM (Greenwich Mean Time)';
+    equal(getTimeZoneStringFromDate(dateThree), '(Greenwich Mean Time)');
 });
 
 test('convertToClientTimeZone()', function() {
