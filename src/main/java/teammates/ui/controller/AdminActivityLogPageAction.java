@@ -12,7 +12,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
@@ -278,11 +277,11 @@ public class AdminActivityLogPageAction extends Action {
      */
     private List<String> getDefaultVersionIdsForQuery() {
         List<String> defaultVersions = new ArrayList<String>();
-        String currentVersion = Config.inst().getAppVersion();
-        defaultVersions.add(currentVersion);
         
         ModulesService modulesService = ModulesServiceFactory.getModulesService();
         Set<String> versionList = modulesService.getVersions(null); // null == default module
+        String currentVersion = modulesService.getCurrentVersion();
+        defaultVersions.add(currentVersion);
         boolean isCurrentVersionFound = false;
         
         // Find the current version then get at most 3 versions below it.
