@@ -3,10 +3,10 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
 <%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="adminSearch" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/adminSearch.js"></script>
+    <script type="text/javascript" src="/js/jquery.highlight.js"></script>
 </c:set>
 
 <ta:adminPage bodyTitle="Admin Search" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
