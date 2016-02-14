@@ -155,7 +155,7 @@ $(document).on('ajaxComplete ready', function() {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return true === (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+    return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
 }
 
 /**
