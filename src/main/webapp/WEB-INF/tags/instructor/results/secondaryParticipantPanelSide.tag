@@ -1,6 +1,6 @@
 <%@ tag description="instructorFeedbackResults - side of the secondary participant panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
@@ -15,12 +15,12 @@
         <c:choose>
             <c:when test="${not empty secondaryParticipantPanelBody.profilePictureLink}">
                 <div class="middlealign profile-pic-icon-hover inline-block" data-link="${secondaryParticipantPanelBody.profilePictureLink}">
-                    <strong>${secondaryParticipantPanelBody.secondaryParticipantDisplayableName}</strong>
+                    <strong>${fn:escapeXml(secondaryParticipantPanelBody.secondaryParticipantDisplayableName)}</strong>
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>
             </c:when>
             <c:otherwise>
-                <strong>${secondaryParticipantPanelBody.secondaryParticipantDisplayableName}</strong>
+                <strong>${fn:escapeXml(secondaryParticipantPanelBody.secondaryParticipantDisplayableName)}</strong>
             </c:otherwise>
         </c:choose>
             
@@ -31,12 +31,12 @@
         <c:choose>
             <c:when test="${primaryParticipantPanel.emailValid}">
                 <div class="middlealign profile-pic-icon-hover inline-block" data-link="${primaryParticipantPanel.profilePictureLink}">
-                    ${primaryParticipantPanel.name}
+                    ${fn:escapeXml(primaryParticipantPanel.name)}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>               
             </c:when>
             <c:otherwise>
-                ${primaryParticipantPanel.name}
+                ${fn:escapeXml(primaryParticipantPanel.name)}
             </c:otherwise>
         </c:choose>
     </div>
