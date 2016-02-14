@@ -221,7 +221,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", (rubricChoices.get(i) + " (" + (numOfRubricChoices-i) + ")"));
+                            "${rubricChoiceValue}", (rubricChoices.get(i) + " (" + (numOfRubricChoices - i) + ")"));
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
@@ -457,10 +457,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
-        for(int i = 0 ; i < numOfRubricChoices ; i++) {
+        for(int i = 0 ; i < numOfRubricChoices; i++) {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) + " (" + (numOfRubricChoices-i) + ")");
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) + " (" + (numOfRubricChoices - i) + ")");
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
@@ -563,8 +563,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         float[] average = new float[fqd.numOfRubricSubQuestions];
         
         // Calculate the average value of the responses
-        for(int i = 0; i < fqd.numOfRubricSubQuestions; i++){
-            for(int j = 0; j < fqd.numOfRubricChoices; j++){
+        for(int i = 0; i < fqd.numOfRubricSubQuestions; i++) {
+            for(int j = 0; j < fqd.numOfRubricChoices; j++) {
                 average[i] += (fqd.numOfRubricChoices - j) * percentageFrequency[i][j];
             }
         }
