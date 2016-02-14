@@ -207,7 +207,7 @@ RL:
   * Update milestone.
     * State the release number in the milestone notes.
     * Ensure all issues and PRs included in the release are tagged with the correct milestone.
-    * For issues in the milestone: assign/revise `e.` labels  based on the estimated
+    * For issues in the milestone: assign/revise `e.` labels based on the estimated
       effort each must have taken.
     * Close the milestone.
 
