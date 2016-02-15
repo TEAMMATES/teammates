@@ -34,7 +34,8 @@ public class AdminActivityLogPageAction extends Action {
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
     private static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
     private static final int MAX_SEARCH_TIMES = 12;                 // maximum 1 day
-    private static final int MAX_DEFAULT_VERSION_NUMBER = 4;        // 4 default versions for query.
+    private static final int MAX_DEFAULT_VERSION_NUMBER = 6;        // 6 default versions for query.
+                                                                    // include the current version and its 5 preceding versions.
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
@@ -241,7 +242,7 @@ public class AdminActivityLogPageAction extends Action {
     }
     
     /**
-     * Gets a list of versions, including the current version and 3 preceding versions (if available).
+     * Gets a list of versions, including the current version and 5 preceding versions (if available).
      * @return a list of default versions for query.
      */
     private List<String> getDefaultVersionIdsForQuery() {
@@ -253,7 +254,7 @@ public class AdminActivityLogPageAction extends Action {
         defaultVersions.add(currentVersion);
         boolean isCurrentVersionFound = false;
         
-        // Find the current version then get at most 3 versions below it.
+        // Find the current version then get at most 5 versions below it.
         for(String version : versionList) {
             if (version.equals(currentVersion)) {
                 isCurrentVersionFound = true;
