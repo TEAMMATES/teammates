@@ -24,6 +24,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
@@ -297,37 +298,24 @@ public class AdminInstructorAccountAddAction extends Action {
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if(isFirstCourseId){
-            return trimCourseIdToMaximumLengthIfNecessary(getDemoCourseIdRoot(instructorEmailOrProposedCourseId)
-                    , maximumIdLength);
+            return new StringHelper().trimCourseIdToMaximumLengthIfNecessary(getDemoCourseIdRoot(instructorEmailOrProposedCourseId)
+                                            , maximumIdLength);
         } else {
             final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
             if(isFirstTimeDuplicate){
-                return trimCourseIdToMaximumLengthIfNecessary(instructorEmailOrProposedCourseId + "0"
-                        , maximumIdLength);
+                return new StringHelper().trimCourseIdToMaximumLengthIfNecessary(instructorEmailOrProposedCourseId + "0"
+                                                , maximumIdLength);
             } else {
                 final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
                 final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
                 final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
-                
-                return trimCourseIdToMaximumLengthIfNecessary(root + "-demo" + (previousDedupSuffix+1)
-                        , maximumIdLength);
+
+                return new StringHelper().trimCourseIdToMaximumLengthIfNecessary(root + "-demo" + (previousDedupSuffix+1)
+                                                , maximumIdLength);
             }
         }
     }
 
-    /**
-     * Trims the course ID if it is too long.
-     * @param demoCourseId
-     * @param maximumIdLength length to trim
-     * @return trimmed Course ID
-     */
-    private String trimCourseIdToMaximumLengthIfNecessary(String demoCourseId, final int maximumIdLength) {
-        final int courseIdLength = demoCourseId.length();
-        if (courseIdLength <= maximumIdLength) {
-            return demoCourseId;
-        } else {
-            return demoCourseId.substring(courseIdLength - maximumIdLength);
-        }
-    }
+
 
 }

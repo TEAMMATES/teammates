@@ -493,4 +493,20 @@ public class StringHelper {
         return (str == null) ? "" : str;
     }
 
+    /**
+     * Trims the course ID if it is too long.
+     * @param demoCourseId
+     * @param maximumIdLength length to trim
+     * @return trimmed Course ID
+     */
+
+    public String trimCourseIdToMaximumLengthIfNecessary(String demoCourseId, final int maximumIdLength) {
+        final int courseIdLength = demoCourseId.length();
+        if (courseIdLength <= maximumIdLength) {
+            return demoCourseId;
+        } else {
+            return demoCourseId.substring(courseIdLength - maximumIdLength);
+        }
+    }
+
 }
