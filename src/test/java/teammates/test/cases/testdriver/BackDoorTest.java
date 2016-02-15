@@ -488,7 +488,7 @@ public class BackDoorTest extends BaseTestCase {
     private void verifyPresentInDatastore(FeedbackQuestionAttributes expectedQuestion) {
         String questionJsonString = BackDoor.getFeedbackQuestionAsJson(expectedQuestion.feedbackSessionName, expectedQuestion.courseId, expectedQuestion.questionNumber);
         FeedbackQuestionAttributes actualQuestion = gson.fromJson(questionJsonString, FeedbackQuestionAttributes.class);
-        equalizeIrrelevantData(expectedQuestion, actualQuestion);
+        equalizeId(expectedQuestion, actualQuestion);
         assertEquals(gson.toJson(expectedQuestion), gson.toJson(actualQuestion));
     }
 
@@ -530,7 +530,7 @@ public class BackDoorTest extends BaseTestCase {
         }
     }
 
-    private void equalizeIrrelevantData(
+    private void equalizeId(
             FeedbackQuestionAttributes expectedFeedbackQuestion,
             FeedbackQuestionAttributes actualFeedbackQuestion) {
 
