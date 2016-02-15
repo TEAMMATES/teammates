@@ -716,10 +716,14 @@ Prevent Long URL From Breaking Out of Container
     hyphens: auto;
 }
 
+
+.highlight {
+    background-color: #FFFF88;
+}
+
 /*//////////////////////////////////////////////////////////
 ////////////////////// Responsiveness //////////////////////
 //////////////////////////////////////////////////////////*/
-
 @media (max-width: 767px) {
     .mobile-no-padding {
         padding-left: 0;
