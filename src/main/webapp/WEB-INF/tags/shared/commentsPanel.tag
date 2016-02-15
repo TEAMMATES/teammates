@@ -13,7 +13,7 @@
         <c:set var="bodyTitle" value="Comment drafts" />
     </c:when>
     <c:when test="${forRecordsPage}">
-        <c:set var="bodyTitle" value="Comments for ${data.studentName}" />
+        <c:set var="bodyTitle" value="Comments for ${fn:escapeXml(data.studentName)}" />
     </c:when>
     <c:otherwise>
         <c:set var="bodyTitle" value="Comments for students" />
@@ -30,7 +30,7 @@
             <div class="panel panel-info student-record-comments${commentsForStudentsTable.extraClass}"
                  <c:if test="${empty commentsForStudentsTable.rows && not forRecordsPage}">style="display: none;"</c:if>>
                 <div class="panel-heading">
-                    From <b>${commentsForStudentsTable.giverDetails}<c:if test="${not empty courseId}"> (${courseId})</c:if></b>
+                    From <b>${fn:escapeXml(commentsForStudentsTable.giverDetails)}<c:if test="${not empty courseId}"> (${courseId})</c:if></b>
                     <c:if test="${forRecordsPage}">
                         <button type="button"
                                 class="btn btn-default btn-xs icon-button pull-right"
@@ -61,7 +61,7 @@
                                 <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                         <p>
-                                            Comment about ${data.studentName}: 
+                                            Comment about ${fn:escapeXml(data.studentName)}: 
                                         </p>
                                         The default visibility for your comment is private. You may change it using the visibility options. 
                                     </div>
