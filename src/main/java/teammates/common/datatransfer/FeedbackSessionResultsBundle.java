@@ -139,6 +139,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             FeedbackParticipantType recipientType = question.recipientType;
             String giver = null;
             String recipient = null;
+            String giverTeamName = null;
+            String recipientTeamName = null; 
             
             switch(giverType) {
                 case TEAMS:
@@ -156,58 +158,48 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             }
            
             switch(recipientType) {
-            case TEAMS:
-                recipient = getTeamNameForEmail(response.recipientEmail);
-                if (recipient.equals(giver)) {
-                    response.setInvalidity();
-                }
-            case OWN_TEAM:
-                recipient = getTeamNameForEmail(response.recipientEmail);
-                if (!recipient.equals(giver)) {
-                    response.setInvalidity();
-                }
-            case SELF:
-                recipient = emailNameTable.get(response.recipientEmail);
-                if (!giver.equals(recipient)) {
-                    response.setInvalidity();
-                }
-            case INSTRUCTORS:
-                recipient = emailNameTable.get(response.recipientEmail);
-                if (recipient == null) {
-                    response.setInvalidity();
-                }
-            case STUDENTS:
-                recipient = emailNameTable.get(response.recipientEmail);
-                if (giver.equals(recipient)) {
-                    response.setInvalidity();
-                }
-            case OWN_TEAM_MEMBERS:
-                String giverTeamName = getTeamNameForEmail(response.giverEmail);
-                String recipientTeamName = getTeamNameForEmail(response.recipientEmail);
-                if (!giverTeamName.equals(recipientTeamName)) {
-                    response.setInvalidity();
-                }
-            default:
-                log.severe("Invalid recipient type specified");
-            }
-          
-            if (recipientType == FeedbackParticipantType.SELF || recipientType == FeedbackParticipantType.STUDENTS
-                                            || recipientType == FeedbackParticipantType.INSTRUCTORS
-                                            || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                                            || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
-                recipient = emailNameTable.get(response.recipientEmail);
-   
-                if (recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS 
-                                                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
-                    String giverTeamName = getTeamNameForEmail(response.giverEmail);
-                    String recipientTeamName = getTeamNameForEmail(response.recipientEmail);
+                case TEAMS:
+                    recipient = getTeamNameForEmail(response.recipientEmail);
+                    if (recipient.equals(giver)) {
+                        response.setInvalidity();
+                    }   
+                case OWN_TEAM:
+                    recipient = getTeamNameForEmail(response.recipientEmail);
+                    if (!recipient.equals(giver)) {
+                        response.setInvalidity();
+                    }
+                case SELF:
+                    recipient = emailNameTable.get(response.recipientEmail);
+                    if (!giver.equals(recipient)) {
+                        response.setInvalidity();
+                    }
+                case INSTRUCTORS:
+                    recipient = emailNameTable.get(response.recipientEmail);
+                    if (recipient == null) {
+                        response.setInvalidity();
+                    }
+                case STUDENTS:
+                    recipient = emailNameTable.get(response.recipientEmail);
+                    if (giver.equals(recipient)) {
+                        response.setInvalidity();
+                    }
+                case OWN_TEAM_MEMBERS:
+                    giverTeamName = getTeamNameForEmail(response.giverEmail);
+                    recipientTeamName = getTeamNameForEmail(response.recipientEmail);
                     if (!giverTeamName.equals(recipientTeamName)) {
                         response.setInvalidity();
                     }
-                    if (recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS && response.giverEmail.equals(response.recipientEmail)) {
+                    if(response.giverEmail.equals(response.recipientEmail)){
                         response.setInvalidity();
                     }
-                }
+                case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                    giverTeamName = getTeamNameForEmail(response.giverEmail);
+                    recipientTeamName = getTeamNameForEmail(response.recipientEmail);
+                    if (!giverTeamName.equals(recipientTeamName)) {
+                        response.setInvalidity();
+                    }
+                default:
+                    log.severe("Invalid recipient type specified");
             }
         }
     }
