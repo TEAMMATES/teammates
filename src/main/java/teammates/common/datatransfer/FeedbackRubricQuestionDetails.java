@@ -451,7 +451,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         float[][] rubricStats = calculateRubricStats(responses, question);
-        float[] average = calculateRubricAverage(responses, question);
         
         
         // Create table row header fragments
@@ -483,7 +482,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             String tableAverageCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
-                             "${percentageFrequencyOrAverage}", dfAverage.format(average[j]));
+                             "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
             tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
             
             // Get entire row
@@ -522,53 +521,34 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Initialize response frequency variable, used to store frequency each choice is selected.
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
-        // Initialize percentage frequencies
-        float[][] pecentageFrequency = new float[fqd.numOfRubricSubQuestions][];
-        for (int i=0 ; i<pecentageFrequency.length ; i++) {
-            pecentageFrequency[i] = new float[fqd.numOfRubricChoices];
-            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
+        // Initialize percentage frequencies and value
+        float[][] pecentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
+        for (int i = 0; i < pecentageFrequencyOrAverage.length; i++) {
+            //+ 1 is the position for average value
+            pecentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
+            for (int j = 0; j < pecentageFrequencyOrAverage[i].length - 1; j++) {
                 // Initialize to be number of responses
-                pecentageFrequency[i][j] = responseFrequency[i][j];
+                pecentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
             }
+            pecentageFrequencyOrAverage[i][fqd.numOfRubricSubQuestions] = 0;
         }
         
         // Calculate percentage frequencies
-        for (int i=0 ; i<pecentageFrequency.length ; i++) {
+        for (int i = 0; i < pecentageFrequencyOrAverage.length; i++) {
             // Count total number of responses for each sub-question
             int totalForSubQuestion = 0;
-            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
+            for (int j = 0; j < pecentageFrequencyOrAverage[i].length - 1; j++) {
                 totalForSubQuestion += responseFrequency[i][j];
             }
             
             // Divide by totalForSubQuestion to get percentage.
-            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
-                pecentageFrequency[i][j] /= totalForSubQuestion;
+            for (int j = 0; j < pecentageFrequencyOrAverage[i].length - 1; j++) {
+                pecentageFrequencyOrAverage[i][j] /= totalForSubQuestion;
+                pecentageFrequencyOrAverage[i][fqd.numOfRubricSubQuestions] += (fqd.numOfRubricChoices - j) * pecentageFrequencyOrAverage[i][j];
             }
         }
         
-        return pecentageFrequency;
-    }
-
-    /**
-     * Calculate the average value for rubric question 
-     * using the user-assigned weight for each choice or default weight 
-     * 
-     * Return an array to indicate the average value for each subquestion 
-     * 
-     */
-    private float[] calculateRubricAverage(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question) {
-        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
-        float[][] percentageFrequency = calculateRubricStats(responses, question);
-        float[] average = new float[fqd.numOfRubricSubQuestions];
-        
-        // Calculate the average value of the responses
-        for (int i = 0; i < fqd.numOfRubricSubQuestions; i++) {
-            for (int j = 0; j < fqd.numOfRubricChoices; j++) {
-                average[i] += (fqd.numOfRubricChoices - j) * percentageFrequency[i][j];
-            }
-        }
-        return average;
+        return pecentageFrequencyOrAverage;
     }
     
     private int[][] calculateResponseFrequency(
@@ -619,7 +599,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
         float[][] rubricStats = calculateRubricStats(responses, question);
-        float[] average = calculateRubricAverage(responses, question);
         
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
@@ -628,7 +607,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
             }
-            csv.append("," + dfAverage.format(average[i]));
+            csv.append("," + dfAverage.format(rubricStats[i][rubricChoices.size()]));
             csv.append(Const.EOL);
         }
 
