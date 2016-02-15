@@ -1096,19 +1096,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                        Map<String, Boolean> isSortable) {
         ElementTag giverTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick", 
-                         "toggleSort(this,1)", "style", "width: 15%;");
+                         "toggleSort(this,1)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement 
             = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,2)", "style", "width: 15%;");
+                             "toggleSort(this,2)", "style", "width: 15%; min-width: 65px;");
         ElementTag recipientTeamElement 
             = new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick", 
-                         "toggleSort(this,3)", "style", "width: 15%;");
+                         "toggleSort(this,3)", "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement 
             = new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)", "style", "width: 15%;");
+                             "toggleSort(this,4)", "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,5)");
+                             "toggleSort(this,5)", "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions");
 
         columnTags.add(giverTeamElement);
@@ -1130,13 +1130,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", 
-                         "toggleSort(this,2)", "style", "width: 15%;");
+                         "toggleSort(this,2)", "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement 
             = new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,3)", "style", "width: 15%;");
+                             "toggleSort(this,3)", "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)");
+                             "toggleSort(this,4)", "style", "min-width: 95px;");
 
         columnTags.add(photoElement);
         columnTags.add(recipientTeamElement);
@@ -1154,13 +1154,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag giverTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", 
-                         "toggleSort(this,2)", "style", "width: 15%;");
+                         "toggleSort(this,2)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement 
             = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,3)", "style", "width: 15%;");
+                             "toggleSort(this,3)", "style", "width: 15%; min-width: 65px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)");
+                             "toggleSort(this,4)", "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions");
 
         columnTags.add(photoElement);

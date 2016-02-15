@@ -111,7 +111,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      If you did not get a review within 2-3 days, it is OK to request for a review 
      by posting a comment in the PR. 
 
-   * Once the PR is open, try and complete it within 2 weeks. Inactivity for a longer period would necessitate a restart of the PR.
+   * Once the PR is open, try and complete it within 2 weeks. Inactivity for a 
+     longer period would necessitate a restart of the PR.
 
    * The cycle of 'update pull request' and 'review' (i.e. the previous two steps) 
      is to continue until PR status changes to `s.toMerge`. After doing suggested
@@ -182,7 +183,8 @@ Role: committer
     * Delete the merge commit, if any.
     * Change the pull request status to `s.Ongoing`
     * Add a comment to mention the test failure.
-  
+  * Optionally, apply an `e.` label to the issue (not the PR) to indicate 
+    the estimated effort required to fix the issue.
     
 ###Making a release
 Roles: PM (Project Manager) + RL (Release Lead)
@@ -205,7 +207,10 @@ RL:
   * Update milestone.
     * State the release number in the milestone notes.
     * Ensure all issues and PRs included in the release are tagged with the correct milestone.
+    * For issues in the milestone: assign/revise `e.` labels based on the estimated
+      effort each must have taken.
     * Close the milestone.
+
   * Announce release to dev and contributor groups.
   * Housekeeping:
     * Post comment in open PRs to request closure by next milestone.
@@ -224,7 +229,7 @@ Colors indicate which roles are involved in which states/transitions.
 ####Issue Labels
 The meaning of label group prefixes: 
  * exclusive groups (no more than one of each label group): `s.` status, 
-   `p.` priority, `c.` category, `d.` difficulty, `m.` main classifier
+   `p.` priority, `c.` category, `d.` difficulty, `e.` effort, `m.` main classifier
  * non-exclusive groups:  `a-` aspect, `f-` feature, `t-` tech, 
  
 
@@ -270,6 +275,13 @@ The meaning of label group prefixes:
 * `d.Contributors`: Moderate difficulty. Small localized change. Can be done by contributors.
   Not to be applied for issues with a priority `p.high` or above.
 * `d.Committers`: More difficult issues that are better left for committers or more senior developers.
+
+**Effort**
+
+This label is used to indicate how much effort is expected for (or was spent on)
+an issue.
+
+`e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
 
 **Main classifier**
 
