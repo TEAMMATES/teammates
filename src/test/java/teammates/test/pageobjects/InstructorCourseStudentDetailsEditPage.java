@@ -53,7 +53,6 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         return this;
     }
 
-
     private void fillStudentDetailsForm(String studentName, String teamName, String studentEmail, String comments){
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
