@@ -1,5 +1,6 @@
 <%@ tag description="searchCommentFeedbackQuestion.tag - Feedback response"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared"%>
 <%@ attribute name="fsIndx" required="true" %>
 <%@ attribute name="qnIndx" required="true" %>
@@ -8,8 +9,8 @@
 
 <tr>
     <td>
-        <b>From:</b> ${responseRow.giverName}
-        <b>To:</b> ${responseRow.recipientName}
+        <b>From:</b> ${fn:escapeXml(responseRow.giverName)}
+        <b>To:</b> ${fn:escapeXml(responseRow.recipientName)}
     </td>
 </tr>
 

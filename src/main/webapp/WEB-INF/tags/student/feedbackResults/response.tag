@@ -1,11 +1,12 @@
 <%@ tag description="responseTable.tag - Responses given to a particular recipient" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared"%>
 <%@ attribute name="response" type="teammates.ui.template.FeedbackResultsResponse" required="true" %>
 
 <tr class="resultSubheader">
     <td>
-        <span class="bold"><b>From:</b></span> ${response.giverName}
+        <span class="bold"><b>From:</b></span> ${fn:escapeXml(response.giverName)}
     </td>
 </tr>
 

@@ -1,13 +1,14 @@
 <%@ tag description="StudentComments - Feedback response" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ attribute name="feedbackResponseRow" type="teammates.ui.template.ResponseRow" required="true" %>
 <%@ attribute name="fsIdx" required="true" %>
 <%@ attribute name="qnIdx" required="true" %>
 <%@ attribute name="responseIndex" required="true" %>
 <tr>
-    <td><b>From:</b> ${feedbackResponseRow.giverName}
-        <b>To:</b> ${feedbackResponseRow.recipientName}
+    <td><b>From:</b> ${fn:escapeXml(feedbackResponseRow.giverName)}
+        <b>To:</b> ${fn:escapeXml(feedbackResponseRow.recipientName)}
     </td>
 </tr>
 <tr>
