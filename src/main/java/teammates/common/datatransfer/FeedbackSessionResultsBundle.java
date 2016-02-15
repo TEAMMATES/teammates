@@ -127,7 +127,64 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
     
-
+    public boolean isValid(){
+        return isGiverRecipientExistAndValid() && isQuestionAndResponseValid();
+    }
+    /**
+     * Checks if the response visibility matched to the question settings
+     */
+    private boolean isGiverRecipientExistAndValid(){
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            FeedbackParticipantType giverType = question.giverType;
+            String giver = null;
+            String recipient = null;
+            if(giverType == null){
+                return false;
+            }
+            if (giverType == FeedbackParticipantType.TEAMS) {
+                giver = emailTeamNameTable.get(response.giverEmail);
+            }
+            if (giverType == FeedbackParticipantType.SELF || giverType == FeedbackParticipantType.INSTRUCTORS 
+                                            || giverType == FeedbackParticipantType.STUDENTS) {
+                giver = emailNameTable.get(response.giverEmail); 
+            }
+            if (giver == null) {
+                return false;
+            }
+            
+            FeedbackParticipantType recipientType = question.recipientType;
+            if (recipientType == FeedbackParticipantType.TEAMS || recipientType == FeedbackParticipantType.OWN_TEAM) {
+                recipient = emailTeamNameTable.get(response.recipientEmail);
+                if (recipient == null) {
+                    return false;
+                }
+                if  (recipientType == FeedbackParticipantType.TEAMS && recipient.equals(giver)) {
+                    return false;
+                }
+                if (recipientType == FeedbackParticipantType.OWN_TEAM && !recipient.equals(giver)) {
+                    return false;
+                }
+            }
+            
+            if (recipientType == FeedbackParticipantType.SELF || recipientType == FeedbackParticipantType.STUDENTS
+                                            || recipientType == FeedbackParticipantType.INSTRUCTORS) {
+                
+            }
+        }
+        return true;
+    }
+    
+    private boolean isQuestionAndResponseValid(){
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            if(!question.isValid() || !response.isValid()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * Hides response names/emails and teams that are not visible to the current user.
      * Replaces the giver/recipient email in responses to an email with two "@@"s

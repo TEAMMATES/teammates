@@ -129,6 +129,18 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         return errors;
     }
 
+    public List<String> getQuestionInvalidityInfo() {
+        List<String> errors = new ArrayList<String>();
+        errors.addAll(this.getQuestionDetails().validateQuestionDetails());
+        return errors;
+    }
+    
+    public List<String> getResponsesInvalidityInfo(List<FeedbackResponseAttributes> responses){
+        List<String> errors = new ArrayList<String>();
+        errors.addAll(this.getQuestionDetails().validateResponseAttributes(responses, numberOfEntitiesToGiveFeedbackTo));
+        return errors;
+    }
+    
     // TODO: move following methods to PageData?
     // Answer: OK to move to the respective PageData class. Unit test this thoroughly.
     public List<String> getVisibilityMessage() {
@@ -204,7 +216,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public boolean isValid() {
-        return getInvalidityInfo().isEmpty();
+        return getInvalidityInfo().isEmpty() && getQuestionInvalidityInfo().isEmpty();
+    }
+    
+    public boolean isResponsesValid(List<FeedbackResponseAttributes> responses){
+        return getResponsesInvalidityInfo(responses).isEmpty();
     }
 
     public boolean isGiverAStudent() {

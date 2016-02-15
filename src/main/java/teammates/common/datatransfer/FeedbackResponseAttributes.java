@@ -25,6 +25,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String giverSection;
     public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
     public String recipientSection;
+    public boolean isValid = true;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
@@ -105,7 +106,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     
     @Override
     public boolean isValid() {
-        return getInvalidityInfo().isEmpty();
+        return getInvalidityInfo().isEmpty() && isValid;
+    }
+     
+    public void setValidity(){
+        isValid = false;
     }
     
     @Override
