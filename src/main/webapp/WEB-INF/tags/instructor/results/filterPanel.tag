@@ -7,12 +7,12 @@
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
+                <div class="col-sm-12 col-md-5">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             View:
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10" data-toggle="tooltip" title="View results in different formats">
                             <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
                                 <option value="question"<c:if test="${filterPanel.sortType == 'question'}"> selected="selected"</c:if>>
                                     Group by - Question
@@ -33,12 +33,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
+                <div class="col-sm-12 col-md-5">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             Filter:
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-10" data-toggle="tooltip" title="Filter the results in the current view">
                             <div class="input-group">
                                 <input type="text" id="results-search-box" class="form-control" placeholder="${filterPanel.sortType == 'question' ? 'Type keywords from the question to filter' : 'Type student/team name/section name to filter'}" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
@@ -46,15 +46,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2 pull-right">
-                  <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
+                <div class="col-sm-offset-2 col-sm-10 col-md-offset-0 col-md-2 margin-bottom-15px">
+                  <div data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
                               <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"<c:if test="${filterPanel.groupedByTeam}"> checked="checked"</c:if><c:if test="${filterPanel.sortType != 'question'}"> onchange="this.form.submit()"</c:if>> Group by Teams
                           </label>
                       </div>
                   </div>
-                  <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
+                  <div data-toggle="tooltip" title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
                               <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked="checked"</c:if>> Show Statistics
@@ -65,7 +65,7 @@
             </div>
             <div class="row">
                 <c:if test="${not empty filterPanel.sections}">
-                    <div class="col-sm-5" data-toggle="tooltip" title="View results by sections">
+                    <div class="col-sm-12 col-md-5" data-toggle="tooltip" title="View results by sections">
                         <div class="form-group">
                             <label for="sectionSelect" class="col-sm-2 control-label">
                                 Section:
