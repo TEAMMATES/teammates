@@ -23,8 +23,8 @@ Role: Dev
 
 This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.html).
 
-1. Select an issue to handle. ~~Get it assigned to you. 
-   Contributors can request for an issue to be assigned to you by posting a comment under the issue in concern.~~
+1. Select an issue to handle. If you are a contributor, there is no need to get the issue assigned to you. <br>
+   (If you are a committer, assign the issue to yourself and assign it a milestone).
 
 2. Optionally, you can discuss alternative solutions before choosing one to implement. 
    This can be done through Issue tracker. 
