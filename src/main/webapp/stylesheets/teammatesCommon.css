@@ -175,6 +175,10 @@ Apply to thead to make headers not bold.
     margin: 0;
 }
 
+.margin-bottom-10px {
+    margin-bottom: 10px;
+}
+
 .margin-bottom-15px {
     margin-bottom: 15px;
 }
@@ -712,10 +716,14 @@ Prevent Long URL From Breaking Out of Container
     hyphens: auto;
 }
 
+
+.highlight {
+    background-color: #FFFF88;
+}
+
 /*//////////////////////////////////////////////////////////
 ////////////////////// Responsiveness //////////////////////
 //////////////////////////////////////////////////////////*/
-
 @media (max-width: 767px) {
     .mobile-no-padding {
         padding-left: 0;
@@ -723,5 +731,18 @@ Prevent Long URL From Breaking Out of Container
     }
     .mobile-align-left {
         text-align: left !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .tablet-no-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .tablet-bottom-align {
+        vertical-align: bottom;
+    }
+    .tablet-margin-10px {
+        margin: 10px;
     }
 }
