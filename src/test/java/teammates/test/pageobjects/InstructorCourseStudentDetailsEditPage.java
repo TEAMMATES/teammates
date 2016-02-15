@@ -40,7 +40,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments){
-        fillTheFormField(studentName, teamName, studentEmail, comments);
+        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
@@ -49,11 +49,11 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * relevent input filed.
      */
     public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments){
-        fillTheFormField(studentName, teamName, studentEmail, comments);
+        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return this;
     }
 
-    private void fillTheFormField(String studentName, String teamName, String studentEmail, String comments) {
+    private void fillStudentDetailsForm(String studentName, String teamName, String studentEmail, String comments) {
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -68,7 +68,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         }
         if (teamName != null) {
             clickAndConfirm(submitButton);
-        }else {
+        } else {
             submitButton.click();
         }
     }
