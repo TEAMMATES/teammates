@@ -2,7 +2,10 @@ $(document).ready(function() {
     readyStudentEditPage();
 });
 
-function readyStudentEditPage() {
+/*
+ * Sends confirmation of changes when team name box is edited
+ */
+function readyInstructorStudentEditPage() {
     
     $("#button_submit").click(function() {
         if ($('#button_submit').attr('editStatus') === 'mustDeleteResponses') {

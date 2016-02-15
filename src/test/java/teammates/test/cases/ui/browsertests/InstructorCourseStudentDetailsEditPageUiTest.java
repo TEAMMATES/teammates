@@ -90,7 +90,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                     "", personNameFieldName, FieldValidator.REASON_EMPTY, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
-        //Without editing the team name
+        //Without changing team name, the confirmation will not be sent and if it is not handled correctly, timeout error will occur 
         editPage.submitUnsuccessfully(invalidStudentName, null, null, null)
             .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
                     invalidStudentName, personNameFieldName, FieldValidator.REASON_TOO_LONG, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));

@@ -66,6 +66,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
+        //If teamName is not changed, there is no need to confirm
         if (teamName != null) {
             clickAndConfirm(submitButton);
         } else {
