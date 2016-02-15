@@ -267,6 +267,8 @@ The meaning of label group prefixes:
 * Other work
   * `c.Bug`
   * `c.Task`: Other work items such as updating documentation.
+  * `c.Message` : Issue used as a means of discussing something with the deve team.
+     e.g. a request for help on setting up dev environment.
 
 **Difficulty**
 
