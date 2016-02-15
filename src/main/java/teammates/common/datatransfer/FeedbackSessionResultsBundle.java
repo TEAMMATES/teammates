@@ -121,6 +121,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.isComplete = isComplete;
 
         hideResponsesGiverRecipient();
+        checkAndSetGiverRecipientInvalidity();
         // unlike emailTeamNameTable, emailLastNameTable and emailTeamNameTable,
         // roster.*Table is populated using the CourseRoster data directly
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
@@ -128,51 +129,87 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
     
     public boolean isValid(){
-        return isGiverRecipientExistAndValid() && isQuestionAndResponseValid();
+        return isQuestionAndResponseValid();
     }
-    /**
-     * Checks if the response visibility matched to the question settings
-     */
-    private boolean isGiverRecipientExistAndValid(){
+    
+    private void checkAndSetGiverRecipientInvalidity(){
         for (FeedbackResponseAttributes response : responses) {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             FeedbackParticipantType giverType = question.giverType;
+            FeedbackParticipantType recipientType = question.recipientType;
             String giver = null;
             String recipient = null;
-            if(giverType == null){
-                return false;
+            
+            switch(giverType) {
+                case TEAMS:
+                    giver = getTeamNameForEmail(response.giverEmail);
+                case SELF:
+                case INSTRUCTORS:
+                case STUDENTS:
+                    giver = emailNameTable.get(response.giverEmail); 
+                default:
+                    log.severe("Invalid giver type specified");
             }
-            if (giverType == FeedbackParticipantType.TEAMS) {
-                giver = emailTeamNameTable.get(response.giverEmail);
-            }
-            if (giverType == FeedbackParticipantType.SELF || giverType == FeedbackParticipantType.INSTRUCTORS 
-                                            || giverType == FeedbackParticipantType.STUDENTS) {
-                giver = emailNameTable.get(response.giverEmail); 
-            }
+            
             if (giver == null) {
-                return false;
+                response.setInvalidity();
             }
-            
-            FeedbackParticipantType recipientType = question.recipientType;
-            if (recipientType == FeedbackParticipantType.TEAMS || recipientType == FeedbackParticipantType.OWN_TEAM) {
-                recipient = emailTeamNameTable.get(response.recipientEmail);
+           
+            switch(recipientType) {
+            case TEAMS:
+                recipient = getTeamNameForEmail(response.recipientEmail);
+                if (recipient.equals(giver)) {
+                    response.setInvalidity();
+                }
+            case OWN_TEAM:
+                recipient = getTeamNameForEmail(response.recipientEmail);
+                if (!recipient.equals(giver)) {
+                    response.setInvalidity();
+                }
+            case SELF:
+                recipient = emailNameTable.get(response.recipientEmail);
+                if (!giver.equals(recipient)) {
+                    response.setInvalidity();
+                }
+            case INSTRUCTORS:
+                recipient = emailNameTable.get(response.recipientEmail);
                 if (recipient == null) {
-                    return false;
+                    response.setInvalidity();
                 }
-                if  (recipientType == FeedbackParticipantType.TEAMS && recipient.equals(giver)) {
-                    return false;
+            case STUDENTS:
+                recipient = emailNameTable.get(response.recipientEmail);
+                if (giver.equals(recipient)) {
+                    response.setInvalidity();
                 }
-                if (recipientType == FeedbackParticipantType.OWN_TEAM && !recipient.equals(giver)) {
-                    return false;
+            case OWN_TEAM_MEMBERS:
+                String giverTeamName = getTeamNameForEmail(response.giverEmail);
+                String recipientTeamName = getTeamNameForEmail(response.recipientEmail);
+                if (!giverTeamName.equals(recipientTeamName)) {
+                    response.setInvalidity();
                 }
+            default:
+                log.severe("Invalid recipient type specified");
             }
-            
+          
             if (recipientType == FeedbackParticipantType.SELF || recipientType == FeedbackParticipantType.STUDENTS
-                                            || recipientType == FeedbackParticipantType.INSTRUCTORS) {
-                
+                                            || recipientType == FeedbackParticipantType.INSTRUCTORS
+                                            || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                                            || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+                recipient = emailNameTable.get(response.recipientEmail);
+   
+                if (recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS 
+                                                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+                    String giverTeamName = getTeamNameForEmail(response.giverEmail);
+                    String recipientTeamName = getTeamNameForEmail(response.recipientEmail);
+                    if (!giverTeamName.equals(recipientTeamName)) {
+                        response.setInvalidity();
+                    }
+                    if (recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS && response.giverEmail.equals(response.recipientEmail)) {
+                        response.setInvalidity();
+                    }
+                }
             }
         }
-        return true;
     }
     
     private boolean isQuestionAndResponseValid(){
@@ -938,11 +975,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      */
     public String getResponseAnswerHtml(FeedbackResponseAttributes response,
                                         FeedbackQuestionAttributes question) {
+        if (!response.isValid) {
+            return null;
+        }
         return response.getResponseDetails().getAnswerHtml(response, question, this);
     }
 
     public String getResponseAnswerCsv(FeedbackResponseAttributes response,
-                                       FeedbackQuestionAttributes question) {
+                                       FeedbackQuestionAttributes question) { 
+        if (!response.isValid()) {
+            return null;
+        }
         return response.getResponseDetails().getAnswerCsv(response, question, this);
     }
 

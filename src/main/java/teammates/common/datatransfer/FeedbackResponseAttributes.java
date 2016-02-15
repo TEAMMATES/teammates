@@ -109,7 +109,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         return getInvalidityInfo().isEmpty() && isValid;
     }
      
-    public void setValidity(){
+    public void setInvalidity(){
         isValid = false;
     }
     
