@@ -521,7 +521,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Initialize response frequency variable, used to store frequency each choice is selected.
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
-        // Initialize percentage frequencies and value
+        // Initialize percentage frequencies and average value
         float[][] pecentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
         for (int i = 0; i < pecentageFrequencyOrAverage.length; i++) {
             //+ 1 is the position for average value
@@ -541,7 +541,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 totalForSubQuestion += responseFrequency[i][j];
             }
             
-            // Divide by totalForSubQuestion to get percentage.
+            // Divide by totalForSubQuestion to get percentage and calculate the average value
             for (int j = 0; j < pecentageFrequencyOrAverage[i].length - 1; j++) {
                 pecentageFrequencyOrAverage[i][j] /= totalForSubQuestion;
                 pecentageFrequencyOrAverage[i][fqd.numOfRubricSubQuestions] += (fqd.numOfRubricChoices - j) * pecentageFrequencyOrAverage[i][j];
