@@ -18,8 +18,8 @@ The Positions are: `Contributor`, `Committer`, `Snr Developer`, `Area Lead`, `Pr
 
 Role: Dev
 
-{If you need any help regarding the workflow, please post in the 
-[teammates-contributors Google group](https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors) .}
+{If you need any help regarding the workflow, please [post a new issue in our issue tracker] 
+(https://github.com/TEAMMATES/teammates/issues/new) (Yes, our issue tracker doubles as a discussion board).}
 
 This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.html).
 
