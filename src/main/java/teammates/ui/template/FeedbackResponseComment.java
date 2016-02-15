@@ -41,7 +41,7 @@ public class FeedbackResponseComment {
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
-        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
+        this.createdAt = frc.getCreatedAtText();
         this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
     }

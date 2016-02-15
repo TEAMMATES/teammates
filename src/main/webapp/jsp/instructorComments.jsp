@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+    <script type="text/javascript" src="/js/date.js"></script>
     <script src="/js/omniComment.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">

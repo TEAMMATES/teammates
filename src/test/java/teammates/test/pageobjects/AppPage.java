@@ -745,7 +745,7 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         boolean isPart = by != null;
-        String actual = getPageSource(by);
+        String actual = getPageSourceForHtmlComparison(by);
         try {
             String expected = FileHelper.readFile(filePath);
             expected = HtmlHelper.injectTestProperties(expected);
@@ -757,7 +757,7 @@ public abstract class AppPage {
                         break;
                     }
                     ThreadHelper.waitFor(waitDuration);
-                    actual = getPageSource(by);
+                    actual = getPageSourceForHtmlComparison(by);
                 }
             }
             HtmlHelper.assertSameHtml(expected, actual, isPart);
@@ -772,10 +772,20 @@ public abstract class AppPage {
     }
 
     private String getPageSource(By by) {
+        return by == null ? getPageSource()
+                          : browser.driver.findElement(by).getAttribute("outerHTML");
+    }
+    
+    private String getPageSourceForHtmlComparison(By by) {
         waitForAjaxLoaderGifToDisappear();
-        String actual = by == null ? getPageSource()
-                                   : browser.driver.findElement(by).getAttribute("outerHTML");
-        return HtmlHelper.processPageSourceForHtmlComparison(actual);
+        ((JavascriptExecutor) browser.driver).executeScript("if (typeof convertToUtc === \"function\") {"
+                                                          + "    convertToUtc();"
+                                                          + "}");
+        String pageSource = getPageSource(by);
+        ((JavascriptExecutor) browser.driver).executeScript("if (typeof convertToClientTimeZone === \"function\") {"
+                                                          + "    convertToClientTimeZone();"
+                                                          + "}");
+        return HtmlHelper.processPageSourceForHtmlComparison(pageSource);
     }
 
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) {

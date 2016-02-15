@@ -7,6 +7,7 @@
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
+    <script type="text/javascript" src="/js/date.js"></script>
 </c:set>
 
 <ts:studentPage bodyTitle="Feedback Results - Student" pageTitle="TEAMMATES - Feedback Results" jsIncludes="${jsIncludes}">

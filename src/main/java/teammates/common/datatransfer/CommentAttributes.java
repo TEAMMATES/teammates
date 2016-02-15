@@ -328,9 +328,13 @@ public class CommentAttributes extends EntityAttributes
             String displayTimeAs = TimeHelper.formatDateTimeForComments(this.lastEditedAt);
             return "(last edited " +
                     (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
-                    "at " + displayTimeAs + ")";
+                    "at <span class=\"client-time\">" + displayTimeAs + "</span>)";
         } else {
             return "";
         }
+    }
+
+    public String getCreatedAtText() {
+        return "<span class=\"client-time\">" + TimeHelper.formatDateTimeForComments(this.createdAt) + "</span>";
     }
 }

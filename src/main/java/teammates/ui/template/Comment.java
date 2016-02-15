@@ -34,7 +34,7 @@ public class Comment {
     }
 
     public String getCreatedAt() {
-        return TimeHelper.formatDateTimeForComments(comment.createdAt);
+        return comment.getCreatedAtText();
     }
 
     public String getEditedAt() {

@@ -43,19 +43,6 @@ var MONTH_NAMES=new Array('January','February','March','April','May','June','Jul
 var DAY_NAMES=new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sun','Mon','Tue','Wed','Thu','Fri','Sat');
 function LZ(x) {return(x<0||x>9?"":"0")+x}
 
-// ------------------------------------------------------------------
-// isDate ( date_string, format_string )
-// Returns true if date string matches format of format string and
-// is a valid date. Else returns false.
-// It is recommended that you trim whitespace around the value before
-// passing it to this function, as whitespace is NOT ignored!
-// ------------------------------------------------------------------
-function isDate(val,format) {
-	var date=getDateFromFormat(val,format);
-	if (date==0) { return false; }
-	return true;
-	}
-
 // -------------------------------------------------------------------
 // compareDates(date1,date1format,date2,date2format)
 // Compare two date strings to see which is greater.
@@ -322,3 +309,38 @@ function parseDate(val) {
 	}
 	return null;
 }
+
+/**
+ * Returns the timezone (in string) from a JS date object.
+ */
+function getTimeZoneStringFromDate(date) {
+    var timeZone = /\([A-Za-z0-9 ]+\)$/.exec(date.toString());
+    return timeZone[0];
+}
+
+function convertToClientTimeZone() {
+    $('.client-time').each(function() {
+        var time = new Date(Date.parse(this.innerHTML.replace('12:00 NOON', '12:00 PM')));
+        if (time !== '') {
+            var userTimeZone = getTimeZoneStringFromDate(time);
+            var formatted = formatDate(time, 'E, dd NNN yyyy, hh:mm a');
+            $(this).html(formatted.replace('12:00 PM', '12:00 NOON') + ' ' + userTimeZone);
+        }
+    });
+}
+
+function convertToUtc() {
+    $('.client-time').each(function() {
+        if (this.innerHTML.indexOf('UTC') === -1) {
+            var time = new Date(Date.parse(this.innerHTML.replace('12:00 NOON', '12:00 PM')));
+            if (time !== '') {
+                var formatted = formatDate(new Date(time.getTime() + time.getTimezoneOffset() * 60 * 1000), 'E, dd NNN yyyy, hh:mm a');
+                $(this).html(formatted.replace('12:00 PM', '12:00 NOON') + ' UTC');
+            }
+        }
+    });
+}
+
+$(document).ready(function() {
+    convertToClientTimeZone();
+});

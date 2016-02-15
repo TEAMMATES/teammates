@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorSearch.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <script type="text/javascript" src="/js/date.js"></script>
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Search" jsIncludes="${jsIncludes}">

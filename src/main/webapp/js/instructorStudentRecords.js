@@ -166,6 +166,7 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     targetDiv.load(url, function( response, status, xhr ) {
       if (status == 'success') {
           $(sender).removeAttr('onclick');
+          convertToClientTimeZone();
       }
       $(sender).find('div[class^="placeholder-img-loading"]').html('');
     });
