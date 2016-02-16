@@ -25,8 +25,12 @@ public class AdminEmailLogPageAction extends Action {
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
-    private static final int MAX_DEFAULT_VERSION_NUMBER = 6;        // 6 default versions for query.
-                                                                    // include the current version and its 5 preceding versions.
+    
+    /**
+     * 6 default versions for query, including the current version and its 5 preceding versions.
+     */
+    private static final int MAX_DEFAULT_VERSION_NUMBER = 6;
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
@@ -83,9 +87,8 @@ public class AdminEmailLogPageAction extends Action {
     }
     
     /**
-     * Selects versions for query.
-     * @param versions
-     * @return
+     * Selects versions for query. If versions are not specified, it will return 
+     * default versions used for query.
      */
     private List<String> getVersionIdsForQuery(List<String> versions){
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
@@ -105,20 +108,17 @@ public class AdminEmailLogPageAction extends Action {
         ModulesService modulesService = ModulesServiceFactory.getModulesService();
         Set<String> versionList = modulesService.getVersions(null); // null == default module
         String currentVersion = modulesService.getCurrentVersion();
-        defaultVersions.add(currentVersion);
         boolean isCurrentVersionFound = false;
         
         // Find the current version then get at most 5 versions below it.
         for(String version : versionList) {
             if (version.equals(currentVersion)) {
                 isCurrentVersionFound = true;
-            } else {
-                if (isCurrentVersionFound) {
-                    if (defaultVersions.size() < MAX_DEFAULT_VERSION_NUMBER) {
-                        defaultVersions.add(version);
-                    } else {
-                        return defaultVersions;
-                    }
+            }
+            if (isCurrentVersionFound) {
+                defaultVersions.add(version);
+                if (defaultVersions.size() >= MAX_DEFAULT_VERSION_NUMBER) {
+                    return defaultVersions;
                 }
             }
         }
