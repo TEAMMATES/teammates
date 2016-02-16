@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 /*
- * Sends confirmation of changes when team name box is edited
+ * Identifies the changes of team name box and sends confirmation message accordingly
  */
 function readyInstructorStudentEditPage() {
     
