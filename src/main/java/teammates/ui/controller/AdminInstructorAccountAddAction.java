@@ -310,12 +310,9 @@ public class AdminInstructorAccountAddAction extends Action {
                 final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
                 final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
-                return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix+1)
+                return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1)
                                                 , maximumIdLength);
             }
         }
     }
-
-
-
 }
