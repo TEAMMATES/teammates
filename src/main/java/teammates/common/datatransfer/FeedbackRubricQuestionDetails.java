@@ -522,33 +522,33 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
         // Initialize percentage frequencies and average value
-        float[][] pecentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
-        for (int i = 0; i < pecentageFrequencyOrAverage.length; i++) {
+        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
+        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
             //+ 1 is the position for average value
-            pecentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
-            for (int j = 0; j < pecentageFrequencyOrAverage[i].length - 1; j++) {
+            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
                 // Initialize to be number of responses
-                pecentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
+                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
             }
-            pecentageFrequencyOrAverage[i][fqd.numOfRubricSubQuestions] = 0;
+            percentageFrequencyOrAverage[i][fqd.numOfRubricSubQuestions] = 0;
         }
         
         // Calculate percentage frequencies
-        for (int i = 0; i < pecentageFrequencyOrAverage.length; i++) {
+        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
             // Count total number of responses for each sub-question
             int totalForSubQuestion = 0;
-            for (int j = 0; j < pecentageFrequencyOrAverage[i].length - 1; j++) {
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
                 totalForSubQuestion += responseFrequency[i][j];
             }
             
             // Divide by totalForSubQuestion to get percentage and calculate the average value
-            for (int j = 0; j < pecentageFrequencyOrAverage[i].length - 1; j++) {
-                pecentageFrequencyOrAverage[i][j] /= totalForSubQuestion;
-                pecentageFrequencyOrAverage[i][fqd.numOfRubricSubQuestions] += (fqd.numOfRubricChoices - j) * pecentageFrequencyOrAverage[i][j];
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
+                percentageFrequencyOrAverage[i][j] /= totalForSubQuestion;
+                percentageFrequencyOrAverage[i][fqd.numOfRubricSubQuestions] += (fqd.numOfRubricChoices - j) * percentageFrequencyOrAverage[i][j];
             }
         }
         
-        return pecentageFrequencyOrAverage;
+        return percentageFrequencyOrAverage;
     }
     
     private int[][] calculateResponseFrequency(
