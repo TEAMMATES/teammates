@@ -298,19 +298,19 @@ public class AdminInstructorAccountAddAction extends Action {
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength){
         final boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if(isFirstCourseId){
-            return new StringHelper().trimCourseIdToMaximumLengthIfNecessary(getDemoCourseIdRoot(instructorEmailOrProposedCourseId)
+            return new StringHelper().truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId)
                                             , maximumIdLength);
         } else {
             final boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo"); 
             if(isFirstTimeDuplicate){
-                return new StringHelper().trimCourseIdToMaximumLengthIfNecessary(instructorEmailOrProposedCourseId + "0"
+                return new StringHelper().truncateHead(instructorEmailOrProposedCourseId + "0"
                                                 , maximumIdLength);
             } else {
                 final int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
                 final String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
                 final int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
-                return new StringHelper().trimCourseIdToMaximumLengthIfNecessary(root + "-demo" + (previousDedupSuffix+1)
+                return new StringHelper().truncateHead(root + "-demo" + (previousDedupSuffix+1)
                                                 , maximumIdLength);
             }
         }
