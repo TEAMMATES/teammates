@@ -341,7 +341,7 @@ classifies the issue based on the technology it involves.
 |`t-GAE`  |Hong Jin      |Khanh               |Google App Engine related technologies such as task queues
 |`t-HTML` |Wilson        |                    |HTML, Browsers
 |`t-JS`   |Khanh         |                    |Javascript, JQuery
-|`t-JSTL` |Tania         |You Jun             |JSTL, JSP, Servlets
+|`t-JSTL` |You Jun       |Tania               |JSTL, JSP, Servlets
 
 
 
