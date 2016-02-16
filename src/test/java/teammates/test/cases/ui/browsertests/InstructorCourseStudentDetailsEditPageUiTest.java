@@ -86,7 +86,8 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
                     "", teamNameFieldName, FieldValidator.REASON_EMPTY, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         String newTeamName = "New teamname";
-        editPage.submitUnsuccessfully("", newTeamName, null, null).verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+        editPage.submitUnsuccessfully("", newTeamName, null, null)
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                     "", personNameFieldName, FieldValidator.REASON_EMPTY, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
