@@ -68,9 +68,9 @@ public class AdminEmailComposeSaveAction extends Action {
                                                         null);    
             data.emailToEdit.emailId = emailId;
         } else {
-            statusToAdmin = Const.StatusMessages.DRAFT_SAVED + ": <br>" +
+            statusToAdmin = Const.StatusMessages.EMAIL_DRAFT_SAVED + ": <br>" +
                             "Subject: " + subject;
-            statusToUser.add(new StatusMessage(Const.StatusMessages.DRAFT_SAVED, StatusMessageColor.SUCCESS)); 
+            statusToUser.add(new StatusMessage(Const.StatusMessages.EMAIL_DRAFT_SAVED, StatusMessageColor.SUCCESS)); 
         }
         
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
