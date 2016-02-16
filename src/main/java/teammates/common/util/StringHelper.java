@@ -499,8 +499,7 @@ public class StringHelper {
      * @param maximumIdLength length to trim
      * @return trimmed Course ID
      */
-
-    public String truncateHead(String demoCourseId, final int maximumIdLength) {
+    public static String truncateHead(String demoCourseId, final int maximumIdLength) {
         final int courseIdLength = demoCourseId.length();
         if (courseIdLength <= maximumIdLength) {
             return demoCourseId;
@@ -508,5 +507,4 @@ public class StringHelper {
             return demoCourseId.substring(courseIdLength - maximumIdLength);
         }
     }
-
 }
