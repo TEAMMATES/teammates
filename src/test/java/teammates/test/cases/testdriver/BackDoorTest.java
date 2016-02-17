@@ -486,7 +486,8 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     private void verifyPresentInDatastore(FeedbackQuestionAttributes expectedQuestion) {
-        String questionJsonString = BackDoor.getFeedbackQuestionAsJson(expectedQuestion.feedbackSessionName, expectedQuestion.courseId, expectedQuestion.questionNumber);
+        String questionJsonString = BackDoor.getFeedbackQuestionAsJson(expectedQuestion.feedbackSessionName,
+                                        expectedQuestion.courseId, expectedQuestion.questionNumber);
         FeedbackQuestionAttributes actualQuestion = gson.fromJson(questionJsonString, FeedbackQuestionAttributes.class);
         
         // Match the id of the expected Feedback Question because it is not known in advance
