@@ -96,6 +96,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testEditQuestionLink();
         testEditQuestionAction();
+        testEditVisibilityAction();
 
         testGetQuestionLink();
         testCopyQuestion();
@@ -253,6 +254,61 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForElementVisibility(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
+        
+        //change back
+        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
+        feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
+        feedbackEditPage.clickquestionSaveForQuestion1();
+        
+        
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.clickVisibilityOptionsForNewQuestion();
+        feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
+        feedbackEditPage.clickVisibilityPreviewForNewQuestion();
+        
+        feedbackEditPage.waitForElementVisibility(feedbackEditPage.getNewQnVisibilityMessage());
+        assertTrue("Expected recipient's team members to be able to see response, but was "
+                   + feedbackEditPage.getNewQnVisibilityMessage().getText(), 
+                   feedbackEditPage.getNewQnVisibilityMessage()
+                                   .getText()
+                                   .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
+        
+        feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
+        
+        assertFalse("Expected recipient's team members to not be able to see response, but was "
+                    + feedbackEditPage.getNewQnVisibilityMessage().getText(),
+                    feedbackEditPage.getNewQnVisibilityMessage()
+                    .getText()
+                                .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
+        
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
+    }
+    
+    private void testEditVisibilityAction() throws Exception {
+
+        ______TS("edit question 1 to Students-to-OwnTeammatesIncludingSelf");
+
+        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        feedbackEditPage.selectGiverTypeForQuestion1("Students in this course");        
+        feedbackEditPage.selectRecipientTypeForQuestion1("Giver's team members and Giver");
+        
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToStudentsToOwnTeammatesIncludingSelf.html");
+
+        
+        ______TS("test visibility options of question 1");
+        feedbackEditPage.clickquestionSaveForQuestion1();
+        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityOptionsForOwnTeammatesIncludingSelf.html");
+        
+        
+        ______TS("test visibility preview of question 1");
+        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        WebElement visibilityMessage = browser.driver.findElement(By.id("visibilityMessage-1"));
+        feedbackEditPage.waitForElementVisibility(visibilityMessage);
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreviewForOwnTeammatesIncludingSelf.html");
         
         //change back
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
