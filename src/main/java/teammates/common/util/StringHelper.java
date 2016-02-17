@@ -498,7 +498,7 @@ public class StringHelper {
      *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
      * @param String
      * @param maximumLength - required length of the string
-     * @return String with atmost maximumStringLength length
+     * @return String with at most maximumStringLength length
      */
     public static String truncateHead(String inputString, final int maximumStringLength) {
         final int inputStringLength = inputString.length();
