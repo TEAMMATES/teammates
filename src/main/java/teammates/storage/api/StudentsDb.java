@@ -23,6 +23,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Student;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
@@ -631,6 +632,92 @@ public class StudentsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<Student> studentList = (List<Student>) q.execute();
+        
+        return studentList;
+    }
+    
+    /**
+     * 
+     * Functions for the new CourseStudent class to replace Student class
+     * 
+     */
+    
+    private CourseStudent getCourseStudentEntityForEmail(String courseId, String email) {
+        
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.declareParameters("String courseIdParam, String emailParam");
+        q.setFilter("courseID == courseIdParam && email == emailParam");
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>)q.execute(courseId, email);
+    
+        if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
+            return null;
+        }
+    
+        return studentList.get(0);
+    }
+
+    private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseID == courseIdParam");
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(courseId);
+        return studentList;
+    }
+    
+    private List<CourseStudent> getCourseStudentEntitiesForCourses(List<String> courseIds){
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.setFilter(":p.contains(courseID)");
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(courseIds);
+        
+        return studentList;
+    }
+
+    
+    private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.declareParameters("String googleIdParam");
+        q.setFilter("ID == googleIdParam");
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(googleId);
+        
+        return studentList;
+    }
+
+    private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.declareParameters("String teamNameParam, String courseIDParam");
+        q.setFilter("teamName == teamNameParam && courseID == courseIDParam");
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(teamName, courseId);
+        
+        return studentList;
+    }
+
+    private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.declareParameters("String sectionNameParam, String courseIDParam");
+        q.setFilter("sectionName == sectionNameParam && courseID == courseIDParam");
+
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>) q.execute(sectionName, courseId);
+
+        return studentList;
+    }
+
+    private List<CourseStudent> getCourseStudentEntities() { 
+        
+        Query q = getPM().newQuery(CourseStudent.class);
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>) q.execute();
         
         return studentList;
     }
