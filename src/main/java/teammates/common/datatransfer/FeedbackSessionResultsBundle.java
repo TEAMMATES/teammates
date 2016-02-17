@@ -148,7 +148,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 case SELF:
                 case INSTRUCTORS:
                 case STUDENTS:
-                    giver = emailNameTable.get(response.giverEmail); 
+                    giver = getNameForEmail(response.giverEmail); 
                 default:
                     log.severe("Invalid giver type specified");
             }
@@ -169,17 +169,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                         response.setInvalidity();
                     }
                 case SELF:
-                    recipient = emailNameTable.get(response.recipientEmail);
+                    recipient = getNameForEmail(response.recipientEmail);
                     if (!giver.equals(recipient)) {
                         response.setInvalidity();
                     }
                 case INSTRUCTORS:
-                    recipient = emailNameTable.get(response.recipientEmail);
+                    recipient = getNameForEmail(response.recipientEmail);
                     if (recipient == null) {
                         response.setInvalidity();
                     }
                 case STUDENTS:
-                    recipient = emailNameTable.get(response.recipientEmail);
+                    recipient = getNameForEmail(response.recipientEmail);
                     if (giver.equals(recipient)) {
                         response.setInvalidity();
                     }
