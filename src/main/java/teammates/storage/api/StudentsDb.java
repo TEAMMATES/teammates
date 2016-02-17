@@ -146,6 +146,14 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
     
+        
+        // Return CourseStudent if it exists. Otherwise, fall back on Student.
+        CourseStudent cs = getCourseStudentEntityForEmail(courseId, email);
+        if (cs != null) {
+            return new StudentAttributes(cs);
+        }
+        
+        
         Student s = getStudentEntityForEmail(courseId, email);
 
         if (s == null) {
@@ -164,8 +172,25 @@ public class StudentsDb extends EntitiesDb {
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        // Return CourseStudent if it exists. Otherwise, fall back on Student.
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.declareParameters("String googleIdParam, String courseIdParam");
+        q.setFilter("ID == googleIdParam && courseID == courseIdParam");
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> courseStudentList = (List<CourseStudent>)q.execute(googleId, courseId);
+        
+        if (courseStudentList.isEmpty() || JDOHelper.isDeleted(courseStudentList.get(0))) {
+            // Don't return yet, look up Student.
+        } else {
+            return new StudentAttributes(courseStudentList.get(0));
+        }
+        
+        
+        
 
-        Query q = getPM().newQuery(Student.class);
+        q = getPM().newQuery(Student.class);
         q.declareParameters("String googleIdParam, String courseIdParam");
         q.setFilter("ID == googleIdParam && courseID == courseIdParam");
         
