@@ -86,9 +86,6 @@ public class StudentsDb extends EntitiesDb {
 
     public void deleteDocument(StudentAttributes studentToDelete){
         
-        // TODO: Delete document based on student.getId(), for CourseStudent's search document.
-        
-        
         if(studentToDelete.key == null){
             StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
             if (student != null) {
@@ -259,17 +256,23 @@ public class StudentsDb extends EntitiesDb {
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
-        
-        // TODO: Read from CourseStudent
-        // Filter out repeats from Student if any.
-        
-        
-        List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
-    
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
-        for (Student student : studentList) {
+        
+        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForGoogleId(googleId);
+        for (CourseStudent student : courseStudentList) {
             if (!JDOHelper.isDeleted(student)) {
                 studentDataList.add(new StudentAttributes(student));
+            }
+        }
+        
+        List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
+        for (Student student : studentList) {
+            // Check if StudentAttributes is already in list due to CourseStudent
+            if (!JDOHelper.isDeleted(student)) {
+                StudentAttributes s = new StudentAttributes(student);
+                if (!isListContainsSameStudentAttributes(studentDataList, s)) {
+                    studentDataList.add(s);
+                }
             }
         }
     
@@ -284,17 +287,23 @@ public class StudentsDb extends EntitiesDb {
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
-
-        // TODO: Read from CourseStudent
-        // Filter out repeats from Student if any.
+        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
+        
+        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForCourse(courseId);
+        for (CourseStudent student : courseStudentList) {
+            if (!JDOHelper.isDeleted(student)) {
+                studentDataList.add(new StudentAttributes(student));
+            }
+        }
         
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
-        
-        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
-    
-        for (Student s : studentList) {
-            if (!JDOHelper.isDeleted(s)) {
-                studentDataList.add(new StudentAttributes(s));
+        for (Student student : studentList) {
+            // Check if StudentAttributes is already in list due to CourseStudent
+            if (!JDOHelper.isDeleted(student)) {
+                StudentAttributes s = new StudentAttributes(student);
+                if (!isListContainsSameStudentAttributes(studentDataList, s)) {
+                    studentDataList.add(s);
+                }
             }
         }
     
@@ -310,21 +319,26 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, teamName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
-        
-
-        // TODO: Read from CourseStudent
-        // Filter out repeats from Student if any.
-        
-        
-        List<Student> studentList = getStudentEntitiesForTeam(teamName, courseId);
-        
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
-    
+        
+        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForTeam(teamName, courseId);
+        
         //TODO: See if we can use a generic method to convert a list of entities to a list of attributes.
         //  e.g., convertToAttributes(entityList, new ArrayList<StudentAttributes>())
-        for (Student s : studentList) {
-            if (!JDOHelper.isDeleted(s)) {
-                studentDataList.add(new StudentAttributes(s));
+        for (CourseStudent student : courseStudentList) {
+            if (!JDOHelper.isDeleted(student)) {
+                studentDataList.add(new StudentAttributes(student));
+            }
+        }
+        
+        List<Student> studentList = getStudentEntitiesForTeam(teamName, courseId);
+        for (Student student : studentList) {
+            // Check if StudentAttributes is already in list due to CourseStudent
+            if (!JDOHelper.isDeleted(student)) {
+                StudentAttributes s = new StudentAttributes(student);
+                if (!isListContainsSameStudentAttributes(studentDataList, s)) {
+                    studentDataList.add(s);
+                }
             }
         }
     
@@ -340,18 +354,24 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-
-        // TODO: Read from CourseStudent
-        // Filter out repeats from Student if any.
+        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
         
+        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForSection(sectionName, courseId);
+        
+        for (CourseStudent student : courseStudentList) {
+            if (!JDOHelper.isDeleted(student)) {
+                studentDataList.add(new StudentAttributes(student));
+            }
+        }
         
         List<Student> studentList = getStudentEntitiesForSection(sectionName, courseId);
-
-        List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
-
-        for(Student s: studentList) {
-            if(!JDOHelper.isDeleted(s)) {
-                studentDataList.add(new StudentAttributes(s));
+        for (Student student : studentList) {
+            // Check if StudentAttributes is already in list due to CourseStudent
+            if (!JDOHelper.isDeleted(student)) {
+                StudentAttributes s = new StudentAttributes(student);
+                if (!isListContainsSameStudentAttributes(studentDataList, s)) {
+                    studentDataList.add(s);
+                }
             }
         }
 
@@ -808,6 +828,22 @@ public class StudentsDb extends EntitiesDb {
         List<CourseStudent> studentList = (List<CourseStudent>) q.execute();
         
         return studentList;
+    }
+    
+    /**
+     * Checks if two StudentAttributes refer to the same student from the same course.
+     */
+    private boolean isSameStudentAttributes(StudentAttributes s1, StudentAttributes s2) {
+       return  s1.getId().equals(s2.getId());
+    }
+    
+    private boolean isListContainsSameStudentAttributes(List<StudentAttributes> studentList, StudentAttributes student) {
+        for (StudentAttributes s : studentList) {
+            if (isSameStudentAttributes(s, student)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
