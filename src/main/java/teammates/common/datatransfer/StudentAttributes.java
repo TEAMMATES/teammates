@@ -16,6 +16,7 @@ import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
+import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
@@ -122,6 +123,31 @@ public class StudentAttributes extends EntityAttributes {
         this.updatedAt = student.getUpdatedAt();
         
     }
+    
+    public StudentAttributes(CourseStudent student) {
+        this();
+        this.email = student.getEmail();
+        this.course = student.getCourseId();
+        this.name = student.getName();
+        this.lastName = student.getLastName();
+        this.comments = Sanitizer.sanitizeTextField(student.getComments());
+        this.team = Sanitizer.sanitizeTitle(student.getTeamName());
+        this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
+                                                          : Sanitizer.sanitizeTitle(student.getSectionName());
+        this.googleId = (student.getGoogleId() == null) ? ""
+                                                        : student.getGoogleId();
+        Long keyAsLong = student.getRegistrationKey();
+        this.key = (keyAsLong == null) ? null : Student.getStringKeyForLongKey(keyAsLong);
+        /*
+         * TODO: this is for backward compatibility with old system.
+         * Old system considers "" as unregistered.
+         * It should be changed to consider null as unregistered.
+         */
+        
+        this.createdAt = student.getCreatedAt();
+        this.updatedAt = student.getUpdatedAt();
+        
+    }
 
     public String toEnrollmentString() {
         String enrollmentString = "";
@@ -165,6 +191,11 @@ public class StudentAttributes extends EntityAttributes {
     
     public String getKey() {
         return key;
+    }
+    
+    /** Format: email%courseId e.g., adam@gmail.com%cs1101 */
+    public String getId() {
+        return email + "%" + course;
     }
     
     public String getSection() {
@@ -308,9 +339,19 @@ public class StudentAttributes extends EntityAttributes {
         }
     }
 
-    public Student toEntity() {
+    public Student toStudentEntity() {
         return new Student(email, name, googleId, comments, course, team, section);
     }
+    
+    public CourseStudent toCourseStudentEntity() {
+        return new CourseStudent(email, name, googleId, comments, course, team, section);
+    }
+    
+    public Object toEntity() {
+        // TODO: Check if this is correct
+        return toCourseStudentEntity();
+    }
+    
 
     public String toString() {
         return toString(0);
