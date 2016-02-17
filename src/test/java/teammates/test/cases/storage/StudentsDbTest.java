@@ -63,6 +63,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("success : defaultTimeStamp for updatedAt date");
         
         assertEquals(defaultStudentCreationTimeStamp, student.getUpdatedAt());
+        
+        studentsDb.deleteStudent(s.course, s.email);
     }
     
     @Test
