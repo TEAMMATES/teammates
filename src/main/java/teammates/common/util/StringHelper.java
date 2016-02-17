@@ -494,17 +494,18 @@ public class StringHelper {
     }
 
     /**
-     * Trims the course ID if it is too long.
-     * @param demoCourseId
-     * @param maximumIdLength length to trim
-     * @return trimmed Course ID
+     * Trims head of the String if it is longer than specified Length.
+     *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
+     * @param String
+     * @param maximumLength - required length of the string
+     * @return String with atmost maximumStringLength length
      */
-    public static String truncateHead(String demoCourseId, final int maximumIdLength) {
-        final int courseIdLength = demoCourseId.length();
-        if (courseIdLength <= maximumIdLength) {
-            return demoCourseId;
+    public static String truncateHead(String inputString, final int maximumStringLength) {
+        final int inputStringLength = inputString.length();
+        if (inputStringLength <= maximumStringLength) {
+            return inputString;
         } else {
-            return demoCourseId.substring(courseIdLength - maximumIdLength);
+            return inputString.substring(inputStringLength - maximumStringLength);
         }
     }
 }
