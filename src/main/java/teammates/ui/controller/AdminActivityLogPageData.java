@@ -268,7 +268,7 @@ public class AdminActivityLogPageData extends PageData {
        
         System.out.print(tokens.length);
         
-        for (int i = 0; i < tokens.length; i++) {           
+        for (int i = 0; i < tokens.length; i++) {
             String[] pair = tokens[i].split(":", -1);
             
             if (pair.length != 2) {
@@ -276,7 +276,10 @@ public class AdminActivityLogPageData extends PageData {
             }
             
             String[] values = pair[1].split(",", -1);
-            String label = pair[0];
+            for (int j = 0; j < values.length; j++) {
+                values[j] = values[j].trim();
+            }
+            String label = pair[0].trim();
             
             if (label.equals("version")) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
