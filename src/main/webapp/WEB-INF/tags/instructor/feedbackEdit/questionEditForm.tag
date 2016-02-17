@@ -19,7 +19,7 @@
     <div class="panel panel-primary questionTable" id="questionTable${fqForm.question.questionNumber}">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-7">
                     <span>
                         <strong>Question</strong>
                         <select class="questionNumber nonDestructive text-primary"
@@ -33,7 +33,9 @@
                         </select>
                         &nbsp;${fqForm.question.questionDetails.questionTypeDisplayName}
                     </span>
-                    <span class="pull-right">
+                </div>
+                <div class="col-sm-5 mobile-margin-top-10px">
+                    <span class="mobile-no-pull pull-right">
                         <a class="btn btn-primary btn-xs"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GETLINK %>-${fqForm.question.questionNumber}"
                             data-toggle="tooltip" data-placement="top"

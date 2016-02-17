@@ -14,7 +14,7 @@
 <c:set var="FEEDBACK_INSTRUCTORS"><%=FeedbackParticipantType.INSTRUCTORS.name()%></c:set>
 
 <div class="col-sm-12 padding-15px background-color-light-green">
-    <div class="col-sm-12 padding-0">
+    <div class="col-sm-12 padding-0 margin-bottom-7px">
         <b>Visibility</b> (Who can see the responses?)
     </div>
     <div class="col-sm-6 btn-group" data-toggle="buttons">
@@ -31,7 +31,8 @@
     </div>
 </div>
 <div class="col-sm-12 background-color-light-green">
-    <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage${fqForm.questionNumberSuffix}">
+    <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
+    <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage${fqForm.questionNumberSuffix}">
         This is the visibility as seen by the feedback giver.
         <ul class="background-color-warning">
         <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
@@ -40,7 +41,8 @@
         </ul>
     </div>
 </div>
-<div class="col-sm-12 margin-bottom-15px background-color-light-green">
+<!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
+<div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
     <div class="visibilityOptions" id="visibilityOptions${fqForm.questionNumberSuffix}">
         <table class="dataTable participantTable table table-striped text-center background-color-white">
             <tr>

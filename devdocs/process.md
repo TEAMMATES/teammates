@@ -18,13 +18,13 @@ The Positions are: `Contributor`, `Committer`, `Snr Developer`, `Area Lead`, `Pr
 
 Role: Dev
 
-{If you need any help regarding the workflow, please post in the 
-[teammates-contributors Google group](https://groups.google.com/forum/?fromgroups#!forum/teammates-contributors) .}
+{If you need any help regarding the workflow, please [post a new issue in our issue tracker] 
+(https://github.com/TEAMMATES/teammates/issues/new) (Yes, our issue tracker doubles as a discussion board).}
 
 This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.html).
 
-1. Select an issue to handle. ~~Get it assigned to you. 
-   Contributors can request for an issue to be assigned to you by posting a comment under the issue in concern.~~
+1. Select an issue to handle. If you are a contributor, there is no need to get the issue assigned to you. <br>
+   (If you are a committer, assign the issue to yourself and assign it a milestone).
 
 2. Optionally, you can discuss alternative solutions before choosing one to implement. 
    This can be done through Issue tracker. 
@@ -267,6 +267,8 @@ The meaning of label group prefixes:
 * Other work
   * `c.Bug`
   * `c.Task`: Other work items such as updating documentation.
+  * `c.Message` : Issue used as a means of discussing something with the deve team.
+     e.g. a request for help on setting up dev environment.
 
 **Difficulty**
 
@@ -304,14 +306,14 @@ Classifies the issues based on the non-functional aspect it tackles.
 |------------------|-----------|-----------|------------------------------------
 |`a-AccessControl` |Tania      |           |Controlling access to user groups, authentication, privacy, anonymity
 |`a-CodeQuality`   |Wilson     |           |Refactorings that are mainly to improve code/design quality
-|`a-Concurrency`   |           |           |Things related to concurrent access, session control
-|`a-DevOps`        |Wilson     |           |CI, release management, version control, dev docs
+|`a-Concurrency`   |Khanh      |           |Things related to concurrent access, session control
+|`a-DevOps`        |Wilson     |Thyagesh   |CI, release management, version control, dev docs
 |`a-Docs`          |Jun Hao    |           |Website, user docs
-|`a-FaultTolerance`|           |           |Resilience to user errors, environmental problems
-|`a-Performance`   |           |           |Speed of operation
-|`a-Persistence`   |WeiLin     |           |Database layer, GAE datastore
+|`a-FaultTolerance`|Josephine  |Hong Jin   |Resilience to user errors, environmental problems
+|`a-Performance`   |Khanh      |           |Speed of operation
+|`a-Persistence`   |WeiLin     |Khanh      |Database layer, GAE datastore
 |`a-Scalability`   |Khanh      |           |Related to behavior at increasing loads
-|`a-Security`      |           |           |Protection from security threats
+|`a-Security`      |Tania      |           |Protection from security threats
 |`a-Testing`       |Wilson     |           |Testing efficiency and robustness (as opposed to testing a specific feature)
 |`a-UIX`           |Josephine  |           |User interface, User experience, Responsiveness
 
@@ -337,11 +339,11 @@ classifies the issue based on the technology it involves.
 
 |Label    | Lead         | Co-Leads           | Description                                
 |---------|--------------|--------------------|---------------------------------
-|`t-CSS`  |              |                    |CSS, Bootstrap
-|`t-GAE`  |              |                    |Google App Engine related technologies such as task queues
-|`t-HTML` |              |                    |HTML, Browsers
-|`t-JS`   |              |                    |Javascript, JQuery
-|`t-JSTL` |              |                    |JSTL, JSP, Servlets
+|`t-CSS`  |Josephine     |                    |CSS, Bootstrap
+|`t-GAE`  |Hong Jin      |Khanh               |Google App Engine related technologies such as task queues
+|`t-HTML` |Wilson        |                    |HTML, Browsers
+|`t-JS`   |Khanh         |                    |Javascript, JQuery
+|`t-JSTL` |You Jun       |Tania               |JSTL, JSP, Servlets
 
 
 

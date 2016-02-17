@@ -8,7 +8,7 @@
          </small>
       </h1>
       <br/>
-      <div class="alert alert-warning" id="statusMessage">
+      <div class="overflow-auto alert alert-warning" id="statusMessage">
          Normally, we would show the student’s profile here. However, this student has not created a profile yet
          <br/>
          No records were found for this student
@@ -37,8 +37,10 @@
                            </button>
                         </div>
                         <ul class="list-group comments">
-                           <li class="list-group-item list-group-item-warning">
-                              You don't have any comments on this student.
+                           <li class="list-group-item text-muted">
+                              <i>
+                                 You don't have any comments on this student.
+                              </i>
                            </li>
                            <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
                               <form action="/page/instructorStudentCommentAdd" class="form_comment" method="post" name="form_commentadd">

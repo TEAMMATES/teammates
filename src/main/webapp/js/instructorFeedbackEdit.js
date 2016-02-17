@@ -219,15 +219,15 @@ function enableQuestion(number) {
     if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
         $('#mcqChoiceTable-' + number).hide();
         $('#msqChoiceTable-' + number).hide();
-        $("#mcqOtherOptionFlag-" + number).parent().hide();
-        $("#msqOtherOptionFlag-" + number).parent().hide();
+        $("#mcqOtherOptionFlag-" + number).closest(".checkbox").hide();
+        $("#msqOtherOptionFlag-" + number).closest(".checkbox").hide();
         $('#mcqGenerateForSelect-' + number).prop('disabled', false);
         $('#msqGenerateForSelect-' + number).prop('disabled', false);
     } else {
         $('#mcqChoiceTable-' + number).show();
         $('#msqChoiceTable-' + number).show();
-        $("#mcqOtherOptionFlag-" + number).parent().show();
-        $("#msqOtherOptionFlag-" + number).parent().show();
+        $("#mcqOtherOptionFlag-" + number).closest(".checkbox").show();
+        $("#msqOtherOptionFlag-" + number).closest(".checkbox").show();
         $('#mcqGenerateForSelect-' + number).prop('disabled', true);
         $('#msqGenerateForSelect-' + number).prop('disabled', true);
     }
@@ -311,11 +311,11 @@ function disableQuestion(number) {
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
     if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
-        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().hide();
-        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().hide();
+        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).closest(".checkbox").hide();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).closest(".checkbox").hide();
     } else {
-        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().show();
-        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().show();
+        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).closest(".checkbox").show();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).closest(".checkbox").show();
     }
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
@@ -973,14 +973,14 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#mcqChoiceTable' + idSuffix).hide();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', false);
-        $("#mcqOtherOptionFlag" + idSuffix).parent().hide();
+        $("#mcqOtherOptionFlag" + idSuffix).closest('.checkbox').hide();
         $('#generatedOptions' + idSuffix).attr('value',
                                                $('#mcqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#mcqChoiceTable' + idSuffix).show();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', true);
-        $("#mcqOtherOptionFlag" + idSuffix).parent().show();
+        $("#mcqOtherOptionFlag" + idSuffix).closest('.checkbox').show();
         $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }
@@ -1066,14 +1066,14 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#msqChoiceTable' + idSuffix).hide();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
-        $("#msqOtherOptionFlag" + idSuffix).parent().hide();
+        $("#msqOtherOptionFlag" + idSuffix).closest(".checkbox").hide();
         $('#generatedOptions' + idSuffix).attr('value',
                                                $('#msqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#msqChoiceTable' + idSuffix).show();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', true);
-        $("#msqOtherOptionFlag" + idSuffix).parent().show();
+        $("#msqOtherOptionFlag" + idSuffix).closest(".checkbox").show();
         $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }
@@ -1176,8 +1176,8 @@ function addConstSumOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(    "<div id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
-        +   "<div class=\"input-group\">"
+    $(    "<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group width-100-pc\">"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control constSumOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
