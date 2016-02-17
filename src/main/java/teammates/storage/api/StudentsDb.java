@@ -85,6 +85,10 @@ public class StudentsDb extends EntitiesDb {
     
 
     public void deleteDocument(StudentAttributes studentToDelete){
+        
+        // TODO: Delete document based on student.getId(), for CourseStudent's search document.
+        
+        
         if(studentToDelete.key == null){
             StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
             if (student != null) {
@@ -216,6 +220,13 @@ public class StudentsDb extends EntitiesDb {
         StudentAttributes studentAttributes;
         registrationKey = registrationKey.trim();
         String originalKey = registrationKey;
+        
+        
+        // TODO: Get CourseStudent instead
+        // Stupid thing needs to consider new/old registration key?
+        
+        
+        
         try {
             //First, try to retrieve the student by assuming the given registrationKey key is encrypted
             registrationKey = StringHelper.decrypt(registrationKey);
@@ -248,6 +259,11 @@ public class StudentsDb extends EntitiesDb {
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
+        
+        // TODO: Read from CourseStudent
+        // Filter out repeats from Student if any.
+        
+        
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
     
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
@@ -267,6 +283,10 @@ public class StudentsDb extends EntitiesDb {
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+
+        // TODO: Read from CourseStudent
+        // Filter out repeats from Student if any.
         
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
         
@@ -289,6 +309,12 @@ public class StudentsDb extends EntitiesDb {
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, teamName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        
+
+        // TODO: Read from CourseStudent
+        // Filter out repeats from Student if any.
+        
         
         List<Student> studentList = getStudentEntitiesForTeam(teamName, courseId);
         
@@ -314,6 +340,11 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
+
+        // TODO: Read from CourseStudent
+        // Filter out repeats from Student if any.
+        
+        
         List<Student> studentList = getStudentEntitiesForSection(sectionName, courseId);
 
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
@@ -353,6 +384,10 @@ public class StudentsDb extends EntitiesDb {
     @Deprecated
     public List<StudentAttributes> getAllStudents() { 
         List<StudentAttributes> list = new LinkedList<StudentAttributes>();
+        
+        // TODO: Need to read from CourseStudents? Create a separate method?
+        // Need a method for Students not in CourseStudents?
+        
         List<Student> entities = getStudentEntities();
         Iterator<Student> it = entities.iterator();
         while(it.hasNext()) {
@@ -421,7 +456,17 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         
+        // TODO: This verifies for either/both Student and CourseStudent.
         verifyStudentExists(courseId, email);
+        
+        // TODO: Update CourseStudent if it exists.
+        
+        
+        
+        
+        
+        // Update on Student
+        
         
         Student student = getStudentEntityForEmail(courseId, email);
         Student studentWithNewEmail = getStudentEntityForEmail(courseId, newEmail);
@@ -472,6 +517,11 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
     
+        // TODO: Delete from CourseStudent
+        
+        
+        
+        
         Student studentToDelete = getStudentEntityForEmail(courseId, email);
     
         if (studentToDelete == null) {
@@ -518,9 +568,16 @@ public class StudentsDb extends EntitiesDb {
         deleteStudentsForGoogleId(googleId, false);
     }
 
+    
+    // TODO: This is not even used, only tested.
+    // Is there even a use case for this function?
     public void deleteStudentsForGoogleId(String googleId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
+        
+        // TODO: Delete from CourseStudent
+        
+        
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
         
         if(hasDocument){
@@ -550,6 +607,8 @@ public class StudentsDb extends EntitiesDb {
     public void deleteStudentsForCourse(String courseId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
     
+        // TODO: Delete from CourseStudent
+        
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
         if(hasDocument){
             for(Student student : studentList){
@@ -563,6 +622,10 @@ public class StudentsDb extends EntitiesDb {
     public void deleteStudentsForCourses(List<String> courseIds){
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        
+        // TODO: Delete from CourseStudent
+        
         
         List<Student> studentsToDelete = getStudentEntitiesForCourses(courseIds);
         
