@@ -83,21 +83,21 @@ test('setStatusMessage(message,error)', function(){
     $("body").append('<div id="statusMessage"></div>');
     var message = "Status Message";
     
-    //isError = false: class = alert alert-warning
-    //isError = true: class = alert alert-danger
+    //isError = false: class = overflow-auto alert alert-warning
+    //isError = true: class = overflow-auto alert alert-danger
     
     setStatusMessage(message, false);
     equal($("#statusMessage").html(), message, "Normal status message");
-    ok(($("#statusMessage").attr("class") == "alert alert-warning"), "No warning");
+    ok(($("#statusMessage").attr("class") == "overflow-auto alert alert-warning"), "No warning");
     setStatusMessage("", false);
     equal($("#statusMessage").html(), "", "Empty status message");
-    ok(($("#statusMessage").attr("class") == "alert alert-warning"), "No warning");
+    ok(($("#statusMessage").attr("class") == "overflow-auto alert alert-warning"), "No warning");
     setStatusMessage(message, true);
     equal($("#statusMessage").html(), message, "Normal status message");
-    ok(($("#statusMessage").attr("class") == "alert alert-danger"), "No danger");
+    ok(($("#statusMessage").attr("class") == "overflow-auto alert alert-danger"), "No danger");
     setStatusMessage("", true);
     equal($("#statusMessage").html(), "", "Normal status message");
-    ok(($("#statusMessage").attr("class") == "alert alert-danger"), "No danger");
+    ok(($("#statusMessage").attr("class") == "overflow-auto alert alert-danger"), "No danger");
 });
 
 

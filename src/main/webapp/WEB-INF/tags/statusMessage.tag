@@ -7,7 +7,7 @@
 <c:set var="ERROR"><%= Const.ParamsNames.ERROR %></c:set>
 <c:choose>
     <c:when test="${not empty requestScope[STATUS_MESSAGE]}">
-        <div id="statusMessage" class="alert alert-${requestScope[ERROR] ? 'danger' : requestScope[STATUS_MESSAGE_COLOR]}">
+        <div id="statusMessage" class="overflow-auto alert alert-${requestScope[ERROR] ? 'danger' : requestScope[STATUS_MESSAGE_COLOR]}">
             ${requestScope[STATUS_MESSAGE]}
         </div>
         <c:if test="${not doNotFocusToStatus}">
