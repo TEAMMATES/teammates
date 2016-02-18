@@ -373,7 +373,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
     
-    if (!$sender.siblings(".collapse").find(".loaded").length > 0) {
+    if (!$sender.hasClass("loaded")) {
         $sender.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
         
         panelBody.load(url, function( response, status, xhr ) {
@@ -388,11 +388,12 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
             }
             
             $sender.find('div[class^="placeholder-img-loading"]').html("");
-            $sender.siblings(".collapse").collapse("toggle");
+            $sender.addClass("loaded");
+            $sender.siblings(".collapse").clearQueue().collapse("toggle");
             toggleChevron(sender);
         });
     } else {
-        $sender.siblings(".collapse").collapse("toggle");
+        $sender.siblings(".collapse").clearQueue().collapse("toggle");
         toggleChevron(sender);
     }
 }
@@ -401,6 +402,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
 // sender must be at least the parent of the chevron
 function toggleChevron(sender) {
     var $sender = $(sender);
+    $sender.find(".glyphicon").clearQueue();
     
     if ($sender.find(".glyphicon-chevron-down").length > 0) { 
         $sender.find(".glyphicon").removeClass("glyphicon-chevron-down");
