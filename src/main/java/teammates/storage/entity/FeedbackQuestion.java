@@ -114,7 +114,9 @@ public class FeedbackQuestion implements StoreCallback {
     }
     
     public void setLastUpdate(Date newDate) {
-        this.updatedAt = (keepUpdateTimestamp) ? this.updatedAt : newDate;
+        if (!keepUpdateTimestamp) {
+            this.updatedAt = newDate;
+        }
     }
     
     public String getId() {
