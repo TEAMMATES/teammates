@@ -391,16 +391,16 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
             $clickedElement.find('div[class^="placeholder-img-loading"]').html("");
             $clickedElement.addClass("loaded");
             $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
-            toggleChevron(sender);
+            toggleChevron(clickedElement);
         });
     } else {
         $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
-        toggleChevron(sender);
+        toggleChevron(clickedElement);
     }
 }
 
 // sets the chevron of a panel from up to down or from down to up depending on its current state
-// sender must be at least the parent of the chevron
+// clickedElement must be at least the parent of the chevron
 function toggleChevron(clickedElement) {
     //clearQueue to clear the animation queue to prevent animation build up
     var $clickedElement = $(clickedElement);
