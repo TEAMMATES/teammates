@@ -116,7 +116,7 @@ public class FeedbackQuestion implements StoreCallback {
     
     public void setCreatedAt(Date newDate) {
         this.createdAt = newDate;
-        this.updatedAt = newDate;
+        setLastUpdate(newDate);
     }
     
     public void setLastUpdate(Date newDate) {
