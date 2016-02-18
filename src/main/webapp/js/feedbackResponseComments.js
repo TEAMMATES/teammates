@@ -366,15 +366,15 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
     $("#responseCommentEditForm-" + addedIndex).show();
 }
 
-function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
+function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement) {
     $(".tooltip").hide();
-    var $sender = $(sender);
-    var panelBody = $sender.parent().find('div[class^="panel-body"]');
+    var $clickedElement = $(clickedElement);
+    var panelBody = $clickedElement.parent().find('div[class^="panel-body"]');
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
     
-    if (!$sender.hasClass("loaded")) {
-        $sender.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+    if (!$clickedElement.hasClass("loaded")) {
+        $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
         
         panelBody.load(url, function( response, status, xhr ) {
             if (status === "success") {
@@ -388,30 +388,30 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
             }
             
             //clearQueue to clear the animation queue to prevent animation build up
-            $sender.find('div[class^="placeholder-img-loading"]').html("");
-            $sender.addClass("loaded");
-            $sender.siblings(".collapse").clearQueue().collapse("toggle");
+            $clickedElement.find('div[class^="placeholder-img-loading"]').html("");
+            $clickedElement.addClass("loaded");
+            $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
             toggleChevron(sender);
         });
     } else {
-        $sender.siblings(".collapse").clearQueue().collapse("toggle");
+        $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
         toggleChevron(sender);
     }
 }
 
 // sets the chevron of a panel from up to down or from down to up depending on its current state
 // sender must be at least the parent of the chevron
-function toggleChevron(sender) {
+function toggleChevron(clickedElement) {
     //clearQueue to clear the animation queue to prevent animation build up
-    var $sender = $(sender);
-    $sender.find(".glyphicon").clearQueue();
+    var $clickedElement = $(clickedElement);
+    $clickedElement.find(".glyphicon").clearQueue();
     
-    if ($sender.find(".glyphicon-chevron-down").length > 0) { 
-        $sender.find(".glyphicon").removeClass("glyphicon-chevron-down");
-        $sender.find(".glyphicon").addClass("glyphicon-chevron-up");
+    if ($clickedElement.find(".glyphicon-chevron-down").length > 0) { 
+        $clickedElement.find(".glyphicon").removeClass("glyphicon-chevron-down");
+        $clickedElement.find(".glyphicon").addClass("glyphicon-chevron-up");
     } else {
-        $sender.find(".glyphicon").removeClass("glyphicon-chevron-up");
-        $sender.find(".glyphicon").addClass("glyphicon-chevron-down");
+        $clickedElement.find(".glyphicon").removeClass("glyphicon-chevron-up");
+        $clickedElement.find(".glyphicon").addClass("glyphicon-chevron-down");
     }
 }
 
