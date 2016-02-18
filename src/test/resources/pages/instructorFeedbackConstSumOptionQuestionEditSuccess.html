@@ -31,28 +31,28 @@
             <div class="panel panel-primary">
                <div class="panel-body">
                   <div class="row">
-                     <div class="col-md-6" data-original-title="Please select the course for which the feedback session is to be created." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-sm-12 col-md-6" data-original-title="Please select the course for which the feedback session is to be created." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
-                           <h5 class="col-sm-4">
+                           <h5 class="col-sm-2 col-md-4">
                               <label class="control-label" for="courseid">
                                  Course ID
                               </label>
                            </h5>
-                           <div class="col-sm-8">
-                              <div class="form-control-static">
+                           <div class="col-sm-10 col-md-8">
+                              <h5 class="form-control-static font-weight-normal">
                                  FConstSumOptionQnUiT.CS2104
-                              </div>
+                              </h5>
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-6" data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
-                           <h5 class="col-sm-4">
+                           <h5 class="col-sm-2 col-md-4">
                               <label class="control-label" for="timezone">
                                  Timezone
                               </label>
                            </h5>
-                           <div class="col-sm-8">
+                           <div class="col-sm-10 col-md-8">
                               <select class="form-control" disabled="" id="timezone" name="timezone">
                                  <option value="-12">
                                     (UTC -12:00) Baker Island, Howland Island
@@ -176,9 +176,9 @@
                         </div>
                      </div>
                   </div>
-                  <br/>
+                  <br class="hidden-xs"/>
                   <div class="row">
-                     <div class="col-md-12" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-sm-12" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
                            <h5 class="col-sm-2">
                               <label class="control-label" for="fsname">
@@ -186,18 +186,18 @@
                               </label>
                            </h5>
                            <div class="col-sm-10">
-                              <div class="form-control-static">
+                              <h5 class="form-control-static font-weight-normal">
                                  First Session
-                              </div>
+                              </h5>
                            </div>
                         </div>
                      </div>
                   </div>
-                  <br/>
+                  <br class="hidden-xs"/>
                   <div class="row" id="instructionsRow">
-                     <div class="col-md-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-sm-12" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br /> It will be displayed at the top of the page when users respond to the session." data-placement="top" data-toggle="tooltip" title="">
                         <div class="form-group">
-                           <h5 class="col-sm-2">
+                           <h5 class="col-sm-2 margin-top-0">
                               <label class="control-label" for="instructions">
                                  Instructions
                               </label>
@@ -217,17 +217,17 @@
                   <div class="row">
                      <div class="col-md-5" data-original-title="Please select the date and time for which users can start submitting responses for the feedback session." data-placement="top" data-toggle="tooltip" title="">
                         <div class="row">
-                           <div class="col-md-6">
+                           <div class="col-xs-12">
                               <label class="label-control" for="startdate">
                                  Submission opening time
                               </label>
                            </div>
                         </div>
                         <div class="row">
-                           <div class="col-md-6">
+                           <div class="col-xs-6">
                               <input class="form-control col-sm-2 hasDatepicker" disabled="" id="startdate" name="startdate" placeholder="Date" type="text" value="01/04/2012"/>
                            </div>
-                           <div class="col-md-6">
+                           <div class="col-xs-6">
                               <select class="form-control" disabled="" id="starttime" name="starttime">
                                  <option value="1">
                                     0100H
@@ -307,17 +307,17 @@
                      </div>
                      <div class="col-md-5 border-left-gray" data-original-title="Please select the date and time after which the feedback session will no longer accept submissions from users." data-placement="top" data-toggle="tooltip" title="">
                         <div class="row">
-                           <div class="col-md-6">
+                           <div class="col-xs-12">
                               <label class="label-control" for="enddate">
                                  Submission closing time
                               </label>
                            </div>
                         </div>
                         <div class="row">
-                           <div class="col-md-6">
+                           <div class="col-xs-6">
                               <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="30/04/2016"/>
                            </div>
-                           <div class="col-md-6">
+                           <div class="col-xs-6">
                               <select class="form-control" disabled="" id="endtime" name="endtime">
                                  <option value="1">
                                     0100H
@@ -397,14 +397,14 @@
                      </div>
                      <div class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." data-placement="top" data-toggle="tooltip" title="">
                         <div class="row">
-                           <div class="col-md-12">
+                           <div class="col-xs-12">
                               <label class="control-label" for="graceperiod">
                                  Grace period
                               </label>
                            </div>
                         </div>
                         <div class="row">
-                           <div class="col-sm-12">
+                           <div class="col-xs-12">
                               <select class="form-control" disabled="" id="graceperiod" name="graceperiod">
                                  <option value="0">
                                     0 mins
@@ -451,25 +451,25 @@
             <div class="panel panel-primary" id="sessionResponsesVisiblePanel" style="">
                <div class="panel-body">
                   <div class="row">
-                     <div class="col-md-6">
+                     <div class="col-xs-12 col-md-6">
                         <div class="row">
-                           <div class="col-md-6" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
                               <label class="label-control">
                                  Session visible from
                               </label>
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
+                           <h5 class="col-xs-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br />Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
                               <label for="sessionVisibleFromButton_custom">
                                  At
                               </label>
                               <input checked="checked" disabled="" id="sessionVisibleFromButton_custom" name="sessionVisibleFromButton" type="radio" value="custom"/>
-                           </div>
-                           <div class="col-md-5">
+                           </h5>
+                           <div class="col-xs-5">
                               <input class="form-control col-sm-2 hasDatepicker" disabled="" id="visibledate" name="visibledate" type="text" value="01/04/2012"/>
                            </div>
-                           <div class="col-md-4">
+                           <div class="col-xs-5">
                               <select class="form-control" disabled="" id="visibletime" name="visibletime">
                                  <option value="1">
                                     0100H
@@ -547,7 +547,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-6" data-original-title="Select this option to have the feedback session become visible when it is open for submissions (as selected above)." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-xs-12" data-original-title="Select this option to have the feedback session become visible when it is open for submissions (as selected above)." data-placement="top" data-toggle="tooltip" title="">
                               <label for="sessionVisibleFromButton_atopen">
                                  Submission opening time
                               </label>
@@ -555,7 +555,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-6" data-original-title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-xs-12" data-original-title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session." data-placement="top" data-toggle="tooltip" title="">
                               <label for="sessionVisibleFromButton_never">
                                  Never (this is a private session)
                               </label>
@@ -563,25 +563,25 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
+                     <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                         <div class="row">
-                           <div class="col-md-6" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br />You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
                               <label class="label-control">
                                  Responses visible from
                               </label>
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br />will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
+                           <h5 class="col-xs-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br />will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_custom">
                                  At
                               </label>
                               <input checked="checked" disabled="" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom"/>
-                           </div>
-                           <div class="col-md-5">
+                           </h5>
+                           <div class="col-xs-5">
                               <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="01/05/2016"/>
                            </div>
-                           <div class="col-md-4">
+                           <div class="col-xs-5">
                               <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
                                  <option value="1">
                                     0100H
@@ -659,7 +659,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-3" data-original-title="Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-xs-12" data-original-title="Select this option to have the feedback responses be immediately visible<br />when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_atvisible">
                                  Immediately
                               </label>
@@ -667,7 +667,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-4" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_later">
                                  Publish manually
                               </label>
@@ -675,7 +675,7 @@
                            </div>
                         </div>
                         <div class="row radio">
-                           <div class="col-md-2" data-original-title="Select this option if you intend never to publish the responses." data-placement="top" data-toggle="tooltip" title="">
+                           <div class="col-xs-12" data-original-title="Select this option if you intend never to publish the responses." data-placement="top" data-toggle="tooltip" title="">
                               <label for="resultsVisibleFromButton_never">
                                  Never
                               </label>
@@ -696,7 +696,7 @@
                      </div>
                   </div>
                   <div class="row">
-                     <div class="col-sm-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." data-placement="top" data-toggle="tooltip" title="">
                         <div class="checkbox">
                            <label>
                               Session opening reminder
@@ -704,7 +704,7 @@
                            <input checked="checked" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING"/>
                         </div>
                      </div>
-                     <div class="col-sm-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
                         <div class="checkbox">
                            <label for="sendreminderemail_closing">
                               Session closing reminder
@@ -712,7 +712,7 @@
                            <input checked="checked" disabled="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING"/>
                         </div>
                      </div>
-                     <div class="col-sm-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
+                     <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
                         <div class="checkbox">
                            <label for="sendreminderemail_published">
                               Results published announcement
@@ -738,7 +738,7 @@
          </form>
       </div>
       <br/>
-      <div class="alert alert-success" id="statusMessage">
+      <div class="overflow-auto alert alert-success" id="statusMessage">
          The changes to the question has been updated.
       </div>
       <script src="/js/statusMessage.js" type="text/javascript">
@@ -779,7 +779,7 @@
          <div class="panel panel-primary questionTable" id="questionTable1">
             <div class="panel-heading">
                <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-7">
                      <span>
                         <strong>
                            Question
@@ -791,7 +791,9 @@
                         </select>
                          Distribute points (among options) question
                      </span>
-                     <span class="pull-right">
+                  </div>
+                  <div class="col-sm-5 mobile-margin-top-10px">
+                     <span class="mobile-no-pull pull-right">
                         <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-1" onclick="getQuestionLink(1)" title="">
                            Get Link
                         </a>
@@ -821,8 +823,8 @@
                   <div class="row">
                      <br/>
                      <div class="col-sm-6" id="constSumOptionTable-1">
-                        <div id="constSumOptionRow-0-1">
-                           <div class="input-group col-sm-12">
+                        <div class="margin-bottom-7px" id="constSumOptionRow-0-1">
+                           <div class="input-group width-100-pc">
                               <input class="form-control" disabled="disabled" id="constSumOption-0-1" name="constSumOption-0" type="text" value="Option 1"/>
                               <span class="input-group-btn">
                                  <button class="btn btn-default removeOptionLink" disabled="disabled" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,1)" style="display:none" tabindex="-1" type="button">
@@ -832,8 +834,8 @@
                               </span>
                            </div>
                         </div>
-                        <div id="constSumOptionRow-1-1">
-                           <div class="input-group col-sm-12">
+                        <div class="margin-bottom-7px" id="constSumOptionRow-1-1">
+                           <div class="input-group width-100-pc">
                               <input class="form-control" disabled="disabled" id="constSumOption-1-1" name="constSumOption-1" type="text" value="Option 3"/>
                               <span class="input-group-btn">
                                  <button class="btn btn-default removeOptionLink" disabled="disabled" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,1)" style="display:none" tabindex="-1" type="button">
@@ -843,8 +845,8 @@
                               </span>
                            </div>
                         </div>
-                        <div id="constSumOptionRow-2-1">
-                           <div class="input-group col-sm-12">
+                        <div class="margin-bottom-7px" id="constSumOptionRow-2-1">
+                           <div class="input-group width-100-pc">
                               <input class="form-control" disabled="disabled" id="constSumOption-2-1" name="constSumOption-2" type="text" value="Option 5"/>
                               <span class="input-group-btn">
                                  <button class="btn btn-default removeOptionLink" disabled="disabled" id="constSumRemoveOptionLink" onclick="removeConstSumOption(2,1)" style="display:none" tabindex="-1" type="button">
@@ -867,17 +869,17 @@
                         <input disabled="disabled" id="constSumToRecipients-1" name="constSumToRecipients" type="hidden" value="false"/>
                      </div>
                      <div class="col-sm-6">
-                        <div class="form-inline col-sm-12">
+                        <div class="form-inline">
                            <div class="row">
-                              <div class="col-sm-4">
-                                 <label class="control-label width-100-pc">
+                              <div class="col-md-5 col-lg-4">
+                                 <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
                                     <b>
                                        Points to distribute
                                     </b>
                                  </label>
                               </div>
-                              <div class="col-sm-5">
-                                 <select class="col-sm-5 width-100-pc select form-control" disabled="disabled" id="constSumPointsPerOptionSelect-1" name="constSumPointsPerOption">
+                              <div class="col-md-4">
+                                 <select class="width-100-pc select form-control margin-bottom-7px" disabled="disabled" id="constSumPointsPerOptionSelect-1" name="constSumPointsPerOption">
                                     <option value="false">
                                        in total:
                                     </option>
@@ -889,20 +891,22 @@
                                     </option>
                                  </select>
                               </div>
-                              <div class="col-sm-3">
+                              <div class="col-md-3">
                                  <input class="form-control width-100-pc pointsBox" disabled="disabled" id="constSumPoints-1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(1)" step="1" type="number" value="200"/>
                               </div>
                            </div>
                         </div>
-                     </div>
-                     <div class="col-sm-6">
-                        <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText-1" title="">
-                           <label class="control-label">
-                              <span id="constSum_labelText-1">
-                                 Every option to receive a different number of points
-                              </span>
-                              <input disabled="disabled" id="constSum_UnevenDistribution-1" name="constSumUnevenDistribution" type="checkbox"/>
-                           </label>
+                        <div class="row">
+                           <div class="col-sm-12">
+                              <div class="checkbox" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText-1" title="">
+                                 <label class="bold-label">
+                                    <input disabled="disabled" id="constSum_UnevenDistribution-1" name="constSumUnevenDistribution" type="checkbox"/>
+                                    <span id="constSum_labelText-1">
+                                       Every option to receive a different number of points
+                                    </span>
+                                 </label>
+                              </div>
+                           </div>
                         </div>
                      </div>
                      <br/>
@@ -910,17 +914,17 @@
                </div>
                <br/>
                <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                  <div class="col-sm-12 padding-0">
+                  <div class="col-sm-12 padding-0 margin-bottom-7px">
                      <b>
                         Feedback Path
                      </b>
                      (Who is giving feedback about whom?)
                   </div>
-                  <div class="col-sm-6 padding-0" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
-                     <label class="col-sm-5 control-label">
+                  <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
+                     <label class="col-sm-4 col-lg-5 control-label">
                         Who will give the feedback:
                      </label>
-                     <div class="col-sm-7">
+                     <div class="col-sm-8 col-lg-7">
                         <select class="form-control participantSelect" disabled="disabled" id="givertype-1" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
                            <option selected="selected" value="SELF">
                               Me (Session creator)
@@ -937,11 +941,11 @@
                         </select>
                      </div>
                   </div>
-                  <div class="col-sm-6 padding-0" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
-                     <label class="col-sm-5 control-label">
+                  <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
+                     <label class="col-sm-4 col-lg-5 control-label">
                         Who the feedback is about:
                      </label>
-                     <div class="col-sm-7">
+                     <div class="col-sm-8 col-lg-7">
                         <select class="form-control participantSelect" disabled="disabled" id="recipienttype-1" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                            <option value="SELF">
                               Giver (Self feedback)
@@ -970,9 +974,7 @@
                         </select>
                      </div>
                   </div>
-                  <div class="col-sm-6">
-                  </div>
-                  <div class="col-sm-6 numberOfEntitiesElements1">
+                  <div class="col-sm-12 row numberOfEntitiesElements1">
                      <label class="control-label col-sm-4 small" id="numofrecipients_text-1">
                         The maximum number of
                         <span id="numofrecipients_text_inner-1">
@@ -981,11 +983,11 @@
                         each respondant should give feedback to:
                      </label>
                      <div class="col-sm-8 form-control-static">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                            <input class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="custom"/>
-                           <input class="nonDestructive numberOfEntitiesBox" disabled="disabled" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1"/>
+                           <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="disabled" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1"/>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                            <input checked="checked" class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="max"/>
                            <span class="">
                               Unlimited
@@ -996,7 +998,7 @@
                </div>
                <br/>
                <div class="col-sm-12 padding-15px background-color-light-green">
-                  <div class="col-sm-12 padding-0">
+                  <div class="col-sm-12 padding-0 margin-bottom-7px">
                      <b>
                         Visibility
                      </b>
@@ -1018,7 +1020,7 @@
                   </div>
                </div>
                <div class="col-sm-12 background-color-light-green">
-                  <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-1">
+                  <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-1">
                      This is the visibility as seen by the feedback giver.
                      <ul class="background-color-warning">
                         <li>
@@ -1030,7 +1032,7 @@
                      </ul>
                   </div>
                </div>
-               <div class="col-sm-12 margin-bottom-15px background-color-light-green">
+               <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
                   <div class="visibilityOptions" id="visibilityOptions-1" style="display: none;">
                      <table class="dataTable participantTable table table-striped text-center background-color-white">
                         <tbody>
@@ -1154,12 +1156,14 @@
       <br/>
       <form action="/page/instructorFeedbackQuestionAdd" class="form-horizontal form_question" method="post" name="form_addquestions" onsubmit="tallyCheckboxes('')" role="form">
          <div class="well well-plain inputTable" id="addNewQuestionTable">
-            <div class="row">
-               <div class="col-sm-6">
-                  <label class="control-label col-sm-3" for="questionTypeChoice">
-                     Question Type
-                  </label>
-                  <div class="col-sm-8">
+            <div class="row margin-bottom-15px">
+               <div class="col-sm-12 row">
+                  <div class="col-sm-3">
+                     <label class="mobile-no-pull pull-right control-label padding-right-10px" for="questionTypeChoice">
+                        Question Type
+                     </label>
+                  </div>
+                  <div class="col-sm-9">
                      <select class="form-control questionType" id="questionTypeChoice" name="questiontype">
                         <option value="TEXT">
                            Essay question
@@ -1192,57 +1196,61 @@
                            Rank (recipients) question
                         </option>
                      </select>
-                  </div>
-                  <div class="col-sm-1">
-                     <h5>
-                        <a href="/instructorHelp.html#fbQuestionTypes" target="_blank">
-                           <span class="glyphicon glyphicon-info-sign">
-                           </span>
-                        </a>
-                     </h5>
+                     <a href="/instructorHelp.html#fbQuestionTypes" target="_blank">
+                        <i class="glyphicon glyphicon-info-sign">
+                        </i>
+                     </a>
                   </div>
                </div>
-               <div class="col-sm-2">
-                  <a class="btn btn-primary" id="button_openframe" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
-                        Add New Question   
-                  </a>
-               </div>
-               <div class="col-sm-2">
-                  <a class="btn btn-primary" id="button_copy">
-                        Copy Question   
-                  </a>
-               </div>
-               <div class="col-sm-2">
-                  <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=FConstSumOptionQnUiT.instructor&courseid=FConstSumOptionQnUiT.CS2104&fsname=First+Session">
-                        Done Editing   
-                  </a>
+            </div>
+            <div class="row">
+               <div class="col-sm-12 row">
+                  <div class="col-sm-offset-3 col-sm-9">
+                     <a class="btn btn-primary margin-bottom-7px" id="button_openframe" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
+                        Add New Question
+                     </a>
+                     <a class="btn btn-primary margin-bottom-7px" id="button_copy">
+                        Copy Question
+                     </a>
+                     <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbacksPage?user=FConstSumOptionQnUiT.instructor&courseid=FConstSumOptionQnUiT.CS2104&fsname=First+Session">
+                        Done Editing
+                     </a>
+                  </div>
                </div>
             </div>
          </div>
          <div class="panel panel-primary questionTable" id="questionTableNew" style="display:none;">
             <div class="panel-heading">
-               <strong>
-                  Question
-               </strong>
-               <select class="questionNumber nonDestructive text-primary" id="questionnum" name="questionnum">
-                  <option value="1">
-                     1
-                  </option>
-                  <option value="2">
-                     2
-                  </option>
-               </select>
-                
-               <span id="questionTypeHeader">
-               </span>
-               <span class="pull-right">
-                  <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" title="">
-                     Cancel
-                  </a>
-                  <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" title="">
-                     Delete
-                  </a>
-               </span>
+               <div class="row">
+                  <div class="col-sm-7">
+                     <span>
+                        <strong>
+                           Question
+                        </strong>
+                        <select class="questionNumber nonDestructive text-primary" id="questionnum" name="questionnum">
+                           <option value="1">
+                              1
+                           </option>
+                           <option value="2">
+                              2
+                           </option>
+                        </select>
+                         
+                     </span>
+                     <span id="questionTypeHeader">
+                     </span>
+                  </div>
+                  <div class="col-sm-5 mobile-margin-top-10px">
+                     <span class="mobile-no-pull pull-right">
+                        <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" title="">
+                           Cancel
+                        </a>
+                        <a class="btn btn-primary btn-xs" data-original-title="Delete this question" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" title="">
+                           Delete
+                        </a>
+                     </span>
+                  </div>
+               </div>
             </div>
             <div class="panel-body">
                <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
@@ -1255,8 +1263,8 @@
                         <br/>
                         <div class="col-sm-6">
                            <div id="mcqChoiceTable--1">
-                              <div id="mcqOptionRow-0--1">
-                                 <div class="input-group">
+                              <div class="margin-bottom-7px" id="mcqOptionRow-0--1">
+                                 <div class="input-group width-100-pc">
                                     <span class="input-group-addon">
                                        <input class="disabled_radio" disabled="disabled" type="radio"/>
                                     </span>
@@ -1269,8 +1277,8 @@
                                     </span>
                                  </div>
                               </div>
-                              <div id="mcqOptionRow-1--1">
-                                 <div class="input-group">
+                              <div class="margin-bottom-7px" id="mcqOptionRow-1--1">
+                                 <div class="input-group width-100-pc">
                                     <span class="input-group-addon">
                                        <input class="disabled_radio" disabled="disabled" type="radio"/>
                                     </span>
@@ -1290,8 +1298,8 @@
                                        </span>
                                        add more options
                                     </a>
-                                    <div class="control-label">
-                                       <label>
+                                    <div class="checkbox">
+                                       <label class="bold-label">
                                           <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, -1)" type="checkbox"/>
                                           Add 'Other' option (Allows respondents to type in their own answer)
                                        </label>
@@ -1301,12 +1309,16 @@
                            </div>
                            <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2"/>
                         </div>
-                        <div class="col-sm-6">
-                           <label class="control-label col-sm-8">
-                              <input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox"/>
-                              Or, generate options from the list of all
-                           </label>
-                           <div class="col-sm-4">
+                        <div class="col-sm-6 row">
+                           <div class="col-md-8 margin-bottom-7px">
+                              <div class="checkbox">
+                                 <label class="bold-label">
+                                    <input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox"/>
+                                    Or, generate options from the list of all
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col-md-4">
                               <select class="form-control" disabled="disabled" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)">
                                  <option value="STUDENTS">
                                     students
@@ -1329,8 +1341,8 @@
                         <br/>
                         <div class="col-sm-6">
                            <div id="msqChoiceTable--1">
-                              <div id="msqOptionRow-0--1">
-                                 <div class="input-group">
+                              <div class="margin-bottom-7px" id="msqOptionRow-0--1">
+                                 <div class="input-group width-100-pc">
                                     <span class="input-group-addon">
                                        <input class="disabled_radio" disabled="disabled" type="checkbox"/>
                                     </span>
@@ -1343,8 +1355,8 @@
                                     </span>
                                  </div>
                               </div>
-                              <div id="msqOptionRow-1--1">
-                                 <div class="input-group">
+                              <div class="margin-bottom-7px" id="msqOptionRow-1--1">
+                                 <div class="input-group width-100-pc">
                                     <span class="input-group-addon">
                                        <input class="disabled_radio" disabled="disabled" type="checkbox"/>
                                     </span>
@@ -1364,8 +1376,8 @@
                                        </span>
                                        add more options
                                     </a>
-                                    <div class="control-label">
-                                       <label>
+                                    <div class="checkbox">
+                                       <label class="bold-label">
                                           <input id="msqOtherOptionFlag--1" name="msqOtherOptionFlag" onchange="toggleMsqOtherOptionEnabled(this, -1)" type="checkbox"/>
                                           Add 'Other' option (Allows respondents to type in their own answer)
                                        </label>
@@ -1375,12 +1387,16 @@
                            </div>
                            <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2"/>
                         </div>
-                        <div class="col-sm-6">
-                           <label class="control-label col-sm-8">
-                              <input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox"/>
-                              Or, generate options from the list of all
-                           </label>
-                           <div class="col-sm-4">
+                        <div class="col-sm-6 row">
+                           <div class="col-md-8 margin-bottom-7px">
+                              <div class="checkbox">
+                                 <label class="bold-label">
+                                    <input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox"/>
+                                    Or, generate options from the list of all
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="col-md-4">
                               <select class="form-control" disabled="disabled" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
                                  <option value="STUDENTS">
                                     students
@@ -1433,8 +1449,8 @@
                      <div class="row">
                         <br/>
                         <div class="col-sm-6" id="constSumOptionTable--1">
-                           <div id="constSumOptionRow-0--1">
-                              <div class="input-group col-sm-12">
+                           <div class="margin-bottom-7px" id="constSumOptionRow-0--1">
+                              <div class="input-group width-100-pc">
                                  <input class="form-control" disabled="disabled" id="constSumOption-0--1" name="constSumOption-0" type="text" value=""/>
                                  <span class="input-group-btn">
                                     <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,-1)" style="display:none" tabindex="-1" type="button">
@@ -1444,8 +1460,8 @@
                                  </span>
                               </div>
                            </div>
-                           <div id="constSumOptionRow-1--1">
-                              <div class="input-group col-sm-12">
+                           <div class="margin-bottom-7px" id="constSumOptionRow-1--1">
+                              <div class="input-group width-100-pc">
                                  <input class="form-control" disabled="disabled" id="constSumOption-1--1" name="constSumOption-1" type="text" value=""/>
                                  <span class="input-group-btn">
                                     <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,-1)" style="display:none" tabindex="-1" type="button">
@@ -1468,17 +1484,17 @@
                            <input id="constSumToRecipients--1" name="constSumToRecipients" type="hidden" value="false"/>
                         </div>
                         <div class="col-sm-6">
-                           <div class="form-inline col-sm-12">
+                           <div class="form-inline">
                               <div class="row">
-                                 <div class="col-sm-4">
-                                    <label class="control-label width-100-pc">
+                                 <div class="col-md-5 col-lg-4">
+                                    <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
                                        <b>
                                           Points to distribute
                                        </b>
                                     </label>
                                  </div>
-                                 <div class="col-sm-5">
-                                    <select class="col-sm-5 width-100-pc select form-control" disabled="disabled" id="constSumPointsPerOptionSelect--1" name="constSumPointsPerOption">
+                                 <div class="col-md-4">
+                                    <select class="width-100-pc select form-control margin-bottom-7px" disabled="disabled" id="constSumPointsPerOptionSelect--1" name="constSumPointsPerOption">
                                        <option value="false">
                                           in total:
                                        </option>
@@ -1490,20 +1506,22 @@
                                        </option>
                                     </select>
                                  </div>
-                                 <div class="col-sm-3">
+                                 <div class="col-md-3">
                                     <input class="form-control width-100-pc pointsBox" disabled="disabled" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100"/>
                                  </div>
                               </div>
                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                           <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
-                              <label class="control-label">
-                                 <span id="constSum_labelText--1">
-                                    Every option to receive a different number of points
-                                 </span>
-                                 <input disabled="disabled" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" type="checkbox"/>
-                              </label>
+                           <div class="row">
+                              <div class="col-sm-12">
+                                 <div class="checkbox" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
+                                    <label class="bold-label">
+                                       <input disabled="disabled" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" type="checkbox"/>
+                                       <span id="constSum_labelText--1">
+                                          Every option to receive a different number of points
+                                       </span>
+                                    </label>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                         <br/>
@@ -1512,7 +1530,7 @@
                   <div id="contribForm">
                      <div class="row">
                         <br/>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 row">
                            <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" title="">
                               <input checked="checked" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" type="checkbox"/>
                               <span style="margin-left: 5px; font-weight: bold;">
@@ -1664,8 +1682,8 @@
                      <div class="row">
                         <br/>
                         <div class="col-sm-6" id="rankOptionTable--1">
-                           <div id="rankOptionRow-0--1">
-                              <div class="input-group col-sm-12">
+                           <div class="margin-bottom-7px" id="rankOptionRow-0--1">
+                              <div class="input-group width-100-pc">
                                  <input class="form-control" disabled="disabled" id="rankOption-0--1" name="rankOption-0" type="text" value=""/>
                                  <span class="input-group-btn">
                                     <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
@@ -1675,8 +1693,8 @@
                                  </span>
                               </div>
                            </div>
-                           <div id="rankOptionRow-1--1">
-                              <div class="input-group col-sm-12">
+                           <div class="margin-bottom-7px" id="rankOptionRow-1--1">
+                              <div class="input-group width-100-pc">
                                  <input class="form-control" disabled="disabled" id="rankOption-1--1" name="rankOption-1" type="text" value=""/>
                                  <span class="input-group-btn">
                                     <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
@@ -1698,11 +1716,11 @@
                            <input id="noofchoicecreated--1" name="noofchoicecreated" type="hidden" value="2"/>
                         </div>
                         <div class="col-sm-6">
-                           <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
-                              <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox"/>
-                              <span style="margin-left: 5px; font-weight: bold;">
+                           <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
+                              <label class="bold-label">
+                                 <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox"/>
                                  Allow response giver to give the same rank to multiple options
-                              </span>
+                              </label>
                            </div>
                         </div>
                         <br/>
@@ -1710,13 +1728,12 @@
                   </div>
                   <div id="rankRecipientsForm">
                      <div class="row">
-                        <br/>
-                        <div class="col-sm-6">
-                           <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple recipients" data-placement="top" data-toggle="tooltip" title="">
-                              <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox"/>
-                              <span style="margin-left: 5px; font-weight: bold;">
+                        <div class="col-sm-12">
+                           <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple recipients" data-placement="top" data-toggle="tooltip" title="">
+                              <label class="bold-label">
+                                 <input id="rankAreDuplicatesAllowed--1" name="rankAreDuplicatesAllowed" type="checkbox"/>
                                  Allow response giver to give the same rank to multiple options
-                              </span>
+                              </label>
                            </div>
                         </div>
                         <br/>
@@ -1725,17 +1742,17 @@
                </div>
                <br/>
                <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                  <div class="col-sm-12 padding-0">
+                  <div class="col-sm-12 padding-0 margin-bottom-7px">
                      <b>
                         Feedback Path
                      </b>
                      (Who is giving feedback about whom?)
                   </div>
-                  <div class="col-sm-6 padding-0" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
-                     <label class="col-sm-5 control-label">
+                  <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
+                     <label class="col-sm-4 col-lg-5 control-label">
                         Who will give the feedback:
                      </label>
-                     <div class="col-sm-7">
+                     <div class="col-sm-8 col-lg-7">
                         <select class="form-control participantSelect" id="givertype" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
                            <option value="SELF">
                               Me (Session creator)
@@ -1752,11 +1769,11 @@
                         </select>
                      </div>
                   </div>
-                  <div class="col-sm-6 padding-0" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
-                     <label class="col-sm-5 control-label">
+                  <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
+                     <label class="col-sm-4 col-lg-5 control-label">
                         Who the feedback is about:
                      </label>
-                     <div class="col-sm-7">
+                     <div class="col-sm-8 col-lg-7">
                         <select class="form-control participantSelect" id="recipienttype" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                            <option value="SELF">
                               Giver (Self feedback)
@@ -1785,9 +1802,7 @@
                         </select>
                      </div>
                   </div>
-                  <div class="col-sm-6">
-                  </div>
-                  <div class="col-sm-6 numberOfEntitiesElements" style="display: none;">
+                  <div class="col-sm-12 row numberOfEntitiesElements" style="display: none;">
                      <label class="control-label col-sm-4 small" id="numofrecipients_text-">
                         The maximum number of
                         <span id="numofrecipients_text_inner-">
@@ -1795,11 +1810,11 @@
                         each respondant should give feedback to:
                      </label>
                      <div class="col-sm-8 form-control-static">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                            <input class="nonDestructive" name="numofrecipientstype" type="radio" value="custom"/>
-                           <input class="nonDestructive numberOfEntitiesBox" id="numofrecipients" max="250" min="1" name="numofrecipients" type="number" value="1"/>
+                           <input class="nonDestructive numberOfEntitiesBox width-75-pc" id="numofrecipients" max="250" min="1" name="numofrecipients" type="number" value="1"/>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                            <input checked="checked" class="nonDestructive" name="numofrecipientstype" type="radio" value="max"/>
                            <span class="">
                               Unlimited
@@ -1810,7 +1825,7 @@
                </div>
                <br/>
                <div class="col-sm-12 padding-15px background-color-light-green">
-                  <div class="col-sm-12 padding-0">
+                  <div class="col-sm-12 padding-0 margin-bottom-7px">
                      <b>
                         Visibility
                      </b>
@@ -1832,13 +1847,13 @@
                   </div>
                </div>
                <div class="col-sm-12 background-color-light-green">
-                  <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage">
+                  <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage">
                      This is the visibility as seen by the feedback giver.
                      <ul class="background-color-warning">
                      </ul>
                   </div>
                </div>
-               <div class="col-sm-12 margin-bottom-15px background-color-light-green">
+               <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
                   <div class="visibilityOptions" id="visibilityOptions" style="display: none;">
                      <table class="dataTable participantTable table table-striped text-center background-color-white">
                         <tbody>
@@ -2041,48 +2056,46 @@
       </div>
       <br/>
       <br/>
-      <div class="container">
-         <div class="well well-plain inputTable" id="questionPreviewTable">
-            <div class="row">
-               <form class="form-horizontal">
-                  <label class="control-label col-sm-2 text-right">
-                     Preview Session:
-                  </label>
+      <div class="well well-plain inputTable" id="questionPreviewTable">
+         <div class="row">
+            <form class="form-horizontal">
+               <label class="control-label col-xs-6 col-md-2 tablet-align-left text-right">
+                  Preview Session:
+               </label>
+            </form>
+            <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled." data-placement="top" data-toggle="tooltip" title="">
+               <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
+                  <div class="col-sm-6">
+                     <select class="form-control margin-bottom-7px" name="previewas">
+                        <option value="alice.b.tmms@gmail.tmt">
+                           [Team 1] Alice Betsy
+                        </option>
+                     </select>
+                  </div>
+                  <input name="fsname" type="hidden" value="First Session"/>
+                  <input name="courseid" type="hidden" value="FConstSumOptionQnUiT.CS2104"/>
+                  <div class="col-sm-6">
+                     <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student"/>
+                  </div>
+                  <input name="user" type="hidden" value="FConstSumOptionQnUiT.instructor"/>
                </form>
-               <div class="col-sm-5" data-original-title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled." data-placement="top" data-toggle="tooltip" title="">
-                  <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
-                     <div class="col-sm-6">
-                        <select class="form-control" name="previewas">
-                           <option value="alice.b.tmms@gmail.tmt">
-                              [Team 1] Alice Betsy
-                           </option>
-                        </select>
-                     </div>
-                     <input name="fsname" type="hidden" value="First Session"/>
-                     <input name="courseid" type="hidden" value="FConstSumOptionQnUiT.CS2104"/>
-                     <div class="col-sm-6">
-                        <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student"/>
-                     </div>
-                     <input name="user" type="hidden" value="FConstSumOptionQnUiT.instructor"/>
-                  </form>
-               </div>
-               <div class="col-sm-5" data-original-title="View how this session would look like to an instructor who is submitting feedback." data-placement="top" data-toggle="tooltip" title="">
-                  <form action="/page/instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
-                     <div class="col-sm-6">
-                        <select class="form-control" name="previewas">
-                           <option value="tmms.test@gmail.tmt">
-                              Teammates Test
-                           </option>
-                        </select>
-                     </div>
-                     <input name="fsname" type="hidden" value="First Session"/>
-                     <input name="courseid" type="hidden" value="FConstSumOptionQnUiT.CS2104"/>
-                     <div class="col-sm-6">
-                        <input class="btn btn-primary" id="button_preview_instructor" type="submit" value="Preview as Instructor"/>
-                     </div>
-                     <input name="user" type="hidden" value="FConstSumOptionQnUiT.instructor"/>
-                  </form>
-               </div>
+            </div>
+            <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to an instructor who is submitting feedback." data-placement="top" data-toggle="tooltip" title="">
+               <form action="/page/instructorFeedbackPreviewAsInstructor" class="form_preview" method="post" name="form_previewasinstructor" target="_blank">
+                  <div class="col-sm-6">
+                     <select class="form-control margin-bottom-7px" name="previewas">
+                        <option value="tmms.test@gmail.tmt">
+                           Teammates Test
+                        </option>
+                     </select>
+                  </div>
+                  <input name="fsname" type="hidden" value="First Session"/>
+                  <input name="courseid" type="hidden" value="FConstSumOptionQnUiT.CS2104"/>
+                  <div class="col-sm-6">
+                     <input class="btn btn-primary" id="button_preview_instructor" type="submit" value="Preview as Instructor"/>
+                  </div>
+                  <input name="user" type="hidden" value="FConstSumOptionQnUiT.instructor"/>
+               </form>
             </div>
          </div>
       </div>

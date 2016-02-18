@@ -9,12 +9,12 @@
 <%@ attribute name="primaryParticipantPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel" required="true" %>
 
 <div class="col-md-2">
-    <div class="col-md-12">
+    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
         ${primaryParticipantPanel.giver ? 'To' : 'From'}: 
         
         <c:choose>
             <c:when test="${not empty secondaryParticipantPanelBody.profilePictureLink}">
-                <div class="middlealign profile-pic-icon-hover inline-block" data-link="${secondaryParticipantPanelBody.profilePictureLink}">
+                <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="${secondaryParticipantPanelBody.profilePictureLink}">
                     <strong>${secondaryParticipantPanelBody.secondaryParticipantDisplayableName}</strong>
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>
@@ -26,11 +26,11 @@
             
     </div>
     
-    <div class="col-md-12 text-muted small"><br>
+    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
         ${primaryParticipantPanel.giver ? 'From' : 'To' }: 
         <c:choose>
             <c:when test="${primaryParticipantPanel.emailValid}">
-                <div class="middlealign profile-pic-icon-hover inline-block" data-link="${primaryParticipantPanel.profilePictureLink}">
+                <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="${primaryParticipantPanel.profilePictureLink}">
                     ${primaryParticipantPanel.name}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>               
@@ -41,7 +41,7 @@
         </c:choose>
     </div>
     <c:if test="${not empty secondaryParticipantPanelBody.moderationButton}">
-        <div class="col-md-12">
+        <div class="col-md-12 margin-bottom-10px tablet-margin-10px tablet-no-padding">
             <results:moderationButton moderationButton="${secondaryParticipantPanelBody.moderationButton}"/>
         </div>
     </c:if>

@@ -20,15 +20,15 @@
             value="${constSumToRecipientsValue}">
     </div>
     <div class="col-sm-6">
-        <div class="form-inline col-sm-12">
+        <div class="form-inline">
             <div class="row">
-                <div class="col-sm-4">
-                    <label class="control-label width-100-pc">
+                <div class="col-md-5 col-lg-4">
+                    <label class="bold-label width-100-pc margin-top-7px margin-bottom-7px tablet-no-mobile-margin-top-0">
                         <b>Points to distribute </b>
                     </label>
                 </div>
-                <div class="col-sm-5">
-                    <select class="col-sm-5 width-100-pc select form-control"
+                <div class="col-md-4">
+                    <select class="width-100-pc select form-control margin-bottom-7px"
                             disabled="disabled"
                             id="constSumPointsPerOptionSelect-${questionNumber}"
                             name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}">
@@ -37,15 +37,20 @@
                         <option value="true" id="constSumOption_Recipient-${questionNumber}" ${selectedConstSumPointsPerOption}>per recipient:</option>
                     </select>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-md-3">
                     <input type="number" disabled="disabled" class="form-control width-100-pc pointsBox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}" id="constSumPoints-${questionNumber}" value="${constSumPoints}" min="1" step="1" onChange="updateConstSumPointsValue(${questionNumber})">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-inline col-sm-12" id="constSum_tooltipText-${questionNumber}" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple ${optionRecipientDisplayName}s">
-            <label class="control-label"> <span id="constSum_labelText-${questionNumber}">Every ${optionRecipientDisplayName} to receive a different number of points  </span><input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}" disabled="disabled" id="constSum_UnevenDistribution-${questionNumber}" ${distributeUnevenly}></label>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="checkbox" id="constSum_tooltipText-${questionNumber}" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple ${optionRecipientDisplayName}s">
+                    <label class="bold-label">
+                        <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}" disabled="disabled" id="constSum_UnevenDistribution-${questionNumber}" ${distributeUnevenly}>
+                        <span id="constSum_labelText-${questionNumber}">Every ${optionRecipientDisplayName} to receive a different number of points</span>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
     <br>

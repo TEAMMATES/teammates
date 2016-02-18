@@ -175,6 +175,14 @@ Apply to thead to make headers not bold.
     margin: 0;
 }
 
+.margin-bottom-7px {
+    margin-bottom: 7px;
+}
+
+.margin-bottom-10px {
+    margin-bottom: 10px;
+}
+
 .margin-bottom-15px {
     margin-bottom: 15px;
 }
@@ -191,12 +199,20 @@ Apply to thead to make headers not bold.
     margin-top: 0;
 }
 
+.margin-top-7px {
+    margin-top: 7px;
+}
+
 .padding-0 {
     padding: 0;
 }
 
 .padding-15px {
     padding: 15px;
+}
+
+.padding-right-10px {
+    padding-right: 10px;
 }
 
 .padding-top-0 {
@@ -217,6 +233,10 @@ Apply to thead to make headers not bold.
 
 .overflow-hidden {
     overflow:hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
 }
 
 .padding-top-0.checkbox,.padding-top-0 {
@@ -269,6 +289,10 @@ Apply to thead to make headers not bold.
 
 .form-control.width-100-pc,.width-100-pc {
     width: 100%;
+}
+
+.width-75-pc {
+    width: 75%;
 }
 
 @media print {
@@ -495,6 +519,14 @@ Apply to thead to make headers not bold.
     border-width: 0 0 1px
 }
 
+.course-id-table-width {
+    min-width: 100px;
+}
+
+.session-name-table-width {
+    min-width: 130px;
+}
+
 @media ( min-width :768px) {
     .bs-example {
         background-color: #fff;
@@ -609,6 +641,12 @@ Apply to thead to make headers not bold.
         display: block;
     }
 
+.questionType {
+    display: inline-block;
+    width: 90%;
+    margin-right: 5px;
+}
+
 .unsorted {
     background: url(../images/sortSideButton.png);
 }
@@ -712,10 +750,14 @@ Prevent Long URL From Breaking Out of Container
     hyphens: auto;
 }
 
+
+.highlight {
+    background-color: #FFFF88;
+}
+
 /*//////////////////////////////////////////////////////////
 ////////////////////// Responsiveness //////////////////////
 //////////////////////////////////////////////////////////*/
-
 @media (max-width: 767px) {
     .mobile-no-padding {
         padding-left: 0;
@@ -723,5 +765,55 @@ Prevent Long URL From Breaking Out of Container
     }
     .mobile-align-left {
         text-align: left !important;
+    }
+    .mobile-no-pull {
+        float: inherit !important;
+    }
+    .mobile-margin-top-10px {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 991px) {
+    .tablet-no-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .tablet-align-left {
+        text-align: left !important;
+    }
+    .tablet-bottom-align {
+        vertical-align: bottom;
+    }
+    .tablet-margin-10px {
+        margin: 10px;
+    }
+    .tablet-no-pull {
+        float: inherit !important;
+    }
+    .tablet-margin-top-10px {
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .tablet-no-mobile-margin-top-20px {
+        margin-top: 20px;
+    }
+    .tablet-no-mobile-margin-top-0 {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .tablet-no-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .tablet-bottom-align {
+        vertical-align: bottom;
+    }
+    .tablet-margin-10px {
+        margin: 10px;
     }
 }
