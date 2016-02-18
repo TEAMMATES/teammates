@@ -31,16 +31,12 @@
                     <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,4)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <c:if test="${not fromCourseDetailsPage}">
-                        <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,5)">
-                            Email <span class="icon-sort unsorted"></span>
-                        </th>
-                    </c:if>
-                    <c:if test="${fromCourseDetailsPage}">
-                        <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
-                            Status <span class="icon-sort unsorted"></span>
-                        </th>
-                    </c:if>
+                    <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
+                        Status <span class="icon-sort unsorted"></span>
+                    </th>
+                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,6)">
+                        Email <span class="icon-sort unsorted"></span>
+                    </th>
                     <th>Action(s)</th>
                 </tr>
             </thead>
@@ -97,16 +93,12 @@
                                 <td id="studentname-c${courseIndex}.${studentIndex}">
                                     <c:out value="${student.studentName}"/>
                                 </td>
-                                <c:if test="${not fromCourseDetailsPage}">
-                                    <td id="studentemail-c${courseIndex}.${studentIndex}">
-                                        <c:out value="${student.studentEmail}"/>
-                                    </td>
-                                </c:if>
-                                <c:if test="${fromCourseDetailsPage}">
-                                    <td class="align-center">
-                                        ${student.studentStatus}
-                                    </td>
-                                </c:if>
+                                <td class="align-center">
+                                    ${student.studentStatus}
+                                </td>
+                                <td id="studentemail-c${courseIndex}.${studentIndex}">
+                                    <c:out value="${student.studentEmail}"/>
+                                </td>
                                 <td class="no-print align-center">
                                     <a class="btn btn-default btn-xs student-view-for-test"
                                        href="${student.courseStudentDetailsLink}"
