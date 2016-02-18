@@ -155,7 +155,7 @@ $(document).on('ajaxComplete ready', function() {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return true === (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+    return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
 }
 
 /**
@@ -548,9 +548,9 @@ function setStatusMessage(message, error) {
     $(DIV_STATUS_MESSAGE).show();
     
     if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-danger');
+        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-danger');
     } else {
-        $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-warning');
+        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-warning');
     }
     
     scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});

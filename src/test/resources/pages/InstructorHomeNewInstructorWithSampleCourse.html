@@ -26,7 +26,7 @@
          </div>
       </div>
       <br/>
-      <div class="alert alert-info" id="statusMessage">
+      <div class="overflow-auto alert alert-info" id="statusMessage">
          New to TEAMMATES? You may wish to have a look at our
          <a href="/instructorHelp.html#gs" target="_blank">
             Getting Started Guide
@@ -72,30 +72,32 @@
          </div>
       </div>
       <div class="row">
-         <div class="col-md-2 pull-left">
-            <a class="btn btn-primary btn-md pull-left" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">
+         <div class="col-xs-2">
+            <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">
                Add New Course
             </a>
          </div>
-         <div class="col-md-5 pull-right">
-            <h5 class="pull-left">
-               <strong>
-                  Sort By:
-               </strong>
-            </h5>
-            <div class="btn-group pull-right" data-toggle="buttons">
-               <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
-                  <input type="radio"/>
-                  Course ID
-               </label>
-               <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
-                  <input name="sortby" type="radio" value="name"/>
-                  Course Name
-               </label>
-               <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
-                  <input type="radio"/>
-                  Creation Date
-               </label>
+         <div class="col-xs-10">
+            <div class="pull-right">
+               <h5 class="inline-block">
+                  <strong>
+                     Sort By:
+                  </strong>
+               </h5>
+               <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
+                     <input type="radio"/>
+                     Course ID
+                  </label>
+                  <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
+                     <input name="sortby" type="radio" value="name"/>
+                     Course Name
+                  </label>
+                  <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
+                     <input type="radio"/>
+                     Creation Date
+                  </label>
+               </div>
             </div>
          </div>
       </div>
@@ -103,13 +105,13 @@
       <div class="panel panel-primary" id="course-0">
          <div class="panel-heading">
             <div class="row">
-               <div class="col-md-6">
+               <div class="col-sm-6">
                   <strong>
                      [newIns.wit-demo] : Sample Course 101
                   </strong>
                </div>
-               <div class="col-md-6">
-                  <span class="pull-right">
+               <div class="mobile-margin-top-10px col-sm-6">
+                  <span class="mobile-no-pull pull-right">
                      <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&user=CHomeUiT.instructor.tmms" title="">
                         Enroll
                      </a>

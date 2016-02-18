@@ -13,66 +13,78 @@
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD %>"
     name="form_addquestions" onsubmit="tallyCheckboxes('')" >
     <div class="well well-plain inputTable" id="addNewQuestionTable">
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="questionTypeChoice" class="control-label col-sm-3">
-                    Question Type
-                </label>
-                <div class="col-sm-8">
+        <div class="row margin-bottom-15px">
+            <div class="col-sm-12 row">
+                <div class="col-sm-3">
+                    <label for="questionTypeChoice" class="mobile-no-pull pull-right control-label padding-right-10px">
+                        Question Type
+                    </label>
+                </div>
+                <div class="col-sm-9">
                     <select class="form-control questionType"
                         name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>"
                         id="questionTypeChoice">
                         ${fqForm.questionTypeOptions}
                     </select>
+                    <a href="/instructorHelp.html#fbQuestionTypes" target="_blank">
+                        <i class="glyphicon glyphicon-info-sign"></i>
+                    </a>
                 </div>
-                <div class="col-sm-1">
-                    <h5><a href="/instructorHelp.html#fbQuestionTypes" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 row">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <a id="button_openframe" class="btn btn-primary margin-bottom-7px"
+                        onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
+                        Add New Question
+                    </a>
+                    <a id="button_copy" class="btn btn-primary margin-bottom-7px">
+                        Copy Question
+                    </a>
+                    <a class="btn btn-primary margin-bottom-7px"
+                        href="${fqForm.doneEditingLink}">
+                        Done Editing
+                    </a>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <a id="button_openframe" class="btn btn-primary"
-                    onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
-                    &nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;
-                </a>
-            </div>
-            <div class="col-sm-2">
-                <a id="button_copy" class="btn btn-primary">
-                    &nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;
-                </a>
-            </div>
-            <div class="col-sm-2">
-                <a class="btn btn-primary"
-                    href="${fqForm.doneEditingLink}">
-                    &nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;
-                </a>
             </div>
         </div>
     </div>
 
     <div class="panel panel-primary questionTable" id="questionTableNew" style="display:none;">
         <div class="panel-heading">
-            <strong>Question</strong>
-            <select class="questionNumber nonDestructive text-primary"
-                name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>">
-                <c:forEach items="${fqForm.questionNumberOptions}" var="option">
-                    <option ${option.attributesToString}>
-                        ${option.content}
-                    </option>
-                </c:forEach>
-            </select>
-            &nbsp;
-            <span id="questionTypeHeader"></span>
-            <span class="pull-right">
-                <a class="btn btn-primary btn-xs" onclick="cancelEdit(-1)" data-toggle="tooltip" data-placement="top"
-                    title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
-                    Cancel
-                </a>
-                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top"
-                    title="<%= Const.Tooltips.FEEDBACK_QUESTION_DELETE %>">
-                    Delete
-                </a>
-            </span>
+            <div class="row">
+                <div class="col-sm-7">
+                    <span>
+                        <strong>Question</strong>
+                        <select class="questionNumber nonDestructive text-primary"
+                            name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
+                            id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>">
+                            <c:forEach items="${fqForm.questionNumberOptions}" var="option">
+                                <option ${option.attributesToString}>
+                                    ${option.content}
+                                </option>
+                            </c:forEach>
+                        </select>
+                        &nbsp;
+                    </span>
+                    <span id="questionTypeHeader"></span>
+                </div>
+                <div class="col-sm-5 mobile-margin-top-10px">
+                    <span class="mobile-no-pull pull-right">
+                        <a class="btn btn-primary btn-xs"
+                            onclick="cancelEdit(-1)" data-toggle="tooltip" data-placement="top"
+                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW %>">
+                            Cancel
+                        </a>
+                        <a class="btn btn-primary btn-xs"
+                            onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top"
+                            title="<%= Const.Tooltips.FEEDBACK_QUESTION_DELETE %>">
+                            Delete
+                        </a>
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="panel-body">
             <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">

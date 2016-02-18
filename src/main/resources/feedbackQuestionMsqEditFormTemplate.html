@@ -11,8 +11,8 @@
                         </span> add more options
                     </a>
                     
-                    <div class="control-label">
-                        <label>
+                    <div class="checkbox">
+                        <label class="bold-label">
                             <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}"
                                    id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}-${questionNumber}"
                                    ${checkedOtherOptionEnabled} onchange="toggleMsqOtherOptionEnabled(this, ${questionNumber})">
@@ -27,13 +27,20 @@
             id="${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNumber}" 
             value="${numOfMsqChoices}">
     </div>
-    <div class="col-sm-6">
-        <label class="control-label col-sm-8"><input type="checkbox" 
-            disabled="disabled"
-            id="generateOptionsCheckbox-${questionNumber}"
-            ${checkedGeneratedOptions}
-            onchange="toggleMsqGeneratedOptions(this,${questionNumber})">Or, generate options from the list of all </label>
-        <div class="col-sm-4">
+    <div class="col-sm-6 row">
+        <div class="col-md-8 margin-bottom-7px">
+            <div class="checkbox">
+                <label class="bold-label">
+                    <input type="checkbox"
+                        disabled="disabled"
+                        id="generateOptionsCheckbox-${questionNumber}"
+                        ${checkedGeneratedOptions}
+                        onchange="toggleMsqGeneratedOptions(this,${questionNumber})">
+                    Or, generate options from the list of all
+                </label>
+            </div>
+        </div>
+        <div class="col-md-4">
             <select class="form-control" id="msqGenerateForSelect-${questionNumber}" 
                 onchange="changeMsqGenerateFor(${questionNumber})"
                 disabled="disabled">
