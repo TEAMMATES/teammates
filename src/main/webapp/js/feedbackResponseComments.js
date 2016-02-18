@@ -387,6 +387,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
                 panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
             }
             
+            //clearQueue to clear the animation queue to prevent animation build up
             $sender.find('div[class^="placeholder-img-loading"]').html("");
             $sender.addClass("loaded");
             $sender.siblings(".collapse").clearQueue().collapse("toggle");
@@ -401,6 +402,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
 // sets the chevron of a panel from up to down or from down to up depending on its current state
 // sender must be at least the parent of the chevron
 function toggleChevron(sender) {
+    //clearQueue to clear the animation queue to prevent animation build up
     var $sender = $(sender);
     $sender.find(".glyphicon").clearQueue();
     
