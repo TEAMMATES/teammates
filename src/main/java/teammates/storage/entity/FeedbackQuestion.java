@@ -15,6 +15,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.util.Const;
 
 @PersistenceCapable
 public class FeedbackQuestion implements StoreCallback {
@@ -105,13 +106,13 @@ public class FeedbackQuestion implements StoreCallback {
         this.showRecipientNameTo = showRecipientNameTo;
         this.setCreatedAt(new Date());
     }
-    
+
     public Date getCreatedAt() {
-        return this.createdAt;
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
     
     public Date getUpdatedAt() {
-        return this.updatedAt;
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     public void setCreatedAt(Date newDate) {
