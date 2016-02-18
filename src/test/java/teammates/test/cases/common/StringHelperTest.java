@@ -240,12 +240,6 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("1234567890", StringHelper.truncate("1234567890", 10));
         assertEquals("123456789", StringHelper.truncate("123456789", 10));
     }
-
-    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
-        for(String str : stringsToMatch){
-            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
-        }
-    }
     
     @Test
     public void testTruncateHead() {
@@ -253,5 +247,11 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("1234567890", StringHelper.truncateHead("1234567890", 10));
         assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
+    }
+
+    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
+        for(String str : stringsToMatch){
+            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
+        }
     }
 }
