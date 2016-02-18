@@ -60,14 +60,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         
         removeIrrelevantVisibilityOptions();
     }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-    
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
     
     public String getId() {
         return feedbackQuestionId;
