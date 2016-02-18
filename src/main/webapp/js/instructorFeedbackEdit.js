@@ -653,9 +653,9 @@ function disableRow(elem, row) {
 
 function feedbackRecipientUpdateVisibilityOptions(elem) {
     elem = $(elem);
-    if (elem.val() === 'OWN_TEAM' || elem.val() === 'TEAMS' ||
-            elem.val() === 'INSTRUCTORS' || elem.val() === 'OWN_TEAM_MEMBERS' ||
-            elem.val() === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
+    if (elem.val() === 'OWN_TEAM' || elem.val() === 'TEAMS' 
+        || elem.val() === 'INSTRUCTORS' || elem.val() === 'OWN_TEAM_MEMBERS' 
+        || elem.val() === 'OWN_TEAM_MEMBERS_INCLUDING_SELF') {
         enableRow(elem, 1);
         disableRow(elem, 3);
         return;

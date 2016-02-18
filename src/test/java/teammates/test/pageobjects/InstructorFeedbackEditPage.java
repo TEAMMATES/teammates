@@ -934,7 +934,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
     }
-    
+
+    public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
+        return getVisibilityOptions(questionNumber).findElement(By.xpath("table/tbody/tr[" + optionRowNumber + "]"));
+    }
+
     public WebElement getPreviewLabel(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessageButton-" + String.valueOf(questionNumber)));   
     }
