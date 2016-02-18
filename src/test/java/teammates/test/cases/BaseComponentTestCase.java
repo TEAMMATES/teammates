@@ -115,9 +115,9 @@ public class BaseComponentTestCase extends BaseTestCase {
     private static void setEqualTimestampBetweenExpectedAndActual(FeedbackQuestionAttributes expected,
                                     FeedbackQuestionAttributes actual) {
         
-        //timestamps are ignored
-        expected.setCreated_NonProduction(actual.getCreatedAt());
-        expected.setUpdatedAt_NonProduction(actual.getUpdatedAt());
+        // Timestamps are ignored here, and should be tested separately.
+        expected.setCreated_NonProduction(actual.createdAt);
+        expected.setUpdatedAt_NonProduction(actual.updatedAt);
         
     }
 
