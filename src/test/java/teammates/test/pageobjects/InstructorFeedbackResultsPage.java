@@ -210,19 +210,39 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ThreadHelper.waitFor(1000);
     }
 
-    public boolean verifyAllResultsPanelBodyVisibility(boolean visible) {
-        int numOfQns = browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse")).size();
+    public boolean isAllResultsPanelBodyVisibilityEquals(boolean visible) {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        int numOfQns = webElements.size();
+        
         assertTrue(numOfQns > 0);
-
-        // Wait for the total duration according to the number of collapse/expand intervals between questions
-        ThreadHelper.waitFor((numOfQns * 50) + 1000);
-
+        
         for (WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))) {
             if (e.isDisplayed() != visible) {
                 return false;
             }
         }
+        
         return true;
+    }
+    
+    /**
+     * Method to wait for all the panels to collapse.
+     */    
+    public void waitForPanelsToCollapse() {
+        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
+        waitForElementsVisibility(panelBodies);
+        ThreadHelper.waitFor(1000);
+    }
+    
+    /**
+     * Method to wait for all the panels to expand.
+     */
+    public void waitForPanelsToExpand() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        waitForElementsVisibility(webElements);
     }
 
     public boolean verifyAllStatsVisibility() {
@@ -427,12 +447,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<WebElement> participantPanels = instructorPanelBody
                                                  .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
         return participantPanels.size();
-    }
-    
-    public void waitForPanelsToCollapse() {
-        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
-        waitForElementsVisibility(panelBodies);
-        ThreadHelper.waitFor(1000);
     }
 
     public boolean isSectionPanelExist(String section) {
