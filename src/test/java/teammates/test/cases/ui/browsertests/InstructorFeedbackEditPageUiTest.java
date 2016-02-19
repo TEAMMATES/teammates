@@ -108,6 +108,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testDeleteQuestionAction(2);
         testDeleteQuestionAction(1);
+
+        testEditNonExistentQuestion();
     }
 
     private void testContent() throws Exception {
@@ -417,7 +419,34 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
         
     }
-    
+
+    private void testEditNonExistentQuestion() {
+
+        ______TS("test editing a non-existent question");
+
+        // Create a new question and save
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("new question");
+        feedbackEditPage.clickAddQuestionButton();
+
+        // Delete the new question through the backdoor so that it still appears in the browser
+        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
+        String status = BackDoor.deleteFeedbackQuestion(questionId);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+
+        // Edit the deleted question and save
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillEditQuestionBox("non-existent question", 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+
+        AppUrl expectedRedirectUrl = createUrl("/entityNotFoundPage.jsp");
+
+        assertEquals(expectedRedirectUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
+
+        // Restore feedbackEditPage
+        feedbackEditPage = getFeedbackEditPage();
+    }
+
     private void testPreviewSessionAction() throws Exception {
 
         // add questions for previewing

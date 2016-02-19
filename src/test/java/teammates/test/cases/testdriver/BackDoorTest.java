@@ -38,7 +38,13 @@ public class BackDoorTest extends BaseTestCase {
     public static void setUp() throws Exception {
         printTestClassHeader();
         dataBundle = getTypicalDataBundle();
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, BackDoor.removeAndRestoreDataBundleFromDb(dataBundle));
+        int retryLimit = 5;
+        String status = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        while (status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retryLimit > 0) {
+            status = BackDoor.removeAndRestoreDataBundleFromDb(dataBundle);
+            retryLimit--;
+        }
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
     }
 
     @SuppressWarnings("unused")
@@ -354,7 +360,12 @@ public class BackDoorTest extends BaseTestCase {
         student.email = "new@gmail.tmt";
         student.comments = "new comments";
         student.team = "new team";
-        String status = BackDoor.editStudent(originalEmail, student);
+        String status = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        int retryLimit = 5;
+        while (status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE) && retryLimit > 0) {
+            status = BackDoor.editStudent(originalEmail, student);
+            retryLimit--;
+        }
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyPresentInDatastore(student);
 

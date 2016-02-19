@@ -548,7 +548,11 @@ public class FeedbackQuestionsLogic {
         
         FeedbackQuestionAttributes oldQuestion = 
                 fqDb.getFeedbackQuestion(newQuestion.getId());
-        
+
+        if (oldQuestion == null) {
+            throw new EntityDoesNotExistException("Trying to update a feedback question that does not exist.");
+        }
+
         int oldQuestionNumber = oldQuestion.questionNumber;
         int newQuestionNumber = newQuestion.questionNumber;
         String feedbackSessionName = oldQuestion.feedbackSessionName;

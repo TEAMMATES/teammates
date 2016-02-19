@@ -1,7 +1,7 @@
    <div class="panel panel-primary questionTable" id="questionTable1">
       <div class="panel-heading">
          <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-7">
                <span>
                   <strong>
                      Question
@@ -16,7 +16,9 @@
                   </select>
                    Rank (options) question
                </span>
-               <span class="pull-right">
+            </div>
+            <div class="col-sm-5 mobile-margin-top-10px">
+               <span class="mobile-no-pull pull-right">
                   <a class="btn btn-primary btn-xs" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." data-placement="top" data-toggle="tooltip" id="questiongetlink-1" onclick="getQuestionLink(1)" title="">
                      Get Link
                   </a>
@@ -46,8 +48,8 @@
             <div class="row">
                <br/>
                <div class="col-sm-6" id="rankOptionTable-1">
-                  <div id="rankOptionRow-0-1">
-                     <div class="input-group col-sm-12">
+                  <div class="margin-bottom-7px" id="rankOptionRow-0-1">
+                     <div class="input-group width-100-pc">
                         <input class="form-control" id="rankOption-0-1" name="rankOption-0" type="text" value="Option 1 <>"/>
                         <span class="input-group-btn">
                            <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,1)" style="" tabindex="-1" type="button">
@@ -57,8 +59,8 @@
                         </span>
                      </div>
                   </div>
-                  <div id="rankOptionRow-1-1">
-                     <div class="input-group col-sm-12">
+                  <div class="margin-bottom-7px" id="rankOptionRow-1-1">
+                     <div class="input-group width-100-pc">
                         <input class="form-control" id="rankOption-1-1" name="rankOption-1" type="text" value="  Option 2  "/>
                         <span class="input-group-btn">
                            <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,1)" style="" tabindex="-1" type="button">
@@ -80,11 +82,11 @@
                   <input id="noofchoicecreated-1" name="noofchoicecreated" type="hidden" value="2"/>
                </div>
                <div class="col-sm-6">
-                  <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
-                     <input checked="checked" id="rankAreDuplicatesAllowed-1" name="rankAreDuplicatesAllowed" type="checkbox"/>
-                     <span style="margin-left: 5px; font-weight: bold;">
+                  <div class="checkbox" data-container="body" data-original-title="Ticking this will allow response givers to give the same rank to multiple options" data-placement="top" data-toggle="tooltip" title="">
+                     <label class="bold-label">
+                        <input checked="checked" id="rankAreDuplicatesAllowed-1" name="rankAreDuplicatesAllowed" type="checkbox"/>
                         Allow response giver to give the same rank to multiple options
-                     </span>
+                     </label>
                   </div>
                </div>
                <br/>
@@ -92,17 +94,17 @@
          </div>
          <br/>
          <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-            <div class="col-sm-12 padding-0">
+            <div class="col-sm-12 padding-0 margin-bottom-7px">
                <b>
                   Feedback Path
                </b>
                (Who is giving feedback about whom?)
             </div>
-            <div class="col-sm-6 padding-0" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
-               <label class="col-sm-5 control-label">
+            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who will give feedback" data-placement="top" data-toggle="tooltip" title="">
+               <label class="col-sm-4 col-lg-5 control-label">
                   Who will give the feedback:
                </label>
-               <div class="col-sm-7">
+               <div class="col-sm-8 col-lg-7">
                   <select class="form-control participantSelect" id="givertype-1" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
                      <option selected="selected" value="SELF">
                         Me (Session creator)
@@ -119,11 +121,11 @@
                   </select>
                </div>
             </div>
-            <div class="col-sm-6 padding-0" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
-               <label class="col-sm-5 control-label">
+            <div class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-original-title="Who the feedback is about" data-placement="top" data-toggle="tooltip" title="">
+               <label class="col-sm-4 col-lg-5 control-label">
                   Who the feedback is about:
                </label>
-               <div class="col-sm-7">
+               <div class="col-sm-8 col-lg-7">
                   <select class="form-control participantSelect" id="recipienttype-1" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                      <option selected="selected" value="SELF">
                         Giver (Self feedback)
@@ -152,9 +154,7 @@
                   </select>
                </div>
             </div>
-            <div class="col-sm-6">
-            </div>
-            <div class="col-sm-6 numberOfEntitiesElements1" style="display: none;">
+            <div class="col-sm-12 row numberOfEntitiesElements1" style="display: none;">
                <label class="control-label col-sm-4 small" id="numofrecipients_text-1">
                   The maximum number of
                   <span id="numofrecipients_text_inner-1">
@@ -162,11 +162,11 @@
                   each respondant should give feedback to:
                </label>
                <div class="col-sm-8 form-control-static">
-                  <div class="col-sm-6">
+                  <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                      <input class="nonDestructive" name="numofrecipientstype" type="radio" value="custom"/>
-                     <input class="nonDestructive numberOfEntitiesBox" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1"/>
+                     <input class="nonDestructive numberOfEntitiesBox width-75-pc" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1"/>
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
                      <input checked="checked" class="nonDestructive" name="numofrecipientstype" type="radio" value="max"/>
                      <span class="">
                         Unlimited
@@ -177,7 +177,7 @@
          </div>
          <br/>
          <div class="col-sm-12 padding-15px background-color-light-green">
-            <div class="col-sm-12 padding-0">
+            <div class="col-sm-12 padding-0 margin-bottom-7px">
                <b>
                   Visibility
                </b>
@@ -199,7 +199,7 @@
             </div>
          </div>
          <div class="col-sm-12 background-color-light-green">
-            <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-1">
+            <div class="col-sm-12 text-muted visibilityMessage overflow-hidden" id="visibilityMessage-1">
                This is the visibility as seen by the feedback giver.
                <ul class="background-color-warning">
                   <li>
@@ -211,7 +211,7 @@
                </ul>
             </div>
          </div>
-         <div class="col-sm-12 margin-bottom-15px background-color-light-green">
+         <div class="col-sm-12 margin-bottom-15px background-color-light-green overflow-hidden">
             <div class="visibilityOptions" id="visibilityOptions-1" style="display: none;">
                <table class="dataTable participantTable table table-striped text-center background-color-white">
                   <tbody>
