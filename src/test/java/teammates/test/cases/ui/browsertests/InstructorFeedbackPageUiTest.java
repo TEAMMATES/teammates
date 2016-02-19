@@ -458,9 +458,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.copyFeedbackSession("New Session (Copied)", newSession.courseId);
         feedbackPage.verifyStatus("A feedback session by this name already exists under this course");
        
+        feedbackPage.reloadPage();
         
         ______TS("Failure case: copy fail since the feedback session name is blank");
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.copyFeedbackSession("", newSession.courseId);
         feedbackPage.verifyStatus(
