@@ -218,11 +218,27 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
+     * Checks if the body of all the comment panels are visible.
+     * @return true if all comment panel body are visible
+     */
+    public boolean areCommentsVisible() {
+        return isAllCommentPanelBodyVisibilityEquals(true);
+    }
+    
+    /**
+     * Checks if the body of all the comment panels are hidden
+     * @return true if all comment panel body are hidden
+     */
+    public boolean areCommentsHidden() {
+        return isAllCommentPanelBodyVisibilityEquals(false);
+    }
+    
+    /**
      * Checks if the body of all the comment panels are collapsed or expanded.
      * @param isVisible true to check for expanded, false to check for collapsed.
      * @return true if all comment panel body are equals to the visibility being checked.
      */
-    public boolean isAllCommentPanelBodyVisibilityEquals(boolean isVisible) {
+    private boolean isAllCommentPanelBodyVisibilityEquals(boolean isVisible) {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
