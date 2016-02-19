@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
+import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
@@ -18,6 +19,7 @@ public class FieldValidator {
     public enum FieldType {
         COURSE_ID,  
         COURSE_NAME, 
+        COURSE_TIME_ZONE,
         NATIONALITY, 
         EMAIL, 
         FEEDBACK_SESSION_NAME, 
@@ -157,6 +159,15 @@ public class FieldValidator {
                     "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
                     "It cannot be longer than "+COURSE_ID_MAX_LENGTH+" characters. " +
                     "It cannot be empty or contain spaces.";  
+
+    /*
+     * =======================================================================
+     * Field: Course Time Zone
+     */
+    public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
+            "\"%s\" is not acceptable to TEAMMATES as the course time zone. " +
+                    "The value must be one of the values from the time zone dropdown selector.";
+
     /*
      * =======================================================================
      * Field instructor permission role
@@ -487,6 +498,9 @@ public class FieldValidator {
             break;
         case EMAIL_CONTENT:
             returnValue = this.getValidityInfoForEmailContent((Text)value);
+            break;
+        case COURSE_TIME_ZONE:
+            returnValue = this.getValidityInfoForTimeZone((String)value);
             break;
         default:
             throw new AssertionError("Unrecognized field type : " + fieldType);
@@ -884,6 +898,14 @@ public class FieldValidator {
             return EMAIL_CONTENT_ERROR_MESSAGE;
         }
         
+        return "";
+    }
+
+    private String getValidityInfoForTimeZone(String value) {
+        Assumption.assertTrue("Non-null value expected", value != null);
+        if (!(DateTimeZone.getAvailableIDs().contains(value))) {
+            return String.format(COURSE_TIME_ZONE_ERROR_MESSAGE, value);
+        }
         return "";
     }
 

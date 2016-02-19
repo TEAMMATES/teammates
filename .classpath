@@ -26,5 +26,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/google-api-client-1.18.0-rc.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/repackaged-appengine-jakarta-jstl-1.1.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/repackaged-appengine-jakarta-standard-1.1.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/joda-time-2.9.2.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>
