@@ -1,11 +1,9 @@
 package teammates.ui.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -13,32 +11,20 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
+import teammates.common.util.LogHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
-import com.google.appengine.api.modules.ModulesService;
-import com.google.appengine.api.modules.ModulesServiceFactory;
 import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.log.LogQuery;
-import com.google.appengine.api.log.LogServiceFactory;
-import com.google.appengine.api.log.RequestLogs;
-import com.google.appengine.api.log.LogService.LogLevel;
 
 public class AdminActivityLogPageAction extends Action {
     
-    //We want to pull out the application logs
-    private boolean includeAppLogs = true;
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
     private static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
     private static final int MAX_SEARCH_TIMES = 12;                 // maximum 1 day
-    
-    /**
-     * 6 default versions for query, including the current version and its 5 preceding versions.
-     */
-    private static final int MAX_DEFAULT_VERSION_NUMBER = 6;
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
@@ -161,15 +147,16 @@ public class AdminActivityLogPageAction extends Action {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         
         int numberOfSearchTimes = 0;
-        totalLogsSearched = 0;
         while ((numberOfSearchTimes < MAX_SEARCH_TIMES) && (appLogs.size() < RELEVANT_LOGS_PER_PAGE)) {
             // set fromDate is two-hour away from toDate
             long nextTwoHour = data.getToDate() - SEARCH_TIME_INCREMENT;
             data.setFromDate(nextTwoHour);
             numberOfSearchTimes++;
             
-            LogQuery query = buildQuery(data);
-            List<ActivityLogEntry> searchResult = searchLogsByQuery(query, data);
+            //LogQuery query = buildQuery(data);
+            LogHelper logHelper = new LogHelper();
+            logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate(), null);
+            List<ActivityLogEntry> searchResult = searchLogsByQuery(logHelper, data);
             if (!searchResult.isEmpty()) {
                 appLogs.addAll(searchResult);
             }
@@ -179,97 +166,36 @@ public class AdminActivityLogPageAction extends Action {
     }
     
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminActivityLogPageData data) {
-        totalLogsSearched = 0;
-        LogQuery query = buildQuery(data);
-        List<ActivityLogEntry> appLogs = searchLogsByQuery(query, data);
+        LogHelper logHelper = new LogHelper();
+        logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate(), null);
+        
+        //LogQuery query = buildQuery(data);
+        List<ActivityLogEntry> appLogs = searchLogsByQuery(logHelper, data);
         return appLogs;
     }
 
-    private List<ActivityLogEntry> searchLogsByQuery(LogQuery query, AdminActivityLogPageData data) {
+    private List<ActivityLogEntry> searchLogsByQuery(LogHelper logHelper, AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
-        //fetch request log
-        Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
-        for (RequestLogs record : records) {
-            //fetch application log
-            List<AppLogLine> appLogLines = record.getAppLogLines();
-            for (AppLogLine appLog : appLogLines) {
-                totalLogsSearched++;
-                String logMsg = appLog.getLogMessage();
-                if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
-                    ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
-                    activityLogEntry = data.filterLogs(activityLogEntry);
-                    if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
-                        if (isFirstRow ) {
-                            activityLogEntry.setFirstRow();
-                            isFirstRow = false;
-                        }
-                        appLogs.add(activityLogEntry);
+        List<AppLogLine> appLogLines = logHelper.fetchLogs();
+        totalLogsSearched = appLogLines.size();
+        
+        for (AppLogLine appLog : appLogLines) {
+            String logMsg = appLog.getLogMessage();
+            if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
+                ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
+                activityLogEntry = data.filterLogs(activityLogEntry);
+                if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
+                    if (isFirstRow ) {
+                        activityLogEntry.setFirstRow();
+                        isFirstRow = false;
                     }
+                    appLogs.add(activityLogEntry);
                 }
-            }    
+            }
         }
         return appLogs;
     }
-    
-    private LogQuery buildQuery(AdminActivityLogPageData data) {
-        LogQuery query = LogQuery.Builder.withDefaults();
-        List<String> versions = data.getVersions();
-        
-        query.includeAppLogs(includeAppLogs);
-        query.batchSize(1000);
-        query.minLogLevel(LogLevel.INFO);
-        query.startTimeMillis(data.getFromDate());
-        query.endTimeMillis(data.getToDate());
-        
-        try {
-            query.majorVersionIds(getVersionIdsForQuery(versions));
-        } catch (Exception e) {
-            isError = true;
-            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-        }
-        
-        return query;
-    }
-    
-    /**
-     * Selects versions for query. If versions are not specified, it will return 
-     * default versions used for query.
-     */
-    private List<String> getVersionIdsForQuery(List<String> versions) {
-        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
-        if (isVersionSpecifiedInRequest) {
-            return versions;
-        }
-        return getDefaultVersionIdsForQuery();
-    }
-    
-    /**
-     * Gets a list of versions, including the current version and 5 preceding versions (if available).
-     * @return a list of default versions for query.
-     */
-    private List<String> getDefaultVersionIdsForQuery() {
-        List<String> defaultVersions = new ArrayList<String>();
-        
-        ModulesService modulesService = ModulesServiceFactory.getModulesService();
-        Set<String> versionList = modulesService.getVersions(null); // null == default module
-        String currentVersion = modulesService.getCurrentVersion();
-        boolean isCurrentVersionFound = false;
-        
-        // Find the current version then get at most 5 versions below it.
-        for(String version : versionList) {
-            if (version.equals(currentVersion)) {
-                isCurrentVersionFound = true;
-            }
-            if (isCurrentVersionFound) {
-                defaultVersions.add(version);
-                if (defaultVersions.size() >= MAX_DEFAULT_VERSION_NUMBER) {
-                    return defaultVersions;
-                }
-            }
-        }
-        return defaultVersions;
-    }
-    
+
     private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
         double localTimeZone = Const.DOUBLE_UNINITIALIZED;
         
