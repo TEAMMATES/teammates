@@ -91,22 +91,22 @@ public class InstructorFeedbackEditCopyAction extends Action {
                     + "Copied from <span class=\"bold\">(" + originalFeedbackSessionName + ")</span> for Course "
                     + "<span class=\"bold\">[" + originalCourseId + "]</span> created.<br>";
 
-            // Go to sessions page after copying,
+            // Return with redirection url (handled in javascript) to the sessions page after copying,
             // so that the instructor can see the new feedback sessions
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account,
-                                                       Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
-                                                       .withParam(Const.ParamsNames.ERROR, Boolean.FALSE.toString())
-                                                       .withParam(Const.ParamsNames.USER_ID, account.googleId)
-                                                       .toString()
-                                                       , ""));
+                                                          Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                                                                .withParam(Const.ParamsNames.ERROR, Boolean.FALSE.toString())
+                                                                .withParam(Const.ParamsNames.USER_ID, account.googleId)
+                                                                .toString(), 
+                                                          ""));
             
         } catch (EntityAlreadyExistsException e) {
             // If conflicts are checked above, this will only occur via race condition
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
             return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
         } catch (InvalidParametersException e) {
-            setStatusForException(e, e.getMessage());
+            setStatusForException(e);
             return createAjaxResultWithErrorMessage(e.getMessage());
         }
         
@@ -136,7 +136,6 @@ public class InstructorFeedbackEditCopyAction extends Action {
     
     private AjaxResult createAjaxResultWithErrorMessage(String errorToUser) {
         isError = true;
-        return createAjaxResult(
-                   new InstructorFeedbackEditCopyData(account, errorToUser));
+        return createAjaxResult(new InstructorFeedbackEditCopyData(account, errorToUser));
     }
 }

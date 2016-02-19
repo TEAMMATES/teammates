@@ -17,14 +17,14 @@ public class InstructorFeedbackEditCopyData extends PageData {
                                           String redirectUrl, String errorMessage) {
         super(account);
         this.redirectUrl = redirectUrl != null ? redirectUrl : "";
-        this.isError = !errorMessage.isEmpty();
         this.errorMessage = errorMessage;
+        this.isError = !errorMessage.isEmpty();
     }
     
     /**
      * @return new {@code InstructorFeedbackEditCopyData} with an error message, and a redirect url of ""
      */
     public InstructorFeedbackEditCopyData(AccountAttributes account, String errorMessage) {
-        this(account, "", errorMessage);
+        this(account, null, errorMessage);
     }
 }
