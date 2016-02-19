@@ -488,7 +488,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list: Feedbacks Page");
         
-        feedbackPage.fsCopyToModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
         feedbackPage.fsCopyToModal.waitForModalToLoad();
         feedbackPage.fsCopyToModal.clickSubmitButton();
         feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
@@ -501,7 +501,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with same name in course selected: Feedbacks Page");
         
-        feedbackPage.fsCopyToModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
         feedbackPage.fsCopyToModal.waitForModalToLoad();
         feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
         
@@ -519,7 +519,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with invalid name: Feedbacks Page");
         
-        feedbackPage.fsCopyToModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
         feedbackPage.fsCopyToModal.waitForModalToLoad();
         feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
@@ -537,7 +537,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("Successful case: Feedbacks Page");
         
-        feedbackPage.fsCopyToModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
         feedbackPage.fsCopyToModal.waitForModalToLoad();
         feedbackPage.fsCopyToModal.fillFormWithAllCoursesSelected("New name!");
         

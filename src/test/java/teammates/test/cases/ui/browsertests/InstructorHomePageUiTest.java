@@ -362,7 +362,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list: Home Page");
         
-        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.fsCopyModal.waitForModalToLoad();
         homePage.fsCopyModal.clickSubmitButton();
         homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
@@ -373,7 +373,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
-        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.fsCopyModal.waitForModalToLoad();
         homePage.fsCopyModal.fillFormWithAllCoursesSelected(feedbackSessionName);
         
@@ -388,7 +388,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
-        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.fsCopyModal.waitForModalToLoad();
         homePage.fsCopyModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
@@ -404,7 +404,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Successful case: Home Page");
         
-        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.fsCopyModal.waitForModalToLoad();
         homePage.fsCopyModal.fillFormWithAllCoursesSelected("New name!");
         
@@ -420,7 +420,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         // Change action link so that ajax will fail
         homePage.changeFsCopyButtonActionLink(courseId, feedbackSessionName, "/page/nonExistentPage?");
 
-        homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         // Wait for modal to appear and show error.
         homePage.fsCopyModal.waitForModalLoadingError();
         

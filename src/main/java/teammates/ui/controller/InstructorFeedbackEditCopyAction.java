@@ -20,7 +20,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackEditCopyAction extends Action {    
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {        
+    protected ActionResult execute() throws EntityDoesNotExistException {
         String newFeedbackSessionName = getRequestParamValue(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
         String[] coursesIdToCopyTo = getRequestParamValues(Const.ParamsNames.COPIED_COURSES_ID);
         String originalFeedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
