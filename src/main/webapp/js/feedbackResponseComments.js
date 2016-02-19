@@ -399,7 +399,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     }
 }
 
-// sets the chevron of a panel from up to down or from down to up depending on its current state
+// Sets the chevron of a panel from up to down or from down to up depending on its current state
 // clickedElement must be at least the parent of the chevron
 function toggleChevron(clickedElement) {
     //clearQueue to clear the animation queue to prevent animation build up
