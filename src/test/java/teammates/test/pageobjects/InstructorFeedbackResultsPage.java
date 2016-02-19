@@ -211,11 +211,27 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     /**
+     * Checks if the body of all the result panels are visible
+     * @return true if all result panel body are visible
+     */
+    public boolean areResultsVisible() {
+        return isAllResultsPanelBodyVisibilityEquals(true);
+    }
+
+    /**
+     * Checks if the body of all the result panels are hidden
+     * @return true if all result panel body are hidden
+     */
+    public boolean areResultsHidden() {
+        return isAllResultsPanelBodyVisibilityEquals(false);
+    }
+    
+    /**
      * Checks if the body of all the results panels are collapsed or expanded.
      * @param isVisible true to check for expanded, false to check for collapsed.
      * @return true if all results panel body are equals to the visibility being checked.
      */
-    public boolean isAllResultsPanelBodyVisibilityEquals(boolean isVisible) {
+    private boolean isAllResultsPanelBodyVisibilityEquals(boolean isVisible) {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         int numOfQns = webElements.size();
