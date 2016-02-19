@@ -373,18 +373,21 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
     
-    if (!$clickedElement.hasClass("loaded")) {
+    if ($clickedElement.hasClass("loaded")) {
+        $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
+        toggleChevron(clickedElement);
+    } else {
         $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
         
         panelBody.load(url, function( response, status, xhr ) {
-            if (status === "success") {
+            if (status !== "success") {
+                panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
+            } else {
                 updateBadgeForPendingComments(panelBody.children(":first").text());
                 panelBody.children(":first").remove();
                 registerResponseCommentsEvent();
                 registerCheckboxEventForVisibilityOptions();
                 enableHoverToDisplayEditOptions();
-            } else {
-                panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
             }
             
             //clearQueue to clear the animation queue to prevent animation build up
@@ -393,9 +396,6 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
             $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
             toggleChevron(clickedElement);
         });
-    } else {
-        $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
-        toggleChevron(clickedElement);
     }
 }
 
