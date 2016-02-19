@@ -15,10 +15,10 @@ $(document).ready(function() {
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
     
-    /* Formatting searchKey for highlight searchKey plugin ( ['string1','string2',...] )*/
+    // Formatting searchKey for highlight searchKey plugin ( ['string1','string2',...] )
     var searchKey = $('#searchBox').val();
-    var splittedSearchKey = searchKey.split(" ");
-    $(".panel-body").highlight(splittedSearchKey);
+    var splitSearchKey = searchKey.split(' ');
+    $('.panel-body').highlight(splitSearchKey);
 });
 
 //-----------------------------------------------------------------------------
