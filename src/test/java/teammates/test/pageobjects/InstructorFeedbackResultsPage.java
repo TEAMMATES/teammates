@@ -248,7 +248,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     /**
-     * Method to wait for all the panels to collapse.
+     * Waits for all the panels to collapse.
      */    
     public void waitForPanelsToCollapse() {
         List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
@@ -257,7 +257,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     /**
-     * Method to wait for all the panels to expand.
+     * Waits for all the panels to expand.
      */
     public void waitForPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
