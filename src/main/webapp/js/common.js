@@ -169,8 +169,15 @@ function isTouchDevice() {
  *     The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
  */
 function toggleSort(divElement, colIdx, comparator, row) {
-    row = row || 1;
     
+    if (colIdx === undefined) {
+        colIdx = $(divElement).parent().children().index($(divElement)) + 1;
+    }
+    
+    if (row === undefined) {
+        row = 1;
+    }
+
     var $selectedDivElement = $(divElement);
     
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
