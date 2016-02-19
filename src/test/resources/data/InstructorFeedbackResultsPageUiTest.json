@@ -62,6 +62,10 @@
             "id":"CFResultsUiT.CS2104",
             "name":"Programming Language Concepts",
             "isArchived": false
+        },
+        "CFResultsUiT.SanitizedTeam":{
+            "id":"CFResultsUiT.SanitizedTeam",
+            "name":"Sanization Concepts"
         }
     },
     "instructors":{
@@ -94,6 +98,16 @@
             "isInstructor":true,
             "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section A\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": true,\n      \"canmodifysessioncommentinsection\": true,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {}\n}"
+        },
+        "CFResultsUiT.SanitizedTeam.instr":{
+            "googleId":"CFResultsUiT.instr",
+            "courseId":"CFResultsUiT.SanitizedTeam",
+            "name":"Teammates Test",
+            "email":"CFResultsUiT.instr@gmail.tmt",
+            "role":"Co-owner",
+            "isInstructor":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
     "students":{
@@ -159,6 +173,24 @@
             "comments":"This student's name is Emily",
             "team":"Team 3",
             "section":"Section B"
+        },
+        "Sanitized.Alice":{
+            "googleId":"CFResultsUiT.alice.b",
+            "email":"CFResultsUiT.alice.b@gmail.tmt",
+            "course":"CFResultsUiT.SanitizedTeam",
+            "name":"Alice Betsy",
+            "comments":"This student's name is Alice Betsy",
+            "team":"Team '1",
+            "section":"Section A"
+        },
+        "Sanitized.Benny":{
+            "googleId":"CFResultsUiT.benny.c",
+            "email":"CFResultsUiT.benny.c@gmail.tmt",
+            "course":"CFResultsUiT.SanitizedTeam",
+            "name":"Benny Charles",
+            "comments":"This student's name is Benny Charles",
+            "team":"Team '1",
+            "section":"Section A"
         }
     },
     "feedbackSessions":{
@@ -219,6 +251,24 @@
         "Session with errors":{
             "feedbackSessionName":"Fourth Session",
             "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "instructions":{
+                "value":"This session has errors"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-02 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
+        },
+        "Session with sanitized data":{
+            "feedbackSessionName":"Sanitized Session",
+            "courseId":"CFResultsUiT.SanitizedTeam",
             "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"This session has errors"
@@ -826,6 +876,31 @@
             "showRecipientNameTo":[
                 
             ]
+        },
+        "qn1InSanitizedSession": {
+            "feedbackSessionName": "Sanitized Session",
+            "courseId": "CFResultsUiT.SanitizedTeam",
+            "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                  "value":"{\"questionText\":\"Rate the contribution of ideas from yourself and your team members in the last meeting.\",
+                            \"questionType\":\"CONTRIB\"}"
+            },
+            "questionNumber": 1,
+            "questionType": "CONTRIB",
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo": -100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "RECEIVER_TEAM_MEMBERS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo": [
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+            ]
         }
     },
     "feedbackResponses":{
@@ -1311,6 +1386,20 @@
             },
             "giverSection":"Section A",
             "recipientSection":"None"
+        },
+        "SanitizedResponse1":{
+            "feedbackSessionName":"Sanitized Session",
+            "courseId":"CFResultsUiT.SanitizedTeam",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 120}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         }
+
     }
 }

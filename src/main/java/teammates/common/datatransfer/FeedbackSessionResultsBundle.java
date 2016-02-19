@@ -934,6 +934,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return Sanitizer.sanitizeForHtml(teamName);
         }
     }
+    
+    public String getUnsanitizedTeamNameForEmail(String email) {
+        String teamName = emailTeamNameTable.get(email);
+        if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
+            return Const.USER_NOBODY_TEXT;
+        } else {
+            return teamName;
+        }
+    }
 
     /**
      * Returns displayable email if the email of a giver/recipient in the course
