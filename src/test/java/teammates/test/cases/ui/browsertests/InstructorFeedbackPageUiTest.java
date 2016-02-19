@@ -491,7 +491,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fsCopyToModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
         feedbackPage.fsCopyToModal.waitForModalToLoad();
         feedbackPage.fsCopyToModal.clickSubmitButton();
-        feedbackPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         feedbackPage.fsCopyToModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
@@ -510,11 +510,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                      feedbackSessionName, courseId);
         
-        feedbackPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         feedbackPage.fsCopyToModal.verifyStatusMessage(error);
         
-        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        feedbackPage.fsCopyToModal.clickCloseButton();
         
         
         ______TS("Copying fails due to fs with invalid name: Feedbacks Page");
@@ -525,7 +525,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.fsCopyToModal.clickSubmitButton();
         
-        feedbackPage.fsCopyToModal.waitForFormSubmissionStatusMessageVisibility();
+        feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         feedbackPage.fsCopyToModal.verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
@@ -533,7 +533,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
         
-        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        feedbackPage.fsCopyToModal.clickCloseButton();
         
         ______TS("Successful case: Feedbacks Page");
         

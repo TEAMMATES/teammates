@@ -365,9 +365,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fsCopyModal.clickCopyButtonOnTable(courseId, feedbackSessionName);
         homePage.fsCopyModal.waitForModalToLoad();
         homePage.fsCopyModal.clickSubmitButton();
-        homePage.fsCopyModal.waitForFormSubmissionStatusMessageVisibility();
+        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
         homePage.fsCopyModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        
+        homePage.fsCopyModal.clickCloseButton();
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
@@ -378,9 +380,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fsCopyModal.clickSubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
-        homePage.fsCopyModal.waitForFormSubmissionStatusMessageVisibility();
+        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
         homePage.fsCopyModal.verifyStatusMessage(error);
+        
+        homePage.fsCopyModal.clickCloseButton();
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
@@ -389,12 +393,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fsCopyModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
         homePage.fsCopyModal.clickSubmitButton();
-        homePage.fsCopyModal.waitForFormSubmissionStatusMessageVisibility();
+        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
+        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
         
         homePage.fsCopyModal
                 .verifyStatusMessage("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session " 
                                   + "name because it contains invalid characters. "
                                   + "All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        homePage.fsCopyModal.clickCloseButton();
         
         ______TS("Successful case: Home Page");
         

@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.List;
@@ -15,6 +14,9 @@ import teammates.common.util.Const;
  */
 public class InstructorCopyFsToModal extends AppPage {
     
+    private static final String FEEDBACK_COPY_MODAL_STATUS = "feedback-copy-modal-status";
+    public WebElement copyModalStatusMessage;
+    
     public InstructorCopyFsToModal(Browser browser) {
         super(browser);
     }
@@ -25,7 +27,11 @@ public class InstructorCopyFsToModal extends AppPage {
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
+        By byCopiedFsNameField = By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
+        waitForElementPresence(byCopiedFsNameField);
+        waitForElementVisibility(browser.driver.findElement(byCopiedFsNameField));
+
+        copyModalStatusMessage = browser.driver.findElement(By.id(FEEDBACK_COPY_MODAL_STATUS));
     }
     
     /**
@@ -58,46 +64,32 @@ public class InstructorCopyFsToModal extends AppPage {
      * @return true if the status message modal is visible.
      */
     public boolean isFormSubmissionStatusMessageVisible() {
-        WebElement copyModalErrorMessage = browser.driver.findElement(By.id("feedback-copy-modal-status"));
-        return copyModalErrorMessage.isDisplayed();
+        return copyModalStatusMessage.isDisplayed();
     }
     
-    public void waitForFormSubmissionStatusMessageVisibility() {
-        WebElement statusMessage = browser.driver.findElement(
-                                        By.id("feedback-copy-modal-status"));
-        waitForElementVisibility(statusMessage);
+    public void waitForFormSubmissionErrorMessagePresence() {
+        waitForElementPresence(By.cssSelector("#" + FEEDBACK_COPY_MODAL_STATUS + ".alert-danger"));
     }
     
     /**
      * Verifies that the status message on the copy modal is the {@code expectedStatusMessage}
-     * @param expectedStatusMessage
      */
     public void verifyStatusMessage(String expectedStatusMessage) {
         assertEquals(expectedStatusMessage, getFsCopyStatus());
     }
     
     private String getFsCopyStatus() {
-        WebElement copyModalStatusMessage = browser.driver.findElement(By.id("feedback-copy-modal-status"));
         return copyModalStatusMessage.getText();
-    }
-    
-    /**
-     * Verifies that the status message modal contains the html classes for styling error messages
-     */
-    public void verifyStatusContainsErrorHtmlClasses() {
-        String htmlClassesOfModalStatus = getFsCopyModalStatusHtmlClass();
-        assertTrue("Expected status message to be an error, but css class was" + htmlClassesOfModalStatus,
-                   htmlClassesOfModalStatus.contains("alert-danger"));
-    }
-    
-    private String getFsCopyModalStatusHtmlClass() {
-        WebElement copyModalStatusMessage = browser.driver.findElement(By.id("feedback-copy-modal-status"));
-        return copyModalStatusMessage.getAttribute("class");
     }
 
     public void clickSubmitButton() {
         WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
         fsCopySubmitButton.click();
+    }
+    
+    public void clickCloseButton() {
+        WebElement closeButton = browser.driver.findElement(By.cssSelector("#fsCopyModal .close"));
+        closeButton.click();
     }
 
     /**
@@ -110,7 +102,6 @@ public class InstructorCopyFsToModal extends AppPage {
         waitForElementPresence(fsCopyButtonElement);
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
-        
         fsCopyButton.click();
     }
 
