@@ -30,13 +30,15 @@ public class InstructorCourseAddAction extends Action {
         Assumption.assertNotNull(newCourseId);
         String newCourseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
         Assumption.assertNotNull(newCourseName);
+        String newCourseTimeZone = getRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
+        Assumption.assertNotNull(newCourseTimeZone);
 
         /* Check if user has the right to execute the action */
         new GateKeeper().verifyInstructorPrivileges(account);
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account);
-        CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName);
+        CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName, newCourseTimeZone);
         createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */
@@ -93,7 +95,7 @@ public class InstructorCourseAddAction extends Action {
 
     private void createCourse(CourseAttributes course) {
         try {
-            logic.createCourseAndInstructor(data.account.googleId, course.id, course.name);
+            logic.createCourseAndInstructor(data.account.googleId, course.id, course.name, course.timeZone);
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
                     data.getInstructorCourseEnrollLink(course.id)).replace("${courseEditLink}",
                     data.getInstructorCourseEditLink(course.id));

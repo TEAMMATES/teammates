@@ -663,14 +663,15 @@ public class Logic {
      * * All parameters are non-null. <br>
      * * {@code instructorGoogleId} already has instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName) 
+    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName, String courseTimeZone)
             throws EntityAlreadyExistsException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseTimeZone);
 
-        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName);
+        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName, courseTimeZone);
     }
     
     /**
