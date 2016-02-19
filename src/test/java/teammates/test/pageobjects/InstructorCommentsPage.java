@@ -252,7 +252,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Method to wait for all the panels to collapse.
+     * Wait for all the panels to collapse.
      */
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
@@ -261,7 +261,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Method to wait for all the panels to expand.
+     * Wait for all the panels to expand.
      */
     public void waitForPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
