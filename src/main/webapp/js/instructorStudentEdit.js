@@ -3,7 +3,8 @@ $(document).ready(function() {
 });
 
 /*
- * Identifies the changes of team name box and sends confirmation message accordingly
+ * Binds an event handler to the team field so that the change of the team name is identified
+ * and the confirmation dialog is sent
  */
 function readyInstructorStudentEditPage() {
     
