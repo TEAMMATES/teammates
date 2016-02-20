@@ -142,6 +142,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                               + "//div[contains(@class, 'table-responsive')]");
         resultsPage.verifyHtmlPart(secondQuestionPanelResponses, 
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
+        
+        
+        ______TS("Results with sanitized data");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr", "Session with sanitized data");
+        resultsPage.waitForPanelsToCollapse();
+        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
     public void testModerateResponsesButton() {
