@@ -643,12 +643,14 @@ public class StudentsDb extends EntitiesDb {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         
-        
-        // TODO: Delete from CourseStudent
-        
-        
+        List<CourseStudent> courseStudentsToDelete = getCourseStudentEntitiesForCourses(courseIds);
         List<Student> studentsToDelete = getStudentEntitiesForCourses(courseIds);
         
+        // TODO: Delete search documents are not done
+        // This method is only called to delete data bundle which should not use search documents,
+        // but it should still be done or documented properly.
+        
+        getPM().deletePersistentAll(courseStudentsToDelete);
         getPM().deletePersistentAll(studentsToDelete);
         getPM().flush();
     }
