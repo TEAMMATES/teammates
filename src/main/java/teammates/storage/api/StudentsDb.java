@@ -627,15 +627,18 @@ public class StudentsDb extends EntitiesDb {
     public void deleteStudentsForCourse(String courseId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
     
-        // TODO: Delete from CourseStudent
-        
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
+        List<CourseStudent> courseStudentList = getCourseStudentEntitiesForCourse(courseId);
         if(hasDocument){
             for(Student student : studentList){
                 deleteDocument(new StudentAttributes(student));
             }
+            for(CourseStudent student : courseStudentList){
+                deleteDocument(new StudentAttributes(student));
+            }
         }
         getPM().deletePersistentAll(studentList);
+        getPM().deletePersistentAll(courseStudentList);
         getPM().flush();
     }
 
