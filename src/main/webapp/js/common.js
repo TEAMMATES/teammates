@@ -740,6 +740,20 @@ function sanitizeForJs(string) {
     return string;
 }
 
+
+/**
+ * Highlights all words of searchKey (case insensitive), in a particular section
+ * Format of the string  higlight plugin uses - ( ['string1','string2',...] )
+ * @param searchKeyId - Id of searchKey input field 
+ * @param sectionToHighlight - sections to higlight separated by ','(comma) 
+ *                             example- '.panel-body,#panel-data,.sub-container'
+ */
+function highlightSearchResult(searchKeyId, sectionToHighlight) {
+    var searchKey = $(searchKeyId).val();
+    var splitSearchKey = searchKey.split(' ');
+    $(sectionToHighlight).highlight(splitSearchKey);
+}
+
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
  * the function.

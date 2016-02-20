@@ -15,8 +15,8 @@ $(document).ready(function() {
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
     
-    // Formatting searchKey for highlight searchKey plugin ( ['string1','string2',...] )
-    highlightSearchResult('#searchBox');
+    // highlight search string 
+    highlightSearchResult('#searchBox','.panel-body');
 });
 
 //-----------------------------------------------------------------------------
@@ -333,16 +333,6 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
             });
         }).
         children('img[src=""]').attr('src', resolvedLink);
-}
-
-/**
- * Highlights all words of searchKey (case insensitive), in a particular section
- * @param searchKeyId - Id of the searchKey input field 
- */
-function highlightSearchResult(searchKeyId){
-    var searchKey = $(searchKeyId).val();
-    var splitSearchKey = searchKey.split(' ');
-    $('.panel-body').highlight(splitSearchKey);
 }
 
 //--------------------------------------------------------------------------
