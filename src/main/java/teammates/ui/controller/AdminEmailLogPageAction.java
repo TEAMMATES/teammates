@@ -61,17 +61,16 @@ public class AdminEmailLogPageAction extends Action {
         
         List<AppLogLine> appLogLines = logHelper.fetchLogs();
         for (AppLogLine appLog : appLogLines) {
-            if (currentLogsInPage >= LOGS_PER_PAGE) {
-                break;
-            }
+            if (currentLogsInPage >= LOGS_PER_PAGE) break;
             String logMsg = appLog.getLogMessage();
-            if (logMsg.contains("TEAMMATESEMAILLOG")) {
-                EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);    
-                if(data.shouldShowLog(emailLogEntry)){
-                    emailLogs.add(emailLogEntry);
-                    currentLogsInPage ++;
-                }
-            }
+            boolean isNotEmailLog = (!logMsg.contains("TEAMMATESEMAILLOG"));
+            if (isNotEmailLog) continue;
+            
+            EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);
+            if(!data.shouldShowLog(emailLogEntry)) continue;
+            
+            emailLogs.add(emailLogEntry);
+            currentLogsInPage++;
         }
         
         totalLogsSearched = appLogLines.size();

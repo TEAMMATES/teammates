@@ -153,7 +153,6 @@ public class AdminActivityLogPageAction extends Action {
             data.setFromDate(nextTwoHour);
             numberOfSearchTimes++;
             
-            //LogQuery query = buildQuery(data);
             LogHelper logHelper = new LogHelper();
             logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate(), null);
             List<ActivityLogEntry> searchResult = searchLogsByQuery(logHelper, data);
@@ -181,17 +180,20 @@ public class AdminActivityLogPageAction extends Action {
         
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();
-            if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
-                ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
-                activityLogEntry = data.filterLogs(activityLogEntry);
-                if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())) {
-                    if (isFirstRow ) {
-                        activityLogEntry.setFirstRow();
-                        isFirstRow = false;
-                    }
-                    appLogs.add(activityLogEntry);
-                }
+            boolean isNotTeammatesLog = (!logMsg.contains("TEAMMATESLOG"));
+            boolean isLogFromAdminActivityLogPage = logMsg.contains("adminActivityLogPage");
+            if (isNotTeammatesLog || isLogFromAdminActivityLogPage) continue;
+            
+            ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
+            activityLogEntry = data.filterLogs(activityLogEntry);
+            
+            boolean shouldShow = activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData());
+            if (!shouldShow) continue;
+            if (isFirstRow ) {
+                activityLogEntry.setFirstRow();
+                isFirstRow = false;
             }
+            appLogs.add(activityLogEntry);
         }
         return appLogs;
     }
