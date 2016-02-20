@@ -11,16 +11,28 @@ import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 import com.google.appengine.api.log.LogService.LogLevel;
-import com.google.appengine.api.modules.ModulesService;
-import com.google.appengine.api.modules.ModulesServiceFactory;
 
 public class LogHelper {
     /**
      * 6 past versions to query, including the current version and its 5 preceding versions.
      */
-    public static final int MAX_PAST_VERSIONS_TO_QUERY = 6;
+    private static final int MAX_VERSIONS_TO_QUERY = 6;
+    
+    /**
+     * Always includes application logs
+     */
+    private static final boolean INCLUDE_APP_LOG = true;
+    
+    /**
+     * Affects the internal strategy to get logs. It doesn't affect the result.
+     */
+    private static final int BATCH_SIZE = 1000;
+    private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
+    private static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
     
     private LogQuery query;
+    private Long endTime;
+    private List<String> versionList;
     
     public LogHelper() {
         query = LogQuery.Builder.withDefaults();
@@ -33,22 +45,50 @@ public class LogHelper {
      * @param versionsToQuery 
      * @param startTime
      * @param endTime
-     * @param offset
      */
-    public void setQuery(List<String> versionsToQuery, Long startTime, Long endTime, String offset) {
-        query.includeAppLogs(true);
-        query.batchSize(1000);
-        query.minLogLevel(LogLevel.INFO);
+    public void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
+        query.includeAppLogs(INCLUDE_APP_LOG);
+        query.batchSize(BATCH_SIZE);
+        query.minLogLevel(MIN_LOG_LEVEL);
+        setTimePeriodForQuery(startTime, endTime);
+        setEndTime(endTime);
+        versionList = getVersionIdsForQuery(versionsToQuery);
+        query.majorVersionIds(versionList);
+    }
+    
+    /**
+     * Sets time period to search for query.
+     * @param startTime
+     * @param endTime
+     */
+    private void setTimePeriodForQuery(Long startTime, Long endTime) {
         if (startTime != null) {
             query.startTimeMillis(startTime);
         }
         if (endTime != null) {
             query.endTimeMillis(endTime);
         }
-        query.majorVersionIds(getVersionIdsForQuery(versionsToQuery));
-        if (offset != null && !offset.equals("null")) {
-            query.offset(offset);
-        }
+    }
+    
+    /**
+     * Sets end time of the query.
+     */
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+    }
+    
+    /**
+     * Gets end time of the query.
+     */
+    public Long getEndTime() {
+        return endTime;
+    }
+    
+    /**
+     * Gets versions used in query.
+     */
+    public List<String> getVersionsToQuery() {
+        return versionList;
     }
     
     /**
@@ -63,21 +103,23 @@ public class LogHelper {
         return getDefaultVersionIdsForQuery();
     }
     
+    
+    
     /**
      * Gets a list of versions, including the current version and 5 preceding versions (if available).
      * @return a list of default versions for query.
      */
     private List<String> getDefaultVersionIdsForQuery() {
-        ModulesService modulesService = ModulesServiceFactory.getModulesService();
-        String[] versionList = (String[]) modulesService.getVersions(null).toArray(); // null == default module
-        String currentVersion = modulesService.getCurrentVersion();
-        int currentVersionIndex;
+        List<String> versionList = VersionHelper.getAvailableVersions();
+        String currentVersion = VersionHelper.getCurrentVersion();
+        
         List<String> defaultVersions = new ArrayList<String>();
         try {
-            currentVersionIndex = getCurrentVersionIndex(versionList, currentVersion);
+            int currentVersionIndex = getCurrentVersionIndex(versionList, currentVersion);
             defaultVersions = getNextFewVersions(versionList, currentVersionIndex);
         } catch (InvalidParametersException e) {
             defaultVersions.add(currentVersion);
+            Utils.getLogger().severe("The current version is not found: " + e.getMessage());
             e.printStackTrace();
         }
         return defaultVersions;
@@ -87,25 +129,20 @@ public class LogHelper {
      * Finds the current version then get at most 5 versions below it.
      * @param currentVersionIndex starting position to get versions to query
      */
-    private List<String> getNextFewVersions(String[] versionList, int currentVersionIndex) {
-        List<String> result = new ArrayList<String>();
-        for(int i = currentVersionIndex; i < versionList.length; i++) {
-            result.add(versionList[i]);
-            if (result.size() >= MAX_PAST_VERSIONS_TO_QUERY) {
-                return result;
-            }
-        }
-        return result;
+    private List<String> getNextFewVersions(List<String> versionList, int currentVersionIndex) {
+        int endIndex = Math.min(currentVersionIndex + MAX_VERSIONS_TO_QUERY, versionList.size());
+        return versionList.subList(currentVersionIndex, endIndex);
     }
 
     /**
      * Finds the index of the current version in the given list.
      * @throws InvalidParametersException when the current version is not found
      */
-    private int getCurrentVersionIndex(String[] versionList, String currentVersion) 
+    private int getCurrentVersionIndex(List<String> versionList, String currentVersion) 
                     throws InvalidParametersException {
-        for(int i = 0; i < versionList.length; i++) {
-            if (versionList[i].equals(currentVersion)) return i;
+        int versionIndex = versionList.indexOf(currentVersion);
+        if (versionIndex != -1) {
+            return versionIndex;
         }
         throw new InvalidParametersException("The current version is not found!");
     }
@@ -123,6 +160,31 @@ public class LogHelper {
             List<AppLogLine> appLogLines = record.getAppLogLines();
             logs.addAll(appLogLines);
         }
+        return logs;
+    }
+    
+    /**
+     * Retrieves all logs within 2 hours before the endTime.
+     * We can use it again to get logs from the next 2 hours.
+     * @return logs within 2 hours before endTime
+     */
+    public List<AppLogLine> fetchLogsInNextHours() {
+        List<AppLogLine> logs = new LinkedList<AppLogLine>();
+        
+        if (endTime == null) {
+            setEndTime(TimeHelper.now(0.0).getTimeInMillis());
+        }
+        Long startTime = endTime - SEARCH_TIME_INCREMENT;
+        this.setTimePeriodForQuery(startTime, endTime);
+        
+        //fetch request log
+        Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
+        for (RequestLogs record : records) {
+            record.getOffset();
+            List<AppLogLine> appLogLines = record.getAppLogLines();
+            logs.addAll(appLogLines);
+        }
+        setEndTime(startTime - 1);
         return logs;
     }
 }
