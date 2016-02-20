@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import teammates.common.exception.InvalidParametersException;
+
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogServiceFactory;
@@ -69,8 +71,16 @@ public class LogHelper {
         ModulesService modulesService = ModulesServiceFactory.getModulesService();
         String[] versionList = (String[]) modulesService.getVersions(null).toArray(); // null == default module
         String currentVersion = modulesService.getCurrentVersion();
-        int currentVersionIndex = getCurrentVersionIndex(versionList, currentVersion);
-        return getNextFewVersions(versionList, currentVersionIndex);
+        int currentVersionIndex;
+        List<String> defaultVersions = new ArrayList<String>();
+        try {
+            currentVersionIndex = getCurrentVersionIndex(versionList, currentVersion);
+            defaultVersions = getNextFewVersions(versionList, currentVersionIndex);
+        } catch (InvalidParametersException e) {
+            defaultVersions.add(currentVersion);
+            e.printStackTrace();
+        }
+        return defaultVersions;
     }
 
     /**
@@ -90,13 +100,14 @@ public class LogHelper {
 
     /**
      * Finds the index of the current version in the given list.
-     * Returns the size of the list if the current version is not found. This is not supposed to happen!
+     * @throws InvalidParametersException when the current version is not found
      */
-    private int getCurrentVersionIndex(String[] versionList, String currentVersion) {
+    private int getCurrentVersionIndex(String[] versionList, String currentVersion) 
+                    throws InvalidParametersException {
         for(int i = 0; i < versionList.length; i++) {
             if (versionList[i].equals(currentVersion)) return i;
         }
-        return versionList.length;
+        throw new InvalidParametersException("The current version is not found!");
     }
     
     /**
