@@ -935,6 +935,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
     
+    // TODO remove this method entirely and handle sanitization during display properly
     public String getUnsanitizedTeamNameForEmail(String email) {
         String teamName = emailTeamNameTable.get(email);
         if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
