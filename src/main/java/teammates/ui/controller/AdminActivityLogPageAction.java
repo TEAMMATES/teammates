@@ -15,6 +15,7 @@ import teammates.common.util.LogHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.VersionHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
@@ -23,11 +24,13 @@ import com.google.appengine.api.log.AppLogLine;
 public class AdminActivityLogPageAction extends Action {
     
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
-    private static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
-    private static final int MAX_SEARCH_TIMES = 12;                 // maximum 1 day
+    private static final int MAX_SEARCH_TIMES = 12; // search maximum 12 times with time increment
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
+    private Long nextEndTimeToSearch;
+    private LogHelper logHelper;
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         new GateKeeper().verifyAdminPrivileges(account);
@@ -73,6 +76,8 @@ public class AdminActivityLogPageAction extends Action {
         }
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
+        
+        logHelper = new LogHelper();
         
         List<ActivityLogEntry> logs = null;
         if (data.isFromDateSpecifiedInQuery()) {
@@ -133,8 +138,30 @@ public class AdminActivityLogPageAction extends Action {
             status += timeInUserTimeZone + ".<br>";
         }
         
+        status += "Logs are from following version(s): ";
+        List<String> versionList = logHelper.getVersionsToQuery();
+        for (int i = 0; i < versionList.size(); i++) {
+            String version = versionList.get(i).replace('-', '.');
+            if (i < versionList.size() - 1) {
+                status += version + ", ";
+            } else {
+                status += version + "<br>";
+            }
+        }
+        
+        status += "All available version(s): ";
+        versionList = VersionHelper.getAvailableVersions();
+        for (int i = 0; i < versionList.size(); i++) {
+            String version = versionList.get(i).replace('-', '.');
+            if (i < versionList.size() - 1) {
+                status += version + ", ";
+            } else {
+                status += version + "<br>";
+            }
+        }
+        
         // the "Search More" button to continue searching from the previous fromDate 
-        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax(" + (data.getFromDate() + 1) + ");\">Search More</button>";
+        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax(" + nextEndTimeToSearch + ");\">Search More</button>";
         
         status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
         status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
@@ -143,52 +170,62 @@ public class AdminActivityLogPageAction extends Action {
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
     }
 
+    /**
+     * Retrieves enough logs within 24 hour.
+     */
     private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
+        logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
-        int numberOfSearchTimes = 0;
-        while ((numberOfSearchTimes < MAX_SEARCH_TIMES) && (appLogs.size() < RELEVANT_LOGS_PER_PAGE)) {
-            // set fromDate is two-hour away from toDate
-            long nextTwoHour = data.getToDate() - SEARCH_TIME_INCREMENT;
-            data.setFromDate(nextTwoHour);
-            numberOfSearchTimes++;
-            
-            LogHelper logHelper = new LogHelper();
-            logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate(), null);
-            List<ActivityLogEntry> searchResult = searchLogsByQuery(logHelper, data);
-            if (!searchResult.isEmpty()) {
-                appLogs.addAll(searchResult);
+        totalLogsSearched = 0;
+        for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
+            if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
+                break;
             }
-            data.setToDate(data.getFromDate() + 1);
+            List<AppLogLine> searchResult = logHelper.fetchLogsInNextHours();
+            List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
+            appLogs.addAll(filteredLogs);
+            totalLogsSearched += searchResult.size();
         }
+        nextEndTimeToSearch = logHelper.getEndTime();
         return appLogs;
     }
     
+    /**
+     * Retrieves all logs in the time period specified in the query.
+     */
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminActivityLogPageData data) {
-        LogHelper logHelper = new LogHelper();
-        logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate(), null);
+        logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
-        //LogQuery query = buildQuery(data);
-        List<ActivityLogEntry> appLogs = searchLogsByQuery(logHelper, data);
-        return appLogs;
+        List<AppLogLine> searchResult = logHelper.fetchLogs();
+        List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
+        
+        nextEndTimeToSearch = data.getFromDate() - 1;
+        totalLogsSearched = searchResult.size();
+        return filteredLogs;
     }
-
-    private List<ActivityLogEntry> searchLogsByQuery(LogHelper logHelper, AdminActivityLogPageData data) {
+    
+    /**
+     * Filters logs that should be shown on Admin Activity Log Page.
+     */
+    private List<ActivityLogEntry> filterLogsForActivityLogPage(List<AppLogLine> appLogLines,
+                                                             AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
-        List<AppLogLine> appLogLines = logHelper.fetchLogs();
-        totalLogsSearched = appLogLines.size();
-        
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();
             boolean isNotTeammatesLog = (!logMsg.contains("TEAMMATESLOG"));
             boolean isLogFromAdminActivityLogPage = logMsg.contains("adminActivityLogPage");
-            if (isNotTeammatesLog || isLogFromAdminActivityLogPage) continue;
+            if (isNotTeammatesLog || isLogFromAdminActivityLogPage) {
+                continue;
+            }
             
             ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);
             activityLogEntry = data.filterLogs(activityLogEntry);
             
-            boolean shouldShow = activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData());
-            if (!shouldShow) continue;
+            boolean isToShow = activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData());
+            if (!isToShow) {
+                continue;
+            }
             if (isFirstRow ) {
                 activityLogEntry.setFirstRow();
                 isFirstRow = false;
