@@ -209,6 +209,20 @@ public class InstructorFeedbackResultsPage extends AppPage {
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
+    
+    /**
+     * Makes sure the result panels are indeed all visible.
+     */
+    public void verifyResultsVisible() {
+        assertTrue(areResultsVisible());
+    }
+    
+    /**
+     * Makes sure the result panels are indeed all hidden.
+     */
+    public void verifyResultsHidden() {
+        assertTrue(areResultsHidden());
+    }
 
     /**
      * Checks if the body of all the result panels are visible
@@ -251,9 +265,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * Waits for all the panels to collapse.
      */    
     public void waitForPanelsToCollapse() {
-        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
+        By panelCollapseSelector = By.cssSelector("div[id^='panelBodyCollapse-']");
         
-        waitForElementsVisibility(panelBodies);
+        waitForElementToDisappear(panelCollapseSelector);
     }
     
     /**
