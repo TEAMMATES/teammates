@@ -178,8 +178,8 @@
             "googleId":"CFResultsUiT.alice.b",
             "email":"CFResultsUiT.alice.b@gmail.tmt",
             "course":"CFResultsUiT.SanitizedTeam",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
+            "name":"Alic'e Bets'y",
+            "comments":"This student's name is Alic'e Bets'y",
             "team":"Team '1",
             "section":"Section A"
         },
@@ -187,8 +187,8 @@
             "googleId":"CFResultsUiT.benny.c",
             "email":"CFResultsUiT.benny.c@gmail.tmt",
             "course":"CFResultsUiT.SanitizedTeam",
-            "name":"Benny Charles",
-            "comments":"This student's name is Benny Charles",
+            "name":"Benn'y Charle's",
+            "comments":"This student's name is Benn'y Charle's",
             "team":"Team '1",
             "section":"Section A"
         }
@@ -900,6 +900,7 @@
                 "INSTRUCTORS"
             ],
             "showRecipientNameTo":[
+                "INSTRUCTORS"
             ]
         }
     },
