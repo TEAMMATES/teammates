@@ -92,7 +92,10 @@ function checkComment(form) {
 }
 
 function isBlank(str) {
-    return (!str || /^\s*$/.test(str));
+    if (typeof str !== 'string' && !(str instanceof String)) {
+        return false;
+    }
+    return str.trim() === '';
 }
 
 /**

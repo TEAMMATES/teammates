@@ -22,7 +22,10 @@ $(document).ready(function(){
 	}
 	
 	function isBlank(str) {
-	    return (!str || /^\s*$/.test(str));
+	    if (typeof str !== 'string' && !(str instanceof String)) {
+	        return false;
+	    }
+	    return str.trim() === '';
 	}
 
 	$('#visibility-options-trigger').click(function(){
