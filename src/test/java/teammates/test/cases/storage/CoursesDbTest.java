@@ -43,6 +43,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "CDbT.tCC.newCourse";
         c.name = "Basic Computing";
+        c.timeZone = "UTC";
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
         
@@ -74,6 +75,15 @@ public class CoursesDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is too long",
                                         e.getMessage());
+        }
+
+        c.timeZone = "InvalidTimeZone";
+        try {
+            coursesDb.createEntity(c);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            AssertHelper.assertContains("not acceptable to TEAMMATES as the course time zone.",
+                                         e.getMessage());
         }
 
         ______TS("Failure: null parameter");
@@ -128,6 +138,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         CourseAttributes course = new CourseAttributes();
         course.id = "";
         course.name = "";
+        course.timeZone = "";
         course.isArchived = true;
         
         try {
@@ -138,6 +149,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
                                         e.getMessage());
             AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is empty",
                                         e.getMessage());
+            AssertHelper.assertContains("not acceptable to TEAMMATES as the course time zone.",
+                                        e.getMessage());
         }
         
         ______TS("fail: non-exisitng course");
@@ -145,7 +158,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
         course = new CourseAttributes();
         course.id = "CDbT.non-exist-course";
         course.name = "Non existing course";
-        
+        course.timeZone = "UTC";
+
         try {
             coursesDb.updateCourse(course);
             signalFailureToDetectException();
@@ -195,7 +209,8 @@ public class CoursesDbTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "Computing101";
         c.name = "Basic Computing";
-        
+        c.timeZone = "UTC";
+
         try {
             coursesDb.createEntity(c);
         } catch (EntityAlreadyExistsException e) {

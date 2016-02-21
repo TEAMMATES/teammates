@@ -46,7 +46,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     
     private static String instructorId;
     
-    CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $^&*() ");
+    CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $^&*() ", "Asia/Singapore");
     
     @BeforeClass
     public void classSetup() throws Exception {

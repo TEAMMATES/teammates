@@ -31,6 +31,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "Computing101-fresh";
         c.name = "Basic Computing";
+        c.timeZone = "UTC";
         coursesDb.deleteCourse(c.id);
         verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);

@@ -31,13 +31,16 @@ public class CourseAttributesTest extends BaseTestCase {
         
         String veryLongId = StringHelper.generateStringOfLength(COURSE_ID_MAX_LENGTH+1);
         String emptyName = "";
+        String invalidTimeZone = "InvalidTimeZone";
         c.id = veryLongId;
         c.name = emptyName;
+        c.timeZone = invalidTimeZone;
         
         assertEquals("invalid value", false, c.isValid());
         String errorMessage = 
                 String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG) + EOL + 
-                String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY);
+                String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY) + EOL +
+                String.format(COURSE_TIME_ZONE_ERROR_MESSAGE, c.timeZone);
         assertEquals("invalid value", errorMessage, StringHelper.toString(c.getInvalidityInfo()));
     }
 
@@ -54,7 +57,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testToString(){
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name isArchived: false", c.toString());
+        assertEquals("valid value", "[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC isArchived: false", c.toString());
     }
     
     public static CourseAttributes generateValidCourseAttributesObject() {
@@ -62,6 +65,7 @@ public class CourseAttributesTest extends BaseTestCase {
         c = new CourseAttributes();
         c.id = "valid-id-$_abc";
         c.name = "valid-name";
+        c.timeZone = "UTC";
         return c;
     }
 
