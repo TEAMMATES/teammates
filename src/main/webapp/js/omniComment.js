@@ -429,13 +429,6 @@ function disableComment(commentIdx){
 	$("div[id='commentTextEdit"+commentIdx+"']").hide();
 }
 
-function isBlank(str) {
-    if (typeof str !== 'string' && !(str instanceof String)) {
-        return false;
-    }
-    return str.trim() === '';
-}
-
 function checkComment(form){
     var formTextField = $(form).find('[name=commenttext]').val();
     if (isBlank(formTextField)) {

@@ -20,13 +20,6 @@ $(document).ready(function(){
 	        return false;
 	    }
 	}
-	
-	function isBlank(str) {
-	    if (typeof str !== 'string' && !(str instanceof String)) {
-	        return false;
-	    }
-	    return str.trim() === '';
-	}
 
 	$('#visibility-options-trigger').click(function(){
 		if($('#visibility-options').is(':visible')){

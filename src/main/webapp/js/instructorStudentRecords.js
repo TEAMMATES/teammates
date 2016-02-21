@@ -91,13 +91,6 @@ function checkComment(form) {
     }
 }
 
-function isBlank(str) {
-    if (typeof str !== 'string' && !(str instanceof String)) {
-        return false;
-    }
-    return str.trim() === '';
-}
-
 /**
  * Show the comment box, focus comment text area and hide "Add Comment link"
  */

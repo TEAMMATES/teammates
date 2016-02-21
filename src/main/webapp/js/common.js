@@ -750,3 +750,17 @@ if (!String.prototype.includes) {
         return String.prototype.indexOf.apply(this, arguments) !== -1;
     }
 }
+
+/**
+ * Check if the input value is blank
+ * (Used in validating comments given by instructors)
+ * 
+ * @param str
+ * @returns boolean
+ */
+function isBlank(str) {
+    if (typeof str !== 'string' && !(str instanceof String)) {
+        return false;
+    }
+    return str.trim() === '';
+}
