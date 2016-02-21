@@ -61,7 +61,7 @@ public class SearchManager {
             //if it's a transient error in the server, it can be re-tried
             if(!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
                 log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
-                        + " e:\n" + e.getStackTrace());
+                        + " e:\n" + TeammatesException.toStringWithStackTrace(e));
             }
             return false;
         }
