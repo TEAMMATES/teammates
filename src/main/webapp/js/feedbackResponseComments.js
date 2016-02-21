@@ -369,13 +369,14 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
 function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement) {
     $(".tooltip").hide();
     var $clickedElement = $(clickedElement);
+    var $collapsiblePanel = $clickedElement.siblings(".collapse");
     var panelBody = $clickedElement.parent().find('div[class^="panel-body"]');
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
     
     // If the content is already loaded, toggle the chevron and exit.
     if ($clickedElement.hasClass("loaded")) {
-        $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
+        clearQueueAndToggleCollapsiblePanel($collapsiblePanel);
         toggleChevron(clickedElement);
         
         return;
@@ -392,15 +393,22 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
             registerResponseCommentsEvent();
             registerCheckboxEventForVisibilityOptions();
             enableHoverToDisplayEditOptions();
+
+            $clickedElement.addClass("loaded");
         }
-        
-        //clearQueue to clear the animation queue to prevent animation build up
+
+        clearQueueAndToggleCollapsiblePanel($collapsiblePanel);
         $clickedElement.find('div[class^="placeholder-img-loading"]').html("");
-        $clickedElement.addClass("loaded");
-        $clickedElement.siblings(".collapse").clearQueue().collapse("toggle");
         toggleChevron(clickedElement);
     });
     
+}
+
+// Clears the animation queue of the panel before collapsing / expanding the panel.
+function clearQueueAndToggleCollapsiblePanel(collapsiblePanel) {
+    //clearQueue to clear the animation queue to prevent animation build up
+    collapsiblePanel.clearQueue();
+    collapsiblePanel.collapse("toggle");
 }
 
 // Sets the chevron of a panel from up to down or from down to up depending on its current state
