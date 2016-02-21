@@ -12,7 +12,11 @@ public class Version {
     private static ModulesService modulesService = ModulesServiceFactory.getModulesService();
     private Integer major;  //  the first number
     private Integer minor;  //  the second number
-    private String patch;   //  the rest of version
+    /**
+     * The rest of version. It should be String to cover versions with more than 3 numbers.
+     * For example: 15.56.01.01
+     */
+    private String patch;
     
     /**
      * Creates a new instance of Version from string.
@@ -41,6 +45,13 @@ public class Version {
      */
     public boolean equals(Object anotherVersion) {
         return toString().equals(anotherVersion.toString());
+    }
+    
+    /**
+     * Gets hash code for this version.
+     */
+    public int hashCode() {
+        return toString().hashCode();
     }
     
     /**
@@ -89,52 +100,45 @@ public class Version {
      * It sorts versions in DESCENDING order by major version then by minor version then by patch version
      */
     private static class VersionComparator implements Comparator<Version> {
-        @Override
-        public int compare(Version v1, Version v2) {
-            Integer major1 = v1.getMajorVersion();
-            Integer major2 = v2.getMajorVersion();
-            if (major1 == null && major2 == null) {
+        private int compareVersionNumber(Integer num1, Integer num2) {
+            if (num1 == null && num2 == null) {
                 return 0;
             }
-            if (major1 == null) {
+            if (num1 == null) {
                 return 1;
             }
-            if (major2 == null) {
+            if (num2 == null) {
                 return -1;
             }
-            if (!major1.equals(major2)) {
-                return -major1.compareTo(major2);
-            }
-            
-            Integer minor1 = v1.getMinorVersion();
-            Integer minor2 = v2.getMinorVersion();
-            if (minor1 == null && minor2 == null) {
-                return 0;
-            }
-            if (minor1 == null) {
-                return 1;
-            }
-            if (minor2 == null) {
-                return -1;
-            }
-            if (!minor1.equals(minor2)) {
-                return -minor1.compareTo(minor2);
-            }
-            
-            String patch1 = v1.getPatchVersion();
-            String patch2 = v2.getPatchVersion();
-            if (patch1 == null && patch2 == null) {
-                return 0;
-            }
-            if (patch1 == null) {
-                return 1;
-            }
-            if (patch2 == null) {
-                return -1;
-            }
-            return -patch1.compareTo(patch2);
+            return -num1.compareTo(num2);
         }
         
+        private int compareVersionString(String s1, String s2) {
+            if (s1 == null && s2 == null) {
+                return 0;
+            }
+            if (s1 == null) {
+                return 1;
+            }
+            if (s2 == null) {
+                return -1;
+            }
+            return -s1.compareTo(s2);
+        }
+        
+        @Override
+        public int compare(Version v1, Version v2) {
+            int majorComparisonResult = compareVersionNumber(v1.getMajorVersion(), v2.getMajorVersion());
+            if (majorComparisonResult != 0) {
+                return majorComparisonResult;
+            }
+            int minorComparisonResult = compareVersionNumber(v1.getMinorVersion(), v2.getMinorVersion());
+            if (minorComparisonResult != 0) {
+                return minorComparisonResult;
+            }
+            int patchComparisonResult = compareVersionString(v1.getPatchVersion(), v2.getPatchVersion());
+            return patchComparisonResult;
+        }
     }
     
     /**

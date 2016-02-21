@@ -14,7 +14,7 @@ import com.google.appengine.api.log.LogService.LogLevel;
 
 public class LogHelper {
     /**
-     * 6 past versions to query, including the current version and its 5 preceding versions.
+     * 6 versions to query, including the current version and its 5 preceding versions.
      */
     private static final int MAX_VERSIONS_TO_QUERY = 6;
     
@@ -28,7 +28,7 @@ public class LogHelper {
      */
     private static final int BATCH_SIZE = 1000;
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
-    private static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
+    public static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
     
     private LogQuery query;
     private Long endTime;
@@ -36,6 +36,9 @@ public class LogHelper {
     
     public LogHelper() {
         query = LogQuery.Builder.withDefaults();
+        query.includeAppLogs(INCLUDE_APP_LOG);
+        query.batchSize(BATCH_SIZE);
+        query.minLogLevel(MIN_LOG_LEVEL);
     }
     
     /**
@@ -47,9 +50,6 @@ public class LogHelper {
      * @param endTime
      */
     public void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
-        query.includeAppLogs(INCLUDE_APP_LOG);
-        query.batchSize(BATCH_SIZE);
-        query.minLogLevel(MIN_LOG_LEVEL);
         setTimePeriodForQuery(startTime, endTime);
         setEndTime(endTime);
         versionList = getVersionIdsForQuery(versionsToQuery);
@@ -73,7 +73,7 @@ public class LogHelper {
     /**
      * Sets end time of the query.
      */
-    public void setEndTime(Long endTime) {
+    private void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
     
@@ -103,8 +103,6 @@ public class LogHelper {
         return getDefaultVersionIdsForQuery();
     }
     
-    
-    
     /**
      * Gets a list of versions, including the current version and 5 preceding versions (if available).
      * @return a list of default versions for query.
@@ -119,8 +117,7 @@ public class LogHelper {
             defaultVersions = getNextFewVersions(versionList, currentVersionIndex);
         } catch (InvalidParametersException e) {
             defaultVersions.add(currentVersion.toStringForQuery());
-            Utils.getLogger().severe("The current version is not found: " + e.getMessage());
-            e.printStackTrace();
+            Utils.getLogger().severe(e.getMessage());
         }
         return defaultVersions;
     }

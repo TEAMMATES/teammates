@@ -24,7 +24,10 @@ import com.google.appengine.api.log.AppLogLine;
 public class AdminActivityLogPageAction extends Action {
     
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
-    private static final int MAX_SEARCH_TIMES = 12; // search maximum 12 times with time increment
+    /**
+     * Searches up to 24h with time increment.
+     */
+    private static final int MAX_SEARCH_TIMES = 24 * 60 * 60 * 1000 / LogHelper.SEARCH_TIME_INCREMENT;
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
