@@ -110,15 +110,15 @@ public class LogHelper {
      * @return a list of default versions for query.
      */
     private List<String> getDefaultVersionIdsForQuery() {
-        List<String> versionList = VersionHelper.getAvailableVersions();
-        String currentVersion = VersionHelper.getCurrentVersion();
+        List<Version> versionList = Version.getAvailableVersions();
+        Version currentVersion = Version.getCurrentVersion();
         
         List<String> defaultVersions = new ArrayList<String>();
         try {
             int currentVersionIndex = getCurrentVersionIndex(versionList, currentVersion);
             defaultVersions = getNextFewVersions(versionList, currentVersionIndex);
         } catch (InvalidParametersException e) {
-            defaultVersions.add(currentVersion);
+            defaultVersions.add(currentVersion.toStringForQuery());
             Utils.getLogger().severe("The current version is not found: " + e.getMessage());
             e.printStackTrace();
         }
@@ -129,16 +129,21 @@ public class LogHelper {
      * Finds the current version then get at most 5 versions below it.
      * @param currentVersionIndex starting position to get versions to query
      */
-    private List<String> getNextFewVersions(List<String> versionList, int currentVersionIndex) {
+    private List<String> getNextFewVersions(List<Version> versionList, int currentVersionIndex) {
         int endIndex = Math.min(currentVersionIndex + MAX_VERSIONS_TO_QUERY, versionList.size());
-        return versionList.subList(currentVersionIndex, endIndex);
+        List<Version> versionSubList = versionList.subList(currentVersionIndex, endIndex);
+        List<String> versionListInString = new ArrayList<String>();
+        for(Version version : versionSubList) {
+            versionListInString.add(version.toStringForQuery());
+        }
+        return versionListInString;
     }
 
     /**
      * Finds the index of the current version in the given list.
      * @throws InvalidParametersException when the current version is not found
      */
-    private int getCurrentVersionIndex(List<String> versionList, String currentVersion) 
+    private int getCurrentVersionIndex(List<Version> versionList, Version currentVersion) 
                     throws InvalidParametersException {
         int versionIndex = versionList.indexOf(currentVersion);
         if (versionIndex != -1) {

@@ -15,7 +15,7 @@ import teammates.common.util.LogHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
-import teammates.common.util.VersionHelper;
+import teammates.common.util.Version;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
@@ -139,10 +139,10 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "Logs are from following version(s): ";
-        List<String> versionList = logHelper.getVersionsToQuery();
-        for (int i = 0; i < versionList.size(); i++) {
-            String version = versionList.get(i).replace('-', '.');
-            if (i < versionList.size() - 1) {
+        List<String> versionListToQuery = logHelper.getVersionsToQuery();
+        for (int i = 0; i < versionListToQuery.size(); i++) {
+            String version = versionListToQuery.get(i).replace('-', '.');
+            if (i < versionListToQuery.size() - 1) {
                 status += version + ", ";
             } else {
                 status += version + "<br>";
@@ -150,9 +150,9 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "All available version(s): ";
-        versionList = VersionHelper.getAvailableVersions();
+        List<Version> versionList = Version.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
-            String version = versionList.get(i).replace('-', '.');
+            String version = versionList.get(i).toString();
             if (i < versionList.size() - 1) {
                 status += version + ", ";
             } else {
