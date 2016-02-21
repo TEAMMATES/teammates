@@ -69,11 +69,13 @@
         "typicalCourse1": {
             "id": "FSRTest.idOfTypicalCourse1",
             "name": "Typical Course 1",
+            "timeZone": "UTC",
             "isArchived": false
         },
         "course.no.sessions": {
             "id": "FSRTest.idOfNoSessionsCourse",
             "name": "No Sessions Course" ,
+            "timeZone": "UTC",
             "isArchived": false
         }
     },

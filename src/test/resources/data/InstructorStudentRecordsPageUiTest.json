@@ -56,16 +56,19 @@
         "CS2104":{
             "id":"ISR.CS2104",
             "name":"Programming Language Concepts",
+            "timeZone":"UTC",
             "isArchived":false
         },
         "CS1101":{
             "id":"ISR.CS1101",
             "name":"Programming Methodology",
+            "timeZone":"UTC",
             "isArchived":false
         },
         "NoEvalCourse":{
             "id":"ISR.NoEval",
             "name":"No Eval Course",
+            "timeZone":"UTC",
             "isArchived":false
         }
     },

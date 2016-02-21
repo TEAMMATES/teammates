@@ -73,6 +73,7 @@
     "AAMgtUiT.CS2104": {
       "id": "AAMgtUiT.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC",
       "isArchived": false
     }
   }

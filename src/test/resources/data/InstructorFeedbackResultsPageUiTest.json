@@ -61,11 +61,13 @@
         "CFResultsUiT.CS2104":{
             "id":"CFResultsUiT.CS2104",
             "name":"Programming Language Concepts",
+            "timeZone":"UTC",
             "isArchived": false
         },
         "CFResultsUiT.SanitizedTeam":{
             "id":"CFResultsUiT.SanitizedTeam",
-            "name":"Sanization Concepts"
+            "name":"Sanization Concepts",
+            "timeZone":"UTC"
         }
     },
     "instructors":{
