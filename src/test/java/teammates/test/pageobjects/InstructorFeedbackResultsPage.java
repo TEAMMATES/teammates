@@ -214,30 +214,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * Makes sure the result panels are indeed all visible.
      */
     public void verifyResultsVisible() {
-        assertTrue(areResultsVisible());
+        assertTrue(isAllResultsPanelBodyVisibilityEquals(true));
     }
     
     /**
      * Makes sure the result panels are indeed all hidden.
      */
     public void verifyResultsHidden() {
-        assertTrue(areResultsHidden());
-    }
-
-    /**
-     * Checks if the body of all the result panels are visible
-     * @return true if all result panel body are visible
-     */
-    public boolean areResultsVisible() {
-        return isAllResultsPanelBodyVisibilityEquals(true);
-    }
-
-    /**
-     * Checks if the body of all the result panels are hidden
-     * @return true if all result panel body are hidden
-     */
-    public boolean areResultsHidden() {
-        return isAllResultsPanelBodyVisibilityEquals(false);
+        assertTrue(isAllResultsPanelBodyVisibilityEquals(false));
     }
     
     /**
