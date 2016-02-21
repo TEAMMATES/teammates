@@ -406,17 +406,30 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
 // Sets the chevron of a panel from up to down or from down to up depending on its current state
 // clickedElement must be at least the parent of the chevron
 function toggleChevron(clickedElement) {
-    //clearQueue to clear the animation queue to prevent animation build up
     var $clickedElement = $(clickedElement);
-    $clickedElement.find(".glyphicon").clearQueue();
+    var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
+    var $chevronContainer = $clickedElement.find(".glyphicon");
     
-    if ($clickedElement.find(".glyphicon-chevron-down").length > 0) { 
-        $clickedElement.find(".glyphicon").removeClass("glyphicon-chevron-down");
-        $clickedElement.find(".glyphicon").addClass("glyphicon-chevron-up");
+    //clearQueue to clear the animation queue to prevent animation build up
+    $chevronContainer.clearQueue();
+    
+    if (isChevronDown) { 
+        setChevronToUp($chevronContainer);
     } else {
-        $clickedElement.find(".glyphicon").removeClass("glyphicon-chevron-up");
-        $clickedElement.find(".glyphicon").addClass("glyphicon-chevron-down");
+        setChevronToDown($chevronContainer);
     }
+}
+
+// Sets the chevron to point upwards.
+function setChevronToUp(chevronContainer) {
+    chevronContainer.removeClass("glyphicon-chevron-down");
+    chevronContainer.addClass("glyphicon-chevron-up");
+}
+
+// Sets the chevron to point downwards.
+function setChevronToDown(chevronContainer) {
+    chevronContainer.removeClass("glyphicon-chevron-up");
+    chevronContainer.addClass("glyphicon-chevron-down");
 }
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
