@@ -6,7 +6,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="groupByQuestionPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel" required="true" %>
-<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 
 
@@ -34,16 +33,16 @@
             </c:if>
             &nbsp;
             <div class="display-icon" style="display:inline;">
-                <span class='glyphicon ${!isPanelsCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"} pull-right'></span>
-            </div>                
+                <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+            </div>
         </div>
     </div>
-    <div class="panel-collapse collapse ${isPanelsCollapsed ? '' : 'in'}">
+    <div class="panel-collapse collapse in">
         <div class="panel-body">
             <c:choose>
                 <c:when test="${not empty groupByQuestionPanel.questionTables}">
                     <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-                        <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}" isPanelsCollapsed="${isPanelsCollapsed}"/>        
+                        <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}"/>        
                     </c:forEach>
                 </c:when>
                 <c:otherwise>

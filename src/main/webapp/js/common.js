@@ -162,15 +162,17 @@ function isTouchDevice() {
  * Sorts a table
  * @param divElement
  *     The sort button
- * @param colIdx
- *     The column index (1-based) as key for the sort
- * @param row
- *     Row to start sorting from.
- *     The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
+ * @param comparator
+ *     The function to compare 2 elements
  */
-function toggleSort(divElement, colIdx, comparator, row) {
-    row = row || 1;
-    
+function toggleSort(divElement, comparator) {
+
+    // The column index (1-based) as key for the sort
+    var colIdx = $(divElement).parent().children().index($(divElement)) + 1;
+
+    // Row to start sorting from (0-based), set to 1 since <th> occupies the first row
+    var row = 1;
+
     var $selectedDivElement = $(divElement);
     
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
