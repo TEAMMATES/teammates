@@ -752,11 +752,10 @@ if (!String.prototype.includes) {
 }
 
 /**
- * Check if the input value is blank
- * (Used in validating comments given by instructors)
+ * Checks if the input value is a blank string
  * 
  * @param str
- * @returns boolean
+ * @returns true if the input is a blank string, false otherwise
  */
 function isBlank(str) {
     if (typeof str !== 'string' && !(str instanceof String)) {
