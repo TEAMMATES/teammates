@@ -25,7 +25,8 @@ public class AdminActivityLogPageAction extends Action {
     
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
     /**
-     * Searches up to 24h with time increment.
+     * The maximum number of times to retrieve logs with time increment.
+     * The current value will search up to 24h.
      */
     private static final int MAX_SEARCH_TIMES = 24 * 60 * 60 * 1000 / LogHelper.SEARCH_TIME_INCREMENT;
     

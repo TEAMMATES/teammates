@@ -12,14 +12,18 @@ import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 import com.google.appengine.api.log.LogService.LogLevel;
 
+/**
+ * An utility to fetch logs from GAE server.
+ */
 public class LogHelper {
     /**
-     * 6 versions to query, including the current version and its 5 preceding versions.
+     * Maximum number of versions to query.
+     * The current value will include the current version and its 5 preceding versions.
      */
     private static final int MAX_VERSIONS_TO_QUERY = 6;
     
     /**
-     * Always includes application logs
+     * A flag to decide whether to include application logs in result or not.
      */
     private static final boolean INCLUDE_APP_LOG = true;
     
@@ -28,7 +32,7 @@ public class LogHelper {
      */
     private static final int BATCH_SIZE = 1000;
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
-    public static final int SEARCH_TIME_INCREMENT = 2*60*60*1000;  // two hours in millisecond
+    public static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
     
     private LogQuery query;
     private Long endTime;
