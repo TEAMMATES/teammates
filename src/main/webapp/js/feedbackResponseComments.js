@@ -376,7 +376,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     
     // If the content is already loaded, toggle the chevron and exit.
     if ($clickedElement.hasClass("loaded")) {
-        clearQueueAndToggleCollapsiblePanel($collapsiblePanel);
+        toggleCollapsiblePanel($collapsiblePanel);
         toggleChevron(clickedElement);
         
         return;
@@ -397,7 +397,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
             $clickedElement.addClass("loaded");
         }
 
-        clearQueueAndToggleCollapsiblePanel($collapsiblePanel);
+        toggleCollapsiblePanel($collapsiblePanel);
         $clickedElement.find('div[class^="placeholder-img-loading"]').html("");
         toggleChevron(clickedElement);
     });
@@ -405,7 +405,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
 }
 
 // Clears the animation queue of the panel before collapsing / expanding the panel.
-function clearQueueAndToggleCollapsiblePanel(collapsiblePanel) {
+function toggleCollapsiblePanel(collapsiblePanel) {
     //clearQueue to clear the animation queue to prevent animation build up
     collapsiblePanel.clearQueue();
     collapsiblePanel.collapse("toggle");
