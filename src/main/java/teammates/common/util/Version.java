@@ -4,6 +4,9 @@ package teammates.common.util;
  * Represents a version by 3 parts: major version, minor version and patch version.
  */
 public class Version implements Comparable<Version> {
+    /**
+     * The original String of the version. It could be either XX-XX-XXXXX or XX.XX.XXXX format.
+     */
     private String originalRepresentation;
     private Integer major;
     private Integer minor;
@@ -30,7 +33,6 @@ public class Version implements Comparable<Version> {
      * major = 15, minor = 1 and patch = "03.01"
      * 
      */
-    
     
     /**
      * Creates a new instance of Version from string.
@@ -80,7 +82,7 @@ public class Version implements Comparable<Version> {
      * Converts to String in format XX-XX-XXXX
      */
     public String toStringForQuery() {
-        return originalRepresentation;
+        return originalRepresentation.replaceAll(".", "-");
     }
     
     private int compareVersionNumber(Integer num1, Integer num2) {
