@@ -144,7 +144,7 @@
                <input name="isusingAjax" type="hidden" value="on"/>
             </form>
             <br/>
-            <div class="alert alert-warning" id="statusMessage" style="">
+            <div class="overflow-auto alert alert-warning" id="statusMessage" style="">
                You have not created any courses yet. Use the form above to create a course.
             </div>
             <br/>
@@ -155,12 +155,12 @@
                <table class="table table-bordered table-striped" id="tableActiveCourses">
                   <thead class="fill-primary">
                      <tr>
-                        <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this,1);">
+                        <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this);">
                            Course ID
                            <span class="icon-sort sorted-ascending">
                            </span>
                         </th>
-                        <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this,2);">
+                        <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this);">
                            Course Name
                            <span class="icon-sort unsorted">
                            </span>
