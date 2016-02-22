@@ -8,15 +8,37 @@ import java.util.List;
 import com.google.appengine.api.modules.ModulesService;
 import com.google.appengine.api.modules.ModulesServiceFactory;
 
+/**
+ * Represents a version by 3 parts: major version, minor version and patch version.
+ */
 public class Version {
     private static ModulesService modulesService = ModulesServiceFactory.getModulesService();
-    private Integer major;  //  the first number
-    private Integer minor;  //  the second number
-    /**
-     * The rest of version. It should be String to cover versions with more than 3 numbers.
-     * For example: 15.56.01.01
-     */
+    private Integer major;
+    private Integer minor;
     private String patch;
+    /**
+     * The version is represented by 3 parts: major, minor and patch.
+     * If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
+     * Those without number will be null.
+     * 
+     * If the version has more than 3 numbers, the first number will be major, the second number 
+     * will be minor and the rest will be patch.
+     * 
+     * For example: 
+     * version = 15
+     * major = 15, minor = null and patch = null
+     * 
+     * version = 15.01
+     * major = 15, minor = 1 and patch = null
+     * 
+     * version = 15.01.03
+     * major = 15, minor = 1 and patch = "03"
+     * 
+     * version = 15.01.03.01
+     * major = 15, minor = 1 and patch = "03.01"
+     * 
+     */
+    
     
     /**
      * Creates a new instance of Version from string.
