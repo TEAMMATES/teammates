@@ -7,7 +7,6 @@
 
 <%@ attribute name="isShowingResponses" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="questionIndex" type="java.lang.Integer"%>
-<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="questionPanel" type="teammates.ui.template.InstructorFeedbackResultsQuestionTable" required="true" %>
 
 
@@ -25,7 +24,7 @@
                 <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${data.selectedSection}">
             </form>
             <div class='display-icon pull-right'>
-                <span class="glyphicon ${ isShowingResponses && !isPanelsCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
+                <span class="glyphicon ${ isShowingResponses ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
             </div>
             
         </c:if>

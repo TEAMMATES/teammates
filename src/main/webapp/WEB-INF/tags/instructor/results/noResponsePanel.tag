@@ -10,11 +10,11 @@
                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                     <tr>
                         <th id="button_sortFromTeam" class="button-sort-ascending"
-                            onclick="toggleSort(this,1)" style="width: 30%;">
+                            onclick="toggleSort(this)" style="width: 30%;">
                             Team<span class="icon-sort unsorted"></span>
                         </th>
                         <th id="button_sortTo" class="button-sort-none"
-                            onclick="toggleSort(this,2)" style="width: 30%;">
+                            onclick="toggleSort(this)" style="width: 30%;">
                             Name<span class="icon-sort unsorted"></span>
                         </th>
                         <th>

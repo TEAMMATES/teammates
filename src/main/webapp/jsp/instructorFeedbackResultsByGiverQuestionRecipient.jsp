@@ -8,6 +8,5 @@
 
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
     <results:bySectionPanels isGroupedByQuestion="${true}" isGroupedByTeam="${data.groupedByTeam}"
-                             isShowingAll="${data.bundle.complete}" 
-                             isPanelsCollapsed="${data.shouldCollapsed}" />
+                             isShowingAll="${data.bundle.complete}" />
 </results:resultsPage>
