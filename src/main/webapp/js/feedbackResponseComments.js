@@ -404,15 +404,19 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     
 }
 
-// Clears the animation queue of the panel before collapsing / expanding the panel.
+/**
+ * Clears the animation queue of the panel before collapsing/expanding the panel.
+ */
 function toggleCollapsiblePanel(collapsiblePanel) {
     //clearQueue to clear the animation queue to prevent animation build up
     collapsiblePanel.clearQueue();
     collapsiblePanel.collapse("toggle");
 }
 
-// Sets the chevron of a panel from up to down or from down to up depending on its current state
-// clickedElement must be at least the parent of the chevron
+/**
+ * Sets the chevron of a panel from up to down or from down to up depending on its current state.
+ * clickedElement must be at least the parent of the chevron.
+ */ 
 function toggleChevron(clickedElement) {
     var $clickedElement = $(clickedElement);
     var isChevronDown = $clickedElement.find(".glyphicon-chevron-down").length > 0;
@@ -428,13 +432,17 @@ function toggleChevron(clickedElement) {
     }
 }
 
-// Sets the chevron to point upwards.
+/**
+ * Sets the chevron to point upwards.
+ */
 function setChevronToUp(chevronContainer) {
     chevronContainer.removeClass("glyphicon-chevron-down");
     chevronContainer.addClass("glyphicon-chevron-up");
 }
 
-// Sets the chevron to point downwards.
+/**
+ * Sets the chevron to point downwards.
+ */
 function setChevronToDown(chevronContainer) {
     chevronContainer.removeClass("glyphicon-chevron-up");
     chevronContainer.addClass("glyphicon-chevron-down");

@@ -209,7 +209,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Clicks all the headings of the comment panel to either expand / collapse the panel body.
+     * Clicks all the headings of the comment panel to either expand/collapse the panel body.
      */
     public void clickAllCommentsPanelHeading() {
         for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='panel_display-']"))) {
