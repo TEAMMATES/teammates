@@ -6,7 +6,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByTeam" type="java.lang.Boolean" required="true" %>
 
@@ -14,9 +13,8 @@
 <c:set var="teamIndex" value="${0}"/>
 <c:forEach items="${data.sectionPanels}" var="sectionPanel" varStatus="i">
     <results:sectionPanel isShowingAll="${isShowingAll}" sectionPanel="${sectionPanel.value}" 
-                          isPanelsCollapsed="${isPanelsCollapsed}" sectionIndex="${i.index}" 
-                          teamIndexOffset="${teamIndex}" courseId="${data.courseId}" 
-                          feedbackSessionName="${data.feedbackSessionName}"
+                          sectionIndex="${i.index}" teamIndexOffset="${teamIndex}"
+                          courseId="${data.courseId}" feedbackSessionName="${data.feedbackSessionName}"
                           isGroupedByQuestion="${isGroupedByQuestion}"
                           isGroupedByTeam="${isGroupedByTeam}"/>
     <c:set var="teamIndex" value="${teamIndex + fn:length(sectionPanel.value.participantPanels)}"/>

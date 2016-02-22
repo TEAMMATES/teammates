@@ -46,8 +46,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
     private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
     
-    // TODO find out why it's 500
-    private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
     // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
@@ -61,7 +59,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String groupByTeam = null;
     private String showStats = null;
     private int startIndex = -1;
-    private boolean isPanelsCollapsed;
     
     private FieldValidator validator = new FieldValidator();
     private String feedbackSessionName = null;
@@ -226,8 +223,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // no responses, nothing to initialize
             return;
         }
-        
-        this.isPanelsCollapsed = bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL;
         
         switch (viewType) {
             case RECIPIENT_GIVER_QUESTION:
@@ -828,8 +823,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
-        this.isPanelsCollapsed = true;
-        
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         
         for (String section : sections) {
@@ -1774,10 +1767,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String getSessionResultsHtmlTableAsString() {
         return sessionResultsHtmlTableAsString;
     }
-    
-    public boolean isShouldCollapsed() {
-        return isPanelsCollapsed;
-    }
 
     public List<InstructorFeedbackResultsQuestionTable> getQuestionPanels() {
         return questionPanels;
@@ -1811,7 +1800,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
-                isStatsShown(), isPanelsCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
+                isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), getSections());
     }
     
