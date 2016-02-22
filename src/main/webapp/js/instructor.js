@@ -14,9 +14,6 @@ $(document).ready(function() {
     
     // bind the show picture onhover events
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
-    
-    // highlight search string 
-    highlightSearchResult('#searchBox', '.panel-body');
 });
 
 //-----------------------------------------------------------------------------
