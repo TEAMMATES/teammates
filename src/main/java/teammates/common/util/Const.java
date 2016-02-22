@@ -843,7 +843,7 @@ public class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp"; 
         
-        public static final String MASHUP = "/dev/mashup.jsp";
+        public static final String MASHUP = "/mashup.jsp";
     
         //View fragments
         public static final String INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
