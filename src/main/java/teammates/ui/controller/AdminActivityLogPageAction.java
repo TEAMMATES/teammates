@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
+import teammates.common.util.GaeApi;
 import teammates.common.util.LogHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
@@ -154,7 +155,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "All available version(s): ";
-        List<Version> versionList = Version.getAvailableVersions();
+        List<Version> versionList = GaeApi.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
             String version = versionList.get(i).toString();
             if (i < versionList.size() - 1) {
@@ -213,7 +214,7 @@ public class AdminActivityLogPageAction extends Action {
      * Filters logs that should be shown on Admin Activity Log Page.
      */
     private List<ActivityLogEntry> filterLogsForActivityLogPage(List<AppLogLine> appLogLines,
-                                                             AdminActivityLogPageData data) {
+                                                                AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         for (AppLogLine appLog : appLogLines) {
             String logMsg = appLog.getLogMessage();

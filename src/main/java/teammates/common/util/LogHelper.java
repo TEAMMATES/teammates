@@ -55,7 +55,6 @@ public class LogHelper {
      */
     public void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
         setTimePeriodForQuery(startTime, endTime);
-        setEndTime(endTime);
         versionList = getVersionIdsForQuery(versionsToQuery);
         query.majorVersionIds(versionList);
     }
@@ -71,6 +70,7 @@ public class LogHelper {
         }
         if (endTime != null) {
             query.endTimeMillis(endTime);
+            setEndTime(endTime);
         }
     }
     
@@ -112,8 +112,8 @@ public class LogHelper {
      * @return a list of default versions for query.
      */
     private List<String> getDefaultVersionIdsForQuery() {
-        List<Version> versionList = Version.getAvailableVersions();
-        Version currentVersion = Version.getCurrentVersion();
+        List<Version> versionList = GaeApi.getAvailableVersions();
+        Version currentVersion = GaeApi.getCurrentVersion();
         
         List<String> defaultVersions = new ArrayList<String>();
         try {
@@ -170,9 +170,9 @@ public class LogHelper {
     }
     
     /**
-     * Retrieves all logs within 2 hours before the endTime.
-     * We can use it again to get logs from the next 2 hours.
-     * @return logs within 2 hours before endTime
+     * Retrieves all logs within the number of hours defined by SEARCH_TIME_INCREMENT before the endTime.
+     * We can use it again to get logs from the next hours.
+     * @return logs within the amount of hours defined by SEARCH_TIME_INCREMENT before endTime.
      */
     public List<AppLogLine> fetchLogsInNextHours() {
         List<AppLogLine> logs = new LinkedList<AppLogLine>();
