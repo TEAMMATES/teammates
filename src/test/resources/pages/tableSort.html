@@ -7,7 +7,6 @@
     <link type="text/css" href="../../../main/webapp/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 
     <script type="text/javascript" src="../../../main/webapp/js/lib/jquery.min.js"></script>
-    <script src="../../../main/webapp/js/date.js" type="text/javascript"></script>
         <script src="../../../main/webapp/js/common.js" type="text/javascript"></script>
     <script src="../../../main/webapp/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
@@ -18,15 +17,15 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th onclick="toggleSort(this,1);" id="button_sortid"
+                        <th onclick="toggleSort(this);" id="button_sortid"
                             class="button-sort-ascending">ID <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,2);" id="button_sortname"
+                        <th onclick="toggleSort(this);" id="button_sortname"
                             class="button-sort-none">Name <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,3);" id="button_sortdate"
+                        <th onclick="toggleSort(this);" id="button_sortdate"
                             class="button-sort-none">Date <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,4,sortByPoint);" id="button_sortPoint"
+                        <th onclick="toggleSort(this,sortByPoint);" id="button_sortPoint"
                             class="button-sort-none">Point <span class="icon-sort unsorted"></span></th>
-                        <th onclick="toggleSort(this,5,sortByDiff);" id="button_sortDiff"
+                        <th onclick="toggleSort(this,sortByDiff);" id="button_sortDiff"
                             class="button-sort-none">Diff <span class="icon-sort unsorted"></span></th>   
                     </tr>
                 </thead>

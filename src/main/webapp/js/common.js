@@ -155,22 +155,24 @@ $(document).on('ajaxComplete ready', function() {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 function isTouchDevice() {
-    return true === (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+    return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
 }
 
 /**
  * Sorts a table
  * @param divElement
  *     The sort button
- * @param colIdx
- *     The column index (1-based) as key for the sort
- * @param row
- *     Row to start sorting from.
- *     The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
+ * @param comparator
+ *     The function to compare 2 elements
  */
-function toggleSort(divElement, colIdx, comparator, row) {
-    row = row || 1;
-    
+function toggleSort(divElement, comparator) {
+
+    // The column index (1-based) as key for the sort
+    var colIdx = $(divElement).parent().children().index($(divElement)) + 1;
+
+    // Row to start sorting from (0-based), set to 1 since <th> occupies the first row
+    var row = 1;
+
     var $selectedDivElement = $(divElement);
     
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
@@ -548,9 +550,9 @@ function setStatusMessage(message, error) {
     $(DIV_STATUS_MESSAGE).show();
     
     if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-danger');
+        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-danger');
     } else {
-        $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-warning');
+        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-warning');
     }
     
     scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
