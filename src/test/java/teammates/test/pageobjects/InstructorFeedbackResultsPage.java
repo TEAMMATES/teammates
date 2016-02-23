@@ -66,8 +66,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void waitForPageToLoad() {
         super.waitForPageToLoad();
         // results page has panels that are loaded by ajax,
-        // and these panels collapse when their contents are loaded
-        waitForPanelsToCollapse();
+        // and these panels expand when their contents are loaded
+        waitForPanelsToExpand();
     }
     
     /**
@@ -209,20 +209,59 @@ public class InstructorFeedbackResultsPage extends AppPage {
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
-
-    public boolean verifyAllResultsPanelBodyVisibility(boolean visible) {
-        int numOfQns = browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse")).size();
+    
+    /**
+     * Makes sure the result panels are indeed all visible.
+     */
+    public void verifyResultsVisible() {
+        assertTrue(isAllResultsPanelBodyVisibilityEquals(true));
+    }
+    
+    /**
+     * Makes sure the result panels are indeed all hidden.
+     */
+    public void verifyResultsHidden() {
+        assertTrue(isAllResultsPanelBodyVisibilityEquals(false));
+    }
+    
+    /**
+     * Checks if the body of all the results panels are collapsed or expanded.
+     * @param isVisible true to check for expanded, false to check for collapsed.
+     * @return true if all results panel body are equals to the visibility being checked.
+     */
+    private boolean isAllResultsPanelBodyVisibilityEquals(boolean isVisible) {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        int numOfQns = webElements.size();
+        
         assertTrue(numOfQns > 0);
-
-        // Wait for the total duration according to the number of collapse/expand intervals between questions
-        ThreadHelper.waitFor((numOfQns * 50) + 1000);
-
-        for (WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))) {
-            if (e.isDisplayed() != visible) {
+        
+        for (WebElement e : webElements) {
+            if (e.isDisplayed() != isVisible) {
                 return false;
             }
         }
+        
         return true;
+    }
+    
+    /**
+     * Waits for all the panels to collapse.
+     */    
+    public void waitForPanelsToCollapse() {
+        By panelCollapseSelector = By.cssSelector("div[id^='panelBodyCollapse-']");
+        
+        waitForElementToDisappear(panelCollapseSelector);
+    }
+    
+    /**
+     * Waits for all the panels to expand.
+     */
+    public void waitForPanelsToExpand() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        waitForElementsVisibility(webElements);
     }
 
     public boolean verifyAllStatsVisibility() {
@@ -427,12 +466,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<WebElement> participantPanels = instructorPanelBody
                                                  .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
         return participantPanels.size();
-    }
-    
-    public void waitForPanelsToCollapse() {
-        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
-        waitForElementsVisibility(panelBodies);
-        ThreadHelper.waitFor(1000);
     }
 
     public boolean isSectionPanelExist(String section) {

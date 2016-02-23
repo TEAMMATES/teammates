@@ -805,6 +805,8 @@ public class Emails {
             forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
+            log.severe("Crash report failed to send. Detailed error stack trace: "
+                     + TeammatesException.toStringWithStackTrace(error));
             logSevereForErrorInSendingItem("crash report", email, e);
         }
     

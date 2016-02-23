@@ -540,19 +540,19 @@ public class ActivityLogEntry {
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
-        String message = "";
-        if(errorEmail != null){
-            try {
-                  message += "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>";
-                  message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
-                  message += "<br>";
-                  message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
-                  message += errorEmail.getContent().toString();
-                  message += "</span>";
-              } catch (Exception e) {
-                  message = "System Error. Unable to retrieve Email Report";
-              }
-          }
+        String message;
+        
+        try {
+            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>"
+                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">Show/Hide Details >></a>"
+                    + "<br>"
+                    + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
+                    + errorEmail.getContent().toString()
+                    + "</span>";
+        } catch (Exception e) {
+            message = "System Error: Unable to retrieve Email Report: "
+                    + TeammatesException.toStringWithStackTrace(e);
+        }
         
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);

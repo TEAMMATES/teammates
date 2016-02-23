@@ -1101,41 +1101,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         String export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
         
-        /* This is what export should look like:
-        ==================================
-        Course,idOfTypicalCourse1
-        Session Name,First feedback session
-        
-        
-        Question 1,"What is the best selling point of your product?"
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Student 1 self feedback."
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","I'm cool'"
-        "Team 1.1","student3 In Course1","Course1","Team 1.1","student3 In Course1","Course1","No Response"
-        "Team 1.1","student4 In Course1","Course1","Team 1.1","student4 In Course1","Course1","No Response"
-        "Team 1.2","student5 In Course1","Course1","Team 1.2","student5 In Course1","Course1","No Response"
-        
-        Question 2,"Rate 5 other students' products",
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","Response from student 1 to student 2."
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","Response from student 2 to student 1."
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student2 In" Course1,"Course1","student2InCourse1@gmail.tmt","Response from student 3 ""to"" student 2.\r\nMultiline test."
-        
-        Question 3,"My comments on the class",
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","-","-","-","-","Good work, keep it up!"
-        
-        Question 4,"Instructor comments on the class"
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Instructors","Helper Course1","Helper Course1","helper@course1.tmt","-","-","-","-","No Response"
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","-","-","-","-","No Response"
-        "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","-","-","-","-","No Response"
-        "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","-","-","-","-","No Response"
-        "Instructors","Instructor Not Yet Joined Course 1","Instructor Not Yet Joined Course 1","instructorNotYetJoinedCourse1@email.tmt","-","-","-","-","No Response"
-        */
-       
         String[] expected = {
             "Course,\"" + session.courseId + "\"",
             "Session Name,\"" + session.feedbackSessionName + "\"",
@@ -1191,59 +1156,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"MCQ Session"
-        
-        
-        Question 1,"What do you like best about our product?"
-        
-        Summary Statistics,
-        Choice, Response Count, Percentage
-        "It's good",1,50
-        "It's perfect",1,50
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","It's good"
-        "Team 1.1","student2 In" Course1,"Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In" Course1,"Course1","student2InCourse1@gmail.tmt","It's perfect"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt""Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt""Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt""Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
-        
-        
-        Question 2,"What do you like best about the class' product?"
-        
-        Summary Statistics,
-        Choice, Response Count, Percentage
-        "It's good",1,50
-        "It's perfect",1,50
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","It's good"
-        "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","It's perfect"
-        "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt""Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt""No Response"
-        
-        
-        Question 3,"What can be improved for this class?"
-        
-        Summary Statistics,
-        Choice, Response Count, Percentage
-        "Content",0,0
-        "Teaching style",0,0
-        "Other",1,100
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Lecture notes"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
-        */
         
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
@@ -1307,60 +1219,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
 
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"MSQ Session"
-        
-        
-        Question 1,"What do you like best about our product?"
-        
-        Summary Statistics,
-        Choice, Response Count, Percentage
-        "It's good",2,66.67
-        "It's perfect",1,33.33
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,"It's good","It's perfect"
-        "Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt",,"It's good","It's perfect"
-        "Team 1.1","student2 In" Course1,"Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In" Course1,"Course1","student2InCourse1@gmail.tmt",,"It's good",
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
-        
-        Question 2,"What do you like best about the class' product?"
-        
-        Summary Statistics,
-        Choice, Response Count, Percentage
-        "It's good",1,33.33
-        "It's perfect",2,66.67
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedbacks:,"It's good","It's perfect"
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt",,"It's good","It's perfect"
-        "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt",,,"It's perfect"
-        "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt",,,"No Response"
-        
-        Question 3,"Choose all the food you like"
-
-        Summary Statistics,
-        Choice, Response Count, Percentage
-        "Pizza",1,16.67
-        "Pasta",2,33.33
-        "Chicken rice",1,16.67
-        "Other",2,33.33
-
-
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,"Pizza","Pasta","Chicken rice"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt",,"Pizza","Pasta","Chicken rice"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt",,,"Pasta",
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt",,,,
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
-        */
-       
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
             "Session Name,\"" + session.feedbackSessionName + "\"",
@@ -1426,44 +1284,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"NUMSCALE Session"
-        
-        
-        Question 1,"Rate our product."
-        
-        Summary Statistics,
-        Team, Recipient, Average, Minimum, Maximum, Average excluding self response
-        "Team 1.1","student2 In Course1",2,2,2,-
-        "Team 1.1","student1 In Course1",3.5,3.5,3.5,-
-        
-        
-       Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt",3.5
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt",2
-        "Team 1.1","student3 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt",No Response
-        "Team 1.1","student4 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt",No Response
-        "Team 1.2","student5 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt",No Response
-        
-        
-        Question 2,"Rate our product."
-        
-        Summary Statistics,
-        Team, Recipient, Average, Minimum, Maximum
-        "Instructors","Instructor1 Course1",4.5,4.5,4.5
-        "Instructors","Instructor2 Course1",1,1,1
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt",4.5
-        "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt",1
-        "Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","Instructors","Instructor3 Course1","Instructor3 Course1","instructor3@course1.tmt","No Response"
-        */
-       
+
         expected = new String[] {
              "Course,\"" + session.courseId + "\"",
              "Session Name,\"" + session.feedbackSessionName + "\"",
@@ -1509,62 +1330,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"CONSTSUM Session"
-        
-        
-        Question 1,"How important are the following factors to you? Give points accordingly."
-        
-        Summary Statistics,
-        Option, Average Points
-        "Fun",50.5
-        "Grades",49.5
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt",,20,80
-        "Team 1.1","student2 In Course1,"Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1,"Course1","student2InCourse1@gmail.tmt",,80,20
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
-        
-        
-        Question 2,"Split points among the teams"
-        
-        Summary Statistics,
-        Recipient, Average Points
-        "Team 1.1",80
-        "Team 1.2",20
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","","Team 1.1","Team 1.1","instructor1@course1.tmt",80
-        "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","","Team 1.2","Team 1.2","instructor2@course1.tmt",20
-        
-        Question 3,"How much has each student worked?"
 
-        Summary Statistics,
-        Team, Recipient, Average Points
-        Team 1.1,student1 In Course1,30
-        Team 1.1,student2 In Course1,20
-        Team 1.1,student3 In Course1,30
-        Team 1.1,student4 In Course1,10
-        Team 1.2,student5 In Course1,10
-
-
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt",30
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt",20
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt",30
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt",10
-        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt",10
-        */
-        
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
             "Session Name,\"" + session.feedbackSessionName + "\"",
@@ -1629,35 +1395,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        
-        /*This is how the export should look like
-         ======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"CONSTSUM Session"
-        
-        
-        Question 1,"How important are the following factors to you? Give points accordingly."
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,"Grades","Fun"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","No Response"
-        
-        
-        Question 2,"Split points among the teams"
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        
-        
-        Question 3,"How much has each student worked?"
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-         */
-        
+
         expected = new String[] {
             "Course,\"FSQTT.idOfTypicalCourse1\"",
             "Session Name,\"CONSTSUM Session\"",
@@ -1695,32 +1433,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"CONTRIB Session"
-        
-        
-        Question 1,"How much has each team member including yourself, contributed to the project?"
-        
-        Summary Statistics,
-        Team, Name, Email, CC, PC, Ratings Received
-        "Team 1.1","student1 In Course1","student1InCourse1@gmail.tmt","95","N/A","N/A, N/A, N/A"
-        "Team 1.1","student2 In Course1","student2InCourse1@gmail.tmt","Not Submitted","75","75, N/A, N/A"
-        "Team 1.1","student3 In Course1","student3InCourse1@gmail.tmt","Not Submitted","103","103, N/A, N/A"
-        "Team 1.1","student4 In Course1","student4InCourse1@gmail.tmt","Not Submitted","122","122, N/A, N/A"
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Equal share"
-        "Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1,"Course1","student1InCourse2@gmail.tmt","Equal share - 20%"
-        "Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1,"Course1","student1InCourse3@gmail.tmt","Equal share + 10%"
-        "Team 1.1","student1 In Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1,"Course1","student1InCourse4@gmail.tmt","Equal share + 30%"
-        */
-     
+
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
             "Session Name,\"" + session.feedbackSessionName + "\"",
@@ -1773,37 +1486,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"CONTRIB Session Student Anonymised"
-        
-        
-        Question 1,"How much has each team member including yourself, contributed to the project?"
-        
-        Summary Statistics,
-        In the points given below, an equal share is equal to 100 points. e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".
-        Claimed Contribution (CC) = the contribution claimed by the student.
-        Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
-        Team, Name, Email, CC, PC, Ratings Recieved
-        "Anonymous student 283462789's Team","Anonymous student 283462789","-","100","N/A","N/A, N/A, N/A"
-        "Anonymous student 412545508's Team","Anonymous student 412545508","-","Not Submitted","N/A","N/A, N/A, N/A"
-        "Anonymous student 541628227's Team","Anonymous student 541628227","-","Not Submitted","N/A","N/A, N/A, N/A"
-        "Anonymous student 670710946's Team","Anonymous student 670710946","-","Not Submitted","N/A","N/A, N/A, N/A"
-        "Anonymous student 799793665's Team","Anonymous student 799793665","-","Not Submitted","N/A","N/A"
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Anonymous student 283462789&#39;s Team","Anonymous student 283462789","Unknown user","-",""
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","No Response"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","No Response"
-        
-        */        
 
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
@@ -1843,35 +1525,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfCourseWithSections"
-        Session Name,"CONTRIB Session Section Restricted"
-        
-        
-        Question 1,"How much has each team member including yourself, contributed to the project?"
-        
-        Summary Statistics,
-        In the points given below, an equal share is equal to 100 points. e.g. 80 means "Equal share - 20%" and 110 means "Equal share + 10%".
-        Claimed Contribution (CC) = the contribution claimed by the student.
-        Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
-        Team, Name, Email, CC, PC, Ratings Recieved
-        "Team 2","student3 In Course With Sections","student3InCourseWithSections@gmail.tmt","100","N/A","N/A"
-        "Team 3","student4 In Course With Sections","student4InCourseWithSections@gmail.tmt","Not Submitted","N/A","N/A"
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 2","student3 In Course With Sections","Sections","student3InCourseWithSections@gmail.tmt","Team 2","student3 In Course With Sections","Sections","student3InCourseWithSections@gmail.tmt","Equal share"
-        "Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","No Response"
-        "Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","No Response"
-        "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student1 In Course With Sections","Sections","student1InCourseWithSections@gmail.tmt","No Response"
-        "Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","Team 1","student2 In Course With Sections","Sections","student2InCourseWithSections@gmail.tmt","No Response"
-        "Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","Team 3","student4 In Course With Sections","Sections","student4InCourseWithSections@gmail.tmt","No Response"
-        */
-      
+
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
             "Session Name,\"" + session.feedbackSessionName + "\"",
@@ -1909,46 +1563,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"RUBRIC Session"
-        
-        
-        Question 1,"Please choose the best choice for the following sub-questions."
-        
-        Summary Statistics,
-        ,"Yes","No"
-        "a) This student has done a good job.",67% (2),33% (1)
-        "b) This student has tried his/her best.",75% (3),25% (1)
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","a","Yes (Choice 1)"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","b","No (Choice 2)"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","a","No (Choice 2)"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","b","Yes (Choice 1)"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","a","Yes (Choice 1)"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","b","Yes (Choice 1)"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","a","No Response"
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","b","Yes (Choice 1)"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","All Sub-Questions","No Response"
-        */
-        
+
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
             "Session Name,\"" + session.feedbackSessionName + "\"",
@@ -1997,48 +1612,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
-        /*This is how the export should look like
-        =======================================
-        Course,"FSQTT.idOfTypicalCourse1"
-        Session Name,"RANK Session"
-        
-        
-        Question 1,"Rank the other students."
-        
-        Summary Statistics,
-        Team, Recipient, Average Rank
-        "Team 1.1","student4 In Course1",1
-        "Team 1.1","student2 In Course1",3
-        "Team 1.1","student1 In Course1",4
-        "Team 1.1","student3 In Course1",2
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt",4
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt",3
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt",2
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt",1
-        
-        
-        Question 2,"Rank the areas of improvement you think your team should make progress in."
-        
-        Summary Statistics,
-        Option, Average Rank
-        "Teamwork and communication",1.75
-        "Time management",2.33
-        "Quality of progress reports",2.5
-        "Quality of work",2.2
-        
-        
-        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Rank 1,Rank 2,Rank 3,Rank 4:
-        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Quality of work","Quality of progress reports","Time management","Teamwork and communication"
-        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Teamwork and communication","Time management","Quality of progress reports","Quality of work"
-        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Time management, Teamwork and communication","Quality of work",,
-        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","","Team 1.1","Team 1.1","-","Teamwork and communication","Time management","Quality of work",
-        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","","Team 1.2","Team 1.2","-","Quality of work",,,"
-         */
 
         expected = new String[] {
             "Course,\"" + session.courseId + "\"",
