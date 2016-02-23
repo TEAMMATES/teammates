@@ -23,6 +23,6 @@ public class TeammatesException extends Exception {
     public static String toStringWithStackTrace(Throwable e) {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
-        return "<br>" + sw.toString().replace("\\n","<br>");
+        return "\n" + sw.toString();
     }
 }
