@@ -1,8 +1,8 @@
 $(document).ready(function() {
     if ($("#button_sortstudentsection").length) {
-        toggleSort($("#button_sortstudentsection"), 1);
+        toggleSort($("#button_sortstudentsection"));
     } else {
-        toggleSort($("#button_sortstudentteam"), 1);
+        toggleSort($("#button_sortstudentteam"));
     }
     
     //auto select the html table when modal is shown

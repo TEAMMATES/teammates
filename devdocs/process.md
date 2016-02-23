@@ -12,7 +12,7 @@ The Positions are: `Contributor`, `Committer`, `Snr Developer`, `Area Lead`, `Pr
 
 ##Workflow
 
-<img src='../src/main/webapp/dev/images/workflow.png' width='600'>
+<img src='images/workflow.png' width='600'>
 
 ###Fixing Issues
 
@@ -221,7 +221,7 @@ RL:
     * Ensure all pending `p.urgent` are assigned and scheduled for next milestone.
 
 ### Issue/PR Lifecycle
-<img src='../src/main/webapp/dev/images/IssueLifecycle.png' width='600'>
+<img src='images/IssueLifecycle.png' width='600'>
 
 Given above is an illustration of the issue lifecycle. 
 Colors indicate which roles are involved in which states/transitions. 
