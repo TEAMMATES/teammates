@@ -77,7 +77,7 @@ public class AdminEmailLogPageAction extends Action {
     
     /**
      * Selects versions for query. If versions are not specified, it will return 
-     * default versions used for query.
+     * MAX_VERSIONS_TO_QUERY most recent versions used for query.
      */
     private List<String> getVersionsForQuery(List<String> versions) {
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
