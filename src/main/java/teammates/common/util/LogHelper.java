@@ -34,16 +34,9 @@ public class LogHelper {
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
     public static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
     
-    private LogQuery query;
-    private Long endTime;
-    private List<String> versionList;
-    
-    public LogHelper() {
-        query = LogQuery.Builder.withDefaults();
-        query.includeAppLogs(INCLUDE_APP_LOG);
-        query.batchSize(BATCH_SIZE);
-        query.minLogLevel(MIN_LOG_LEVEL);
-    }
+    private static LogQuery query;
+    private static Long endTime;
+    private static List<String> versionList;
     
     /**
      * Sets values for query.
@@ -53,7 +46,11 @@ public class LogHelper {
      * @param startTime
      * @param endTime
      */
-    public void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
+    public static void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
+        query = LogQuery.Builder.withDefaults();
+        query.includeAppLogs(INCLUDE_APP_LOG);
+        query.batchSize(BATCH_SIZE);
+        query.minLogLevel(MIN_LOG_LEVEL);
         setTimePeriodForQuery(startTime, endTime);
         versionList = getVersionIdsForQuery(versionsToQuery);
         query.majorVersionIds(versionList);
@@ -64,34 +61,34 @@ public class LogHelper {
      * @param startTime
      * @param endTime
      */
-    private void setTimePeriodForQuery(Long startTime, Long endTime) {
+    private static void setTimePeriodForQuery(Long startTime, Long endTimeParam) {
         if (startTime != null) {
             query.startTimeMillis(startTime);
         }
         if (endTime != null) {
-            query.endTimeMillis(endTime);
-            setEndTime(endTime);
+            query.endTimeMillis(endTimeParam);
+            setEndTime(endTimeParam);
         }
     }
     
     /**
      * Sets end time of the query.
      */
-    private void setEndTime(Long endTime) {
-        this.endTime = endTime;
+    private static void setEndTime(Long endTimeParam) {
+        endTime = endTimeParam;
     }
     
     /**
      * Gets end time of the query.
      */
-    public Long getEndTime() {
+    public static Long getEndTime() {
         return endTime;
     }
     
     /**
      * Gets versions used in query.
      */
-    public List<String> getVersionsToQuery() {
+    public static List<String> getVersionsToQuery() {
         return versionList;
     }
     
@@ -99,7 +96,7 @@ public class LogHelper {
      * Selects versions for query. If versions are not specified, it will return 
      * default versions used for query.
      */
-    private List<String> getVersionIdsForQuery(List<String> versions) {
+    private static List<String> getVersionIdsForQuery(List<String> versions) {
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
         if (isVersionSpecifiedInRequest) {
             return versions;
@@ -111,7 +108,7 @@ public class LogHelper {
      * Gets a list of versions, including the current version and 5 preceding versions (if available).
      * @return a list of default versions for query.
      */
-    private List<String> getDefaultVersionIdsForQuery() {
+    private static List<String> getDefaultVersionIdsForQuery() {
         List<Version> versionList = GaeApi.getAvailableVersions();
         Version currentVersion = GaeApi.getCurrentVersion();
         
@@ -127,10 +124,10 @@ public class LogHelper {
     }
 
     /**
-     * Finds the current version then get at most 5 versions below it.
+     * Finds at most MAX_VERSIONS_TO_QUERY nearest versions.
      * @param currentVersionIndex starting position to get versions to query
      */
-    private List<String> getNextFewVersions(List<Version> versionList, int currentVersionIndex) {
+    private static List<String> getNextFewVersions(List<Version> versionList, int currentVersionIndex) {
         int endIndex = Math.min(currentVersionIndex + MAX_VERSIONS_TO_QUERY, versionList.size());
         List<Version> versionSubList = versionList.subList(currentVersionIndex, endIndex);
         List<String> versionListInString = new ArrayList<String>();
@@ -144,7 +141,7 @@ public class LogHelper {
      * Finds the index of the current version in the given list.
      * @throws InvalidParametersException when the current version is not found
      */
-    private int getCurrentVersionIndex(List<Version> versionList, Version currentVersion) 
+    private static int getCurrentVersionIndex(List<Version> versionList, Version currentVersion) 
                     throws InvalidParametersException {
         int versionIndex = versionList.indexOf(currentVersion);
         if (versionIndex != -1) {
@@ -157,7 +154,7 @@ public class LogHelper {
      * Retrieves logs using the query.
      * @return logs fetched from server.
      */
-    public List<AppLogLine> fetchLogs() {
+    public static List<AppLogLine> fetchLogs() {
         List<AppLogLine> logs = new LinkedList<AppLogLine>();
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
@@ -174,14 +171,14 @@ public class LogHelper {
      * We can use it again to get logs from the next hours.
      * @return logs within the amount of hours defined by SEARCH_TIME_INCREMENT before endTime.
      */
-    public List<AppLogLine> fetchLogsInNextHours() {
+    public static List<AppLogLine> fetchLogsInNextHours() {
         List<AppLogLine> logs = new LinkedList<AppLogLine>();
         
         if (endTime == null) {
             setEndTime(TimeHelper.now(0.0).getTimeInMillis());
         }
         Long startTime = endTime - SEARCH_TIME_INCREMENT;
-        this.setTimePeriodForQuery(startTime, endTime);
+        setTimePeriodForQuery(startTime, endTime);
         
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);

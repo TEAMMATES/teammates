@@ -74,8 +74,7 @@ public class AdminEmailLogPageAction extends Action {
     private List<EmailLogEntry> getEmailLogs(Long endTimeToSearch, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
         
-        LogHelper logHelper = new LogHelper();
-        logHelper.setQuery(data.getVersions(), null, endTimeToSearch);
+        LogHelper.setQuery(data.getVersions(), null, endTimeToSearch);
         
         int totalLogsSearched = 0;
         
@@ -83,12 +82,12 @@ public class AdminEmailLogPageAction extends Action {
             if (emailLogs.size() >= LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = logHelper.fetchLogsInNextHours();
+            List<AppLogLine> searchResult = LogHelper.fetchLogsInNextHours();
             List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
             emailLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
         }
-        nextEndTimeToSearch = logHelper.getEndTime();
+        nextEndTimeToSearch = LogHelper.getEndTime();
         
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs

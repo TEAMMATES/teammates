@@ -37,7 +37,6 @@ public class AdminActivityLogPageAction extends Action {
     private int totalLogsSearched;
     private boolean isFirstRow = true;
     private Long nextEndTimeToSearch;
-    private LogHelper logHelper;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
@@ -84,8 +83,6 @@ public class AdminActivityLogPageAction extends Action {
         }
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
-        
-        logHelper = new LogHelper();
         
         List<ActivityLogEntry> logs = null;
         if (data.isFromDateSpecifiedInQuery()) {
@@ -147,7 +144,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "Logs are from following version(s): ";
-        List<String> versionListToQuery = logHelper.getVersionsToQuery();
+        List<String> versionListToQuery = LogHelper.getVersionsToQuery();
         for (int i = 0; i < versionListToQuery.size(); i++) {
             String version = versionListToQuery.get(i).replace('-', '.');
             if (i < versionListToQuery.size() - 1) {
@@ -183,19 +180,19 @@ public class AdminActivityLogPageAction extends Action {
      */
     private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
-        logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
+        LogHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
         totalLogsSearched = 0;
         for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = logHelper.fetchLogsInNextHours();
+            List<AppLogLine> searchResult = LogHelper.fetchLogsInNextHours();
             List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
             appLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
         }
-        nextEndTimeToSearch = logHelper.getEndTime();
+        nextEndTimeToSearch = LogHelper.getEndTime();
         return appLogs;
     }
     
@@ -203,9 +200,9 @@ public class AdminActivityLogPageAction extends Action {
      * Retrieves all logs in the time period specified in the query.
      */
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminActivityLogPageData data) {
-        logHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
+        LogHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
-        List<AppLogLine> searchResult = logHelper.fetchLogs();
+        List<AppLogLine> searchResult = LogHelper.fetchLogs();
         List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
         
         nextEndTimeToSearch = data.getFromDate() - 1;

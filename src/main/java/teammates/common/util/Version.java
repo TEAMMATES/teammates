@@ -8,8 +8,8 @@ public class Version implements Comparable<Version> {
      * The original String of the version. It could be either XX-XX-XXXXX or XX.XX.XXXX format.
      */
     private String originalRepresentation;
-    private Integer major;
-    private Integer minor;
+    private String major;
+    private String minor;
     private String patch;
     private Boolean isRcVersion;
     
@@ -23,16 +23,16 @@ public class Version implements Comparable<Version> {
      * 
      * For example: 
      * version = 15
-     * major = 15, minor = null and patch = null
+     * major = "15", minor = null and patch = null
      * 
      * version = 15.01
-     * major = 15, minor = 1 and patch = null
+     * major = "15", minor = "01" and patch = null
      * 
      * version = 15.01.03
-     * major = 15, minor = 1 and patch = "03"
+     * major = "15", minor = "01" and patch = "03"
      * 
      * version = 15.01.03.01
-     * major = 15, minor = 1 and patch = "03.01"
+     * major = "15", minor = "01" and patch = "03.01"
      * 
      * It also support RC versions, which has "rc" appended at the end of the string.
      * For example: 5rc, 4.55rc, 5.55.01rc
@@ -46,8 +46,7 @@ public class Version implements Comparable<Version> {
         originalRepresentation = versionInString;
         
         if (versionInString.contains("rc")) {
-            int rcIndex = versionInString.indexOf("rc");
-            versionInString = versionInString.substring(0, rcIndex);
+            versionInString = versionInString.replace("rc", "");
             isRcVersion = true;
         } else {
             isRcVersion = false;
@@ -60,10 +59,10 @@ public class Version implements Comparable<Version> {
             list = versionInString.split(".", 3);
         }
         if (list.length > 0) {
-            major = Integer.parseInt(list[0]);
+            major = list[0];
         }
         if (list.length > 1) {
-            minor = Integer.parseInt(list[1]);
+            minor = list[1];
         }
         if (list.length > 2) {
             patch = list[2];
@@ -88,29 +87,21 @@ public class Version implements Comparable<Version> {
      * Converts Version to String in format XX.XX.XXXX
      */
     public String toString() {
-        return originalRepresentation.replaceAll("-", ".");
+        return originalRepresentation.replace('-', '.');
     }
     
     /**
      * Converts to String in format XX-XX-XXXX
      */
     public String toStringForQuery() {
-        return originalRepresentation.replaceAll(".", "-");
+        return originalRepresentation.replace('.', '-');
     }
     
-    private int compareVersionNumber(Integer num1, Integer num2) {
-        if (num1 == null && num2 == null) {
-            return 0;
-        }
-        if (num1 == null) {
-            return 1;
-        }
-        if (num2 == null) {
-            return -1;
-        }
-        return -num1.compareTo(num2);
-    }
-    
+    /**
+     * Compares version numbers.
+     * If their length are different, 0s will be appended in front of shorter string until
+     * the length are the same.
+     */
     private int compareVersionString(String s1, String s2) {
         if (s1 == null && s2 == null) {
             return 0;
@@ -121,6 +112,12 @@ public class Version implements Comparable<Version> {
         if (s2 == null) {
             return -1;
         }
+        while(s1.length() < s2.length()) {
+            s1 = "0" + s1;
+        }
+        while(s2.length() < s1.length()) {
+            s2 = "0" + s2;
+        }
         return -s1.compareTo(s2);
     }
     
@@ -130,39 +127,18 @@ public class Version implements Comparable<Version> {
      */
     @Override
     public int compareTo(Version anotherVersion) {
-        int majorComparisonResult = compareVersionNumber(this.getMajorVersion(), anotherVersion.getMajorVersion());
+        int majorComparisonResult = compareVersionString(this.major, anotherVersion.major);
         if (majorComparisonResult != 0) {
             return majorComparisonResult;
         }
-        int minorComparisonResult = compareVersionNumber(this.getMinorVersion(), anotherVersion.getMinorVersion());
+        int minorComparisonResult = compareVersionString(this.minor, anotherVersion.minor);
         if (minorComparisonResult != 0) {
             return minorComparisonResult;
         }
-        int patchComparisonResult = compareVersionString(this.getPatchVersion(), anotherVersion.getPatchVersion());
+        int patchComparisonResult = compareVersionString(this.patch, anotherVersion.patch);
         if (patchComparisonResult != 0) {
             return patchComparisonResult;
         }
         return this.isRcVersion.compareTo(anotherVersion.isRcVersion);
-    }
-    
-    /**
-     * Gets the major version number of the version.
-     */
-    public Integer getMajorVersion() {
-        return major;
-    }
-    
-    /**
-     * Gets the minor version number of the version.
-     */
-    public Integer getMinorVersion() {
-        return minor;
-    }
-    
-    /**
-     * Gets the patch part of the version.
-     */
-    public String getPatchVersion() {
-        return patch;
     }
 }
