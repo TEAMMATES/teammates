@@ -8,6 +8,9 @@ import teammates.common.exception.InvalidParametersException;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService.LogLevel;
 
+/**
+ * A wrapper class for LogQuery to retrieve logs from GAE server.
+ */
 public class AdminLogQuery {
     /**
      * Maximum number of versions to query.
