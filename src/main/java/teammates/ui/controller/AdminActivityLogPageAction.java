@@ -12,8 +12,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
-import teammates.common.util.GaeAdminApi;
-import teammates.common.util.LogReader;
+import teammates.common.util.GaeVersionApi;
+import teammates.common.util.GaeLogApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
@@ -33,7 +33,7 @@ public class AdminActivityLogPageAction extends Action {
     /**
      * The maximum number of times to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogReader.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / GaeLogApi.SEARCH_TIME_INCREMENT;
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
@@ -160,7 +160,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "All available version(s): ";
-        GaeAdminApi adminApi = new GaeAdminApi();
+        GaeVersionApi adminApi = new GaeVersionApi();
         List<Version> versionList = adminApi.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
             String version = versionList.get(i).toString();
@@ -188,11 +188,13 @@ public class AdminActivityLogPageAction extends Action {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
         
         totalLogsSearched = 0;
+        GaeLogApi logApi = new GaeLogApi();
+        
         for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = LogReader.fetchLogsInNextHours(query);
+            List<AppLogLine> searchResult = logApi.fetchLogsInNextHours(query);
             List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
             appLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
@@ -205,7 +207,8 @@ public class AdminActivityLogPageAction extends Action {
      * Retrieves all logs in the time period specified in the query.
      */
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminLogQuery query, AdminActivityLogPageData data) {
-        List<AppLogLine> searchResult = LogReader.fetchLogs(query);
+        GaeLogApi logApi = new GaeLogApi();
+        List<AppLogLine> searchResult = logApi.fetchLogs(query);
         List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
         
         nextEndTimeToSearch = data.getFromDate() - 1;

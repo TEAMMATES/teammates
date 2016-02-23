@@ -114,7 +114,7 @@ public class AdminLogQuery {
      * @return a list of default versions for query.
      */
     private List<String> getDefaultVersionIdsForQuery() {
-        GaeAdminApi adminApi = new GaeAdminApi();
+        GaeVersionApi adminApi = new GaeVersionApi();
         List<Version> versionList = adminApi.getAvailableVersions();
         Version currentVersion = adminApi.getCurrentVersion();
         

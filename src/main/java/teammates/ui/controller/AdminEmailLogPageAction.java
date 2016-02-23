@@ -9,7 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
-import teammates.common.util.LogReader;
+import teammates.common.util.GaeLogApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
@@ -24,7 +24,7 @@ public class AdminEmailLogPageAction extends Action {
     /**
      * The maximum number of times to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogReader.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / GaeLogApi.SEARCH_TIME_INCREMENT;
     
     private Long nextEndTimeToSearch;
     
@@ -78,11 +78,13 @@ public class AdminEmailLogPageAction extends Action {
         
         int totalLogsSearched = 0;
         
+        GaeLogApi logApi = new GaeLogApi();
+        
         for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (emailLogs.size() >= LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = LogReader.fetchLogsInNextHours(query);
+            List<AppLogLine> searchResult = logApi.fetchLogsInNextHours(query);
             List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
             emailLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();

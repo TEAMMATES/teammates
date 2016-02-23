@@ -10,14 +10,14 @@ import com.google.appengine.api.log.RequestLogs;
 /**
  * An utility to fetch logs from GAE server.
  */
-public class LogReader {
+public class GaeLogApi {
     public static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
     
     /**
      * Retrieves logs using the query.
      * @return logs fetched from server.
      */
-    public static List<AppLogLine> fetchLogs(AdminLogQuery query) {
+    public List<AppLogLine> fetchLogs(AdminLogQuery query) {
         List<AppLogLine> logs = new LinkedList<AppLogLine>();
         //fetch request log
         Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query.getQuery());
@@ -34,7 +34,7 @@ public class LogReader {
      * We can use it again to get logs from the next hours.
      * @return logs within the amount of hours defined by SEARCH_TIME_INCREMENT before endTime.
      */
-    public static List<AppLogLine> fetchLogsInNextHours(AdminLogQuery query) {
+    public List<AppLogLine> fetchLogsInNextHours(AdminLogQuery query) {
         List<AppLogLine> logs = new LinkedList<AppLogLine>();
         
         if (query.getEndTime() == null) {
