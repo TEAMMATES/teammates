@@ -35,7 +35,7 @@ public class AdminLogQuery {
         query.includeAppLogs(INCLUDE_APP_LOG);
         query.batchSize(BATCH_SIZE);
         query.minLogLevel(MIN_LOG_LEVEL);
-        setTimePeriodForQuery(startTime, endTime);
+        setTimePeriod(startTime, endTime);
         query.majorVersionIds(versionsToQuery);
     }
     
@@ -52,7 +52,7 @@ public class AdminLogQuery {
      * @param startTime
      * @param endTime
      */
-    private void setTimePeriodForQuery(Long startTime, Long endTime) {
+    private void setTimePeriod(Long startTime, Long endTime) {
         if (startTime != null) {
             query.startTimeMillis(startTime);
         }
@@ -73,7 +73,7 @@ public class AdminLogQuery {
      */
     public void setQueryWindowBackward(long timeInMillis) {
         long startTime = getEndTime() - timeInMillis;
-        setTimePeriodForQuery(startTime, getEndTime());
+        setTimePeriod(startTime, getEndTime());
         setEndTime(startTime - 1);
     }
     
