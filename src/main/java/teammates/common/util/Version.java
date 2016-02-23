@@ -56,7 +56,7 @@ public class Version implements Comparable<Version> {
         if (versionInString.contains("-")) {
             list = versionInString.split("-", 3);   // split into at most 3 parts
         } else {
-            list = versionInString.split(".", 3);
+            list = versionInString.split("\\.", 3);
         }
         if (list.length > 0) {
             major = list[0];
