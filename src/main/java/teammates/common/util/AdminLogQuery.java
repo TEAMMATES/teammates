@@ -22,11 +22,9 @@ public class AdminLogQuery {
     
     private LogQuery query;
     private long endTime;
-    private List<String> versionList;
     
     /**
      * Sets values for query.
-     * If versionsToQuery is null or empty, default versions will be used instead.
      * 
      * @param versionsToQuery 
      * @param startTime
@@ -38,8 +36,7 @@ public class AdminLogQuery {
         query.batchSize(BATCH_SIZE);
         query.minLogLevel(MIN_LOG_LEVEL);
         setTimePeriodForQuery(startTime, endTime);
-        versionList = getVersionIdsForQuery(versionsToQuery);
-        query.majorVersionIds(versionList);
+        query.majorVersionIds(versionsToQuery);
     }
     
     /**
@@ -92,25 +89,5 @@ public class AdminLogQuery {
      */
     public long getEndTime() {
         return endTime;
-    }
-    
-    /**
-     * Gets versions used in query.
-     */
-    public List<String> getVersionsToQuery() {
-        return versionList;
-    }
-    
-    /**
-     * Selects versions for query. If versions are not specified, it will return 
-     * default versions used for query.
-     */
-    private List<String> getVersionIdsForQuery(List<String> versions) {
-        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
-        if (isVersionSpecifiedInRequest) {
-            return versions;
-        }
-        GaeVersionApi versionApi = new GaeVersionApi();
-        return versionApi.getDefaultVersionIdsForLogQuery();
     }
 }

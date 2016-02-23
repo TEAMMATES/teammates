@@ -24,7 +24,6 @@ import teammates.logic.api.Logic;
 import com.google.appengine.api.log.AppLogLine;
 
 public class AdminActivityLogPageAction extends Action {
-    
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
     /**
      * The maximum time period to retrieve logs with time increment.
@@ -35,6 +34,12 @@ public class AdminActivityLogPageAction extends Action {
      * The maximum number of times to retrieve logs with time increment.
      */
     private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / SEARCH_TIME_INCREMENT;
+    /**
+     * Maximum number of versions to query.
+     * The current value will include the current version and its 5 preceding versions.
+     */
+    private static final int MAX_VERSIONS_TO_QUERY = 6;
+    
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
@@ -86,12 +91,13 @@ public class AdminActivityLogPageAction extends Action {
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
         
-        boolean ifContinueFromPreviousSearch = (!data.isFromDateSpecifiedInQuery()) && (!searchTimeOffset.isEmpty());
-        if (ifContinueFromPreviousSearch) {
+        boolean isContinueFromPreviousSearch = (!data.isFromDateSpecifiedInQuery()) && (!searchTimeOffset.isEmpty());
+        if (isContinueFromPreviousSearch) {
             data.setToDate(Long.parseLong(searchTimeOffset));
         }
         
-        AdminLogQuery query = new AdminLogQuery(data.getVersions(), data.getFromDate(), data.getToDate());
+        List<String> versionToQuery = getVersionsForQuery(data.getVersions());
+        AdminLogQuery query = new AdminLogQuery(versionToQuery, data.getFromDate(), data.getToDate());
         
         List<ActivityLogEntry> logs = null;
         if (data.isFromDateSpecifiedInQuery()) {
@@ -100,7 +106,7 @@ public class AdminActivityLogPageAction extends Action {
             logs = searchLogsWithTimeIncrement(query, data);
         }
         
-        generateStatusMessage(query, data, logs, courseIdFromSearchPage);
+        generateStatusMessage(versionToQuery, query, data, logs, courseIdFromSearchPage);
         data.init(ifShowAll, ifShowTestData, logs);
         
         if (searchTimeOffset.isEmpty()) {
@@ -110,7 +116,20 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    private void generateStatusMessage(AdminLogQuery query, AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
+    /**
+     * Selects versions for query. If versions are not specified, it will return 
+     * default versions used for query.
+     */
+    private List<String> getVersionsForQuery(List<String> versions) {
+        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
+        if (isVersionSpecifiedInRequest) {
+            return versions;
+        }
+        GaeVersionApi versionApi = new GaeVersionApi();
+        return versionApi.getMostRecentVersions(MAX_VERSIONS_TO_QUERY);
+    }
+    
+    private void generateStatusMessage(List<String> versionToQuery, AdminLogQuery query, AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
         String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
         
@@ -151,10 +170,9 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "Logs are from following version(s): ";
-        List<String> versionListToQuery = query.getVersionsToQuery();
-        for (int i = 0; i < versionListToQuery.size(); i++) {
-            String version = versionListToQuery.get(i).replace('-', '.');
-            if (i < versionListToQuery.size() - 1) {
+        for (int i = 0; i < versionToQuery.size(); i++) {
+            String version = versionToQuery.get(i).replace('-', '.');
+            if (i < versionToQuery.size() - 1) {
                 status += version + ", ";
             } else {
                 status += version + "<br>";

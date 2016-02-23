@@ -10,6 +10,7 @@ import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.GaeLogApi;
+import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
@@ -26,6 +27,11 @@ public class AdminEmailLogPageAction extends Action {
      * The maximum number of times to retrieve logs with time increment.
      */
     private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / SEARCH_TIME_INCREMENT;
+    /**
+     * Maximum number of versions to query.
+     * The current value will include the current version and its 5 preceding versions.
+     */
+    private static final int MAX_VERSIONS_TO_QUERY = 6;
     
     private Long nextEndTimeToSearch;
     
@@ -70,11 +76,25 @@ public class AdminEmailLogPageAction extends Action {
     }
     
     /**
+     * Selects versions for query. If versions are not specified, it will return 
+     * default versions used for query.
+     */
+    private List<String> getVersionsForQuery(List<String> versions) {
+        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
+        if (isVersionSpecifiedInRequest) {
+            return versions;
+        }
+        GaeVersionApi versionApi = new GaeVersionApi();
+        return versionApi.getMostRecentVersions(MAX_VERSIONS_TO_QUERY);
+    }
+    
+    /**
      * Retrieves enough email logs within MAX_SEARCH_PERIOD hours.
      */
     private List<EmailLogEntry> getEmailLogs(Long endTimeToSearch, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
-        AdminLogQuery query = new AdminLogQuery(data.getVersions(), null, endTimeToSearch);
+        List<String> versionToQuery = getVersionsForQuery(data.getVersions());
+        AdminLogQuery query = new AdminLogQuery(versionToQuery, null, endTimeToSearch);
         
         int totalLogsSearched = 0;
         

@@ -12,12 +12,6 @@ import com.google.appengine.api.modules.ModulesServiceFactory;
  */
 public class GaeVersionApi {
     /**
-     * Maximum number of versions to query.
-     * The current value will include the current version and its 5 preceding versions.
-     */
-    private static final int MAX_VERSIONS_TO_QUERY = 6;
-    
-    /**
      * Default constructor.
      */
     public GaeVersionApi() {
@@ -46,34 +40,35 @@ public class GaeVersionApi {
     }
     
     /**
-     * Gets a few recent versions for log query.
-     * @return a list of default versions for query.
+     * Gets a number of most recent versions
+     * @return a list of versions.
      */
-    public List<String> getDefaultVersionIdsForLogQuery() {
+    public List<String> getMostRecentVersions(int numVersions) {
         List<Version> versionList = getAvailableVersions();
         Version currentVersion = getCurrentVersion();
         
-        List<String> defaultVersions = new ArrayList<String>();
+        List<String> resultVersions = new ArrayList<String>();
         try {
             int currentVersionIndex = versionList.indexOf(currentVersion);
-            defaultVersions = getNextFewVersions(versionList, currentVersionIndex);
+            resultVersions = getSublistOfVersionList(versionList, currentVersionIndex, numVersions);
         } catch (Exception e) {
-            defaultVersions.add(currentVersion.toStringForQuery());
+            resultVersions.add(currentVersion.toStringWithDashes());
             Utils.getLogger().severe(e.getMessage());
         }
-        return defaultVersions;
+        return resultVersions;
     }
 
     /**
-     * Finds at most MAX_VERSIONS_TO_QUERY nearest versions.
-     * @param currentVersionIndex starting position to get versions to query
+     * Finds a sublist of versionList, starting from startIndex and at most `maxAmount` elements.
+     * @param startIndex starting position to get versions
+     * @param amount 
      */
-    private List<String> getNextFewVersions(List<Version> versionList, int currentVersionIndex) {
-        int endIndex = Math.min(currentVersionIndex + MAX_VERSIONS_TO_QUERY, versionList.size());
-        List<Version> versionSubList = versionList.subList(currentVersionIndex, endIndex);
+    private List<String> getSublistOfVersionList(List<Version> versionList, int startIndex, int maxAmount) {
+        int endIndex = Math.min(startIndex + maxAmount, versionList.size());
+        List<Version> versionSubList = versionList.subList(startIndex, endIndex);
         List<String> versionListInString = new ArrayList<String>();
         for (Version version : versionSubList) {
-            versionListInString.add(version.toStringForQuery());
+            versionListInString.add(version.toStringWithDashes());
         }
         return versionListInString;
     }

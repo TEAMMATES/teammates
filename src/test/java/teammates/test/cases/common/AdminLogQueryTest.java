@@ -27,7 +27,6 @@ public class AdminLogQueryTest extends BaseTestCase {
         assertNotNull(query.getEndTime());
         assertEquals(endTime, query.getEndTime());
         assertNotNull(query.getQuery());
-        assertNotNull(query.getVersionsToQuery());
     }
     
     @Test
