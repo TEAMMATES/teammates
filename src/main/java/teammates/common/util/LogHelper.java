@@ -109,8 +109,8 @@ public class LogHelper {
      * @return a list of default versions for query.
      */
     private static List<String> getDefaultVersionIdsForQuery() {
-        List<Version> versionList = GaeApi.getAvailableVersions();
-        Version currentVersion = GaeApi.getCurrentVersion();
+        List<Version> versionList = GaeAdminApi.getAvailableVersions();
+        Version currentVersion = GaeAdminApi.getCurrentVersion();
         
         List<String> defaultVersions = new ArrayList<String>();
         try {

@@ -8,9 +8,9 @@ import com.google.appengine.api.modules.ModulesService;
 import com.google.appengine.api.modules.ModulesServiceFactory;
 
 /**
- * Calls API functions of Google AppEngine
+ * A wrapper class for GAE application admin API. e.g. version management
  */
-public class GaeApi {
+public class GaeAdminApi {
     private static final ModulesService modulesService = ModulesServiceFactory.getModulesService();
     
     /**

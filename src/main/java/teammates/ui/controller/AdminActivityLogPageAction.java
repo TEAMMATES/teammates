@@ -11,7 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
-import teammates.common.util.GaeApi;
+import teammates.common.util.GaeAdminApi;
 import teammates.common.util.LogHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
@@ -155,7 +155,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "All available version(s): ";
-        List<Version> versionList = GaeApi.getAvailableVersions();
+        List<Version> versionList = GaeAdminApi.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
             String version = versionList.get(i).toString();
             if (i < versionList.size() - 1) {
