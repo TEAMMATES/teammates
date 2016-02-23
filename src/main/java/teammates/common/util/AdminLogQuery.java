@@ -33,6 +33,9 @@ public class AdminLogQuery {
     private Long endTime;
     private List<String> versionList;
     
+    /**
+     * Default constructor.
+     */
     public AdminLogQuery() {
         query = LogQuery.Builder.withDefaults();
         query.includeAppLogs(INCLUDE_APP_LOG);
@@ -42,13 +45,14 @@ public class AdminLogQuery {
     
     /**
      * Sets values for query.
-     * If versionsToQuery is null or empty, the current version with its 5 preceding versions will be used instead.
+     * If versionsToQuery is null or empty, default versions will be used instead.
      * 
      * @param versionsToQuery 
      * @param startTime
      * @param endTime
      */
-    public void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
+    public AdminLogQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
+        this();
         setTimePeriodForQuery(startTime, endTime);
         versionList = getVersionIdsForQuery(versionsToQuery);
         query.majorVersionIds(versionList);
@@ -66,11 +70,11 @@ public class AdminLogQuery {
      * @param startTime
      * @param endTime
      */
-    public void setTimePeriodForQuery(Long startTime, Long endTimeParam) {
+    private void setTimePeriodForQuery(Long startTime, Long endTimeParam) {
         if (startTime != null) {
             query.startTimeMillis(startTime);
         }
-        if (endTime != null) {
+        if (endTimeParam != null) {
             query.endTimeMillis(endTimeParam);
             setEndTime(endTimeParam);
         }
@@ -88,7 +92,7 @@ public class AdminLogQuery {
     /**
      * Sets end time of the query.
      */
-    public void setEndTime(Long endTimeParam) {
+    private void setEndTime(Long endTimeParam) {
         endTime = endTimeParam;
     }
     

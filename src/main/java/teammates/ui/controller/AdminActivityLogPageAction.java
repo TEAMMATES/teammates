@@ -87,18 +87,20 @@ public class AdminActivityLogPageAction extends Action {
         data.generateQueryParameters(filterQuery);
         
         List<ActivityLogEntry> logs = null;
-        AdminLogQuery query = new AdminLogQuery();
+        
+        boolean ifContinueFromPreviousSearch = (!data.isFromDateSpecifiedInQuery()) && (!searchTimeOffset.isEmpty());
+        if (ifContinueFromPreviousSearch) {
+            data.setToDate(Long.parseLong(searchTimeOffset));
+        }
+        
+        AdminLogQuery query = new AdminLogQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
         if (data.isFromDateSpecifiedInQuery()) {
-            query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
             logs = searchLogsWithExactTimePeriod(query, data);
         } else {
-            if (!searchTimeOffset.isEmpty()) {
-                data.setToDate(Long.parseLong(searchTimeOffset));
-            }
-            query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
             logs = searchLogsWithTimeIncrement(query, data);
         }
+        
         generateStatusMessage(query, data, logs, courseIdFromSearchPage);
         data.init(ifShowAll, ifShowTestData, logs);
         

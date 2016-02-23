@@ -74,8 +74,7 @@ public class AdminEmailLogPageAction extends Action {
      */
     private List<EmailLogEntry> getEmailLogs(Long endTimeToSearch, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
-        AdminLogQuery query = new AdminLogQuery();
-        query.setQuery(data.getVersions(), null, endTimeToSearch);
+        AdminLogQuery query = new AdminLogQuery(data.getVersions(), null, endTimeToSearch);
         
         int totalLogsSearched = 0;
         
