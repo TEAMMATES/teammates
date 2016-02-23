@@ -89,11 +89,13 @@ public class AdminActivityLogPageAction extends Action {
         AdminLogQuery query = new AdminLogQuery();
         
         if (data.isFromDateSpecifiedInQuery()) {
+            query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
             logs = searchLogsWithExactTimePeriod(query, data);
         } else {
             if (!searchTimeOffset.isEmpty()) {
                 data.setToDate(Long.parseLong(searchTimeOffset));
             }
+            query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
             logs = searchLogsWithTimeIncrement(query, data);
         }
         generateStatusMessage(query, data, logs, courseIdFromSearchPage);
@@ -184,7 +186,6 @@ public class AdminActivityLogPageAction extends Action {
      */
     private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminLogQuery query, AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
-        query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
         totalLogsSearched = 0;
         for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
@@ -204,8 +205,6 @@ public class AdminActivityLogPageAction extends Action {
      * Retrieves all logs in the time period specified in the query.
      */
     private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminLogQuery query, AdminActivityLogPageData data) {
-        query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
-        
         List<AppLogLine> searchResult = LogReader.fetchLogs(query);
         List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
         
