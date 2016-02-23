@@ -162,8 +162,8 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "All available version(s): ";
-        GaeVersionApi adminApi = new GaeVersionApi();
-        List<Version> versionList = adminApi.getAvailableVersions();
+        GaeVersionApi versionApi = new GaeVersionApi();
+        List<Version> versionList = versionApi.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
             String version = versionList.get(i).toString();
             if (i < versionList.size() - 1) {
@@ -240,7 +240,7 @@ public class AdminActivityLogPageAction extends Action {
             if (!isToShow) {
                 continue;
             }
-            if (isFirstRow ) {
+            if (isFirstRow) {
                 activityLogEntry.setFirstRow();
                 isFirstRow = false;
             }
@@ -257,7 +257,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         Logic logic = new Logic();
-        if (userGoogleId != null && !userGoogleId.isEmpty()) {     
+        if (userGoogleId != null && !userGoogleId.isEmpty()) {
             try {
                 localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
             } catch (EntityDoesNotExistException e) {
@@ -316,7 +316,6 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         return localTimeZone;
-        
     }
     
     private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {

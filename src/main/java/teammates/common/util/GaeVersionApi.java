@@ -57,7 +57,7 @@ public class GaeVersionApi {
         try {
             int currentVersionIndex = versionList.indexOf(currentVersion);
             defaultVersions = getNextFewVersions(versionList, currentVersionIndex);
-        } catch (IndexOutOfBoundsException  e) {
+        } catch (Exception e) {
             defaultVersions.add(currentVersion.toStringForQuery());
             Utils.getLogger().severe(e.getMessage());
         }
