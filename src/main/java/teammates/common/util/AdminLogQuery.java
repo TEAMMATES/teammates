@@ -80,6 +80,10 @@ public class AdminLogQuery {
         }
     }
     
+    /**
+     * Sets time period to query logs then moves endTime back by the same amount.
+     * @param timeInMillis milliseconds before endTime
+     */
     public void setQueryWindowBackward(long timeInMillis) {
         if (getEndTime() == null) {
             setEndTime(TimeHelper.now(0.0).getTimeInMillis());
