@@ -11,12 +11,14 @@ import com.google.appengine.api.modules.ModulesServiceFactory;
  * A wrapper class for GAE application admin API. e.g. version management
  */
 public class GaeAdminApi {
-    private static final ModulesService modulesService = ModulesServiceFactory.getModulesService();
+    public GaeAdminApi() {
+    }
     
     /**
      * Gets all available versions.
      */
-    public static List<Version> getAvailableVersions() {
+    public List<Version> getAvailableVersions() {
+        ModulesService modulesService = ModulesServiceFactory.getModulesService();
         List<String> versionListInString = new ArrayList<String>(modulesService.getVersions(null)); // null == default module
         List<Version> versionList = new ArrayList<Version>();
         for(String versionInString : versionListInString) {
@@ -29,7 +31,8 @@ public class GaeAdminApi {
     /**
      * Gets the current version of the application.
      */
-    public static Version getCurrentVersion() {
+    public Version getCurrentVersion() {
+        ModulesService modulesService = ModulesServiceFactory.getModulesService();
         return new Version(modulesService.getCurrentVersion());
     }
     

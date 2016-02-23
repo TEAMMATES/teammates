@@ -6,16 +6,16 @@ import java.util.List;
 import com.google.appengine.api.log.AppLogLine;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
-import teammates.common.util.LogHelper;
+import teammates.common.util.LogReader;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailLogPageAction extends Action {
-    
     private static final int LOGS_PER_PAGE = 50;
     /**
      * The maximum time period to retrieve logs with time increment.
@@ -24,7 +24,7 @@ public class AdminEmailLogPageAction extends Action {
     /**
      * The maximum number of times to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogHelper.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogReader.SEARCH_TIME_INCREMENT;
     
     private Long nextEndTimeToSearch;
     
@@ -73,8 +73,8 @@ public class AdminEmailLogPageAction extends Action {
      */
     private List<EmailLogEntry> getEmailLogs(Long endTimeToSearch, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
-        
-        LogHelper.setQuery(data.getVersions(), null, endTimeToSearch);
+        AdminLogQuery query = new AdminLogQuery();
+        query.setQuery(data.getVersions(), null, endTimeToSearch);
         
         int totalLogsSearched = 0;
         
@@ -82,12 +82,12 @@ public class AdminEmailLogPageAction extends Action {
             if (emailLogs.size() >= LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = LogHelper.fetchLogsInNextHours();
+            List<AppLogLine> searchResult = LogReader.fetchLogsInNextHours(query);
             List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
             emailLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
         }
-        nextEndTimeToSearch = LogHelper.getEndTime();
+        nextEndTimeToSearch = query.getEndTime();
         
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs

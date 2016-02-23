@@ -10,9 +10,10 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.GaeAdminApi;
-import teammates.common.util.LogHelper;
+import teammates.common.util.LogReader;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
@@ -32,7 +33,7 @@ public class AdminActivityLogPageAction extends Action {
     /**
      * The maximum number of times to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogHelper.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogReader.SEARCH_TIME_INCREMENT;
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
@@ -85,15 +86,17 @@ public class AdminActivityLogPageAction extends Action {
         data.generateQueryParameters(filterQuery);
         
         List<ActivityLogEntry> logs = null;
+        AdminLogQuery query = new AdminLogQuery();
+        
         if (data.isFromDateSpecifiedInQuery()) {
-            logs = searchLogsWithExactTimePeriod(data);
+            logs = searchLogsWithExactTimePeriod(query, data);
         } else {
             if (!searchTimeOffset.isEmpty()) {
                 data.setToDate(Long.parseLong(searchTimeOffset));
             }
-            logs = searchLogsWithTimeIncrement(data);
+            logs = searchLogsWithTimeIncrement(query, data);
         }
-        generateStatusMessage(data, logs, courseIdFromSearchPage);
+        generateStatusMessage(query, data, logs, courseIdFromSearchPage);
         data.init(ifShowAll, ifShowTestData, logs);
         
         if (searchTimeOffset.isEmpty()) {
@@ -103,7 +106,7 @@ public class AdminActivityLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
-    private void generateStatusMessage(AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
+    private void generateStatusMessage(AdminLogQuery query, AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
         String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
         
@@ -144,7 +147,7 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "Logs are from following version(s): ";
-        List<String> versionListToQuery = LogHelper.getVersionsToQuery();
+        List<String> versionListToQuery = query.getVersionsToQuery();
         for (int i = 0; i < versionListToQuery.size(); i++) {
             String version = versionListToQuery.get(i).replace('-', '.');
             if (i < versionListToQuery.size() - 1) {
@@ -155,7 +158,8 @@ public class AdminActivityLogPageAction extends Action {
         }
         
         status += "All available version(s): ";
-        List<Version> versionList = GaeAdminApi.getAvailableVersions();
+        GaeAdminApi adminApi = new GaeAdminApi();
+        List<Version> versionList = adminApi.getAvailableVersions();
         for (int i = 0; i < versionList.size(); i++) {
             String version = versionList.get(i).toString();
             if (i < versionList.size() - 1) {
@@ -178,31 +182,31 @@ public class AdminActivityLogPageAction extends Action {
     /**
      * Retrieves enough logs within MAX_SEARCH_PERIOD hours.
      */
-    private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminActivityLogPageData data) {
+    private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminLogQuery query, AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();
-        LogHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
+        query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
         totalLogsSearched = 0;
         for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = LogHelper.fetchLogsInNextHours();
+            List<AppLogLine> searchResult = LogReader.fetchLogsInNextHours(query);
             List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
             appLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
         }
-        nextEndTimeToSearch = LogHelper.getEndTime();
+        nextEndTimeToSearch = query.getEndTime();
         return appLogs;
     }
     
     /**
      * Retrieves all logs in the time period specified in the query.
      */
-    private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminActivityLogPageData data) {
-        LogHelper.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
+    private List<ActivityLogEntry> searchLogsWithExactTimePeriod(AdminLogQuery query, AdminActivityLogPageData data) {
+        query.setQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
-        List<AppLogLine> searchResult = LogHelper.fetchLogs();
+        List<AppLogLine> searchResult = LogReader.fetchLogs(query);
         List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
         
         nextEndTimeToSearch = data.getFromDate() - 1;
