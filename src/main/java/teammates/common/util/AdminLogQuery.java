@@ -70,13 +70,13 @@ public class AdminLogQuery {
      * @param startTime
      * @param endTime
      */
-    private void setTimePeriodForQuery(Long startTime, Long endTimeParam) {
+    private void setTimePeriodForQuery(Long startTime, Long endTime) {
         if (startTime != null) {
             query.startTimeMillis(startTime);
         }
-        if (endTimeParam != null) {
-            query.endTimeMillis(endTimeParam);
-            setEndTime(endTimeParam);
+        if (endTime != null) {
+            query.endTimeMillis(endTime);
+            setEndTime(endTime);
         }
     }
     
