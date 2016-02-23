@@ -42,6 +42,10 @@
                         tabindex="3" placeholder="Select a time zone...">
                         <option value="">Select a time zone...</option>
                     </select>
+                    <div class="alert alert-info time-zone-info-box">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        Time zone is auto-detected based on your device settings.
+                    </div>
                 </div>
             </div>
             <div class="form-group">
