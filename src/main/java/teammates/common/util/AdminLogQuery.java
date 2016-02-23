@@ -76,6 +76,15 @@ public class AdminLogQuery {
         }
     }
     
+    public void setQueryWindowBackward(long timeInMillis) {
+        if (getEndTime() == null) {
+            setEndTime(TimeHelper.now(0.0).getTimeInMillis());
+        }
+        Long startTime = getEndTime() - timeInMillis;
+        setTimePeriodForQuery(startTime, getEndTime());
+        endTime = startTime - 1;
+    }
+    
     /**
      * Sets end time of the query.
      */

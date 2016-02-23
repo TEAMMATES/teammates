@@ -30,10 +30,11 @@ public class AdminActivityLogPageAction extends Action {
      * The maximum time period to retrieve logs with time increment.
      */
     private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
+    private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
     /**
      * The maximum number of times to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / GaeLogApi.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / SEARCH_TIME_INCREMENT;
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
@@ -194,7 +195,8 @@ public class AdminActivityLogPageAction extends Action {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = logApi.fetchLogsInNextHours(query);
+            query.setQueryWindowBackward(SEARCH_TIME_INCREMENT);
+            List<AppLogLine> searchResult = logApi.fetchLogs(query);
             List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
             appLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();

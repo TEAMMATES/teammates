@@ -21,10 +21,11 @@ public class AdminEmailLogPageAction extends Action {
      * The maximum time period to retrieve logs with time increment.
      */
     private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
+    private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
     /**
      * The maximum number of times to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / GaeLogApi.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / SEARCH_TIME_INCREMENT;
     
     private Long nextEndTimeToSearch;
     
@@ -84,7 +85,8 @@ public class AdminEmailLogPageAction extends Action {
             if (emailLogs.size() >= LOGS_PER_PAGE) {
                 break;
             }
-            List<AppLogLine> searchResult = logApi.fetchLogsInNextHours(query);
+            query.setQueryWindowBackward(SEARCH_TIME_INCREMENT);
+            List<AppLogLine> searchResult = logApi.fetchLogs(query);
             List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
             emailLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
