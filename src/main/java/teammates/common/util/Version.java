@@ -93,7 +93,7 @@ public class Version implements Comparable<Version> {
     /**
      * Converts to String in format XX-XX-XXXX
      */
-    public String toStringForQuery() {
+    public String toStringWithDashes() {
         return originalRepresentation.replace('.', '-');
     }
     
@@ -139,6 +139,6 @@ public class Version implements Comparable<Version> {
         if (patchComparisonResult != 0) {
             return patchComparisonResult;
         }
-        return this.isRcVersion.compareTo(anotherVersion.isRcVersion);
+        return -isRcVersion.compareTo(anotherVersion.isRcVersion);
     }
 }

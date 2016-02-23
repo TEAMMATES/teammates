@@ -11,17 +11,25 @@ import teammates.test.cases.BaseTestCase;
 public class VersionTest extends BaseTestCase {
     @Test
     public void testVersionConversion() {
+        ______TS("Test versions with 2 numbers");
         Version version = new Version("15.09");
         assertEquals("15.09", version.toString());
-        assertEquals("15-09", version.toStringForQuery());
+        assertEquals("15-09", version.toStringWithDashes());
         
+        ______TS("Test versions with 3 numbers");
         version = new Version("100-09-01");
         assertEquals("100.09.01", version.toString());
-        assertEquals("100-09-01", version.toStringForQuery());
+        assertEquals("100-09-01", version.toStringWithDashes());
         
+        ______TS("Test versions with 4 numbers");
         version = new Version("15.09.01.1");
         assertEquals("15.09.01.1", version.toString());
-        assertEquals("15-09-01-1", version.toStringForQuery());
+        assertEquals("15-09-01-1", version.toStringWithDashes());
+        
+        ______TS("Test versions with rc");
+        version = new Version("15.09rc");
+        assertEquals("15.09rc", version.toString());
+        assertEquals("15-09rc", version.toStringWithDashes());
     }
     
     @Test
@@ -32,12 +40,18 @@ public class VersionTest extends BaseTestCase {
         
         version1 = new Version("15.09");
         version2 = new Version("1.09");
-        System.out.println(version1.compareTo(version2));
         assertTrue(version1.compareTo(version2) < 0);
         assertTrue(version2.compareTo(version1) > 0);
         
         version1 = new Version("15.09");
         version2 = new Version("15.09.01");
         assertTrue(version1.compareTo(version2) > 0);
+        
+        
+        ______TS("Test rc versions will come first when the rest are similar");
+        version1 = new Version("15.09");
+        version2 = new Version("15.09rc");
+        assertTrue(version2.compareTo(version1) < 0);   //15.09rc < 15.09
+        
     }
 }
