@@ -18,10 +18,13 @@ public class AdminEmailLogPageAction extends Action {
     
     private static final int LOGS_PER_PAGE = 50;
     /**
-     * The maximum number of times to retrieve logs with time increment.
-     * The current value will search up to 24h.
+     * The maximum time period to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = 24 * 60 * 60 * 1000 / LogHelper.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
+    /**
+     * The maximum number of times to retrieve logs with time increment.
+     */
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogHelper.SEARCH_TIME_INCREMENT;
     
     private Long nextEndTimeToSearch;
     
@@ -65,6 +68,9 @@ public class AdminEmailLogPageAction extends Action {
         return createAjaxResult(data);
     }
     
+    /**
+     * Retrieves enough email logs within MAX_SEARCH_PERIOD hours.
+     */
     private List<EmailLogEntry> getEmailLogs(Long endTimeToSearch, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
         
@@ -104,11 +110,9 @@ public class AdminEmailLogPageAction extends Action {
             }
             
             EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);
-            if(!data.shouldShowLog(emailLogEntry)) {
-                continue;
+            if(data.shouldShowLog(emailLogEntry)) {
+                emailLogs.add(emailLogEntry);
             }
-            
-            emailLogs.add(emailLogEntry);
         }
         return emailLogs;
     }

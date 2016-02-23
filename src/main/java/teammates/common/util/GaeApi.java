@@ -11,7 +11,7 @@ import com.google.appengine.api.modules.ModulesServiceFactory;
  * Calls API functions of Google AppEngine
  */
 public class GaeApi {
-    private static ModulesService modulesService = ModulesServiceFactory.getModulesService();
+    private static final ModulesService modulesService = ModulesServiceFactory.getModulesService();
     
     /**
      * Gets all available versions.

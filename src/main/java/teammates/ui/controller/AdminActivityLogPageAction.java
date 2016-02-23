@@ -26,10 +26,13 @@ public class AdminActivityLogPageAction extends Action {
     
     private static final int RELEVANT_LOGS_PER_PAGE = 50;
     /**
-     * The maximum number of times to retrieve logs with time increment.
-     * The current value will search up to 24h.
+     * The maximum time period to retrieve logs with time increment.
      */
-    private static final int MAX_SEARCH_TIMES = 24 * 60 * 60 * 1000 / LogHelper.SEARCH_TIME_INCREMENT;
+    private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
+    /**
+     * The maximum number of times to retrieve logs with time increment.
+     */
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / LogHelper.SEARCH_TIME_INCREMENT;
     
     private int totalLogsSearched;
     private boolean isFirstRow = true;
@@ -176,7 +179,7 @@ public class AdminActivityLogPageAction extends Action {
     }
 
     /**
-     * Retrieves enough logs within 24 hour.
+     * Retrieves enough logs within MAX_SEARCH_PERIOD hours.
      */
     private List<ActivityLogEntry> searchLogsWithTimeIncrement(AdminActivityLogPageData data) {
         List<ActivityLogEntry> appLogs = new LinkedList<ActivityLogEntry>();

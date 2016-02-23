@@ -11,6 +11,8 @@ public class Version implements Comparable<Version> {
     private Integer major;
     private Integer minor;
     private String patch;
+    private Boolean isRcVersion;
+    
     /**
      * The version is represented by 3 parts: major, minor and patch.
      * If the version has fewer than 3 numbers, the numbers will be assigned to major then to minor (if possible).
@@ -32,6 +34,8 @@ public class Version implements Comparable<Version> {
      * version = 15.01.03.01
      * major = 15, minor = 1 and patch = "03.01"
      * 
+     * It also support RC versions, which has "rc" appended at the end of the string.
+     * For example: 5rc, 4.55rc, 5.55.01rc
      */
     
     /**
@@ -40,6 +44,15 @@ public class Version implements Comparable<Version> {
      */
     public Version(String versionInString) {
         originalRepresentation = versionInString;
+        
+        if (versionInString.contains("rc")) {
+            int rcIndex = versionInString.indexOf("rc");
+            versionInString = versionInString.substring(0, rcIndex);
+            isRcVersion = true;
+        } else {
+            isRcVersion = false;
+        }
+        
         String[] list;
         if (versionInString.contains("-")) {
             list = versionInString.split("-", 3);   // split into at most 3 parts
@@ -126,7 +139,10 @@ public class Version implements Comparable<Version> {
             return minorComparisonResult;
         }
         int patchComparisonResult = compareVersionString(this.getPatchVersion(), anotherVersion.getPatchVersion());
-        return patchComparisonResult;
+        if (patchComparisonResult != 0) {
+            return patchComparisonResult;
+        }
+        return this.isRcVersion.compareTo(anotherVersion.isRcVersion);
     }
     
     /**
