@@ -86,8 +86,6 @@ public class AdminActivityLogPageAction extends Action {
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(filterQuery);
         
-        List<ActivityLogEntry> logs = null;
-        
         boolean ifContinueFromPreviousSearch = (!data.isFromDateSpecifiedInQuery()) && (!searchTimeOffset.isEmpty());
         if (ifContinueFromPreviousSearch) {
             data.setToDate(Long.parseLong(searchTimeOffset));
@@ -95,6 +93,7 @@ public class AdminActivityLogPageAction extends Action {
         
         AdminLogQuery query = new AdminLogQuery(data.getVersions(), data.getFromDate(), data.getToDate());
         
+        List<ActivityLogEntry> logs = null;
         if (data.isFromDateSpecifiedInQuery()) {
             logs = searchLogsWithExactTimePeriod(query, data);
         } else {

@@ -77,7 +77,7 @@ public class AdminLogQuery {
     public void setQueryWindowBackward(long timeInMillis) {
         long startTime = getEndTime() - timeInMillis;
         setTimePeriodForQuery(startTime, getEndTime());
-        endTime = startTime - 1;
+        setEndTime(startTime - 1);
     }
     
     /**

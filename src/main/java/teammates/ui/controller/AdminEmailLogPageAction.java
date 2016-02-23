@@ -80,7 +80,7 @@ public class AdminEmailLogPageAction extends Action {
         
         GaeLogApi logApi = new GaeLogApi();
         
-        for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
+        for (int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (emailLogs.size() >= LOGS_PER_PAGE) {
                 break;
             }
@@ -112,7 +112,7 @@ public class AdminEmailLogPageAction extends Action {
             }
             
             EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);
-            if(data.shouldShowLog(emailLogEntry)) {
+            if (data.shouldShowLog(emailLogEntry)) {
                 emailLogs.add(emailLogEntry);
             }
         }
