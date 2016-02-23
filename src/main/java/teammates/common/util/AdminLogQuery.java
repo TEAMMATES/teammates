@@ -1,21 +1,14 @@
 package teammates.common.util;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import teammates.common.exception.InvalidParametersException;
 
-import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
-import com.google.appengine.api.log.LogServiceFactory;
-import com.google.appengine.api.log.RequestLogs;
 import com.google.appengine.api.log.LogService.LogLevel;
 
-/**
- * An utility to fetch logs from GAE server.
- */
-public class LogHelper {
+public class AdminLogQuery {
     /**
      * Maximum number of versions to query.
      * The current value will include the current version and its 5 preceding versions.
@@ -32,11 +25,17 @@ public class LogHelper {
      */
     private static final int BATCH_SIZE = 1000;
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
-    public static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
     
-    private static LogQuery query;
-    private static Long endTime;
-    private static List<String> versionList;
+    private LogQuery query;
+    private Long endTime;
+    private List<String> versionList;
+    
+    public AdminLogQuery() {
+        query = LogQuery.Builder.withDefaults();
+        query.includeAppLogs(INCLUDE_APP_LOG);
+        query.batchSize(BATCH_SIZE);
+        query.minLogLevel(MIN_LOG_LEVEL);
+    }
     
     /**
      * Sets values for query.
@@ -46,14 +45,17 @@ public class LogHelper {
      * @param startTime
      * @param endTime
      */
-    public static void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
-        query = LogQuery.Builder.withDefaults();
-        query.includeAppLogs(INCLUDE_APP_LOG);
-        query.batchSize(BATCH_SIZE);
-        query.minLogLevel(MIN_LOG_LEVEL);
+    public void setQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
         setTimePeriodForQuery(startTime, endTime);
         versionList = getVersionIdsForQuery(versionsToQuery);
         query.majorVersionIds(versionList);
+    }
+    
+    /**
+     * Gets query to retrieve logs.
+     */
+    public LogQuery getQuery() {
+        return query;
     }
     
     /**
@@ -61,7 +63,7 @@ public class LogHelper {
      * @param startTime
      * @param endTime
      */
-    private static void setTimePeriodForQuery(Long startTime, Long endTimeParam) {
+    public void setTimePeriodForQuery(Long startTime, Long endTimeParam) {
         if (startTime != null) {
             query.startTimeMillis(startTime);
         }
@@ -74,21 +76,21 @@ public class LogHelper {
     /**
      * Sets end time of the query.
      */
-    private static void setEndTime(Long endTimeParam) {
+    public void setEndTime(Long endTimeParam) {
         endTime = endTimeParam;
     }
     
     /**
      * Gets end time of the query.
      */
-    public static Long getEndTime() {
+    public Long getEndTime() {
         return endTime;
     }
     
     /**
      * Gets versions used in query.
      */
-    public static List<String> getVersionsToQuery() {
+    public List<String> getVersionsToQuery() {
         return versionList;
     }
     
@@ -96,7 +98,7 @@ public class LogHelper {
      * Selects versions for query. If versions are not specified, it will return 
      * default versions used for query.
      */
-    private static List<String> getVersionIdsForQuery(List<String> versions) {
+    private List<String> getVersionIdsForQuery(List<String> versions) {
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
         if (isVersionSpecifiedInRequest) {
             return versions;
@@ -108,9 +110,10 @@ public class LogHelper {
      * Gets a list of versions, including the current version and 5 preceding versions (if available).
      * @return a list of default versions for query.
      */
-    private static List<String> getDefaultVersionIdsForQuery() {
-        List<Version> versionList = GaeAdminApi.getAvailableVersions();
-        Version currentVersion = GaeAdminApi.getCurrentVersion();
+    private List<String> getDefaultVersionIdsForQuery() {
+        GaeAdminApi adminApi = new GaeAdminApi();
+        List<Version> versionList = adminApi.getAvailableVersions();
+        Version currentVersion = adminApi.getCurrentVersion();
         
         List<String> defaultVersions = new ArrayList<String>();
         try {
@@ -127,7 +130,7 @@ public class LogHelper {
      * Finds at most MAX_VERSIONS_TO_QUERY nearest versions.
      * @param currentVersionIndex starting position to get versions to query
      */
-    private static List<String> getNextFewVersions(List<Version> versionList, int currentVersionIndex) {
+    private List<String> getNextFewVersions(List<Version> versionList, int currentVersionIndex) {
         int endIndex = Math.min(currentVersionIndex + MAX_VERSIONS_TO_QUERY, versionList.size());
         List<Version> versionSubList = versionList.subList(currentVersionIndex, endIndex);
         List<String> versionListInString = new ArrayList<String>();
@@ -141,53 +144,12 @@ public class LogHelper {
      * Finds the index of the current version in the given list.
      * @throws InvalidParametersException when the current version is not found
      */
-    private static int getCurrentVersionIndex(List<Version> versionList, Version currentVersion) 
+    private int getCurrentVersionIndex(List<Version> versionList, Version currentVersion) 
                     throws InvalidParametersException {
         int versionIndex = versionList.indexOf(currentVersion);
         if (versionIndex != -1) {
             return versionIndex;
         }
         throw new InvalidParametersException("The current version is not found!");
-    }
-    
-    /**
-     * Retrieves logs using the query.
-     * @return logs fetched from server.
-     */
-    public static List<AppLogLine> fetchLogs() {
-        List<AppLogLine> logs = new LinkedList<AppLogLine>();
-        //fetch request log
-        Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
-        for (RequestLogs record : records) {
-            //fetch application log
-            List<AppLogLine> appLogLines = record.getAppLogLines();
-            logs.addAll(appLogLines);
-        }
-        return logs;
-    }
-    
-    /**
-     * Retrieves all logs within the number of hours defined by SEARCH_TIME_INCREMENT before the endTime.
-     * We can use it again to get logs from the next hours.
-     * @return logs within the amount of hours defined by SEARCH_TIME_INCREMENT before endTime.
-     */
-    public static List<AppLogLine> fetchLogsInNextHours() {
-        List<AppLogLine> logs = new LinkedList<AppLogLine>();
-        
-        if (endTime == null) {
-            setEndTime(TimeHelper.now(0.0).getTimeInMillis());
-        }
-        Long startTime = endTime - SEARCH_TIME_INCREMENT;
-        setTimePeriodForQuery(startTime, endTime);
-        
-        //fetch request log
-        Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
-        for (RequestLogs record : records) {
-            record.getOffset();
-            List<AppLogLine> appLogLines = record.getAppLogLines();
-            logs.addAll(appLogLines);
-        }
-        setEndTime(startTime - 1);
-        return logs;
     }
 }
