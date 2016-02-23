@@ -1,9 +1,6 @@
 package teammates.common.util;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import teammates.common.exception.InvalidParametersException;
 
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService.LogLevel;
@@ -12,12 +9,6 @@ import com.google.appengine.api.log.LogService.LogLevel;
  * A wrapper class for LogQuery to retrieve logs from GAE server.
  */
 public class AdminLogQuery {
-    /**
-     * Maximum number of versions to query.
-     * The current value will include the current version and its 5 preceding versions.
-     */
-    private static final int MAX_VERSIONS_TO_QUERY = 6;
-    
     /**
      * A flag to decide whether to include application logs in result or not.
      */
@@ -30,18 +21,8 @@ public class AdminLogQuery {
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
     
     private LogQuery query;
-    private Long endTime;
+    private long endTime;
     private List<String> versionList;
-    
-    /**
-     * Default constructor.
-     */
-    public AdminLogQuery() {
-        query = LogQuery.Builder.withDefaults();
-        query.includeAppLogs(INCLUDE_APP_LOG);
-        query.batchSize(BATCH_SIZE);
-        query.minLogLevel(MIN_LOG_LEVEL);
-    }
     
     /**
      * Sets values for query.
@@ -52,7 +33,10 @@ public class AdminLogQuery {
      * @param endTime
      */
     public AdminLogQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
-        this();
+        query = LogQuery.Builder.withDefaults();
+        query.includeAppLogs(INCLUDE_APP_LOG);
+        query.batchSize(BATCH_SIZE);
+        query.minLogLevel(MIN_LOG_LEVEL);
         setTimePeriodForQuery(startTime, endTime);
         versionList = getVersionIdsForQuery(versionsToQuery);
         query.majorVersionIds(versionList);
@@ -67,6 +51,7 @@ public class AdminLogQuery {
     
     /**
      * Sets time period to search for query.
+     * If endTime is null, it will be considered as the current time.
      * @param startTime
      * @param endTime
      */
@@ -74,21 +59,23 @@ public class AdminLogQuery {
         if (startTime != null) {
             query.startTimeMillis(startTime);
         }
-        if (endTime != null) {
-            query.endTimeMillis(endTime);
-            setEndTime(endTime);
+        
+        if (endTime == null) {
+            endTime = TimeHelper.now(0.0).getTimeInMillis();
         }
+        query.endTimeMillis(endTime);
+        setEndTime(endTime);
     }
     
     /**
-     * Sets time period to query logs then moves endTime back by the same amount.
-     * @param timeInMillis milliseconds before endTime
+     * Sets the time period to query logs from endTime back to endTime - timeInMillis
+     * then moves endTime to right before the query's start time.
+     * 
+     * @param timeInMillis time period in milliseconds to query logs 
+     * starting from endTime back to endTime - timeInMillis
      */
     public void setQueryWindowBackward(long timeInMillis) {
-        if (getEndTime() == null) {
-            setEndTime(TimeHelper.now(0.0).getTimeInMillis());
-        }
-        Long startTime = getEndTime() - timeInMillis;
+        long startTime = getEndTime() - timeInMillis;
         setTimePeriodForQuery(startTime, getEndTime());
         endTime = startTime - 1;
     }
@@ -103,7 +90,7 @@ public class AdminLogQuery {
     /**
      * Gets end time of the query.
      */
-    public Long getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
     
@@ -123,53 +110,7 @@ public class AdminLogQuery {
         if (isVersionSpecifiedInRequest) {
             return versions;
         }
-        return getDefaultVersionIdsForQuery();
-    }
-    
-    /**
-     * Gets a list of versions, including the current version and 5 preceding versions (if available).
-     * @return a list of default versions for query.
-     */
-    private List<String> getDefaultVersionIdsForQuery() {
-        GaeVersionApi adminApi = new GaeVersionApi();
-        List<Version> versionList = adminApi.getAvailableVersions();
-        Version currentVersion = adminApi.getCurrentVersion();
-        
-        List<String> defaultVersions = new ArrayList<String>();
-        try {
-            int currentVersionIndex = getCurrentVersionIndex(versionList, currentVersion);
-            defaultVersions = getNextFewVersions(versionList, currentVersionIndex);
-        } catch (InvalidParametersException e) {
-            defaultVersions.add(currentVersion.toStringForQuery());
-            Utils.getLogger().severe(e.getMessage());
-        }
-        return defaultVersions;
-    }
-
-    /**
-     * Finds at most MAX_VERSIONS_TO_QUERY nearest versions.
-     * @param currentVersionIndex starting position to get versions to query
-     */
-    private List<String> getNextFewVersions(List<Version> versionList, int currentVersionIndex) {
-        int endIndex = Math.min(currentVersionIndex + MAX_VERSIONS_TO_QUERY, versionList.size());
-        List<Version> versionSubList = versionList.subList(currentVersionIndex, endIndex);
-        List<String> versionListInString = new ArrayList<String>();
-        for(Version version : versionSubList) {
-            versionListInString.add(version.toStringForQuery());
-        }
-        return versionListInString;
-    }
-
-    /**
-     * Finds the index of the current version in the given list.
-     * @throws InvalidParametersException when the current version is not found
-     */
-    private int getCurrentVersionIndex(List<Version> versionList, Version currentVersion) 
-                    throws InvalidParametersException {
-        int versionIndex = versionList.indexOf(currentVersion);
-        if (versionIndex != -1) {
-            return versionIndex;
-        }
-        throw new InvalidParametersException("The current version is not found!");
+        GaeVersionApi versionApi = new GaeVersionApi();
+        return versionApi.getDefaultVersionIdsForLogQuery();
     }
 }
