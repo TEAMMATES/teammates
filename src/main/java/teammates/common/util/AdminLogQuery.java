@@ -57,6 +57,10 @@ public class AdminLogQuery {
      * Sets time period to search for query.
      * If startTime is null, it will be considered as 0.
      * If endTime is null, it will be considered as the current time.
+     * 
+     * The time is in Unix time. https://en.wikipedia.org/wiki/Unix_time
+     * 0 means it will take logs after Thursday, 1 January 1970 (since forever).
+     * 
      * @param startTime
      * @param endTime
      */
