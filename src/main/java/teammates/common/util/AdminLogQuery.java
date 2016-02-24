@@ -5,6 +5,8 @@ import java.util.List;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService.LogLevel;
 
+import teammates.common.util.Assumption;
+
 /**
  * A wrapper class for LogQuery to retrieve logs from GAE server.
  */
@@ -21,16 +23,21 @@ public class AdminLogQuery {
     private static final LogLevel MIN_LOG_LEVEL = LogLevel.INFO;
     
     private LogQuery query;
+    private long startTime;
     private long endTime;
     
     /**
      * Sets values for query.
+     * If startTime is null, it will be considered as 0.
+     * If endTime is null, it will be considered as the current time.
      * 
-     * @param versionsToQuery 
+     * @param versionsToQuery decide which versions to find logs from.
      * @param startTime
      * @param endTime
      */
     public AdminLogQuery(List<String> versionsToQuery, Long startTime, Long endTime) {
+        Assumption.assertNotNull(versionsToQuery);
+        
         query = LogQuery.Builder.withDefaults();
         query.includeAppLogs(INCLUDE_APP_LOG);
         query.batchSize(BATCH_SIZE);
@@ -48,40 +55,37 @@ public class AdminLogQuery {
     
     /**
      * Sets time period to search for query.
+     * If startTime is null, it will be considered as 0.
      * If endTime is null, it will be considered as the current time.
      * @param startTime
      * @param endTime
      */
-    private void setTimePeriod(Long startTime, Long endTime) {
+    public void setTimePeriod(Long startTime, Long endTime) {
         if (startTime != null) {
-            query.startTimeMillis(startTime);
+            startTime = 0l;
         }
         
         if (endTime == null) {
             endTime = TimeHelper.now(0.0).getTimeInMillis();
         }
+        query.startTimeMillis(startTime);
         query.endTimeMillis(endTime);
+        setStartTime(startTime);
         setEndTime(endTime);
-    }
-    
-    /**
-     * Sets the time period to query logs from endTime back to endTime - timeInMillis
-     * then moves endTime to right before the query's start time.
-     * 
-     * @param timeInMillis time period in milliseconds to query logs 
-     * starting from endTime back to endTime - timeInMillis
-     */
-    public void setQueryWindowBackward(long timeInMillis) {
-        long startTime = getEndTime() - timeInMillis;
-        setTimePeriod(startTime, getEndTime());
-        setEndTime(startTime - 1);
     }
     
     /**
      * Sets end time of the query.
      */
-    private void setEndTime(Long endTimeParam) {
+    public void setEndTime(Long endTimeParam) {
         endTime = endTimeParam;
+    }
+    
+    /**
+     * Sets start time of the query.
+     */
+    public void setStartTime(Long startTimeParam) {
+        startTime = startTimeParam;
     }
     
     /**
@@ -89,5 +93,12 @@ public class AdminLogQuery {
      */
     public long getEndTime() {
         return endTime;
+    }
+    
+    /**
+     * Gets start time of the query.
+     */
+    public long getStartTime() {
+        return startTime;
     }
 }

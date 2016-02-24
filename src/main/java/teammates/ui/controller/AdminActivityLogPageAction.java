@@ -214,11 +214,13 @@ public class AdminActivityLogPageAction extends Action {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }
-            query.setQueryWindowBackward(SEARCH_TIME_INCREMENT);
+            long startTime = query.getEndTime() - SEARCH_TIME_INCREMENT;
+            query.setTimePeriod(startTime, query.getEndTime());
             List<AppLogLine> searchResult = logApi.fetchLogs(query);
             List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
             appLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
+            query.setEndTime(startTime - 1);
         }
         nextEndTimeToSearch = query.getEndTime();
         return appLogs;

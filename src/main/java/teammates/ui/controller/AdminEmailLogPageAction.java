@@ -104,11 +104,13 @@ public class AdminEmailLogPageAction extends Action {
             if (emailLogs.size() >= LOGS_PER_PAGE) {
                 break;
             }
-            query.setQueryWindowBackward(SEARCH_TIME_INCREMENT);
+            long startTime = query.getEndTime() - SEARCH_TIME_INCREMENT;
+            query.setTimePeriod(startTime, query.getEndTime());
             List<AppLogLine> searchResult = logApi.fetchLogs(query);
             List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
             emailLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
+            query.setEndTime(startTime - 1);
         }
         nextEndTimeToSearch = query.getEndTime();
         

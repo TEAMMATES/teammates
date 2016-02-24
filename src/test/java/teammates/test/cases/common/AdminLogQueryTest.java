@@ -28,22 +28,4 @@ public class AdminLogQueryTest extends BaseTestCase {
         assertEquals(endTime, query.getEndTime());
         assertNotNull(query.getQuery());
     }
-    
-    @Test
-    public void testSetQueryWindowBackward() {
-        List<String> versionList = new ArrayList<String>();
-        versionList.add("5-44");
-        Calendar cal = new GregorianCalendar();
-        cal.set(2016, 4, 7, 15, 30, 12);
-        Long startTime = cal.getTimeInMillis();
-        Long endTime = startTime + 3*24*60*60*1000; // 3 days later
-        AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
-        Long fourHours = new Long(4*60*60*1000);
-        query.setQueryWindowBackward(fourHours); // 4 hours before endTime
-        long expectedEndTime = endTime - fourHours - 1;
-        assertEquals(expectedEndTime, query.getEndTime());
-        
-        expectedEndTime = expectedEndTime + 1;
-        assertEquals(expectedEndTime, query.getQuery().getStartTimeMillis().longValue());
-    }
 }
