@@ -738,11 +738,8 @@
          </form>
       </div>
       <br/>
-      <div class="overflow-auto alert alert-success" id="statusMessage">
-         The question has been added to this feedback session.
+      <div id="statusMessage" style="display: none;">
       </div>
-      <script src="/js/statusMessage.js" type="text/javascript">
-      </script>
       <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -775,7 +772,7 @@
          </div>
       </div>
       <br/>
-      <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
+      <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question" editstatus="mustDeleteResponses" id="form_editquestion-1" method="post" name="form_editquestions" onsubmit="tallyCheckboxes(1)" role="form">
          <div class="panel panel-primary questionTable" id="questionTable1">
             <div class="panel-heading">
                <div class="row">
