@@ -555,6 +555,13 @@ public class BackDoor {
     private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
     }
     
+    public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
+        return persistNewDataBundle(Utils.getTeammatesGson()
+                .toJson(dataBundle));
+    }
+    
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
             String giverEmail, String recipient) {
         String jsonString = getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);
