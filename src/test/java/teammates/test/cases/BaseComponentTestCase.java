@@ -116,8 +116,8 @@ public class BaseComponentTestCase extends BaseTestCase {
                                     FeedbackQuestionAttributes actual) {
         
         // Timestamps are ignored here, and should be tested separately.
-        expected.setCreated_NonProduction(actual.createdAt);
-        expected.setUpdatedAt_NonProduction(actual.updatedAt);
+        expected.setCreated_NonProduction(actual.getCreatedAt());
+        expected.setUpdatedAt_NonProduction(actual.getUpdatedAt());
         
     }
 
