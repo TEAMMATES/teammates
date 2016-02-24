@@ -61,7 +61,7 @@ public class AdminLogQuery {
      * @param endTime
      */
     public void setTimePeriod(Long startTime, Long endTime) {
-        if (startTime != null) {
+        if (startTime == null) {
             startTime = 0l;
         }
         

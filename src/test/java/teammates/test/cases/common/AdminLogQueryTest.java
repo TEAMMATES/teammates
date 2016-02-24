@@ -1,6 +1,7 @@
 package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotSame;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.ArrayList;
@@ -21,10 +22,20 @@ public class AdminLogQueryTest extends BaseTestCase {
         versionList.add("5-44");
         Calendar cal = new GregorianCalendar();
         cal.set(2016, 4, 7, 15, 30, 12);
-        Long startTime = cal.getTimeInMillis();
+        long startTime = cal.getTimeInMillis();
         long endTime = startTime + 3*24*60*60*1000; // 3 days later
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
-        assertNotNull(query.getEndTime());
+        assertEquals(startTime, query.getStartTime());
+        assertEquals(endTime, query.getEndTime());
+        assertNotNull(query.getQuery());
+        
+        ______TS("Test setTimePeriod");
+        query = new AdminLogQuery(versionList, null, null);
+        assertEquals(0, query.getStartTime());
+        assertNotSame(endTime, query.getStartTime());
+        
+        query.setTimePeriod(startTime, endTime);
+        assertEquals(startTime, query.getStartTime());
         assertEquals(endTime, query.getEndTime());
         assertNotNull(query.getQuery());
     }
