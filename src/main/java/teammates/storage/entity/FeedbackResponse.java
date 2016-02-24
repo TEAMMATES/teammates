@@ -1,11 +1,14 @@
 package teammates.storage.entity;
 
+import java.util.Date;
+
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import teammates.common.datatransfer.FeedbackQuestionType;
-
+import teammates.common.util.Const;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -46,6 +49,22 @@ public class FeedbackResponse {
     @Persistent
     private Text answer; //TODO: rename to responseMetaData, will require database conversion
 
+    @Persistent
+    private Date createdAt;
+    
+    @Persistent
+    private Date updatedAt;
+    
+    
+    /**
+     * Setting this to true prevents changes to the lastUpdate time stamp. Set
+     * to true when using scripts to update entities when you want to preserve
+     * the lastUpdate time stamp.
+     **/
+
+    @NotPersistent
+    public boolean keepUpdateTimestamp = false;
+    
     public String getId() {
         return feedbackResponseId;
     }
@@ -140,6 +159,34 @@ public class FeedbackResponse {
         this.receiverSection = recipientSection;
         this.answer = answer;
                 
-        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;                                
+        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver; 
+        
+        this.setCreatedAt(new Date());
+    }
+
+    public Date getCreatedAt() {
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+    }
+
+    public void setCreatedAt(Date newDate) {
+        this.createdAt = newDate;
+        setLastUpdate(newDate);
+    }
+
+    public void setLastUpdate(Date newDate) {
+        if (!keepUpdateTimestamp) {
+            this.updatedAt = newDate;
+        }
+    }
+    
+    /**
+     * Called by jdo before storing takes place.
+     */
+    public void jdoPreStore() {
+        this.setLastUpdate(new Date());
     }
 }
