@@ -210,17 +210,18 @@ public class AdminActivityLogPageAction extends Action {
         totalLogsSearched = 0;
         GaeLogApi logApi = new GaeLogApi();
         
+        long startTime = query.getEndTime() - SEARCH_TIME_INCREMENT;
+        query.setTimePeriod(startTime, query.getEndTime());
+        
         for(int i = 0; i < MAX_SEARCH_TIMES; i++) {
             if (appLogs.size() >= RELEVANT_LOGS_PER_PAGE) {
                 break;
             }
-            long startTime = query.getEndTime() - SEARCH_TIME_INCREMENT;
-            query.setTimePeriod(startTime, query.getEndTime());
             List<AppLogLine> searchResult = logApi.fetchLogs(query);
             List<ActivityLogEntry> filteredLogs = filterLogsForActivityLogPage(searchResult, data);
             appLogs.addAll(filteredLogs);
             totalLogsSearched += searchResult.size();
-            query.setEndTime(startTime - 1);
+            query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);
         }
         nextEndTimeToSearch = query.getEndTime();
         return appLogs;

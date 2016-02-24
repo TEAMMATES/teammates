@@ -101,4 +101,14 @@ public class AdminLogQuery {
     public long getStartTime() {
         return startTime;
     }
+    
+    /**
+     * Moves the time period to query logs to the next period in the past with a length of timeInMillis.
+     * @param timeInMillis the length of the next period in milliseconds.
+     */
+    public void moveTimePeriodBackward(long timeInMillis) {
+        long nextEndTime = getStartTime() - 1;
+        long nextStartTime = nextEndTime - timeInMillis;
+        setTimePeriod(nextStartTime, nextEndTime);
+    }
 }
