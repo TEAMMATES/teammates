@@ -245,25 +245,13 @@ public abstract class AppPage {
      * Switches to the new browser window just opened.
      */
     protected void switchToNewWindow() {
-        String curWin = browser.driver.getWindowHandle();
-        for (String handle : browser.driver.getWindowHandles()) {
-            if (handle.equals(curWin))
-                continue;
-            browser.selenium.selectWindow(handle);
-            browser.selenium.windowFocus();
-        }
+        browser.switchToNewWindow();
     }
     
     public void closeCurrentWindowAndSwitchToParentWindow() {
-        browser.selenium.close();
-        switchToParentWindow();
+        browser.closeCurrentWindowAndSwitchToParentWindow();
     }
     
-    public void switchToParentWindow() {
-        browser.selenium.selectWindow("null");
-        browser.selenium.windowFocus();
-    }
-
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
         waitForPageToLoad();
@@ -518,7 +506,7 @@ public abstract class AppPage {
      * from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
-        return browser.selenium.getTable("css=table[class~='table']." + row + "." + column);
+        return getCellValueFromDataTable(0, row, column);
     }
     
     /** 
