@@ -74,22 +74,8 @@ public class AdminLogQuery {
         }
         query.startTimeMillis(startTime);
         query.endTimeMillis(endTime);
-        setStartTime(startTime);
-        setEndTime(endTime);
-    }
-    
-    /**
-     * Sets end time of the query.
-     */
-    public void setEndTime(Long endTimeParam) {
-        endTime = endTimeParam;
-    }
-    
-    /**
-     * Sets start time of the query.
-     */
-    public void setStartTime(Long startTimeParam) {
-        startTime = startTimeParam;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
     
     /**
