@@ -107,9 +107,25 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      Doing so will create an automatic reference from the issue to the pull request.<br>
      
    * The PR will be assigned to the reviewer, not to you.
-     Wait for the reviewer to change the PR status to `s.toMerge` or to suggest changes. 
-     If you did not get a review within 2-3 days, it is OK to request for a review 
-     by posting a comment in the PR. 
+     * If you are a contributor: Wait for a reviewer to be assigned to the issue.
+       Feel free to add a comment asking for a reviewer if a reviewer is not assigned
+       within 24 hours.
+     * If you are a committer: 
+        * Assign a reviewer for the PR. The selection of reviewer
+          should be based on the *feature* (`f-`), *aspect* (`a-`), or the *tech* (`t-`) labels 
+          of the issue. If there are more than one of these labels, the main category of
+          the issue as specified by the *main classifier* (`m.`) label. <br>
+          e.g. If the issue has labels `m-Tech` `a-Testing` `t-JS`, the main classifier is 
+          `Tech` and therefore the reviewer should be based on the `t-JS` label.<br>
+          Once you have figured out which label determines the reviewer, you can find the 
+          *Lead* of the label in the [Issue Labels section](#issue-labels).
+        * Assign a milestone to the PR. Usually, you can choose between 
+          of the upcoming milestone or the one after. This is to encourage you to finish
+          the PR within two release cycles.
+
+   * Wait for reviewer to change the PR status to `s.toMerge` 
+       or to suggest changes. If you did not get a review within 2-3 days, 
+       it is OK to request for a review by posting a comment in the PR.
 
    * Once the PR is open, try and complete it within 2 weeks. Inactivity for a 
      longer period would necessitate a restart of the PR.
