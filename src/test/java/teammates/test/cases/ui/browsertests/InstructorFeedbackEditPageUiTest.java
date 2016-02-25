@@ -22,7 +22,6 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
@@ -475,11 +474,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         BackDoor.createFeedbackResponse(feedbackResponse);
 
         ______TS("check response rate before editing question");
-        
-        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
-        InstructorFeedbacksPage feedbacksPage = AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
-        feedbacksPage.waitForPageToLoad();
-        
+
+        InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
+
         assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
 
         // Change the feedback path of the question and save
@@ -489,15 +486,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAndConfirmSaveForQuestion1();
         
         ______TS("check response rate after editing question");
-        
-        feedbacksPage = AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
-        feedbacksPage.waitForPageToLoad();
-        
+
+        feedbacksPage = navigateToInstructorFeedbacksPage();
+
         assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
         
         // Delete the question
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+    }
+    
+    private InstructorFeedbacksPage navigateToInstructorFeedbacksPage() {
+        
+        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
+        InstructorFeedbacksPage feedbacksPage = feedbackEditPage.navigateTo(feedbacksPageUrl, InstructorFeedbacksPage.class);
+        feedbacksPage.waitForPageToLoad();
+        return feedbacksPage;
     }
 
     private void testPreviewSessionAction() throws Exception {
