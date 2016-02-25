@@ -128,12 +128,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         return errors;
     }
-
-    public List<String> getQuestionInvalidityInfo() {
-        List<String> errors = new ArrayList<String>();
-        errors.addAll(this.getQuestionDetails().validateQuestionDetails());
-        return errors;
-    }
     
     public List<String> getResponsesInvalidityInfo(List<FeedbackResponseAttributes> responses){
         List<String> errors = new ArrayList<String>();
@@ -216,7 +210,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public boolean isValid() {
-        return getInvalidityInfo().isEmpty() && getQuestionInvalidityInfo().isEmpty();
+        return getInvalidityInfo().isEmpty();
     }
     
     public boolean isResponsesValid(List<FeedbackResponseAttributes> responses){
