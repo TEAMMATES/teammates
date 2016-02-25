@@ -8,12 +8,9 @@ import com.google.appengine.api.modules.ModulesService;
 import com.google.appengine.api.modules.ModulesServiceFactory;
 
 /**
- * A wrapper class for GAE application admin API. e.g. version management
+ * Provides access to application versions via Google AppEngine API.
  */
 public class GaeVersionApi {
-    
-    public GaeVersionApi() {
-    }
     
     /**
      * Gets all available versions.

@@ -29,9 +29,8 @@ public class AdminEmailLogPageAction extends Action {
     private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / SEARCH_TIME_INCREMENT;
     /**
      * Maximum number of versions to query.
-     * The current value will include the current version and its 5 preceding versions.
      */
-    private static final int MAX_VERSIONS_TO_QUERY = 6;
+    private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
     
     private Long nextEndTimeToSearch;
     
@@ -47,7 +46,8 @@ public class AdminEmailLogPageAction extends Action {
             endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
         }
         
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), getRequestParamAsBoolean("all"));
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), 
+                                                               getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
         boolean isPageChanged = (pageChange != null && pageChange.equals("true")) || (timeOffset == null);
@@ -117,7 +117,8 @@ public class AdminEmailLogPageAction extends Action {
         
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
-        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + nextEndTimeToSearch + "');\">Search More</button>";           
+        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
+                  + nextEndTimeToSearch + "');\">Search More</button>";
         data.setStatusForAjax(status);
         statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
         return emailLogs;

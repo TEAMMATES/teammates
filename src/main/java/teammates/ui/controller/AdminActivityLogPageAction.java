@@ -30,15 +30,14 @@ public class AdminActivityLogPageAction extends Action {
      */
     private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
     private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
-    /**
+    /*
      * The maximum number of times to retrieve logs with time increment.
      */
     private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / SEARCH_TIME_INCREMENT;
     /**
      * Maximum number of versions to query.
-     * The current value will include the current version and its 5 preceding versions.
      */
-    private static final int MAX_VERSIONS_TO_QUERY = 6;
+    private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
     
     
     private int totalLogsSearched;
@@ -129,7 +128,9 @@ public class AdminActivityLogPageAction extends Action {
         return versionApi.getMostRecentVersions(MAX_VERSIONS_TO_QUERY);
     }
     
-    private void generateStatusMessage(List<String> versionToQuery, AdminLogQuery query, AdminActivityLogPageData data, List<ActivityLogEntry> logs, String courseId) {
+    private void generateStatusMessage(List<String> versionToQuery, AdminLogQuery query, 
+                                       AdminActivityLogPageData data, 
+                                       List<ActivityLogEntry> logs, String courseId) {
         String status = "Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         status += "Total Relevant Logs found in last search: " + logs.size() + "<br>";
         
