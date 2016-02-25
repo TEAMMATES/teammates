@@ -81,23 +81,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.waitForPanelsToExpand();
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
-        resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
+        resultsPage.verifyHtmlWithRetry("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
         resultsPage.waitForPanelsToExpand();
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
+        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
         resultsPage.waitForPanelsToExpand();
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
+        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.waitForPanelsToExpand();
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
+        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageEmpty.html");
         
     }
     
@@ -149,7 +149,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr", "Session with sanitized data");
         resultsPage.waitForPanelsToExpand();
         
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
+        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
     public void testModerateResponsesButton() {
