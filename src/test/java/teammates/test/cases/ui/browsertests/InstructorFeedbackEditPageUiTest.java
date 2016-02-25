@@ -96,13 +96,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testNewQuestionLink();
         testInputValidationForQuestion();
         testAddQuestionAction();
-        
-        testResponseRateBeforeEditingQuestion();
 
         testEditQuestionLink();
         testEditQuestionAction();
-        
-        testResponseRateAfterEditingQuestion();
 
         testGetQuestionLink();
         testCopyQuestion();
@@ -117,6 +113,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteQuestionAction(1);
 
         testEditNonExistentQuestion();
+        
+        testResponseRate();
     }
 
     private void testContent() throws Exception {
@@ -227,33 +225,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionAddSuccess.html");
     }
 
-    private void testResponseRateBeforeEditingQuestion() {
-
-        ______TS("check response rate before editing question");
-
-        // Create response for question 1
-        FeedbackResponseAttributes feedbackResponse = 
-                new FeedbackResponseAttributes(
-                        feedbackSessionName,
-                        courseId, 
-                        "1", 
-                        FeedbackQuestionType.TEXT,
-                        "tmms.test@gmail.tmt", 
-                        Const.DEFAULT_SECTION, 
-                        "alice.b.tmms@gmail.tmt",
-                        Const.DEFAULT_SECTION, 
-                        new Text("Response from instructor to Alice"));
-        BackDoor.createFeedbackResponse(feedbackResponse);
-
-        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
-        InstructorFeedbacksPage feedbacksPage = AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
-        feedbacksPage.waitForPageToLoad();
-        
-        assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
-
-        feedbackEditPage = getFeedbackEditPage();
-    }
-
     private void testEditQuestionLink() {
 
         ______TS("edit question link");
@@ -273,7 +244,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         
         ______TS("test visibility options of question 1");
-        feedbackEditPage.clickAndConfirmSaveForQuestion1();;
+        feedbackEditPage.clickquestionSaveForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         
         //TODO: use simple element checks instead of html checks after adding names to the checkboxes 
@@ -317,19 +288,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                 .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
-    }
-    
-    private void testResponseRateAfterEditingQuestion() {
-        
-        ______TS("check response rate before editing question");
-        
-        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
-        InstructorFeedbacksPage feedbacksPage = AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
-        feedbacksPage.waitForPageToLoad();
-        
-        assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
-        
-        feedbackEditPage = getFeedbackEditPage();
     }
     
     private void testGetQuestionLink() {
@@ -493,6 +451,53 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // Restore feedbackEditPage
         feedbackEditPage = getFeedbackEditPage();
+    }
+    
+    private void testResponseRate() {
+        
+        // Create a new question and save
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("new question");
+        feedbackEditPage.clickAddQuestionButton();
+
+        // Create response for the new question
+        FeedbackResponseAttributes feedbackResponse = 
+                new FeedbackResponseAttributes(
+                        feedbackSessionName,
+                        courseId, 
+                        "1", 
+                        FeedbackQuestionType.TEXT,
+                        "tmms.test@gmail.tmt", 
+                        Const.DEFAULT_SECTION, 
+                        "alice.b.tmms@gmail.tmt",
+                        Const.DEFAULT_SECTION, 
+                        new Text("Response from instructor to Alice"));
+        BackDoor.createFeedbackResponse(feedbackResponse);
+
+        ______TS("check response rate before editing question");
+        
+        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
+        InstructorFeedbacksPage feedbacksPage = AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
+        feedbacksPage.waitForPageToLoad();
+        
+        assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+
+        // Change the feedback path of the question and save
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickEditQuestionButton(1);     
+        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.clickAndConfirmSaveForQuestion1();
+        
+        ______TS("check response rate after editing question");
+        
+        feedbacksPage = AppPage.getNewPageInstance(browser, feedbacksPageUrl, InstructorFeedbacksPage.class);
+        feedbacksPage.waitForPageToLoad();
+        
+        assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+        
+        // Delete the question
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
     }
 
     private void testPreviewSessionAction() throws Exception {
