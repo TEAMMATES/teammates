@@ -8,21 +8,26 @@ import com.google.appengine.tools.remoteapi.RemoteApiOptions;
 import teammates.test.driver.TestProperties;
 
 public abstract class RemoteApiClient {
-
+    private final String LOCALHOST = "localhost";
+    
     protected void doOperationRemotely() throws IOException {
         TestProperties testProperties = TestProperties.inst();
 
+        String appDomain = testProperties.TEAMMATES_REMOTEAPI_APP_DOMAIN;
+        int appPort = testProperties.TEAMMATES_REMOTEAPI_APP_PORT;
+        
         System.out.println("--- Starting remote operation ---");
-        System.out.println("Going to connect to:"
-                + testProperties.TEAMMATES_REMOTEAPI_APP_DOMAIN + ":"
-                + testProperties.TEAMMATES_REMOTEAPI_APP_PORT);
+        System.out.println("Going to connect to:" + appDomain + ":" + appPort);
 
-        RemoteApiOptions options = new RemoteApiOptions().server(
-                testProperties.TEAMMATES_REMOTEAPI_APP_DOMAIN,
-                testProperties.TEAMMATES_REMOTEAPI_APP_PORT).credentials(
-                testProperties.TEST_ADMIN_ACCOUNT,
-                testProperties.TEST_ADMIN_PASSWORD);
+        RemoteApiOptions options = new RemoteApiOptions().server(appDomain, appPort);
 
+        boolean isDevServer = appDomain.equals(LOCALHOST);
+        if (isDevServer) {
+            options.useDevelopmentServerCredential();
+        } else {
+            options.useApplicationDefaultCredential();
+        }
+        
         RemoteApiInstaller installer = new RemoteApiInstaller();
         installer.install(options);
         try {
