@@ -738,7 +738,7 @@ public abstract class AppPage {
         return verifyHtml(null, filePath, false);
     }
 
-    private AppPage verifyHtml(By by, String filePath, boolean isAfterAjaxLoad) throws IOException {
+    private AppPage verifyHtml(By by, String filePath, boolean isWithRetry) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
         if (filePath.startsWith("/")) {
@@ -749,7 +749,7 @@ public abstract class AppPage {
         try {
             String expected = FileHelper.readFile(filePath);
             expected = HtmlHelper.injectTestProperties(expected);
-            if (isAfterAjaxLoad) {
+            if (isWithRetry) {
                 int maxRetryCount = 5;
                 int waitDuration = 1000;
                 for (int i = 0; i < maxRetryCount; i++) {
@@ -830,13 +830,13 @@ public abstract class AppPage {
      * loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * Since the verification is done after making AJAX request(s), the HTML is checked
-     * after "waitDuration", for "maxRetryCount" number of times.
+     * The check is done multiple times with waiting times in between to account for
+     * certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjaxMainContent(String filePath) throws IOException {
+    public AppPage verifyHtmlMainContentWithRetry(String filePath) throws IOException {
         return verifyHtml(MAIN_CONTENT, filePath, true);
     }
 
@@ -844,13 +844,13 @@ public abstract class AppPage {
      * Verifies that the currently loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * Since the verification is done after making AJAX request(s), the HTML is checked
-     * after "waitDuration", for "maxRetryCount" number of times.
+     * The check is done multiple times with waiting times in between to account for
+     * certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) throws IOException {
+    public AppPage verifyHtmlWithRetry(String filePath) throws IOException {
         return verifyHtml(null, filePath, true);
     }
 
