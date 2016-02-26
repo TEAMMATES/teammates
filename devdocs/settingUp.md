@@ -21,7 +21,7 @@ Important: When a version is specified, please install that version instead of t
    and point it to where you extracted the SDK zip file. <br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
-9. (Optional) Install Google Cloud SDK.
+9. (Optional) Install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
 
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
