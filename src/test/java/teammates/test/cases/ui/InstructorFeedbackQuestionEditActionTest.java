@@ -1214,11 +1214,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        // Check response rate before editing question 1
+        ______TS("Check response rate before editing question 1");
         fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
         assertEquals(4, fsLogic.getFeedbackSessionDetails(fs).stats.submittedTotal);
 
-        // Change the feedback path of question 1
+        ______TS("Change the feedback path of question 1");
         FeedbackQuestionAttributes fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
@@ -1243,7 +1243,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
         assertEquals(4, fsLogic.getFeedbackSessionDetails(fs).stats.submittedTotal);
 
-        // Change the feedback path of question 3
+        ______TS("Change the feedback path of question 3");
         fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
         String[] params3 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
