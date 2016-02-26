@@ -1202,6 +1202,73 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
     }
 
+    @Test
+    public void testExecuteAndPostProcessResponseRate() throws Exception {
+        
+        removeAndRestoreTypicalDataInDatastore();
+        
+        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
+
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+
+        // Check response rate before editing question 1
+        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        assertEquals(4, fsLogic.getFeedbackSessionDetails(fs).stats.submittedTotal);
+
+        // Change the feedback path of question 1
+        FeedbackQuestionAttributes fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        String[] params1 = {
+                Const.ParamsNames.COURSE_ID, fq.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fq.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.getQuestionType().toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What is the best selling point of your product?",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        InstructorFeedbackQuestionEditAction a = getAction(params1);
+        a.executeAndPostProcess();
+
+        // Response rate should not change because other questions have the same respondents
+        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        assertEquals(4, fsLogic.getFeedbackSessionDetails(fs).stats.submittedTotal);
+
+        // Change the feedback path of question 3
+        fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        String[] params3 = {
+                Const.ParamsNames.COURSE_ID, fq.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fq.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.getQuestionType().toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "My comments on the class",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        a = getAction(params3);
+        a.executeAndPostProcess();
+
+        // Response rate should decrease by 1 because question 3 has a unique respondent
+        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+        assertEquals(3, fsLogic.getFeedbackSessionDetails(fs).stats.submittedTotal);
+    }
+
     private InstructorFeedbackQuestionEditAction getAction(String... submissionParams) throws Exception {
         return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(uri, submissionParams);
     }
