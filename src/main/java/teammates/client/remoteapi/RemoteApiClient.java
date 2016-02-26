@@ -23,8 +23,13 @@ public abstract class RemoteApiClient {
 
         boolean isDevServer = appDomain.equals(LOCALHOST);
         if (isDevServer) {
+            // Dev Server doesn't require credential.
             options.useDevelopmentServerCredential();
         } else {
+            // If you are trying to run script on Staging Server:
+            // Step 1: Install Google Cloud SDK in your local PC first, https://cloud.google.com/sdk/downloads
+            // Step 2: Run `gcloud auth login` in the terminal and choose your google account
+            // Step 3: Run the script again.
             options.useApplicationDefaultCredential();
         }
         
