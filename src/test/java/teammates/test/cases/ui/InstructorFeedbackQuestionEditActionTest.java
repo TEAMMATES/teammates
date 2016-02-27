@@ -1215,13 +1215,21 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
+        int numStudentRespondents = 3;
+        int numInstructorRespondents = 1;
+
+        int totalStudents = 5;
+        int totalInstructors = 5;
+
         ______TS("Check response rate before editing question 1");
+
         fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
         FeedbackSessionDetailsBundle details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(4, details.stats.submittedTotal);
-        assertEquals(10, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
+        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
-        ______TS("Change the feedback path of question 1");
+        ______TS("Change the feedback path of a question with no unique respondents");
+
         FeedbackQuestionAttributes fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
@@ -1245,10 +1253,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // Response rate should not change because other questions have the same respondents
         fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
         details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(4, details.stats.submittedTotal);
-        assertEquals(10, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
+        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
-        ______TS("Change the feedback path of question 3");
+        ______TS("Change the feedback path of a question with a unique instructor respondent");
+
         fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
         String[] params3 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
@@ -1269,13 +1278,14 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(params3);
         a.executeAndPostProcess();
 
-        // Response rate should decrease by 1 because question 3 has a unique respondent
+        // Response rate should decrease by 1 because the response of the unique instructor respondent is deleted
         fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
         details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(3, details.stats.submittedTotal);
-        assertEquals(10, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents, details.stats.submittedTotal);
+        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
 
-        ______TS("Change the feedback path of question 4");
+        ______TS("Change the feedback path of a question so that some possible respondents are removed");
+
         fq = fqLogic.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 4);
         String[] params4 = {
                 Const.ParamsNames.COURSE_ID, fq.courseId,
@@ -1296,11 +1306,12 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(params4);
         a.executeAndPostProcess();
 
-        // Total possible respondents should decrease because some instructors are no longer respondents
+        // Total possible respondents should decrease because instructors
+        // (except session creator) are no longer possible respondents
         fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
         details = fsLogic.getFeedbackSessionDetails(fs);
-        assertEquals(3, details.stats.submittedTotal);
-        assertEquals(6, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents, details.stats.submittedTotal);
+        assertEquals(totalStudents + 1, details.stats.expectedTotal);
     }
 
     private InstructorFeedbackQuestionEditAction getAction(String... submissionParams) throws Exception {
