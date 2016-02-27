@@ -72,11 +72,17 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerString() {
+        if (answer == null) {
+            return "Invalid response";
+        }
         return this.answer.toString();
     }
 
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+        if (answer == null) {
+            return "Invalid response";
+        }
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
         String html = "";
         for (int i=0 ; i<answer.size() ; i++) {
@@ -100,10 +106,16 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
+        if (answer == null) {
+            return "Invalid response";
+        }
         return answer.toString();
     }
     
     public int getAnswer(int subQuestionIndex) {
+        if (answer == null) {
+            return -1;
+        }
         return answer.get(subQuestionIndex);
     }
 

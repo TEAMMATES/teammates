@@ -238,25 +238,38 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         if (responseDetailsClass == FeedbackTextResponseDetails.class) {
             return corruptedMessage;
         }
-        if (responseDetailsClass == FeedbackConstantSumResponseDetails.class 
-                                        || responseDetailsClass == FeedbackNumericalScaleResponseDetails.class) {
-            return "{\"questionType\" : \"" + feedbackQuestionType.toString() + "\",\"answers\" : [-1] }";
+        if (responseDetailsClass == FeedbackConstantSumResponseDetails.class) {
+            return "{\"questionType\" : \"CONTSUM\",\"answers\" : [-1] }";
         } 
         if (responseDetailsClass == FeedbackMcqResponseDetails.class) {
             return "{\"questionType\" : \"" + feedbackQuestionType.toString() +  "\", \"answer\" : \"" + corruptedMessage + "\", \"otherFieldContent\" : \"\"}";
         }
-        if (responseDetailsClass == FeedbackMsqResponseDetails.class 
-                                        ||responseDetailsClass == FeedbackRubricResponseDetails.class) {
-            return "{\"questionType\" : \"" + feedbackQuestionType.toString() + "\", \"answer\" : [\"" + corruptedMessage + "\"]}";
+        if (responseDetailsClass == FeedbackMsqResponseDetails.class) {
+            return "{\"questionType\" : \"MSQ\", \"answers\" : [\"" + corruptedMessage + "\"]}";
+        }
+        if (responseDetailsClass == FeedbackRubricResponseDetails.class) {
+            String subMetaDataAnswers = responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 1, responseMetaData.getValue().indexOf("]")).trim();
+            String[] subQuestionChoices = subMetaDataAnswers.split(",");
+            String invalidResponse = "";
+            invalidResponse += "{\"questionType\" : \"RUBRIC\", \"answers\" : [";
+            for (int i = 0; i < subQuestionChoices.length - 1; i++){
+                invalidResponse += "-1,";
+            }
+            invalidResponse += "-1]}";
+            return invalidResponse;
         } 
         if (responseDetailsClass == FeedbackRankOptionsResponseDetails.class) {
-            System.out.println("############################");
-            System.out.println(responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 2));
-            return "{\"answers\" : [-1" + responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 2);
+            String subMetaDataAnswers = responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 1).trim();
+            if (responseMetaData.getValue().indexOf("[") < responseMetaData.getValue().indexOf("questionType")) {
+                return "{\"answers\" : [-1" + subMetaDataAnswers.substring(1);
+            } else {
+                return "{\"questionType\" : \"RANK_OPTIONS\", \"answers\" : [-1" + subMetaDataAnswers.substring(1);
+            }
         }
-        if (responseDetailsClass == FeedbackRankRecipientsResponseDetails.class) {
-            System.out.println(responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 2));
-            return "{\"answers\" : -1,\"questionType\" : \"" + feedbackQuestionType.toString() + "\"}";
+        if (responseDetailsClass == FeedbackRankRecipientsResponseDetails.class
+                                        || responseDetailsClass == FeedbackNumericalScaleResponseDetails.class
+                                        || responseDetailsClass == FeedbackContributionResponseDetails.class) {
+            return "{ \"answer\": -1, \"questionType\": \"RANK_RECIPIENTS\"}";
         }
         return null;
     }

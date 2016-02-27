@@ -32,6 +32,10 @@ public class FeedbackNumericalScaleResponseDetails extends
 
     @Override
     public String getAnswerString() {
+        if (answer == -1.0) {
+            String invalidAnswer = "Invalid response";
+            return invalidAnswer;
+        }
         return StringHelper.toDecimalFormatString(answer);
     }
 

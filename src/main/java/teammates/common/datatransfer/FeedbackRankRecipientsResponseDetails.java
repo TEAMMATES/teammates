@@ -18,6 +18,9 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     
     @Override
     public String getAnswerString() {
+        if (answer == -1) {
+            return "Invalid response";
+        }
         return Integer.toString(answer);
     }
 

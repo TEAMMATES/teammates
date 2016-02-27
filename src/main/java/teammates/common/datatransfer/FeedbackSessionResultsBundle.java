@@ -134,7 +134,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         for (FeedbackResponseAttributes response : responses) {
             FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
             if (!isResponseValid(response, question)) {
-                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$");
                 response.setCorruptionMessage(errorMessage); 
             }
         }
@@ -181,15 +180,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                         return false;
                     }
                 } else {
-                    System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%" + emailTeamNameTable.toString());
                     if (isParticipantIdentifierStudent(response.giverEmail)) {
-                        System.out.println(roster.toString());
                         giver = getTeamNameForEmail(response.giverEmail);
+                    } else if (isParticipantIdentifierInstructor(response.giverEmail)) {
+                        giver = Const.USER_TEAM_FOR_INSTRUCTOR;
                     } else {
                         giver = response.giverEmail;
                     }
-                    System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%" + emailTeamNameTable.toString());
-                    if (giver.equals("") || !emailTeamNameTable.containsValue(giver)) {
+                    if (giver.equals("") || giver.equals(Const.USER_NOBODY_TEXT)) {
                         errorMessage = Const.INVALID_GIVER_NOT_A_VALID_TEAM;
                         return false;
                     }
@@ -203,7 +201,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                     }
                 } else {
                     if (!isParticipantIdentifierInstructor(response.giverEmail)) {
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         errorMessage = Const.INVALID_GIVER_NOT_AN_INSTRUCTOR;
                         return false;
                     }
@@ -244,15 +241,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                     }
                 } else {
                     if (isParticipantIdentifierStudent(response.recipientEmail)) {
-                        recipient = emailTeamNameTable.get(response.recipientEmail);
+                        recipient = getTeamNameForEmail(response.recipientEmail);
+                    } else if (isParticipantIdentifierInstructor(response.recipientEmail)) {
+                        recipient = Const.USER_TEAM_FOR_INSTRUCTOR;
                     } else {
                         recipient = response.recipientEmail;
                     }
                     if (giverType.isTeam()) {
                         if (isParticipantIdentifierStudent(response.giverEmail)) {
-                            giverTeamName = emailTeamNameTable.get(response.giverEmail);
+                            giver = getTeamNameForEmail(response.giverEmail);
+                        } else if (isParticipantIdentifierInstructor(response.giverEmail)) {
+                            giver = Const.USER_TEAM_FOR_INSTRUCTOR;
                         } else {
-                            giverTeamName = response.giverEmail;
+                            giver = response.giverEmail;
                         }
                     } else {
                         giverTeamName = emailTeamNameTable.get(response.giverEmail);
@@ -290,9 +291,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 break;
             case SELF:
-                giver = emailNameTable.get(response.giverEmail);
-                recipient = emailNameTable.get(response.recipientEmail);
-                if (recipient == null || !recipient.equals(giver)) {
+                if (!response.recipientEmail.equals(response.giverEmail)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_SELF;
                     return false;
                 }
@@ -353,8 +352,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                         return false;
                     } 
                 } else {
-                    giverTeamName = emailTeamNameTable.get(response.giverEmail);
-                    recipientTeamName = emailTeamNameTable.get(response.recipientEmail);
                     if (!isParticipantIdentifierStudent(response.recipientEmail)) {
                         errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
                         return false;
@@ -366,8 +363,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 break;
             case NONE:
-                recipient = emailNameTable.get(response.recipientEmail);
-                if (recipient != null && !recipient.equals(Const.USER_NOBODY_TEXT) && !recipient.equals(Const.USER_IS_NOBODY)) {
+                recipient = response.recipientEmail;
+                if (recipient != null && !recipient.equals(Const.USER_NOBODY_TEXT) && !recipient.equals(Const.USER_IS_NOBODY)
+                                      && !recipient.equals(Const.GENERAL_QUESTION)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_NOBODY;
                     return false;
                 }

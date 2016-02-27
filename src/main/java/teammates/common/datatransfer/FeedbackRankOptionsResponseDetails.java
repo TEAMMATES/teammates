@@ -74,13 +74,11 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         htmlBuilder.append("<ul>");
         
         if (answers.get(0) == -1) {
-            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
             htmlBuilder.append("<li>");
             htmlBuilder.append(invalidAnswer);
             htmlBuilder.append("</li>");
             
         } else {
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
             SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
             
             for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {

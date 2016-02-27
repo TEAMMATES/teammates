@@ -57,6 +57,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testContent();
         testModerateResponsesButton();
         testLink();
+        testResponseValidity();
     }
 
     @Test
@@ -99,6 +100,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPanelsToCollapse();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
         
+    }
+    
+
+    public void testResponseValidity() throws Exception {
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with invalid responses");
+        resultsPage.waitForPanelsToCollapse();
+        resultsPage.verifyHtml("/instructorFeedbackResultsPageInvalidResponse.html");
     }
     
     @Test

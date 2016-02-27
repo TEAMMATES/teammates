@@ -45,23 +45,35 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     
     @Override
     public String getAnswerString() {
+        if (answer == -1) {
+            return "Invalid response";
+        }
         return Integer.toString(answer);
     }
     
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
+        if (answer == -1) {
+            return "Invalid response";
+        }
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
     }
 
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
+        if (answer == -1) {
+            return "Invalid response";
+        }
         return Sanitizer.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
     }
     
     @Override
     public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+        if (answer == -1) {
+            return "Invalid response";
+        }
         return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
     }
 
