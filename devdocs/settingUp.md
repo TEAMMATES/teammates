@@ -210,14 +210,14 @@ TBD
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
 
 
-##Run client scripts
-Client scripts are scripts that help us remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
+##Running client scripts
+Client scripts are scripts that remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
 
 1. Download and install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
 
 2. Run `gcloud auth login` in the terminal of your PC and choose your google account for authentication.
 
-3. Now you can run your script without getting exceptions.
+3. Now you can run your scripts.
 
 
 ##Troubleshooting
