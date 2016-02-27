@@ -1,6 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -201,7 +200,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         ajaxResult = (AjaxResult) a.executeAndPostProcess();
         editCopyData = (InstructorFeedbackEditCopyData) ajaxResult.data;
         
-        assertTrue(editCopyData.redirectUrl.isEmpty());
+        assertEquals("", editCopyData.redirectUrl);
         
         expectedString = "A feedback session with the name \"First Session\" already exists in "
                          + "the following course(s): FeedbackEditCopy.CS2104."; 

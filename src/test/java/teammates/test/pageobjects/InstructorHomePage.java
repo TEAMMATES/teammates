@@ -40,9 +40,7 @@ public class InstructorHomePage extends AppPage {
     
     public InstructorHomePage(Browser browser){
         super(browser);
-        if (!browser.driver.findElements(By.id("fsCopyModal")).isEmpty()) {
-            // initialize fsCopyModal only if the element is present
-            // the modal will not be present if the instructor's account has not been created
+        if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
             this.fsCopyModal = new InstructorCopyFsToModal(browser);
         }
     }

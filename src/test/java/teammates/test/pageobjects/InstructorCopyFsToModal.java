@@ -10,12 +10,20 @@ import org.openqa.selenium.WebElement;
 import teammates.common.util.Const;
 
 /**
- * Page Object class for handling the modal for copying a feedback session multiple times to other courses.
+ * Page Object class for handling the modal for copying a feedback session to multiple courses.
  */
 public class InstructorCopyFsToModal extends AppPage {
     
     private static final String FEEDBACK_COPY_MODAL_STATUS = "feedback-copy-modal-status";
     public WebElement copyModalStatusMessage;
+    
+    /**
+     * @return true if the modal for copying feedback sessions to multiple courses,
+     *         identified by its html id, is present, otherwise false
+     */
+    public static boolean isPresentOnPage(Browser browser) {
+        return !browser.driver.findElements(By.id("fsCopyModal")).isEmpty();
+    }
     
     public InstructorCopyFsToModal(Browser browser) {
         super(browser);

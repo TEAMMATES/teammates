@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -390,16 +391,19 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.fsCopyModal.waitForModalToLoad();
-        homePage.fsCopyModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
+        String invalidFeedbackSessionName = "Invalid name | for feedback session";
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected(invalidFeedbackSessionName);
         
         homePage.fsCopyModal.clickSubmitButton();
         homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
         
-        homePage.fsCopyModal
-                .verifyStatusMessage("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session " 
-                                  + "name because it contains invalid characters. "
-                                  + "All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        homePage.fsCopyModal.verifyStatusMessage(
+                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, 
+                                                   invalidFeedbackSessionName,
+                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         homePage.fsCopyModal.clickCloseButton();
         
         ______TS("Successful case: Home Page");
