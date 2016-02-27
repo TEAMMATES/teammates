@@ -96,10 +96,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account,
                                                           Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
-                                                                .withParam(Const.ParamsNames.ERROR, Boolean.FALSE.toString())
-                                                                .withParam(Const.ParamsNames.USER_ID, account.googleId)
-                                                                .toString(), 
-                                                          ""));
+                                                                .withParam(Const.ParamsNames.ERROR, 
+                                                                           Boolean.FALSE.toString())
+                                                                .withParam(Const.ParamsNames.USER_ID, 
+                                                                           account.googleId) 
+                                                          ));
             
         } catch (EntityAlreadyExistsException e) {
             // If conflicts are checked above, this will only occur via race condition

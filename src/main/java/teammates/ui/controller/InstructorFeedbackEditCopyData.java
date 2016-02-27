@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Url;
 
 /**
  * PageData object that is sent back as a result of InstructorFeedbackEditCopy. 
@@ -10,15 +11,22 @@ import teammates.common.datatransfer.AccountAttributes;
 public class InstructorFeedbackEditCopyData extends PageData {
     public final String redirectUrl;
     public final String errorMessage;
-    public final boolean isError;
-    
     
     public InstructorFeedbackEditCopyData(AccountAttributes account, 
-                                          String redirectUrl, String errorMessage) {
+                                          Url redirectUrl, String errorMessage) {
         super(account);
-        this.redirectUrl = redirectUrl != null ? redirectUrl : "";
-        this.errorMessage = errorMessage;
-        this.isError = !errorMessage.isEmpty();
+        String redirectUrlAsString = redirectUrl != null ? redirectUrl.toString() 
+                                                         : "";
+        this.redirectUrl = redirectUrlAsString;
+        this.errorMessage = errorMessage != null ? errorMessage
+                                                 : "";
+    }
+    
+    /**
+     * @return new {@code InstructorFeedbackEditCopyData} with a redirect url, and without an errorMessage
+     */
+    public InstructorFeedbackEditCopyData(AccountAttributes account, Url redirectUrl) {
+        this(account, redirectUrl, null);
     }
     
     /**
