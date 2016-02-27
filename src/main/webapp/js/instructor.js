@@ -141,7 +141,7 @@ function setupFsCopyModal() {
                 $('#courseList').html(data);
                 // If the user alt-clicks, the form does not send any parameters and results in an error.
                 // Prevent default form submission and submit using jquery.
-                $('#fscopy_submit').click(
+                $('#fscopy_submit').one('click', 
                                         function(event) {
                                             $('#fscopy_submit').prop('disabled', true);
                                             event.preventDefault();
