@@ -40,7 +40,7 @@
                         <th>Address Receiver</th>
                         <th>Group Receiver</th>
                         <th>Subject</th>
-                        <th onclick="toggleSort(this,5);"
+                        <th onclick="toggleSort(this);"
                             class="button-sort-ascending">
                             Date <span class="icon-sort unsorted"
                                        id="button_sort_date"></span>

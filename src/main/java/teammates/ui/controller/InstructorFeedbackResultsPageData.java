@@ -46,8 +46,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
     private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
     
-    // TODO find out why it's 500
-    private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
     // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
@@ -61,7 +59,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String groupByTeam = null;
     private String showStats = null;
     private int startIndex = -1;
-    private boolean isPanelsCollapsed;
     
     private FieldValidator validator = new FieldValidator();
     private String feedbackSessionName = null;
@@ -226,8 +223,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // no responses, nothing to initialize
             return;
         }
-        
-        this.isPanelsCollapsed = bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL;
         
         switch (viewType) {
             case RECIPIENT_GIVER_QUESTION:
@@ -828,8 +823,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
-        this.isPanelsCollapsed = true;
-        
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         
         for (String section : sections) {
@@ -1096,19 +1089,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                        Map<String, Boolean> isSortable) {
         ElementTag giverTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick", 
-                         "toggleSort(this,1)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement 
             = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,2)", "style", "width: 15%;");
+                             "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
         ElementTag recipientTeamElement 
             = new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick", 
-                         "toggleSort(this,3)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement 
             = new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)", "style", "width: 15%;");
+                             "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,5)");
+                             "toggleSort(this)", "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions");
 
         columnTags.add(giverTeamElement);
@@ -1130,13 +1123,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", 
-                         "toggleSort(this,2)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag recipientElement 
             = new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,3)", "style", "width: 15%;");
+                             "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)");
+                             "toggleSort(this)", "style", "min-width: 95px;");
 
         columnTags.add(photoElement);
         columnTags.add(recipientTeamElement);
@@ -1154,13 +1147,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag giverTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", 
-                         "toggleSort(this,2)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
         ElementTag giverElement 
             = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,3)", "style", "width: 15%;");
+                             "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)");
+                             "toggleSort(this)", "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions");
 
         columnTags.add(photoElement);
@@ -1774,10 +1767,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String getSessionResultsHtmlTableAsString() {
         return sessionResultsHtmlTableAsString;
     }
-    
-    public boolean isShouldCollapsed() {
-        return isPanelsCollapsed;
-    }
 
     public List<InstructorFeedbackResultsQuestionTable> getQuestionPanels() {
         return questionPanels;
@@ -1811,7 +1800,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
-                isStatsShown(), isPanelsCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
+                isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), getSections());
     }
     

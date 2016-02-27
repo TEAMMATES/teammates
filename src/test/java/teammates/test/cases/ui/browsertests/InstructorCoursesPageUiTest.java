@@ -154,17 +154,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("Course Stats");
         coursesPage = getCoursesPage();
         coursesPage.triggerAjaxLoadCourseStats(1);
-        coursesPage.waitForAjaxLoadCourseStatsSuccess(1);
-        assertEquals("0", coursesPage.getSectionStatsField(1));
-        assertEquals("0", coursesPage.getTeamStatsField(1));
-        assertEquals("0", coursesPage.getTotalStudentStatsField(1));
-        assertEquals("0", coursesPage.getUnregisteredStudentStatsField(1));
+        coursesPage.verifyHtmlMainContentWithRetry("/instructorCoursesStatsAjaxSuccessful.html");
 
         ______TS("Course Stats Failed");
         coursesPage = getCoursesPage();
         coursesPage.changeHrefInAjaxLoadCourseStatsLink("invalidLink");
         coursesPage.triggerAjaxLoadCourseStats(1);
-        coursesPage.waitForAjaxLoadCourseStatsError(1);
+        coursesPage.verifyHtmlMainContentWithRetry("/instructorCoursesStatsAjaxFailure.html");
         coursesPage = getCoursesPage();
     }
 

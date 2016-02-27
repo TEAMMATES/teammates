@@ -19,18 +19,18 @@
         <div class="panel panel-primary">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6"
+                    <div class="col-sm-12 col-md-6"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_COURSE %>"
                         data-toggle="tooltip"
                         data-placement="top">
                         <div class="form-group<c:if test="${fsForm.showNoCoursesMessage}"> has-error</c:if>">
-                            <h5 class="col-sm-4">
+                            <h5 class="col-sm-2 col-md-4">
                                 <label class="control-label"
                                     for="<%= Const.ParamsNames.COURSE_ID %>">
                                     Course ID
                                 </label>
                             </h5>
-                            <div class="col-sm-8">
+                            <div class="col-sm-10 col-md-8">
                                 <c:choose>
                                     <c:when test="${fsForm.courseIdEditable}">
                                         <select class="form-control<c:if test="${fsForm.showNoCoursesMessage}"> text-color-red</c:if>"
@@ -42,26 +42,26 @@
                                         </select>
                                     </c:when>
                                     <c:otherwise>
-                                            <div class="form-control-static">
+                                            <h5 class="form-control-static font-weight-normal">
                                                     ${fsForm.courseId}
-                                            </div>
+                                            </h5>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6"
+                    <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_TIMEZONE %>"
                         data-toggle="tooltip"
                         data-placement="top">
                         <div class="form-group">
-                            <h5 class="col-sm-4">
+                            <h5 class="col-sm-2 col-md-4">
                                 <label class="control-label"
                                     for="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
                                     Timezone
                                 </label>
                             </h5>
-                            <div class="col-sm-8">
+                            <div class="col-sm-10 col-md-8">
                                 <select class="form-control"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
@@ -76,9 +76,9 @@
                         </div>
                     </div>
                 </div>
-                <br>
+                <br class="hidden-xs">
                 <div class="row">
-                    <div class="col-md-12"
+                    <div class="col-sm-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME %>"
                         data-toggle="tooltip"
                         data-placement="top">
@@ -100,23 +100,23 @@
                                             value="${fsForm.fsName}">
                                     </c:when>
                                     <c:otherwise>
-                                            <div class="form-control-static">
+                                            <h5 class="form-control-static font-weight-normal">
                                                 ${fsForm.fsName}
-                                            </div>
+                                            </h5>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                         </div>
                     </div>
                 </div>
-                <br>
+                <br class="hidden-xs">
                 <div class="row" id="instructionsRow">
-                    <div class="col-md-12"
+                    <div class="col-sm-12"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS %>"
                         data-toggle="tooltip"
                         data-placement="top">
                         <div class="form-group">
-                            <h5 class="col-sm-2">
+                            <h5 class="col-sm-2 margin-top-0">
                                 <label class="control-label"
                                     for="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>">
                                     Instructions
@@ -142,7 +142,7 @@
                         data-toggle="tooltip"
                         data-placement="top">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-12">
                                 <label class="label-control"
                                     for="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTDATE %>">
                                     Submission opening time
@@ -150,14 +150,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <input class="form-control col-sm-2" type="text"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTDATE %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTDATE %>"
                                     value="${fsForm.fsStartDate}"
                                     placeholder="Date">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <select class="form-control"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTTIME %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTTIME %>">
@@ -175,7 +175,7 @@
                         data-toggle="tooltip"
                         data-placement="top">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-12">
                                 <label class="label-control"
                                     for="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDDATE %>">
                                     Submission closing time
@@ -183,14 +183,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <input class="form-control col-sm-2" type="text"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDDATE %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDDATE %>"
                                     value="${fsForm.fsEndDate}"
                                     placeHolder="Date">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-xs-6">
                                 <select class="form-control"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDTIME %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDTIME %>">
@@ -208,7 +208,7 @@
                         data-toggle="tooltip"
                         data-placement="top">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-xs-12">
                                 <label class="control-label"
                                     for="<%= Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD %>">
                                     Grace period
@@ -216,7 +216,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-xs-12">
                                 <select class="form-control"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD %>">
