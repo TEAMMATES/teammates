@@ -80,8 +80,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
             isError = true;
         }
-
-        List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
+   
+        FeedbackQuestionDetails updatedQuestionDetails = updatedQuestion.getQuestionDetails();
+        List<String> questionDetailsErrors = updatedQuestionDetails.validateQuestionDetails();
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
 
         for (String error : questionDetailsErrors) {
@@ -102,8 +103,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                             + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
                             + updatedQuestion.courseId + "]</span> edited.<br>"
                             + "<span class=\"bold\">" 
-                            + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> "
-                            + updatedQuestion.getQuestionDetails().questionText;
+                            + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
+                            + updatedQuestionDetails.questionText;
         }
     }
     
