@@ -30,8 +30,9 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-3. If the issue is assigned to you, a Pull Request (PR) has to be opened for it within a week. 
-   Inactivity for a longer time would open up the issue for others to work on.
+3. If the issue is assigned to you, a Pull Request (PR) is expected to be opened for it within a week. 
+   Inactivity for a longer time may result in the issue being un-assigned so that
+   someone else can work on it.
 
 4. Add remote names for committer repo (let's call it `upstream`)
    ```
@@ -42,8 +43,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    with the latest version of the code from the committer repo.
    ```
    git pull upstream master
-   ```
-6. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
+   ``` 
 
 7. Start a new branch named `{IssueNumber}-{some-keywords}`. 
    If you are already working in a branch, remember to switch to the `master` 
@@ -90,12 +90,12 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
         
    * Ensure _dev green_ (i.e., all tests are passing on dev server).
 
-    >If any of the browsertests fail, use [*GodMode*](/devdocs/godmode.md) to fix them. Ensure that dev green is reached without GodMode before submitting for review
+    >If any of the browsertests fail, use [*GodMode*](/devdocs/godmode.md) to fix them. 
+    Ensure that dev green is reached without GodMode before submitting for review
      
     >If your new code might behave differently on a remote server than how it 
-     behaves on the dev server, ensure staging green 
-     (i.e., all tests are passing against the modified app running on your own 
-     GAE staging server).
+     behaves on the dev server, ensure those tests are passing against the 
+     updated app running on your own GAE staging server.
         
    * Push your branch to the committer repo (push to the fork if you do not 
      have push permission to the committer repo), if you haven't done that already.
@@ -106,37 +106,28 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      In the PR description, mention the issue number in this format: `Fixes #1760`. 
      Doing so will create an automatic reference from the issue to the pull request.<br>
      
-   * The PR will be assigned to the reviewer, not to you.
-     * If you are a contributor: Wait for a reviewer to be assigned to the issue.
-       Feel free to add a comment asking for a reviewer if a reviewer is not assigned
-       within 24 hours.
-     * If you are a committer: 
-        * Assign a reviewer for the PR. The selection of reviewer
-          should be based on the *feature* (`f-`), *aspect* (`a-`), or the *tech* (`t-`) labels 
-          of the issue. If there are more than one of these labels, the main category of
-          the issue as specified by the *main classifier* (`m.`) label. <br>
-          e.g. If the issue has labels `m-Tech` `a-Testing` `t-JS`, the main classifier is 
-          `Tech` and therefore the reviewer should be based on the `t-JS` label.<br>
-          Once you have figured out which label determines the reviewer, you can find the 
-          *Lead* of the label in the [Issue Labels section](#issue-labels).
-        * Assign a milestone to the PR. Usually, you can choose between 
-          of the upcoming milestone or the one after. This is to encourage you to finish
-          the PR within two release cycles.
+   * The PR will be assigned to the reviewer, not to you. 
+     Wait for a reviewer to be assigned to the issue.
+     Feel free to add a comment asking for a reviewer if a reviewer is not assigned
+     within 24 hours.
 
    * Wait for reviewer to change the PR status to `s.toMerge` 
-       or to suggest changes. If you did not get a review within 2-3 days, 
-       it is OK to request for a review by posting a comment in the PR.
+     or to suggest changes. If you did not get a review within 2 days, 
+     it is OK to request for a review by posting a comment in the PR.
 
    * Once the PR is open, try and complete it within 2 weeks. Inactivity for a 
      longer period would necessitate a restart of the PR.
 
-   * The cycle of 'update pull request' and 'review' (i.e. the previous two steps) 
-     is to continue until PR status changes to `s.toMerge`. After doing suggested
-     changes, remember to add a comment to indicate the PR is ready for review again.
-     e.g. `ready to review` or `changes done`
+   * The cycle of 'update pull request' and 'review' is to continue until PR 
+     status changes to `s.ToMerge`. After doing suggested changes, 
+     remember to add a comment to indicate the PR is ready for review again.
+     e.g. `ready to review` or `changes done`<br>
+     If you have permissions to change labels, use the `s.ToReview` to indicate
+     the PR is ready for review, and the `s.Ongoing` label to indicate the PR
+     is not yet ready to be reviewed.
 
    * As a final check, the PM will look through the changes and either suggest changes (back to `s.Ongoing`),
-     or apply the `s.mergeApproved` label to the PR.
+     or apply the `s.MergeApproved` label to the PR.
    
 
 ###Reviewing a fix
@@ -148,11 +139,11 @@ Role: reviewer
     * The solution is the best possible solution to the problem under the 
       circumstances.
     * Tests have been updated to reflect changes to the functional code. Almost 
-    all code changes should have changes to both functional code and test code.
+      all code changes should have changes to both functional code and test code.
     * User documentation has been updated, if required. e.g. help pages.
     * Developer documentation has been updated, if required. e.g. `design.md`
     * The changeset does not contain changes unrelated to the issue. 
-    e.g. unnecessary formatting changes.
+      e.g. unnecessary formatting changes.
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
       If not, ask the dev to sync with upstream. 
     * Ensure appropriate header comments and expected standards are followed
@@ -171,16 +162,15 @@ Role: PM
   * If the above is not OK,
     * Change the issue status to `s.Ongoing`
   * If the code is OK on all aspects,
-    * Change issue status to `s.mergeApproved`
+    * Change issue status to `s.MergeApproved`
 
 
 ###Applying a fix
 Role: committer
 
   * Do not merge online. Always merge locally and push to the repo. If you 
-    merge online, you will not have a way to test the code first.
-  * Format of the commit message: `[Issue number] Issue title as given in the original issue`<br>
-    e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
+    merge online, you will not be able to run tests or use the required format
+    for the commit message.
   * Fetch code from upstream: <br>
     `git fetch origin`<br>
   * Checkout the branch and update with latest master<br>
@@ -195,20 +185,57 @@ Role: committer
        e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
     * Remove any status labels from the pull request. Delete the branch (from GitHub UI).
     * Remove any status labels from the corresponding issue and close it.
+    * Optionally, apply an `e.` label to the issue (not the PR) to indicate 
+      the estimated effort required to fix the issue.
   * If not green,
     * Delete the merge commit, if any.
     * Change the pull request status to `s.Ongoing`
     * Add a comment to mention the test failure.
-  * Optionally, apply an `e.` label to the issue (not the PR) to indicate 
-    the estimated effort required to fix the issue.
-    
-###Making a release
+
+###Assigning lablels, reviewers, and milestones
 Roles: PM (Project Manager) + RL (Release Lead)
 
+PM: Assign priority label and any other missing labels to incoming issues.
+
 RL: 
-  * Get dev green for `master`.
-  * Merge to `release` branch, tag (Format `V{major}.{minor}.{build}` e.g. `V5.01.02`.)
-  * Inform PM the next version is ready for deployment.
+ * When a new PR comes in, assign a reviewer for the PR. The selection of reviewer
+   should be based on the *feature* (`f-`), *aspect* (`a-`), or the *tech* (`t-`) labels 
+   of the issue. If there are more than one of these labels, the main category of
+   the issue as specified by the *main classifier* (`m.`) label. <br>
+   e.g. If the issue has labels `m-Tech` `a-Testing` `t-JS`, the main classifier is 
+   `Tech` and therefore the reviewer should be based on the `t-JS` label.<br>
+   Once you have figured out which label determines the reviewer, you can find the 
+   *Lead* of the label in the [Issue Labels section](#issue-labels).
+ * Try to load balance when assigning reviewers. 
+ * Assign the current+1 milestone to the corresponding issue. This gives the 
+   dev at least a week to finish the PR. 
+    
+###Making a release
+Roles: PM + RL
+
+RL: 
+  * Release day - 3: 
+    * Post a comment on ongoing PRs of the current milestone to remind the
+      dev/reviewer to finish by the release date.
+  * Release day:
+    * Get dev green for `master`.
+    * Merge to `release` branch, tag (Format `V{major}.{minor}.{patch}` e.g. `V5.01.02`.)
+    * Inform PM the next version is ready for deployment.
+    * Ensure all issues and PRs included in the release are tagged with the correct milestone.
+    * Extend the milestone of issues that slipped the current milestone and post
+      a comment asking to finish by next milestone. If an issue is not making
+      progress, close the PR and un-assign the issue.
+    * Add/revise `e.` labels for the issues/PRs in the release.
+    * Announce the release on slack and issue tracker.
+    * Update `about.html` with names of new contributors, if any. Alternatively,
+      create an issue to update `about.html`.
+    * Close the current milestone and create a new milestone for the next+1 release.
+    * Create an issue for the next release. Post a comment in that issue to 
+      remind active devs who don't have issues scheduled for next release. 
+    
+  * Release day + 1:
+    * Ensure all pending `p.Urgent` issues are assigned and scheduled for next milestone.
+    * Ensure all active devs have committed for at least one issue in next milestone.
   
 PM: 
   * Pull the latest `release` branch.
@@ -216,25 +243,8 @@ PM:
   * Deploy.
   * Get live green.
   * Make the version default.
-  * Inform RL the new version is live.
- 
-RL:
-  * Merge `release` to `master`.  
-  * Update milestone.
-    * State the release number in the milestone notes.
-    * Ensure all issues and PRs included in the release are tagged with the correct milestone.
-    * For issues in the milestone: assign/revise `e.` labels based on the estimated
-      effort each must have taken.
-    * Close the milestone.
-
-  * Announce release to dev and contributor groups.
-  * Housekeeping:
-    * Post comment in open PRs to request closure by next milestone.
-    * Close PRs that have been inactive in spite of reminders.
-    * Update `about.html` with names of new contributors, if any.
-  * Plan next release.
-    * Get active developers to commit to at least 1 issue for the next milestone.
-    * Ensure all pending `p.urgent` are assigned and scheduled for next milestone.
+  * Close the 'Release' issue.
+     
 
 ### Issue/PR Lifecycle
 <img src='images/IssueLifecycle.png' width='600'>
