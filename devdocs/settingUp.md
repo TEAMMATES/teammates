@@ -258,7 +258,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
   Comes with App Engine SDK.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
 * **SendGrid** Alternative framework to JavaMail for sending emails.
-* **Google Cloud SDK**: API to run script on GAE remotely.
+* **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
 
