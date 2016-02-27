@@ -25,6 +25,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String giverSection;
     public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
     public String recipientSection;
+    public String corruptedMessage = null;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
@@ -187,9 +188,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         if(responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
+            if (isCorrupted()) {
+                return new FeedbackTextResponseDetails(constructJsonCorruptedMessage(responseDetailsClass));
+            }
             return new FeedbackTextResponseDetails(responseMetaData.getValue());
         } else {
             Gson gson = teammates.common.util.Utils.getTeammatesGson();
+            if (isCorrupted()) {
+                return gson.fromJson(constructJsonCorruptedMessage(responseDetailsClass), responseDetailsClass);
+            }
             return gson.fromJson(responseMetaData.getValue(), responseDetailsClass);
         }
     }
@@ -218,5 +225,39 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             }
         });
     }
+
+    public boolean isCorrupted() {
+        return corruptedMessage != null;
+    }
     
+    public void setCorruptionMessage(String errorMessage) {
+        corruptedMessage = errorMessage;
+    }
+    
+    public String constructJsonCorruptedMessage(Class<? extends FeedbackResponseDetails> responseDetailsClass) {
+        if (responseDetailsClass == FeedbackTextResponseDetails.class) {
+            return corruptedMessage;
+        }
+        if (responseDetailsClass == FeedbackConstantSumResponseDetails.class 
+                                        || responseDetailsClass == FeedbackNumericalScaleResponseDetails.class) {
+            return "{\"questionType\" : \"" + feedbackQuestionType.toString() + "\",\"answers\" : [-1] }";
+        } 
+        if (responseDetailsClass == FeedbackMcqResponseDetails.class) {
+            return "{\"questionType\" : \"" + feedbackQuestionType.toString() +  "\", \"answer\" : \"" + corruptedMessage + "\", \"otherFieldContent\" : \"\"}";
+        }
+        if (responseDetailsClass == FeedbackMsqResponseDetails.class 
+                                        ||responseDetailsClass == FeedbackRubricResponseDetails.class) {
+            return "{\"questionType\" : \"" + feedbackQuestionType.toString() + "\", \"answer\" : [\"" + corruptedMessage + "\"]}";
+        } 
+        if (responseDetailsClass == FeedbackRankOptionsResponseDetails.class) {
+            System.out.println("############################");
+            System.out.println(responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 2));
+            return "{\"answers\" : [-1" + responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 2);
+        }
+        if (responseDetailsClass == FeedbackRankRecipientsResponseDetails.class) {
+            System.out.println(responseMetaData.getValue().substring(responseMetaData.getValue().indexOf("[") + 2));
+            return "{\"answers\" : -1,\"questionType\" : \"" + feedbackQuestionType.toString() + "\"}";
+        }
+        return null;
+    }
 }

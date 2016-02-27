@@ -39,6 +39,10 @@ public class FeedbackConstantSumResponseDetails extends
     @Override
     public String getAnswerString() {
         String listString = answers.toString();//[1, 2, 3] format
+        if (answers.get(0) == -1) {
+            listString = "Invalid response";
+            return listString;
+        }
         return listString.substring(1, listString.length()-1);//remove []
     }
 
@@ -52,6 +56,9 @@ public class FeedbackConstantSumResponseDetails extends
             htmlBuilder.append("<ul>");
             for (int i=0 ; i<answers.size() ; i++) {
                 String answerString = answers.get(i).toString();
+                if (answers.get(0) == -1) {
+                    answerString = "Invalid response";
+                }
                 String optionString = csQd.constSumOptions.get(i);
                 
                 htmlBuilder.append("<li>");

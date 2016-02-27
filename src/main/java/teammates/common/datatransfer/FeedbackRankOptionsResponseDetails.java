@@ -58,6 +58,10 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     @Override
     public String getAnswerString() {
         String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
+        if (answers.get(0) == -1) {
+            String invalidAnswer = "Invalid response";
+            return invalidAnswer;
+        }
         return listString.substring(1, listString.length() - 1); //remove []
     }
 
@@ -65,27 +69,36 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
         
-        SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
-        
+        String invalidAnswer = "Invalid response";
         StringBuilder htmlBuilder = new StringBuilder();
         htmlBuilder.append("<ul>");
         
-        for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
-            Integer rank = rankAndOption.getKey();
-            if (rank == Const.POINTS_NOT_SUBMITTED) {
-                continue;
-            }
+        if (answers.get(0) == -1) {
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+            htmlBuilder.append("<li>");
+            htmlBuilder.append(invalidAnswer);
+            htmlBuilder.append("</li>");
             
-            List<String> optionsWithGivenRank = rankAndOption.getValue();
-            for (String option : optionsWithGivenRank) {
-                htmlBuilder.append("<li>");
-                htmlBuilder.append(Sanitizer.sanitizeForHtml(rank.toString()));
-                htmlBuilder.append(": ");
-                htmlBuilder.append(option);
-                htmlBuilder.append("</li>");
+        } else {
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
+            
+            for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
+                Integer rank = rankAndOption.getKey();
+                if (rank == Const.POINTS_NOT_SUBMITTED) {
+                    continue;
+                }
+                
+                List<String> optionsWithGivenRank = rankAndOption.getValue();
+                for (String option : optionsWithGivenRank) {
+                    htmlBuilder.append("<li>");
+                    htmlBuilder.append(Sanitizer.sanitizeForHtml(rank.toString()));
+                    htmlBuilder.append(": ");
+                    htmlBuilder.append(option);
+                    htmlBuilder.append("</li>");
+                }
             }
         }
-        
         htmlBuilder.append("</ul>");
         return htmlBuilder.toString();
     }

@@ -123,14 +123,32 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.isComplete = isComplete;
 
         hideResponsesGiverRecipient();
+        setCorruptedResponse();
         // unlike emailTeamNameTable, emailLastNameTable and emailTeamNameTable,
         // roster.*Table is populated using the CourseRoster data directly
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
     
+    public void setCorruptedResponse() {
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            if (!isResponseValid(response, question)) {
+                System.out.println("$$$$$$$$$$$$$$$$$$$$$$$");
+                response.setCorruptionMessage(errorMessage); 
+            }
+        }
+    }
+    
     public boolean isResponseValid(FeedbackResponseAttributes response,
                                     FeedbackQuestionAttributes question) {
+        if (!response.isValid()) {
+            errorMessage = Const.INVALID_RESPONSE_ATTRIBUTES;
+        } else if (!question.isValid()) {
+            errorMessage = Const.INVALID_QUESTION_ATTRIBUTES;
+        } else if (!isQuestionDetailValid(question)) {
+            errorMessage = Const.INVALID_QUESTION_DETAILS;
+        }
         return response.isValid() && question.isValid() && isQuestionDetailValid(question) && isResponseGiverAndReceiverValid(response, question);
     }
     
@@ -159,185 +177,206 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             case TEAMS:
                 if (!isGiverVisible(response)) {
                     if (!response.giverEmail.contains("Anonymous team")) {
-                        errorMessage = response.giverEmail + "anonymous team";
+                        errorMessage = Const.INVALID_GIVER_NOT_AN_ANONYMOUS_TEAM;
                         return false;
                     }
                 } else {
-                    giver = response.giverEmail;
-                    if (giver == null || giver.equals("") ||  giver.equals(Const.USER_NOBODY_TEXT)) {
-                        errorMessage = "giver is team but giver is null";
+                    System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%" + emailTeamNameTable.toString());
+                    if (isParticipantIdentifierStudent(response.giverEmail)) {
+                        System.out.println(roster.toString());
+                        giver = getTeamNameForEmail(response.giverEmail);
+                    } else {
+                        giver = response.giverEmail;
+                    }
+                    System.out.println ("%%%%%%%%%%%%%%%%%%%%%%%%" + emailTeamNameTable.toString());
+                    if (giver.equals("") || !emailTeamNameTable.containsValue(giver)) {
+                        errorMessage = Const.INVALID_GIVER_NOT_A_VALID_TEAM;
                         return false;
                     }
                 }
                 break;
             case INSTRUCTORS:
                 if (!isGiverVisible(response)) {
-                    errorMessage = response.giverEmail + "no error anonymous instructor";
                     if (!response.giverEmail.contains("Anonymous instructor")) {
-                        errorMessage = response.giverEmail + "anonymous instructor";
+                        errorMessage = Const.INVALID_GIVER_NOT_AN_ANONYMOUS_INSTRUCTOR;
                         return false;
                     }
                 } else {
-                    giver = emailNameTable.get(response.giverEmail);
-                    if (giver == null || giver.equals("") || giver.equals(Const.USER_IS_TEAM) || giver.equals(Const.USER_NOBODY_TEXT)) {
-                        errorMessage = "giver is instructor, but something wrong";
+                    if (!isParticipantIdentifierInstructor(response.giverEmail)) {
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        errorMessage = Const.INVALID_GIVER_NOT_AN_INSTRUCTOR;
                         return false;
                     }
                 }
                 break; 
             case SELF:
+                String creatorEmail = questions.get(response.feedbackQuestionId).creatorEmail;
+                if (!creatorEmail.equals(response.giverEmail)) {
+                    errorMessage = Const.INVALID_GIVER_NOT_SESSION_CREATOR;
+                    return false;
+                }
+                break;
             case STUDENTS:
                 if (!isGiverVisible(response)) {
-                    errorMessage = response.giverEmail + "no error anonymous student";
                     if (!response.giverEmail.contains("Anonymous student")) {
-                        errorMessage = response.giverEmail + "anonymous student";
+                        errorMessage = Const.INVALID_GIVER_NOT_AN_ANONYMOUS_STUDENT;
                         return false;
                     }
                 } else {
-                    giver = emailNameTable.get(response.giverEmail);
-                    if (giver == null || giver.equals("") || giver.equals(Const.USER_IS_TEAM) || giver.equals(Const.USER_NOBODY_TEXT)) {
-                        errorMessage = "giver is self//students, but something wrong";
+                    if (!isParticipantIdentifierStudent(response.giverEmail)) {
+                        errorMessage = Const.INVALID_GIVER_NOT_A_STUDENT;
                         return false;
-                    }    
+                    }
                 }
                 break;
             default:
                 log.severe("Invalid giver type specified");
-                errorMessage = "Invalid Giver";
+                errorMessage = Const.INVALID_GIVER_TYPE;
                 return false;
         }
        
         switch(recipientType) {
             case TEAMS:
                 if (!isRecipientVisible(response)) {
-                    errorMessage = response.recipientEmail + "no error anonymous team";
                     if (!response.recipientEmail.contains("Anonymous team")) {
-                        errorMessage = response.recipientEmail + "anonymous teams";
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_AN_ANONYMOUS_TEAM;
                         return false;
                     }
                 } else {
-                    recipient = response.recipientEmail;
+                    if (isParticipantIdentifierStudent(response.recipientEmail)) {
+                        recipient = emailTeamNameTable.get(response.recipientEmail);
+                    } else {
+                        recipient = response.recipientEmail;
+                    }
                     if (giverType.isTeam()) {
-                        giverTeamName = response.giverEmail;
+                        if (isParticipantIdentifierStudent(response.giverEmail)) {
+                            giverTeamName = emailTeamNameTable.get(response.giverEmail);
+                        } else {
+                            giverTeamName = response.giverEmail;
+                        }
                     } else {
                         giverTeamName = emailTeamNameTable.get(response.giverEmail);
                     }
-                    if (giverTeamName == null || recipient == null || recipient.equals(giverTeamName)) {
-                        errorMessage += " Recipient is " + recipient + " GiverTeamName is " + giverTeamName + " Recipient is team but something wrong";
-                        return false;
+                    if (recipient.equals(giverTeamName)) {
+                        errorMessage = Const.INVALID_RECIPIENT_SAME_TEAM;
                     }
                 }
                 break;
             case OWN_TEAM:
                 if (!isRecipientVisible(response)) {
-                    errorMessage = response.recipientEmail + "no error anonymous team";
                     if (!response.recipientEmail.contains("Anonymous team")) {
-                        errorMessage = response.recipientEmail + "anonymous own team";
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_AN_ANONYMOUS_TEAM;
                         return false;
                     }
                 } else {
                     recipient = response.recipientEmail;
+                    boolean isTeamName = emailTeamNameTable.containsKey(recipient);
+                    if (!isTeamName) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_A_VALID_TEAM;
+                        return false;
+                    }
                     if (giverType.isTeam()) {
-                        giverTeamName = response.giverEmail;
+                        boolean isATeamName = emailTeamNameTable.containsKey(response.giverEmail);
+                        if (isATeamName) {
+                            giverTeamName = response.giverEmail;
+                        }
                     } else {
                         giverTeamName = emailTeamNameTable.get(response.giverEmail);
                     }
-                    if (giverTeamName == null || recipient == null || !recipient.equals(giverTeamName)) {
-                        errorMessage = "Recipient is own team but something wrong";
+                    if (!recipient.equals(giverTeamName)) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_GIVER_TEAM;
                         return false;
                     }
                 }
                 break;
             case SELF:
+                giver = emailNameTable.get(response.giverEmail);
                 recipient = emailNameTable.get(response.recipientEmail);
                 if (recipient == null || !recipient.equals(giver)) {
-                    errorMessage = "Recipient is self but something wrong";
+                    errorMessage = Const.INVALID_RECIPIENT_NOT_SELF;
                     return false;
                 }
                 break;
             case INSTRUCTORS:
                 if (!isRecipientVisible(response)) {
-                    errorMessage = response.recipientEmail + "no error anonymous instructor";
                     if (!response.recipientEmail.contains("Anonymous instructor")) {
-                        errorMessage = response.recipientEmail + "anonymous instructor";
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_AN_ANONYMOUS_INSTRUCTOR;
                         return false;
                     } 
                 } else {
-                    recipient = emailNameTable.get(response.recipientEmail);
-                    if (recipient == null || recipient.equals(Const.USER_NOBODY_TEXT) 
-                                          || recipient.equals(Const.USER_IS_TEAM)) {
-                        errorMessage = "Recipient is instructor but something wrong";
+                    if (!isParticipantIdentifierInstructor(response.recipientEmail)) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_AN_INSTRUCTOR;
                         return false;
                     }
                 }
                 break;
             case STUDENTS:
                 if (!isRecipientVisible(response)) {
-                    errorMessage = response.recipientEmail + "no error anonymous student";
                     if (!response.recipientEmail.contains("Anonymous student")) {
-                        errorMessage = response.recipientEmail + "anonymous students";
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_AN_ANONYMOUS_STUDENT;
                         return false;
                     } 
                 } else {
-                    recipient = emailNameTable.get(response.recipientEmail);
-                    if (recipient == null) {
-                        errorMessage = recipient  + " " + giver +  " " + "Recipient is students but something wrong";
+                    if (!isParticipantIdentifierStudent(response.recipientEmail)) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
                         return false;
-                    }   
+                    }
                 }
                 break;
             case OWN_TEAM_MEMBERS:
                 if (!isRecipientVisible(response)) {
-                    errorMessage = response.recipientEmail + "no error anonymous student";
                     if (!response.recipientEmail.contains("Anonymous student")) {
-                        errorMessage = response.recipientEmail + "anonymous own_team_members";
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_AN_ANONYMOUS_STUDENT;
                         return false;
                     }  
                 } else {
                     giverTeamName = emailTeamNameTable.get(response.giverEmail);
                     recipientTeamName = emailTeamNameTable.get(response.recipientEmail);
-                    if (giverTeamName == null || recipientTeamName == null) {
-                         errorMessage = response.recipientEmail + " " + response.giverEmail + " Recipient is own team member but no the same team!";
-                         return false;
+                    if (!isParticipantIdentifierStudent(response.recipientEmail)) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
+                        return false;
                     }
                     if (!giverTeamName.equals(recipientTeamName)) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
                         return false;
                     }
                     if(response.giverEmail.equals(response.recipientEmail)){
-                        errorMessage = "Recipient is own team member but is self";
+                        errorMessage = Const.INVALID_RECIPIENT_SELF;
                         return false;
                     }
                 }
                 break;
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 if (!isRecipientVisible(response)) {
-                    errorMessage = response.recipientEmail + "no error anonymous student";
                     if (!response.recipientEmail.contains("Anonymous student")) {
-                        errorMessage = response.recipientEmail + "anonymous including self";
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_AN_ANONYMOUS_STUDENT;
                         return false;
                     } 
                 } else {
                     giverTeamName = emailTeamNameTable.get(response.giverEmail);
                     recipientTeamName = emailTeamNameTable.get(response.recipientEmail);
-                    if (giverTeamName == null || recipientTeamName == null) {
-                        errorMessage = giverTeamName + " " + recipientTeamName;
+                    if (!isParticipantIdentifierStudent(response.recipientEmail)) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
                         return false;
-                    }   
+                    }
+//                    if (!giverTeamName.equals(recipientTeamName)) {
+//                        errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
+//                        return false;
+//                    }
                 }
                 break;
             case NONE:
                 recipient = emailNameTable.get(response.recipientEmail);
                 if (recipient != null && !recipient.equals(Const.USER_NOBODY_TEXT) && !recipient.equals(Const.USER_IS_NOBODY)) {
-                    errorMessage = "nobody but there is somebody";
+                    errorMessage = Const.INVALID_RECIPIENT_NOT_NOBODY;
                     return false;
                 }
                 break;
             default:
                 log.severe("Invalid recipient type specified");
-                errorMessage = "Invalid recipient";
+                errorMessage = Const.INVALID_RECIPIENT_TYPE;
                 return false;
         }
-        System.out.println("******************************Pass the Test**************************");
         return true;
     }
     
@@ -1094,17 +1133,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      */
     public String getResponseAnswerHtml(FeedbackResponseAttributes response,
                                         FeedbackQuestionAttributes question) {
-        if (!isResponseValid(response, question)) {
-            return "Invalid Response";
-        }
         return response.getResponseDetails().getAnswerHtml(response, question, this);
     }
 
     public String getResponseAnswerCsv(FeedbackResponseAttributes response,
                                        FeedbackQuestionAttributes question) { 
-        if (!isResponseValid(response, question)) {
-            return "Invalid Response";
-        }
         return response.getResponseDetails().getAnswerCsv(response, question, this);
     }
 
