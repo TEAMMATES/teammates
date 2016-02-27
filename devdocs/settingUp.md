@@ -21,7 +21,6 @@ Important: When a version is specified, please install that version instead of t
    and point it to where you extracted the SDK zip file. <br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
-9. (Optional) Install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
 
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
@@ -210,7 +209,13 @@ TBD
     deployed app and not the dev server).
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
 
-4. (Optional) After installing Google Cloud SDK and deploying to your staging server, run `gcloud auth login` in the terminal of your PC and choose your google account for authentication.
+
+##Run client scripts
+Client scripts are scripts that help us remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
+1. Download and install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
+2. Run `gcloud auth login` in the terminal of your PC and choose your google account for authentication.
+3. Now you can run your script without getting exceptions.
+
 
 ##Troubleshooting
 Troubleshooting instructions are given [in this document](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
