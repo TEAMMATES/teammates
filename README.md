@@ -48,6 +48,7 @@ Here are some documents important for TEAMMATES developers:
     [Coding](https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true), 
     [Testing](https://docs.google.com/document/d/1aK-1ubIA59fbNsEujwvWKqx7itwLPTD6mzFo4F_oEoI/pub?embedded=true)
   * [**Version History**](https://github.com/TEAMMATES/repo/milestones?direction=desc&sort=due_date&state=closed)
+  * [**Project stats**](https://www.openhub.net/p/teammatesonline)
   
    
   * **Technical reports** about TEAMMATES : In-depth descriptions about various aspects of the project
