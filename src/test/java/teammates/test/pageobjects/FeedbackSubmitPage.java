@@ -33,10 +33,10 @@ public class FeedbackSubmitPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    @SuppressWarnings("deprecation")
     public void selectRecipient(int qnNumber, int responseNumber, String recipientName) {
-        browser.selenium.select("name=" + Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + 
-                "-" + qnNumber + "-" + responseNumber, "label=" + recipientName);
+        Select selectElement = new Select(browser.driver.findElement(
+                By.name(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber)));
+        selectElement.selectByVisibleText(recipientName);
     }
     
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {

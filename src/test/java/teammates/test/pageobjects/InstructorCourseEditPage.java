@@ -21,9 +21,6 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instrEditLink1")
     private WebElement editInstructorLink;
     
-    @FindBy(id = "instrDeleteLink1")
-    private WebElement deleteInstructorLink;
-    
     @FindBy(id = "instrRemindLink4")
     private WebElement inviteInstructorLink;
 
@@ -315,12 +312,22 @@ public class InstructorCourseEditPage extends AppPage {
         clickAndCancel(deleteCourseLink);
     }
     
-    public void clickDeleteInstructorLinkAndConfirm() {
+    /**
+     * Click the delete instructor button at position {@code instrNum} and click "Yes" in the follow up dialog
+     * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
+     */
+    public void clickDeleteInstructorLinkAndConfirm(int instrNum) { 
+        WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
         clickAndConfirm(deleteInstructorLink);
         waitForPageToLoad();
     }
     
-    public void clickDeleteInstructorLinkAndCancel() {
+    /**
+     * Click the delete instructor button at position {@code instrNum} and click "No" in the follow up dialog
+     * @param instrNum is the position of the instructor (e.g. 1, 2, 3, ...)
+     */
+    public void clickDeleteInstructorLinkAndCancel(int instrNum) {
+        WebElement deleteInstructorLink = browser.driver.findElement(By.id("instrDeleteLink" + instrNum));
         clickAndCancel(deleteInstructorLink);
     }
     

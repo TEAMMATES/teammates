@@ -138,22 +138,41 @@ var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
 $(document).on('ajaxComplete ready', function() {
-    $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
+    /**
+     * Initializing then disabling is better than simply
+     * not initializing for mobile due to some tooltips-specific
+     * code that throws errors.
+    */
+    var $tooltips = $('[data-toggle="tooltip"]');
+    $tooltips.tooltip({html: true, container: 'body'});
+    if (isTouchDevice()) {
+        $tooltips.tooltip('disable');
+    }
 });
+
+/**
+ * Checks if the current device is touch based device
+ * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
+ */
+function isTouchDevice() {
+    return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
+}
 
 /**
  * Sorts a table
  * @param divElement
  *     The sort button
- * @param colIdx
- *     The column index (1-based) as key for the sort
- * @param row
- *     Row to start sorting from.
- *     The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
+ * @param comparator
+ *     The function to compare 2 elements
  */
-function toggleSort(divElement, colIdx, comparator, row) {
-    row = row || 1;
-    
+function toggleSort(divElement, comparator) {
+
+    // The column index (1-based) as key for the sort
+    var colIdx = $(divElement).parent().children().index($(divElement)) + 1;
+
+    // Row to start sorting from (0-based), set to 1 since <th> occupies the first row
+    var row = 1;
+
     var $selectedDivElement = $(divElement);
     
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
@@ -531,9 +550,9 @@ function setStatusMessage(message, error) {
     $(DIV_STATUS_MESSAGE).show();
     
     if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-danger');
+        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-danger');
     } else {
-        $(DIV_STATUS_MESSAGE).attr('class', 'alert alert-warning');
+        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-warning');
     }
     
     scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
@@ -723,6 +742,20 @@ function sanitizeForJs(string) {
     return string;
 }
 
+
+/**
+ * Highlights all words of searchKey (case insensitive), in a particular section
+ * Format of the string  higlight plugin uses - ( ['string1','string2',...] )
+ * @param searchKeyId - Id of searchKey input field 
+ * @param sectionToHighlight - sections to higlight separated by ',' (comma) 
+ *                             Example- '.panel-body, #panel-data, .sub-container'
+ */
+function highlightSearchResult(searchKeyId, sectionToHighlight) {
+    var searchKey = $(searchKeyId).val();
+    var splitSearchKey = searchKey.split(' ');
+    $(sectionToHighlight).highlight(splitSearchKey);
+}
+
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
  * the function.
@@ -732,4 +765,17 @@ if (!String.prototype.includes) {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
     }
+}
+
+/**
+ * Checks if the input value is a blank string
+ * 
+ * @param str
+ * @returns true if the input is a blank string, false otherwise
+ */
+function isBlank(str) {
+    if (typeof str !== 'string' && !(str instanceof String)) {
+        return false;
+    }
+    return str.trim() === '';
 }

@@ -26,7 +26,7 @@
          </div>
       </div>
       <br/>
-      <div class="alert alert-success" id="statusMessage">
+      <div class="overflow-auto alert alert-success" id="statusMessage">
          The course CHomeUiT.CS2104 has been deleted.
       </div>
       <script src="/js/statusMessage.js" type="text/javascript">
@@ -62,30 +62,32 @@
          </div>
       </div>
       <div class="row">
-         <div class="col-md-2 pull-left">
-            <a class="btn btn-primary btn-md pull-left" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">
+         <div class="col-xs-2">
+            <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">
                Add New Course
             </a>
          </div>
-         <div class="col-md-5 pull-right">
-            <h5 class="pull-left">
-               <strong>
-                  Sort By:
-               </strong>
-            </h5>
-            <div class="btn-group pull-right" data-toggle="buttons">
-               <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
-                  <input type="radio"/>
-                  Course ID
-               </label>
-               <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
-                  <input name="sortby" type="radio" value="name"/>
-                  Course Name
-               </label>
-               <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
-                  <input type="radio"/>
-                  Creation Date
-               </label>
+         <div class="col-xs-10">
+            <div class="pull-right">
+               <h5 class="inline-block">
+                  <strong>
+                     Sort By:
+                  </strong>
+               </h5>
+               <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
+                     <input type="radio"/>
+                     Course ID
+                  </label>
+                  <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
+                     <input name="sortby" type="radio" value="name"/>
+                     Course Name
+                  </label>
+                  <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
+                     <input type="radio"/>
+                     Creation Date
+                  </label>
+               </div>
             </div>
          </div>
       </div>

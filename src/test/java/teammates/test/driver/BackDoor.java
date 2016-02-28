@@ -543,7 +543,14 @@ public class BackDoor {
         String status = makePOSTRequest(params);
         return status;
     }
-    
+
+    public static String deleteFeedbackQuestion(String questionId) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_QUESTION);
+        params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+
     @SuppressWarnings("unused")
     private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
     }

@@ -13,7 +13,6 @@ import teammates.common.util.TimeHelper;
 
 public class AdminEmailLogPageData extends PageData {
 
-    private String offset;
     private String filterQuery;
     private String queryMessage;
     private List<EmailLogEntry> logs;
@@ -23,19 +22,13 @@ public class AdminEmailLogPageData extends PageData {
     private String statusForAjax;
     private QueryParameters q;
 
-    public AdminEmailLogPageData(AccountAttributes account, String offset, 
-                                     String filterQuery, boolean shouldShowAll) {
+    public AdminEmailLogPageData(AccountAttributes account, String filterQuery, boolean shouldShowAll) {
         super(account);
-        this.offset = offset;
         this.filterQuery = filterQuery;
         this.shouldShowAll = shouldShowAll;
     }
     
     /************* Getter methods *************/
-    
-    public String getOffset() {
-        return offset;
-    }
     
     public String getFilterQuery() {
         return filterQuery;
@@ -62,10 +55,6 @@ public class AdminEmailLogPageData extends PageData {
     }
     
     /************* Setter methods *************/
-    
-    public void setOffset(String offset) {
-        this.offset = offset;
-    }
     
     public void setFilterQuery(String filterQuery) {
         this.filterQuery = filterQuery;

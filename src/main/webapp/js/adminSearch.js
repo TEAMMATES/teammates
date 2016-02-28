@@ -1,6 +1,12 @@
 $(document).ready(function() {
     $(".fslink").hide();
 
+    /* Formatting searchKey for highlight searchKey plugin ( ['string1','string2',...] )*/
+    var searchKey = $('#filterQuery').val();
+    var splittedSearchKey = searchKey.split(" ");
+    $(".instructorRow").highlight(splittedSearchKey);
+    $(".studentRow").highlight(splittedSearchKey);
+
 	$("#rebuildButton").click(function() {
 
 		$(this).val("true");
