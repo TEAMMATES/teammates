@@ -192,7 +192,7 @@ Role: committer
     * Change the pull request status to `s.Ongoing`
     * Add a comment to mention the test failure.
 
-###Assigning lablels, reviewers, and milestones
+###Assigning labels, reviewers, and milestones
 Roles: PM (Project Manager) + RL (Release Lead)
 
 PM: Assign priority label and any other missing labels to incoming issues.
@@ -221,11 +221,13 @@ RL:
     * Get dev green for `master`.
     * Merge to `release` branch, tag (Format `V{major}.{minor}.{patch}` e.g. `V5.01.02`.)
     * Inform PM the next version is ready for deployment.
-    * Ensure all issues and PRs included in the release are tagged with the correct milestone.
+    * Ensure all issues and PRs included in the release are tagged with the 
+      correct milestone and the correct assignee.
     * Extend the milestone of issues that slipped the current milestone and post
       a comment asking to finish by next milestone. If an issue is not making
       progress, close the PR and un-assign the issue.
     * Add/revise `e.` labels for the issues/PRs in the release.
+    * Ensure all branches merged in the milestone have been deleted.
     * Announce the release on slack and issue tracker.
     * Update `about.html` with names of new contributors, if any. Alternatively,
       create an issue to update `about.html`.
@@ -272,7 +274,7 @@ The meaning of label group prefixes:
     * `s.MergeApproved` : PM has approved the merge. PR ready to be merged.
     * `s.OnHold` : The work on the PR has been put on hold pending some other event.
 * Closed issue/PR
-    * No status label
+    * `s.Discarded` : The PR was abandoned. 
 
 **Priority/Urgency**
 
