@@ -266,24 +266,6 @@
             "sentOpenEmail":true,
             "sentPublishedEmail":true
         },
-        "Session with invalid responses":{
-            "feedbackSessionName":"Fifth Session",
-            "courseId":"CFResultsUiT.CS2104",
-            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
-            "instructions":{
-                "value":"This session has invalid responses"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":20,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":true,
-            "sentPublishedEmail":true
-        },
         "Session with sanitized data":{
             "feedbackSessionName":"Sanitized Session",
             "courseId":"CFResultsUiT.SanitizedTeam",
@@ -293,6 +275,24 @@
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-02 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":20,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
+        },
+        "Session with invalid responses":{
+            "feedbackSessionName":"Fifth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "instructions":{
+                "value":"This session has invalid responses"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
             "endTime":"2016-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
             "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
@@ -921,6 +921,30 @@
                 "INSTRUCTORS"
             ]
         },
+        "qn1InSession5":{
+            "feedbackSessionName":"Fifth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"As a team, what do you think could have been done differently?"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
         "qn2InSession5":{
             "feedbackSessionName":"Fifth Session",
             "courseId":"CFResultsUiT.CS2104",
@@ -931,11 +955,11 @@
                       \"questionType\": \"RANK_OPTIONS\", 
                       \"questionText\": \"As an instructor, rank for the teams you are mentoring, their areas of their reports that were good. \"
                   }"},
-      "questionNumber":2,
-      "questionType":"RANK_OPTIONS",
-      "giverType":"INSTRUCTORS",
-      "recipientType":"TEAMS",
-      "numberOfEntitiesToGiveFeedbackTo":2,
+            "questionNumber":2,
+            "questionType":"RANK_OPTIONS",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":2,
             "showResponsesTo":[
                 "RECEIVER",
                 "STUDENTS",
@@ -958,11 +982,11 @@
                          \"questionType\": \"RANK_RECIPIENTS\",
                          \"questionText\": \"As a team, rank the instructors\"
                          }"},
-        "questionNumber":3,
-        "questionType":"RANK_RECIPIENTS",
-        "giverType":"TEAMS",
-        "recipientType":"INSTRUCTORS",
-        "numberOfEntitiesToGiveFeedbackTo":-100,
+            "questionNumber":3,
+            "questionType":"RANK_RECIPIENTS",
+            "giverType":"TEAMS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
             "showResponsesTo":[
                 "RECEIVER",
                 "STUDENTS",
@@ -1651,6 +1675,20 @@
             "giverSection":"Section A",
             "recipientSection":"Section A"
         },
+        "response1 Of Session 5":{
+            "feedbackSessionName":"Fifth Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.danny.e@gmail.tmt",
+            "recipientEmail":"Team 2",
+            "responseMetaData":{
+                "value":"Danny's answer for team 2"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"None"
+        },
+
         "response2 Of Session 5":{
             "feedbackSessionName":"Fifth Session",
             "courseId":"CFResultsUiT.CS2104",
@@ -2068,6 +2106,5 @@
             "giverSection":"None",
             "recipientSection":"None"
         }
-
     }
 }

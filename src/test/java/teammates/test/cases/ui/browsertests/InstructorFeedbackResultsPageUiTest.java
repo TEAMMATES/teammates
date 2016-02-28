@@ -106,7 +106,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public void testResponseValidity() throws Exception {
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with invalid responses");
-        resultsPage.waitForPanelsToCollapse();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtml("/instructorFeedbackResultsPageInvalidResponse.html");
     }
     

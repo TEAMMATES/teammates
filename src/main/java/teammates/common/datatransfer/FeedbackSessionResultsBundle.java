@@ -143,21 +143,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                     FeedbackQuestionAttributes question) {
         if (!response.isValid()) {
             errorMessage = Const.INVALID_RESPONSE_ATTRIBUTES;
-        } else if (!question.isValid()) {
-            errorMessage = Const.INVALID_QUESTION_ATTRIBUTES;
-        } else if (!isQuestionDetailValid(question)) {
-            errorMessage = Const.INVALID_QUESTION_DETAILS;
         }
-        return response.isValid() && question.isValid() && isQuestionDetailValid(question) && isResponseGiverAndReceiverValid(response, question);
-    }
-    
-    private boolean isQuestionDetailValid(FeedbackQuestionAttributes question) {
-        FeedbackQuestionDetails questionDetail;
-        List<String> errors = new ArrayList<String>();
-        if ((questionDetail = question.getQuestionDetails()) != null) {    
-            errors.addAll(questionDetail.validateQuestionDetails());
-        }
-        return errors.isEmpty();
+        return response.isValid() && isResponseGiverAndReceiverValid(response, question);
     }
     
     public boolean isResponseGiverAndReceiverValid(FeedbackResponseAttributes response,
@@ -291,9 +278,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 break;
             case SELF:
-                if (!response.recipientEmail.equals(response.giverEmail)) {
-                    errorMessage = Const.INVALID_RECIPIENT_NOT_SELF;
-                    return false;
+                if (!isGiverVisible(response)) {
+                    if (!response.giverEmail.contains("Anonymous student")) {
+                        errorMessage = Const.INVALID_GIVER_NOT_AN_ANONYMOUS_STUDENT;
+                        return false;
+                    }
+                } else {
+                    if (!response.recipientEmail.equals(response.giverEmail)) {
+                        errorMessage = Const.INVALID_RECIPIENT_NOT_SELF;
+                        return false;
+                    }
                 }
                 break;
             case INSTRUCTORS:
@@ -335,10 +329,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                         errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
                         return false;
                     }
-                    if (!giverTeamName.equals(recipientTeamName)) {
-                        errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
-                        return false;
-                    }
+//                    if (!giverTeamName.equals(recipientTeamName)) {
+//                        errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
+//                        return false;
+//                    }
                     if(response.giverEmail.equals(response.recipientEmail)){
                         errorMessage = Const.INVALID_RECIPIENT_SELF;
                         return false;
