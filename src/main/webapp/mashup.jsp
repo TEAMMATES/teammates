@@ -328,13 +328,13 @@
                 $('#instructorEnrollPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #mainContent');
                 $('#instructorCourseDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #mainContent');
                 $('#instructorStudentListPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #mainContent');
-                $('#instructorCourseStudentDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #mainContent');
-                $('#instructorCourseStudentEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #mainContent');
-                $('#instructorStudentRecordsPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #mainContent');
+                $('#instructorCourseStudentDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.tmt #mainContent');
+                $('#instructorCourseStudentEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #mainContent');
+                $('#instructorStudentRecordsPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #mainContent');
                 $('#instructorFeedbackPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #mainContent');
                 $('#instructorFeedbackEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
-                $('#instructorFeedbackPreviewAsStudentPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #mainContent');
-                $('#instructorFeedbackPreviewAsInstructorPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #mainContent');
+                $('#instructorFeedbackPreviewAsStudentPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.tmt #mainContent');
+                $('#instructorFeedbackPreviewAsInstructorPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.tmt #mainContent');
                 $('#instructorFeedbackSubmitPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
                 <%
                     String instrQuestionId = null;
@@ -355,7 +355,7 @@
                 $('#studentHomePage').load('<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #mainContent');
                 $('#studentProfilePage').load('<%=Const.ActionURIs.STUDENT_PROFILE_PAGE%>?user=alice.b.tmms #mainContent');
                 <%
-                    StudentAttributes student = new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com");
+                    StudentAttributes student = new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.tmt");
                     if (student != null) {
                         String url = StringHelper.encrypt(student.key);
                 %>
