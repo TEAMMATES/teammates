@@ -1,10 +1,12 @@
 package teammates.test.cases.storage;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -31,7 +33,74 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
     }
+    
+    @Test
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
+        fqDb.createEntity(fq);
+        verifyPresentInDatastore(fq, true);
+        
+        fq.setCreated_NonProduction(null);
+        fq.setUpdatedAt_NonProduction(null);
+        
+        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        
+        ______TS("success : defaultTimeStamp for createdAt date");
 
+        assertEquals(defaultTimeStamp, fq.getCreatedAt());
+
+        ______TS("success : defaultTimeStamp for updatedAt date");
+
+        assertEquals(defaultTimeStamp, fq.getUpdatedAt());
+        
+        fqDb.deleteEntity(fq);
+    }
+
+    @Test
+    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
+        ______TS("success : created");
+
+        FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
+        fqDb.createEntity(fq);
+        verifyPresentInDatastore(fq, true);
+        
+        String feedbackSessionName = fq.feedbackSessionName;
+        String courseId = fq.courseId;
+        int questionNumber = fq.questionNumber;
+        
+        FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
+     
+        // Assert dates are now.
+        AssertHelper.assertDateIsNow(feedbackQuestion.getCreatedAt());
+        AssertHelper.assertDateIsNow(feedbackQuestion.getUpdatedAt());
+        
+        ______TS("success : update lastUpdated");
+        
+        int newQuestionNumber = questionNumber + 1;
+        feedbackQuestion.questionNumber = newQuestionNumber;
+        fqDb.updateFeedbackQuestion(feedbackQuestion);
+        
+        FeedbackQuestionAttributes updatedFq = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, newQuestionNumber);
+        
+        // Assert lastUpdate has changed, and is now.
+        assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
+        AssertHelper.assertDateIsNow(updatedFq.getUpdatedAt());
+        
+        ______TS("success : keep lastUpdated");
+        
+        int newQuestionNumberTwo = newQuestionNumber + 1;
+
+        feedbackQuestion.questionNumber = newQuestionNumberTwo;
+        fqDb.updateFeedbackQuestion(feedbackQuestion, true);
+
+        FeedbackQuestionAttributes updatedFq2 = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, newQuestionNumberTwo);
+        
+        // Assert lastUpdate has NOT changed.
+        assertTrue(updatedFq.getUpdatedAt().equals(updatedFq2.getUpdatedAt()));
+       
+        fqDb.deleteEntity(updatedFq2);
+    }
+      
     @Test
     public void testCreateDeleteFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
 
