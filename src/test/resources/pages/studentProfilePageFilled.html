@@ -1,210 +1,210 @@
-   <div class="container" id="mainContent">
-      <div id="topOfPage">
-      </div>
-      <h1>
-         Student Profile
-      </h1>
-      <br>
-      <div class="overflow-auto alert alert-success" id="statusMessage">
-         Your profile picture has been saved successfully
-      </div>
-      <script src="/js/statusMessage.js" type="text/javascript">
-      </script>
-      <br>
-      <div aria-hidden="false" aria-labelledby="myModalLabel" class="modal fade in" id="studentPhotoUploader" role="dialog" style="display: block;">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                     ×
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Student Profile
+  </h1>
+  <br>
+  <div class="overflow-auto alert alert-success" id="statusMessage">
+    Your profile picture has been saved successfully
+  </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
+  <br>
+  <div aria-hidden="false" aria-labelledby="myModalLabel" class="modal fade in" id="studentPhotoUploader" role="dialog" style="display: block;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+            ×
+          </button>
+          <h4 class="modal-title">
+            Upload/Edit Photo
+          </h4>
+        </div>
+        <div class="modal-body center-block align-center">
+          <br>
+          <div class="row">
+            <div class="col-xs-4 profile-pic-edit-col">
+              <div class="center-block align-center">
+                <form id="profilePictureUploadForm" method="post">
+                  <span class="btn btn-primary profile-pic-file-selector">
+                    Browse...
+                    <input id="studentPhoto" name="studentprofilephoto" type="file">
+                  </span>
+                  <input class="filename-preview" disabled="disabled" type="text" value="No File Selected">
+                  <p class="help-block align-left">
+                    Max Size: 5 MB
+                  </p>
+                  <button class="btn btn-primary width-100-pc" disabled="disabled" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
+                    Upload Picture
                   </button>
-                  <h4 class="modal-title">
-                     Upload/Edit Photo
-                  </h4>
-               </div>
-               <div class="modal-body center-block align-center">
-                  <br>
-                  <div class="row">
-                     <div class="col-xs-4 profile-pic-edit-col">
-                        <div class="center-block align-center">
-                           <form id="profilePictureUploadForm" method="post">
-                              <span class="btn btn-primary profile-pic-file-selector">
-                                 Browse...
-                                 <input id="studentPhoto" name="studentprofilephoto" type="file">
-                              </span>
-                              <input class="filename-preview" disabled="disabled" type="text" value="No File Selected">
-                              <p class="help-block align-left">
-                                 Max Size: 5 MB
-                              </p>
-                              <button class="btn btn-primary width-100-pc" disabled="disabled" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
-                                 Upload Picture
-                              </button>
-                              <input name="user" type="hidden" value="${test.student2}">
-                           </form>
-                        </div>
-                     </div>
-                     <div class="col-xs-8 profile-pic-edit-col border-left-gray">
-                        <div class="profile-pic-edit">
-                           <div class="alert alert-info">
-                              Zoom, pan and rotate to crop your image to the desired area.
-                           </div>
-                           <button class="btn btn-primary" id="profilePicEditPanUp" type="button">
-                              <span class="glyphicon glyphicon-arrow-up">
-                              </span>
-                           </button>
-                           <div class="profile-pic-edit-container row">
-                              <div class="col-xs-2">
-                                 <button class="btn btn-primary" id="profilePicEditPanLeft" type="button">
-                                    <span class="glyphicon glyphicon-arrow-left">
-                                    </span>
-                                 </button>
-                              </div>
-                              <div class="col-xs-8">
-                                 <div class="guillotine-window" style="width: 100%; height: auto; padding-top: 100%;">
-                                    <div class="guillotine-canvas" style="width: 100%; height: 100%; top: 0%; left: 0%;">
-                                       <img id="editableProfilePicture" src="/page/studentProfilePic?blob-key=${blobkey}&user=${test.student2}" style="perspective: 1000px; backface-visibility: hidden;">
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-xs-2">
-                                 <button class="btn btn-primary" id="profilePicEditPanRight" type="button">
-                                    <span class="glyphicon glyphicon-arrow-right">
-                                    </span>
-                                 </button>
-                              </div>
-                           </div>
-                           <button class="btn btn-primary" id="profilePicEditPanDown" type="button">
-                              <span class="glyphicon glyphicon-arrow-down">
-                              </span>
-                           </button>
-                           <div class="profile-pic-edit-toolbar">
-                              <button class="btn btn-primary" id="profilePicEditRotateLeft" type="button">
-                                 <span class="glyphicon glyphicon-repeat glyphicon-flipped">
-                                 </span>
-                              </button>
-                              <button class="btn btn-primary" id="profilePicEditZoomIn" type="button">
-                                 <span class="glyphicon glyphicon-zoom-in">
-                                 </span>
-                              </button>
-                              <button class="btn btn-primary" id="profilePicEditZoomOut" type="button">
-                                 <span class="glyphicon glyphicon-zoom-out">
-                                 </span>
-                              </button>
-                              <button class="btn btn-primary" id="profilePicEditRotateRight" type="button">
-                                 <span class="glyphicon glyphicon-repeat">
-                                 </span>
-                              </button>
-                           </div>
-                           <label for="editableProfilePicture">
-                              Your Photo
-                           </label>
-                           <br>
-                        </div>
-                        <form action="/page/studentProfilePictureEdit" id="profilePictureEditForm" method="post">
-                           <input id="pictureHeight" name="pictureheight" type="hidden" value="295">
-                           <input id="pictureWidth" name="picturewidth" type="hidden" value="295">
-                           <input id="cropBoxLeftX" name="cropboxleftx" type="hidden" value="">
-                           <input id="cropBoxTopY" name="cropboxtopy" type="hidden" value="">
-                           <input id="cropBoxRightX" name="cropboxrightx" type="hidden" value="">
-                           <input id="cropBoxBottomY" name="cropboxbottomy" type="hidden" value="">
-                           <input id="rotate" name="picturerotate" type="hidden" value="">
-                           <input id="blobKey" name="blob-key" type="hidden" value="${blobkey}">
-                           <input name="user" type="hidden" value="${test.student2}">
-                           <button class="btn btn-primary" id="profileEditPictureSubmit" onclick="finaliseEditPictureForm()" type="button">
-                              Save Edited Photo
-                           </button>
-                        </form>
-                     </div>
+                  <input name="user" type="hidden" value="${test.student2}">
+                </form>
+              </div>
+            </div>
+            <div class="col-xs-8 profile-pic-edit-col border-left-gray">
+              <div class="profile-pic-edit">
+                <div class="alert alert-info">
+                  Zoom, pan and rotate to crop your image to the desired area.
+                </div>
+                <button class="btn btn-primary" id="profilePicEditPanUp" type="button">
+                  <span class="glyphicon glyphicon-arrow-up">
+                  </span>
+                </button>
+                <div class="profile-pic-edit-container row">
+                  <div class="col-xs-2">
+                    <button class="btn btn-primary" id="profilePicEditPanLeft" type="button">
+                      <span class="glyphicon glyphicon-arrow-left">
+                      </span>
+                    </button>
                   </div>
-               </div>
-               <div class="modal-footer">
-               </div>
+                  <div class="col-xs-8">
+                    <div class="guillotine-window" style="width: 100%; height: auto; padding-top: 100%;">
+                      <div class="guillotine-canvas" style="width: 100%; height: 100%; top: 0%; left: 0%;">
+                        <img id="editableProfilePicture" src="/page/studentProfilePic?blob-key=${blobkey}&user=${test.student2}" style="perspective: 1000px; backface-visibility: hidden;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-2">
+                    <button class="btn btn-primary" id="profilePicEditPanRight" type="button">
+                      <span class="glyphicon glyphicon-arrow-right">
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <button class="btn btn-primary" id="profilePicEditPanDown" type="button">
+                  <span class="glyphicon glyphicon-arrow-down">
+                  </span>
+                </button>
+                <div class="profile-pic-edit-toolbar">
+                  <button class="btn btn-primary" id="profilePicEditRotateLeft" type="button">
+                    <span class="glyphicon glyphicon-repeat glyphicon-flipped">
+                    </span>
+                  </button>
+                  <button class="btn btn-primary" id="profilePicEditZoomIn" type="button">
+                    <span class="glyphicon glyphicon-zoom-in">
+                    </span>
+                  </button>
+                  <button class="btn btn-primary" id="profilePicEditZoomOut" type="button">
+                    <span class="glyphicon glyphicon-zoom-out">
+                    </span>
+                  </button>
+                  <button class="btn btn-primary" id="profilePicEditRotateRight" type="button">
+                    <span class="glyphicon glyphicon-repeat">
+                    </span>
+                  </button>
+                </div>
+                <label for="editableProfilePicture">
+                  Your Photo
+                </label>
+                <br>
+              </div>
+              <form action="/page/studentProfilePictureEdit" id="profilePictureEditForm" method="post">
+                <input id="pictureHeight" name="pictureheight" type="hidden" value="295">
+                <input id="pictureWidth" name="picturewidth" type="hidden" value="295">
+                <input id="cropBoxLeftX" name="cropboxleftx" type="hidden" value="">
+                <input id="cropBoxTopY" name="cropboxtopy" type="hidden" value="">
+                <input id="cropBoxRightX" name="cropboxrightx" type="hidden" value="">
+                <input id="cropBoxBottomY" name="cropboxbottomy" type="hidden" value="">
+                <input id="rotate" name="picturerotate" type="hidden" value="">
+                <input id="blobKey" name="blob-key" type="hidden" value="${blobkey}">
+                <input name="user" type="hidden" value="${test.student2}">
+                <button class="btn btn-primary" id="profileEditPictureSubmit" onclick="finaliseEditPictureForm()" type="button">
+                  Save Edited Photo
+                </button>
+              </form>
             </div>
-         </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
       </div>
-      <div class="well well-plain well-narrow well-sm-wide" id="editProfileDiv">
-         <h3 id="studentName">
-            <strong>
-               Benny C
-            </strong>
-         </h3>
-         <br>
-         <div class="form-group row">
-            <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
-               <img class="profile-pic" data-edit="true" data-target="#studentPhotoUploader" data-toggle="modal" id="profilePic" src="/page/studentProfilePic?blob-key=${blobkey}&user=${test.student2}">
-            </div>
-            <div class="">
-               <button class="btn btn-primary" data-target="#studentPhotoUploader" data-toggle="modal" id="uploadEditPhoto" type="button">
-                  Upload/Edit Photo
-               </button>
-            </div>
-         </div>
-         <form action="/page/studentProfileEditSave" class="form center-block" method="post" role="form">
-            <div class="form-group" data-original-title="This is the name you prefer to be called by" data-placement="top" data-toggle="tooltip" title="">
-               <label for="studentNickname">
-                  The name you prefer to be called by Instructors
-               </label>
-               <input class="form-control" data-actual-value="Ben" id="studentShortname" name="studentshortname" placeholder="How the instructor should call you" type="text" value="Ben">
-            </div>
-            <div class="form-group" data-original-title="This is a long term contact email" data-placement="top" data-toggle="tooltip" title="">
-               <label for="studentEmail">
-                  Long term contact email
-                  <em class="font-weight-normal emphasis text-muted small">
-                     - only visible to your instructors
-                  </em>
-               </label>
-               <input class="form-control" data-actual-value="i.m.benny@gmail.tmt" id="studentEmail" name="studentprofileemail" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email" value="i.m.benny@gmail.tmt">
-            </div>
-            <div class="form-group" data-original-title="This is the institution that you represent" data-placement="top" data-toggle="tooltip" title="">
-               <label for="studentInstitution">
-                  Institution
-               </label>
-               <input class="form-control" data-actual-value="TEAMMATES Test Institute 4" id="studentInstitution" name="studentprofileinstitute" placeholder="Your Institution" type="text" value="TEAMMATES Test Institute 4">
-            </div>
-            <div class="form-group" data-original-title="This is your nationality" data-placement="top" data-toggle="tooltip" title="">
-               <label for="studentNationality">
-                  Nationality
-               </label>
-               <input class="form-control" data-actual-value="Singapore" id="studentNationality" name="studentnationality" placeholder="Nationality" type="text" value="Singapore">
-            </div>
-            <div class="form-group">
-               <label for="studentGender">
-                  Gender
-               </label>
-               <div id="studentGender">
-                  <label class="radio-inline" for="genderMale">
-                     <input checked="checked" class="radio" id="genderMale" name="studentgender" type="radio" value="male">
-                     Male
-                  </label>
-                  <label class="radio-inline" for="genderFemale">
-                     <input class="radio" id="genderFemale" name="studentgender" type="radio" value="female">
-                     Female
-                  </label>
-                  <label class="radio-inline" for="genderOther">
-                     <input class="radio" id="genderOther" name="studentgender" type="radio" value="other">
-                     Not Specified
-                  </label>
-               </div>
-            </div>
-            <div class="form-group" data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." data-placement="top" data-toggle="tooltip" title="">
-               <label for="studentNationality">
-                  More info about yourself
-               </label>
-               <textarea class="form-control" id="studentMoreInfo" name="studentprofilemoreinfo" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." rows="4">
-                  I am just another student :P
-               </textarea>
-            </div>
-            <br>
-            <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
-               Save Profile
-            </button>
-            <br>
-            <p class="text-muted text-color-disclaimer">
-               <i>
-                  * This profile will be visible to all your Instructors and Coursemates
-               </i>
-            </p>
-            <input name="user" type="hidden" value="${test.student2}">
-         </form>
+    </div>
+  </div>
+  <div class="well well-plain well-narrow well-sm-wide" id="editProfileDiv">
+    <h3 id="studentName">
+      <strong>
+        Benny C
+      </strong>
+    </h3>
+    <br>
+    <div class="form-group row">
+      <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
+        <img class="profile-pic" data-edit="true" data-target="#studentPhotoUploader" data-toggle="modal" id="profilePic" src="/page/studentProfilePic?blob-key=${blobkey}&user=${test.student2}">
       </div>
-   </div>
+      <div class="">
+        <button class="btn btn-primary" data-target="#studentPhotoUploader" data-toggle="modal" id="uploadEditPhoto" type="button">
+          Upload/Edit Photo
+        </button>
+      </div>
+    </div>
+    <form action="/page/studentProfileEditSave" class="form center-block" method="post" role="form">
+      <div class="form-group" data-original-title="This is the name you prefer to be called by" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentNickname">
+          The name you prefer to be called by Instructors
+        </label>
+        <input class="form-control" data-actual-value="Ben" id="studentShortname" name="studentshortname" placeholder="How the instructor should call you" type="text" value="Ben">
+      </div>
+      <div class="form-group" data-original-title="This is a long term contact email" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentEmail">
+          Long term contact email
+          <em class="font-weight-normal emphasis text-muted small">
+            - only visible to your instructors
+          </em>
+        </label>
+        <input class="form-control" data-actual-value="i.m.benny@gmail.tmt" id="studentEmail" name="studentprofileemail" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email" value="i.m.benny@gmail.tmt">
+      </div>
+      <div class="form-group" data-original-title="This is the institution that you represent" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentInstitution">
+          Institution
+        </label>
+        <input class="form-control" data-actual-value="TEAMMATES Test Institute 4" id="studentInstitution" name="studentprofileinstitute" placeholder="Your Institution" type="text" value="TEAMMATES Test Institute 4">
+      </div>
+      <div class="form-group" data-original-title="This is your nationality" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentNationality">
+          Nationality
+        </label>
+        <input class="form-control" data-actual-value="Singapore" id="studentNationality" name="studentnationality" placeholder="Nationality" type="text" value="Singapore">
+      </div>
+      <div class="form-group">
+        <label for="studentGender">
+          Gender
+        </label>
+        <div id="studentGender">
+          <label class="radio-inline" for="genderMale">
+            <input checked="checked" class="radio" id="genderMale" name="studentgender" type="radio" value="male">
+            Male
+          </label>
+          <label class="radio-inline" for="genderFemale">
+            <input class="radio" id="genderFemale" name="studentgender" type="radio" value="female">
+            Female
+          </label>
+          <label class="radio-inline" for="genderOther">
+            <input class="radio" id="genderOther" name="studentgender" type="radio" value="other">
+            Not Specified
+          </label>
+        </div>
+      </div>
+      <div class="form-group" data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentNationality">
+          More info about yourself
+        </label>
+        <textarea class="form-control" id="studentMoreInfo" name="studentprofilemoreinfo" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." rows="4">
+          I am just another student :P
+        </textarea>
+      </div>
+      <br>
+      <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
+        Save Profile
+      </button>
+      <br>
+      <p class="text-muted text-color-disclaimer">
+        <i>
+          * This profile will be visible to all your Instructors and Coursemates
+        </i>
+      </p>
+      <input name="user" type="hidden" value="${test.student2}">
+    </form>
+  </div>
+</div>

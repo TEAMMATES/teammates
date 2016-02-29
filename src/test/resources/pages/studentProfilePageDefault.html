@@ -1,259 +1,259 @@
-   <html>
-      <head>
-         <title>
-            TEAMMATES - Student Profile
-         </title>
-         <link href="/favicon.png" rel="shortcut icon">
-         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-         <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
-         <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-         <script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
-         </script>
-         <script src="/js/googleAnalytics.js" type="text/javascript">
-         </script>
-         <script src="${lib.path}/jquery.min.js" type="text/javascript">
-         </script>
-         <script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
-         </script>
-         <script src="/js/common.js" type="text/javascript">
-         </script>
-         <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript">
-         </script>
-         <link href="/stylesheets/lib/jquery.guillotine.css" rel="stylesheet" type="text/css">
-         <script src="/js/lib/jquery.guillotine.min.js" type="text/javascript">
-         </script>
-         <script src="/js/student.js" type="text/javascript">
-         </script>
-         <script src="/js/studentProfile.js" type="text/javascript">
-         </script>
-      </head>
-      <body>
-         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-               <div class="navbar-header">
-                  <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
-                     <span class="sr-only">
-                        Toggle navigation
-                     </span>
-                     <span class="icon-bar">
-                     </span>
-                     <span class="icon-bar">
-                     </span>
-                     <span class="icon-bar">
-                     </span>
-                  </button>
-                  <a class="navbar-brand" href="/index.html">
-                     TEAMMATES
-                  </a>
-               </div>
-               <div class="collapse navbar-collapse" id="contentLinks">
-                  <ul class="nav navbar-nav">
-                     <li>
-                        <a class="navLinks" href="/page/studentHomePage?user=SHomeUiT.benny.c" id="studentHomeNavLink">
-                           Home
-                        </a>
-                     </li>
-                     <li class="active">
-                        <a class="navLinks" href="/page/studentProfilePage?user=SHomeUiT.benny.c" id="studentProfileNavLink">
-                           Profile
-                        </a>
-                     </li>
-                     <li>
-                        <a class="navLinks" href="/page/studentCommentsPage?user=SHomeUiT.benny.c" id="studentCommentsNavLink">
-                           Comments
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
-                           Help
-                        </a>
-                     </li>
-                  </ul>
-                  <ul class="nav navbar-nav pull-right">
-                     <li>
-                        <a class="nav logout" href="/logout.jsp" id="btnLogout">
-                           Logout (
-                           <span class="text-info" data-original-title="SHomeUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
-                              SHomeUiT.benny.c
-                           </span>
-                           )
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-         <div class="container" id="mainContent">
-            <div id="topOfPage">
-            </div>
-            <h1>
-               Student Profile
-            </h1>
-            <br>
-            <div id="statusMessage" style="display: none;">
-            </div>
-            <br>
-            <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentPhotoUploader" role="dialog">
-               <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                           ×
-                        </button>
-                        <h4 class="modal-title">
-                           Upload/Edit Photo
-                        </h4>
-                     </div>
-                     <div class="modal-body center-block align-center">
-                        <br>
-                        <div class="row">
-                           <div class="col-xs-4 profile-pic-edit-col">
-                              <div class="center-block align-center">
-                                 <form id="profilePictureUploadForm" method="post">
-                                    <span class="btn btn-primary profile-pic-file-selector">
-                                       Browse...
-                                       <input id="studentPhoto" name="studentprofilephoto" type="file">
-                                    </span>
-                                    <input class="filename-preview" disabled="disabled" type="text" value="No File Selected">
-                                    <p class="help-block align-left">
-                                       Max Size: 5 MB
-                                    </p>
-                                    <button class="btn btn-primary width-100-pc" disabled="disabled" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
-                                       Upload Picture
-                                    </button>
-                                    <input name="user" type="hidden" value="SHomeUiT.benny.c">
-                                 </form>
-                              </div>
-                           </div>
-                           <div class="col-xs-8 profile-pic-edit-col border-left-gray">
-                              <div class="alert alert-warning">
-                                 Please upload a photo to start editing.
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="modal-footer">
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="well well-plain well-narrow well-sm-wide" id="editProfileDiv">
-               <h3 id="studentName">
-                  <strong>
-                     Benny Charles
-                  </strong>
-               </h3>
-               <br>
-               <div class="form-group row">
-                  <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
-                     <img class="profile-pic" data-edit="false" data-target="#studentPhotoUploader" data-toggle="modal" id="profilePic" src="/images/profile_picture_default.png">
-                  </div>
-                  <div class="">
-                     <button class="btn btn-primary" data-target="#studentPhotoUploader" data-toggle="modal" id="uploadEditPhoto" type="button">
-                        Upload/Edit Photo
-                     </button>
-                  </div>
-               </div>
-               <form action="/page/studentProfileEditSave" class="form center-block" method="post" role="form">
-                  <div class="form-group" data-original-title="This is the name you prefer to be called by" data-placement="top" data-toggle="tooltip" title="">
-                     <label for="studentNickname">
-                        The name you prefer to be called by Instructors
-                     </label>
-                     <input class="form-control" data-actual-value="" id="studentShortname" name="studentshortname" placeholder="How the instructor should call you" type="text" value="">
-                  </div>
-                  <div class="form-group" data-original-title="This is a long term contact email" data-placement="top" data-toggle="tooltip" title="">
-                     <label for="studentEmail">
-                        Long term contact email
-                        <em class="font-weight-normal emphasis text-muted small">
-                           - only visible to your instructors
-                        </em>
-                     </label>
-                     <input class="form-control" data-actual-value="" id="studentEmail" name="studentprofileemail" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email" value="">
-                  </div>
-                  <div class="form-group" data-original-title="This is the institution that you represent" data-placement="top" data-toggle="tooltip" title="">
-                     <label for="studentInstitution">
-                        Institution
-                     </label>
-                     <input class="form-control" data-actual-value="" id="studentInstitution" name="studentprofileinstitute" placeholder="Your Institution" type="text" value="">
-                  </div>
-                  <div class="form-group" data-original-title="This is your nationality" data-placement="top" data-toggle="tooltip" title="">
-                     <label for="studentNationality">
-                        Nationality
-                     </label>
-                     <input class="form-control" data-actual-value="" id="studentNationality" name="studentnationality" placeholder="Nationality" type="text" value="">
-                  </div>
-                  <div class="form-group">
-                     <label for="studentGender">
-                        Gender
-                     </label>
-                     <div id="studentGender">
-                        <label class="radio-inline" for="genderMale">
-                           <input class="radio" id="genderMale" name="studentgender" type="radio" value="male">
-                           Male
-                        </label>
-                        <label class="radio-inline" for="genderFemale">
-                           <input class="radio" id="genderFemale" name="studentgender" type="radio" value="female">
-                           Female
-                        </label>
-                        <label class="radio-inline" for="genderOther">
-                           <input checked="checked" class="radio" id="genderOther" name="studentgender" type="radio" value="other">
-                           Not Specified
-                        </label>
-                     </div>
-                  </div>
-                  <div class="form-group" data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." data-placement="top" data-toggle="tooltip" title="">
-                     <label for="studentNationality">
-                        More info about yourself
-                     </label>
-                     <textarea class="form-control" id="studentMoreInfo" name="studentprofilemoreinfo" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." rows="4">
-                     </textarea>
-                  </div>
-                  <br>
-                  <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
-                     Save Profile
-                  </button>
-                  <br>
-                  <p class="text-muted text-color-disclaimer">
-                     <i>
-                        * This profile will be visible to all your Instructors and Coursemates
-                     </i>
+<html>
+<head>
+<title>
+  TEAMMATES - Student Profile
+</title>
+<link href="/favicon.png" rel="shortcut icon">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
+<script async="" src="https://ssl.google-analytics.com/ga.js" type="text/javascript">
+</script>
+<script src="/js/googleAnalytics.js" type="text/javascript">
+</script>
+<script src="${lib.path}/jquery.min.js" type="text/javascript">
+</script>
+<script src="${lib.path}/jquery-ui.min.js" type="text/javascript">
+</script>
+<script src="/js/common.js" type="text/javascript">
+</script>
+<script src="/bootstrap/js/bootstrap.min.js" type="text/javascript">
+</script>
+<link href="/stylesheets/lib/jquery.guillotine.css" rel="stylesheet" type="text/css">
+<script src="/js/lib/jquery.guillotine.min.js" type="text/javascript">
+</script>
+<script src="/js/student.js" type="text/javascript">
+</script>
+<script src="/js/studentProfile.js" type="text/javascript">
+</script>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#contentLinks" data-toggle="collapse" type="button">
+        <span class="sr-only">
+          Toggle navigation
+        </span>
+        <span class="icon-bar">
+        </span>
+        <span class="icon-bar">
+        </span>
+        <span class="icon-bar">
+        </span>
+      </button>
+      <a class="navbar-brand" href="/index.html">
+        TEAMMATES
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="contentLinks">
+      <ul class="nav navbar-nav">
+        <li>
+          <a class="navLinks" href="/page/studentHomePage?user=SHomeUiT.benny.c" id="studentHomeNavLink">
+            Home
+          </a>
+        </li>
+        <li class="active">
+          <a class="navLinks" href="/page/studentProfilePage?user=SHomeUiT.benny.c" id="studentProfileNavLink">
+            Profile
+          </a>
+        </li>
+        <li>
+          <a class="navLinks" href="/page/studentCommentsPage?user=SHomeUiT.benny.c" id="studentCommentsNavLink">
+            Comments
+          </a>
+        </li>
+        <li>
+          <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
+            Help
+          </a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li>
+          <a class="nav logout" href="/logout.jsp" id="btnLogout">
+            Logout (
+            <span class="text-info" data-original-title="SHomeUiT.benny.c" data-placement="bottom" data-toggle="tooltip" title="">
+              SHomeUiT.benny.c
+            </span>
+            )
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Student Profile
+  </h1>
+  <br>
+  <div id="statusMessage" style="display: none;">
+  </div>
+  <br>
+  <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentPhotoUploader" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+            ×
+          </button>
+          <h4 class="modal-title">
+            Upload/Edit Photo
+          </h4>
+        </div>
+        <div class="modal-body center-block align-center">
+          <br>
+          <div class="row">
+            <div class="col-xs-4 profile-pic-edit-col">
+              <div class="center-block align-center">
+                <form id="profilePictureUploadForm" method="post">
+                  <span class="btn btn-primary profile-pic-file-selector">
+                    Browse...
+                    <input id="studentPhoto" name="studentprofilephoto" type="file">
+                  </span>
+                  <input class="filename-preview" disabled="disabled" type="text" value="No File Selected">
+                  <p class="help-block align-left">
+                    Max Size: 5 MB
                   </p>
+                  <button class="btn btn-primary width-100-pc" disabled="disabled" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
+                    Upload Picture
+                  </button>
                   <input name="user" type="hidden" value="SHomeUiT.benny.c">
-               </form>
+                </form>
+              </div>
             </div>
-         </div>
-         <div class="container-fluid" id="footerComponent">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-2">
-                     <span>
-                        [
-                        <a href="/index.html">
-                           TEAMMATES
-                        </a>
-                        V${version}]
-                     </span>
-                  </div>
-                  <div class="col-md-8">
-                     [for
-                     <span class="highlight-white">
-                        TEAMMATES Test Institute 1
-                     </span>
-                     ]
-                  </div>
-                  <div class="col-md-2">
-                     <span>
-                        [Send
-                        <a class="link" href="../contact.html" target="_blank">
-                           Feedback
-                        </a>
-                        ]
-                     </span>
-                  </div>
-               </div>
+            <div class="col-xs-8 profile-pic-edit-col border-left-gray">
+              <div class="alert alert-warning">
+                Please upload a photo to start editing.
+              </div>
             </div>
-         </div>
-      </body>
-   </html>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="well well-plain well-narrow well-sm-wide" id="editProfileDiv">
+    <h3 id="studentName">
+      <strong>
+        Benny Charles
+      </strong>
+    </h3>
+    <br>
+    <div class="form-group row">
+      <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture" data-placement="top" data-toggle="tooltip" title="">
+        <img class="profile-pic" data-edit="false" data-target="#studentPhotoUploader" data-toggle="modal" id="profilePic" src="/images/profile_picture_default.png">
+      </div>
+      <div class="">
+        <button class="btn btn-primary" data-target="#studentPhotoUploader" data-toggle="modal" id="uploadEditPhoto" type="button">
+          Upload/Edit Photo
+        </button>
+      </div>
+    </div>
+    <form action="/page/studentProfileEditSave" class="form center-block" method="post" role="form">
+      <div class="form-group" data-original-title="This is the name you prefer to be called by" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentNickname">
+          The name you prefer to be called by Instructors
+        </label>
+        <input class="form-control" data-actual-value="" id="studentShortname" name="studentshortname" placeholder="How the instructor should call you" type="text" value="">
+      </div>
+      <div class="form-group" data-original-title="This is a long term contact email" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentEmail">
+          Long term contact email
+          <em class="font-weight-normal emphasis text-muted small">
+            - only visible to your instructors
+          </em>
+        </label>
+        <input class="form-control" data-actual-value="" id="studentEmail" name="studentprofileemail" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email" value="">
+      </div>
+      <div class="form-group" data-original-title="This is the institution that you represent" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentInstitution">
+          Institution
+        </label>
+        <input class="form-control" data-actual-value="" id="studentInstitution" name="studentprofileinstitute" placeholder="Your Institution" type="text" value="">
+      </div>
+      <div class="form-group" data-original-title="This is your nationality" data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentNationality">
+          Nationality
+        </label>
+        <input class="form-control" data-actual-value="" id="studentNationality" name="studentnationality" placeholder="Nationality" type="text" value="">
+      </div>
+      <div class="form-group">
+        <label for="studentGender">
+          Gender
+        </label>
+        <div id="studentGender">
+          <label class="radio-inline" for="genderMale">
+            <input class="radio" id="genderMale" name="studentgender" type="radio" value="male">
+            Male
+          </label>
+          <label class="radio-inline" for="genderFemale">
+            <input class="radio" id="genderFemale" name="studentgender" type="radio" value="female">
+            Female
+          </label>
+          <label class="radio-inline" for="genderOther">
+            <input checked="checked" class="radio" id="genderOther" name="studentgender" type="radio" value="other">
+            Not Specified
+          </label>
+        </div>
+      </div>
+      <div class="form-group" data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." data-placement="top" data-toggle="tooltip" title="">
+        <label for="studentNationality">
+          More info about yourself
+        </label>
+        <textarea class="form-control" id="studentMoreInfo" name="studentprofilemoreinfo" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." rows="4">
+        </textarea>
+      </div>
+      <br>
+      <button class="btn btn-primary center-block" id="profileEditSubmit" type="submit">
+        Save Profile
+      </button>
+      <br>
+      <p class="text-muted text-color-disclaimer">
+        <i>
+          * This profile will be visible to all your Instructors and Coursemates
+        </i>
+      </p>
+      <input name="user" type="hidden" value="SHomeUiT.benny.c">
+    </form>
+  </div>
+</div>
+<div class="container-fluid" id="footerComponent">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <span>
+          [
+          <a href="/index.html">
+            TEAMMATES
+          </a>
+          V${version}]
+        </span>
+      </div>
+      <div class="col-md-8">
+        [for
+        <span class="highlight-white">
+          TEAMMATES Test Institute 1
+        </span>
+        ]
+      </div>
+      <div class="col-md-2">
+        <span>
+          [Send
+          <a class="link" href="../contact.html" target="_blank">
+            Feedback
+          </a>
+          ]
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
