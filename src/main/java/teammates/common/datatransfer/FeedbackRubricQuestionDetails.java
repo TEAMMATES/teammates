@@ -215,13 +215,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
 
-        for(int i = 0 ; i < numOfRubricChoices ; i++) {
+        for (int i = 0; i < numOfRubricChoices; i++) {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", rubricChoices.get(i));
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i))
+                                                    + " (" + (numOfRubricChoices - i) + ")");
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
@@ -456,10 +457,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
-        for(int i = 0 ; i < numOfRubricChoices ; i++) {
+        for (int i = 0; i < numOfRubricChoices; i++) {
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) 
+                                                    + " (" + (numOfRubricChoices - i) + ")");
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
@@ -469,15 +471,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY;
         DecimalFormat df = new DecimalFormat("#"); 
+        DecimalFormat dfAverage = new DecimalFormat("###.##");
         
-        for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
+        for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
-            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+            for (int i = 0; i < numOfRubricChoices; i++) {
                 String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequency}", df.format(rubricStats[j][i]*100) + "% (" + responseFrequency[j][i] +")");
+                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i]*100) + "%" 
+                                                                   + " (" + responseFrequency[j][i] +")");
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
+
+            String tableAverageCell = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
+                             "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
+            tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
             
             // Get entire row
             String tableRow = 
@@ -515,33 +524,37 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Initialize response frequency variable, used to store frequency each choice is selected.
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
-        // Initialize percentage frequencies
-        float[][] pecentageFrequency = new float[fqd.numOfRubricSubQuestions][];
-        for (int i=0 ; i<pecentageFrequency.length ; i++) {
-            pecentageFrequency[i] = new float[fqd.numOfRubricChoices];
-            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
+        // Initialize percentage frequencies and average value
+        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
+        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
+            //+ 1 is the position for average value
+            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
                 // Initialize to be number of responses
-                pecentageFrequency[i][j] = responseFrequency[i][j];
+                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
             }
+            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
         }
         
         // Calculate percentage frequencies
-        for (int i=0 ; i<pecentageFrequency.length ; i++) {
+        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
             // Count total number of responses for each sub-question
             int totalForSubQuestion = 0;
-            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
                 totalForSubQuestion += responseFrequency[i][j];
             }
             
-            // Divide by totalForSubQuestion to get percentage.
-            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
-                pecentageFrequency[i][j] /= totalForSubQuestion;
+            // Divide by totalForSubQuestion to get percentage and calculate the average value
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
+                percentageFrequencyOrAverage[i][j] /= totalForSubQuestion;
+                float choiceWeight = (fqd.numOfRubricChoices - j) * percentageFrequencyOrAverage[i][j];
+                percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] += choiceWeight;
             }
         }
         
-        return pecentageFrequency;
+        return percentageFrequencyOrAverage;
     }
-
+    
     private int[][] calculateResponseFrequency(
             List<FeedbackResponseAttributes> responses,
             FeedbackRubricQuestionDetails fqd) {
@@ -581,10 +594,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (String choice : rubricChoices) {
             csv.append("," + Sanitizer.sanitizeForCsv(choice));
         }
+        csv.append("," + "Average");
         csv.append(Const.EOL);
 
         // table body
         DecimalFormat df = new DecimalFormat("#");
+        DecimalFormat dfAverage = new DecimalFormat("###.##");
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
         float[][] rubricStats = calculateRubricStats(responses, question);
@@ -596,6 +611,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
             }
+            csv.append("," + dfAverage.format(rubricStats[i][rubricChoices.size()]));
             csv.append(Const.EOL);
         }
 
