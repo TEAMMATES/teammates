@@ -269,34 +269,50 @@
                 <div id="index">
                     <iframe class="full-width" src="../index.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Features Page</div>
                 <div id="features">
                     <iframe class="full-width" src="../features.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">About Us Page</div>
                 <div id="about">
                     <iframe class="full-width" src="../about.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Contact Page</div>
                 <div id="contact">
                     <iframe class="full-width" src="../contact.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Terms Of Use Page</div>
                 <div id="terms">
                     <iframe class="full-width" src="../terms.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Request Account Page</div>
                 <div id="request">
                     <iframe class="full-width" src="../request.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Student Help Page</div>
                 <div id="studentHelp">
                     <iframe class="full-width" src="../studentHelp.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Instructor Help Page</div>
                 <div id="instructorHelp">
                     <iframe class="full-width" src="../instructorHelp.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Deadline Exceeded Error Page</div>
                 <div id="deadlineExceededErrorPage"></div>
                 <br><hr class="hr-bold"><br>
