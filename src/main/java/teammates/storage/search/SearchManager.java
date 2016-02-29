@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
@@ -61,7 +62,7 @@ public class SearchManager {
             //if it's a transient error in the server, it can be re-tried
             if(!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
                 log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
-                        + " e:\n" + e.getStackTrace());
+                        + " e:\n" + TeammatesException.toStringWithStackTrace(e));
             }
             return false;
         }

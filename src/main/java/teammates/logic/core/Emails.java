@@ -638,7 +638,7 @@ public class Emails {
         MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         message.setSubject("Severe Error Logs Compilation");
 
-        String emailBody = logs;
+        String emailBody = logs.replace("\\n","<br>");
 
         message.setContent(emailBody, "text/html");
         return message;
