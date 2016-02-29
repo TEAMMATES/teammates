@@ -6,6 +6,7 @@ import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.listener.StoreCallback;
 
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.util.Const;
@@ -13,7 +14,7 @@ import teammates.common.util.Const;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class FeedbackResponse {
+public class FeedbackResponse implements StoreCallback {
     
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
