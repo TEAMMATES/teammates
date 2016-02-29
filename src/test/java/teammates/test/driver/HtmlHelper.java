@@ -22,7 +22,7 @@ import teammates.common.util.TimeHelper;
 
 public class HtmlHelper {
     
-    private static final String INDENTATION_STEP = "   ";
+    private static final String INDENTATION_STEP = "  ";
     
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
@@ -110,7 +110,7 @@ public class HtmlHelper {
     private static String convertToStandardHtml(String rawHtml, boolean isPart) {
         try {
             Node documentNode = getNodeFromString(rawHtml);
-            String initialIndentation = INDENTATION_STEP; // TODO start from zero indentation
+            String initialIndentation = "";
             return getNodeContent(documentNode, initialIndentation, isPart);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -139,7 +139,9 @@ public class HtmlHelper {
     
     private static String generateNodeTextContent(Node currentNode, String indentation) {
         String text = currentNode.getNodeValue().trim();
-        return text.isEmpty() ? "" : indentation + text + "\n";
+        // line breaks in text are removed as they are ignored in HTML
+        // the lines separated by line break will be joined with a single whitespace character
+        return text.isEmpty() ? "" : indentation + text.replaceAll("[ ]*(\\r?\\n[ ]*)+[ ]*", " ") + "\n";
     }
 
     private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
@@ -181,7 +183,7 @@ public class HtmlHelper {
         }
         
         if (!isVoidElement(currentNodeName)) {
-            String newIndentation = indentation + (shouldIncludeOpeningAndClosingTags ? INDENTATION_STEP : "");
+            String newIndentation = indentation + (shouldIndent(currentNodeName) ? INDENTATION_STEP : "");
             String nodeContent = getNodeContent(currentNode, newIndentation, isPart);
             currentHtmlText.append(nodeContent);
 
@@ -203,6 +205,13 @@ public class HtmlHelper {
         return !(isPart && (currentNodeName.equals("html")
                             || currentNodeName.equals("head")
                             || currentNodeName.equals("body")));
+    }
+    
+    private static boolean shouldIndent(String currentNodeName) {
+        // Indentation is not necessary for top level elements
+        return !(currentNodeName.equals("html")
+                 || currentNodeName.equals("head")
+                 || currentNodeName.equals("body"));
     }
 
     /**
@@ -265,7 +274,7 @@ public class HtmlHelper {
         }
         
         // close the tag
-        openingTag.append(getEndOfOpeningTag(currentNode) + "\n");
+        openingTag.append(">\n");
         return openingTag.toString();
     }
     
@@ -284,16 +293,6 @@ public class HtmlHelper {
         return "</" + currentNodeName + ">\n";
     }
 
-    // TODO remove this method and use > for all cases, as defined in our style guide
-    private static String getEndOfOpeningTag(Node node) {
-        String tagName = node.getNodeName().toLowerCase();
-        if(isVoidElement(tagName)){
-            return "/>";
-        }else {
-            return ">";
-        }
-    }
-    
     private static boolean isVoidElement(String elementName){
         return elementName.equals("br")
                 || elementName.equals("hr")
