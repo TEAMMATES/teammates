@@ -8,6 +8,10 @@ $(function() {
 	
 	// highlight search string 
 	highlightSearchResult('#searchBox', '.panel-body');
+	
+	// collapse and expand of Comments for students tab of instructorCommentsPage
+    var panels = $('div.panel');
+    bindCollapseEvents(panels, 0);
 
 	$("div[id^=plainCommentText]").css("margin-left","15px");
 });
