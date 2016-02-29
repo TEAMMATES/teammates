@@ -6,8 +6,11 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong>Comments in session: ${feedbackSessionRow.feedbackSessionName}</strong>
+        <div class='display-icon pull-right'>
+            <span class="glyphicon ${'glyphicon-chevron-up'} pull-right"></span>
+        </div>
     </div> 
-    <div class="panel-body"> 
+    <div class="panel-collapse collapse in"> 
         <c:forEach items="${feedbackSessionRow.questionTables}" var="feedbackQuestionTable" varStatus="i">
             <comments:feedbackQuestionPanel feedbackQuestionTable="${feedbackQuestionTable}"
              fsIdx="${fsIdx}" qnIdx="${i.index + 1}"/>
