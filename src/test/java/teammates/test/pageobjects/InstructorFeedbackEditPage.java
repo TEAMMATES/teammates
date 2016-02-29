@@ -422,8 +422,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }
     
+    public void clickVisibilityPreviewForQuestion2() {
+        browser.driver.findElement(By.id("visibilityMessageButton-2")).click();
+    }
+    
     public void clickVisibilityOptionsForQuestion1() {
         browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
+    }
+    
+    public void clickVisibilityOptionsForQuestion2() {
+        browser.driver.findElement(By.id("visibilityOptionsLabel-2")).click();
     }
     
     public void clickVisibilityPreviewForNewQuestion() {
@@ -690,6 +698,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void selectRecipientsToBeStudents() {
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
+    }
+    
+    public void selectRecipientsToBeGiverTeamMembersAndGiver() {
+        selectDropdownByVisibleValue(recipientDropdown, "Giver's team members and Giver");
     }
     
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {

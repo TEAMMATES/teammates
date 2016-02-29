@@ -96,7 +96,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testEditQuestionLink();
         testEditQuestionAction();
-        testEditVisibilityAction();
 
         testGetQuestionLink();
         testCopyQuestion();
@@ -283,95 +282,49 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                 .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
-    }
-    
-    private void testEditVisibilityAction() throws Exception {
-
-        ______TS("edit question 1 to Giver's team members and Giver");
-
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        feedbackEditPage.selectGiverTypeForQuestion1("Students in this course");        
-        feedbackEditPage.selectRecipientTypeForQuestion1("Giver's team members and Giver");
+        
+        ______TS("add question 2 and edit it to giver's team members and giver");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.fillQuestionBox("test visibility when choosing giver's team members and giver");
+        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectRecipientsToBeGiverTeamMembersAndGiver();
+        feedbackEditPage.clickMaxNumberOfRecipientsButton();
+        feedbackEditPage.clickAddQuestionButton();
+        
+        ______TS("test visibility options of question 2");
+        feedbackEditPage.clickVisibilityOptionsForQuestion2();
         
         assertTrue("Expected second row of the visibility option table to be recipient(s), but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 2).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 2)
+                   + feedbackEditPage.getVisibilityOptionTableRow(2, 2).getText(),
+                   feedbackEditPage.getVisibilityOptionTableRow(2, 2)
                                    .getText().equals("Recipient(s)"));
         assertTrue("Expected third row of the visibility option table to be giver's team members, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 3).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 3)
+                   + feedbackEditPage.getVisibilityOptionTableRow(2, 3).getText(),
+                   feedbackEditPage.getVisibilityOptionTableRow(2, 3)
                                    .getText().equals("Giver's Team Members"));
         assertTrue("Expected fourth row of the visibility option table to be other students, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 4).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 4)
+                   + feedbackEditPage.getVisibilityOptionTableRow(2, 4).getText(),
+                   feedbackEditPage.getVisibilityOptionTableRow(2, 4)
                                    .getText().equals("Other students"));
         assertTrue("Expected fifth row of the visibility option table to be instructors, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 2).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 5)
+                   + feedbackEditPage.getVisibilityOptionTableRow(2, 2).getText(),
+                   feedbackEditPage.getVisibilityOptionTableRow(2, 5)
                                    .getText().equals("Instructors"));
         
-        ______TS("test visibility options of question 1");
-        feedbackEditPage.clickquestionSaveForQuestion1();
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        
-        assertTrue("Expected second row of the visibility option table to be recipient(s), but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 2).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 2)
-                                   .getText().equals("Recipient(s)"));
-        assertTrue("Expected third row of the visibility option table to be giver's team members, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 3).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 3)
-                                   .getText().equals("Giver's Team Members"));
-        assertTrue("Expected fourth row of the visibility option table to be other students, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 4).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 4)
-                                   .getText().equals("Other students"));
-        assertTrue("Expected fifth row of the visibility option table to be instructors, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(1, 2).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(1, 5)
-                                   .getText().equals("Instructors"));
-        
-        ______TS("test visibility preview of question 1");
-        feedbackEditPage.clickVisibilityPreviewForQuestion1();
-        WebElement visibilityMessage = browser.driver.findElement(By.id("visibilityMessage-1"));
-        feedbackEditPage.waitForElementVisibility(visibilityMessage);
+        ______TS("test visibility preview of question 2");
+        feedbackEditPage.clickVisibilityPreviewForQuestion2();
+        WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-2"));
+        feedbackEditPage.waitForElementVisibility(visibilityMessage2);
 
         assertTrue("Expected recipient to be able to see response, but was "
-                   + visibilityMessage.getText(), visibilityMessage.getText()
+                   + visibilityMessage2.getText(), visibilityMessage2.getText()
                    .contains("The receiving student can see your response, and your name."));
         
         assertTrue("Expected recipient to be able to see response, but was "
-                   + visibilityMessage.getText(), visibilityMessage.getText()
+                   + visibilityMessage2.getText(), visibilityMessage2.getText()
                    .contains("Instructors in this course can see your response, the name of the recipient, and your name.")); 
         
-        ______TS("change back");
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
-        feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
-        feedbackEditPage.clickquestionSaveForQuestion1();
-        
-        
-        feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.clickVisibilityOptionsForNewQuestion();
-        feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
-        feedbackEditPage.clickVisibilityPreviewForNewQuestion();
-        
-        feedbackEditPage.waitForElementVisibility(feedbackEditPage.getNewQnVisibilityMessage());
-        assertTrue("Expected recipient's team members to be able to see response, but was "
-                   + feedbackEditPage.getNewQnVisibilityMessage().getText(), 
-                   feedbackEditPage.getNewQnVisibilityMessage()
-                                   .getText()
-                                   .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
-        
-        feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
-        
-        assertFalse("Expected recipient's team members to not be able to see response, but was "
-                    + feedbackEditPage.getNewQnVisibilityMessage().getText(),
-                    feedbackEditPage.getNewQnVisibilityMessage()
-                                    .getText()
-                                    .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
-        
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
     }
     
     private void testGetQuestionLink() {
