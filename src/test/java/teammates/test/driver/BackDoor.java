@@ -558,8 +558,7 @@ public class BackDoor {
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         DataBundle dataBundle = new DataBundle();
         dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
-        return persistNewDataBundle(Utils.getTeammatesGson()
-                .toJson(dataBundle));
+        return persistNewDataBundle(Utils.getTeammatesGson().toJson(dataBundle));
     }
     
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
