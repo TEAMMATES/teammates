@@ -89,8 +89,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
         }
 
-        // if error is not empty not tested as extractFeedbackQuestionData
-        // method uses Assumptions to cover it
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrorsMessages);
             isError = true;
