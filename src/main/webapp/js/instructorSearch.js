@@ -9,7 +9,7 @@ $(function() {
 	// highlight search string 
 	highlightSearchResult('#searchBox', '.panel-body');
 	
-	// collapse and expand of Comments for students tab of instructorCommentsPage
+	// collapse and expand functionality
     var panels = $('div.panel');
     bindCollapseEvents(panels, 0);
 
