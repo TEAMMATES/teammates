@@ -332,8 +332,6 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
         children('img[src=""]').attr('src', resolvedLink);
 }
 
-
-
 function showSingleCollapse(e) {
     var heading = $(e).parent().children('.panel-heading');
     var glyphIcon = $(heading[0]).find('.glyphicon');
