@@ -4,7 +4,7 @@
       <h1>
          Edit Course Details
       </h1>
-      <br/>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -18,14 +18,14 @@
          </div>
          <div class="panel-body fill-plain">
             <form action="/page/instructorCourseEditSave" class="form form-horizontal" id="formEditcourse" method="post">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="instructorid" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="instructorid" type="hidden" value="InsCrsEdit.manager">
                <div class="form-group">
                   <label class="col-sm-3 control-label">
                      Course ID:
                   </label>
                   <div class="col-sm-3">
-                     <input class="form-control" data-original-title="Identifier of the course, e.g.CS3215-Sem1." data-placement="top" data-toggle="tooltip" disabled="disabled" id="courseid" maxlength="40" name="courseid" tabindex="1" title="" type="text" value="InsCrsEdit.CS2104"/>
+                     <input class="form-control" data-original-title="Identifier of the course, e.g.CS3215-Sem1." data-placement="top" data-toggle="tooltip" disabled="disabled" id="courseid" maxlength="40" name="courseid" tabindex="1" title="" type="text" value="InsCrsEdit.CS2104">
                   </div>
                </div>
                <div class="form-group">
@@ -33,19 +33,19 @@
                      Course Name:
                   </label>
                   <div class="col-sm-9">
-                     <input class="form-control" data-original-title="The name of the course, e.g. Software Engineering." data-placement="top" data-toggle="tooltip" disabled="disabled" id="coursename" maxlength="64" name="coursename" tabindex="2" title="" type="text" value="Programming Language Concepts"/>
+                     <input class="form-control" data-original-title="The name of the course, e.g. Software Engineering." data-placement="top" data-toggle="tooltip" disabled="disabled" id="coursename" maxlength="64" name="coursename" tabindex="2" title="" type="text" value="Programming Language Concepts">
                   </div>
                </div>
                <div class="form-group">
                   <div class=" col-sm-12 align-center">
-                     <input class="button" id="btnSaveCourse" name="btnSaveCourse" onclick="return verifyCourseData();" style="display:none;" type="submit" value="Save Changes"/>
+                     <input class="button" id="btnSaveCourse" name="btnSaveCourse" onclick="return verifyCourseData();" style="display:none;" type="submit" value="Save Changes">
                   </div>
                </div>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
             </form>
          </div>
       </div>
-      <br/>
+      <br>
       <div id="statusMessage" style="display: none;">
       </div>
       <div class="pull-right">
@@ -55,8 +55,8 @@
             More about configuring access permissions
          </a>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -66,10 +66,10 @@
                <div class="display-icon" style="display:inline;">
                </div>
                <form action="/page/instructorCourseEditPage" class="editForm" id="edit-1" style="display:none;">
-                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-                  <input name="instructoremail" type="hidden" value="InsCrsEdit.Helper@gmail.tmt"/>
-                  <input name="courseeditmainindex" type="hidden" value="1"/>
-                  <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+                  <input name="instructoremail" type="hidden" value="InsCrsEdit.Helper@gmail.tmt">
+                  <input name="courseeditmainindex" type="hidden" value="1">
+                  <input name="user" type="hidden" value="InsCrsEdit.manager">
                </form>
                <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink1" title="" type="button">
                   <span class="glyphicon glyphicon-pencil">
@@ -85,16 +85,16 @@
          </div>
          <div class="panel-body">
             <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor1>" method="post" name="formEditInstructors">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="instructorid" type="hidden" value="InsCrsEdit.Helper"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="instructorid" type="hidden" value="InsCrsEdit.Helper">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorTable1">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Google ID:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control immutable" disabled="disabled" id="instructorid1" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.Helper"/>
+                        <input class="form-control immutable" disabled="disabled" id="instructorid1" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.Helper">
                      </div>
                   </div>
                   <div class="form-group">
@@ -102,7 +102,7 @@
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname1" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates New Instructor"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname1" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates New Instructor">
                      </div>
                   </div>
                   <div class="form-group">
@@ -110,16 +110,16 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail1" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.Helper@gmail.tmt"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail1" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.Helper@gmail.tmt">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
-                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true">
                         Display to students as:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor"/>
+                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
                      </div>
                   </div>
                   <div id="accessControlInfoForInstr1">
@@ -140,15 +140,15 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnSaveInstructor1" style="display:none;" tabindex="6" type="submit" value="Save changes"/>
+                        <input class="btn btn-primary" id="btnSaveInstructor1" style="display:none;" tabindex="6" type="submit" value="Save changes">
                      </div>
                   </div>
                </div>
             </form>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -158,10 +158,10 @@
                <div class="display-icon" style="display:inline;">
                </div>
                <form action="/page/instructorCourseEditPage" class="editForm" id="edit-2" style="display:none;">
-                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-                  <input name="instructoremail" type="hidden" value="InsCrsEdit.coord@gmail.tmt"/>
-                  <input name="courseeditmainindex" type="hidden" value="2"/>
-                  <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+                  <input name="instructoremail" type="hidden" value="InsCrsEdit.coord@gmail.tmt">
+                  <input name="courseeditmainindex" type="hidden" value="2">
+                  <input name="user" type="hidden" value="InsCrsEdit.manager">
                </form>
                <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink2" title="" type="button">
                   <span class="glyphicon glyphicon-pencil">
@@ -177,16 +177,16 @@
          </div>
          <div class="panel-body">
             <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor2>" method="post" name="formEditInstructors">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="instructorid" type="hidden" value="InsCrsEdit.coord"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="instructorid" type="hidden" value="InsCrsEdit.coord">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorTable2">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Google ID:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control immutable" disabled="disabled" id="instructorid2" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.coord"/>
+                        <input class="form-control immutable" disabled="disabled" id="instructorid2" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.coord">
                      </div>
                   </div>
                   <div class="form-group">
@@ -194,7 +194,7 @@
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname2" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Coord"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname2" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Coord">
                      </div>
                   </div>
                   <div class="form-group">
@@ -202,16 +202,16 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail2" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.coord@gmail.tmt"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail2" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.coord@gmail.tmt">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
-                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true">
                         Display to students as:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor"/>
+                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
                      </div>
                   </div>
                   <div id="accessControlInfoForInstr2">
@@ -235,15 +235,15 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnSaveInstructor2" style="display:none;" tabindex="6" type="submit" value="Save changes"/>
+                        <input class="btn btn-primary" id="btnSaveInstructor2" style="display:none;" tabindex="6" type="submit" value="Save changes">
                      </div>
                   </div>
                </div>
             </form>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -253,10 +253,10 @@
                <div class="display-icon" style="display:inline;">
                </div>
                <form action="/page/instructorCourseEditPage" class="editForm" id="edit-3" style="display:none;">
-                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-                  <input name="instructoremail" type="hidden" value="InsCrsEdit.manager@gmail.tmt"/>
-                  <input name="courseeditmainindex" type="hidden" value="3"/>
-                  <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+                  <input name="instructoremail" type="hidden" value="InsCrsEdit.manager@gmail.tmt">
+                  <input name="courseeditmainindex" type="hidden" value="3">
+                  <input name="user" type="hidden" value="InsCrsEdit.manager">
                </form>
                <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink3" title="" type="button">
                   <span class="glyphicon glyphicon-pencil">
@@ -272,16 +272,16 @@
          </div>
          <div class="panel-body">
             <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor3>" method="post" name="formEditInstructors">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="instructorid" type="hidden" value="InsCrsEdit.manager"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="instructorid" type="hidden" value="InsCrsEdit.manager">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorTable3">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Google ID:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control immutable" disabled="disabled" id="instructorid3" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.manager"/>
+                        <input class="form-control immutable" disabled="disabled" id="instructorid3" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.manager">
                      </div>
                   </div>
                   <div class="form-group">
@@ -289,7 +289,7 @@
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname3" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Manager"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname3" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Manager">
                      </div>
                   </div>
                   <div class="form-group">
@@ -297,16 +297,16 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail3" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.manager@gmail.tmt"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail3" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.manager@gmail.tmt">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
-                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true">
                         Display to students as:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor"/>
+                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
                      </div>
                   </div>
                   <div id="accessControlInfoForInstr3">
@@ -330,15 +330,15 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnSaveInstructor3" style="display:none;" tabindex="6" type="submit" value="Save changes"/>
+                        <input class="btn btn-primary" id="btnSaveInstructor3" style="display:none;" tabindex="6" type="submit" value="Save changes">
                      </div>
                   </div>
                </div>
             </form>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -353,10 +353,10 @@
                   Resend Invite
                </a>
                <form action="/page/instructorCourseEditPage" class="editForm" id="edit-4" style="display:none;">
-                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-                  <input name="instructoremail" type="hidden" value="InsCrsEdit.newInstr@gmail.tmt"/>
-                  <input name="courseeditmainindex" type="hidden" value="4"/>
-                  <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+                  <input name="instructoremail" type="hidden" value="InsCrsEdit.newInstr@gmail.tmt">
+                  <input name="courseeditmainindex" type="hidden" value="4">
+                  <input name="user" type="hidden" value="InsCrsEdit.manager">
                </form>
                <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink4" title="" type="button">
                   <span class="glyphicon glyphicon-pencil">
@@ -372,15 +372,15 @@
          </div>
          <div class="panel-body">
             <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor4>" method="post" name="formEditInstructors">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorTable4">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname4" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates New Instructor"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname4" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates New Instructor">
                      </div>
                   </div>
                   <div class="form-group">
@@ -388,16 +388,16 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail4" maxlength="254" name="instructoremail" readonly="readonly" tabindex="5" title="" type="text" value="InsCrsEdit.newInstr@gmail.tmt"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail4" maxlength="254" name="instructoremail" readonly="readonly" tabindex="5" title="" type="text" value="InsCrsEdit.newInstr@gmail.tmt">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
-                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true">
                         Display to students as:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor"/>
+                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
                      </div>
                   </div>
                   <div id="accessControlInfoForInstr4">
@@ -418,15 +418,15 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnSaveInstructor4" style="display:none;" tabindex="6" type="submit" value="Save changes"/>
+                        <input class="btn btn-primary" id="btnSaveInstructor4" style="display:none;" tabindex="6" type="submit" value="Save changes">
                      </div>
                   </div>
                </div>
             </form>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -436,10 +436,10 @@
                <div class="display-icon" style="display:inline;">
                </div>
                <form action="/page/instructorCourseEditPage" class="editForm" id="edit-5" style="display:none;">
-                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-                  <input name="instructoremail" type="hidden" value="InsCrsEdit.observer@gmail.tmt"/>
-                  <input name="courseeditmainindex" type="hidden" value="5"/>
-                  <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+                  <input name="instructoremail" type="hidden" value="InsCrsEdit.observer@gmail.tmt">
+                  <input name="courseeditmainindex" type="hidden" value="5">
+                  <input name="user" type="hidden" value="InsCrsEdit.manager">
                </form>
                <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink5" title="" type="button">
                   <span class="glyphicon glyphicon-pencil">
@@ -455,16 +455,16 @@
          </div>
          <div class="panel-body">
             <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor5>" method="post" name="formEditInstructors">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="instructorid" type="hidden" value="InsCrsEdit.observer"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="instructorid" type="hidden" value="InsCrsEdit.observer">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorTable5">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Google ID:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control immutable" disabled="disabled" id="instructorid5" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.observer"/>
+                        <input class="form-control immutable" disabled="disabled" id="instructorid5" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.observer">
                      </div>
                   </div>
                   <div class="form-group">
@@ -472,7 +472,7 @@
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname5" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Observer"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname5" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Observer">
                      </div>
                   </div>
                   <div class="form-group">
@@ -480,16 +480,16 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail5" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.observer@gmail.tmt"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail5" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.observer@gmail.tmt">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
-                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true">
                         Display to students as:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor"/>
+                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
                      </div>
                   </div>
                   <div id="accessControlInfoForInstr5">
@@ -513,15 +513,15 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnSaveInstructor5" style="display:none;" tabindex="6" type="submit" value="Save changes"/>
+                        <input class="btn btn-primary" id="btnSaveInstructor5" style="display:none;" tabindex="6" type="submit" value="Save changes">
                      </div>
                   </div>
                </div>
             </form>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -531,10 +531,10 @@
                <div class="display-icon" style="display:inline;">
                </div>
                <form action="/page/instructorCourseEditPage" class="editForm" id="edit-6" style="display:none;">
-                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-                  <input name="instructoremail" type="hidden" value="InsCrsEdit.test@gmail.tmt"/>
-                  <input name="courseeditmainindex" type="hidden" value="6"/>
-                  <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+                  <input name="instructoremail" type="hidden" value="InsCrsEdit.test@gmail.tmt">
+                  <input name="courseeditmainindex" type="hidden" value="6">
+                  <input name="user" type="hidden" value="InsCrsEdit.manager">
                </form>
                <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink6" title="" type="button">
                   <span class="glyphicon glyphicon-pencil">
@@ -550,16 +550,16 @@
          </div>
          <div class="panel-body">
             <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor6>" method="post" name="formEditInstructors">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="instructorid" type="hidden" value="InsCrsEdit.test"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="instructorid" type="hidden" value="InsCrsEdit.test">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorTable6">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Google ID:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control immutable" disabled="disabled" id="instructorid6" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.test"/>
+                        <input class="form-control immutable" disabled="disabled" id="instructorid6" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.test">
                      </div>
                   </div>
                   <div class="form-group">
@@ -567,7 +567,7 @@
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname6" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Test"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname6" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Test">
                      </div>
                   </div>
                   <div class="form-group">
@@ -575,16 +575,16 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail6" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.test@gmail.tmt"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail6" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.test@gmail.tmt">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
-                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true">
                         Display to students as:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor"/>
+                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
                      </div>
                   </div>
                   <div id="accessControlInfoForInstr6">
@@ -608,15 +608,15 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnSaveInstructor6" style="display:none;" tabindex="6" type="submit" value="Save changes"/>
+                        <input class="btn btn-primary" id="btnSaveInstructor6" style="display:none;" tabindex="6" type="submit" value="Save changes">
                      </div>
                   </div>
                </div>
             </form>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="panel panel-primary">
          <div class="panel-heading">
             <strong>
@@ -626,10 +626,10 @@
                <div class="display-icon" style="display:inline;">
                </div>
                <form action="/page/instructorCourseEditPage" class="editForm" id="edit-7" style="display:none;">
-                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-                  <input name="instructoremail" type="hidden" value="InsCrsEdit.tutor@gmail.tmt"/>
-                  <input name="courseeditmainindex" type="hidden" value="7"/>
-                  <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+                  <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+                  <input name="instructoremail" type="hidden" value="InsCrsEdit.tutor@gmail.tmt">
+                  <input name="courseeditmainindex" type="hidden" value="7">
+                  <input name="user" type="hidden" value="InsCrsEdit.manager">
                </form>
                <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink7" title="" type="button">
                   <span class="glyphicon glyphicon-pencil">
@@ -645,16 +645,16 @@
          </div>
          <div class="panel-body">
             <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor7>" method="post" name="formEditInstructors">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="instructorid" type="hidden" value="InsCrsEdit.tutor"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="instructorid" type="hidden" value="InsCrsEdit.tutor">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorTable7">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Google ID:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control immutable" disabled="disabled" id="instructorid7" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.tutor"/>
+                        <input class="form-control immutable" disabled="disabled" id="instructorid7" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.tutor">
                      </div>
                   </div>
                   <div class="form-group">
@@ -662,7 +662,7 @@
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname7" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Tutor"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructorname7" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Tutor">
                      </div>
                   </div>
                   <div class="form-group">
@@ -670,16 +670,16 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail7" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.tutor@gmail.tmt"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="disabled" id="instructoremail7" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.tutor@gmail.tmt">
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
-                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                        <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructorisdisplayed" title="" type="checkbox" value="true">
                         Display to students as:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor"/>
+                        <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="disabled" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
                      </div>
                   </div>
                   <div id="accessControlInfoForInstr7">
@@ -703,17 +703,17 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnSaveInstructor7" style="display:none;" tabindex="6" type="submit" value="Save changes"/>
+                        <input class="btn btn-primary" id="btnSaveInstructor7" style="display:none;" tabindex="6" type="submit" value="Save changes">
                      </div>
                   </div>
                </div>
             </form>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
       <div class="align-center">
-         <input class="btn btn-primary" id="btnShowNewInstructorForm" onclick="showNewInstructorForm()" type="button" value="Add New Instructor"/>
+         <input class="btn btn-primary" id="btnShowNewInstructorForm" onclick="showNewInstructorForm()" type="button" value="Add New Instructor">
       </div>
       <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
          <div class="panel-heading">
@@ -723,15 +723,15 @@
          </div>
          <div class="panel-body fill-plain">
             <form action="/page/instructorCourseInstructorAdd" class="form form-horizontal" id="formAddInstructor" method="post" name="formAddInstructor">
-               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104"/>
-               <input name="user" type="hidden" value="InsCrsEdit.manager"/>
+               <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+               <input name="user" type="hidden" value="InsCrsEdit.manager">
                <div id="instructorAddTable">
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Name:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" id="instructorname" maxlength="100" name="instructorname" tabindex="8" title="" type="text"/>
+                        <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" id="instructorname" maxlength="100" name="instructorname" tabindex="8" title="" type="text">
                      </div>
                   </div>
                   <div class="form-group">
@@ -739,17 +739,17 @@
                         Email:
                      </label>
                      <div class="col-sm-9">
-                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" id="instructoremail" maxlength="254" name="instructoremail" tabindex="9" title="" type="text"/>
+                        <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" id="instructoremail" maxlength="254" name="instructoremail" tabindex="9" title="" type="text">
                      </div>
                   </div>
                   <div id="accessControlEditDivForInstr8">
                      <div class="form-group">
                         <label class="col-sm-3 control-label">
-                           <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" name="instructorisdisplayed" title="" type="checkbox" value="true"/>
+                           <input checked="checked" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" name="instructorisdisplayed" title="" type="checkbox" value="true">
                            Display to students as:
                         </label>
                         <div class="col-sm-9">
-                           <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text"/>
+                           <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text">
                         </div>
                      </div>
                      <div class="form-group">
@@ -759,31 +759,31 @@
                            </label>
                         </div>
                         <div class="col-sm-9">
-                           <input checked="checked" id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Co-owner"/>
+                           <input checked="checked" id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Co-owner">
                             Co-owner: Can do everything
                            <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
                               View Details
                            </a>
-                           <br/>
-                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Manager"/>
+                           <br>
+                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Manager">
                             Manager: Can do everything except for deleting the course
                            <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
                               View Details
                            </a>
-                           <br/>
-                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Observer"/>
+                           <br>
+                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Observer">
                             Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
                            <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
                               View Details
                            </a>
-                           <br/>
-                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Tutor"/>
+                           <br>
+                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Tutor">
                             Tutor: Can view student details, give/view comments, submit/view responses for sessions
                            <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
                               View Details
                            </a>
-                           <br/>
-                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Custom"/>
+                           <br>
+                           <input id="instructorroleforinstructor8" name="instructorrole" type="radio" value="Custom">
                             Custom: No access by default. Any access needs to be granted explicitly.
                         </div>
                      </div>
@@ -798,47 +798,47 @@
                                  </div>
                                  <div class="panel-body">
                                     <div class="col-sm-3">
-                                       <input name="canmodifycourse" type="checkbox" value="true"/>
+                                       <input name="canmodifycourse" type="checkbox" value="true">
                                        Edit/Delete Course
                                     </div>
                                     <div class="col-sm-3">
-                                       <input name="canmodifyinstructor" type="checkbox" value="true"/>
+                                       <input name="canmodifyinstructor" type="checkbox" value="true">
                                        Add/Edit/Delete Instructors
                                     </div>
                                     <div class="col-sm-3">
-                                       <input name="canmodifysession" type="checkbox" value="true"/>
+                                       <input name="canmodifysession" type="checkbox" value="true">
                                        Create/Edit/Delete Sessions
                                     </div>
                                     <div class="col-sm-3">
-                                       <input name="canmodifystudent" type="checkbox" value="true"/>
+                                       <input name="canmodifystudent" type="checkbox" value="true">
                                        Enroll/Edit/Delete Students
                                     </div>
-                                    <br/>
-                                    <br/>
+                                    <br>
+                                    <br>
                                     <div class="col-sm-6 border-right-gray">
-                                       <input name="canviewstudentinsection" type="checkbox" value="true"/>
+                                       <input name="canviewstudentinsection" type="checkbox" value="true">
                                        View Students' Details
-                                       <br/>
-                                       <input name="cangivecommentinsection" type="checkbox" value="true"/>
+                                       <br>
+                                       <input name="cangivecommentinsection" type="checkbox" value="true">
                                        Give Comments for Students
-                                       <br/>
-                                       <input name="canviewcommentinsection" type="checkbox" value="true"/>
+                                       <br>
+                                       <input name="canviewcommentinsection" type="checkbox" value="true">
                                        View Others' Comments on Students
-                                       <br/>
-                                       <input name="canmodifycommentinsection" type="checkbox" value="true"/>
+                                       <br>
+                                       <input name="canmodifycommentinsection" type="checkbox" value="true">
                                        Edit/Delete Others' Comments on Students
-                                       <br/>
+                                       <br>
                                     </div>
                                     <div class="col-sm-5 col-sm-offset-1">
-                                       <input name="cansubmitsessioninsection" type="checkbox" value="true"/>
+                                       <input name="cansubmitsessioninsection" type="checkbox" value="true">
                                        Sessions: Submit Responses and Add Comments
-                                       <br/>
-                                       <input name="canviewsessioninsection" type="checkbox" value="true"/>
+                                       <br>
+                                       <input name="canviewsessioninsection" type="checkbox" value="true">
                                        Sessions: View Responses and Comments
-                                       <br/>
-                                       <input name="canmodifysessioncommentinsection" type="checkbox" value="true"/>
+                                       <br>
+                                       <input name="canmodifysessioncommentinsection" type="checkbox" value="true">
                                        Sessions: Edit/Delete Responses/Comments by Others
-                                       <br/>
+                                       <br>
                                     </div>
                                  </div>
                               </div>
@@ -856,15 +856,15 @@
                                           <div class="col-sm-9">
                                              <div class="col-sm-12">
                                                 <div class="col-sm-4">
-                                                   <input checked="checked" name="sectiongroup0section0" type="checkbox" value="Section 1"/>
+                                                   <input checked="checked" name="sectiongroup0section0" type="checkbox" value="Section 1">
                                                    Section 1
                                                 </div>
                                                 <div class="col-sm-4">
-                                                   <input name="sectiongroup0section1" type="checkbox" value="Section 2"/>
+                                                   <input name="sectiongroup0section1" type="checkbox" value="Section 2">
                                                    Section 2
                                                 </div>
                                                 <div class="col-sm-4">
-                                                   <input name="sectiongroup0section2" type="checkbox" value="Section 3"/>
+                                                   <input name="sectiongroup0section2" type="checkbox" value="Section 3">
                                                    Section 3
                                                 </div>
                                              </div>
@@ -876,7 +876,7 @@
                                              </a>
                                           </div>
                                        </div>
-                                       <br/>
+                                       <br>
                                        <div class="row">
                                           <div class="col-sm-12">
                                              <p>
@@ -886,42 +886,42 @@
                                              </p>
                                           </div>
                                        </div>
-                                       <input name="issectiongroup0set" type="hidden" value="false"/>
+                                       <input name="issectiongroup0set" type="hidden" value="false">
                                     </div>
                                     <div class="panel-body">
-                                       <br/>
+                                       <br>
                                        <div class="col-sm-6 border-right-gray">
-                                          <input name="canviewstudentinsectionsectiongroup0" type="checkbox" value="true"/>
+                                          <input name="canviewstudentinsectionsectiongroup0" type="checkbox" value="true">
                                           View Students' Details
-                                          <br/>
-                                          <input name="cangivecommentinsectionsectiongroup0" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="cangivecommentinsectionsectiongroup0" type="checkbox" value="true">
                                           Give Comments for Students
-                                          <br/>
-                                          <input name="canviewcommentinsectionsectiongroup0" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canviewcommentinsectionsectiongroup0" type="checkbox" value="true">
                                           View Others' Comments on Students
-                                          <br/>
-                                          <input name="canmodifycommentinsectionsectiongroup0" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canmodifycommentinsectionsectiongroup0" type="checkbox" value="true">
                                           Edit/Delete Others' Comments on Students
-                                          <br/>
-                                          <br/>
+                                          <br>
+                                          <br>
                                        </div>
                                        <div class="col-sm-5 col-sm-offset-1">
-                                          <input name="cansubmitsessioninsectionsectiongroup0" type="checkbox" value="true"/>
+                                          <input name="cansubmitsessioninsectionsectiongroup0" type="checkbox" value="true">
                                           Sessions: Submit Responses and Add Comments
-                                          <br/>
-                                          <input name="canviewsessioninsectionsectiongroup0" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canviewsessioninsectionsectiongroup0" type="checkbox" value="true">
                                           Sessions: View Responses and Comments
-                                          <br/>
-                                          <input name="canmodifysessioncommentinsectionsectiongroup0" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canmodifysessioncommentinsectionsectiongroup0" type="checkbox" value="true">
                                           Sessions: Edit/Delete Responses/Comments by Others
-                                          <br/>
-                                          <br/>
+                                          <br>
+                                          <br>
                                        </div>
                                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection0ForInstructor8" onclick="showTuneSessionnPermissionsDiv(8, 0)">
                                           Give different permissions for sessions in this section
                                        </a>
                                        <div class="row" id="tuneSessionPermissionsDiv0ForInstructor8" style="display: none;">
-                                          <input name="issectiongroup0sessionsset" type="hidden" value="false"/>
+                                          <input name="issectiongroup0sessionsset" type="hidden" value="false">
                                           <table class="table table-striped">
                                              <thead>
                                                 <tr>
@@ -945,13 +945,13 @@
                                                       First feedback session
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="cansubmitsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="cansubmitsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="canviewsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="canviewsessioninsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="canmodifysessioncommentinsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="canmodifysessioncommentinsectionsectiongroup0feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                 </tr>
                                              </tbody>
@@ -974,15 +974,15 @@
                                           <div class="col-sm-9">
                                              <div class="col-sm-12">
                                                 <div class="col-sm-4">
-                                                   <input name="sectiongroup1section0" type="checkbox" value="Section 1"/>
+                                                   <input name="sectiongroup1section0" type="checkbox" value="Section 1">
                                                    Section 1
                                                 </div>
                                                 <div class="col-sm-4">
-                                                   <input checked="checked" name="sectiongroup1section1" type="checkbox" value="Section 2"/>
+                                                   <input checked="checked" name="sectiongroup1section1" type="checkbox" value="Section 2">
                                                    Section 2
                                                 </div>
                                                 <div class="col-sm-4">
-                                                   <input name="sectiongroup1section2" type="checkbox" value="Section 3"/>
+                                                   <input name="sectiongroup1section2" type="checkbox" value="Section 3">
                                                    Section 3
                                                 </div>
                                              </div>
@@ -994,7 +994,7 @@
                                              </a>
                                           </div>
                                        </div>
-                                       <br/>
+                                       <br>
                                        <div class="row">
                                           <div class="col-sm-12">
                                              <p>
@@ -1004,42 +1004,42 @@
                                              </p>
                                           </div>
                                        </div>
-                                       <input name="issectiongroup1set" type="hidden" value="false"/>
+                                       <input name="issectiongroup1set" type="hidden" value="false">
                                     </div>
                                     <div class="panel-body">
-                                       <br/>
+                                       <br>
                                        <div class="col-sm-6 border-right-gray">
-                                          <input name="canviewstudentinsectionsectiongroup1" type="checkbox" value="true"/>
+                                          <input name="canviewstudentinsectionsectiongroup1" type="checkbox" value="true">
                                           View Students' Details
-                                          <br/>
-                                          <input name="cangivecommentinsectionsectiongroup1" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="cangivecommentinsectionsectiongroup1" type="checkbox" value="true">
                                           Give Comments for Students
-                                          <br/>
-                                          <input name="canviewcommentinsectionsectiongroup1" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canviewcommentinsectionsectiongroup1" type="checkbox" value="true">
                                           View Others' Comments on Students
-                                          <br/>
-                                          <input name="canmodifycommentinsectionsectiongroup1" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canmodifycommentinsectionsectiongroup1" type="checkbox" value="true">
                                           Edit/Delete Others' Comments on Students
-                                          <br/>
-                                          <br/>
+                                          <br>
+                                          <br>
                                        </div>
                                        <div class="col-sm-5 col-sm-offset-1">
-                                          <input name="cansubmitsessioninsectionsectiongroup1" type="checkbox" value="true"/>
+                                          <input name="cansubmitsessioninsectionsectiongroup1" type="checkbox" value="true">
                                           Sessions: Submit Responses and Add Comments
-                                          <br/>
-                                          <input name="canviewsessioninsectionsectiongroup1" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canviewsessioninsectionsectiongroup1" type="checkbox" value="true">
                                           Sessions: View Responses and Comments
-                                          <br/>
-                                          <input name="canmodifysessioncommentinsectionsectiongroup1" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canmodifysessioncommentinsectionsectiongroup1" type="checkbox" value="true">
                                           Sessions: Edit/Delete Responses/Comments by Others
-                                          <br/>
-                                          <br/>
+                                          <br>
+                                          <br>
                                        </div>
                                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection1ForInstructor8" onclick="showTuneSessionnPermissionsDiv(8, 1)">
                                           Give different permissions for sessions in this section
                                        </a>
                                        <div class="row" id="tuneSessionPermissionsDiv1ForInstructor8" style="display: none;">
-                                          <input name="issectiongroup1sessionsset" type="hidden" value="false"/>
+                                          <input name="issectiongroup1sessionsset" type="hidden" value="false">
                                           <table class="table table-striped">
                                              <thead>
                                                 <tr>
@@ -1063,13 +1063,13 @@
                                                       First feedback session
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="cansubmitsessioninsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="cansubmitsessioninsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="canviewsessioninsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="canviewsessioninsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="canmodifysessioncommentinsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="canmodifysessioncommentinsectionsectiongroup1feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                 </tr>
                                              </tbody>
@@ -1092,15 +1092,15 @@
                                           <div class="col-sm-9">
                                              <div class="col-sm-12">
                                                 <div class="col-sm-4">
-                                                   <input name="sectiongroup2section0" type="checkbox" value="Section 1"/>
+                                                   <input name="sectiongroup2section0" type="checkbox" value="Section 1">
                                                    Section 1
                                                 </div>
                                                 <div class="col-sm-4">
-                                                   <input name="sectiongroup2section1" type="checkbox" value="Section 2"/>
+                                                   <input name="sectiongroup2section1" type="checkbox" value="Section 2">
                                                    Section 2
                                                 </div>
                                                 <div class="col-sm-4">
-                                                   <input checked="checked" name="sectiongroup2section2" type="checkbox" value="Section 3"/>
+                                                   <input checked="checked" name="sectiongroup2section2" type="checkbox" value="Section 3">
                                                    Section 3
                                                 </div>
                                              </div>
@@ -1112,7 +1112,7 @@
                                              </a>
                                           </div>
                                        </div>
-                                       <br/>
+                                       <br>
                                        <div class="row">
                                           <div class="col-sm-12">
                                              <p>
@@ -1122,42 +1122,42 @@
                                              </p>
                                           </div>
                                        </div>
-                                       <input name="issectiongroup2set" type="hidden" value="false"/>
+                                       <input name="issectiongroup2set" type="hidden" value="false">
                                     </div>
                                     <div class="panel-body">
-                                       <br/>
+                                       <br>
                                        <div class="col-sm-6 border-right-gray">
-                                          <input name="canviewstudentinsectionsectiongroup2" type="checkbox" value="true"/>
+                                          <input name="canviewstudentinsectionsectiongroup2" type="checkbox" value="true">
                                           View Students' Details
-                                          <br/>
-                                          <input name="cangivecommentinsectionsectiongroup2" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="cangivecommentinsectionsectiongroup2" type="checkbox" value="true">
                                           Give Comments for Students
-                                          <br/>
-                                          <input name="canviewcommentinsectionsectiongroup2" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canviewcommentinsectionsectiongroup2" type="checkbox" value="true">
                                           View Others' Comments on Students
-                                          <br/>
-                                          <input name="canmodifycommentinsectionsectiongroup2" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canmodifycommentinsectionsectiongroup2" type="checkbox" value="true">
                                           Edit/Delete Others' Comments on Students
-                                          <br/>
-                                          <br/>
+                                          <br>
+                                          <br>
                                        </div>
                                        <div class="col-sm-5 col-sm-offset-1">
-                                          <input name="cansubmitsessioninsectionsectiongroup2" type="checkbox" value="true"/>
+                                          <input name="cansubmitsessioninsectionsectiongroup2" type="checkbox" value="true">
                                           Sessions: Submit Responses and Add Comments
-                                          <br/>
-                                          <input name="canviewsessioninsectionsectiongroup2" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canviewsessioninsectionsectiongroup2" type="checkbox" value="true">
                                           Sessions: View Responses and Comments
-                                          <br/>
-                                          <input name="canmodifysessioncommentinsectionsectiongroup2" type="checkbox" value="true"/>
+                                          <br>
+                                          <input name="canmodifysessioncommentinsectionsectiongroup2" type="checkbox" value="true">
                                           Sessions: Edit/Delete Responses/Comments by Others
-                                          <br/>
-                                          <br/>
+                                          <br>
+                                          <br>
                                        </div>
                                        <a class="small col-sm-5" href="javascript:;" id="toggleSessionLevelInSection2ForInstructor8" onclick="showTuneSessionnPermissionsDiv(8, 2)">
                                           Give different permissions for sessions in this section
                                        </a>
                                        <div class="row" id="tuneSessionPermissionsDiv2ForInstructor8" style="display: none;">
-                                          <input name="issectiongroup2sessionsset" type="hidden" value="false"/>
+                                          <input name="issectiongroup2sessionsset" type="hidden" value="false">
                                           <table class="table table-striped">
                                              <thead>
                                                 <tr>
@@ -1181,13 +1181,13 @@
                                                       First feedback session
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="cansubmitsessioninsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="cansubmitsessioninsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="canviewsessioninsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="canviewsessioninsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                    <td class="align-center">
-                                                      <input name="canmodifysessioncommentinsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true"/>
+                                                      <input name="canmodifysessioncommentinsectionsectiongroup2feedbackFirst feedback session" type="checkbox" value="true">
                                                    </td>
                                                 </tr>
                                              </tbody>
@@ -1205,7 +1205,7 @@
                   </div>
                   <div class="form-group">
                      <div class="align-center">
-                        <input class="btn btn-primary" id="btnAddInstructor" tabindex="10" type="submit" value="Add Instructor"/>
+                        <input class="btn btn-primary" id="btnAddInstructor" tabindex="10" type="submit" value="Add Instructor">
                      </div>
                   </div>
                </div>
@@ -1231,51 +1231,51 @@
                <div class="modal-body">
                   <div class="row">
                      <div class="col-sm-6">
-                        <input checked="checked" disabled="disabled" name="canmodifycourse" type="checkbox" value="true"/>
+                        <input checked="checked" disabled="disabled" name="canmodifycourse" type="checkbox" value="true">
                         Edit/Delete Course
                      </div>
                      <div class="col-sm-6">
-                        <input checked="checked" disabled="disabled" name="canmodifyinstructor" type="checkbox" value="true"/>
+                        <input checked="checked" disabled="disabled" name="canmodifyinstructor" type="checkbox" value="true">
                         Add/Edit/Delete Instructors
                      </div>
                      <div class="col-sm-6">
-                        <input checked="checked" disabled="disabled" name="canmodifysession" type="checkbox" value="true"/>
+                        <input checked="checked" disabled="disabled" name="canmodifysession" type="checkbox" value="true">
                         Create/Edit/Delete Sessions
                      </div>
                      <div class="col-sm-6">
-                        <input checked="checked" disabled="disabled" name="canmodifystudent" type="checkbox" value="true"/>
+                        <input checked="checked" disabled="disabled" name="canmodifystudent" type="checkbox" value="true">
                         Enroll/Edit/Delete Students
                      </div>
                      <div class="col-sm-6">
-                        <input checked="checked" disabled="disabled" name="canviewstudentinsection" type="checkbox" value="true"/>
+                        <input checked="checked" disabled="disabled" name="canviewstudentinsection" type="checkbox" value="true">
                         View Students' Details
-                        <br/>
-                        <input checked="checked" disabled="disabled" name="cangivecommentinsection" type="checkbox" value="true"/>
+                        <br>
+                        <input checked="checked" disabled="disabled" name="cangivecommentinsection" type="checkbox" value="true">
                         Give Comments for Students
-                        <br/>
-                        <input checked="checked" disabled="disabled" name="canviewcommentinsection" type="checkbox" value="true"/>
+                        <br>
+                        <input checked="checked" disabled="disabled" name="canviewcommentinsection" type="checkbox" value="true">
                         View Others' Comments on Students
-                        <br/>
-                        <input checked="checked" disabled="disabled" name="canmodifycommentinsection" type="checkbox" value="true"/>
+                        <br>
+                        <input checked="checked" disabled="disabled" name="canmodifycommentinsection" type="checkbox" value="true">
                         Edit/Delete Others' Comments on Students
-                        <br/>
+                        <br>
                      </div>
                      <div class="col-sm-6">
-                        <input checked="checked" disabled="disabled" name="cansubmitsessioninsection" type="checkbox" value="true"/>
+                        <input checked="checked" disabled="disabled" name="cansubmitsessioninsection" type="checkbox" value="true">
                         Sessions: Submit Responses and Add Comments
-                        <br/>
-                        <input checked="checked" disabled="disabled" name="canviewsessioninsection" type="checkbox" value="true"/>
+                        <br>
+                        <input checked="checked" disabled="disabled" name="canviewsessioninsection" type="checkbox" value="true">
                         Sessions: View Responses and Comments
-                        <br/>
-                        <input checked="checked" disabled="disabled" name="canmodifysessioncommentinsection" type="checkbox" value="true"/>
+                        <br>
+                        <input checked="checked" disabled="disabled" name="canmodifysessioncommentinsection" type="checkbox" value="true">
                         Sessions: Edit/Delete Responses/Comments by others
-                        <br/>
+                        <br>
                      </div>
                   </div>
                </div>
             </div>
          </div>
       </div>
-      <br/>
-      <br/>
+      <br>
+      <br>
    </div>

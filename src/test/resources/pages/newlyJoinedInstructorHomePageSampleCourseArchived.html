@@ -4,39 +4,39 @@
       <h1>
          Instructor Home
       </h1>
-      <br/>
+      <br>
       <div class="well well-plain">
          <div class="row">
             <div class="col-md-12">
                <form action="/page/instructorSearchPage?user=${test.instructor}" method="get" name="search_form">
                   <div class="input-group">
-                     <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text"/>
+                     <input class="form-control" data-original-title="Search for student's information, e.g. name, email" data-placement="top" data-toggle="tooltip" id="searchbox" name="searchkey" placeholder="e.g. Charles Shultz, charles@gmail.com" title="" type="text">
                      <span class="input-group-btn">
                         <button class="btn btn-default" id="buttonSearch" type="submit" value="Search">
                            Search
                         </button>
                      </span>
                   </div>
-                  <input name="searchstudents" type="hidden" value="true"/>
-                  <input name="searchcommentforstudents" type="hidden" value="false"/>
-                  <input name="searchcommentforresponses" type="hidden" value="false"/>
-                  <input name="user" type="hidden" value="${test.instructor}"/>
+                  <input name="searchstudents" type="hidden" value="true">
+                  <input name="searchcommentforstudents" type="hidden" value="false">
+                  <input name="searchcommentforresponses" type="hidden" value="false">
+                  <input name="user" type="hidden" value="${test.instructor}">
                </form>
             </div>
          </div>
       </div>
-      <br/>
+      <br>
       <div class="overflow-auto alert alert-success" id="statusMessage">
          The course AHPUiT.instr1.gma-demo has been archived. It will not appear in the home page any more. You can access archived courses from the 'Courses' tab.
-         <br/>
+         <br>
          Go there to undo the archiving and bring the course back to the home page.
-         <br/>
+         <br>
          New to TEAMMATES? You may wish to have a look at our
          <a href="/instructorHelp.html#gs" target="_blank">
             Getting Started Guide
          </a>
          .
-         <br/>
+         <br>
          A video tour is also available in our
          <a href="/index.html" target="_blank">
             home page
@@ -68,8 +68,8 @@
                      <button class="btn btn-default" data-dismiss="modal" type="button">
                         Cancel
                      </button>
-                     <input class="btn btn-primary" type="submit" value="Remind"/>
-                     <input name="user" type="hidden" value="${test.instructor}"/>
+                     <input class="btn btn-primary" type="submit" value="Remind">
+                     <input name="user" type="hidden" value="${test.instructor}">
                   </div>
                </form>
             </div>
@@ -90,22 +90,22 @@
                </h5>
                <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
-                     <input type="radio"/>
+                     <input type="radio">
                      Course ID
                   </label>
                   <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
-                     <input name="sortby" type="radio" value="name"/>
+                     <input name="sortby" type="radio" value="name">
                      Course Name
                   </label>
                   <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
-                     <input type="radio"/>
+                     <input type="radio">
                      Creation Date
                   </label>
                </div>
             </div>
          </div>
       </div>
-      <br/>
+      <br>
       <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
@@ -116,7 +116,7 @@
                      </button>
                      <h4 class="modal-title">
                         Copy this feedback session to other courses
-                        <br/>
+                        <br>
                         <small>
                            (Select the course(s) you want to copy this feedback session to)
                         </small>
@@ -130,8 +130,8 @@
                      <button class="btn btn-default" data-dismiss="modal" type="button">
                         Cancel
                      </button>
-                     <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                     <input name="user" type="hidden" value="${test.instructor}"/>
+                     <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
+                     <input name="user" type="hidden" value="${test.instructor}">
                   </div>
                </form>
             </div>
