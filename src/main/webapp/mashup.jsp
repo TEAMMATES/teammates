@@ -406,7 +406,7 @@
                     calcHeight($('#studentHelp').find('iframe'));
                 });
                 $('#instructorHelp').find('iframe').on('load', function() {
-                    calcHeight($('#instructorHelpt').find('iframe'));
+                    calcHeight($('#instructorHelp').find('iframe'));
                 });
             });
             
