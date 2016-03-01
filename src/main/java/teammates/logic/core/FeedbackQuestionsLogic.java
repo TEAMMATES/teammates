@@ -618,7 +618,7 @@ public class FeedbackQuestionsLogic {
      * * {@code newAttributes} is non-null and it's ID corresponds to an 
      * existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
+    private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         updateFeedbackQuestion(newAttributes, false);
@@ -631,7 +631,7 @@ public class FeedbackQuestionsLogic {
     }
 
 
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateCheck)
+    private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateCheck)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes oldQuestion = null;
         if (newAttributes.getId() == null) {
