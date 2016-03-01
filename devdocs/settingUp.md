@@ -196,7 +196,7 @@ TBD
       Modify to match app name and app id of your own app.
       
 3. Deploy the application to your staging server.
-   * Choose `Deploy to app engine` from eclipse (under the `Google` menu item ![](https://developers.google.com/appengine/docs/java/tools/eclipse/google_menu_button.png) ) and follow the steps.
+   * Choose `Deploy to app engine` from eclipse (under the `Google` menu item ![](https://developers.google.com/eclipse/images/deploy_button.png) ) and follow the steps.
    * Wait until you see this message in Eclipse console `Deployment completed successfully`
    * Go to appengine dashboard `https://appengine.google.com/dashboard?&app_id=teammates-name`
    * Click `Versions` under `Main` menu on the left bar.
