@@ -13,6 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
@@ -43,7 +44,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
                                                                     courseId, students, hasSection, studentsInfo);
             
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
-                            + courseId + "]:</span><br>" + (studentsInfo).replace("\n", "<br>");
+                            + courseId + "]:</span><br>" + Sanitizer.sanitizeForHtml((studentsInfo)).replace("\n", "<br>");
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
             
