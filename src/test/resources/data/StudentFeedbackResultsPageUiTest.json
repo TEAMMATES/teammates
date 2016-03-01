@@ -1835,7 +1835,7 @@
             "showCommentTo":[STUDENTS];
             "showGiverNameTo":[STUDENTS];
             "lastEditorEmail":"SFResultsUiT.instr@gmail.tmt",
-            "lastEditedAt":"2016-03-02 11:59 PM UTC",
+            "lastEditedAt":"2016-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor first comment to Alice"	
             }
@@ -1846,7 +1846,7 @@
             "feedbackQuestionId":"1",
             "giverEmail":"SFResultsUiT.instr@gmail.tmt",
             "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
-            "createdAt":"2016-03-02 11:59 PM UTC",
+            "createdAt":"2016-03-01 11:59 PM UTC",
             "showCommentTo":[STUDENTS];
             "showGiverNameTo":[STUDENTS];
             "commentText":{
