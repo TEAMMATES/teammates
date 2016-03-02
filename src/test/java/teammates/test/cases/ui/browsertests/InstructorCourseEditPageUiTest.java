@@ -11,6 +11,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -418,37 +420,61 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("delete instructor then cancel");
         
-        courseEditPage.clickDeleteInstructorLinkAndCancel();
+        courseEditPage.clickDeleteInstructorLinkAndCancel(1);
         assertNotNull(BackDoor.getInstructorAsJsonByGoogleId(instructorId, courseId));
         
         ______TS("delete instructor successfully");
         
-        courseEditPage.clickDeleteInstructorLinkAndConfirm();
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
         String expectedMsg = "The instructor has been deleted from the course.";
         courseEditPage.verifyStatus(expectedMsg);
         
-        ______TS("delete all instructors");
+        ______TS("delete all other instructors");
         
-        courseEditPage.clickDeleteInstructorLinkAndConfirm();
-        courseEditPage.clickDeleteInstructorLinkAndConfirm();
-        courseEditPage.clickDeleteInstructorLinkAndConfirm();
-        courseEditPage.clickDeleteInstructorLinkAndConfirm();
-        courseEditPage.clickDeleteInstructorLinkAndConfirm();
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(2);
         
-        ______TS("deleted own instructor role and redirect to courses page");
+        ______TS("test the only registered instructor with the privilege to modify instructors cannot be deleted");
         
-        // Change login id to another instructor
+        // Create an registered instructor with all privileges except modifying instructors
+        InstructorPrivileges privilege = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
+        InstructorAttributes instructor = new InstructorAttributes("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt", 
+                                        Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "Teammates Reg", privilege);
+        BackDoor.createInstructor(instructor);
+        
+        // Create an unregistered instructor with co-owner privilege
+        courseEditPage.addNewInstructor("Unreg Instructor", "InstructorCourseEditEmail@gmail.tmt");
+        
+        // Delete own instructor role
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(2);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED, courseEditPage.getStatus());
+        
+        // Delete other instructors
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(3);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, courseEditPage.getStatus());
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
+        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, courseEditPage.getStatus());
+        
+        ______TS("delete own instructor role and redirect to courses page");
+        
+        // Create another registered instructor with co-owner privilege
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.coord"));
-        instructorId = testData.instructors.get("InsCrsEdit.coord").googleId;
-        courseEditPage.clickDeleteInstructorLinkAndConfirm();
+        courseEditPage = getCourseEditPage();
+        
+        // Delete own instructor role
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(2);
 
         InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED + "\n"
                                  + Const.StatusMessages.COURSE_EMPTY);
         
-        // Change back login id to original instructor to ensure remaining test cases work properly
-        instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
+        // Restore own instructor role to ensure remaining test cases work properly
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.test"));
     }
     
@@ -473,7 +499,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("make a new unregistered instructor and test that its email can't be edited");
         
         courseEditPage.addNewInstructor("Unreg Instructor", "InstructorCourseEditEmail@gmail.tmt");
-        int unregInstrNum = 4;
+        int unregInstrNum = 3;
         assertEquals("Unreg Instructor", courseEditPage.getNameField(unregInstrNum).getAttribute("value"));
         assertFalse(courseEditPage.getNameField(unregInstrNum).isEnabled());
         

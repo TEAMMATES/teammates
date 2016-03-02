@@ -56,14 +56,6 @@
                                 <li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
                                 <li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
                                 <li><a href="#instructorStudentRecordsPage">Instructor Student Records Page</a></li>
-                                <li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
-                                <li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
-                                <li><a href="#instructorCourseEvalPreviewPage">Instructor Eval Preview Page</a></li>
-                                <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
-                                <li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
-                                <li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
-                                <li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
-                                <li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
                                 <li><a href="#instructorFeedbackPage">Instructor Feedback Page</a></li>
                                 <li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
                                 <li><a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a></li>
@@ -87,8 +79,6 @@
                                 <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
                                 <li><a href="#studentCourseJoinConfirmationPageNew">Student Course Join Confirmation Page (New)</a></li>
                                 <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
-                                <li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
-                                <li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
                                 <li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
                                 <li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
                                 <li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
@@ -165,38 +155,6 @@
                 <div id="instructorStudentRecordsPage"></div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">Instructor Eval Page</div>
-                <div id="instructorCourseEvalPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Edit Page</div>
-                <div id="instructorCourseEvalEditPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Preview Page</div>
-                <div id="instructorCourseEvalPreviewPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
-                <div id="instructorCourseEvalResultsPage1"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</div>
-                <div id="instructorCourseEvalResultsPage2"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</div>
-                <div id="instructorCourseEvalResultsPage3"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Submission View Page</div>
-                <div id="instructorCourseEvalSubmissionViewPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Submission Edit Page</div>
-                <div id="instructorCourseEvalSubmissionEditPage"></div>
-                <br><hr class="hr-bold"><br>
-                
                 <div class="pageinfo">Instructor Feedback Page</div>
                 <div id="instructorFeedbackPage"></div>
                 <br><hr class="hr-bold"><br>
@@ -269,14 +227,6 @@
                 
                 <div class="pageinfo">Student Course Details Page</div>
                 <div id="studentCourseDetailsPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Student Eval Edit Page</div>
-                <div id="studentEvalEditPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Student Eval Results Page</div>
-                <div id="studentEvalResultsPage"></div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Feedback Submit Page</div>
