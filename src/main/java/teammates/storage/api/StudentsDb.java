@@ -177,7 +177,7 @@ public class StudentsDb extends EntitiesDb {
         // Return CourseStudent if it exists. Otherwise, fall back on Student.
         Query q = getPM().newQuery(CourseStudent.class);
         q.declareParameters("String googleIdParam, String courseIdParam");
-        q.setFilter("ID == googleIdParam && courseID == courseIdParam");
+        q.setFilter("googleId == googleIdParam && courseID == courseIdParam");
         
         @SuppressWarnings("unchecked")
         List<CourseStudent> courseStudentList = (List<CourseStudent>)q.execute(googleId, courseId);
@@ -861,7 +861,7 @@ public class StudentsDb extends EntitiesDb {
     private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
         Query q = getPM().newQuery(CourseStudent.class);
         q.declareParameters("String googleIdParam");
-        q.setFilter("ID == googleIdParam");
+        q.setFilter("googleId == googleIdParam");
         
         @SuppressWarnings("unchecked")
         List<CourseStudent> studentList = (List<CourseStudent>) q.execute(googleId);
