@@ -111,8 +111,7 @@ public class StudentAttributes extends EntityAttributes {
                                                           : Sanitizer.sanitizeTitle(student.getSectionName());
         this.googleId = (student.getGoogleId() == null) ? ""
                                                         : student.getGoogleId();
-        Long keyAsLong = student.getRegistrationKey();
-        this.key = (keyAsLong == null) ? null : Student.getStringKeyForLongKey(keyAsLong);
+        this.key = student.getRegistrationKey();
         /*
          * TODO: this is for backward compatibility with old system.
          * Old system considers "" as unregistered.
@@ -135,9 +134,8 @@ public class StudentAttributes extends EntityAttributes {
         this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
                                                           : Sanitizer.sanitizeTitle(student.getSectionName());
         this.googleId = (student.getGoogleId() == null) ? ""
-                                                        : student.getGoogleId();
-        Long keyAsLong = student.getRegistrationKey();
-        this.key = (keyAsLong == null) ? null : Student.getStringKeyForLongKey(keyAsLong);
+                                                        : student.getGoogleId();        
+        this.key = student.getRegistrationKey();
         /*
          * TODO: this is for backward compatibility with old system.
          * Old system considers "" as unregistered.

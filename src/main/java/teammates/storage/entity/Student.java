@@ -183,8 +183,8 @@ public class Student implements StoreCallback {
         this.comments = (comments == null ? null : comments.trim());
     }
 
-    public Long getRegistrationKey() {
-        return registrationKey;
+    public String getRegistrationKey() {
+        return (registrationKey == null) ? null : Student.getStringKeyForLongKey(registrationKey);
     }
 
     public String getCourseId() {
