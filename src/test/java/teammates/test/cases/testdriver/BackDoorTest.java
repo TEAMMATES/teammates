@@ -14,6 +14,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -26,6 +27,7 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.util.Priority;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 @Priority(2)
@@ -73,8 +75,19 @@ public class BackDoorTest extends BaseTestCase {
         status = BackDoor.deleteInstructor(instructor1OfCourse1.email, instructor1OfCourse1.courseId);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
+        // ----------deleting Feedback Response entities-------------------------
+        FeedbackQuestionAttributes fq = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
+        fq = BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+        fr = BackDoor.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        
+        verifyPresentInDatastore(fr);
+        status = BackDoor.deleteFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+        verifyAbsentInDatastore(fr);
+        
         // ----------deleting Feedback Question entities-------------------------
-        FeedbackQuestionAttributes fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         verifyPresentInDatastore(fq);
         status = BackDoor.deleteFeedbackQuestion(fq.getId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
@@ -387,6 +400,42 @@ public class BackDoorTest extends BaseTestCase {
     public void testDeleteStudent() {
         // already tested by testPersistenceAndDeletion
     }
+    
+    @SuppressWarnings("unused")
+    private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
+    }
+
+    @Test
+    public void testCreateFeedbackResponse() {
+
+        FeedbackResponseAttributes fr = new FeedbackResponseAttributes();
+        FeedbackQuestionAttributes fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        StudentAttributes student = dataBundle.students.get("student3InCourse1");
+
+        fq = BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+
+        fr.feedbackSessionName = fq.feedbackSessionName;
+        fr.courseId = fq.courseId;
+        fr.feedbackQuestionId = fq.getId();
+        fr.feedbackQuestionType = fq.questionType;
+        fr.giverEmail = student.email;
+        fr.giverSection = student.section;
+        fr.recipientEmail = student.email;
+        fr.recipientSection = student.section;
+        fr.responseMetaData = new Text("Student 3 self feedback");
+
+        // Make sure not already inside
+        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
+        verifyAbsentInDatastore(fr);
+
+        // Perform creation
+        BackDoor.createFeedbackResponse(fr);
+        verifyPresentInDatastore(fr);
+
+        // Clean up
+        BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
+        verifyAbsentInDatastore(fr);
+    }
 
     @SuppressWarnings("unused")
     private void ____EVALUATION_level_methods______________________________() {
@@ -418,6 +467,10 @@ public class BackDoorTest extends BaseTestCase {
 
     private void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
         assertEquals("null", BackDoor.getFeedbackQuestionForIdAsJson(fq.getId()));
+    }
+    
+    private void verifyAbsentInDatastore(FeedbackResponseAttributes fr) {
+        assertEquals("null", BackDoor.getFeedbackResponseAsJson(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail));
     }
 
     private void verifyPresentInDatastore(String dataBundleJsonString) {
@@ -507,6 +560,17 @@ public class BackDoorTest extends BaseTestCase {
         assertEquals(gson.toJson(expectedQuestion), gson.toJson(actualQuestion));
     }
 
+    private void verifyPresentInDatastore(FeedbackResponseAttributes expectedResponse) {
+        String responseJsonString = BackDoor.getFeedbackResponseAsJson(expectedResponse.feedbackQuestionId,
+                                                                       expectedResponse.giverEmail,
+                                                                       expectedResponse.recipientEmail);
+        FeedbackResponseAttributes actualResponse = gson.fromJson(responseJsonString, FeedbackResponseAttributes.class);
+
+        // Match the id of the expected Feedback Response because it is not known in advance
+        equalizeId(expectedResponse, actualResponse);
+        assertEquals(gson.toJson(expectedResponse), gson.toJson(actualResponse));
+    }
+
     private void equalizeIrrelevantData(
             StudentAttributes expectedStudent,
             StudentAttributes actualStudent) {
@@ -550,6 +614,13 @@ public class BackDoorTest extends BaseTestCase {
             FeedbackQuestionAttributes actualFeedbackQuestion) {
 
         expectedFeedbackQuestion.setId(actualFeedbackQuestion.getId());
+    }
+
+    private void equalizeId(
+           FeedbackResponseAttributes expectedFeedbackResponse, 
+           FeedbackResponseAttributes actualFeedbackResponse) {
+
+        expectedFeedbackResponse.setId(actualFeedbackResponse.getId());
     }
 
     @AfterClass
