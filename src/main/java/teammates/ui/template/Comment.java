@@ -3,6 +3,7 @@ package teammates.ui.template;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import static teammates.common.datatransfer.CommentParticipantType.*;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class Comment {
@@ -128,7 +129,7 @@ public class Comment {
     }
 
     public String getRecipientsString() {
-        return removeBracketsForArrayString(comment.recipients.toString());
+        return StringHelper.removeBracketsForArrayString(comment.recipients.toString());
     }
 
     public int getNumComments() {
@@ -168,15 +169,15 @@ public class Comment {
     }
 
     public String getShowCommentToString() {
-        return removeBracketsForArrayString(comment.showCommentTo.toString());
+        return StringHelper.removeBracketsForArrayString(comment.showCommentTo.toString());
     }
 
     public String getShowGiverNameToString() {
-        return removeBracketsForArrayString(comment.showGiverNameTo.toString());
+        return StringHelper.removeBracketsForArrayString(comment.showGiverNameTo.toString());
     }
 
     public String getShowRecipientNameToString() {
-        return removeBracketsForArrayString(comment.showRecipientNameTo.toString());
+        return StringHelper.removeBracketsForArrayString(comment.showRecipientNameTo.toString());
     }
 
     public boolean isShowCommentToRecipient() {
@@ -233,10 +234,6 @@ public class Comment {
 
     public boolean isShowRecipientNameToInstructors() {
         return comment.showRecipientNameTo.contains(INSTRUCTOR);
-    }
-
-    private String removeBracketsForArrayString(String arrayString) {
-        return arrayString.substring(1, arrayString.length() - 1).trim();
     }
 
 }

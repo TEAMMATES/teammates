@@ -507,5 +507,16 @@ public class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
-    }  
+    }
+    
+    /**
+     * Removes both the (square) brackets surrounding a string array.
+     * Brackets are assumed to be the first and last character of a string array.
+     * 
+     * @param arrayString
+     * @return the string without being enclosed with the square brackets 
+     */
+    public static String removeBracketsForArrayString(String arrayString) {
+        return arrayString.substring(1, arrayString.length() - 1).trim();
+    }
 }
