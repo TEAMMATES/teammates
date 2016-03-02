@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.security.SecureRandom;
 import java.util.Date;
 
 import javax.jdo.annotations.Extension;
@@ -44,11 +45,18 @@ public class CourseStudent implements StoreCallback {
     @NotPersistent
     public transient boolean keepUpdateTimestamp = false;
     
-    // Copied from old Student class, so does not use generator
-    private transient Long oldRegistrationKey = null;
+    /**
+     * Copied from old student class in strng form
+     * Null if using new registration key instead.
+     */
+    @Persistent
+    private transient String oldRegistrationKey = null;
 
+    /**
+     * Registration key, not used if old registration key is not null.
+     */
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient Long newRegistrationKey = null;
+    private transient String newRegistrationKey = null;
     
 
     /**
@@ -123,6 +131,10 @@ public class CourseStudent implements StoreCallback {
         this.setSectionName(sectionName);
         
         this.setCreatedAt(new Date());
+
+        // setId should be called after setting email and courseId
+        this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
+        this.setRegistrationKey(generateRegistrationKey());
     }
     
     public Date getCreatedAt() {
@@ -142,6 +154,18 @@ public class CourseStudent implements StoreCallback {
         if (!keepUpdateTimestamp) {
             this.updatedAt = updatedAt;
         }
+    }
+    
+    public String getUniqueId() {
+        return this.id;
+    }
+    
+    /**
+     * @param uniqueId
+     *          The unique ID of the entity (format: googleId%courseId).
+     */
+    public void setUniqueId(String uniqueId) {
+        this.id = uniqueId;
     }
 
     public String getEmail() {
@@ -192,14 +216,22 @@ public class CourseStudent implements StoreCallback {
         this.comments = (comments == null ? null : comments.trim());
     }
 
-    public Long getRegistrationKey() {
+    public String getRegistrationKey() {
         if (oldRegistrationKey != null) {
             return oldRegistrationKey;
         } else {
             return newRegistrationKey;
         }
     }
-
+    
+    public void setRegistrationKey(String key) {
+        this.newRegistrationKey = key;
+    }
+    
+    public void setOldRegistrationKey(String key) {
+        this.oldRegistrationKey = key;
+    }
+ 
     public String getCourseId() {
         return courseID;
     }
@@ -240,5 +272,19 @@ public class CourseStudent implements StoreCallback {
      */
     public void jdoPreStore() {
         this.setLastUpdate(new Date());
+    }
+    
+    /**
+     * Generate unique registration key for the student. 
+     * The key contains random elements to avoid being guessed.
+     * @return
+     */
+    private String generateRegistrationKey() {
+        String uniqueId = getUniqueId();
+        SecureRandom prng = new SecureRandom();
+        
+        String key = uniqueId + "%" + prng.nextInt();
+        
+        return key;
     }
 }
