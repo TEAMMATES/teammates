@@ -29,6 +29,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String studentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO);
+        String sanitizedStudentsInfo = Sanitizer.sanitizeForHtml((studentsInfo));
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -44,14 +45,14 @@ public class InstructorCourseEnrollSaveAction extends Action {
                                                                     courseId, students, hasSection, studentsInfo);
             
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
-                            + courseId + "]:</span><br>" + Sanitizer.sanitizeForHtml((studentsInfo)).replace("\n", "<br>");
+                            + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
             
         } catch (EnrollException | InvalidParametersException e) {
             setStatusForException(e);
             
-            statusToAdmin += "<br>Enrollment string entered by user:<br>" + studentsInfo.replace("\n", "<br>");
+            statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
             
