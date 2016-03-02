@@ -324,7 +324,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         String originalCourseId = questionToUpdate.courseId;
         questionToUpdate.courseId = null;
         
-        fqLogic.updateFeedbackQuestionWithResponseRateCheck(questionToUpdate);
+        fqLogic.updateFeedbackQuestion(questionToUpdate);
         
         questionToUpdate.courseId = originalCourseId;
 
@@ -341,7 +341,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
                 frLogic.getFeedbackResponsesForQuestion(
                         questionToUpdate.getId()).size();
         
-        fqLogic.updateFeedbackQuestionWithResponseRateCheck(questionToUpdate);
+        fqLogic.updateFeedbackQuestion(questionToUpdate);
         updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
         
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
@@ -357,7 +357,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertTrue(frLogic.getFeedbackResponsesForQuestion(
                         questionToUpdate.getId()).isEmpty() == false);
         
-        fqLogic.updateFeedbackQuestionWithResponseRateCheck(questionToUpdate);
+        fqLogic.updateFeedbackQuestion(questionToUpdate);
         updatedQuestion = fqLogic.getFeedbackQuestion(questionToUpdate.getId());
         
         assertEquals(updatedQuestion.toString(), questionToUpdate.toString());
@@ -370,7 +370,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         fqLogic.deleteFeedbackQuestionCascade(questionToUpdate.getId());
         
         try {
-            fqLogic.updateFeedbackQuestionWithResponseRateCheck(questionToUpdate);
+            fqLogic.updateFeedbackQuestion(questionToUpdate);
             signalFailureToDetectException("Expected EntityDoesNotExistException not caught.");
         } catch (EntityDoesNotExistException e){
             assertEquals(e.getMessage(), "Trying to update a feedback question that does not exist.");
@@ -382,7 +382,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         questionToUpdate.giverType = FeedbackParticipantType.TEAMS;
         questionToUpdate.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
         try {
-            fqLogic.updateFeedbackQuestionWithResponseRateCheck(questionToUpdate);
+            fqLogic.updateFeedbackQuestion(questionToUpdate);
             signalFailureToDetectException("Expected InvalidParametersException not caught.");
         } catch (InvalidParametersException e){
             assertEquals(e.getMessage(), String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,

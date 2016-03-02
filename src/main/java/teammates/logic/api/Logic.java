@@ -1822,14 +1822,14 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);
+        feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
 
     public void updateFeedbackQuestionWithResponseRateCheck(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);
+        feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
     
     /**

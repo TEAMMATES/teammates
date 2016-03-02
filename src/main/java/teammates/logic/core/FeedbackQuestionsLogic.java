@@ -566,7 +566,7 @@ public class FeedbackQuestionsLogic {
         }
         
         adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
-        updateFeedbackQuestionWithResponseRateCheck(newQuestion);
+        updateFeedbackQuestion(newQuestion);
     }
     
     
@@ -586,7 +586,7 @@ public class FeedbackQuestionsLogic {
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber += 1;
                 try {
-                    updateFeedbackQuestion(question);
+                    updateFeedbackQuestionWithoutResponseRateCheck(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
@@ -598,7 +598,7 @@ public class FeedbackQuestionsLogic {
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber -= 1;
                 try {
-                    updateFeedbackQuestion(question);
+                    updateFeedbackQuestionWithoutResponseRateCheck(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
@@ -618,13 +618,13 @@ public class FeedbackQuestionsLogic {
      * Precondition: <br>
      * {@code newAttributes} is not {@code null}
      */
-    private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
+    private void updateFeedbackQuestionWithoutResponseRateCheck(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         updateFeedbackQuestion(newAttributes, false);
     }
 
-    public void updateFeedbackQuestionWithResponseRateCheck(FeedbackQuestionAttributes newAttributes)
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         updateFeedbackQuestion(newAttributes, true);
@@ -751,7 +751,7 @@ public class FeedbackQuestionsLogic {
             if(question.questionNumber > questionNumberToShiftFrom){
                 question.questionNumber -= 1;
                 try {
-                    updateFeedbackQuestion(question);
+                    updateFeedbackQuestionWithoutResponseRateCheck(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
