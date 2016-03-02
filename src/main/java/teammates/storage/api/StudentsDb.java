@@ -320,7 +320,6 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         
         List<StudentAttributes> studentDataList = new ArrayList<StudentAttributes>();
-        
         List<CourseStudent> courseStudentList = getCourseStudentEntitiesForTeam(teamName, courseId);
         
         //TODO: See if we can use a generic method to convert a list of entities to a list of attributes.
@@ -537,10 +536,20 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
     
-        // TODO: Delete from CourseStudent
+        // Delete from CourseStudent
+
+        CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
+
+        if (courseStudentToDelete != null) {
+            if(hasDocument){
+                deleteDocument(new StudentAttributes(courseStudentToDelete));
+            }
+           
+            getPM().deletePersistent(courseStudentToDelete);
+            getPM().flush();
+        }
         
-        
-        
+        // Delete from Student
         
         Student studentToDelete = getStudentEntityForEmail(courseId, email);
     
@@ -588,15 +597,12 @@ public class StudentsDb extends EntitiesDb {
         deleteStudentsForGoogleId(googleId, false);
     }
 
-    
-    // TODO: This is not even used, only tested.
-    // Is there even a use case for this function?
     public void deleteStudentsForGoogleId(String googleId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        
+        // TODO: This is not even used, only tested.
+        // Is there even a use case for this function?
         // TODO: Delete from CourseStudent
-        
         
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
         
