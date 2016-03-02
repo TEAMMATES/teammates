@@ -219,10 +219,18 @@ public class StudentsDb extends EntitiesDb {
         String originalKey = registrationKey;
         
         
-        // TODO: Get CourseStudent instead
-        // Stupid thing needs to consider new/old registration key?
+        
+        // CourseStudent
+        registrationKey = StringHelper.decrypt(registrationKey);
+        CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(registrationKey);
+        
+        if (courseStudent != null) {
+            return new StudentAttributes(courseStudent);
+        }
         
         
+        
+        // Student
         
         try {
             //First, try to retrieve the student by assuming the given registrationKey key is encrypted
@@ -475,17 +483,43 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         
-        // TODO: This verifies for either/both Student and CourseStudent.
+        // This verifies for either/both Student and CourseStudent.
         verifyStudentExists(courseId, email);
         
-        // TODO: Update CourseStudent if it exists.
         
+        // Update CourseStudent if it exists.
+        CourseStudent courseStudent = getCourseStudentEntityForEmail(courseId, email);
+        CourseStudent courseStudentWithNewEmail = getCourseStudentEntityForEmail(courseId, newEmail);
+        if (courseStudent != null) {
+            
+            if (courseStudentWithNewEmail != null && !courseStudentWithNewEmail.equals(courseStudent)) {
+                String error = ERROR_UPDATE_EMAIL_ALREADY_USED
+                        + courseStudentWithNewEmail.getName() + "/" + courseStudentWithNewEmail.getEmail();
+                throw new InvalidParametersException(error);
+            }
+    
+            courseStudent.setEmail(newEmail);
+            courseStudent.setName(newName);
+            courseStudent.setLastName(StringHelper.splitName(newName)[1]);
+            courseStudent.setComments(newComments);
+            courseStudent.setGoogleId(newGoogleID);
+            courseStudent.setTeamName(newTeamName);
+            courseStudent.setSectionName(newSectionName);
+            
+            if (hasDocument) {
+                putDocument(new StudentAttributes(courseStudent));   
+            }
         
-        
+            // Set true to prevent changes to last update timestamp
+            courseStudent.keepUpdateTimestamp = keepUpdateTimestamp;
+            
+            log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
+            getPM().close();
+            return;
+        }
         
         
         // Update on Student
-        
         
         Student student = getStudentEntityForEmail(courseId, email);
         Student studentWithNewEmail = getStudentEntityForEmail(courseId, newEmail);
@@ -770,6 +804,34 @@ public class StudentsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<CourseStudent> studentList = (List<CourseStudent>)q.execute(courseId, email);
     
+        if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
+            return null;
+        }
+    
+        return studentList.get(0);
+    }
+    
+    private CourseStudent getCourseStudentEntityForRegistrationKey(String registrationKey) {
+        
+        // Look up both old and new registration keys.
+        
+        Query q = getPM().newQuery(CourseStudent.class);
+        q.declareParameters("String registrationKeyParam");
+        q.setFilter("oldRegistrationKey : String == registrationKeyParam || "
+                  + "newRegistrationKey : String == registrationKeyParam");
+        
+        @SuppressWarnings("unchecked")
+        List<CourseStudent> studentList = (List<CourseStudent>)q.execute(registrationKey);
+    
+        // If registration key detected is not unique, something is seriously wrong...
+        if (studentList.size() > 1) {
+            String duplicatedStudentsUniqueIds = "";
+            for (CourseStudent s : studentList) {
+                duplicatedStudentsUniqueIds += s.getUniqueId() + "\n";
+            }
+            log.severe("Duplicate registration keys detected for: \n" + duplicatedStudentsUniqueIds);
+        }
+        
         if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
             return null;
         }
