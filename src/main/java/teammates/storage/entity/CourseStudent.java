@@ -65,7 +65,7 @@ public class CourseStudent implements StoreCallback {
      */
     @Persistent
     @SerializedName("google_id")
-    private String ID = null;
+    private String googleId = null;
 
     /**
      * The email used to contact the student regarding this course.
@@ -177,11 +177,11 @@ public class CourseStudent implements StoreCallback {
     }
 
     public String getGoogleId() {
-        return ID;
+        return googleId;
     }
 
     public void setGoogleId(String googleId) {
-        this.ID = (googleId == null ? null : googleId.trim());
+        this.googleId = (googleId == null ? null : googleId.trim());
     }
 
     public String getName() {
@@ -260,7 +260,7 @@ public class CourseStudent implements StoreCallback {
     // not tested as this is part of client script
     public boolean isRegistered() {
         // Null or "" => unregistered
-        return ID != null && !ID.isEmpty();
+        return googleId != null && !googleId.isEmpty();
     }
 
     public static String getStringKeyForLongKey(long longKey) {
