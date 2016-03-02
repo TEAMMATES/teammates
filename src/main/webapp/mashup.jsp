@@ -397,9 +397,15 @@
                 $('#adminHomePage').load('<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #mainContent');
                 $('#adminSearchPage').load('<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #mainContent');
                 $('#adminActivityLogPage').load('<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #mainContent');
-                $('#deadlineExceededErrorPage').load('<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #mainContent');
-                $('#errorPage').load('<%=Const.ViewURIs.ERROR_PAGE%> #mainContent');
-                $('#entityNotFoundPage').load('<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #mainContent');
+                $.get('<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%>').fail(function(data) {
+                    $('#deadlineExceededErrorPage').html($('<div/>').html(data.responseText).find('#mainContent').html());
+                });
+                $.get('<%=Const.ViewURIs.ERROR_PAGE%>').fail(function(data) {
+                    $('#errorPage').html($('<div/>').html(data.responseText).find('#mainContent').html());
+                });
+                $.get('<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%>').fail(function(data) {
+                    $('#entityNotFoundPage').html($('<div/>').html(data.responseText).find('#mainContent').html());
+                });
                 $('#index').find('iframe').on('load', function() {
                     calcHeight($('#index').find('iframe'));
                 });
