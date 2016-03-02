@@ -253,10 +253,10 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Java Servlets**: Java Servlet technology provides a simple, consistent mechanism for extending the functionality of a Web server and for accessing existing business systems. A servlet can almost be thought of as an applet that runs on the server side--without a face.
 * **Java Data Objects (JDO)** [version 2.3; while GAE supports JDO 3.0 as well, we continue to use JDO 2.3 because it is easier to set up.]
   JDO is a standard interface for storing objects containing data into a database. The standard defines interfaces for annotating Java objects, retrieving objects with queries, and interacting with a database using transactions. An application that uses the JDO interface can work with different kinds of databases without using any database-specific code, including relational databases, hierarchical databases, and object databases.
-* **Java Persistence API (JPA)** : It  is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables. 
 * **Datanucleus Access Platform** [version 1; while GAE supports Datanucleus v2 as well, the version that goes with JDO 2.3 is v1]
   The DataNucleus Access Platform provides persistence and retrieval of data to a range of datastores using a range of APIs, with a range of query languages.
   Comes with App Engine SDK.
+* **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
 * **SendGrid** Alternative framework to JavaMail for sending emails.
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
@@ -295,6 +295,6 @@ There are several files used to configure various aspects of the system.
 * `cron.xml` : This specifies cron jobs to run.
 * `queue.xml` : Specifies configuration of task queues.
 * `jdoconfig.xml` : Specifies the JDO configuration.
-* `persistence.xml` : to specify the JPA configuration. 
+* `persistence.xml` : Specifies the JPA configuration. 
     
     
