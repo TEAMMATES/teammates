@@ -219,21 +219,19 @@ public class StudentsDb extends EntitiesDb {
         String originalKey = registrationKey;
         
         
-        
-        // CourseStudent
-        registrationKey = StringHelper.decrypt(registrationKey);
-        CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(registrationKey);
-        
-        if (courseStudent != null) {
-            return new StudentAttributes(courseStudent);
-        }
-        
-        
-        
-        // Student
-        
         try {
-            //First, try to retrieve the student by assuming the given registrationKey key is encrypted
+
+            // CourseStudent
+            registrationKey = StringHelper.decrypt(registrationKey);
+            CourseStudent courseStudent = getCourseStudentEntityForRegistrationKey(registrationKey);
+            
+            if (courseStudent != null) {
+                return new StudentAttributes(courseStudent);
+            }
+            
+
+            // Student
+            // First, try to retrieve the student by assuming the given registrationKey key is encrypted
             registrationKey = StringHelper.decrypt(registrationKey);
             Student student = getPM().getObjectById(Student.class,
                     KeyFactory.stringToKey(registrationKey));
