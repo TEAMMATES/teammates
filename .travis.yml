@@ -1,0 +1,40 @@
+language: java
+
+notifications:
+  email: false
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+env:
+  - TEST_SUITE=src/test/testng-travis-parallel.xml
+  - TEST_SUITE=src/test/testng-travis-others.xml
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $TRAVIS_BUILD_DIR/libs
+
+addons:
+  firefox: "38.0.5"
+#   apt:
+#     packages:
+#       - net-tools
+
+before_install:
+  - cp src/main/resources/build.template.properties src/main/resources/build.properties
+  - cp src/test/resources/test.template.properties src/test/resources/test.properties
+  - cp src/main/webapp/WEB-INF/appengine-web.template.xml src/main/webapp/WEB-INF/appengine-web.xml
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - tar -xjf /tmp/firefox-38.0.5.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  - export PATH="$TRAVIS_BUILD_DIR/firefox:$PATH"
+  # - gem install gist
+
+install: true
+script:
+  - ./gradlew
+  # - gist out.txt

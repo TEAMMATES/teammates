@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -650,7 +651,7 @@ public class BackDoor {
     }
 
     private static String readResponse(URLConnection conn) throws IOException {
-        conn.setReadTimeout(10000);
+        conn.setReadTimeout(60000);
         BufferedReader rd = new BufferedReader(new InputStreamReader(
                 conn.getInputStream(), "UTF-8"));
         

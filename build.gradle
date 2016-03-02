@@ -1,0 +1,188 @@
+apply plugin: "war"
+apply plugin: "appengine"
+
+def appengineVersion = "1.9.27"
+def numOfTestRetries = 5
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.google.appengine:gradle-appengine-plugin:1.9.30"
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "commons-codec:commons-codec:1.6"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    appengineSdk "com.google.appengine:appengine-java-sdk:${appengineVersion}"
+    compile "com.google.code.gson:gson:2.2.2"
+    compile "com.google.guava:guava:15.0"
+    compile "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
+    compile "com.google.appengine:appengine-endpoints-deps:${appengineVersion}"
+    compile "com.google.appengine:appengine-endpoints:${appengineVersion}"
+    compile "com.google.appengine.tools:appengine-gcs-client:0.3.13"
+    compile "com.google.appengine:appengine-jsr107cache:${appengineVersion}"
+    compile "com.google.appengine.orm:datanucleus-appengine:1.0.10"
+    compile "com.google.api-client:google-api-client:1.18.0-rc"
+    compile "com.google.api-client:google-api-client-appengine:1.18.0-rc"
+    compile "com.google.apis:google-api-services-storage:v1beta2-rev47-1.18.0-rc"
+    compile "commons-fileupload:commons-fileupload:1.3.1"
+    compile "com.fasterxml.jackson.core:jackson-core:2.1.3"
+    compile "javax.jdo:jdo2-api:2.3-eb"
+    compile "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1"
+    compile "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1"
+    compile "org.datanucleus:datanucleus-core:1.1.5"
+    compile "org.datanucleus:datanucleus-jpa:1.1.5"
+    compile "xerces:xercesImpl:2.9.1"
+
+    providedCompile "com.google.appengine:appengine-api-stubs:${appengineVersion}"
+    providedCompile "com.google.appengine:appengine-remote-api:${appengineVersion}"
+    providedCompile "com.google.appengine:appengine-testing:${appengineVersion}"
+    providedCompile "com.google.appengine:appengine-api-labs:${appengineVersion}"
+    providedCompile "javax.mail:mail:1.4.5"
+    providedCompile "httpunit:httpunit:1.7"
+    providedCompile "org.testng:testng:6.8.7"
+
+    testRuntime "org.seleniumhq.selenium:selenium-java:2.46.0"
+    testRuntime "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
+
+    // Hack to get selenium-server-standalone from URL
+    def f = new File('libs/selenium-server-standalone-2.46.jar')
+    f.getParentFile().mkdirs()
+    if (!f.exists()) {
+        new URL("http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar")
+            .withInputStream{i -> f.withOutputStream{ it << i }}
+    }
+    providedCompile fileTree(dir: "libs", include: ["*.jar"])
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "src/main/java"
+            srcDir "src/test/java"
+        }
+        resources {
+            srcDir "src/main/resources"
+            srcDir "src/test/resources"
+        }
+    }
+}
+
+appengine {
+    httpPort = 8888
+    downloadSdk = true
+    jvmFlags = ["-Duser.timezone=UTC-Xss2m"]
+    enhancer {
+        version = "v1"
+        api = "JPA"
+        enhanceOnBuild = true
+    }
+}
+
+appengineRun {
+    daemon = true
+}
+
+(1..numOfTestRetries + 1).each { id ->
+    task "killFF${id}"(type: Exec) {
+        //on linux
+        commandLine "pkill", "firefox"
+        ignoreExitValue = true
+        outputs.upToDateWhen { false }
+    }
+}
+
+(1..numOfTestRetries + 1).each { id ->
+    task "appengineStop${id}"(type: com.google.appengine.task.StopTask) {
+        onlyIf {
+            file("build/reports/test-try-${id}/testng-failed.xml").exists()
+        }
+    }
+    task "appengineRun${id}"(type: com.google.appengine.task.RunTask) {
+        daemon = true
+        dependsOn "appengineStop${id}"
+        onlyIf {
+            file("build/reports/test-try-${id}/testng-failed.xml").exists()
+        }
+    }
+}
+
+def afterTestClosure = { descriptor, result ->
+    if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
+        def msg = result.exception.getMessage()
+        def shouldDiff = msg.indexOf("<<[expected>\n") != -1
+        if (shouldDiff) {
+            new File("expected").text = msg[(msg.indexOf("<<[expected>\n") + 13)..(msg.indexOf("\n</expected]>>") - 1)]
+            new File("actual").text = msg[(msg.indexOf("<<[actual>\n") + 11)..(msg.indexOf("\n</actual]>>") - 1)]
+            def process = 'diff expected actual'.execute()
+            println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
+            println process.getText()
+            process.waitFor()
+        }
+    }
+}
+
+test {
+    useTestNG() {
+        suites System.getenv("TEST_SUITE") != null ? System.getenv("TEST_SUITE") : "src/test/testng.xml"
+        useDefaultListeners = true
+        outputDirectory = file("build/reports/test-try-1")
+    }
+    jvmArgs "-Duser.timezone=UTC-Xss2m", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+    maxHeapSize = "512m"
+    ignoreFailures = numOfTestRetries != 0 ? true : false
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    testLogging {
+        events "passed"
+    }
+    afterTest afterTestClosure 
+    finalizedBy = ["killFF1", "appengineStop1", "appengineRun1"]
+}
+test.dependsOn "appengineEnhance"
+
+task appengineTest
+appengineTest.dependsOn "test"
+
+(1..numOfTestRetries).each { id ->
+    def isLastRetry = id == numOfTestRetries ? true : false
+    task "testRetry${id}"(type: Test) {
+        dependsOn "test", "appengineEnhance"
+        onlyIf {
+            file("build/reports/test-try-${id}/testng-failed.xml").exists()
+        }
+        useTestNG() {
+            suites("build/reports/test-try-${id}/testng-failed.xml")
+            outputDirectory = file("build/reports/test-try-${id+1}")
+            useDefaultListeners = true
+        }
+        testClassesDir = sourceSets.test.output.classesDir
+        classpath = sourceSets.test.runtimeClasspath
+        testSrcDirs = sourceSets.test.java.srcDirs as List
+        jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        maxHeapSize = "512m"
+        ignoreFailures = isLastRetry ? false : true
+        reports.html.enabled = false
+        reports.junitXml.enabled = false
+        finalizedBy = isLastRetry ? ["killFF${id+1}", "appengineStop"] : ["killFF${id+1}", "appengineStop${id+1}", "appengineRun${id+1}"]
+        testLogging {
+            events "passed"
+            exceptionFormat = isLastRetry ? "full" : "short"
+        }
+        afterTest afterTestClosure
+    }
+    appengineTest.dependsOn "testRetry${id}"
+}
+
+defaultTasks "clean", "appengineRun", "appengineTest", "appengineStop"
