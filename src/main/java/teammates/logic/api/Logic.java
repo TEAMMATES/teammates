@@ -1825,13 +1825,6 @@ public class Logic {
         feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
 
-    public void updateFeedbackQuestionWithResponseRateCheck(FeedbackQuestionAttributes updatedQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
-    }
-    
     /**
      * Deletes the feedback session but not the questions and
      * responses associated to it.
