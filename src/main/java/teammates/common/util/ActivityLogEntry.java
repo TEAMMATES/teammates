@@ -386,7 +386,7 @@ public class ActivityLogEntry {
         return "<a href=\""+getUrlToShow()+"\" class=\""+style+"\" target=\"_blank\">"+servletName+"</a>";
     }
     
-    public String getMessageInfo(){        
+    public String getMessageInfo() {
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())){
             message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"text-danger\"><strong>" + Const.ACTION_RESULT_FAILURE + "</strong><br>");
             message = message + "</span><br>";
