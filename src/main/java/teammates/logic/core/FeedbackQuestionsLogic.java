@@ -624,6 +624,16 @@ public class FeedbackQuestionsLogic {
         updateFeedbackQuestion(newAttributes, false);
     }
 
+    /**
+     * Updates the feedback question. For each attribute in
+     * {@code newAttributes}, the existing value is preserved if the attribute
+     * is null (due to 'keep existing' policy). Existing responses for the
+     * question are automatically deleted and the response rate of the feedback
+     * session is updated if giverType/recipientType are changed, or if the
+     * response visibility is increased.<br>
+     * Precondition: <br>
+     * {@code newAttributes} is not {@code null}
+     */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
 
