@@ -9,7 +9,6 @@
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
     <%-- Responses are displayed when only a single question is loaded, 
          otherwise it is loaded through ajax. See /js/instructorFeedbackResultsAjaxByQuestion.js --%>
-    <results:byQuestionResults isShowingResponses="${!data.largeNumberOfRespondents}" 
-                               isPanelsCollapsed="${data.shouldCollapsed}" 
+    <results:byQuestionResults isShowingResponses="${!data.largeNumberOfRespondents}"
                                questionPanels="${data.questionPanels}" />    
 </results:resultsPage>

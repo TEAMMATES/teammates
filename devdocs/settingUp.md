@@ -209,6 +209,17 @@ TBD
     deployed app and not the dev server).
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
 
+
+##Running client scripts
+Client scripts are scripts that remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
+
+1. Download and install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
+
+2. Run `gcloud auth login` in the terminal of your PC and choose your google account for authentication.
+
+3. Now you can run your scripts.
+
+
 ##Troubleshooting
 Troubleshooting instructions are given [in this document](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
 
@@ -247,6 +258,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
   Comes with App Engine SDK.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
 * **SendGrid** Alternative framework to JavaMail for sending emails.
+* **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
 

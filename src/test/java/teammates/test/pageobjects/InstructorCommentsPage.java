@@ -32,7 +32,7 @@ public class InstructorCommentsPage extends AppPage {
         browser.driver.findElement(By.xpath(pathToSecondDisplayPanelHeading)).click();
         waitForPageToLoad();
         try{
-            String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div";
+            String pathToSecondDisplayPanelBodyInnerDiv = "//*[@id=\"panel_display-2\"]/div/div[2]";
             waitForElementVisibility(browser.driver.findElement(By.xpath(pathToSecondDisplayPanelBodyInnerDiv)));
         } catch (StaleElementReferenceException e){
             ;//do nothing
@@ -206,6 +206,68 @@ public class InstructorCommentsPage extends AppPage {
         jsExecutor.executeScript("document.getElementById('"
                 + "commentdelete-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIdx + "').click();");
         waitForPageToLoad();
+    }
+    
+    /**
+     * Clicks all the headings of the comment panel to either expand/collapse the panel body.
+     */
+    public void clickAllCommentsPanelHeading() {
+        for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='panel_display-']"))) {
+            e.findElement(By.cssSelector(".panel-heading")).click();
+        }
+    }
+    
+    /**
+     * Checks if the body of all the comment panels are visible.
+     * @return true if all comment panel body are visible
+     */
+    public boolean areCommentsVisible() {
+        return isAllCommentPanelBodyVisibilityEquals(true);
+    }
+    
+    /**
+     * Checks if the body of all the comment panels are hidden
+     * @return true if all comment panel body are hidden
+     */
+    public boolean areCommentsHidden() {
+        return isAllCommentPanelBodyVisibilityEquals(false);
+    }
+    
+    /**
+     * Checks if the body of all the comment panels are collapsed or expanded.
+     * @param isVisible true to check for expanded, false to check for collapsed.
+     * @return true if all comment panel body are equals to the visibility being checked.
+     */
+    private boolean isAllCommentPanelBodyVisibilityEquals(boolean isVisible) {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        for(WebElement e : webElements) {
+            if(e.isDisplayed() != isVisible) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Waits for all the panels to collapse.
+     */
+    public void waitForPanelsToCollapse() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        
+        waitForElementToDisappear(panelCollapseSelector);
+    }
+    
+    /**
+     * Waits for all the panels to expand.
+     */
+    public void waitForPanelsToExpand() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        waitForElementsVisibility(webElements);
     }
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
