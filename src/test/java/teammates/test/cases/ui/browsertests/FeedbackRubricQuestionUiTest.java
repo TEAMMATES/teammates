@@ -75,28 +75,28 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
         instructorResultsPage.waitForPanelsToExpand();
         
-        instructorResultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageRubricQuestionView.html");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
         
         
         // Giver Recipient Question View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-recipient-question");
         instructorResultsPage.waitForPanelsToExpand();
-        instructorResultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageRubricGRQView.html");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
         
         // Giver Question Recipient View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-question-recipient");
         instructorResultsPage.waitForPanelsToExpand();
-        instructorResultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageRubricGQRView.html");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
         
         // Recipient Giver Question View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-question-giver");
         instructorResultsPage.waitForPanelsToExpand();
-        instructorResultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageRubricRQGView.html");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
         
         // Recipient Question Giver View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-giver-question");
         instructorResultsPage.waitForPanelsToExpand();
-        instructorResultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageRubricRGQView.html");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
         
     }
     

@@ -723,10 +723,10 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
-        return verifyHtml(null, filePath, false);
+        return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath, boolean isWithRetry) throws IOException {
+    private AppPage verifyHtml(By by, String filePath) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
         if (filePath.startsWith("/")) {
@@ -735,20 +735,26 @@ public abstract class AppPage {
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
+            int maxRetryCount = 5;
+            int waitDuration = 1000;
             String expected = FileHelper.readFile(filePath);
             expected = HtmlHelper.injectTestProperties(expected);
-            if (isWithRetry) {
-                int maxRetryCount = 5;
-                int waitDuration = 1000;
-                for (int i = 0; i < maxRetryCount; i++) {
-                    if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
-                        break;
-                    }
-                    ThreadHelper.waitFor(waitDuration);
-                    actual = getPageSource(by);
+            
+            // The check is done multiple times with waiting times in between to account for
+            // certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
+            for (int i = 0; i < maxRetryCount; i++) {
+                if (i == maxRetryCount - 1) {
+                    // Last retry count: do one last attempt and if it still fails,
+                    // throw assertion error and show the differences
+                    HtmlHelper.assertSameHtml(expected, actual, isPart);
+                    break;
                 }
+                if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
+                    break;
+                }
+                ThreadHelper.waitFor(waitDuration);
+                actual = getPageSource(by);
             }
-            HtmlHelper.assertSameHtml(expected, actual, isPart);
             
         } catch (IOException|AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
@@ -797,7 +803,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) throws IOException {
-        return verifyHtml(by, filePath, false);
+        return verifyHtml(by, filePath);
     }
     
     /**
@@ -813,35 +819,6 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
     
-    /**
-     * Verifies that main content specified id "mainContent" in currently 
-     * loaded page has the same HTML content as 
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * The check is done multiple times with waiting times in between to account for
-     * certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlMainContentWithRetry(String filePath) throws IOException {
-        return verifyHtml(MAIN_CONTENT, filePath, true);
-    }
-
-    /**
-     * Verifies that the currently loaded page has the same HTML content as 
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * The check is done multiple times with waiting times in between to account for
-     * certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlWithRetry(String filePath) throws IOException {
-        return verifyHtml(null, filePath, true);
-    }
-
     /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"

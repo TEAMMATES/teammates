@@ -81,23 +81,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.waitForPanelsToExpand();
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
-        resultsPage.verifyHtmlWithRetry("/instructorFeedbackResultsPageOpen.html");
+        resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
         resultsPage.waitForPanelsToExpand();
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
         resultsPage.waitForPanelsToExpand();
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.waitForPanelsToExpand();
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageEmpty.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
         
     }
     
@@ -149,7 +149,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr", "Session with sanitized data");
         resultsPage.waitForPanelsToExpand();
         
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsPageWithSanitizedData.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
     public void testModerateResponsesButton() {
@@ -350,7 +350,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "Open Session", true, "question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsAjaxByQuestion.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
         
         ______TS("Failure case: Ajax error");
         
@@ -376,14 +376,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
 
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
         
         ______TS("Typical case: ajax for view by question for helper2");
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper2",
                                         "Open Session", true, "question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
 
         ______TS("Typical case: ajax for view by giver > recipient > question");
 
@@ -392,7 +392,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
 
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsAjaxByGRQ.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
 
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
@@ -415,7 +415,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsAjaxByGQR.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
                 
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         
@@ -429,7 +429,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "recipient-question-giver");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsAjaxByRQG.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRQG.html");
 
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
@@ -443,7 +443,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "recipient-giver-question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlMainContentWithRetry("/instructorFeedbackResultsAjaxByRGQ.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRGQ.html");
 
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
