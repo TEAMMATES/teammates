@@ -638,7 +638,7 @@ public class Emails {
         MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         message.setSubject("Severe Error Logs Compilation");
 
-        String emailBody = logs;
+        String emailBody = logs.replace("\\n","<br>");
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -805,6 +805,8 @@ public class Emails {
             forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
+            log.severe("Crash report failed to send. Detailed error stack trace: "
+                     + TeammatesException.toStringWithStackTrace(error));
             logSevereForErrorInSendingItem("crash report", email, e);
         }
     

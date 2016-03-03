@@ -147,14 +147,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         String helperId = testData.accounts.get("helperWithSessions").googleId;
         
         feedbackPage = getFeedbackPageForInstructor(helperId);
-        feedbackPage.verifyHtmlAjaxMainContent("/instructorFeedbackAllSessionTypesWithHelperView.html");
+        feedbackPage.verifyHtmlMainContentWithRetry("/instructorFeedbackAllSessionTypesWithHelperView.html");
         
         
         ______TS("typical case, sort by name");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.verifyHtmlAjaxMainContent("/instructorFeedbackAllSessionTypes.html");
+        feedbackPage.verifyHtmlMainContentWithRetry("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName().verifyTablePattern(
                 0, 1,"Awaiting Session{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
@@ -561,7 +561,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                       BackDoor.getFeedbackSession(courseId, sessionName));
     
         feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
-        feedbackPage.verifyHtmlAjaxMainContent("/instructorFeedbackDeleteSuccessful.html");
+        feedbackPage.verifyHtmlMainContentWithRetry("/instructorFeedbackDeleteSuccessful.html");
         
     }
 
@@ -596,7 +596,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
         assertEquals(true, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
-        feedbackPage.verifyHtmlAjaxMainContent("/instructorFeedbackPublishSuccessful.html");
+        feedbackPage.verifyHtmlMainContentWithRetry("/instructorFeedbackPublishSuccessful.html");
         
         
         ______TS("PUBLISHED: publish link hidden");
@@ -634,7 +634,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickAndConfirm(feedbackPage.getUnpublishLink(courseId, sessionName));
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
         assertEquals(false, BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
-        feedbackPage.verifyHtmlAjaxMainContent("/instructorFeedbackUnpublishSuccessful.html");
+        feedbackPage.verifyHtmlMainContentWithRetry("/instructorFeedbackUnpublishSuccessful.html");
         
         
         ______TS("PUBLISHED: unpublish link hidden");

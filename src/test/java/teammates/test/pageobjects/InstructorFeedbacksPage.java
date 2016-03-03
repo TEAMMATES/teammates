@@ -545,14 +545,18 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.driver.findElements(By.className("sessionsRow")).size();
     }
     
-    @SuppressWarnings("deprecation")
     private String getFeedbackSessionCourseId(int rowId) {
-        return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".0");
+        return browser.driver.findElement(By.id("table-sessions"))
+                             .findElements(By.xpath("tbody/tr")).get(rowId)
+                             .findElements(By.xpath("td")).get(0)
+                             .getText();
     }
 
-    @SuppressWarnings("deprecation")
     private String getFeedbackSessionName(int rowId) {
-        return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".1");
+        return browser.driver.findElement(By.id("table-sessions"))
+                             .findElements(By.xpath("tbody/tr")).get(rowId)
+                             .findElements(By.xpath("td")).get(1)
+                             .getText();
     }
 
     private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {

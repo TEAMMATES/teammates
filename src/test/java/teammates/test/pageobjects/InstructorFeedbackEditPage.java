@@ -400,6 +400,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickAndConfirmSaveForQuestion1() {
+        clickAndConfirm(questionSaveForQuestion1);
+    }
+    
     public void clickVisibilityPreviewForQuestion1() {
         browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }

@@ -178,3 +178,22 @@ test('sanitizeForJs(string)', function(){
     equal(sanitizeForJs("Will o'''''\\\\ Wisp"), "Will o\\'\\'\\'\\'\\'\\\\\\\\ Wisp", "sanitization for single quote and slash \\");
     
 });
+
+test('isBlank(string)', function() {
+    equal(isBlank(""), true, "Test - empty string");
+    equal(isBlank(" "), true, "Test - single space");
+    equal(isBlank("            "), true, "Test - multiple spaces");
+    
+    equal(isBlank("test"), false, "Test - not blank input");
+    equal(isBlank("test    test"), false, "Test - spaces between strings");
+    equal(isBlank("     test"), false, "Test - string with leading spaces");
+    equal(isBlank("test       "), false, "Test - string with trailing spaces");
+    equal(isBlank("     test      "), false, "Test - string with leading and trailing spaces");
+    
+    // type check
+    equal(isBlank(), false, "Test - invalid type: empty input value");
+    equal(isBlank(null), false, "Test - invalid type: null input");
+    equal(isBlank(0), false, "Test - invalid type: number input");
+    equal(isBlank({}), false, "Test - invalid type: object input");
+    equal(isBlank(undefined), false, "Test - invalid type: undefined input");
+});

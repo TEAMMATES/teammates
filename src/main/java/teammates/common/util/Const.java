@@ -843,7 +843,7 @@ public class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp"; 
         
-        public static final String MASHUP = "/dev/mashup.jsp";
+        public static final String MASHUP = "/mashup.jsp";
     
         //View fragments
         public static final String INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
@@ -862,6 +862,8 @@ public class Const {
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
+        public static final String EMAIL_NOT_FOUND = "The requested email was not found";
+        public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
         
         public static final String RECEIVER_LIST_FILE_TOO_LARGE = "The uploaded receiver list file was too large. ";
         public static final String NOT_A_RECEIVER_LIST_FILE = "The file that you have uploaded is not a receiver list file. ";

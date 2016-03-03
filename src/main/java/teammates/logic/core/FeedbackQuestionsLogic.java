@@ -566,7 +566,7 @@ public class FeedbackQuestionsLogic {
         }
         
         adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, questions);
-        updateFeedbackQuestion(newQuestion);
+        updateFeedbackQuestionWithResponseRateCheck(newQuestion);
     }
     
     

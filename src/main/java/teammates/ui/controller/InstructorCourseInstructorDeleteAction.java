@@ -27,20 +27,8 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        int numOfInstrCanModifyInstructor = 0;
-        InstructorAttributes instrCanModifyInstructor = null;
-        for (InstructorAttributes instr : instructors) {
-            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
-                numOfInstrCanModifyInstructor++;
-                instrCanModifyInstructor = instr;
-            }
-        }
-        boolean lastCanModifyInstructor = (numOfInstrCanModifyInstructor <= 1) && 
-                (instrCanModifyInstructor != null && instrCanModifyInstructor.email.equals(instructorEmail));
-        
         /* Process deleting an instructor and setup status to be shown to user and admin */
-        if (!lastCanModifyInstructor) {
+        if (hasAlternativeInstructor(courseId, instructorEmail)) {
             logic.deleteInstructor(courseId, instructorEmail);
             
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, StatusMessageColor.SUCCESS));
@@ -66,4 +54,26 @@ public class InstructorCourseInstructorDeleteAction extends Action {
         return result;
     }
 
+    /**
+     * @param courseId is the id of the course
+     * @param instructorToDeleteEmail is the email of the instructor who is being deleted
+     * @return true if there is a joined instructor (other than the instructor to delete) with the privilege of modifying instructors
+     */
+    private boolean hasAlternativeInstructor(String courseId, String instructorToDeleteEmail) {
+
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+
+        for (InstructorAttributes instr : instructors) {
+
+            boolean isAlternativeInstructor = instr.isRegistered()
+                                              && !instr.getEmail().equals(instructorToDeleteEmail)
+                                              && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+
+            if (isAlternativeInstructor) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
