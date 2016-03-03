@@ -388,7 +388,7 @@ public class ActivityLogEntry {
     
     public String getMessageInfo(){
         
-        Sanitizer.sanitizeForHtml(message);
+ 
         
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())){
             message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"text-danger\"><strong>" + Const.ACTION_RESULT_FAILURE + "</strong><br>");
