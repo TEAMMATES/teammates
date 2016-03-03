@@ -423,6 +423,7 @@ public class BackDoorTest extends BaseTestCase {
         fr.recipientEmail = student.email;
         fr.recipientSection = student.section;
         fr.responseMetaData = new Text("Student 3 self feedback");
+        fr.setId(fq.getId() + "%" + fr.giverEmail + "%" + fr.recipientEmail);
 
         // Make sure not already inside
         BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giverEmail, fr.recipientEmail);
@@ -566,8 +567,6 @@ public class BackDoorTest extends BaseTestCase {
                                                                        expectedResponse.recipientEmail);
         FeedbackResponseAttributes actualResponse = gson.fromJson(responseJsonString, FeedbackResponseAttributes.class);
 
-        // Match the id of the expected Feedback Response because it is not known in advance
-        equalizeId(expectedResponse, actualResponse);
         assertEquals(gson.toJson(expectedResponse), gson.toJson(actualResponse));
     }
 
@@ -614,13 +613,6 @@ public class BackDoorTest extends BaseTestCase {
             FeedbackQuestionAttributes actualFeedbackQuestion) {
 
         expectedFeedbackQuestion.setId(actualFeedbackQuestion.getId());
-    }
-
-    private void equalizeId(
-           FeedbackResponseAttributes expectedFeedbackResponse, 
-           FeedbackResponseAttributes actualFeedbackResponse) {
-
-        expectedFeedbackResponse.setId(actualFeedbackResponse.getId());
     }
 
     @AfterClass
