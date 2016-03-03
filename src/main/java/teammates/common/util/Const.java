@@ -872,16 +872,16 @@ public class Const {
         public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
         
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
-        public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
+        public static final String STUDENT_FIRST_TIME = "<p align='center'><font size=10 color='red'><b>Oops! You are not a registered student.<b></font></p><br><br><div style=\"text-align:left;\"><span style='color:black; '><font size=6><b>Welcome stranger !!!</b></font></span> "
                 + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
                 + "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
-                + "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
-                + "<br/>1. You used a different Google account to access TEAMMATES in the past. "
+                + "<br/><br/><b>Not a stranger to TEAMMATES?<b> Could log in before, but not any more? These are the possible reasons:"
+                + "<br/>1. You <span style='color:black; background-color:yellow;font-size=25pt'><strong>used a different Google account to access TEAMMATES in the past</strong></span>. "
                 + "In that case, you need to use the same Google account to access TEAMMATES again. Logout and re-login using the other Google account. "
-                + "If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails."
-                + "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. " 
+                + "If you don't remember which Google account you used previously, <span style='color:black; background-color:yellow;font-size=25pt'><strong>email us from the same email account to which you receive TEAMMATES emails</strong></span>."
+                + "<br/>2. You <span style='color:black; background-color:yellow;font-size=25pt'><strong>changed the primary email from a non-Gmail address to a Gmail address</strong></span> recently. " 
                 + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address."
-                + "<br/>3. You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. "
+                + "<br/>3. You <span style='color:black; background-color:yellow;font-size=25pt'><strong>joined this course just a few seconds ago</strong></span> and your data may be still in the process of propagating through our servers. "
                 + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
                 + "</div>";
         public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
