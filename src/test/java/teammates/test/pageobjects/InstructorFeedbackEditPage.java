@@ -422,16 +422,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }
     
-    public void clickVisibilityPreviewForQuestion2() {
-        browser.driver.findElement(By.id("visibilityMessageButton-2")).click();
+    public void clickVisibilityPreviewForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)).click();
     }
     
     public void clickVisibilityOptionsForQuestion1() {
         browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
     }
     
-    public void clickVisibilityOptionsForQuestion2() {
-        browser.driver.findElement(By.id("visibilityOptionsLabel-2")).click();
+    public void clickVisibilityOptionsForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)).click();
     }
     
     public void clickVisibilityPreviewForNewQuestion() {

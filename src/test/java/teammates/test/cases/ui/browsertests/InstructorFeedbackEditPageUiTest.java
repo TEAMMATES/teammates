@@ -292,27 +292,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         ______TS("test visibility options of question 2");
-        feedbackEditPage.clickVisibilityOptionsForQuestion2();
-        
-        assertTrue("Expected second row of the visibility option table to be recipient(s), but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(2, 2).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(2, 2)
-                                   .getText().equals("Recipient(s)"));
-        assertTrue("Expected third row of the visibility option table to be giver's team members, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(2, 3).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(2, 3)
-                                   .getText().equals("Giver's Team Members"));
-        assertTrue("Expected fourth row of the visibility option table to be other students, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(2, 4).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(2, 4)
-                                   .getText().equals("Other students"));
-        assertTrue("Expected fifth row of the visibility option table to be instructors, but was "
-                   + feedbackEditPage.getVisibilityOptionTableRow(2, 2).getText(),
-                   feedbackEditPage.getVisibilityOptionTableRow(2, 5)
-                                   .getText().equals("Instructors"));
+        feedbackEditPage.clickVisibilityOptionsForQuestion(2);
+     
+        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 2).getText(), "Recipient(s)");
+        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 3).getText(), "Giver's Team Members");
+        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 4).getText(), "Other students");
+        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 5).getText(), "Instructors");
         
         ______TS("test visibility preview of question 2");
-        feedbackEditPage.clickVisibilityPreviewForQuestion2();
+        feedbackEditPage.clickVisibilityPreviewForQuestion(2);
         WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-2"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage2);
 
