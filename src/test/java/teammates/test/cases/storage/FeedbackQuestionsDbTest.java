@@ -76,29 +76,26 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         
         ______TS("success : update lastUpdated");
         
-        int newQuestionNumber = questionNumber + 1;
-        feedbackQuestion.questionNumber = newQuestionNumber;
+        feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion);
         
-        FeedbackQuestionAttributes updatedFq = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, newQuestionNumber);
+        FeedbackQuestionAttributes updatedFq = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
         AssertHelper.assertDateIsNow(updatedFq.getUpdatedAt());
         
         ______TS("success : keep lastUpdated");
-        
-        int newQuestionNumberTwo = newQuestionNumber + 1;
 
-        feedbackQuestion.questionNumber = newQuestionNumberTwo;
+        feedbackQuestion.questionNumber++;
         fqDb.updateFeedbackQuestion(feedbackQuestion, true);
 
-        FeedbackQuestionAttributes updatedFq2 = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, newQuestionNumberTwo);
+        FeedbackQuestionAttributes updatedFqTwo = fqDb.getFeedbackQuestion(feedbackSessionName, courseId, feedbackQuestion.questionNumber);
         
         // Assert lastUpdate has NOT changed.
-        assertTrue(updatedFq.getUpdatedAt().equals(updatedFq2.getUpdatedAt()));
+        assertTrue(updatedFq.getUpdatedAt().equals(updatedFqTwo.getUpdatedAt()));
        
-        fqDb.deleteEntity(updatedFq2);
+        fqDb.deleteEntity(updatedFqTwo);
     }
       
     @Test
