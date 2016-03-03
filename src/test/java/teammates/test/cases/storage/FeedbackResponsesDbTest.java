@@ -1,5 +1,6 @@
 package teammates.test.cases.storage;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -45,8 +46,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(dataBundle.feedbackResponses.get(i));
         }
     }
-
-
+    
     @Test
     public void testCreateDeleteFeedbackResponse() 
             throws InvalidParametersException, EntityAlreadyExistsException {    
