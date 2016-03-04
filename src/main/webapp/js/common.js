@@ -532,12 +532,12 @@ function scrollToTop(duration) {
 }
 
 /** Selector for status message div tag (to be used in jQuery) */
-var DIV_STATUS_MESSAGE = '#statusMessage';
+var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
  * Sets a status message. Change the background color to red if it's an error
  *
- * @param message
+ * @param message the text message to be shown to the user
  * @param error
  */
 function setStatusMessage(message, error) {
@@ -546,33 +546,33 @@ function setStatusMessage(message, error) {
         return;
     }
     
-    $(DIV_STATUS_MESSAGE).html(message);
-    $(DIV_STATUS_MESSAGE).show();
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    var $statusMessage = $("<div></div>");
+    
+    $statusMessage.text(message);
+    $statusMessagesToUser.append($statusMessage);
     
     if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-danger');
+        $statusMessage.attr('class', 'overflow-auto alert alert-danger');
     } else {
-        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-warning');
+        $statusMessage.attr('class', 'overflow-auto alert alert-warning');
     }
     
-    scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
+    $statusMessagesToUser.show();
+    
+    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
 }
 
 /**
- * Append a message to the existing status message
- * @param  message
+ * Appends the status messages panels into the current list of panels of status messages.
+ * @param  messages the list of status message panels to be added (not just text)
  * 
  */
-function appendStatusMessage(message, error) {
-    if (message.trim() === '') {
-        return;
-    }
-    var currentContent = $(DIV_STATUS_MESSAGE).html();
-    if (currentContent.trim() !== '') {
-        $(DIV_STATUS_MESSAGE).html(currentContent + '<br/>' + message);    
-    } else {
-        setStatusMessage(message, error);
-    }
+function appendStatusMessage(messages, error) {
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    
+    $statusMessagesToUser.append($(messages));
+    $statusMessagesToUser.show();
 }
 
 /**
