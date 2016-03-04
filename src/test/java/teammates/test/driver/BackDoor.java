@@ -439,8 +439,8 @@ public class BackDoor {
                 .getType());
         return studentList;
     }
-    public static String getKeyForStudent(String courseId, String studentEmail) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_STUDENT);
+    public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_ENCRYPTED_KEY_FOR_STUDENT);
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, studentEmail);
         String regKey = makePOSTRequest(params);

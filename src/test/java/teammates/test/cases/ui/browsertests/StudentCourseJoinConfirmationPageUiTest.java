@@ -257,7 +257,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         int NUMBER_OF_REMAINING_RETRIES = 10;
         String key = "[BACKDOOR_STATUS_FAILURE]";
         while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && NUMBER_OF_REMAINING_RETRIES > 0) {
-            key = BackDoor.getKeyForStudent(courseId, studentEmail);
+            key = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
             NUMBER_OF_REMAINING_RETRIES--;
             ThreadHelper.waitFor(100);
         }

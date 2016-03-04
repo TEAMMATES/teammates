@@ -561,7 +561,7 @@ public class PerformanceProfiler extends Thread{
         for (String studentKey : set)
         {
             StudentAttributes student = data.students.get(studentKey);
-            status += " " + BackDoor.getKeyForStudent(student.course, student.email);
+            status += " " + BackDoor.getEncryptedKeyForStudent(student.course, student.email);
         }
         return status;
     }

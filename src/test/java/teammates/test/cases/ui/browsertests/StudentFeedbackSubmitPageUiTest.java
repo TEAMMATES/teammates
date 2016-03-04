@@ -587,7 +587,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
                                              .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
-                                             .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email));
+                                             .withRegistrationKey(BackDoor.getEncryptedKeyForStudent(s.course, s.email));
 
         return AppPage.getNewPageInstance(browser, submitUrl, FeedbackSubmitPage.class);
     }

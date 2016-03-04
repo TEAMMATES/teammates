@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.StudentFeedbackResultsPageData;
@@ -40,6 +41,8 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         assertNotNull(student);
+        String dummyKey = "key123";
+        student.key = dummyKey;
         Logic logic = new Logic();
         
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student);
@@ -75,9 +78,10 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertEquals(2, pageData.getFeedbackResultsQuestionsWithResponses().size());
         assertEquals("You are viewing feedback results as <span class='text-danger text-bold text-large'>"
                       + "student1 In Course1</span>. You may submit feedback and view results without logging in. "
-                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?studentemail="
-                      + "student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>to login using "
-                      + "a google account</a> (recommended).", 
+                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
+                      + "key=" + StringHelper.encrypt(dummyKey)
+                      + "&studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
+                      + "to login using a google account</a> (recommended).", 
                       pageData.getRegisterMessage()); 
         
         assertNotNull(questionBundle1.getQuestionDetails());
@@ -129,8 +133,8 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "unregisteredCourse</span>. You may submit feedback and view "
                       + "results without logging in. To access other features you need "
                       + "<a href='/page/studentCourseJoinAuthentication?key="
-                      + "regKeyForStuNotYetJoinCourse&studentemail="
-                      + "student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
+                      + StringHelper.encrypt("regKeyForStuNotYetJoinCourse")
+                      + "&studentemail=student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
                       + "class='link'>to login using a google account</a> (recommended).", 
                       pageData.getRegisterMessage());       
     }

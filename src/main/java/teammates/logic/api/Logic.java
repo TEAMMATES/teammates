@@ -1138,20 +1138,6 @@ public class Logic {
      * 
      * @throws EntityDoesNotExistException 
      */
-    public String getKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-    
-        return studentsLogic.getKeyForStudent(courseId, email);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @throws EntityDoesNotExistException 
-     */
     public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
