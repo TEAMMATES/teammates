@@ -187,30 +187,17 @@ public class StudentsDb extends EntitiesDb {
      */
     public StudentAttributes getStudentForRegistrationKey(String registrationKey){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, registrationKey);
-        StudentAttributes studentAttributes;
-        registrationKey = registrationKey.trim();
-        String originalKey = registrationKey;
         try {
+            String originalKey = StringHelper.decrypt(registrationKey.trim());
             //First, try to retrieve the student by assuming the given registrationKey key is encrypted
-            registrationKey = StringHelper.decrypt(registrationKey);
             Student student = getPM().getObjectById(Student.class,
-                    KeyFactory.stringToKey(registrationKey));
-            studentAttributes = new StudentAttributes(student); 
+                    KeyFactory.stringToKey(originalKey));
+            return new StudentAttributes(student); 
         } catch (Exception e) {
-            try {
-                //Failing that, we try to retrieve assuming the given registrationKey is unencrypted 
-                //  (early versions of the system sent unencrypted keys).
-                //TODO: This branch can be removed after Dec 2013
-                Student student = getPM().getObjectById(Student.class,
-                        KeyFactory.stringToKey(originalKey));
-                studentAttributes = new StudentAttributes(student);
-            } catch (Exception e2) {
-                //Failing both, we assume there is no such student
-                studentAttributes = null;
-            }
+            // There is no such student
+            return null;
         }
         
-        return studentAttributes;
     }
 
 
