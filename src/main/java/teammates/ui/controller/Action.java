@@ -367,21 +367,18 @@ public abstract class Action {
         return response;
     }
 
+    /**
+     * Adds the list of status messages generated after performing an action to session.
+     * @param response ActionResult generated from performing a certain Action
+     */
     protected void putStatusMessageToSession(ActionResult response) {
-        String statusMessageInSession = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
-        String statusMessageColor = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
-        if (statusMessageInSession == null || statusMessageInSession.isEmpty()) {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
-        } else {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession + "<br>"  + response.getStatusMessage());
+        if (statusMessagesToUser == null) {
+            statusMessagesToUser = new ArrayList<StatusMessage>();
         }
         
-        if (statusMessageColor == null || statusMessageColor.isEmpty()) {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, response.getStatusMessageColor());
-        } else {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
-        }
+        statusMessagesToUser.addAll(response.statusToUser);
     }
 
     /**
