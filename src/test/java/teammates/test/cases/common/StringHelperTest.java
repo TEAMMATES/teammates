@@ -3,6 +3,8 @@ package teammates.test.cases.common;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -247,6 +249,17 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("1234567890", StringHelper.truncateHead("1234567890", 10));
         assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
+    }
+    
+    @Test
+    public void testRemoveEnclosingSquareBrackets() {
+        String list = Arrays.asList(new String[]{"test1", "test2"}).toString();
+        String nullString = null;
+        assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets(list));
+        assertEquals("test1,test2", StringHelper.removeEnclosingSquareBrackets("  [test1,test2] "));
+        assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
+        assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
+        assertEquals(null, nullString);
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){

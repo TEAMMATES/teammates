@@ -510,13 +510,20 @@ public class StringHelper {
     }
     
     /**
-     * Removes both the (square) brackets surrounding a string array.
-     * Brackets are assumed to be the first and last character of a string array.
+     * Removes enclosing square brackets surrounding a string.
      * 
-     * @param arrayString
-     * @return the string without being enclosed with the square brackets 
+     * @param str
+     * @return the string without the enclosing square brackets, 
+     *              if the given string is enclosed by square brackets <br/> 
+     *         the string itself if the given string is not enclosed by square brackets
      */
-    public static String removeBracketsForArrayString(String arrayString) {
-        return arrayString.substring(1, arrayString.length() - 1).trim();
+    public static String removeEnclosingSquareBrackets(String str) {
+        if (str != null) {
+            String trimmedString = str.trim();
+            if (trimmedString.startsWith("[") && trimmedString.endsWith("]")) {
+                return trimmedString.substring(1, trimmedString.length() - 1).trim();
+            } 
+        }
+        return str;
     }
 }

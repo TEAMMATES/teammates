@@ -129,7 +129,7 @@ public class Comment {
     }
 
     public String getRecipientsString() {
-        return StringHelper.removeBracketsForArrayString(comment.recipients.toString());
+        return StringHelper.removeEnclosingSquareBrackets(comment.recipients.toString());
     }
 
     public int getNumComments() {
@@ -169,15 +169,15 @@ public class Comment {
     }
 
     public String getShowCommentToString() {
-        return StringHelper.removeBracketsForArrayString(comment.showCommentTo.toString());
+        return StringHelper.removeEnclosingSquareBrackets(comment.showCommentTo.toString());
     }
 
     public String getShowGiverNameToString() {
-        return StringHelper.removeBracketsForArrayString(comment.showGiverNameTo.toString());
+        return StringHelper.removeEnclosingSquareBrackets(comment.showGiverNameTo.toString());
     }
 
     public String getShowRecipientNameToString() {
-        return StringHelper.removeBracketsForArrayString(comment.showRecipientNameTo.toString());
+        return StringHelper.removeEnclosingSquareBrackets(comment.showRecipientNameTo.toString());
     }
 
     public boolean isShowCommentToRecipient() {

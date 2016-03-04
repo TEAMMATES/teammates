@@ -941,7 +941,7 @@ public class PageData {
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
-        return "GIVER," + StringHelper.removeBracketsForArrayString(qn.showResponsesTo.toString());
+        return "GIVER," + StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
     }
     
     public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, 
@@ -949,7 +949,7 @@ public class PageData {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentVisibilityString(qn);
         } else {
-            return StringHelper.removeBracketsForArrayString(frComment.showCommentTo.toString());
+            return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
         }
     }
     
@@ -962,7 +962,7 @@ public class PageData {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentGiverNameVisibilityString(qn);
         } else {
-            return StringHelper.removeBracketsForArrayString(frComment.showGiverNameTo.toString());
+            return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
         }
     }
     
