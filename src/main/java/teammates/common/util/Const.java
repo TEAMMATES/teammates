@@ -872,20 +872,18 @@ public class Const {
         public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
         
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
-        public static final String STUDENT_FIRST_TIME = "<div style=\"background: linear-gradient(to bottom,#fcf8e3 0,#BBA530 100%);\"><div style=\"padding: 10px 30px;font-family:'Calibri';\">"
-                + "<h2 style=\"width: 100%; text-align:center;font-family: 'Segoe UI Light';\" >Welcome </h2>"
-                + "<br/><br/><strong style=\"margin: 10px 0px;font-size: 1.2em;\"><span style=\"color:red\">It seems you are not a registered user of TEAMMATES. </span>To use TEAMMATES, a course instructor has to add you to a course first."
-                + " After that, TEAMMATES will send you an email containing the link to 'join' that course.</strong> "
-                + "<br/><br/><strong style = \"margin: 10px 0px;font-size: 1.2em;\">Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:</strong>"
-                + "<ul style = \"list-style: none;padding: 0;margin: 0; font-size: 1.1em;\">"
-                + "<br/><li style = \"margin: 10px auto\">1. You used a <span style=\"color:red\">different Google account</span> to access TEAMMATES in the past. "
-                + "Re-login using that Google account. "
-                + "If you do not remember which account you used, drop us a mail from the account to which you receive TEAMMATES emails.</li>"
-                + "<br/><li style = \"margin: 10px auto\">2. You <span style=\"color:red\">changed the primary email from a non-Gmail address to a Gmail address</span> recently. " 
-                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address.</li>"
-                + "<br/><li style = \"margin: 10px auto\">3. You <span style=\"color:red\">joined this course just a few seconds ago</span> and your data may be still in the process of propagating through our servers. "
-                + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. </li></ul>"
-                + "</div></div>";
+        public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
+                + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
+                + "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
+                + "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
+                + "<br/>1. You used a different Google account to access TEAMMATES in the past. "
+                + "In that case, you need to use the same Google account to access TEAMMATES again. Logout and re-login using the other Google account. "
+                + "If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails."
+                + "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. " 
+                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address."
+                + "<br/>3. You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. "
+                + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
+                + "</div>";
         public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
                 + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
 
