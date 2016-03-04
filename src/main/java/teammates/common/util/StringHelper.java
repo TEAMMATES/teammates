@@ -513,8 +513,8 @@ public class StringHelper {
      * Removes the outermost enclosing square brackets surrounding a string.
      * 
      * @param str
-     * @return the string without the outermost enclosing square brackets, 
-     *              if the given string is enclosed by square brackets <br/> 
+     * @return the string without the outermost enclosing square brackets and 
+     *         without leading and trailing spaces, if the given string is enclosed by square brackets <br/> 
      *         the string itself if the given string is not enclosed by square brackets <br/>
      *         null if the given string is null
      */
@@ -524,10 +524,9 @@ public class StringHelper {
         }
         
         String trimmedString = str.trim();
-        if (trimmedString.startsWith("[") && trimmedString.endsWith("]")) {
-            return trimmedString.substring(1, trimmedString.length() - 1).trim();
+        if (!trimmedString.startsWith("[") || !trimmedString.endsWith("]")) {
+            return str;
         }
-        
-        return str;
+        return trimmedString.substring(1, trimmedString.length() - 1).trim();
     }
 }
