@@ -1188,6 +1188,7 @@ public class Const {
     public static final String GENERAL_QUESTION = "%GENERAL%";
     public static final String USER_IS_TEAM = "%TEAM%";
     public static final String USER_IS_NOBODY = "%NOBODY%";
+    public static final String USER_IS_MISSING = "%MISSING%";
     
     public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
     public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
