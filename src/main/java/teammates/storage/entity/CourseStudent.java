@@ -55,8 +55,8 @@ public class CourseStudent implements StoreCallback {
     /**
      * Registration key, not used if old registration key is not null.
      */
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private transient String newRegistrationKey = null;
+    @Persistent
+    private transient String registrationKey = null;
     
 
     /**
@@ -220,12 +220,12 @@ public class CourseStudent implements StoreCallback {
         if (oldRegistrationKey != null) {
             return oldRegistrationKey;
         } else {
-            return newRegistrationKey;
+            return registrationKey;
         }
     }
     
     public void setRegistrationKey(String key) {
-        this.newRegistrationKey = key;
+        this.registrationKey = key;
     }
     
     public void setOldRegistrationKey(String key) {

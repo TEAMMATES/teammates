@@ -809,32 +809,43 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
     
+    @SuppressWarnings("unchecked")
     private CourseStudent getCourseStudentEntityForRegistrationKey(String registrationKey) {
         
         // Look up both old and new registration keys.
         
-        Query q = getPM().newQuery(CourseStudent.class);
-        q.declareParameters("String registrationKeyParam");
-        q.setFilter("oldRegistrationKey : String == registrationKeyParam || "
-                  + "newRegistrationKey : String == registrationKeyParam");
+        Query q1 = getPM().newQuery(CourseStudent.class);
+        q1.declareParameters("String registrationKeyParam");
+        q1.setFilter("oldRegistrationKey == registrationKeyParam");
+
+        Query q2 = getPM().newQuery(CourseStudent.class);
+        q2.declareParameters("String registrationKeyParam");
+        q2.setFilter("registrationKey == registrationKeyParam");
         
-        @SuppressWarnings("unchecked")
-        List<CourseStudent> studentList = (List<CourseStudent>)q.execute(registrationKey);
+        try {
+            List<CourseStudent> studentList = new ArrayList<CourseStudent>();
+            studentList.addAll((List<CourseStudent>)q1.execute(registrationKey));
+            studentList.addAll((List<CourseStudent>)q2.execute(registrationKey));
     
-        // If registration key detected is not unique, something is seriously wrong...
-        if (studentList.size() > 1) {
-            String duplicatedStudentsUniqueIds = "";
-            for (CourseStudent s : studentList) {
-                duplicatedStudentsUniqueIds += s.getUniqueId() + "\n";
+            // If registration key detected is not unique, something is seriously wrong...
+            if (studentList.size() > 1) {
+                String duplicatedStudentsUniqueIds = "";
+                for (CourseStudent s : studentList) {
+                    duplicatedStudentsUniqueIds += s.getUniqueId() + "\n";
+                }
+                log.severe("Duplicate registration keys detected for: \n" + duplicatedStudentsUniqueIds);
             }
-            log.severe("Duplicate registration keys detected for: \n" + duplicatedStudentsUniqueIds);
-        }
+            
+            if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
+                return null;
+            }
         
-        if (studentList.isEmpty() || JDOHelper.isDeleted(studentList.get(0))) {
+            return studentList.get(0);
+        } catch (Exception e) {
+            // Log exception here, will be swallowed by higher level otherwise.
+            log.severe("Exception : " + e.getMessage() + "\n" + e.getStackTrace());
             return null;
         }
-    
-        return studentList.get(0);
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
