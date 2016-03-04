@@ -1,6 +1,6 @@
-module('index.js');
+QUnit.module('index.js');
 
-test('submissionCounter(currDate, baseDate)', function() {
+QUnit.test('submissionCounter(currDate, baseDate)', function(assert) {
     var currentDate = new Date(2013, 11, 21);
     var baseDate = new Date(2014, 11, 12);
     var submissionPerHour = 2;

@@ -1,7 +1,7 @@
 
-module('instructorFeedbackEdit.js');
+QUnit.module('instructorFeedbackEdit.js');
 
-test('getQuestionIdSuffix(questionNumber)', function(){
+QUnit.test('getQuestionIdSuffix(questionNumber)', function(assert){
     var max = 9007199254740991; // Number.MAX_SAFE_INTEGER
     var min = -max;
     
@@ -10,9 +10,9 @@ test('getQuestionIdSuffix(questionNumber)', function(){
     
     // Tests the correct suffix is returned with a hyphen concatenated when necessary 
     for (var i = 0; i < expected.length; i++) {
-        strictEqual(getQuestionIdSuffix(expected[i]), '-' + expected[i]);
+        assert.strictEqual(getQuestionIdSuffix(expected[i]), '-' + expected[i]);
     };
     for (var i = 0; i < unexpected.length; i++) {
-        strictEqual(getQuestionIdSuffix(unexpected[i]), '');
+        assert.strictEqual(getQuestionIdSuffix(unexpected[i]), '');
     };
 });

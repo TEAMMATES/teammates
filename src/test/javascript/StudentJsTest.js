@@ -1,4 +1,4 @@
 
-module('student.js');
+QUnit.module('student.js');
 
 
