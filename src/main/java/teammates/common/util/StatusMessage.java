@@ -1,8 +1,10 @@
 package teammates.common.util;
 
+import java.io.Serializable;
+
 import teammates.common.util.Const.StatusMessageColor;
 
-public class StatusMessage {
+public class StatusMessage implements Serializable {
     private String text;
     private String color;
     
