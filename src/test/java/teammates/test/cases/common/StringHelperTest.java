@@ -3,8 +3,6 @@ package teammates.test.cases.common;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -253,13 +251,16 @@ public class StringHelperTest extends BaseTestCase {
     
     @Test
     public void testRemoveEnclosingSquareBrackets() {
-        String list = Arrays.asList(new String[]{"test1", "test2"}).toString();
-        String nullString = null;
-        assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets(list));
+        assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets("[test1, test2]"));
         assertEquals("test1,test2", StringHelper.removeEnclosingSquareBrackets("  [test1,test2] "));
+        assertEquals("[ \"test\" ]", StringHelper.removeEnclosingSquareBrackets("[ [ \"test\" ]]"));
+        assertEquals("test1,[], ][test2]", 
+            StringHelper.removeEnclosingSquareBrackets(" [test1,[], ][test2]]   "));
         assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
+        assertEquals("  [test  ", StringHelper.removeEnclosingSquareBrackets("  [test  "));
+        assertEquals("  (test]  ", StringHelper.removeEnclosingSquareBrackets("  (test]  "));
         assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
-        assertEquals(null, nullString);
+        assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){

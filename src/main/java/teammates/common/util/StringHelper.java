@@ -510,20 +510,24 @@ public class StringHelper {
     }
     
     /**
-     * Removes enclosing square brackets surrounding a string.
+     * Removes the outermost enclosing square brackets surrounding a string.
      * 
      * @param str
-     * @return the string without the enclosing square brackets, 
+     * @return the string without the outermost enclosing square brackets, 
      *              if the given string is enclosed by square brackets <br/> 
-     *         the string itself if the given string is not enclosed by square brackets
+     *         the string itself if the given string is not enclosed by square brackets <br/>
+     *         null if the given string is null
      */
     public static String removeEnclosingSquareBrackets(String str) {
-        if (str != null) {
-            String trimmedString = str.trim();
-            if (trimmedString.startsWith("[") && trimmedString.endsWith("]")) {
-                return trimmedString.substring(1, trimmedString.length() - 1).trim();
-            } 
+        if (str == null) {
+            return null;
         }
+        
+        String trimmedString = str.trim();
+        if (trimmedString.startsWith("[") && trimmedString.endsWith("]")) {
+            return trimmedString.substring(1, trimmedString.length() - 1).trim();
+        }
+        
         return str;
     }
 }
