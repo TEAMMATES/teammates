@@ -171,10 +171,10 @@
           comments.idOfTypicalCourse1 : Typical Course 1 with 2 Evals
         </strong>
       </h4>
-      <div class="btn-group pull-right" style="">
-        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 2 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfInstructor1OfCourse1" style="margin-right: 17px;" title="" type="button">
+      <div class="btn-group pull-right" style="display:none">
+        <a class="btn btn-sm btn-info" data-original-title="Send email notification to 0 recipient(s) of comments pending notification" data-toggle="tooltip" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&user=comments.idOfInstructor1OfCourse1" style="margin-right: 17px;" title="" type="button">
           <span class="badge" style="margin-right: 5px">
-            2
+            0
           </span>
           <span class="glyphicon glyphicon-comment">
           </span>
@@ -1774,14 +1774,10 @@
                   <tr>
                     <td>
                       <ul class="list-group comments" id="responseCommentTable-1-1-1">
-                        <li class="list-group-item list-group-item-warning giver_display-by-you status_display-public" id="responseCommentRow-1-1-1-1">
+                        <li class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-1-1-1">
                           <div id="commentBar-1-1-1-1">
                             <span class="text-muted">
-                              From: comments.instructor1@course1.tmt [Tue, 01 Mar 2016, 11:59 PM UTC] (last edited by comments.instructor1@course1.tmt at ${datetime.now})
-                            </span>
-                            <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
-                            </span>
-                            <span class="glyphicon glyphicon-bell" data-original-title="This comment is pending to notify recipients" data-placement="top" data-toggle="tooltip" title="">
+                              From: comments.instructor1@course1.tmt [Tue, 01 Mar 2016, 11:59 PM UTC] (last edited by comments.instructor1@course1.tmt at Wed, 02 Mar 2016, 11:59 PM UTC)
                             </span>
                             <form class="responseCommentDeleteForm pull-right">
                               <a class="btn btn-default btn-xs icon-button" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResponseCommentDelete" id="commentdelete-1-1-1-1" style="display: none;" title="" type="button">
@@ -1800,9 +1796,7 @@
                             </a>
                           </div>
                           <div id="plainCommentText-1-1-1-1" style="margin-left: 15px;">
-                            edited response comment
-                            <br>
-                            a new line
+                            Instructor 1 comment to student 1 self feedback
                           </div>
                           <form class="responseCommentEditForm" id="responseCommentEditForm-1-1-1-1" style="display: none;">
                             <div class="form-group form-inline">
@@ -1844,7 +1838,7 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
                                       <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
@@ -1857,7 +1851,7 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
                                       <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
@@ -1868,7 +1862,7 @@
                             </div>
                             <div class="form-group">
                               <textarea class="form-control" id="responsecommenttext-1-1-1-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
-                                edited response comment <br>a new line
+                                Instructor 1 comment to student 1 self feedback
                               </textarea>
                             </div>
                             <div class="col-sm-offset-5">
@@ -1882,18 +1876,14 @@
                             <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                             <input name="fsname" type="hidden" value="comments.First feedback session">
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="showresponsecommentsto" type="hidden" value="">
                             <input name="showresponsegiverto" type="hidden" value="">
                           </form>
                         </li>
-                        <li class="list-group-item list-group-item-warning giver_display-by-you status_display-public" id="responseCommentRow-1-1-1-2">
+                        <li class="list-group-item list-group-item-warning giver_display-by-you status_display-private" id="responseCommentRow-1-1-1-2">
                           <div id="commentBar-1-1-1-2">
                             <span class="text-muted">
-                              From: comments.instructor1@course1.tmt [${datetime.now}]
-                            </span>
-                            <span class="glyphicon glyphicon-eye-open" data-original-title="This response comment is visible to response giver, and instructors" data-placement="top" data-toggle="tooltip" style="margin-left: 5px;" title="">
-                            </span>
-                            <span class="glyphicon glyphicon-bell" data-original-title="This comment is pending to notify recipients" data-placement="top" data-toggle="tooltip" title="">
+                              From: comments.instructor1@course1.tmt [${datetime.now}] (last edited by comments.instructor1@course1.tmt at ${datetime.now})
                             </span>
                             <form class="responseCommentDeleteForm pull-right">
                               <a class="btn btn-default btn-xs icon-button" data-original-title="Delete this comment" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResponseCommentDelete" id="commentdelete-1-1-1-2" style="display: none;" title="" type="button">
@@ -1912,7 +1902,9 @@
                             </a>
                           </div>
                           <div id="plainCommentText-1-1-1-2" style="margin-left: 15px;">
-                            added response comment
+                            edited response comment
+                            <br>
+                            a new line
                           </div>
                           <form class="responseCommentEditForm" id="responseCommentEditForm-1-1-1-2" style="display: none;">
                             <div class="form-group form-inline">
@@ -1954,10 +1946,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-1-1-1-2">
@@ -1967,10 +1959,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>
@@ -1978,7 +1970,7 @@
                             </div>
                             <div class="form-group">
                               <textarea class="form-control" id="responsecommenttext-1-1-1-2" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
-                                added response comment
+                                edited response comment <br>a new line
                               </textarea>
                             </div>
                             <div class="col-sm-offset-5">
@@ -1992,8 +1984,8 @@
                             <input name="courseid" type="hidden" value="comments.idOfTypicalCourse1">
                             <input name="fsname" type="hidden" value="comments.First feedback session">
                             <input name="user" type="hidden" value="comments.idOfInstructor1OfCourse1">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
+                            <input name="showresponsecommentsto" type="hidden" value="">
+                            <input name="showresponsegiverto" type="hidden" value="">
                           </form>
                         </li>
                         <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display: none;">
