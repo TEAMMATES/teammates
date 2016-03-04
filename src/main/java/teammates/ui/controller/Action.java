@@ -379,6 +379,7 @@ public abstract class Action {
         }
         
         statusMessagesToUser.addAll(response.statusToUser);
+        session.setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);
     }
 
     /**
