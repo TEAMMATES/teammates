@@ -586,7 +586,7 @@ public class FeedbackQuestionsLogic {
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber += 1;
                 try {
-                    updateFeedbackQuestionWithoutResponseRateCheck(question);
+                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
@@ -598,7 +598,7 @@ public class FeedbackQuestionsLogic {
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber -= 1;
                 try {
-                    updateFeedbackQuestionWithoutResponseRateCheck(question);
+                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
@@ -618,7 +618,7 @@ public class FeedbackQuestionsLogic {
      * Precondition: <br>
      * {@code newAttributes} is not {@code null}
      */
-    private void updateFeedbackQuestionWithoutResponseRateCheck(FeedbackQuestionAttributes newAttributes)
+    private void updateFeedbackQuestionWithoutResponseRateUpdate(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         updateFeedbackQuestion(newAttributes, false);
@@ -641,7 +641,7 @@ public class FeedbackQuestionsLogic {
     }
 
 
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateCheck)
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes oldQuestion = null;
         if (newAttributes.getId() == null) {
@@ -657,7 +657,7 @@ public class FeedbackQuestionsLogic {
         }
         
         if(oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateCheck);
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
         }
         
         oldQuestion.updateValues(newAttributes);
@@ -728,7 +728,7 @@ public class FeedbackQuestionsLogic {
      * shifts larger question numbers down by one to preserve number order.
      */
     public void deleteFeedbackQuestionCascade(
-            String feedbackSessionName, String courseId, int questionNumber, boolean hasResponseRateCheck) {
+            String feedbackSessionName, String courseId, int questionNumber, boolean hasResponseRateUpdate) {
         
         FeedbackQuestionAttributes questionToDelete =
                 getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
@@ -737,7 +737,7 @@ public class FeedbackQuestionsLogic {
             return; // Silently fail if question does not exist.
         } else {
             // Cascade delete responses for question.
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateCheck);
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
         }
         
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
@@ -761,7 +761,7 @@ public class FeedbackQuestionsLogic {
             if(question.questionNumber > questionNumberToShiftFrom){
                 question.questionNumber -= 1;
                 try {
-                    updateFeedbackQuestionWithoutResponseRateCheck(question);
+                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
