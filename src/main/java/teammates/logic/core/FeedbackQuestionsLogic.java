@@ -671,18 +671,20 @@ public class FeedbackQuestionsLogic {
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         
         for(FeedbackQuestionAttributes question : questions) {
-            deleteFeedbackQuestionCascade(question.getId());
+            deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(question.getId());
         }
         
     }
     
     /**
-     * Deletes a question by it's auto-generated ID. <br>
-     * Cascade the deletion of all existing responses for the question and then 
-     * shifts larger question numbers down by one to preserve number order.
+     * Deletes a question by its auto-generated ID. <br>
+     * Cascade the deletion of all existing responses for the question and then
+     * shifts larger question numbers down by one to preserve number order. The
+     * response rate of the feedback session is not updated.
+     * 
      * @param feedbackQuestionId
      */
-    public void deleteFeedbackQuestionCascade(String feedbackQuestionId){
+    private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId){
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
@@ -696,7 +698,15 @@ public class FeedbackQuestionsLogic {
         
     }
 
-    public void deleteFeedbackQuestionCascadeWithResponseRateCheck(String feedbackQuestionId){
+    /**
+     * Deletes a question by its auto-generated ID. <br>
+     * Cascade the deletion of all existing responses for the question and then
+     * shifts larger question numbers down by one to preserve number order. The
+     * response rate of the feedback session is updated accordingly.
+     * 
+     * @param feedbackQuestionId
+     */
+    public void deleteFeedbackQuestionCascade(String feedbackQuestionId){
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
