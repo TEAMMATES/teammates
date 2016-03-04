@@ -27,7 +27,7 @@ public class HtmlHelper {
     private static final String REGEX_CONTINUE_URL = ".*?";
     private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
     private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_REGKEY = "[a-zA-Z0-9-_]{10,}";
+    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
