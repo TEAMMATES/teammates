@@ -458,13 +458,13 @@ public class Logic {
      * @return null if the key doesn't exist.
      * @throws EntityDoesNotExistException 
      */
-    public String getKeyForInstructor(String courseId, String email)
+    public String getEncryptedKeyForInstructor(String courseId, String email)
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
     
-        return instructorsLogic.getKeyForInstructor(courseId, email);
+        return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
     /**

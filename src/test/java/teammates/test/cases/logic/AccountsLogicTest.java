@@ -394,8 +394,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
-        String key = instructorsLogic.getKeyForInstructor(instructor.courseId, instructor.email);
-        String encryptedKey = StringHelper.encrypt(key);
+        String encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email);
         
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
@@ -441,8 +440,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         InstructorAttributes newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
         
         accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
@@ -467,8 +465,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         newIns = new InstructorAttributes (null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
         
         instructorsLogic.createInstructor(newIns);
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         
         accountsLogic.joinCourseForInstructor(encryptedKey, nonInstrAccount.googleId);
         
@@ -487,8 +484,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         
-        key = instructorsLogic.getKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        encryptedKey = StringHelper.encrypt(key);
+        encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         
         try {

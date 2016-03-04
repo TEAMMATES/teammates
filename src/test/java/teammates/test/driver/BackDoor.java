@@ -315,8 +315,8 @@ public class BackDoor {
         return Utils.getTeammatesGson().fromJson(json, InstructorAttributes.class);
     }
     
-    public static String getKeyForInstructor(String courseId, String instructorEmail) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_KEY_FOR_INSTRUCTOR);
+    public static String getEncryptedKeyForInstructor(String courseId, String instructorEmail) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_ENCRYPTED_KEY_FOR_INSTRUCTOR);
         params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
         params.put(BackDoorServlet.PARAMETER_INSTRUCTOR_EMAIL, instructorEmail);
         String regKey = makePOSTRequest(params);
