@@ -265,6 +265,7 @@ public class StringHelperTest extends BaseTestCase {
         
         // Test with string without square brackets, and should give back the string itself
         assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
+        assertEquals("  test  ", StringHelper.removeEnclosingSquareBrackets("  test  "));
         
         // Test with string with only one (leading) square bracket, and should give back the 
         // string itself without removing the square brackets
