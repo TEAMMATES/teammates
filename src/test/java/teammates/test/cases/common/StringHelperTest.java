@@ -251,33 +251,28 @@ public class StringHelperTest extends BaseTestCase {
     
     @Test
     public void testRemoveEnclosingSquareBrackets() {
-        // Test with string enclosed by square brackets, and square brackets should be removed
+        // typical case
         assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets("[test1, test2]"));
         
-        // Test with string enclosed in two square brackets, and only the outermost square brackets
-        // should be removed
+        // input multiple square brackets, expected outermost brackets removed
         assertEquals("[ \"test\" ]", StringHelper.removeEnclosingSquareBrackets("[[ \"test\" ]]"));
         
-        // Test with multiple and nested square brackets, and only the outermost square brackets 
-        // should be removed
+        // input nested square brackets, expected outermost brackets removed
         assertEquals("test1, [], ] test2",
                      StringHelper.removeEnclosingSquareBrackets("[test1, [], ] test2]"));
         
-        // Test with string without square brackets, and should give back the string itself
+        // input no square brackets, expected same input string
         assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
         assertEquals("  test  ", StringHelper.removeEnclosingSquareBrackets("  test  "));
         
-        // Test with string with only one (leading) square bracket, and should give back the 
-        // string itself without removing the square brackets
-        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));
-        
-        // Test with string with unmatched brackets, and should give back the string itself
+        // input unmatched brackets, expected same input string 
+        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));        
         assertEquals("(test]", StringHelper.removeEnclosingSquareBrackets("(test]"));
         
-        // Test with empty string, and it should give back empty string
+        // input empty string, expected empty string
         assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
         
-        // Test with the input string being null, and it should return null
+        // input null, expected null
         assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
     }
 
