@@ -6,7 +6,7 @@
 <div class="hidden number-of-pending-comments">${data.numberOfPendingComments}</div>
 <c:choose>
     <c:when test="${empty data.questionCommentsMap}">
-        <div id="no-comment-panel" style="">
+        <div id="no-comment-panel">
             <br>
             <div class="panel panel-info">
                 <ul class="list-group comments">
