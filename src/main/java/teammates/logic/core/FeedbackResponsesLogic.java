@@ -671,7 +671,7 @@ public class FeedbackResponsesLogic {
             emails.add(response.giverEmail);
         }
 
-        if(!hasResponseRateUpdate){
+        if (!hasResponseRateUpdate) {
             return;
         }
 
