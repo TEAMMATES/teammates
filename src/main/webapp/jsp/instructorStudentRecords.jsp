@@ -14,7 +14,7 @@
 </c:set>
 <c:set var="bodyTitle">${data.studentName}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <div class="container-fluid">
         <c:if test="${not empty data.studentProfile}">
             <ticsd:studentProfile student="${data.studentProfile}"/>
