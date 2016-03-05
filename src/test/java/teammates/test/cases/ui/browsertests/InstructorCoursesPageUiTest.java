@@ -154,13 +154,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("Course Stats");
         coursesPage = getCoursesPage();
         coursesPage.triggerAjaxLoadCourseStats(1);
-        coursesPage.verifyHtmlAjaxMainContent("/instructorCoursesStatsAjaxSuccessful.html");
+        coursesPage.verifyHtmlMainContentWithRetry("/instructorCoursesStatsAjaxSuccessful.html");
 
         ______TS("Course Stats Failed");
         coursesPage = getCoursesPage();
         coursesPage.changeHrefInAjaxLoadCourseStatsLink("invalidLink");
         coursesPage.triggerAjaxLoadCourseStats(1);
-        coursesPage.verifyHtmlAjaxMainContent("/instructorCoursesStatsAjaxFailure.html");
+        coursesPage.verifyHtmlMainContentWithRetry("/instructorCoursesStatsAjaxFailure.html");
         coursesPage = getCoursesPage();
     }
 

@@ -16,8 +16,8 @@
         <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-        <link type="text/css" href="./mashup.css" rel="stylesheet">
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <link type="text/css" href="/stylesheets/mashup.css" rel="stylesheet">
+        <script type="text/javascript" src="/js/lib/jquery.min.js"></script>
         <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     </head>
@@ -56,14 +56,6 @@
                                 <li><a href="#instructorCourseStudentDetailsPage">Instructor Student Details Page</a></li>
                                 <li><a href="#instructorCourseStudentEditPage">Instructor Student Edit Page</a></li>
                                 <li><a href="#instructorStudentRecordsPage">Instructor Student Records Page</a></li>
-                                <li><a href="#instructorCourseEvalPage">Instructor Eval Page</a></li>
-                                <li><a href="#instructorCourseEvalEditPage">Instructor Eval Edit Page</a></li>
-                                <li><a href="#instructorCourseEvalPreviewPage">Instructor Eval Preview Page</a></li>
-                                <li><a href="#instructorCourseEvalResultsPage1">Instructor Eval Results Page (instructorEvaluationSummaryTable)</a></li>
-                                <li><a href="#instructorCourseEvalResultsPage2">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</a></li>
-                                <li><a href="#instructorCourseEvalResultsPage3">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</a></li>
-                                <li><a href="#instructorCourseEvalSubmissionViewPage">Instructor Eval Submission View Page</a></li>
-                                <li><a href="#instructorCourseEvalSubmissionEditPage">Instructor Eval Submission Edit Page</a></li>
                                 <li><a href="#instructorFeedbackPage">Instructor Feedback Page</a></li>
                                 <li><a href="#instructorFeedbackEditPage">Instructor Feedback Edit Page</a></li>
                                 <li><a href="#instructorFeedbackPreviewAsStudentPage">Instructor Feedback Preview as Student Page</a></li>
@@ -87,8 +79,6 @@
                                 <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
                                 <li><a href="#studentCourseJoinConfirmationPageNew">Student Course Join Confirmation Page (New)</a></li>
                                 <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
-                                <li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
-                                <li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
                                 <li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
                                 <li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
                                 <li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
@@ -165,38 +155,6 @@
                 <div id="instructorStudentRecordsPage"></div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">Instructor Eval Page</div>
-                <div id="instructorCourseEvalPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Edit Page</div>
-                <div id="instructorCourseEvalEditPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Preview Page</div>
-                <div id="instructorCourseEvalPreviewPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationSummaryTable)</div>
-                <div id="instructorCourseEvalResultsPage1"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedReviewerTable)</div>
-                <div id="instructorCourseEvalResultsPage2"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Results Page (instructorEvaluationDetailedRevieweeTable)</div>
-                <div id="instructorCourseEvalResultsPage3"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Submission View Page</div>
-                <div id="instructorCourseEvalSubmissionViewPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Instructor Eval Submission Edit Page</div>
-                <div id="instructorCourseEvalSubmissionEditPage"></div>
-                <br><hr class="hr-bold"><br>
-                
                 <div class="pageinfo">Instructor Feedback Page</div>
                 <div id="instructorFeedbackPage"></div>
                 <br><hr class="hr-bold"><br>
@@ -271,14 +229,6 @@
                 <div id="studentCourseDetailsPage"></div>
                 <br><hr class="hr-bold"><br>
                 
-                <div class="pageinfo">Student Eval Edit Page</div>
-                <div id="studentEvalEditPage"></div>
-                <br><hr class="hr-bold"><br>
-                
-                <div class="pageinfo">Student Eval Results Page</div>
-                <div id="studentEvalResultsPage"></div>
-                <br><hr class="hr-bold"><br>
-                
                 <div class="pageinfo">Student Feedback Submit Page</div>
                 <div id="studentFeedbackSubmitPage"></div>
                 <br><hr class="hr-bold"><br>
@@ -319,34 +269,50 @@
                 <div id="index">
                     <iframe class="full-width" src="../index.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Features Page</div>
                 <div id="features">
                     <iframe class="full-width" src="../features.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">About Us Page</div>
                 <div id="about">
                     <iframe class="full-width" src="../about.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Contact Page</div>
                 <div id="contact">
                     <iframe class="full-width" src="../contact.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Terms Of Use Page</div>
                 <div id="terms">
                     <iframe class="full-width" src="../terms.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Request Account Page</div>
                 <div id="request">
                     <iframe class="full-width" src="../request.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Student Help Page</div>
                 <div id="studentHelp">
                     <iframe class="full-width" src="../studentHelp.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Instructor Help Page</div>
                 <div id="instructorHelp">
                     <iframe class="full-width" src="../instructorHelp.html"></iframe>
                 </div>
+                <br><hr class="hr-bold"><br>
+                
                 <div class="pageinfo">Deadline Exceeded Error Page</div>
                 <div id="deadlineExceededErrorPage"></div>
                 <br><hr class="hr-bold"><br>
@@ -378,13 +344,13 @@
                 $('#instructorEnrollPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #mainContent');
                 $('#instructorCourseDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #mainContent');
                 $('#instructorStudentListPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #mainContent');
-                $('#instructorCourseStudentDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #mainContent');
-                $('#instructorCourseStudentEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #mainContent');
-                $('#instructorStudentRecordsPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #mainContent');
+                $('#instructorCourseStudentDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.tmt #mainContent');
+                $('#instructorCourseStudentEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #mainContent');
+                $('#instructorStudentRecordsPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #mainContent');
                 $('#instructorFeedbackPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #mainContent');
                 $('#instructorFeedbackEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
-                $('#instructorFeedbackPreviewAsStudentPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #mainContent');
-                $('#instructorFeedbackPreviewAsInstructorPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #mainContent');
+                $('#instructorFeedbackPreviewAsStudentPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.tmt #mainContent');
+                $('#instructorFeedbackPreviewAsInstructorPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.tmt #mainContent');
                 $('#instructorFeedbackSubmitPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #mainContent');
                 <%
                     String instrQuestionId = null;
@@ -405,7 +371,7 @@
                 $('#studentHomePage').load('<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #mainContent');
                 $('#studentProfilePage').load('<%=Const.ActionURIs.STUDENT_PROFILE_PAGE%>?user=alice.b.tmms #mainContent');
                 <%
-                    StudentAttributes student = new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com");
+                    StudentAttributes student = new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.tmt");
                     if (student != null) {
                         String url = StringHelper.encrypt(student.key);
                 %>
@@ -431,9 +397,9 @@
                 $('#adminHomePage').load('<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #mainContent');
                 $('#adminSearchPage').load('<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #mainContent');
                 $('#adminActivityLogPage').load('<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #mainContent');
-                $('#deadlineExceededErrorPage').load('<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #mainContent');
-                $('#errorPage').load('<%=Const.ViewURIs.ERROR_PAGE%> #mainContent');
-                $('#entityNotFoundPage').load('<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #mainContent');
+                loadErrorPage('<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%>', '#deadlineExceededErrorPage');
+                loadErrorPage('<%=Const.ViewURIs.ERROR_PAGE%>', '#errorPage');
+                loadErrorPage('<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%>', '#entityNotFoundPage');
                 $('#index').find('iframe').on('load', function() {
                     calcHeight($('#index').find('iframe'));
                 });
@@ -456,12 +422,18 @@
                     calcHeight($('#studentHelp').find('iframe'));
                 });
                 $('#instructorHelp').find('iframe').on('load', function() {
-                    calcHeight($('#instructorHelpt').find('iframe'));
+                    calcHeight($('#instructorHelp').find('iframe'));
                 });
             });
             
             function calcHeight(iframe) {
                 $(iframe).height($(iframe).contents().find('html').height());
+            }
+            
+            function loadErrorPage(uri, id) {
+                $.get(uri).fail(function(data) {
+                    $(id).html($('<div/>').html(data.responseText).find('#mainContent').html());
+                });
             }
         })();
     </script>

@@ -38,7 +38,7 @@ Here are some documents important for TEAMMATES developers:
   * The [**glossary**](/devdocs/glossary.md) of terms used in the project.
   * **Coding standards** for :
     [Java](https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true), 
-    [JSP](http://teammatesv4.appspot.com/dev/jspstyleguide.html), 
+    [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true), 
     [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
     [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub), 
     [HTML](https://docs.google.com/document/d/12PJYbQoqjK-0LzaUuguQ4kGE--eikCcHfwzZDGwFOJ0/pub?embedded=true)
@@ -48,6 +48,7 @@ Here are some documents important for TEAMMATES developers:
     [Coding](https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true), 
     [Testing](https://docs.google.com/document/d/1aK-1ubIA59fbNsEujwvWKqx7itwLPTD6mzFo4F_oEoI/pub?embedded=true)
   * [**Version History**](https://github.com/TEAMMATES/repo/milestones?direction=desc&sort=due_date&state=closed)
+  * [**Project stats**](https://www.openhub.net/p/teammatesonline)
   
    
   * **Technical reports** about TEAMMATES : In-depth descriptions about various aspects of the project
@@ -78,6 +79,6 @@ TEAMMATES is released under GPLv2
 
 ##Contact 
 The best way for potential contributors to contact us is by [posting a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new) 
-(yes, we ues the issue tracker as a discussion forum too).
+(yes, we use the issue tracker as a discussion forum too).
 
 Alternatively (less preferred), you can email `teammates-contributors [at] googlegroups.com` 

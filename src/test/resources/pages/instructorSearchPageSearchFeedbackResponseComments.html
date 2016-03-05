@@ -1,216 +1,241 @@
-   <div class="container" id="mainContent">
-      <div id="topOfPage">
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Search
+  </h1>
+  <br>
+  <div>
+    <form action="/page/instructorSearchPage?user=searchUI.idOfInstructor1OfCourse1" method="get" name="search_form">
+      <div class="well well-plain">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" id="searchBox" name="searchkey" placeholder="Your search keyword" title="Search for comment" type="text" value="comment">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
+                Search
+              </button>
+            </span>
+          </div>
+          <input name="user" type="hidden" value="searchUI.idOfInstructor1OfCourse1">
+        </div>
+        <div class="form-group">
+          <ul class="list-inline">
+            <li>
+              <span class="glyphicon glyphicon-info-sign" data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="">
+              </span>
+            </li>
+            <li>
+              <input id="comments-for-student-check" name="searchcommentforstudents" type="checkbox" value="true">
+              <label for="comments-for-student-check">
+                Comments for students
+              </label>
+            </li>
+            <li>
+              <input checked="" id="comments-for-responses-check" name="searchcommentforresponses" type="checkbox" value="true">
+              <label for="comments-for-responses-check">
+                Comments for responses
+              </label>
+            </li>
+            <li>
+              <input id="students-check" name="searchstudents" type="checkbox" value="true">
+              <label for="students-check">
+                Students
+              </label>
+            </li>
+          </ul>
+        </div>
       </div>
-      <h1>
-         Search
-      </h1>
-      <br/>
-      <div>
-         <form action="/page/instructorSearchPage?user=searchUI.idOfInstructor1OfCourse1" method="get" name="search_form">
-            <div class="well well-plain">
-               <div class="form-group">
-                  <div class="input-group">
-                     <input class="form-control" id="searchBox" name="searchkey" placeholder="Your search keyword" title="Search for comment" type="text" value="comment"/>
-                     <span class="input-group-btn">
-                        <button class="btn btn-primary" id="buttonSearch" type="submit" value="Search">
-                           Search
-                        </button>
-                     </span>
-                  </div>
-                  <input name="user" type="hidden" value="searchUI.idOfInstructor1OfCourse1"/>
-               </div>
-               <div class="form-group">
-                  <ul class="list-inline">
-                     <li>
-                        <span class="glyphicon glyphicon-info-sign" data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="">
-                        </span>
-                     </li>
-                     <li>
-                        <input id="comments-for-student-check" name="searchcommentforstudents" type="checkbox" value="true"/>
-                        <label for="comments-for-student-check">
-                           Comments for students
-                        </label>
-                     </li>
-                     <li>
-                        <input checked="" id="comments-for-responses-check" name="searchcommentforresponses" type="checkbox" value="true"/>
-                        <label for="comments-for-responses-check">
-                           Comments for responses
-                        </label>
-                     </li>
-                     <li>
-                        <input id="students-check" name="searchstudents" type="checkbox" value="true"/>
-                        <label for="students-check">
-                           Students
-                        </label>
-                     </li>
-                  </ul>
-               </div>
+    </form>
+  </div>
+  <br>
+  <div id="statusMessage" style="display: none;">
+  </div>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <strong>
+        Comments for responses
+      </strong>
+    </div>
+    <div class="panel-body">
+      <div class="row ">
+        <div class="col-md-2">
+          <strong>
+            Session: searchUI.First feedback session (searchUI.idOfTypicalCourse1)
+          </strong>
+        </div>
+        <div class="col-md-10">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <b>
+                Question 1
+              </b>
+              : What is the best selling point of your product?
             </div>
-         </form>
-      </div>
-      <br/>
-      <div id="statusMessage" style="display: none;">
-      </div>
-      <br/>
-      <div class="panel panel-primary">
-         <div class="panel-heading">
-            <strong>
-               Comments for responses
-            </strong>
-         </div>
-         <div class="panel-body">
-            <div class="row ">
-               <div class="col-md-2">
-                  <strong>
-                     Session: searchUI.First feedback session (searchUI.idOfTypicalCourse1)
-                  </strong>
-               </div>
-               <div class="col-md-10">
-                  <div class="panel panel-info">
-                     <div class="panel-heading">
-                        <b>
-                           Question 1
-                        </b>
-                        : What is the best selling point of your product?
-                     </div>
-                     <table class="table">
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <b>
-                                    From:
-                                 </b>
-                                 student1 In Course1 (Team 1.1)
-                                 <b>
-                                    To:
-                                 </b>
-                                 student1 In Course1 (Team 1.1)
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Response:
-                                 </strong>
-                                 Student 1 self feedback.
-                              </td>
-                           </tr>
-                           <tr class="active">
-                              <td>
-                                 Comment(s):
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <ul class="list-group comments" id="responseCommentTable-1-1-1">
-                                    <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-1-1-1">
-                                       <div id="commentBar-1-1-1-1">
-                                          <span class="text-muted">
-                                             From: searchUI.instructor1@course1.tmt [Tue, 01 Mar 2016, 11:59 PM UTC]
-                                          </span>
-                                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
-                                             <span class="glyphicon glyphicon-new-window glyphicon-primary">
-                                             </span>
-                                          </a>
-                                       </div>
-                                       <div id="plainCommentText-1-1-1-1" style="margin-left: 15px;">
-                                          Instructor 1 comment to student 1 self feedback
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <div class="panel panel-info">
-                     <div class="panel-heading">
-                        <b>
-                           Question 2
-                        </b>
-                        : Rate 1 other student's product
-                     </div>
-                     <table class="table">
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <b>
-                                    From:
-                                 </b>
-                                 student3 In Course1 (Team 1.2)
-                                 <b>
-                                    To:
-                                 </b>
-                                 searchUI.student2InCourse1@gmail.tmt
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Response:
-                                 </strong>
-                                 Response from student 3 "to" student 2.
-Multiline test.
-                              </td>
-                           </tr>
-                           <tr class="active">
-                              <td>
-                                 Comment(s):
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <ul class="list-group comments" id="responseCommentTable-1-2-1">
-                                    <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-2-1-1">
-                                       <div id="commentBar-1-2-1-1">
-                                          <span class="text-muted">
-                                             From: searchUI.instructor1@course1.tmt [Sun, 01 Feb 2015, 11:59 PM UTC]
-                                          </span>
-                                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
-                                             <span class="glyphicon glyphicon-new-window glyphicon-primary">
-                                             </span>
-                                          </a>
-                                       </div>
-                                       <div id="plainCommentText-1-2-1-1" style="margin-left: 15px;">
-                                          Instructor 1 comment to feedback Question 2
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-2-1-2">
-                                       <div id="commentBar-1-2-1-2">
-                                          <span class="text-muted">
-                                             From: Anonymous [Mon, 02 Feb 2015, 11:59 PM UTC]
-                                          </span>
-                                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
-                                             <span class="glyphicon glyphicon-new-window glyphicon-primary">
-                                             </span>
-                                          </a>
-                                       </div>
-                                       <div id="plainCommentText-1-2-1-2" style="margin-left: 15px;">
-                                          Anonymous comment to feedback Question 2
-                                       </div>
-                                    </li>
-                                    <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-2-1-3">
-                                       <div id="commentBar-1-2-1-3">
-                                          <span class="text-muted">
-                                             From: searchUI.instructor2@course1.tmt [Tue, 03 Feb 2015, 11:59 PM UTC]
-                                          </span>
-                                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
-                                             <span class="glyphicon glyphicon-new-window glyphicon-primary">
-                                             </span>
-                                          </a>
-                                       </div>
-                                       <div id="plainCommentText-1-2-1-3" style="margin-left: 15px;">
-                                          Instructor 2 comment to feedback Question 2 (Student 3 see this as anonymous comment)
-                                       </div>
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>
+                    <b>
+                      From:
+                    </b>
+                    student1 In Course1 (Team 1.1)
+                    <b>
+                      To:
+                    </b>
+                    student1 In Course1 (Team 1.1)
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>
+                      Response:
+                    </strong>
+                    Student 1 self feedback.
+                  </td>
+                </tr>
+                <tr class="active">
+                  <td>
+                    <span class="highlight">
+                      Comment
+                    </span>
+                    (s):
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <ul class="list-group comments" id="responseCommentTable-1-1-1">
+                      <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-1-1-1">
+                        <div id="commentBar-1-1-1-1">
+                          <span class="text-muted">
+                            From: searchUI.instructor1@course1.tmt [Tue, 01 Mar 2016, 11:59 PM UTC]
+                          </span>
+                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
+                            <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                            </span>
+                          </a>
+                        </div>
+                        <div id="plainCommentText-1-1-1-1" style="margin-left: 15px;">
+                          Instructor 1
+                          <span class="highlight">
+                            comment
+                          </span>
+                          to student 1 self feedback
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <b>
+                Question 2
+              </b>
+              : Rate 1 other student's product
             </div>
-         </div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>
+                    <b>
+                      From:
+                    </b>
+                    student3 In Course1 (Team 1.2)
+                    <b>
+                      To:
+                    </b>
+                    searchUI.student2InCourse1@gmail.tmt
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>
+                      Response:
+                    </strong>
+                    Response from student 3 "to" student 2. Multiline test.
+                  </td>
+                </tr>
+                <tr class="active">
+                  <td>
+                    <span class="highlight">
+                      Comment
+                    </span>
+                    (s):
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <ul class="list-group comments" id="responseCommentTable-1-2-1">
+                      <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-2-1-1">
+                        <div id="commentBar-1-2-1-1">
+                          <span class="text-muted">
+                            From: searchUI.instructor1@course1.tmt [Sun, 01 Feb 2015, 11:59 PM UTC]
+                          </span>
+                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
+                            <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                            </span>
+                          </a>
+                        </div>
+                        <div id="plainCommentText-1-2-1-1" style="margin-left: 15px;">
+                          Instructor 1
+                          <span class="highlight">
+                            comment
+                          </span>
+                          to feedback Question 2
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-2-1-2">
+                        <div id="commentBar-1-2-1-2">
+                          <span class="text-muted">
+                            From: Anonymous [Mon, 02 Feb 2015, 11:59 PM UTC]
+                          </span>
+                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
+                            <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                            </span>
+                          </a>
+                        </div>
+                        <div id="plainCommentText-1-2-1-2" style="margin-left: 15px;">
+                          Anonymous
+                          <span class="highlight">
+                            comment
+                          </span>
+                          to feedback Question 2
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-2-1-3">
+                        <div id="commentBar-1-2-1-3">
+                          <span class="text-muted">
+                            From: searchUI.instructor2@course1.tmt [Tue, 03 Feb 2015, 11:59 PM UTC]
+                          </span>
+                          <a class="btn btn-default btn-xs icon-button pull-right" data-original-title="Edit comment in the Comments page" data-placement="top" data-toggle="tooltip" href="/page/instructorCommentsPage?user=searchUI.idOfInstructor1OfCourse1&courseid=searchUI.idOfTypicalCourse1#${comment.id}" style="display:none;" target="_blank" title="" type="button">
+                            <span class="glyphicon glyphicon-new-window glyphicon-primary">
+                            </span>
+                          </a>
+                        </div>
+                        <div id="plainCommentText-1-2-1-3" style="margin-left: 15px;">
+                          Instructor 2
+                          <span class="highlight">
+                            comment
+                          </span>
+                          to feedback Question 2 (Student 3 see this as anonymous
+                          <span class="highlight">
+                            comment
+                          </span>
+                          )
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-   </div>
+    </div>
+  </div>
+</div>

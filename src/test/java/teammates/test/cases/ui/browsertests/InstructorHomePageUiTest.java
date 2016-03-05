@@ -91,7 +91,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
         
         homePage.clickHomeTab();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLWithUnloadedCourse.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLWithUnloadedCourse.html");
         
         loginAsCommonInstructor();
         removeTestDataOnServer(unloadedCourseTestData);
@@ -123,18 +123,18 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("test case: fail, fetch response rate of invalid url");
         homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
         viewResponseLink.click();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLResponseRateFail.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: fail to fetch response rate again, check consistency of fail message");
         viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         viewResponseLink.click();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLResponseRateFail.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: pass with valid url after multiple fails");
         viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
         viewResponseLink.click();
-        homePage.verifyHtmlAjaxMainContent("/instructorHomeHTMLResponseRatePass.html");
+        homePage.verifyHtmlMainContentWithRetry("/instructorHomeHTMLResponseRatePass.html");
     }
     
     public void testContent() throws Exception{
@@ -153,17 +153,17 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeNewInstructorWithSampleCourse.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeNewInstructorWithSampleCourse.html");
         
         ______TS("content: multiple courses");
         
         loadFinalHomePageTestData();
         homePage.clickHomeTab();
         // Should not see private session
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLWithHelperView.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLWithHelperView.html");
         updateInstructorToCoownerPrivileges();
         homePage.clickHomeTab();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTML.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTML.html");
     }
 
     private void updateInstructorToCoownerPrivileges() {
@@ -328,7 +328,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         // the course's isArchived status should not be modified
         assertFalse(BackDoor.getCourse(courseIdForCS1101).isArchived);
         
-        homePage.verifyHtmlAjaxMainContent("/instructorHomeCourseArchiveSuccessful.html");
+        homePage.verifyHtmlMainContentWithRetry("/instructorHomeCourseArchiveSuccessful.html");
         
         ______TS("archive action failed");
         
@@ -423,7 +423,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
         assertTrue(BackDoor.isCourseNonExistent(courseId));
-        homePage.verifyHtmlAjaxMainContent("/instructorHomeCourseDeleteSuccessful.html");
+        homePage.verifyHtmlMainContentWithRetry("/instructorHomeCourseDeleteSuccessful.html");
         
         //delete the other course as well
         courseId = testData.courses.get("CHomeUiT.CS1101").id;
@@ -441,27 +441,27 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     public void testSortAction() throws Exception{
         ______TS("sort courses by id");
         homePage.clickSortByIdButton();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortById.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortById.html");
 
         ______TS("sort courses by name");
         homePage.clickSortByNameButton();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortByName.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortByName.html");
 
         ______TS("sort courses by date");
         homePage.clickSortByDateButton();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortByDate.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortByDate.html");
 
         ______TS("sort sessions by session name");
         homePage.sortTablesByName();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortSessionsByName.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortSessionsByName.html");
 
         ______TS("sort sessions by session start date");
         homePage.sortTablesByStartDate();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortSessionsByStartDate.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortSessionsByStartDate.html");
 
         ______TS("sort sessions by session end date");
         homePage.sortTablesByEndDate();
-        homePage.verifyHtmlAjaxMainContent("/InstructorHomeHTMLSortSessionsByEndDate.html");
+        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortSessionsByEndDate.html");
     }
     
     private void loginAsCommonInstructor(){

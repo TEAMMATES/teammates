@@ -79,6 +79,22 @@ public class StringHelper {
         }
         return result;
     }
+    
+    /**
+     * Trims head of the String if it is longer than specified Length.
+     *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
+     * @param inputString
+     * @param maximumStringLength - maximum required length of the string
+     * @return String with at most maximumStringLength length
+     */
+    public static String truncateHead(String inputString, final int maximumStringLength) {
+        final int inputStringLength = inputString.length();
+        if (inputStringLength <= maximumStringLength) {
+            return inputString;
+        } else {
+            return inputString.substring(inputStringLength - maximumStringLength);
+        }
+    }
 
     /**
      * Checks whether the {@code longId} is longer than the length specified
@@ -491,6 +507,5 @@ public class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
-    }
-
+    }  
 }

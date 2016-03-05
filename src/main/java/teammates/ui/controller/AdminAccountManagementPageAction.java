@@ -30,7 +30,6 @@ public class AdminAccountManagementPageAction extends Action {
         
         for(AccountAttributes acc : allInstructorAccountsList){
             instructorAccountsTable.put(acc.googleId, acc);
-            System.out.println(acc.googleId);
         }
         
         for(InstructorAttributes instructor : allInstructorsList){

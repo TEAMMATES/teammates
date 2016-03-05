@@ -42,7 +42,7 @@ $(document).ready(function(){
                 $('#coursesList')
                     .removeClass('align-center')
                     .html(appendedCoursesTable);
-                toggleSort($("#button_sortcourseid"),1);
+                toggleSort($("#button_sortcourseid"));
                 linkAjaxForCourseStats();
             }
         });

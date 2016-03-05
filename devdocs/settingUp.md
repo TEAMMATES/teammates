@@ -196,7 +196,7 @@ TBD
       Modify to match app name and app id of your own app.
       
 3. Deploy the application to your staging server.
-   * Choose `Deploy to app engine` from eclipse (under the `Google` menu item ![](https://developers.google.com/appengine/docs/java/tools/eclipse/google_menu_button.png) ) and follow the steps.
+   * Choose `Deploy to app engine` from eclipse (under the `Google` menu item ![](https://cloud.google.com/appengine/docs/python/images/transform_resize_after.jpg) ) and follow the steps.
    * Wait until you see this message in Eclipse console `Deployment completed successfully`
    * Go to appengine dashboard `https://appengine.google.com/dashboard?&app_id=teammates-name`
    * Click `Versions` under `Main` menu on the left bar.
@@ -208,6 +208,17 @@ TBD
     (modify `test.properties` so that tests execute against the 
     deployed app and not the dev server).
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
+
+
+##Running client scripts
+Client scripts are scripts that remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
+
+1. Download and install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
+
+2. Run `gcloud auth login` in the terminal of your PC and choose your google account for authentication.
+
+3. Now you can run your scripts.
+
 
 ##Troubleshooting
 Troubleshooting instructions are given [in this document](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
@@ -245,8 +256,10 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Datanucleus Access Platform** [version 1; while GAE supports Datanucleus v2 as well, the version that goes with JDO 2.3 is v1]
   The DataNucleus Access Platform provides persistence and retrieval of data to a range of datastores using a range of APIs, with a range of query languages.
   Comes with App Engine SDK.
+* **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
 * **SendGrid** Alternative framework to JavaMail for sending emails.
+* **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
 
 ####Tools used in testing
 
@@ -282,6 +295,5 @@ There are several files used to configure various aspects of the system.
 * `cron.xml` : This specifies cron jobs to run.
 * `queue.xml` : Specifies configuration of task queues.
 * `jdoconfig.xml` : Specifies the JDO configuration.
-* `persistence.xml` : auto-generated. 
-    
+* `persistence.xml` : Specifies the JPA configuration. 
     

@@ -152,9 +152,9 @@ public class BackDoorLogic extends Logic {
             response = injectRealIds(response);
         }
         frDb.createFeedbackResponses(responses.values());
-        
-        for(FeedbackSessionAttributes session : sessions.values()){
-            updateRespondants(session.feedbackSessionName, session.courseId);
+
+        for (FeedbackResponseAttributes response : responses.values()) {
+            updateRespondants(response.feedbackSessionName, response.courseId);
         }
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;

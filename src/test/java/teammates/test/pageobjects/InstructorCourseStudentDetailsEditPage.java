@@ -39,28 +39,25 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
      * If the parameter value is not null, the value will be filled into the
      * relevent input filed.
      */
-    public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments){
-        if (studentName != null) {
-            fillTextBox(studentNameTextbox, studentName);
-        }
-        if (teamName != null) {
-            fillTextBox(teamNameTextbox, teamName);
-        }
-        if (studentEmail != null) {
-            fillTextBox(studentEmailTextbox, studentEmail);
-        }
-        if (comments != null) {
-            fillTextBox(commentsTextbox, comments);
-        }
-        submitButton.click();
+    public InstructorCourseDetailsPage submitSuccessfully(String studentName, String teamName, String studentEmail, String comments) {
+        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
         return changePageType(InstructorCourseDetailsPage.class);
     }
     
     /**
      * If the parameter value is not null, the value will be filled into the
-     * relevent input filed.
+     * relevent input field.
      */
-    public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments){
+    public InstructorCourseStudentDetailsEditPage submitUnsuccessfully(String studentName, String teamName, String studentEmail, String comments) {
+        fillStudentDetailsForm(studentName, teamName, studentEmail, comments);
+        return this;
+    }
+
+    /**
+     * If the parameter value is not null, the value will be filled into the
+     * relevant input field.
+     */
+    private void fillStudentDetailsForm(String studentName, String teamName, String studentEmail, String comments) {
         if (studentName != null) {
             fillTextBox(studentNameTextbox, studentName);
         }
@@ -73,10 +70,14 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         if (comments != null) {
             fillTextBox(commentsTextbox, comments);
         }
-        submitButton.click();
-        return this;
+        // only if team name is edited, the confirmation dialog will pop up
+        if (teamName != null) {
+            clickAndConfirm(submitButton);
+        } else {
+            submitButton.click();
+        }
     }
-
+    
     public void verifyIsCorrectPage(String email) {
         assertTrue(containsExpectedPageContents());
         assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));

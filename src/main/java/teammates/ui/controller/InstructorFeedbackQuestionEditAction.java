@@ -80,46 +80,29 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             statusToUser.add(new StatusMessage(err, StatusMessageColor.DANGER));
             isError = true;
         }
-        
-        if (updatedQuestion.questionNumber != 0) { // Question number was updated
-            List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
-            List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
-            
-            for (String error : questionDetailsErrors) {
-                questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
-            }
-            
-            // if error is not empty not tested as extractFeedbackQuestionData method uses Assumptions to cover it
-            if (!questionDetailsErrors.isEmpty()) {
-                statusToUser.addAll(questionDetailsErrorsMessages);
-                isError = true;
-            } else {
-                logic.updateFeedbackQuestionNumber(updatedQuestion);
-                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
-            }
+   
+        FeedbackQuestionDetails updatedQuestionDetails = updatedQuestion.getQuestionDetails();
+        List<String> questionDetailsErrors = updatedQuestionDetails.validateQuestionDetails();
+        List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
+
+        for (String error : questionDetailsErrors) {
+            questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
+        }
+
+        if (!questionDetailsErrors.isEmpty()) {
+            statusToUser.addAll(questionDetailsErrorsMessages);
+            isError = true;
         } else {
-            List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
-            List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<StatusMessage>();
+            logic.updateFeedbackQuestionNumber(updatedQuestion);
             
-            for (String error : questionDetailsErrors) {
-                questionDetailsErrorsMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
-            }
-            
-            // if error is not empty not tested as extractFeedbackQuestionData method uses Assumptions to cover it
-            if (!questionDetailsErrors.isEmpty()) {
-                statusToUser.addAll(questionDetailsErrorsMessages);
-                isError = true;
-            } else {
-                logic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);    
-                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
-                statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber 
-                                + " for session:<span class=\"bold\">("
-                                + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                                + updatedQuestion.courseId + "]</span> edited.<br>"
-                                + "<span class=\"bold\">" 
-                                + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> "
-                                + updatedQuestion.getQuestionDetails().questionText;
-            }
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, StatusMessageColor.SUCCESS));
+            statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber 
+                            + " for session:<span class=\"bold\">("
+                            + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                            + updatedQuestion.courseId + "]</span> edited.<br>"
+                            + "<span class=\"bold\">" 
+                            + updatedQuestionDetails.getQuestionTypeDisplayName() + ":</span> "
+                            + updatedQuestionDetails.questionText;
         }
     }
     
@@ -205,8 +188,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", questionNumber);
         newQuestion.questionNumber = Integer.parseInt(questionNumber);
-        // 0 for no change in question number.
-        Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 0);
+        Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
         
         // Can be null
         String nEntityTypes = 

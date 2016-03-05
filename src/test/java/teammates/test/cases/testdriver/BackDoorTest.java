@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -71,7 +72,14 @@ public class BackDoorTest extends BaseTestCase {
         //try to delete again: should indicate as success because delete fails silently.
         status = BackDoor.deleteInstructor(instructor1OfCourse1.email, instructor1OfCourse1.courseId);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        
+
+        // ----------deleting Feedback Question entities-------------------------
+        FeedbackQuestionAttributes fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        verifyPresentInDatastore(fq);
+        status = BackDoor.deleteFeedbackQuestion(fq.getId());
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+        verifyAbsentInDatastore(fq);
+
         // ----------deleting Course entities-------------------------
         // #COURSE 2
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
@@ -408,7 +416,10 @@ public class BackDoorTest extends BaseTestCase {
                 BackDoor.getStudentAsJson(student.course, student.email));
     }
 
-    
+    private void verifyAbsentInDatastore(FeedbackQuestionAttributes fq) {
+        assertEquals("null", BackDoor.getFeedbackQuestionForIdAsJson(fq.getId()));
+    }
+
     private void verifyPresentInDatastore(String dataBundleJsonString) {
         Gson gson = Utils.getTeammatesGson();
 
@@ -484,7 +495,18 @@ public class BackDoorTest extends BaseTestCase {
         expectedAccount.studentProfile.modifiedDate = actualAccount.studentProfile.modifiedDate;
         assertEquals(gson.toJson(expectedAccount), gson.toJson(actualAccount));
     }
-    
+
+    private void verifyPresentInDatastore(FeedbackQuestionAttributes expectedQuestion) {
+        String questionJsonString = BackDoor.getFeedbackQuestionAsJson(expectedQuestion.feedbackSessionName,
+                                                                       expectedQuestion.courseId,
+                                                                       expectedQuestion.questionNumber);
+        FeedbackQuestionAttributes actualQuestion = gson.fromJson(questionJsonString, FeedbackQuestionAttributes.class);
+        
+        // Match the id of the expected Feedback Question because it is not known in advance
+        equalizeId(expectedQuestion, actualQuestion);
+        assertEquals(gson.toJson(expectedQuestion), gson.toJson(actualQuestion));
+    }
+
     private void equalizeIrrelevantData(
             StudentAttributes expectedStudent,
             StudentAttributes actualStudent) {
@@ -521,6 +543,13 @@ public class BackDoorTest extends BaseTestCase {
         if ((actualInstructor.key != null)) {
             expectedInstructor.key = actualInstructor.key;
         }
+    }
+
+    private void equalizeId(
+            FeedbackQuestionAttributes expectedFeedbackQuestion,
+            FeedbackQuestionAttributes actualFeedbackQuestion) {
+
+        expectedFeedbackQuestion.setId(actualFeedbackQuestion.getId());
     }
 
     @AfterClass

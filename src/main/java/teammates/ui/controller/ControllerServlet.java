@@ -116,8 +116,9 @@ public class ControllerServlet extends HttpServlet {
             }
         } catch (Throwable e) {
             MimeMessage email = new Logic().emailErrorReport(req, e);
-
-            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+            if (email != null) {
+                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email));
+            }
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }  

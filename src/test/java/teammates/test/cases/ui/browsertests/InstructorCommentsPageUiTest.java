@@ -31,6 +31,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception{
         testContent();
         testScripts();
+        testPanelsCollapseExpand();
         testActions();
         testSearch();
         testEmailPendingComments();
@@ -146,6 +147,23 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.showCommentsForStatus("private");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPrivate.html");
     }
+    
+    private void testPanelsCollapseExpand() {
+        
+        ______TS("Typical case: panels expand/collapse");
+        
+        commentsPage.clickCommentsPageLinkInHeader();
+        assertTrue(commentsPage.areCommentsHidden());
+        
+        commentsPage.clickAllCommentsPanelHeading();
+        commentsPage.waitForPanelsToExpand();
+        assertTrue(commentsPage.areCommentsVisible());
+        
+        commentsPage.clickAllCommentsPanelHeading();
+        commentsPage.waitForPanelsToCollapse();
+        assertTrue(commentsPage.areCommentsHidden());
+        
+    }
 
     private void testActions() throws Exception {
         ______TS("action: edit student comment");
@@ -183,20 +201,20 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddFrc.html");
         
         ______TS("action: edit feedback response comment");
-        commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
-        commentsPage.clickResponseCommentVisibilityEdit("1-1-1-1");
-        commentsPage.clickAllCheckboxes("1-1-1-1");
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
-        commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
-        commentsPage.saveResponseComment(1, 1, 1, 1);
+        commentsPage.clickResponseCommentEdit(1, 1, 1, 2);
+        commentsPage.clickResponseCommentVisibilityEdit("1-1-1-2");
+        commentsPage.clickAllCheckboxes("1-1-1-2");
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 2, "");
+        commentsPage.saveResponseComment(1, 1, 1, 2);
+        commentsPage.verifyCommentFormErrorMessage("1-1-1-2", "Comment cannot be empty");
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 2, "edited response comment\na new line");
+        commentsPage.saveResponseComment(1, 1, 1, 2);
         commentsPage.reloadPage();
         commentsPage.loadResponseComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageEditFrc.html");
         
         ______TS("action: delete feedback response comment");
-        commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
+        commentsPage.clickResponseCommentDelete(1, 1, 1, 2);
         commentsPage.reloadPage();
         commentsPage.loadResponseComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageDeleteFrc.html");

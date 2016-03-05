@@ -22,19 +22,19 @@
             <thead class="${tableHeaderClass}">
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
-                    <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this,2)">
+                    <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
                         Section <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,3)">
+                    <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Team <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,4)">
+                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
+                    <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">
                         Status <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,6)">
+                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Email <span class="icon-sort unsorted"></span>
                     </th>
                     <th>Action(s)</th>
