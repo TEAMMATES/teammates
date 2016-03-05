@@ -101,8 +101,8 @@ test('setStatusMessage(message,error)', function(){
 });
 
 
-test('clearStatusMessage()', function(){
-    clearStatusMessage();
+test('clearStatusMessages()', function(){
+    clearStatusMessages();
     equal($("#statusMessage").html(), "", "Status message cleared");
     ok(($("#statusMessage").css('background-color') == "rgba(0, 0, 0, 0)" || $("#statusMessage").css('background-color') == "transparent"), "No background");
 });

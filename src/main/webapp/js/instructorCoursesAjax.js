@@ -33,7 +33,7 @@ $(document).ready(function(){
             success: function(data) {
                 isFetchingCourses = false;
                 if (needsRetrying) {
-                    clearStatusMessage();
+                    clearStatusMessages();
                     needsRetrying = false;
                 }
                 

@@ -578,10 +578,11 @@ function appendStatusMessage(messages, error) {
 /**
  * Clears the status message div tag and hides it
  */
-function clearStatusMessage() {
-    $(DIV_STATUS_MESSAGE).html('');
-    $(DIV_STATUS_MESSAGE).css('background', '');
-    $(DIV_STATUS_MESSAGE).attr('style', 'display: none;');
+function clearStatusMessages() {
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    
+    $statusMessagesToUser.empty();
+    $statusMessagesToUser.hide();
 }
 
 /**
