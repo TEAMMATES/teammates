@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // projection: 'mercator', // big world map
         setProjection: function(element) {
             var projection = d3.geo.mercator()
-              .center([0, 0])
+              .center([0, 20])
               .rotate([0, 0])
               .scale(120)
               .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
