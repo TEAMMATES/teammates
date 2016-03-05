@@ -254,18 +254,14 @@ public class StringHelperTest extends BaseTestCase {
         // Test with string enclosed by square brackets, and square brackets should be removed
         assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets("[test1, test2]"));
         
-        // Test with string enclosed by square brackets with leading and trailing white spaces,
-        // and the leading and trailing white spaces should be trimmed
-        assertEquals("test1,test2", StringHelper.removeEnclosingSquareBrackets("  [test1,test2] "));
-        
         // Test with string enclosed in two square brackets, and only the outermost square brackets
         // should be removed
-        assertEquals("[ \"test\" ]", StringHelper.removeEnclosingSquareBrackets("[ [ \"test\" ]]"));
+        assertEquals("[ \"test\" ]", StringHelper.removeEnclosingSquareBrackets("[[ \"test\" ]]"));
         
         // Test with multiple and nested square brackets, and only the outermost square brackets 
         // should be removed
         assertEquals("test1, [], ] test2",
-                     StringHelper.removeEnclosingSquareBrackets(" [test1, [], ] test2]"));
+                     StringHelper.removeEnclosingSquareBrackets("[test1, [], ] test2]"));
         
         // Test with string without square brackets, and should give back the string itself
         assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
