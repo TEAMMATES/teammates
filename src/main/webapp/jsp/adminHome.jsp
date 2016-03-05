@@ -27,7 +27,7 @@
                         <th>Email</th>
                         <th>Institution</th>
                         <th>Status</th>
-                        <th>Message</th>
+                        <th class="col-md-5">Message</th>
                     </tr>
                 </thead>
                 <tbody>
