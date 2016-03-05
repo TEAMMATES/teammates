@@ -22,14 +22,15 @@ public class AdminAccountManagementPageAction extends Action {
         Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();
         Map<String, AccountAttributes> instructorAccountsTable = new HashMap<String, AccountAttributes>();
         
-        if (instructorGoogleId == null) instructorGoogleId = "";
+        if (instructorGoogleId == null) {
+            instructorGoogleId = "";
+        }
         List<InstructorAttributes> instructorsList = logic.getInstructorsForGoogleId(instructorGoogleId);
         AccountAttributes instructorAccount = logic.getAccount(instructorGoogleId);
         
         boolean isToShowAll = this.getRequestParamAsBoolean("all");
         boolean isAccountExisting = instructorAccount != null && !instructorsList.isEmpty();
         if (isAccountExisting) {
-            
             instructorAccountsTable.put(instructorAccount.googleId, instructorAccount);
             
             for(InstructorAttributes instructor : instructorsList){
