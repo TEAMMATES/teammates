@@ -243,7 +243,7 @@ Apply to thead to make headers not bold.
     padding-top: 0;
 }
 
-.table {
+#addInstructorResultTable {
     table-layout: fixed;
     word-wrap: break-word;
 }
