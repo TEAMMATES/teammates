@@ -508,6 +508,7 @@ public class StringHelper {
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
     } 
+    
     public static void trim(String []str){
         for(int i=0;i<str.length;i++){
             str[i]=str[i].trim();
