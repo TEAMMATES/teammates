@@ -806,7 +806,7 @@ public class Emails {
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
             log.severe("Crash report failed to send. Detailed error stack trace: "
-                     + TeammatesException.toStringWithStackTrace(error));
+                     + TeammatesException.toStringWithStackTrace(error).replace("\\n","<br>"));
             logSevereForErrorInSendingItem("crash report", email, e);
         }
     
@@ -824,7 +824,7 @@ public class Emails {
     
     private void logSevereForErrorInSendingItem(String itemType, MimeMessage message, Exception e) {
         log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
-                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));        
+                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e).replace("\\n","<br>"));
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
