@@ -1,8 +1,10 @@
 package teammates.common.util;
 
 import java.text.DateFormat;
+import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const.SystemParams;
 
 import com.google.gson.Gson;
@@ -33,5 +35,17 @@ public class Utils {
                 .setPrettyPrinting()
                 .create();
     }
-
+    
+    public static String joinParticipantTypes(List<FeedbackParticipantType> participants, String delimiter) {
+        if (participants.isEmpty()) {
+            return "";
+        } else {
+            String result = "";
+            for (FeedbackParticipantType fpt: participants) {
+                result += fpt + delimiter;
+            }
+            return result.substring(0, result.length() - delimiter.length());
+        }
+    }
+    
 }
