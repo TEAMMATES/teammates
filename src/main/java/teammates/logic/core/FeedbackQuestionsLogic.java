@@ -641,7 +641,7 @@ public class FeedbackQuestionsLogic {
     }
 
 
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateUpdate)
+    private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes oldQuestion = null;
         if (newAttributes.getId() == null) {
@@ -737,7 +737,7 @@ public class FeedbackQuestionsLogic {
      * Cascade the deletion of all existing responses for the question and then 
      * shifts larger question numbers down by one to preserve number order.
      */
-    public void deleteFeedbackQuestionCascade(
+    private void deleteFeedbackQuestionCascade(
             String feedbackSessionName, String courseId, int questionNumber, boolean hasResponseRateUpdate) {
         
         FeedbackQuestionAttributes questionToDelete =
