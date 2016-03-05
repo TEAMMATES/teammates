@@ -92,7 +92,7 @@ function createGroupReceiverListUploadUrl(){
         	showUploadingGif();
         },
         error : function() {
-        	setErrorMessage("URL request failured, please try again.");
+            setErrorMessage("URL request failured, please try again.");
         },
         success : function(data) {
             setTimeout(function(){
@@ -102,7 +102,7 @@ function createGroupReceiverListUploadUrl(){
             	    submitGroupReceiverListUploadFormAjax();
             	    
                 } else {
-                	setErrorMessage(data.ajaxStatus);
+                    setErrorMessage(data.ajaxStatus);
                 }
                                
 
@@ -243,22 +243,12 @@ function submitImageUploadFormAjax() {
 
 
 
-function setErrorMessage(error){
-	$("#statusMessage").html(error);
-	$("#statusMessage").attr("class", "alert alert-danger");
-	$("#statusMessage").show();
-}
-
-function setStatusMessage(msg){
-	$("#statusMessage").html(msg);
-	$("#statusMessage").attr("class", "alert alert-warning");
-	$("#statusMessage").show();
+function setErrorMessage(message){
+    setStatusMessage(message, true);
 }
 
 function showUploadingGif(){
-	$("#statusMessage").html("Uploading...<span><img src='/images/ajax-loader.gif'/></span>");
-	$("#statusMessage").attr("class", "alert alert-warning");
-	$("#statusMessage").show();
+    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>");
 }
 
 function clearUploadFileInfo(){

@@ -73,21 +73,14 @@ function bindFeedbackSessionEditFormSubmission() {
             type: 'POST',
             data: $form.serialize(),
             beforeSend: function() {
-                $('#statusMessage').hide();
+                clearStatusMessages();
             },
             success: function(result) {
-            	$statusMessage = $('#statusMessage');
-            		
-            	$statusMessage.text(result.statusForAjax);
+                setStatusMessage(result.statusForAjax, result.hasError);
                 
-            	$statusMessage.removeClass("alert alert-danger alert-warning");
-                if (result.hasError) {
-                	$statusMessage.addClass("alert alert-danger");
-                } else {
+                if (!result.hasError) {
                     disableEditFS();
-                    $statusMessage.addClass("alert alert-success");
                 }
-                $statusMessage.show();
                 
                 // focus on status message
                 scrollToElement($statusMessage[0], {offset: ($('.navbar').height() + 30) * -1});
