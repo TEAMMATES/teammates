@@ -277,7 +277,7 @@ public class AdminActivityLogPageData extends PageData {
             }
             
             String[] values = pair[1].split(",", -1);
-            StringHelper.trim(values);
+            values = StringHelper.trim(values);
             String label = pair[0].trim();
             
             if (label.equals("version")) {
