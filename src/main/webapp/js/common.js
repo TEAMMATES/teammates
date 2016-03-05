@@ -549,7 +549,8 @@ function setStatusMessage(message, error) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     var $statusMessage = $("<div></div>");
     
-    $statusMessage.text(message);
+    $statusMessage.html(message);
+    $statusMessagesToUser.empty();
     $statusMessagesToUser.append($statusMessage);
     
     if (error === true) {
