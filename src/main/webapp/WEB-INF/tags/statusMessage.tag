@@ -1,5 +1,6 @@
 <%@ tag description="Status message" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ attribute name="statusMessagesToUser" type="java.util.Collection" %>
@@ -9,10 +10,22 @@
 <c:set var="STATUS_MESSAGE_COLOR"><%= Const.ParamsNames.STATUS_MESSAGE_COLOR %></c:set>
 <c:set var="ERROR"><%= Const.ParamsNames.ERROR %></c:set>
 
-<div id="statusMessagesToUser">
-    <c:forEach items="${statusMessagesToUser}" var="statusMessage">
-        <div class="overflow-auto alert alert-${statusMessage.color} statusMessage">
-            ${statusMessage.text}
+<c:choose>
+    <c:when test="${fn:length(statusMessagesToUser) gt 0}">
+        <div id="statusMessagesToUser">
+            <c:forEach items="${statusMessagesToUser}" var="statusMessage">
+                <div class="overflow-auto alert alert-${statusMessage.color} statusMessage">
+                    ${statusMessage.text}
+                </div>
+            </c:forEach>
+            
+            <c:if test="${not doNotFocusToStatus}">
+                <script type="text/javascript" src="/js/statusMessage.js"></script>
+            </c:if>
         </div>
-    </c:forEach>
-</div>
+    </c:when>
+    <c:otherwise>
+        <div id="statusMessagesToUser" style="display: none;">
+        </div>
+    </c:otherwise>
+</c:choose>

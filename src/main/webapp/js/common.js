@@ -541,7 +541,7 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * @param error
  */
 function setStatusMessage(message, error) {
-    if (message === '') {
+    if (message === '' || message === undefined || message === null) {
         clearStatusMessage();
         return;
     }
