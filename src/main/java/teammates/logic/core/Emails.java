@@ -638,7 +638,7 @@ public class Emails {
         MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         message.setSubject("Severe Error Logs Compilation");
 
-        String emailBody = logs.replace("\\n","<br>");
+        String emailBody = logs.replace("\n", "<br>");
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -806,7 +806,7 @@ public class Emails {
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
             log.severe("Crash report failed to send. Detailed error stack trace: "
-                     + TeammatesException.toStringWithStackTrace(error).replace("\\n","<br>"));
+                     + TeammatesException.toStringWithStackTrace(error));
             logSevereForErrorInSendingItem("crash report", email, e);
         }
     
@@ -824,7 +824,7 @@ public class Emails {
     
     private void logSevereForErrorInSendingItem(String itemType, MimeMessage message, Exception e) {
         log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
-                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e).replace("\\n","<br>"));
+                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
