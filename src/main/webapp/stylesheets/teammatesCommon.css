@@ -243,10 +243,6 @@ Apply to thead to make headers not bold.
     padding-top: 0;
 }
 
-#addInstructorResultTable td{
-    word-break: break-all;
-}
-
 .text-large {
     font-size: 18px;
 }
