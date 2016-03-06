@@ -87,12 +87,12 @@ public abstract class FeedbackQuestionDetails {
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
         String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(StringHelper.recoverFromSanitizedText(giverFullName)))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(StringHelper.recoverFromSanitizedText(giverLastName)))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(StringHelper.recoverFromSanitizedText(recipientFullName)))
-                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(StringHelper.recoverFromSanitizedText(recipientLastName)))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                       + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
                                       + Const.EOL;
