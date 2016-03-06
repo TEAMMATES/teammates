@@ -1827,7 +1827,7 @@ public class Logic {
 
     /**
      * Deletes the feedback question and the responses associated to it. Fails
-     * silently if there is no such feedback session. <br>
+     * silently if there is no such feedback question. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
      */
