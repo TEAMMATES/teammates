@@ -43,7 +43,7 @@
                 <input type="hidden" name="courseId" value="${instructor.courseId}">
             </form>
             <c:if test="${not empty instructor.googleId}">
-                <form method="post" target="blank" action="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">
+                <form method="get" target="blank" action="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">
                     <button type="submit" id="" class="btn btn-link btn-xs optionButton">
                         <span class="glyphicon glyphicon-zoom-in"></span>Go to Account Management Page
                     </button>
