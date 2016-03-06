@@ -68,7 +68,7 @@ public abstract class AppPage {
     @SuppressWarnings("unused")
     private void ____Common_page_elements___________________________________() {
     }
-    @FindBy(id = "statusMessage")
+    @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
@@ -861,7 +861,7 @@ public abstract class AppPage {
             assertEquals(expectedStatus, this.getStatus());
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"));
+                this.waitForElementPresence(By.id("statusMessagesToUser"));
                 if(!statusMessage.isDisplayed()){
                     this.waitForElementVisibility(statusMessage);
                 }
