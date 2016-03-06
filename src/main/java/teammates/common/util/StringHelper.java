@@ -515,9 +515,9 @@ public class StringHelper {
      */
     public static String[] trim(String[] stringsToTrim) {
         String stringsAfterTrim[] = new String[stringsToTrim.length];
-        int m = 0;
+        int i = 0;
         for (String stringToTrim : stringsToTrim) {
-            stringsAfterTrim[m++] = stringToTrim.trim();
+            stringsAfterTrim[i++] = stringToTrim.trim();
         }
         return stringsAfterTrim;
     }
