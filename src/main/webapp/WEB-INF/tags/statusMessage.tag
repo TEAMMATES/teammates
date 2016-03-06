@@ -18,10 +18,6 @@
                     ${statusMessage.text}
                 </div>
             </c:forEach>
-            
-            <c:if test="${not doNotFocusToStatus}">
-                <script type="text/javascript" src="/js/statusMessage.js"></script>
-            </c:if>
         </div>
     </c:when>
     <c:otherwise>
@@ -29,3 +25,7 @@
         </div>
     </c:otherwise>
 </c:choose>
+
+<c:if test="${not doNotFocusToStatus}">
+    <script type="text/javascript" src="/js/statusMessage.js"></script>
+</c:if>
