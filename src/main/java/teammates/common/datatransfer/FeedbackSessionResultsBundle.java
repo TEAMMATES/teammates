@@ -909,7 +909,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_TEAM)) {
             return getTeamNameForEmail(email);
         } else {
-            return Sanitizer.sanitizeForHtml(name);
+            return name;
         }
     }
 
@@ -922,7 +922,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_TEAM)) {
             return getTeamNameForEmail(email);
         } else {
-            return Sanitizer.sanitizeForHtml(name);
+            return name;
         }
     }
 
@@ -931,7 +931,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            return Sanitizer.sanitizeForHtml(teamName);
+            return teamName;
         }
     }
     
