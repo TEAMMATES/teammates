@@ -83,6 +83,12 @@ var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
 var FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
 
+// Status message status
+var STATUS_SUCCESS = "success";
+var STATUS_INFO = "info";
+var STATUS_WARNING = "warning";
+var STATUS_DANGER = "danger";
+
 // Display messages
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = 'There are too many fields.';
@@ -535,12 +541,13 @@ function scrollToTop(duration) {
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
- * Sets a status message. Change the background color to red if it's an error
+ * Sets a status message and the message status.
+ * Default message status is info.
  *
  * @param message the text message to be shown to the user
- * @param error
+ * @param status the status (STATUS_INFO, STATUS_SUCCESS, STATUS_WARNING, STATUS_DANGER) of the message
  */
-function setStatusMessage(message, error) {
+function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
         return;
     }
@@ -548,15 +555,24 @@ function setStatusMessage(message, error) {
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     var $statusMessage = $("<div></div>");
     
+    $statusMessage.addClass("overflow-auto");
+    $statusMessage.addClass("alert");
+    
     $statusMessage.html(message);
     $statusMessagesToUser.empty();
     $statusMessagesToUser.append($statusMessage);
     
-    if (error === true) {
-        $statusMessage.attr('class', 'overflow-auto alert alert-danger');
+    if (status === STATUS_WARNING) {
+        $statusMessage.addClass("alert-warning");
+    } else if (status === STATUS_SUCCESS) {
+        $statusMessage.addClass("alert-success");
+    } else if (status === STATUS_DANGER) {
+        $statusMessage.addClass("alert-danger");
     } else {
-        $statusMessage.attr('class', 'overflow-auto alert alert-warning');
+        $statusMessage.addClass("alert-info");
     }
+    
+    $statusMessage.addClass("statusMessage");
     
     $statusMessagesToUser.show();
     
