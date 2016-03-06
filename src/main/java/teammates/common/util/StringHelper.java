@@ -509,10 +509,16 @@ public class StringHelper {
         return (str == null) ? "" : str;
     } 
     
-    public static String[] trim(String []str) {
-        for (int i = 0; i < str.length; i++) {
-            str[i] = str[i].trim();
+    /**
+     * Returns a String array after removing white spaces preceding or
+     * succeeding any string in that array
+     */
+    public static String[] trim(String[] stringsToTrim) {
+        String stringsAfterTrim[] = new String[stringsToTrim.length];
+        int m = 0;
+        for (String a : stringsToTrim) {
+            stringsAfterTrim[m++] = a.trim();
         }
-        return str;
+        return stringsAfterTrim;
     }
 }
