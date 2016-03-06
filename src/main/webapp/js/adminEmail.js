@@ -244,11 +244,11 @@ function submitImageUploadFormAjax() {
 
 
 function setErrorMessage(message){
-    setStatusMessage(message, true);
+    setStatusMessage(message, STATUS_DANGER);
 }
 
 function showUploadingGif(){
-    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>");
+    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", STATUS_WARNING);
 }
 
 function clearUploadFileInfo(){

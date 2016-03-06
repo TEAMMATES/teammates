@@ -100,16 +100,16 @@ function isStudentTeamNameValid(teamName) {
  */
 function isStudentInputValid(editName, editTeamName, editEmail) {
     if (editName === '' || editTeamName === '' || editEmail === '') {
-        setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+        setStatusMessage(DISPLAY_FIELDS_EMPTY, STATUS_DANGER);
         return false;
     } else if (!isNameValid(editName)) {
-        setStatusMessage(DISPLAY_NAME_INVALID, true);
+        setStatusMessage(DISPLAY_NAME_INVALID, STATUS_DANGER);
         return false;
     } else if (!isStudentTeamNameValid(editTeamName)) {
-        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, true);
+        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, STATUS_DANGER);
         return false;
     } else if (!isEmailValid(editEmail)) {
-        setStatusMessage(DISPLAY_EMAIL_INVALID, true);
+        setStatusMessage(DISPLAY_EMAIL_INVALID, STATUS_DANGER);
         return false;
     }
     

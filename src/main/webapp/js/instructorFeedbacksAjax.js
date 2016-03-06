@@ -21,7 +21,7 @@ var ajaxRequest = function(e) {
             isSessionsAjaxSending = false;
             $('#sessionList').html('');
             var msg = 'Failed to load sessions. Please <a href="#" onclick="loadSessionsByAjax()">click here</a> to retry.';
-            setStatusMessage(msg, true);
+            setStatusMessage(msg, STATUS_DANGER);
             
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== "") {
                 appendStatusMessage(oldStatus);
