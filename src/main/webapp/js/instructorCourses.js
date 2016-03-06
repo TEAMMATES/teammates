@@ -15,7 +15,7 @@ function verifyCourseData() {
     
     allErrorMessage += checkAddCourseParam(courseID, courseName);
     if(allErrorMessage.length>0){
-        setStatusMessage(allErrorMessage,true);
+        setStatusMessage(allErrorMessage, STATUS_DANGER);
         return false;
     }
     
