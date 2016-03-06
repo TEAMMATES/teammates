@@ -196,7 +196,7 @@ TBD
       Modify to match app name and app id of your own app.
       
 3. Deploy the application to your staging server.
-   * Choose `Deploy to app engine` from eclipse (under the `Google` menu item ![](https://developers.google.com/appengine/docs/java/tools/eclipse/google_menu_button.png) ) and follow the steps.
+   * Choose `Deploy to app engine` from eclipse (under the `Google` menu item ![](https://cloud.google.com/appengine/docs/python/images/transform_resize_after.jpg) ) and follow the steps.
    * Wait until you see this message in Eclipse console `Deployment completed successfully`
    * Go to appengine dashboard `https://appengine.google.com/dashboard?&app_id=teammates-name`
    * Click `Versions` under `Main` menu on the left bar.
@@ -256,6 +256,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Datanucleus Access Platform** [version 1; while GAE supports Datanucleus v2 as well, the version that goes with JDO 2.3 is v1]
   The DataNucleus Access Platform provides persistence and retrieval of data to a range of datastores using a range of APIs, with a range of query languages.
   Comes with App Engine SDK.
+* **Java Persistence API (JPA)** [version 1.0]: JPA is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
 * **SendGrid** Alternative framework to JavaMail for sending emails.
 * **Google Cloud SDK**: This is a set of tools that helps us manage resources and applications hosted on Google Cloud Platform. We use it to run client scripts on GAE remotely.
@@ -294,6 +295,5 @@ There are several files used to configure various aspects of the system.
 * `cron.xml` : This specifies cron jobs to run.
 * `queue.xml` : Specifies configuration of task queues.
 * `jdoconfig.xml` : Specifies the JDO configuration.
-* `persistence.xml` : auto-generated. 
-    
+* `persistence.xml` : Specifies the JPA configuration. 
     

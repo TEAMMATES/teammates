@@ -54,7 +54,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         ______TS("content: typical page");
         
-        loginToAdminAccountsManagementPage();
+        String instructor1GoogleId = "AAMgtUiT.instr1";
+        loginToAdminAccountsManagementPage(instructor1GoogleId);
         accountsPage.verifyIsCorrectPage();
         assertTrue(accountsPage.isTableVisible());
         
@@ -96,19 +97,19 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         ______TS("action: delete account");
         
-        browser.driver.get(accountsPageUrl.toAbsoluteString());;
+        String instructor3GoogleId = "AAMgtUiT.instr3";
+        loginToAdminAccountsManagementPage(instructor3GoogleId);
         
-        String googleId = "AAMgtUiT.instr3";
-        accountsPage.clickAndCancelDeleteAccountLink(googleId);
-        assertNotNull(BackDoor.getAccount(googleId));
+        accountsPage.clickAndCancelDeleteAccountLink(instructor3GoogleId);
+        assertNotNull(BackDoor.getAccount(instructor3GoogleId));
         
-        accountsPage.clickAndConfirmDeleteAccountLink(googleId);
-        assertNull(BackDoor.getAccount(googleId));
+        accountsPage.clickAndConfirmDeleteAccountLink(instructor3GoogleId);
+        assertNull(BackDoor.getAccount(instructor3GoogleId));
         
     }
-
-    private void loginToAdminAccountsManagementPage() {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
+    
+    private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
+        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true&googleId=" + instructorIdToShow);
         accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
         // Extra 60 seconds of wait as it can take a longer time to load in non-dev environments
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
