@@ -509,9 +509,9 @@ public class StringHelper {
         return (str == null) ? "" : str;
     } 
     
-    public static String[] trim(String []str){
-        for(int i=0;i<str.length;i++){
-            str[i]=str[i].trim();
+    public static String[] trim(String []str) {
+        for (int i = 0; i < str.length; i++) {
+            str[i] = str[i].trim();
         }
         return str;
     }
