@@ -34,29 +34,28 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
     
     @BeforeClass
     public static void classSetup() throws Exception {
-        // Temporarily disable unit test for Account Management Page.
-        
-        /*printTestClassHeader();
+        printTestClassHeader();
         testData = loadDataBundle("/AdminAccountManagementPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();*/
+        browser = BrowserPool.getBrowser();
     }
     
     @Test
     public void testAll(){
-        /*testContent();
+        testContent();
         //no input validation to check
         testViewAccountDetailsLink();
         testViewRecentActionsLink();
         testDeleteInstructorStatusAction();
-        testDeleteInstructorAccountAction();*/
+        testDeleteInstructorAccountAction();
     }
     
     public void testContent() {
         
         ______TS("content: typical page");
         
-        loginToAdminAccountsManagementPage();
+        String instructor1GoogleId = "AAMgtUiT.instr1";
+        loginToAdminAccountsManagementPage(instructor1GoogleId);
         accountsPage.verifyIsCorrectPage();
         assertTrue(accountsPage.isTableVisible());
         
@@ -98,19 +97,19 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         ______TS("action: delete account");
         
-        browser.driver.get(accountsPageUrl.toAbsoluteString());;
+        String instructor3GoogleId = "AAMgtUiT.instr3";
+        loginToAdminAccountsManagementPage(instructor3GoogleId);
         
-        String googleId = "AAMgtUiT.instr3";
-        accountsPage.clickAndCancelDeleteAccountLink(googleId);
-        assertNotNull(BackDoor.getAccount(googleId));
+        accountsPage.clickAndCancelDeleteAccountLink(instructor3GoogleId);
+        assertNotNull(BackDoor.getAccount(instructor3GoogleId));
         
-        accountsPage.clickAndConfirmDeleteAccountLink(googleId);
-        assertNull(BackDoor.getAccount(googleId));
+        accountsPage.clickAndConfirmDeleteAccountLink(instructor3GoogleId);
+        assertNull(BackDoor.getAccount(instructor3GoogleId));
         
     }
-
-    private void loginToAdminAccountsManagementPage() {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
+    
+    private void loginToAdminAccountsManagementPage(String instructorIdToShow) {
+        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true&googleId=" + instructorIdToShow);
         accountsPage = loginAdminToPageForAdminUiTests(browser, accountsPageUrl, AdminAccountManagementPage.class);
         // Extra 60 seconds of wait as it can take a longer time to load in non-dev environments
         accountsPage.waitForAdminAccountsManagementPageToFinishLoading();
@@ -119,7 +118,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
 
     @AfterClass
     public static void classTearDown() throws Exception {
-        //BrowserPool.release(browser);
+        BrowserPool.release(browser);
     }
     
 }
