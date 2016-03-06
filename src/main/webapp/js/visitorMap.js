@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     var series = [
-        ["BLR",75],["BLZ",43],["RUS",50],["RWA",88],["SRB",21],["TLS",43],
-        ["REU",21],["TKM",19],["TJK",60],["ROU",4],["TKL",44],["GNB",38],
-        ["GUM",67],["GTM",2],["SGS",95],["GRC",60],["GNQ",57],["GLP",53],
-        ["JPN",59],["GUY",24],["GGY",4],["GUF",21],["GEO",42],["GRD",65],
-        ["GBR",14],["GAB",47],["SLV",15],["GIN",19],["GMB",63],["SGP",100],
-        ["IND",95],["CHN",16],["USA",93],["CAN",78]
+        ["BLR",1],["BLZ",1],["RUS",1],["RWA",1],["SRB",1],["TLS",1],
+        ["REU",1],["TKM",1],["TJK",1],["ROU",1],["TKL",1],["GNB",1],
+        ["GUM",1],["GTM",1],["SGS",1],["GRC",1],["GNQ",1],["GLP",1],
+        ["JPN",1],["GUY",1],["GGY",1],["GUF",1],["GEO",1],["GRD",1],
+        ["GBR",1],["GAB",1],["SLV",1],["GIN",1],["GMB",1],["SGP",1],
+        ["IND",1],["CHN",1],["USA",1],["CAN",1]
         ];
 
     var dataset = {};
@@ -16,7 +16,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var maxValue = Math.max.apply(null, onlyValues);
     var paletteScale = d3.scale.linear()
             .domain([minValue,maxValue])
-            .range(["#C1F0F6","#4895AE"]);
+            // .range(["#C1F0F6","#4895AE"]);
+            .range(["#4895AE","#4895AE"]);
     series.forEach(function(item){ //
         var iso = item[0];
         var value = item[1];
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 // tooltip content
                 return ['<div class="hoverinfo">',
                     '<p><span class="bold">', geo.properties.name, '</span>',
-                    '<br>Visitors: ', data.numOfVisitors,
+                    // '<br>Visitors: ', data.numOfVisitors,
                     '</p></div>'].join('');
             }
         }
