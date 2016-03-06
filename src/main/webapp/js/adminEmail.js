@@ -138,7 +138,7 @@ function submitGroupReceiverListUploadFormAjax() {
             setTimeout(function(){
                 if (!data.isError) {
                    if(data.isFileUploaded){
-                	   setStatusMessage(data.ajaxStatus);
+                	   setStatusMessage(data.ajaxStatus, STATUS_SUCCESS);
                 	   $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);  
                 	   $("#groupReceiverListFileKey").show();
                 	   $("#groupReceiverListFileSize").val(data.groupReceiverListFileSize);
@@ -220,7 +220,7 @@ function submitImageUploadFormAjax() {
                    if(data.isFileUploaded){
                 	   url = data.fileSrcUrl;
                 	   callbackFunction(url, {alt: 'My alt text'});
-                	   setStatusMessage(data.ajaxStatus);
+                	   setStatusMessage(data.ajaxStatus, STATUS_SUCCESS);
                    } else {
                    	   setErrorMessage(data.ajaxStatus);
                    }
