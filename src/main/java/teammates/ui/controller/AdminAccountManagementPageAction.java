@@ -18,24 +18,24 @@ public class AdminAccountManagementPageAction extends Action {
         new GateKeeper().verifyAdminPrivileges(account);
         
         String instructorGoogleId = this.getRequestParamValue("googleId");
+        if (instructorGoogleId == null) {
+            instructorGoogleId = "";
+        }
         
         Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();
         Map<String, AccountAttributes> instructorAccountsTable = new HashMap<String, AccountAttributes>();
         
-        if (instructorGoogleId == null) {
-            instructorGoogleId = "";
-        }
         List<InstructorAttributes> instructorsList = logic.getInstructorsForGoogleId(instructorGoogleId);
         AccountAttributes instructorAccount = logic.getAccount(instructorGoogleId);
         
         boolean isToShowAll = this.getRequestParamAsBoolean("all");
-        boolean isAccountExisting = instructorAccount != null && !instructorsList.isEmpty();
+        boolean isAccountExisting = instructorAccount != null;
         if (isAccountExisting) {
             instructorAccountsTable.put(instructorAccount.googleId, instructorAccount);
             
-            for(InstructorAttributes instructor : instructorsList){
+            for (InstructorAttributes instructor : instructorsList) {
                 ArrayList<InstructorAttributes> courseList = instructorCoursesTable.get(instructor.googleId);
-                if (courseList == null){
+                if (courseList == null) {
                     courseList = new ArrayList<InstructorAttributes>();
                     instructorCoursesTable.put(instructor.googleId, courseList);
                 }
