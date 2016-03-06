@@ -943,7 +943,7 @@ public class PageData {
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
-        return "GIVER," + removeBracketsForArrayString(qn.showResponsesTo.toString());
+        return "GIVER," + StringHelper.removeEnclosingSquareBrackets(qn.showResponsesTo.toString());
     }
     
     public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, 
@@ -951,7 +951,7 @@ public class PageData {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentVisibilityString(qn);
         } else {
-            return removeBracketsForArrayString(frComment.showCommentTo.toString());
+            return StringHelper.removeEnclosingSquareBrackets(frComment.showCommentTo.toString());
         }
     }
     
@@ -964,7 +964,7 @@ public class PageData {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return getResponseCommentGiverNameVisibilityString(qn);
         } else {
-            return removeBracketsForArrayString(frComment.showGiverNameTo.toString());
+            return StringHelper.removeEnclosingSquareBrackets(frComment.showGiverNameTo.toString());
         }
     }
     
@@ -976,10 +976,6 @@ public class PageData {
                    + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
                    + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
-    }
-    
-    public String removeBracketsForArrayString(String arrayString) {
-        return arrayString.substring(1, arrayString.length() - 1).trim();
     }
     
     @SuppressWarnings("unused")

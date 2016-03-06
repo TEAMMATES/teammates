@@ -45,7 +45,7 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
-	$(".recentActionButton").click(function(e){
+	$(".optionButton").click(function(e){
 		e.stopPropagation();
 	});
 	
