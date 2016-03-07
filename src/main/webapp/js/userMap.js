@@ -2,8 +2,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
-    console.log(userData);
-
     var countriesObj = {};
     var countriesArr = [];
 
@@ -18,15 +16,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for (var countryName in countriesObj) {
         if (countriesObj.hasOwnProperty(countryName)) {
             var countryCode = getCountryCode(countryName);
-            if(countryCode != null) {
+            if (countryCode != null) {
                 countriesArr.push([countryCode, countriesObj[countryName]]);    
             }
         }
     }
 
-    console.dir(countriesArr);
-
-
+    // Data format example
     // var series = [
     //     ["BLR",1],["BLZ",1],["RUS",1],["RWA",1],["SRB",1],["TLS",1],
     //     ["REU",1],["TKM",1],["TJK",1],["ROU",1],["TKL",1],["GNB",1],
@@ -37,22 +33,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //     ];
 
     var dataset = {};
-    var onlyValues = countriesArr.map(function(obj){ return obj[1]; });
+    var onlyValues = countriesArr.map(function(obj) { 
+        return obj[1]; 
+    });
     var minValue = Math.min.apply(null, onlyValues);
     var maxValue = Math.max.apply(null, onlyValues);
     var paletteScale = d3.scale.linear()
             .domain([minValue,maxValue])
-            // .range(["#C1F0F6","#4895AE"]);
-            .range(["#4895AE","#4895AE"]);
-    countriesArr.forEach(function(item){ //
+            .range(["#4895AE","#4895AE"]); // Choropleth effect: .range(["#C1F0F6","#4895AE"]);
+    countriesArr.forEach(function(item) {
         var iso = item[0];
         var value = item[1];
         dataset[iso] = { numOfInstitutions: value, fillColor: paletteScale(value) };
     });
+
     // render map
     new Datamap({
         element: document.getElementById('container'),
-        // projection: 'mercator', // big world map
         setProjection: function(element) {
             var projection = d3.geo.mercator()
               .center([0, 20])
@@ -79,12 +76,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // show desired information in tooltip
             popupTemplate: function(geo, data) {
                 // don't show tooltip if country don't present in dataset
-                if (!data) { return ; }
+                if (!data) {
+                    return;
+                }
                 // tooltip content
-                return ['<div class="hoverinfo">',
-                    '<p><span class="bold">', geo.properties.name, '</span>',
-                    '<br>Institution(s): ', data.numOfInstitutions,
-                    '</p></div>'].join('');
+                return '<div class="hoverinfo">'
+                    + '<p><span class="bold">'
+                    + geo.properties.name
+                    + '</span>'
+                    + '<br>'
+                    + 'Institution(s): '
+                    + data.numOfInstitutions
+                    + '</p></div>';
             }
         }
     });
