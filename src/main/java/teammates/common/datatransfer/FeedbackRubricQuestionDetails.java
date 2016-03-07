@@ -222,7 +222,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i))
-                                                    + " (" + (numOfRubricChoices - i) + ")");
+                                                    + " (" + (i + 1) + ")");
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
