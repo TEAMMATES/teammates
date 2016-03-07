@@ -1,27 +1,53 @@
 document.addEventListener("DOMContentLoaded", function(event) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-    var series = [
-        ["BLR",1],["BLZ",1],["RUS",1],["RWA",1],["SRB",1],["TLS",1],
-        ["REU",1],["TKM",1],["TJK",1],["ROU",1],["TKL",1],["GNB",1],
-        ["GUM",1],["GTM",1],["SGS",1],["GRC",1],["GNQ",1],["GLP",1],
-        ["JPN",1],["GUY",1],["GGY",1],["GUF",1],["GEO",1],["GRD",1],
-        ["GBR",1],["GAB",1],["SLV",1],["GIN",1],["GMB",1],["SGP",1],
-        ["IND",1],["CHN",1],["USA",1],["CAN",1]
-        ];
+
+    console.log(userData);
+
+    var countriesObj = {};
+    var countriesArr = [];
+
+    userData.forEach(function(user){
+        fields = user[0].split(',');
+        if (fields.length === 2 && fields[1] != '') {
+            var countryName = fields[1].trim();
+            countriesObj[countryName] = countriesObj[countryName] ? countriesObj[countryName] + 1 : 1;
+        }
+    })
+
+    for (var countryName in countriesObj) {
+        if (countriesObj.hasOwnProperty(countryName)) {
+            var countryCode = getCountryCode(countryName);
+            if(countryCode != null) {
+                countriesArr.push([countryCode, countriesObj[countryName]]);    
+            }
+        }
+    }
+
+    console.dir(countriesArr);
+
+
+    // var series = [
+    //     ["BLR",1],["BLZ",1],["RUS",1],["RWA",1],["SRB",1],["TLS",1],
+    //     ["REU",1],["TKM",1],["TJK",1],["ROU",1],["TKL",1],["GNB",1],
+    //     ["GUM",1],["GTM",1],["SGS",1],["GRC",1],["GNQ",1],["GLP",1],
+    //     ["JPN",1],["GUY",1],["GGY",1],["GUF",1],["GEO",1],["GRD",1],
+    //     ["GBR",1],["GAB",1],["SLV",1],["GIN",1],["GMB",1],["SGP",1],
+    //     ["IND",1],["CHN",1],["USA",1],["CAN",1]
+    //     ];
 
     var dataset = {};
-    var onlyValues = series.map(function(obj){ return obj[1]; });
+    var onlyValues = countriesArr.map(function(obj){ return obj[1]; });
     var minValue = Math.min.apply(null, onlyValues);
     var maxValue = Math.max.apply(null, onlyValues);
     var paletteScale = d3.scale.linear()
             .domain([minValue,maxValue])
             // .range(["#C1F0F6","#4895AE"]);
             .range(["#4895AE","#4895AE"]);
-    series.forEach(function(item){ //
+    countriesArr.forEach(function(item){ //
         var iso = item[0];
         var value = item[1];
-        dataset[iso] = { numOfVisitors: value, fillColor: paletteScale(value) };
+        dataset[iso] = { numOfInstitutions: value, fillColor: paletteScale(value) };
     });
     // render map
     new Datamap({
@@ -57,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 // tooltip content
                 return ['<div class="hoverinfo">',
                     '<p><span class="bold">', geo.properties.name, '</span>',
-                    // '<br>Visitors: ', data.numOfVisitors,
+                    '<br>Institution(s): ', data.numOfInstitutions,
                     '</p></div>'].join('');
             }
         }
