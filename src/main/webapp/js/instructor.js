@@ -212,7 +212,7 @@ function bindStudentPhotoLink(elements) {
                         // this is so that the user can hover over the
                         // pop-over photo without hiding the photo
                         setTimeout(function(obj) {
-                            if (!$(obj).siblings('.popover').is(':hover')) {
+                            if ($(obj).siblings('.popover').find(':hover').length === 0) {
                                 $(obj).popover('hide');
                             }
                         }, 200, this);
@@ -244,8 +244,8 @@ function bindStudentPhotoHoverLink(elements) {
             // pop-over without accidentally hiding the 'view photo' link
             setTimeout(function(obj) {
                 if ($(obj).siblings('.popover').find('.profile-pic').length !== 0 ||
-                    !$(obj).siblings('.popover').is(':hover')) {
-                    
+                    $(obj).siblings('.popover').find(':hover').length === 0) {
+
                     $(obj).popover('hide');
                 }
             }, 200, this);
@@ -323,7 +323,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
                 // this is so that the user can hover over the
                 // pop-over photo without hiding the photo
                 setTimeout(function(obj) {
-                    if (!$(obj).siblings('.popover').is(':hover')) {
+                    if ($(obj).siblings('.popover').find(':hover').length === 0) {
                         $(obj).popover('hide');
                     }
                 }, 200, this);
