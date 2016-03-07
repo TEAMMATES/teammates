@@ -510,8 +510,8 @@ public class StringHelper {
     } 
     
     /**
-     * Returns a String array after removing white spaces preceding or
-     * succeeding any string in the input array.
+     * Returns a String array after removing white spaces leading and
+     * trailing any string in the input array.
      */
     public static String[] trim(String[] stringsToTrim) {
         String[] stringsAfterTrim = new String[stringsToTrim.length];
