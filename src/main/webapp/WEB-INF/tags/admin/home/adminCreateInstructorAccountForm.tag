@@ -7,6 +7,9 @@
 
 <div class="well well-plain">
     <div>
+        <label class="label-control">Adding a Single Instructor</label>
+    </div><br/>
+    <div>
         <label class="label-control">Short Name:</label>
         <input class="form-control addInstructorFormControl" type="text" id="instructorShortName" value="${instructorShortName}">
     </div><br/>
