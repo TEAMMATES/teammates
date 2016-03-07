@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -39,7 +38,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         
         String userEmailForCourse = getUserEmailForCourse();
         data = new FeedbackSubmissionEditPageData(account, student);
-        data.bundle = getDataBundle(userEmailForCourse);
+        setDataBundle(userEmailForCourse);
         
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
         
@@ -60,7 +59,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     
     protected abstract String getUserEmailForCourse();
 
-    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+    protected abstract void setDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
 
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
     

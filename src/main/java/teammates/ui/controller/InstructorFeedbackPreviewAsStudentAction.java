@@ -42,6 +42,8 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, previewStudent.email);
         
+        data.filterSessionQuestionBundle();
+        
         // the following condition is not tested as typically the GateKeeper above handles
         // the case and it wont happen
         if (data.bundle == null) {
