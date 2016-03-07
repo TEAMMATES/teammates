@@ -158,7 +158,7 @@ public class BackDoorLogic extends Logic {
         
         for (FeedbackResponseAttributes response : responses.values()) {
             
-            String sessionString = response.feedbackSessionName + " % " + response.courseId;
+            String sessionString = response.feedbackSessionName + "%" + response.courseId;
             
             if (!sessionStrings.contains(sessionString)) {
                 updateRespondants(response.feedbackSessionName, response.courseId);
