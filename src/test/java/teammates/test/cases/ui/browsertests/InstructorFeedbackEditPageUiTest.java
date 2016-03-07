@@ -294,10 +294,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test visibility options of question 2");
         feedbackEditPage.clickVisibilityOptionsForQuestion(2);
      
-        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 2).getText(), "Recipient(s)");
-        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 3).getText(), "Giver's Team Members");
-        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 4).getText(), "Other students");
-        assertEquals(feedbackEditPage.getVisibilityOptionTableRow(2, 5).getText(), "Instructors");
+        
+        assertEquals("User/Group Can see answer Can see giver's name Can see recipient's name", feedbackEditPage.getVisibilityOptionTableRow(2, 1).getText());
+        assertEquals("Recipient(s)", feedbackEditPage.getVisibilityOptionTableRow(2, 2).getText());
+        assertEquals("Giver's Team Members", feedbackEditPage.getVisibilityOptionTableRow(2, 3).getText());
+        assertEquals("Other students", feedbackEditPage.getVisibilityOptionTableRow(2, 4).getText());
+        assertEquals("Instructors", feedbackEditPage.getVisibilityOptionTableRow(2, 5).getText());
+        
+        assertEquals("", feedbackEditPage.getVisibilityOptions(2).findElements(By.cssSelector("hide[style*='none']")).get(0).getText());
+        
         
         ______TS("test visibility preview of question 2");
         feedbackEditPage.clickVisibilityPreviewForQuestion(2);
