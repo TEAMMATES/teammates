@@ -824,7 +824,7 @@ public class Emails {
     
     private void logSevereForErrorInSendingItem(String itemType, MimeMessage message, Exception e) {
         log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
-                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
+                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));        
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {
