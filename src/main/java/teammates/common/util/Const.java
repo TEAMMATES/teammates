@@ -882,7 +882,7 @@ public class Const {
                                   +"instructions on how to access that particular course in TEAMMATES."
                                   +"<br><br>If you 'joined' the course in TEAMMATES using a Google "
                                   +"account before,but cannot login anymore, these are the possible reasons:"
-                                  +"<br>1. You used a different Google account to access TEAMMATES in the "
+                                  +"<br><br>1. You used a different Google account to access TEAMMATES in the "
                                   +"past. In that case, you need to use the same Google account to access "
                                   +"TEAMMATES again. Logout and re-login using the other Google account."
                                   +"If you don't remember which Google account you used previously, email "
@@ -894,7 +894,7 @@ public class Const {
                                   +"<br>3. You joined this course just a few seconds ago and your data "
                                   +"may be still in the process of propagating through our servers. "
                                   + "In that case, please click on the "
-                                  +"<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in"
+                                  +"<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in "
                                   +"a few minutes. </div>";
         public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
                 + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
