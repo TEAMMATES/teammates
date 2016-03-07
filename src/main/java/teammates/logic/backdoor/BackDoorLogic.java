@@ -162,9 +162,8 @@ public class BackDoorLogic extends Logic {
             
             if (!sessionStrings.contains(sessionString)) {
                 updateRespondants(response.feedbackSessionName, response.courseId);
+                sessionStrings.add(sessionString);
             }
-            
-            sessionStrings.add(sessionString);
         }
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
