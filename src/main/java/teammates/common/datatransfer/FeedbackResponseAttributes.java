@@ -239,7 +239,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /**
      * Should only be used for testing
      */
-    public void setCreated_NonProduction(Date createdAt) {
+    public void setCreatedAt_NonProduction(Date createdAt) {
         this.createdAt = createdAt;
     }
 
