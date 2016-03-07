@@ -228,11 +228,11 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         // Check that the script does not appear on the InstructorCourseEnrollResult page
         resultsPage = enrollPage.enroll(enrollString);
-        resultsPage.doesNotContain(xssScript);
+        resultsPage.verifyNotContain(xssScript);
 
         // Check that the script does not appear on the InstructorCourseEnroll page either
         enrollPage = resultsPage.clickEditLink();
-        enrollPage.doesNotContain(xssScript);
+        enrollPage.verifyNotContain(xssScript);
     }
 
     @AfterClass

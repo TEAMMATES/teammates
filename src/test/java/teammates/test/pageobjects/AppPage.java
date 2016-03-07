@@ -951,7 +951,7 @@ public abstract class AppPage {
      *            the substring that we want omitted from the page source
      * @return the AppPage
      */
-    public AppPage doesNotContain(String searchString) {
+    public AppPage verifyNotContain(String searchString) {
         String pageSource = getPageSource();
         assertFalse(pageSource.contains(searchString));
         return this;
