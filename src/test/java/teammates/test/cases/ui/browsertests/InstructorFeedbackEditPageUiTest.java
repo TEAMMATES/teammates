@@ -300,9 +300,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals("Giver's Team Members", feedbackEditPage.getVisibilityOptionTableRow(2, 3).getText());
         assertEquals("Other students", feedbackEditPage.getVisibilityOptionTableRow(2, 4).getText());
         assertEquals("Instructors", feedbackEditPage.getVisibilityOptionTableRow(2, 5).getText());
-        
-        assertEquals("", feedbackEditPage.getVisibilityOptions(2).findElements(By.cssSelector("hide[style*='none']")).get(0).getText());
-        
+                
+//        assertEquals("", feedbackEditPage.getVisibilityOptions(2).findElements(By.cssSelector("hide[style*='none']")).get(0).getText());
+//        assertEquals("User/Group Can see answer Can see giver's name Can see recipient's name", feedbackEditPage.getVisibilityOptions(2).findElement(By.xpath("(table/tbody/tr[1]|table/tbody/hide[1])")).getText());
+//        assertEquals("Recipient(s)", feedbackEditPage.getVisibilityOptions(2).findElement(By.xpath("(table/tbody/tr[2]|table/tbody/hide[2])")).getText());
+//        assertEquals("Giver's Team Members", feedbackEditPage.getVisibilityOptions(2).findElement(By.xpath("(table/tbody/tr[3]|table/tbody/hide[3])")).getText());
+//        assertEquals("Other students", feedbackEditPage.getVisibilityOptions(2).findElement(By.xpath("(table/tbody/hide[4]|table/tbody/tr[4])")).getText());
+//        assertEquals("Instructors", feedbackEditPage.getVisibilityOptions(2).findElement(By.xpath("(table/tbody/tr[5]|table/tbody/hide[5])")).getText());
+//        assertEquals("", feedbackEditPage.getVisibilityOptions(2).findElement(By.xpath("(table/tbody/hide)")).getText());
         
         ______TS("test visibility preview of question 2");
         feedbackEditPage.clickVisibilityPreviewForQuestion(2);
