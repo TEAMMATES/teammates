@@ -1,15 +1,15 @@
-module ('instructorCourseDetails.js');
+QUnit.module('instructorCourseDetails.js');
 
-test('toggleSendRegistrationKey(courseID, email)', function(){
-    expect(0);
+QUnit.test('toggleSendRegistrationKey(courseID, email)', function(assert) {
+    assert.expect(0);
 });
 
-test('toggleSendRegistrationKeysConfirmation(courseID)', function(){
+QUnit.test('toggleSendRegistrationKeysConfirmation(courseID)', function(assert) {
     //gives a popup, can't be tested
-    expect(0);
+    assert.expect(0);
 });
 
-test('toggleDeleteStudentConfirmation(courseId, studentName)', function(){
+QUnit.test('toggleDeleteStudentConfirmation(courseId, studentName)', function(assert) {
     //gives a popup, can't be tested
-    expect(0);
+    assert.expect(0);
 });
