@@ -1,11 +1,12 @@
 package teammates.logic.backdoor;
 
 import java.util.ArrayList;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -153,8 +154,17 @@ public class BackDoorLogic extends Logic {
         }
         frDb.createFeedbackResponses(responses.values());
 
+        Set<String> sessionStrings = new HashSet<>();
+        
         for (FeedbackResponseAttributes response : responses.values()) {
-            updateRespondants(response.feedbackSessionName, response.courseId);
+            
+            String sessionString = response.feedbackSessionName + " % " + response.courseId;
+            
+            if (!sessionStrings.contains(sessionString)) {
+                updateRespondants(response.feedbackSessionName, response.courseId);
+            }
+            
+            sessionStrings.add(sessionString);
         }
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
