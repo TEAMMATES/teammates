@@ -944,11 +944,9 @@ public abstract class AppPage {
     }
     
     /**
-     * This method verifies that the page source does not contain the given
-     * searchString.
+     * Verifies that the page source does not contain the given searchString.
      * 
-     * @param searchString
-     *            the substring that we want omitted from the page source
+     * @param searchString the substring that we want to omit from the page source
      * @return the AppPage
      */
     public AppPage verifyNotContain(String searchString) {
