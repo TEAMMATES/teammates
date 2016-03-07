@@ -7,9 +7,11 @@
         <label class="label-control">Adding Multiple Instructors</label>
         <div class="text-muted">
             <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Add Instructor Details in the format (Name | Email | Institution)
-        </div><br/>
+        </div>
+        <br>
         <textarea class="form-control addInstructorFormControl" rows="5" type="text" id="addInstructorDetailsSingleLine">${instructorDetailsSingleLine}</textarea>
-    </div><br/>
+    </div>
+    <br>
     
     <div>
         <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructorDetailsSingleLineForm" onclick="addInstructorFromFirstFormByAjax()">Add Instructor</button>
