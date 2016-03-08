@@ -47,30 +47,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
         dataset[iso] = { numOfInstitutions: value, fillColor: paletteScale(value) };
     });
 
-    // render map
+    // Word map
     new Datamap({
+        scope: "world",
         element: document.getElementById('container'),
         setProjection: function(element) {
             var projection = d3.geo.mercator()
               .center([0, 20])
-              .rotate([0, 0])
-              .scale(120)
+              .rotate([-150, 0])
+              .scale(130)
               .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
             var path = d3.geo.path()
                 .projection(projection);
             return {path: path, projection: projection};
         },
+        // Set height and width to avoid overlapping with border
+        height: 500, 
+        width: 800,
         // countries don't listed in dataset will be painted with this color
         fills: { defaultFill: '#F5F5F5' },
         data: dataset,
         geographyConfig: {
             borderColor: '#DEDEDE',
+            borderWidth: 0.7,
             // don't change color on mouse hover
             highlightFillColor: function(geo) {
                 return geo['fillColor'] || '#F5F5F5';
             },
+            dataUrl: '/js/lib/world.hires.topo.json',
             // only change border
-            highlightBorderColor: '#B7B7B7',
+            highlightBorderColor: '#a4a4a4',
             highlightBorderWidth: 1,
             highlightBorderOpacity: 1,
             // show desired information in tooltip
