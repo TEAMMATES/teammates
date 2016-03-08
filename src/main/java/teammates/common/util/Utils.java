@@ -37,6 +37,8 @@ public class Utils {
     }
     
     /**
+     * This method returns a string representing a list of participants separated by delimiters.
+     * 
      * @param participants
      *            a list of 'FeedbackParticipantType' objects
      * @param delimiter
@@ -44,15 +46,16 @@ public class Utils {
      * @return a string representing all participants separated by 'delimiter'
      */
     public static String joinParticipantTypes(List<FeedbackParticipantType> participants, String delimiter) {
-        if (participants.isEmpty()) {
-            return "";
+        String result = "";
+        
+        if (!participants.isEmpty()) {
+            for (FeedbackParticipantType fpt : participants) {
+                result += fpt + delimiter;
+            }
+            result = result.substring(0, result.length() - delimiter.length());
         }
         
-        String result = "";
-        for (FeedbackParticipantType fpt : participants) {
-            result += fpt + delimiter;
-        }
-        return result.substring(0, result.length() - delimiter.length());
+        return result;
     }
     
 }
