@@ -81,13 +81,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
                 // tooltip content
                 return '<div class="hoverinfo">'
-                    + '<p><span class="bold">'
-                    + geo.properties.name
-                    + '</span>'
-                    + '<br>'
-                    + 'Institution(s): '
-                    + data.numOfInstitutions
-                    + '</p></div>';
+                         + '<p>'
+                             + '<span class="bold">'
+                             + geo.properties.name
+                             + '</span>'
+                             + '<br>'
+                             + 'Institution(s): '
+                             + data.numOfInstitutions
+                         + '</p>'
+                     + '</div>';
             }
         }
     });
