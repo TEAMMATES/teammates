@@ -51,8 +51,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_HOME_PAGE
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
         
         InstructorFeedbackEditCopyAction a = getAction(params);
@@ -65,8 +64,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
         
         a = getAction(params);
@@ -80,8 +78,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_COPY
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
         
         a = getAction(params);
@@ -95,8 +92,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
         
         a = getAction(params);
@@ -111,8 +107,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course.id
         };
         
         a = getAction(params);
@@ -131,8 +126,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107",
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
         };
         
         a = getAction(params);
@@ -151,8 +145,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non.existing.fs",
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course.id
         };
         
         a = getAction(params);
@@ -170,8 +163,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course",
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course"
         };
         
         a = getAction(params);
@@ -192,8 +184,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_HOME_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -213,8 +204,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -234,8 +224,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_COPY
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -256,8 +245,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -278,8 +266,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_HOME_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -309,8 +296,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -339,8 +325,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_COPY
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -370,8 +355,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
-                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
