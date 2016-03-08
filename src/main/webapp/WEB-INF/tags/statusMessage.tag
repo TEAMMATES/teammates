@@ -6,8 +6,6 @@
 <%@ attribute name="statusMessagesToUser" type="java.util.Collection" %>
 <%@ attribute name="doNotFocusToStatus" %>
 
-<c:set var="STATUS_MESSAGE"><%= Const.ParamsNames.STATUS_MESSAGE %></c:set>
-<c:set var="STATUS_MESSAGE_COLOR"><%= Const.ParamsNames.STATUS_MESSAGE_COLOR %></c:set>
 <c:set var="ERROR"><%= Const.ParamsNames.ERROR %></c:set>
 
 <c:choose>

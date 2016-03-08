@@ -132,7 +132,5 @@ public class ControllerServlet extends HttpServlet {
     
     private void cleanUpStatusMessageInSession(HttpServletRequest req){
         req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
-        req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
-        req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
     }
 }
