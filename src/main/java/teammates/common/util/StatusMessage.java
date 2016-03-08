@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 import teammates.common.util.Const.StatusMessageColor;
 
+/**
+ * The {@code StatusMessage} class encapsulates the text of status message 
+ * and its level of seriousness of the status message (the color of the message).
+ */
 public class StatusMessage implements Serializable {
     private String text;
     private String color;

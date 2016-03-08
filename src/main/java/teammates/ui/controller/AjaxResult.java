@@ -74,6 +74,10 @@ public class AjaxResult extends ActionResult {
         }
     }
     
+    /**
+     * Clears the list of status message in session variable.
+     * @param req HttpServeletRequest object
+     */
     private void clearStatusMessageForRequest(HttpServletRequest req) {
         List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         

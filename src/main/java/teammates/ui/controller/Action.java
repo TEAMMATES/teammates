@@ -368,8 +368,8 @@ public abstract class Action {
     }
 
     /**
-     * Adds the list of status messages generated after performing an action to session.
-     * @param response ActionResult generated from performing a certain Action
+     * Adds the list of status messages from ActionResult into session variables.
+     * @param response ActionResult 
      */
     protected void putStatusMessageToSession(ActionResult response) {
         List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);

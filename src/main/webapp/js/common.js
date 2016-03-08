@@ -83,11 +83,16 @@ var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
 var FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
 
-// Status message status
-var STATUS_SUCCESS = "success";
-var STATUS_INFO = "info";
-var STATUS_WARNING = "warning";
-var STATUS_DANGER = "danger";
+// Status message type
+var StatusType = {
+    SUCCESS : "success",
+    INFO : "info",
+    WARNING : "warning",
+    DANGER : "danger",
+    isValidType : function(type) {
+        return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
+    }
+};
 
 // Display messages
 // Used for validating input
@@ -153,6 +158,11 @@ $(document).on('ajaxComplete ready', function() {
     $tooltips.tooltip({html: true, container: 'body'});
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
+    }
+    
+    // Freezes the StatusType so as to prevent changing the value accidentally.
+    if (Object.freeze !== undefined) {
+        Object.freeze(StatusType);
     }
 });
 
@@ -542,14 +552,19 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
  * Sets a status message and the message status.
- * Default message status is info.
+ * Default message type is info.
  *
  * @param message the text message to be shown to the user
- * @param status the status (STATUS_INFO, STATUS_SUCCESS, STATUS_WARNING, STATUS_DANGER) of the message
+ * @param status the type (StatusType.SUCCESS, StatusType.INFO, StatusType.WARNING, StatusType.DANGER) of the message
  */
 function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
         return;
+    }
+
+    // Default the status type to info if any invalid status is passed in
+    if (!StatusType.isValidType(status)) {
+        status = StatusType.INFO;
     }
     
     var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
@@ -557,23 +572,12 @@ function setStatusMessage(message, status) {
     
     $statusMessage.addClass("overflow-auto");
     $statusMessage.addClass("alert");
-    
+    $statusMessage.addClass("alert-" + status);
+    $statusMessage.addClass("statusMessage");
     $statusMessage.html(message);
+    
     $statusMessagesToUser.empty();
     $statusMessagesToUser.append($statusMessage);
-    
-    if (status === STATUS_WARNING) {
-        $statusMessage.addClass("alert-warning");
-    } else if (status === STATUS_SUCCESS) {
-        $statusMessage.addClass("alert-success");
-    } else if (status === STATUS_DANGER) {
-        $statusMessage.addClass("alert-danger");
-    } else {
-        $statusMessage.addClass("alert-info");
-    }
-    
-    $statusMessage.addClass("statusMessage");
-    
     $statusMessagesToUser.show();
     
     scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
