@@ -24,7 +24,7 @@ $(document).ready(function(){
                 $('#coursesList').html('');
                 setStatusMessage(
                     'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry.'
-                , STATUS_WARNING);
+                , StatusType.WARNING);
                 $('#retryAjax').click(function(e) {
                     e.preventDefault();
                     $('#ajaxForCourses').trigger('submit');

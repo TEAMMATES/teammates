@@ -78,7 +78,7 @@ function submitFormAjax(offset) {
                     setFormErrorMessage(button, data.errorMessage);
                 }
             	               
-                setStatusMessage(data.statusForAjax, STATUS_INFO);
+                setStatusMessage(data.statusForAjax, StatusType.INFO);
 
             },500);
         }

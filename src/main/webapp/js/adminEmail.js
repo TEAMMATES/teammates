@@ -138,7 +138,7 @@ function submitGroupReceiverListUploadFormAjax() {
             setTimeout(function(){
                 if (!data.isError) {
                    if(data.isFileUploaded){
-                	   setStatusMessage(data.ajaxStatus, STATUS_SUCCESS);
+                	   setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
                 	   $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);  
                 	   $("#groupReceiverListFileKey").show();
                 	   $("#groupReceiverListFileSize").val(data.groupReceiverListFileSize);
@@ -220,7 +220,7 @@ function submitImageUploadFormAjax() {
                    if(data.isFileUploaded){
                 	   url = data.fileSrcUrl;
                 	   callbackFunction(url, {alt: 'My alt text'});
-                	   setStatusMessage(data.ajaxStatus, STATUS_SUCCESS);
+                	   setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
                    } else {
                    	   setErrorMessage(data.ajaxStatus);
                    }
@@ -244,11 +244,11 @@ function submitImageUploadFormAjax() {
 
 
 function setErrorMessage(message){
-    setStatusMessage(message, STATUS_DANGER);
+    setStatusMessage(message, StatusType.DANGER);
 }
 
 function showUploadingGif(){
-    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", STATUS_WARNING);
+    setStatusMessage("Uploading...<span><img src='/images/ajax-loader.gif'/></span>", StatusType.WARNING);
 }
 
 function clearUploadFileInfo(){

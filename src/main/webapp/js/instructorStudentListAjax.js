@@ -37,7 +37,7 @@ function numStudentsRetrieved() {
 
 function showStudentLimitError(courseCheck, displayIcon) {
     courseCheck.prop('checked', false);
-    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, STATUS_DANGER);
+    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, StatusType.DANGER);
     displayIcon.html('');
 }
 

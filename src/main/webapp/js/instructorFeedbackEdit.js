@@ -78,9 +78,9 @@ function bindFeedbackSessionEditFormSubmission() {
             success: function(result) {
                 
                 if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, STATUS_DANGER);
+                    setStatusMessage(result.statusForAjax, StatusType.DANGER);
                 } else {
-                    setStatusMessage(result.statusForAjax, STATUS_SUCCESS);
+                    setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
                     disableEditFS();
                 }
                 
@@ -705,7 +705,7 @@ function getQuestionLink(qnNumber) {
                         '&fsname=' + fsname +
                         '&questionid=' + questionId;
     
-    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, STATUS_WARNING);
+    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
 }
 
 function toParameterFormat(str) {
@@ -718,9 +718,9 @@ function bindCopyButton() {
         
         var questionRows = $('#copyTableModal >tbody>tr');
         if (!questionRows.length) {
-            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, STATUS_DANGER);
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
         } else {
-            setStatusMessage('', STATUS_WARNING);
+            setStatusMessage('', StatusType.WARNING);
             $('#copyModal').modal('show');
         }
        
@@ -746,7 +746,7 @@ function bindCopyButton() {
         });
 
         if (!hasRowSelected) {
-            setStatusMessage('No questions are selected to be copied', STATUS_DANGER);
+            setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
             $('#copyModal').modal('hide');
         } else {
             $('#copyModalForm').submit();

@@ -93,28 +93,28 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
         'Default message status without specifying status of message (info)');
     clearStatusMessages();
     
-    setStatusMessage(message, STATUS_INFO);
+    setStatusMessage(message, StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage'),
-        'Info message status by specifying status of message (STATUS_INFO)');
+        'Info message status by specifying status of message (StatusType.INFO)');
     clearStatusMessages();
     
-    setStatusMessage(message, STATUS_SUCCESS);
+    setStatusMessage(message, StatusType.SUCCESS);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage'),
-        'Success message status by specifying status of message (STATUS_SUCCESS)');
+        'Success message status by specifying status of message (StatusType.SUCCESS)');
     clearStatusMessages();
     
-    setStatusMessage(message, STATUS_WARNING);
+    setStatusMessage(message, StatusType.WARNING);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage'),
-        'Warning message status by specifying status of message (STATUS_WARNING)');
+        'Warning message status by specifying status of message (StatusType.WARNING)');
     clearStatusMessages();
     
-    setStatusMessage(message, STATUS_DANGER);
+    setStatusMessage(message, StatusType.DANGER);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
     assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage'),
-        'Danger message status by specifying status of message (STATUS_DANGER)');
+        'Danger message status by specifying status of message (StatusType.DANGER)');
     clearStatusMessages();
     
     setStatusMessage('');
@@ -122,7 +122,7 @@ QUnit.test('setStatusMessage(message,status)', function(assert) {
     assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === undefined), "Empty message without status");
     clearStatusMessages();
     
-    setStatusMessage('', STATUS_INFO);
+    setStatusMessage('', StatusType.INFO);
     assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
     assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === undefined), "Empty message with status (any status will be the same)");
     clearStatusMessages();
