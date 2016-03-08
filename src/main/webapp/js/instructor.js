@@ -153,6 +153,45 @@ function setupFsCopyModal() {
             }
         });
     });
+
+    
+    $('#instructorCopyModalForm').submit(
+        function(e) {
+            e.preventDefault();
+            $this = $(this);
+            
+            $copyModalStatusMessage = $('#feedback-copy-modal-status');
+            
+            $.ajax({
+                type: 'POST',
+                url: $this.prop('action'),
+                data: $this.serialize(),
+                beforeSend: function() {
+                    $copyModalStatusMessage.removeClass("alert alert-danger");
+                    $copyModalStatusMessage.html($('<img>', {
+                                                       'class':'margin-center-horizontal',
+                                                       'src':'/images/ajax-loader.gif'
+                                                       }
+                                                ));
+                },
+                error: function() {
+                    $copyModalStatusMessage.addClass("alert alert-danger");
+                    $copyModalStatusMessage.text('There was an error during submission. ' 
+                                                 + 'Please close the dialog window and try again.');
+                },
+                success: function(data) {
+                    var isError = data.errorMessage !== "";
+                    if (!isError && data.redirectUrl) {
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        $copyModalStatusMessage.addClass("alert alert-danger");
+                        $copyModalStatusMessage.text(data.errorMessage);
+                        $('#fscopy_submit').prop('disabled', false);
+                    }
+                }
+            });
+        }
+    );
 }
 
 // Student Profile Picture
