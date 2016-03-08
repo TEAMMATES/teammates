@@ -233,6 +233,7 @@ var countryToCode = {
     'Ukraine': 'UKR',
     'United Arab Emirates': 'ARE',
     'United Kingdom': 'GBR',
+    'UK': 'GBR',
     'United States': 'USA',
     'United States Outlying Islands': 'UMI',
     'Uruguay': 'URY',
