@@ -450,6 +450,17 @@ public abstract class Action {
                               pageData);
     }
     
+    /**
+     * Generates a {@link AjaxResult} with the information in the {@code pageData}, 
+     * but without removing any status message from the session.
+     */
+    public AjaxResult createAjaxResultWithoutClearingStatusMessage(PageData pageData) {
+        return new AjaxResult(account,
+                              requestParameters,
+                              statusToUser,
+                              pageData, false);
+    }
+    
     protected boolean isJoinedCourse(String courseId, String googleId) {
         if (student != null) {
             return true;
