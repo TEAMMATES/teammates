@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     })
 
+    d3.select('#totalCount').text('Total number of institutions: ' + userData.length);
+
     for (var countryName in countriesObj) {
         if (countriesObj.hasOwnProperty(countryName)) {
             var countryCode = getCountryCode(countryName);
@@ -40,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var maxValue = Math.max.apply(null, onlyValues);
     var paletteScale = d3.scale.linear()
             .domain([minValue,maxValue])
-            .range(["#4895AE","#4895AE"]); // Choropleth effect: .range(["#C1F0F6","#4895AE"]);
+            .range(["#428bca","#428bca"]); // Choropleth effect: .range(["#C1F0F6","#4895AE"]);
     countriesArr.forEach(function(item) {
         var iso = item[0];
         var value = item[1];
