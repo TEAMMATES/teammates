@@ -36,16 +36,23 @@ public class Utils {
                 .create();
     }
     
+    /**
+     * @param participants
+     *            a list of 'FeedbackParticipantType' objects
+     * @param delimiter
+     *            a delimiter to separate each participant (e.g. a comma sign ",")
+     * @return a string representing all participants separated by 'delimiter'
+     */
     public static String joinParticipantTypes(List<FeedbackParticipantType> participants, String delimiter) {
         if (participants.isEmpty()) {
             return "";
-        } else {
-            String result = "";
-            for (FeedbackParticipantType fpt: participants) {
-                result += fpt + delimiter;
-            }
-            return result.substring(0, result.length() - delimiter.length());
         }
+        
+        String result = "";
+        for (FeedbackParticipantType fpt : participants) {
+            result += fpt + delimiter;
+        }
+        return result.substring(0, result.length() - delimiter.length());
     }
     
 }
