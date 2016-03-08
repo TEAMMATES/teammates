@@ -2385,9 +2385,10 @@ public class FeedbackSessionsLogic {
                     lastName = Const.USER_IS_NOBODY;
                     team = email;
                 } else {
-                    // Assume that the email is actually a team name.
-                    name = Const.USER_IS_TEAM;
-                    lastName = Const.USER_IS_TEAM;
+                    // The email represents a missing *Attribute.
+                    // It might be a team name or the *Attribute has been deleted.
+                    name = Const.USER_IS_MISSING;
+                    lastName = Const.USER_IS_MISSING;
                     team = email;
                 }
             } else {
@@ -2402,7 +2403,7 @@ public class FeedbackSessionsLogic {
             giverRecipientName = team;
             giverRecipientLastName = team;
             teamName = "";
-        } else if (name != Const.USER_IS_NOBODY && name != Const.USER_IS_TEAM) {
+        } else if (!name.equals(Const.USER_IS_NOBODY) && !name.equals(Const.USER_IS_MISSING)) {
             giverRecipientName = name;
             giverRecipientLastName = lastName;
             teamName = team;
