@@ -470,9 +470,9 @@ public class InstructorFeedbackEditCopyActionTest extends
                          + "New Feedback Session <span class=\"bold\">(Session with valid name)</span> "
                          + "for Courses: <br>FeedbackEditCopy.CS2103R,FeedbackEditCopy.CS2102<br>"
                          + "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012<span class=\"bold\"> "
-                         + "to</span> Sat Apr 30 23:59:00 UTC 2016<br><span class=\"bold\">Session visible from:</span> "
+                         + "to</span> Thu Apr 30 23:59:00 UTC 2026<br><span class=\"bold\">Session visible from:</span> "
                          + "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> "
-                         + "Sun May 01 23:59:00 UTC 2016<br><br><span class=\"bold\">Instructions:</span> "
+                         + "Fri May 01 23:59:00 UTC 2026<br><br><span class=\"bold\">Instructions:</span> "
                          + "<Text: Instructions for first session><br>Copied from <span class=\"bold\">(First Session)</span> "
                          + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
                          + "/page/instructorFeedbackEditCopy";
