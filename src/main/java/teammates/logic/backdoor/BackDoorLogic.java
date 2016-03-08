@@ -154,15 +154,15 @@ public class BackDoorLogic extends Logic {
         }
         frDb.createFeedbackResponses(responses.values());
 
-        Set<String> sessionStrings = new HashSet<>();
+        Set<String> sessionIds = new HashSet<>();
         
         for (FeedbackResponseAttributes response : responses.values()) {
             
-            String sessionString = response.feedbackSessionName + "%" + response.courseId;
+            String sessionId = response.feedbackSessionName + "%" + response.courseId;
             
-            if (!sessionStrings.contains(sessionString)) {
+            if (!sessionIds.contains(sessionId)) {
                 updateRespondants(response.feedbackSessionName, response.courseId);
-                sessionStrings.add(sessionString);
+                sessionIds.add(sessionId);
             }
         }
         
