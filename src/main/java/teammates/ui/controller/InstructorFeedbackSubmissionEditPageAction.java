@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -41,10 +42,9 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     }
 
     @Override
-    protected void setDataBundle(String userEmailForCourse) throws EntityDoesNotExistException {
-        data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(feedbackSessionName, 
-                                                                           courseId, 
-                                                                           userEmailForCourse);
+    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException {
+        return logic.getFeedbackSessionQuestionsBundleForInstructor(
+                             feedbackSessionName, courseId, userEmailForCourse);
     }
     
     @Override

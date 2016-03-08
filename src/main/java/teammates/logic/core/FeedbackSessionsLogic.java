@@ -431,7 +431,11 @@ public class FeedbackSessionsLogic {
                     studentGiver);
         }
 
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+        FeedbackSessionQuestionsBundle questionBundle = new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+
+        filterOutHiddenInstructors(questionBundle);
+
+        return questionBundle;
     }
     
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
@@ -487,7 +491,71 @@ public class FeedbackSessionsLogic {
         bundle.put(question, responses);
         recipientList.put(question.getId(), recipients);
     }
-    
+
+    /**
+     * Removes instructors who are not displayed to students from the
+     * {@link FeedbackQuestionBundle}
+     * 
+     * @param bundle
+     *            {@link FeedbackQuestionsBundle} containing questions for the
+     *            session
+     */
+    private void filterOutHiddenInstructors(FeedbackSessionQuestionsBundle bundle) {
+
+        Set<String> hiddenInstructorEmails = getHiddenInstrutorEmails(bundle.getFeedbackSession().getCourseId());
+
+        for (FeedbackQuestionAttributes question : bundle.getQuestionResponseBundle().keySet()) {
+
+            if (question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS) {
+                continue;
+            }
+
+            Map<String, String> recipients = bundle.recipientList.get(question.getId());
+            List<FeedbackResponseAttributes> responses = bundle.getQuestionResponseBundle().get(question);
+
+            for (String instructorEmail : hiddenInstructorEmails) {
+
+                if (recipients.containsKey(instructorEmail)) {
+                    recipients.remove(instructorEmail);
+                }
+
+                // Remove the responses if they have been stored already
+                Iterator<FeedbackResponseAttributes> iterResponse = responses.iterator();
+
+                while (iterResponse.hasNext()) {
+
+                    FeedbackResponseAttributes response = iterResponse.next();
+
+                    if (response.recipientEmail.equals(instructorEmail)) {
+                        iterResponse.remove();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param courseId
+     *            the ID of the course
+     * @return a {@link Set} of emails of the instructors who are not displayed
+     *         to students in the course specified by {@code courseId}
+     */
+    private Set<String> getHiddenInstrutorEmails(String courseId) {
+
+        InstructorsLogic instructorLogic = InstructorsLogic.inst();
+
+        List<InstructorAttributes> instructors = instructorLogic.getInstructorsForCourse(courseId);
+        Set<String> hiddenInstructorEmails = new HashSet<>();
+
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.isDisplayedToStudents()) {
+                hiddenInstructorEmails.add(instructor.email);
+            }
+        }
+
+        return hiddenInstructorEmails;
+    }
+
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId) throws EntityDoesNotExistException{
         
         CourseRoster roster = new CourseRoster(

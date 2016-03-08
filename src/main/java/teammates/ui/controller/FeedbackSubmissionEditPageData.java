@@ -1,14 +1,10 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
@@ -17,7 +13,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.Logic;
 import teammates.ui.template.FeedbackSubmissionEditQuestion;
 import teammates.ui.template.FeedbackSubmissionEditResponse;
 import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
@@ -185,57 +180,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
         return result;
     }
-
-    public void filterSessionQuestionBundle() {
-
-        Set<String> notDisplayedInstructorEmails = getNotDisplayedInstrutorEmails();
-
-        // Remove instructors who are not displayed to students
-        for (FeedbackQuestionAttributes question : bundle.questionResponseBundle.keySet()) {
-            
-            if (question.recipientType != FeedbackParticipantType.INSTRUCTORS) {
-                continue;
-            }
-            
-            Map<String, String> recipients = bundle.recipientList.get(question.getId());
-            List<FeedbackResponseAttributes> responses = bundle.questionResponseBundle.get(question);
-
-            for (String instrEmail : notDisplayedInstructorEmails) {
-                
-                if (recipients.containsKey(instrEmail)) {
-                    recipients.remove(instrEmail);
-                }
-
-                // Remove the responses if they have been stored already
-                Iterator<FeedbackResponseAttributes> iterResponse = responses.iterator();
-
-                while (iterResponse.hasNext()) {
-                    
-                    FeedbackResponseAttributes response = iterResponse.next();
-
-                    if (response.recipientEmail.equals(instrEmail)) {
-                        iterResponse.remove();
-                    }
-                }
-            }
-        }
-    }
-
-    private Set<String> getNotDisplayedInstrutorEmails() {
-
-        Logic logic = new Logic();
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(bundle.feedbackSession.courseId);
-        Set<String> notDisplayedInstructorEmails = new HashSet<>();
-
-        for (InstructorAttributes instructor : instructors) {
-            if (!instructor.isDisplayedToStudents) {
-                notDisplayedInstructorEmails.add(instructor.email);
-            }
-        }
-
-        return notDisplayedInstructorEmails;
-    }
-
+    
     private void createQuestionsWithResponses() {
         questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
         int qnIndx = 1;
