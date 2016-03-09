@@ -1,17 +1,17 @@
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener('DOMContentLoaded', function(event) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
     var countriesObj = {};
     var countriesArr = [];
 
-    userData.forEach(function(user){
-        fields = user[0].split(',');
-        if (fields.length === 2 && fields[1] != '') {
+    userData.forEach(function(user) {
+        var fields = user[0].split(',');
+        if (fields.length === 2 && fields[1] !== '') {
             var countryName = fields[1].trim();
             countriesObj[countryName] = countriesObj[countryName] ? countriesObj[countryName] + 1 : 1;
         }
-    })
+    });
 
     d3.select('#totalCount').text('Total number of institutions: ' + userData.length);
 
@@ -19,30 +19,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if (countriesObj.hasOwnProperty(countryName)) {
             var countryCode = getCountryCode(countryName);
             if (countryCode != null) {
-                countriesArr.push([countryCode, countriesObj[countryName]]);    
+                countriesArr.push([countryCode, countriesObj[countryName]]);
             }
         }
     }
 
     // Data format example
     // var series = [
-    //     ["BLR",1],["BLZ",1],["RUS",1],["RWA",1],["SRB",1],["TLS",1],
-    //     ["REU",1],["TKM",1],["TJK",1],["ROU",1],["TKL",1],["GNB",1],
-    //     ["GUM",1],["GTM",1],["SGS",1],["GRC",1],["GNQ",1],["GLP",1],
-    //     ["JPN",1],["GUY",1],["GGY",1],["GUF",1],["GEO",1],["GRD",1],
-    //     ["GBR",1],["GAB",1],["SLV",1],["GIN",1],["GMB",1],["SGP",1],
-    //     ["IND",1],["CHN",1],["USA",1],["CAN",1]
-    //     ];
+    //     ['BLR', 1], ['BLZ', 1], ['RUS', 1], ['RWA', 1], ['SRB', 1], ['TLS', 1],
+    //     ['REU', 1], ['TKM', 1], ['TJK', 1], ['ROU', 1], ['TKL', 1], ['GNB', 1],
+    //     ['GUM', 1], ['GTM', 1], ['SGS', 1], ['GRC', 1], ['GNQ', 1], ['GLP', 1],
+    //     ['JPN', 1], ['GUY', 1], ['GGY', 1], ['GUF', 1], ['GEO', 1], ['GRD', 1],
+    //     ['GBR', 1], ['GAB', 1], ['SLV', 1], ['GIN', 1], ['GMB', 1], ['SGP', 1],
+    //     ['IND', 1], ['CHN', 1], ['USA', 1], ['CAN', 1]];
 
     var dataset = {};
-    var onlyValues = countriesArr.map(function(obj) { 
-        return obj[1]; 
+    var onlyValues = countriesArr.map(function(obj) {
+        return obj[1];
     });
     var minValue = Math.min.apply(null, onlyValues);
     var maxValue = Math.max.apply(null, onlyValues);
     var paletteScale = d3.scale.linear()
-            .domain([minValue,maxValue])
-            .range(["#428bca","#428bca"]); // Choropleth effect: .range(["#C1F0F6","#4895AE"]);
+            .domain([minValue, maxValue])
+            .range(['#428bca', '#428bca']); // Choropleth effect: .range(['#C1F0F6","#4895AE"]);
     countriesArr.forEach(function(item) {
         var iso = item[0];
         var value = item[1];
@@ -51,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // Word map
     new Datamap({
-        scope: "world",
+        scope: 'world',
         element: document.getElementById('container'),
         setProjection: function(element) {
             var projection = d3.geo.mercator()
@@ -61,10 +60,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
               .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
             var path = d3.geo.path()
                 .projection(projection);
-            return {path: path, projection: projection};
+            return { path: path, projection: projection };
         },
         // Set height and width to avoid overlapping with border
-        height: 500, 
+        height: 500,
         width: 800,
         // countries don't listed in dataset will be painted with this color
         fills: { defaultFill: '#F5F5F5' },
