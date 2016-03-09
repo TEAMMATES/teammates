@@ -361,7 +361,7 @@ function prepareMobileRubricQuestions() {
         if($radioInput.is(':checked') && !$radioInput.prop('disabled')) {
             var uncheck = function() {
                 setTimeout(function() {
-                    $radioInput.removeAttr('checked');
+                    $radioInput.prop('checked', false);
                     $radioInput.trigger('change');
                 }, 0);
             };
@@ -388,7 +388,7 @@ function syncRubricsMobileUi(changedInput) {
     if ($changedInput.is(':checked')) {
         $(mobileInputId).click();
     } else {
-        $(mobileInputName).removeAttr('checked');
+        $(mobileInputName).prop('checked', false);
         $(mobileInputId).trigger('change', [true]);
     }
 }
@@ -403,7 +403,7 @@ function syncRubricsMobileUi(changedInput) {
      if ($changedInput.is(':checked')) {
          $(desktopInputId).click();
      } else {
-         $(desktopInputName).removeAttr('checked');
+         $(desktopInputName).prop('checked', false);
          $(desktopInputId).trigger('change', [true]);
      }
 }

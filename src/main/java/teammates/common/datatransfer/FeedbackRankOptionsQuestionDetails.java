@@ -194,7 +194,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${numOfRankOptions}", String.valueOf(options.size()), 
                 "${optionRecipientDisplayName}", "option",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked=\"checked\"" : "");
+                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked=\"\"" : "");
     
     }
 

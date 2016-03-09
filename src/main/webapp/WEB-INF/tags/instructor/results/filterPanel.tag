@@ -50,14 +50,14 @@
                   <div data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"<c:if test="${filterPanel.groupedByTeam}"> checked="checked"</c:if><c:if test="${filterPanel.sortType != 'question'}"> onchange="this.form.submit()"</c:if>> Group by Teams
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"<c:if test="${filterPanel.groupedByTeam}"> checked=""</c:if><c:if test="${filterPanel.sortType != 'question'}"> onchange="this.form.submit()"</c:if>> Group by Teams
                           </label>
                       </div>
                   </div>
                   <div data-toggle="tooltip" title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked="checked"</c:if>> Show Statistics
+                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked=""</c:if>> Show Statistics
                           </label>
                       </div>
                   </div>

@@ -310,7 +310,7 @@ function disableQuestion(number) {
     
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
-    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
+    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).prop('checked')) {
         $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).closest(".checkbox").hide();
         $currentQuestionTable.find("#msqOtherOptionFlag-" + number).closest(".checkbox").hide();
     } else {
@@ -774,7 +774,7 @@ function bindCopyEvents() {
             numRowsSelected--;
         } else {
             $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked="checked">');
+            $(this).children('td:first').html('<input type="checkbox" checked="">');
             numRowsSelected++;
         }
 

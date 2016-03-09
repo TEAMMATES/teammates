@@ -149,7 +149,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${optionRecipientDisplayName}", "recipient",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked=\"checked\"" : "");
+                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked=\"\"" : "");
     
     }
 

@@ -54,7 +54,7 @@
                 <label class="col-sm-3 control-label">
                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
                             <c:if test="${instructorPanel.instructor.displayedToStudents}">
-                                checked="checked"
+                                checked=""
                             </c:if>
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
                             disabled="disabled">

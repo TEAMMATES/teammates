@@ -49,7 +49,7 @@
                         <%-- generated here but to be appended to #sectionChoices in instructorStudentList.jsp
                              will be transported via JavaScript in instructorStudentListAjax.js --%>
                         <div class="checkbox section-to-be-transported">
-                            <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked="checked" class="section_check">
+                            <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked="" class="section_check">
                             <label for="section_check-${courseIndex}-${sectionIndex}">
                                 [${courseId}] : <c:out value="${section.sectionName}"/>
                             </label>
@@ -61,7 +61,7 @@
                             <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
                                  will be transported via JavaScript in instructorStudentListAjax.js --%>
                             <div class="checkbox team-to-be-transported">
-                                <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked="checked" class="team_check">
+                                <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked="" class="team_check">
                                 <label for="team_check-${courseIndex}-${sectionIndex}-${teamIndex}">
                                     [${courseId}] : <c:out value="${team.teamName}"/>
                                 </label>

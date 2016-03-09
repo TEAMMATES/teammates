@@ -108,7 +108,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${isNotSureAllowedChecked}", (isNotSureAllowed) ? "checked=\"checked\"" : "",
+                "${isNotSureAllowedChecked}", (isNotSureAllowed) ? "checked=\"\"" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }

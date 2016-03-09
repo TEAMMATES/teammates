@@ -29,7 +29,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_custom"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
-                            <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked=""</c:if>
                         >
                     </h5>
                     <div class="col-xs-5">
@@ -66,7 +66,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_atopen"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN %>"
-                            <c:if test="${additionalSettings.sessionVisibleAtOpenChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.sessionVisibleAtOpenChecked}">checked=""</c:if>
                          >
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never"
                             value="never"
-                            <c:if test="${additionalSettings.sessionVisiblePrivateChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.sessionVisiblePrivateChecked}">checked=""</c:if>
                             >
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_custom"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM %>"
-                            <c:if test="${additionalSettings.responseVisibleDateChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleDateChecked}">checked=""</c:if>
                         >
                     </h5>
                     <div class="col-xs-5">
@@ -152,7 +152,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_atvisible"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE %>"
-                            <c:if test="${additionalSettings.responseVisibleImmediatelyChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleImmediatelyChecked}">checked=""</c:if>
                         >
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                         <input type="radio" name="resultsVisibleFromButton"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
-                            <c:if test="${additionalSettings.responseVisiblePublishManuallyChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisiblePublishManuallyChecked}">checked=""</c:if>
                         >
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_never"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER %>"
-                            <c:if test="${additionalSettings.responseVisibleNeverChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleNeverChecked}">checked=""</c:if>
                         >
                     </div>
                  </div>
@@ -208,7 +208,7 @@
                     <input type="checkbox"
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_open"
-                        <c:if test="${additionalSettings.sendOpeningEmailChecked}">checked="checked"</c:if>
+                        <c:if test="${additionalSettings.sendOpeningEmailChecked}">checked=""</c:if>
                         value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled="disabled">
                 </div>
             </div>
@@ -223,7 +223,7 @@
                     <input type="checkbox" 
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing"
-                        <c:if test="${additionalSettings.sendClosingEmailChecked}">checked="checked"</c:if>
+                        <c:if test="${additionalSettings.sendClosingEmailChecked}">checked=""</c:if>
                         value="<%= EmailType.FEEDBACK_CLOSING.toString() %>">
                 </div>
             </div>
@@ -238,7 +238,7 @@
                     <input type="checkbox" 
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published"
-                        <c:if test="${additionalSettings.sendPublishedEmailChecked}">checked="checked"</c:if>
+                        <c:if test="${additionalSettings.sendPublishedEmailChecked}">checked=""</c:if>
                         value="<%= EmailType.FEEDBACK_PUBLISHED.toString() %>">
                 </div>
             </div>
