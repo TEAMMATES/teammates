@@ -758,8 +758,8 @@ function highlightSearchResult(searchKeyId, sectionToHighlight) {
         symbolTrimmedSearchKey.push($.trim(this));
     });
     // remove empty elements from symbolTrimmedSearchKey
-    symbolTrimmedSearchKey=symbolTrimmedSearchKey.filter(function(n){
-        return (!(n=="")) });
+    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
+        return (!(n == "")) });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }
 
