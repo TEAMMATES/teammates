@@ -78,7 +78,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
+        assertEquals("", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertEquals("", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
@@ -93,7 +93,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         int expectedDefaultGracePeriodOptionsIndex = 3;
         String defaultSelectedAttribute = formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected");
-        assertEquals("selected", defaultSelectedAttribute);
+        assertEquals("", defaultSelectedAttribute);
         
         assertEquals("Please answer all the given questions.", formModel.getInstructions());
         assertEquals("", formModel.getAdditionalSettings().getResponseVisibleDateValue());
@@ -245,7 +245,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
+        assertEquals("", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         
         assertEquals("30/04/2027", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
@@ -258,7 +258,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         int expectedDefaultGracePeriodOptionsIndex = 2;
         String defaultSelectedAttribute = formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected");
-        assertEquals("selected", defaultSelectedAttribute);
+        assertEquals("", defaultSelectedAttribute);
         
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
         assertEquals("01/05/2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
@@ -327,7 +327,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
-        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
+        assertEquals("", formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
 
         FeedbackSessionsCopyFromModal modal = data.getCopyFromModal();
         assertEquals("First feedback session", modal.getFsName());
