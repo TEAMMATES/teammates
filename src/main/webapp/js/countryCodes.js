@@ -259,12 +259,11 @@ var countryToCode = {
     'Zimbabwe': 'ZWE'
 };
 
-// Reverse mapping from alpha 3 code to country name
-var codeToCountry = {};
+// Record all the country codes for checking in getCountryCode()
+var codeToCountry = [];
 for (var name in countryToCode) {
     if (countryToCode.hasOwnProperty(name)) {
-        // Mapping found
-        codeToCountry[countryToCode[name]] = name;
+        codeToCountry.push(countryToCode[name]);
     }
 }
 
@@ -274,7 +273,7 @@ for (var name in countryToCode) {
 function getCountryCode(countryName) {
     if (countryToCode.hasOwnProperty(countryName)) {
         return countryToCode[countryName];
-    } else if (codeToCountry.hasOwnProperty(countryName)) {
+    } else if (codeToCountry.indexOf(countryName) !== -1) {
         // Already in alpha 3
         return countryName;
     } else {
