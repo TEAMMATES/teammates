@@ -117,7 +117,7 @@
                                                name="receiverFollowerCheckbox"
                                                type="checkbox"
                                                value="<%= CommentParticipantType.PERSON %>"
-                                               disabled="disabled">
+                                               disabled="">
                                     </td>
                                 </tr>
                             </c:if>
@@ -153,7 +153,7 @@
                                         <input class="visibilityCheckbox recipientCheckbox"
                                                type="checkbox"
                                                value="<%= CommentParticipantType.TEAM %>"
-                                               <c:if test="${comment.commentForTeam}">disabled="disabled"</c:if>
+                                               <c:if test="${comment.commentForTeam}">disabled=""</c:if>
                                                <c:if test="${comment.showRecipientNameToRecipientTeam}">checked=""</c:if>>
                                     </td>
                                 </tr>
@@ -190,7 +190,7 @@
                                         <input class="visibilityCheckbox recipientCheckbox"
                                                type="checkbox"
                                                value="<%= CommentParticipantType.SECTION %>"
-                                               <c:if test="${comment.commentForSection}">disabled="disabled"</c:if>
+                                               <c:if test="${comment.commentForSection}">disabled=""</c:if>
                                                <c:if test="${comment.showRecipientNameToRecipientSection}">checked=""</c:if>>
                                     </td>
                                 </tr>
@@ -226,7 +226,7 @@
                                     <input class="visibilityCheckbox recipientCheckbox"
                                            type="checkbox"
                                            value="<%= CommentParticipantType.COURSE %>"
-                                           <c:if test="${comment.commentForCourse}">disabled="disabled"</c:if>
+                                           <c:if test="${comment.commentForCourse}">disabled=""</c:if>
                                            <c:if test="${comment.showRecipientNameToCourse}">checked=""</c:if>>
                                 </td>
                             </tr>

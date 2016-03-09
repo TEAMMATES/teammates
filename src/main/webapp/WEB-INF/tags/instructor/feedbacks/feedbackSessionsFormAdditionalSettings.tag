@@ -37,14 +37,14 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                             value="${additionalSettings.sessionVisibleDateValue}"
-                            <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled=""</c:if>
                         >
                     </div>
                     <div class="col-xs-5">
                         <select class="form-control"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
-                            <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled=""</c:if>
                         >
                             <c:forEach items="${additionalSettings.sessionVisibleTimeOptions}" var="option">
                                 <option ${option.attributesToString}>
@@ -119,7 +119,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                             value="${additionalSettings.responseVisibleDateValue}"
-                            <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled=""</c:if>
                         >
                     </div>
                     <div class="col-xs-5">
@@ -129,7 +129,7 @@
                             title="<%= Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE %>"
                             data-toggle="tooltip"
                             data-placement="top"
-                            <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled=""</c:if>
                         >
                             <c:forEach items="${additionalSettings.responseVisibleTimeOptions}" var="option">
                                 <option ${option.attributesToString}>
@@ -209,7 +209,7 @@
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_open"
                         <c:if test="${additionalSettings.sendOpeningEmailChecked}">checked=""</c:if>
-                        value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled="disabled">
+                        value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled="">
                 </div>
             </div>
             <div class="col-md-3"

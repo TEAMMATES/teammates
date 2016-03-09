@@ -179,7 +179,7 @@ public class InstructorCoursesPageData extends PageData {
         }
         
         if (isDisabled) {
-            button.setAttribute("disabled", "disabled");
+            button.setAttribute("disabled", "");
         }
         return button;
     }

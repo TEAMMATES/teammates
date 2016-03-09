@@ -80,7 +80,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
         
         return html;
@@ -97,7 +97,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
                 "${contribSelectFragmentsHtml}", optionSelectHtml);
         
         return html;

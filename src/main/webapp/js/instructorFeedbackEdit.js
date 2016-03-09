@@ -206,7 +206,7 @@ function enableQuestion(number) {
     $currentQuestionTable.find('text,button,textarea,select,input')
                          .not('[name="receiverFollowerCheckbox"]')
                          .not('.disabled_radio')
-                         .removeAttr('disabled', 'disabled');
+                         .prop('disabled', false);
     
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
@@ -265,7 +265,7 @@ function enableNewQuestion() {
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
-                               .removeAttr('disabled', 'disabled');
+                               .prop('disabled', false);
     $currentQuestionTableSuffix.find('.removeOptionLink').show();
     $currentQuestionTableSuffix.find('.addOptionLink').show();
 
@@ -302,7 +302,7 @@ function enableNewQuestion() {
 function disableQuestion(number) {
     var $currentQuestionTable = $('#questionTable' + number);
 
-    $currentQuestionTable.find('text,button,textarea,select,input').attr('disabled', 'disabled');
+    $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
     $currentQuestionTable.find('#mcqAddOptionLink').hide();
     $currentQuestionTable.find('#msqAddOptionLink').hide();
@@ -924,7 +924,7 @@ function addMcqOption(questionNumber) {
     $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"radio\" disabled=\"disabled\">"
+        +          "<input type=\"radio\" disabled=\"\">"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
@@ -1016,7 +1016,7 @@ function addMsqOption(questionNumber) {
     $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"checkbox\" disabled=\"disabled\">"
+        +          "<input type=\"checkbox\" disabled=\"\">"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"

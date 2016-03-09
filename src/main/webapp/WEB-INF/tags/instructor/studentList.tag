@@ -106,7 +106,7 @@
                                        target="_blank"
                                        data-toggle="tooltip"
                                        data-placement="top"
-                                       <c:if test="${not section.allowedToViewStudentInSection}">disabled="disabled"</c:if>>
+                                       <c:if test="${not section.allowedToViewStudentInSection}">disabled=""</c:if>>
                                         View
                                     </a>
                                     <a class="btn btn-default btn-xs student-edit-for-test"
@@ -115,7 +115,7 @@
                                        target="_blank"
                                        data-toggle="tooltip"
                                        data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                       <c:if test="${not section.allowedToModifyStudent}">disabled=""</c:if>>
                                         Edit
                                     </a>
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
@@ -125,7 +125,7 @@
                                            data-toggle="tooltip"
                                            data-placement="top"
                                            onclick="return toggleSendRegistrationKey()"
-                                           <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                           <c:if test="${not section.allowedToModifyStudent}">disabled=""</c:if>>
                                             Send Invite
                                         </a>
                                     </c:if>
@@ -135,7 +135,7 @@
                                        title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
                                        data-toggle="tooltip"
                                        data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                       <c:if test="${not section.allowedToModifyStudent}">disabled=""</c:if>>
                                         Delete
                                     </a>
                                     <a class="btn btn-default btn-xs student-records-for-test"
@@ -158,7 +158,7 @@
                                         <a class="btn btn-default btn-xs dropdown-toggle"
                                            href="javascript:;"
                                            data-toggle="dropdown"
-                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled="disabled"</c:if>>
+                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled=""</c:if>>
                                             <span class="caret"></span><span class="sr-only">Add comments</span>
                                         </a>
                                         <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
