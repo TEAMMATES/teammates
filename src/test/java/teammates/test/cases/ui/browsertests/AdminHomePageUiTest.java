@@ -110,7 +110,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .withRegistrationKey(encryptedKey)
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
-        assertEquals("Instructor AHPUiT Instrúctör created (" + "<a href=" + expectedjoinUrl + ">join link</a>)",
+        assertEquals("Instructor AHPUiT Instrúctör created (join link)",
                      homePage.getMessageFromResultTable(2));
         homePage.createInstructorByInstructorDetailsSingleLineForm(""); // to clear the first form
         
@@ -129,7 +129,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                         .withInstructorInstitution(institute)
                                         .toAbsoluteString();
        
-        assertEquals("Instructor AHPUiT Instrúctör created (" + "<a href=" + expectedjoinUrl + ">join link</a>)",
+        assertEquals("Instructor AHPUiT Instrúctör created (join link)",
                      homePage.getMessageFromResultTable(1));
         
         homePage.logout();
