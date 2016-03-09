@@ -484,33 +484,56 @@ public class FeedbackSessionsLogic {
         Map<String, String> recipients =
                 fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
 
-        // Removes instructors who are not displayed to students
-        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
-
-            for (String instructorEmail : hiddenInstructorEmails) {
-
-                if (recipients.containsKey(instructorEmail)) {
-                    recipients.remove(instructorEmail);
-                }
-
-                // Remove the responses if they have been stored already
-                Iterator<FeedbackResponseAttributes> iterResponse = responses.iterator();
-
-                while (iterResponse.hasNext()) {
-
-                    FeedbackResponseAttributes response = iterResponse.next();
-
-                    if (response.recipientEmail.equals(instructorEmail)) {
-                        iterResponse.remove();
-                    }
-                }
-            }
-        }
+        removeHiddenInstructors(question, responses, recipients, hiddenInstructorEmails);
 
         normalizeMaximumResponseEntities(question, recipients);
 
         bundle.put(question, responses);
         recipientList.put(question.getId(), recipients);
+    }
+
+    /**
+     * Removes instructors who are not displayed to students from
+     * {@code recipients}. Responses to the hidden instructors are also removed
+     * from {@code responses}.
+     * 
+     * @param question
+     *            the feedback question
+     * @param responses
+     *            a {@link List} of feedback responses to the {@code question}
+     * @param recipients
+     *            a {@link Map} that maps the emails of the recipients to their
+     *            names
+     * @param hiddenInstructorEmails
+     *            a {@link Set} of instructors who are not displayed to students
+     */
+    private void removeHiddenInstructors(FeedbackQuestionAttributes question,
+                                         List<FeedbackResponseAttributes> responses,
+                                         Map<String, String> recipients, 
+                                         Set<String> hiddenInstructorEmails) {
+ 
+        if (hiddenInstructorEmails.isEmpty() || question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS) {
+            return;
+        }
+
+        for (String instructorEmail : hiddenInstructorEmails) {
+
+            if (recipients.containsKey(instructorEmail)) {
+                recipients.remove(instructorEmail);
+            }
+
+            // Remove responses to the hidden instructors if they have been stored already
+            Iterator<FeedbackResponseAttributes> iterResponse = responses.iterator();
+
+            while (iterResponse.hasNext()) {
+
+                FeedbackResponseAttributes response = iterResponse.next();
+
+                if (response.recipientEmail.equals(instructorEmail)) {
+                    iterResponse.remove();
+                }
+            }
+        }
     }
 
     /**
