@@ -281,7 +281,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}", Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED,
                 "${numOfConstSumOptions}", Integer.toString(numOfConstSumOptions),
                 "${constSumToRecipientsValue}", (distributeToRecipients == true) ? "true" : "false",
-                "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected=\"selected\"" : "",
+                "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected=\"\"" : "",
                 "${constSumOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
                 "${constSumPoints}", (points == 0) ? "100" : new Integer(points).toString(),
                 "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient": "option",

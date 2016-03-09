@@ -10,7 +10,7 @@
             <label style="margin-right: 24px;">Recipient:</label> 
             
             <select id="comment_recipient_select" class="form-control" disabled="">
-                <option value="<%=CommentParticipantType.COURSE%>" selected>The whole class</option>
+                <option value="<%=CommentParticipantType.COURSE%>" selected="">The whole class</option>
             </select>
             
             <a id="visibility-options-trigger" class="btn btn-sm btn-info pull-right">

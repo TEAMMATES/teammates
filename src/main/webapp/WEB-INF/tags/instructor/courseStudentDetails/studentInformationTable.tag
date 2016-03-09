@@ -50,7 +50,7 @@
         <div class="form-group form-inline">
             <label style="margin-right: 24px;">Recipient:</label>
             <select id="comment_recipient_select" class="form-control">
-                <option value="<%= CommentParticipantType.PERSON %>" selected>
+                <option value="<%= CommentParticipantType.PERSON %>" selected="">
                     <c:out value="${studentInfoTable.name}"/>
                 </option>
                 <option value="<%= CommentParticipantType.TEAM %>">

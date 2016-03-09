@@ -829,13 +829,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String result = "<option class=\""
                 + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
                 + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
-                + (points == Const.POINTS_NOT_SUBMITTED ? " selected=\"selected\"" : "") + ">"
+                + (points == Const.POINTS_NOT_SUBMITTED ? " selected=\"\"" : "") + ">"
                 + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
         for(int i=200; i>=0; i-=10){
             result += "<option "+
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
                         "value=\"" + i + "\"" +
-                        (i==points ? "selected=\"selected\"" : "") +
+                        (i==points ? "selected=\"\"" : "") +
                         ">" + convertToEqualShareFormat(i) +
                         "</option>\r\n";
         }
@@ -843,7 +843,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             result += "<option class=\""
                     + getContributionOptionsColor(Const.POINTS_NOT_SURE)
                     + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
-                    + (points == Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">"
+                    + (points == Const.POINTS_NOT_SURE ? " selected=\"\"" : "") + ">"
                     + "Not Sure</option>";
         }
         return result;

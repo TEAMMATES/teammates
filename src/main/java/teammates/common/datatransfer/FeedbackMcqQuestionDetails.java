@@ -286,11 +286,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 "${checkedGeneratedOptions}", (generateOptionsFor == FeedbackParticipantType.NONE) ? "" : "checked=\"\"", 
                 "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}", Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 "${generateOptionsForValue}", generateOptionsFor.toString(),
-                "${studentSelected}", generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected=\"selected\"" : "",
+                "${studentSelected}", generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected=\"\"" : "",
                 "${FeedbackParticipantType.STUDENTS.toString()}", FeedbackParticipantType.STUDENTS.toString(),
-                "${teamSelected}", generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected=\"selected\"" : "",
+                "${teamSelected}", generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected=\"\"" : "",
                 "${FeedbackParticipantType.TEAMS.toString()}", FeedbackParticipantType.TEAMS.toString(),
-                "${instructorSelected}", generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected=\"selected\"" : "",
+                "${instructorSelected}", generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected=\"\"" : "",
                 "${FeedbackParticipantType.INSTRUCTORS.toString()}", FeedbackParticipantType.INSTRUCTORS.toString());
         
         return html;

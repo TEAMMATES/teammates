@@ -14,19 +14,19 @@
                         </label>
                         <div class="col-sm-10" data-toggle="tooltip" title="View results in different formats">
                             <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
-                                <option value="question"<c:if test="${filterPanel.sortType == 'question'}"> selected="selected"</c:if>>
+                                <option value="question"<c:if test="${filterPanel.sortType == 'question'}"> selected=""</c:if>>
                                     Group by - Question
                                 </option>
-                                <option value="giver-recipient-question"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected="selected"</c:if>>
+                                <option value="giver-recipient-question"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected=""</c:if>>
                                     Group by - Giver > Recipient > Question
                                 </option>
-                                <option value="recipient-giver-question"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected="selected"</c:if>>
+                                <option value="recipient-giver-question"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected=""</c:if>>
                                     Group by - Recipient > Giver > Question
                                 </option>
-                                <option value="giver-question-recipient"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected="selected"</c:if>>
+                                <option value="giver-question-recipient"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected=""</c:if>>
                                     Group by - Giver > Question > Recipient
                                 </option>
-                                <option value="recipient-question-giver"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected="selected"</c:if>>
+                                <option value="recipient-question-giver"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected=""</c:if>>
                                     Group by - Recipient > Question > Giver
                                 </option>
                             </select>
@@ -72,15 +72,15 @@
                             </label>
                             <div class="col-sm-10">
                                 <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" onchange="this.form.submit()">
-                                    <option value="All"<c:if test="${filterPanel.allSectionsSelected}"> selected="selected"</c:if>>
+                                    <option value="All"<c:if test="${filterPanel.allSectionsSelected}"> selected=""</c:if>>
                                         All
                                     </option>
                                     <c:forEach items="${filterPanel.sections}" var="section">
-                                        <option value="${section}"<c:if test="${filterPanel.selectedSection == section}"> selected="selected"</c:if>>
+                                        <option value="${section}"<c:if test="${filterPanel.selectedSection == section}"> selected=""</c:if>>
                                             ${section}
                                         </option>
                                     </c:forEach>
-                                    <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected="selected"</c:if>>
+                                    <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected=""</c:if>>
                                         Not in a section
                                     </option>
                                 </select>
