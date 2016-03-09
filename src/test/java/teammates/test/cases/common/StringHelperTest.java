@@ -248,6 +248,33 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
     }
+    
+    @Test
+    public void testRemoveEnclosingSquareBrackets() {
+        // typical case
+        assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets("[test1, test2]"));
+        
+        // input multiple square brackets, expected outermost brackets removed
+        assertEquals("[ \"test\" ]", StringHelper.removeEnclosingSquareBrackets("[[ \"test\" ]]"));
+        
+        // input nested square brackets, expected outermost brackets removed
+        assertEquals("test1, [], ] test2",
+                     StringHelper.removeEnclosingSquareBrackets("[test1, [], ] test2]"));
+        
+        // input no square brackets, expected same input string
+        assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
+        assertEquals("  test  ", StringHelper.removeEnclosingSquareBrackets("  test  "));
+        
+        // input unmatched brackets, expected same input string 
+        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));        
+        assertEquals("(test]", StringHelper.removeEnclosingSquareBrackets("(test]"));
+        
+        // input empty string, expected empty string
+        assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
+        
+        // input null, expected null
+        assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
+    }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
         for(String str : stringsToMatch){

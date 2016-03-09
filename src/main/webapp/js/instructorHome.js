@@ -73,7 +73,7 @@ $(document).ready(function() {
  */
 function toggleArchiveCourseConfirmation(courseId) {
     return confirm('Are you sure you want to archive ' + courseId + '? This action can be reverted'
-                   + 'by going to the "courses" tab and unarchiving the desired course(s).');
+                   + ' by going to the "courses" tab and unarchiving the desired course(s).');
 }
 
 /**

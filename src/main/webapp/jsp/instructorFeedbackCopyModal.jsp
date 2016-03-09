@@ -33,6 +33,8 @@
     </div>
 </c:forEach>
 
+<div id="feedback-copy-modal-status"></div>
+
 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.courseId}">
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.fsName}">
 <input type="hidden" name="<%= Const.ParamsNames.CURRENT_PAGE %>" value="${data.currentPage}">
