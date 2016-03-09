@@ -1,5 +1,4 @@
 # Contributing to TEAMMATES
-Contributions are very welcomed.  
 If you are just starting out, do refer to the [Contributor's Orientation Guide][COG].  
 And before you get your hands dirty writing wonderful code, remember to follow the [TEAMMATES Development Process][dev]
 
