@@ -2,9 +2,9 @@
 
 Contributions are very welcomed.  
 But do ensure that you have conformed to the following:
-- Best practices for: [UI design][ui], [Coding][code], [Testing][test]
-- Coding standards for: [Java][java], [JSP][jsp], [JavaScript][js], [CSS][css], [HTML][html]
-- [TEAMMATES Development Process][dev] (including naming conventions for commits and pull request, etc.)
+* Best practices for: [UI design][ui], [Coding][code], [Testing][test]
+* Coding standards for: [Java][java], [JSP][jsp], [JavaScript][js], [CSS][css], [HTML][html]
+* [TEAMMATES Development Process][dev] (including naming conventions for commits and pull request, etc.)
 
 [ui]: https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true
 [code]: https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true
