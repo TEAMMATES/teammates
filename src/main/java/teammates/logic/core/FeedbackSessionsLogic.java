@@ -426,7 +426,7 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackQuestionAttributes question : questions) {
 
-            updateBundleAndRecipientListWithResponses(userEmail, student,
+            updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                     bundle, recipientList, question, instructorGiver,
                     studentGiver, hiddenInstructorEmails);
         }
@@ -461,7 +461,7 @@ public class FeedbackSessionsLogic {
         StudentAttributes studentGiver = student;
 
         Set<String> hiddenInstructorEmails = getHiddenInstrutorEmails(courseId);
-        updateBundleAndRecipientListWithResponses(userEmail, student,
+        updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                 bundle, recipientList, question, instructorGiver,
                 studentGiver, hiddenInstructorEmails);
         
@@ -469,7 +469,7 @@ public class FeedbackSessionsLogic {
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
 
-    private void updateBundleAndRecipientListWithResponses(
+    private void updateBundleAndRecipientListWithResponsesForStudent(
             String userEmail,
             StudentAttributes student,
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
