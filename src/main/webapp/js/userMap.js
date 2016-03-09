@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     userData.forEach(function(user) {
         var fields = user[0].split(',');
-        if (fields.length === 2 && fields[1] !== '') {
+        if (fields.length === 2 && fields[1].trim() !== '') {
             var countryName = fields[1].trim();
             countriesObj[countryName] = countriesObj[countryName] ? countriesObj[countryName] + 1 : 1;
         }
