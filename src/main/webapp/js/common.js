@@ -159,11 +159,6 @@ $(document).on('ajaxComplete ready', function() {
     if (isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
-    
-    // Freezes the StatusType so as to prevent changing the value accidentally.
-    if (Object.freeze !== undefined) {
-        Object.freeze(StatusType);
-    }
 });
 
 /**
