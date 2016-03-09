@@ -7,6 +7,6 @@ And before you get your hands dirty writing wonderful code, remember to follow t
 [dev]: /devdocs/process.md
 
 ### Other Resources
-For a comprehensive directory of resources, including **style guides** and **best practices** please refer to [README.md][readme].
+For a comprehensive directory of resources, including **style guides** and **best practices**, please refer to [README.md][readme].
 
 [readme]: /README.md
