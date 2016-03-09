@@ -420,7 +420,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                 courseId);
 
-
+        Set<String> hiddenInstructorEmails = getHiddenInstrutorEmails(courseId);
         InstructorAttributes instructorGiver = null;
         StudentAttributes studentGiver = student;
 
@@ -428,14 +428,10 @@ public class FeedbackSessionsLogic {
 
             updateBundleAndRecipientListWithResponses(userEmail, student,
                     bundle, recipientList, question, instructorGiver,
-                    studentGiver);
+                    studentGiver, hiddenInstructorEmails);
         }
 
-        FeedbackSessionQuestionsBundle questionBundle = new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
-
-        filterOutHiddenInstructors(questionBundle);
-
-        return questionBundle;
+        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
     
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
@@ -464,10 +460,10 @@ public class FeedbackSessionsLogic {
         InstructorAttributes instructorGiver = null;
         StudentAttributes studentGiver = student;
 
-        
+        Set<String> hiddenInstructorEmails = getHiddenInstrutorEmails(courseId);
         updateBundleAndRecipientListWithResponses(userEmail, student,
                 bundle, recipientList, question, instructorGiver,
-                studentGiver);
+                studentGiver, hiddenInstructorEmails);
         
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
@@ -479,39 +475,17 @@ public class FeedbackSessionsLogic {
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
             Map<String, Map<String, String>> recipientList,
             FeedbackQuestionAttributes question,
-            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
+            InstructorAttributes instructorGiver, StudentAttributes studentGiver,
+            Set<String> hiddenInstructorEmails)
             throws EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses =
                 frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                         question, student);
         Map<String, String> recipients =
                 fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
-        normalizeMaximumResponseEntities(question, recipients);
 
-        bundle.put(question, responses);
-        recipientList.put(question.getId(), recipients);
-    }
-
-    /**
-     * Removes instructors who are not displayed to students from the
-     * {@link FeedbackQuestionBundle}
-     * 
-     * @param bundle
-     *            {@link FeedbackQuestionsBundle} containing questions for the
-     *            session
-     */
-    private void filterOutHiddenInstructors(FeedbackSessionQuestionsBundle bundle) {
-
-        Set<String> hiddenInstructorEmails = getHiddenInstrutorEmails(bundle.getFeedbackSession().getCourseId());
-
-        for (FeedbackQuestionAttributes question : bundle.getQuestionResponseBundle().keySet()) {
-
-            if (question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS) {
-                continue;
-            }
-
-            Map<String, String> recipients = bundle.recipientList.get(question.getId());
-            List<FeedbackResponseAttributes> responses = bundle.getQuestionResponseBundle().get(question);
+        // Removes instructors who are not displayed to students
+        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
 
             for (String instructorEmail : hiddenInstructorEmails) {
 
@@ -532,6 +506,11 @@ public class FeedbackSessionsLogic {
                 }
             }
         }
+
+        normalizeMaximumResponseEntities(question, recipients);
+
+        bundle.put(question, responses);
+        recipientList.put(question.getId(), recipients);
     }
 
     /**
