@@ -42,9 +42,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
-    @FindBy(id = "panelBodyCollapse-1")
-    public WebElement instructorPanelBody;
-
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
@@ -453,19 +450,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
         instructorPanelCollapseStudentsButton.click();
     }
 
-    public void verifyParticipantPanelIsCollapsed(int id, int timeToWait) {
-        WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
-
-        // Need to wait for the total duration according to the number of collapse/expand intervals 
-        // between panels before checking final state of the panel
-        ThreadHelper.waitFor(timeToWait);
-        assertFalse(panel.isDisplayed());
+    public void waitForInstructorPanelStudentPanelsToCollapse() {
+        List<WebElement> studentPanels = browser.driver.findElements(By.cssSelector("#panelBodyCollapse-2 .panel-collapse"));
+        waitForElementsToDisappear(studentPanels);
     }
 
-    public int getNumOfPanelsInInstructorPanel() {
-        List<WebElement> participantPanels = instructorPanelBody
-                                                 .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
-        return participantPanels.size();
+    public void verifySpecifiedPanelIdsAreCollapsed(int[] ids) {
+        for (int id : ids) {
+            WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
+            assertFalse(panel.isDisplayed());
+        }
     }
 
     public boolean isSectionPanelExist(String section) {
