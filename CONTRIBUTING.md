@@ -1,11 +1,21 @@
 # Contributing to TEAMMATES
-If you are just starting out, do refer to the [Contributor's Orientation Guide][COG].  
-Also, remember to follow the [TEAMMATES Development Process][dev].
+**Are you a new contributer?** Check out the [Contributor's Orientation Guide][COG].
 
 [COG]: https://docs.google.com/document/d/1cY9pmEmw4dC6Z4LjN1WUTsynJ0jVPgbWsFhdyBy_wCU/pub?embedded=true
+
+### Submitting a bug report
+Search [the issue tracker][issue tracker] to ensure that there is no open issue addressing the bug.  
+If that is the case, [open a new issue][new issue]. Make sure to include a clear title, description, and as much relevant information as possible.
+
+[issue tracker]: https://github.com/TEAMMATES/teammates/issues
+[new issue]: https://github.com/TEAMMATES/teammates/issues/new
+
+### Submitting a patch
+Make sure that the patch addresses an open issue in the issue tracker.  
+Remember to follow the [TEAMMATES Development Process][dev].
+
 [dev]: /devdocs/process.md
 
-### Other Resources
 For a comprehensive directory of resources, including **style guides** and **best practices**, please refer to [README.md][readme].
 
 [readme]: /README.md
