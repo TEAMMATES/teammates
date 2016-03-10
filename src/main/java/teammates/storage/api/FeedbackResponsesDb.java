@@ -590,7 +590,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      */
-    public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr, boolean keepUpdateTimestamp) 
+    private void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr, boolean keepUpdateTimestamp) 
         throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(
