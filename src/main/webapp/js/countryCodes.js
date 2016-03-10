@@ -240,6 +240,7 @@ var countryToCode = {
     'UAE': 'ARE',
     'United Arab Emirates': 'ARE',
     'United Kingdom': 'GBR',
+    'Scotland': 'GBR',
     'UK': 'GBR',
     'US': 'USA',
     'United States': 'USA',

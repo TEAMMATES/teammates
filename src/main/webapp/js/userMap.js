@@ -7,20 +7,20 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     userData.forEach(function(user) {
         var fields = user[0].split(',');
-        if (fields.length === 2 && fields[1].trim() !== '') {
-            var countryName = fields[1].trim();
-            countriesObj[countryName] = countriesObj[countryName] ? countriesObj[countryName] + 1 : 1;
+        if (fields.length >= 2 && fields[fields.length - 1].trim() !== '') {
+            var countryName = fields[fields.length - 1].trim();
+            var countryCode = getCountryCode(countryName);
+            if (countryCode != null) {
+                countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
+            }
         }
     });
 
     d3.select('#totalCount').text('Total number of institutions: ' + userData.length);
 
-    for (var countryName in countriesObj) {
-        if (countriesObj.hasOwnProperty(countryName)) {
-            var countryCode = getCountryCode(countryName);
-            if (countryCode != null) {
-                countriesArr.push([countryCode, countriesObj[countryName]]);
-            }
+    for (var countryCode in countriesObj) {
+        if (countriesObj.hasOwnProperty(countryCode)) {
+            countriesArr.push([countryCode, countriesObj[countryCode]]);
         }
     }
 
