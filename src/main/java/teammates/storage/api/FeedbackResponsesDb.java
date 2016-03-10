@@ -543,11 +543,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
     
     /**
-     * Updates the feedback response identified by {@code newAttributes.getId()} 
+     * Updates the feedback response identified by {@code newAttributes.getId()} and does not keep
+     * the old timestamp.
      * For the remaining parameters, the existing value is preserved 
      *   if the parameter is null (due to 'keep existing' policy).<br> 
-     * This will call the method {@code updateFeedbackResponse} with {@code keepUpdateTimestamp = false}
-     * so that every changes to the timestamp will be reflected in the FeedbackResponse.
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      * @throws EntityDoesNotExistException 
@@ -562,8 +561,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * Updates the feedback response identified by {@code newAttributes.getId()} 
      * For the remaining parameters, the existing value is preserved 
      *   if the parameter is null (due to 'keep existing' policy).<br> 
-     * The boolean variable {@code keepUpdateTimestamp} would be set so that it will prevent
-     * changes / keep changes to the updated timestamp of the Feedback Response.<br>
+     * The timestamp is preserved or not based on the value of {@code keepUpdateTimestamp} 
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      */
@@ -588,6 +586,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * Updates the feedback response identified by {@code newAttributes.getId()} 
      * For the remaining parameters, the existing value is preserved 
      *   if the parameter is null (due to 'keep existing' policy).<br> 
+     * The timestamp is preserved or not based on the value of {@code keepUpdateTimestamp} 
      * Preconditions: <br>
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      */
