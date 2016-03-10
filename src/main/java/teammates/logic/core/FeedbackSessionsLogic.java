@@ -420,8 +420,15 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                 courseId);
 
-        Set<String> hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
+        Set<String> hiddenInstructorEmails = null;
         StudentAttributes studentGiver = student;
+        
+        for (FeedbackQuestionAttributes question : questions) {
+            if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
+                hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
+                break;
+            }
+        }
 
         for (FeedbackQuestionAttributes question : questions) {
 
@@ -456,8 +463,13 @@ public class FeedbackSessionsLogic {
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
         StudentAttributes studentGiver = student;
+        
+        Set<String> hiddenInstructorEmails = null;
 
-        Set<String> hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
+        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
+            hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
+        }
+        
         updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                 bundle, recipientList, question, studentGiver, hiddenInstructorEmails);
         
@@ -508,7 +520,11 @@ public class FeedbackSessionsLogic {
                                          Map<String, String> recipients, 
                                          Set<String> hiddenInstructorEmails) {
  
-        if (hiddenInstructorEmails.isEmpty() || question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS) {
+        boolean noChangeRequired = hiddenInstructorEmails == null
+                                   || hiddenInstructorEmails.isEmpty() 
+                                   || question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS;
+
+        if (noChangeRequired) {
             return;
         }
 
