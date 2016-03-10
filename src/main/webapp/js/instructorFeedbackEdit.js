@@ -85,7 +85,7 @@ function bindFeedbackSessionEditFormSubmission() {
                 }
                 
                 // focus on status message
-                scrollToElement($statusMessage[0], {offset: ($('.navbar').height() + 30) * -1});
+                scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
             }
         });
     });
