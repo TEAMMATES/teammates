@@ -620,7 +620,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
     
     /**
-     * Calls updateFeedbackResponseOptimized with false as the keepUpdateTimestamp parameter
+     * updates Feedback Response without keeping the old timestamp
      * 
      */
     public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr) 
