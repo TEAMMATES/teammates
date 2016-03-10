@@ -507,9 +507,30 @@ public class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
-    } 
+    }
     
     /**
+     * Removes the outermost enclosing square brackets surrounding a string.
+     * 
+     * @param str
+     * @return the string without the outermost enclosing square brackets
+     *         if the given string is enclosed by square brackets <br/> 
+     *         the string itself if the given string is not enclosed by square brackets <br/>
+     *         null if the given string is null
+     */
+    public static String removeEnclosingSquareBrackets(String str) {
+        if (str == null) {
+            return null;
+        }
+        
+        if (!str.startsWith("[") || !str.endsWith("]")) {
+            return str;
+        }
+        
+        return str.substring(1, str.length() - 1);
+    }
+	
+	/**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.
      */
