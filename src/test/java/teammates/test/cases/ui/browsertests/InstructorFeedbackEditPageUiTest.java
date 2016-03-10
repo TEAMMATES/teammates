@@ -294,6 +294,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test Recipient's Team Members row is hidden");
         feedbackEditPage.clickVisibilityOptionsForQuestion(2);
         
+        // use getAttribute("textContent") instead of getText 
+        // because of the row of Recipient's Team Members is not displayed
         assertEquals("Recipient's Team Members", feedbackEditPage.getVisibilityOptionTableRow(2, 4).getAttribute("textContent").trim());
         assertFalse(feedbackEditPage.getVisibilityOptionTableRow(2, 4).isDisplayed());
                 
@@ -302,11 +304,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         WebElement visibilityMessage2 = browser.driver.findElement(By.id("visibilityMessage-2"));
         feedbackEditPage.waitForElementVisibility(visibilityMessage2);
 
-        assertTrue("Expected recipient to be able to see response, but was "
+        assertTrue("Expected the receiving student to be able to see response, but was "
                    + visibilityMessage2.getText(), visibilityMessage2.getText()
                    .contains("The receiving student can see your response, and your name."));
         
-        assertTrue("Expected recipient to be able to see response, but was "
+        assertTrue("Expected instructors to be able to see response, but was "
                    + visibilityMessage2.getText(), visibilityMessage2.getText()
                    .contains("Instructors in this course can see your response, the name of the recipient, and your name.")); 
         
