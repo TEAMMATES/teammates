@@ -421,7 +421,6 @@ public class FeedbackSessionsLogic {
                 courseId);
 
         Set<String> hiddenInstructorEmails = null;
-        StudentAttributes studentGiver = student;
         
         for (FeedbackQuestionAttributes question : questions) {
             if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
@@ -433,7 +432,7 @@ public class FeedbackSessionsLogic {
         for (FeedbackQuestionAttributes question : questions) {
 
             updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                    bundle, recipientList, question, studentGiver, hiddenInstructorEmails);
+                    bundle, recipientList, question, hiddenInstructorEmails);
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
@@ -462,17 +461,14 @@ public class FeedbackSessionsLogic {
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
-        StudentAttributes studentGiver = student;
-        
         Set<String> hiddenInstructorEmails = null;
 
         if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
             hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
         }
-        
+
         updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                bundle, recipientList, question, studentGiver, hiddenInstructorEmails);
-        
+                bundle, recipientList, question, hiddenInstructorEmails);
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
@@ -483,14 +479,13 @@ public class FeedbackSessionsLogic {
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
             Map<String, Map<String, String>> recipientList,
             FeedbackQuestionAttributes question,
-            StudentAttributes studentGiver,
             Set<String> hiddenInstructorEmails)
             throws EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses =
                 frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                         question, student);
         Map<String, String> recipients =
-                fqLogic.getRecipientsForQuestion(question, userEmail, null, studentGiver);
+                fqLogic.getRecipientsForQuestion(question, userEmail, null, student);
 
         removeHiddenInstructors(question, responses, recipients, hiddenInstructorEmails);
 
