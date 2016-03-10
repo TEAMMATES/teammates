@@ -1,5 +1,5 @@
 # Contributing to TEAMMATES
-**Are you a new contributer?** Check out the [Contributor's Orientation Guide][COG].
+**Are you a new contributor?** Check out the [Contributor's Orientation Guide][COG].
 
 [COG]: https://docs.google.com/document/d/1cY9pmEmw4dC6Z4LjN1WUTsynJ0jVPgbWsFhdyBy_wCU/pub?embedded=true
 
