@@ -11,7 +11,7 @@ If that is the case, [open a new issue][new issue]. Make sure to include a clear
 [new issue]: https://github.com/TEAMMATES/teammates/issues/new
 
 ### Submitting a pull request
-Make sure that the patch addresses an open issue in the issue tracker.  
+Make sure that the pull request addresses an open issue in the issue tracker.  
 Remember to follow the [TEAMMATES Development Process][dev].
 
 [dev]: /devdocs/process.md
