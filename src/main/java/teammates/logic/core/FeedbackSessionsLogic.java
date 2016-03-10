@@ -420,7 +420,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                 courseId);
 
-        Set<String> hiddenInstructorEmails = getHiddenInstrutorEmails(courseId);
+        Set<String> hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
         InstructorAttributes instructorGiver = null;
         StudentAttributes studentGiver = student;
 
@@ -460,7 +460,7 @@ public class FeedbackSessionsLogic {
         InstructorAttributes instructorGiver = null;
         StudentAttributes studentGiver = student;
 
-        Set<String> hiddenInstructorEmails = getHiddenInstrutorEmails(courseId);
+        Set<String> hiddenInstructorEmails = getHiddenInstructorEmails(courseId);
         updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                 bundle, recipientList, question, instructorGiver,
                 studentGiver, hiddenInstructorEmails);
@@ -542,7 +542,7 @@ public class FeedbackSessionsLogic {
      * @return a {@link Set} of emails of the instructors who are not displayed
      *         to students in the course specified by {@code courseId}
      */
-    private Set<String> getHiddenInstrutorEmails(String courseId) {
+    private Set<String> getHiddenInstructorEmails(String courseId) {
 
         InstructorsLogic instructorLogic = InstructorsLogic.inst();
 
