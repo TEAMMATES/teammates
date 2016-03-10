@@ -26,8 +26,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String giverSection;
     public String recipientEmail; // TODO rename back "recipient" as it may contain team name and "%GENERAL%"?
     public String recipientSection;
-    private Date createdAt;
-    private Date updatedAt;
+    private transient Date createdAt;
+    private transient Date updatedAt;
     
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
