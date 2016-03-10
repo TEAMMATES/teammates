@@ -251,7 +251,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector("div[id^='panelBodyCollapse-']");
         
-        waitForElementToDisappear(panelCollapseSelector);
+        waitForElementsToDisappear(browser.driver.findElements(panelCollapseSelector));
     }
     
     /**
