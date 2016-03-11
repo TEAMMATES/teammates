@@ -134,6 +134,7 @@ var countryToCode = {
     'Lithuania': 'LTU',
     'Luxembourg': 'LUX',
     'Macao': 'MAC',
+    'Macau': 'MAC',
     'Macedonia': 'MKD',
     'Madagascar': 'MDG',
     'Malawi': 'MWI',
