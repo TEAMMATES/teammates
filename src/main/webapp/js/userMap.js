@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     });
 
-    d3.select('#totalCount').text('Total number of institutions: ' + userData.length);
-
     for (var countryCode in countriesObj) {
         if (countriesObj.hasOwnProperty(countryCode)) {
             countriesArr.push([countryCode, countriesObj[countryCode]]);
         }
     }
+
+    d3.select('#totalCount').text(userData.length + ' institutions from ' + countriesArr.length + ' countries');
 
     // Data format example
     // var series = [
