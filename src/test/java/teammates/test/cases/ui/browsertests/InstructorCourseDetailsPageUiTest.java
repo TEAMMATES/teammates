@@ -167,9 +167,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("link: add comment");
         
-        StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name);
-        studentCommentsPage.verifyIsCorrectPage(aliceBetsy.email);
+        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(alice.name);
+        studentCommentsPage.verifyIsCorrectPage(alice.email);
         studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: download student list");
