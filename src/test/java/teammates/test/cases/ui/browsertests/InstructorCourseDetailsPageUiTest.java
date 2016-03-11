@@ -37,6 +37,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private static String instructorId;
     private static String courseId;
     
+    private static StudentAttributes alice;
+    private static StudentAttributes charlie;
+    
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -59,6 +62,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
+        alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+        charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
     }
     
     @Test 
@@ -143,14 +148,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("link: view");
         
-        StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         InstructorCourseStudentDetailsViewPage studentDetailsPage = detailsPage.clickViewStudent(alice.name);
         studentDetailsPage.verifyIsCorrectPage(alice.email);
         studentDetailsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: edit");
         
-        StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
         InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(charlie.name);
         studentEditPage.verifyIsCorrectPage(charlie.email);
         studentEditPage.closeCurrentWindowAndSwitchToParentWindow();
@@ -183,12 +186,10 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     public void testRemindAction() throws Exception {
 
         //Charlie is yet to register
-        StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
         String charlieEmail = charlie.email;
         String charliePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
         
         //Alice is already registered
-        StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
         String alicePassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
         
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
