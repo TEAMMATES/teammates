@@ -226,23 +226,21 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     public void testDeleteAction() throws Exception {
         
-        ______TS("action: delete");
-        
+        String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;        
         StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
-        String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+        StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
         
+        ______TS("action: delete");
+                
         detailsPage.clickDeleteAndCancel(benny.name);
         assertNotNull(BackDoor.getStudent(courseId, benny.email));
 
         //Use ${test.student1} etc. 
         detailsPage.clickDeleteAndConfirm(benny.name)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
-        
-        StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
-        
+                
         detailsPage.clickDeleteAndCancel(danny.name);
-        assertNotNull(BackDoor.getStudent(courseId, danny.email));
-        
+        assertNotNull(BackDoor.getStudent(courseId, danny.email));        
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {
