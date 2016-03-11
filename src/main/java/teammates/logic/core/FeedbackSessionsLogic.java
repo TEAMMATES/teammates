@@ -508,7 +508,8 @@ public class FeedbackSessionsLogic {
      *            a {@link Map} that maps the emails of the recipients to their
      *            names
      * @param hiddenInstructorEmails
-     *            a {@link Set} of instructors who are not displayed to students
+     *            a {@link Set} of emails of the instructors who are not
+     *            displayed to students
      */
     private void removeHiddenInstructors(FeedbackQuestionAttributes question,
                                          List<FeedbackResponseAttributes> responses,
