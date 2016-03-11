@@ -248,6 +248,11 @@ public abstract class AppPage {
                 }
                 return true;
             }
+
+            @Override
+            public String toString() {
+                return "invisibility of all elements " + elements;
+            }
         };
     }
 
