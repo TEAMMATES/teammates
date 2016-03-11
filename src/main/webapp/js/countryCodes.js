@@ -269,9 +269,14 @@ for (var name in countryToCode) {
     }
 }
 
-// Get the corresponding alpha 3 code for the country name
-// countryName param can be either full name or alpha 3 country code
-// If the countryName is an alpha 3 country code, return it directly
+/**
+ * Get the corresponding alpha 3 code for the country name
+ * Returns the code directly if the countryName is already the code
+ *
+ * @param  {String} countryName either full name or alpha 3 country code
+ *
+ * @return {String} Corresponding country code
+ */
 function getCountryCode(countryName) {
     if (countryToCode.hasOwnProperty(countryName)) {
         return countryToCode[countryName];
