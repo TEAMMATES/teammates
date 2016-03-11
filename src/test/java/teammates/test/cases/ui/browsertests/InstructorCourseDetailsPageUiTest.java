@@ -36,10 +36,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     
     private static String instructorId;
     private static String courseId;
-    
-    private static StudentAttributes alice;
-    private static StudentAttributes charlie;
-    
+
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -62,8 +59,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
-        alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
     }
     
     @Test 
@@ -145,6 +140,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     public void testLinks() {
+        StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
         
         ______TS("link: view");
         
@@ -175,33 +172,30 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: download student list");
-        
+
         AppUrl studentListDownloadUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
                                         .withUserId("CCDetailsUiT.instr")
                                         .withCourseId("CCDetailsUiT.CS2104");
-        
+
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
 
     public void testRemindAction() throws Exception {
-
-        //Charlie is yet to register
-        String charlieEmail = charlie.email;
-        String charliePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
-        
-        //Alice is already registered
-        String alicePassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
-        
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+        StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
+
+        // Charlie is yet to register, Alice is already registered
+        String alicePassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
+        String charliePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
         boolean isEmailEnabled = !TestProperties.inst().isDevServer();
 
         ______TS("action: remind single student");
 
         detailsPage.clickRemindStudentAndCancel(charlie.name);
         if (isEmailEnabled) {
-            assertFalse(didStudentReceiveReminder(courseId, charlieEmail, charliePassword));
+            assertFalse(didStudentReceiveReminder(courseId, charlie.email, charliePassword));
         }
-        
 
         detailsPage.clickRemindStudentAndConfirm(charlie.name);
         if (isEmailEnabled) {
@@ -225,7 +219,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     public void testDeleteAction() throws Exception {
-        
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;        
         StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
         StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
