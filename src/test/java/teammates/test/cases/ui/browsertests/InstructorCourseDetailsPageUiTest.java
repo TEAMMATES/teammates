@@ -48,7 +48,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         // use both the student accounts injected for this test
         
         String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-        String student1Email = student1GoogleId + "@gmail.com";
+        String student1Email = student1GoogleId + "@gmail.com"; 
         String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
         testData.accounts.get("Alice").googleId = student1GoogleId;
@@ -228,8 +228,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: delete");
         
-        String studentName = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
-        String studentEmail = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
+        StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
+        String studentName = benny.name;
+        String studentEmail = benny.email;
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
         
         detailsPage.clickDeleteAndCancel(studentName);
@@ -239,8 +240,9 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickDeleteAndConfirm(studentName)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
         
-        studentName = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").name;
-        studentEmail = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").email;
+        StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
+        studentName = danny.name;
+        studentEmail = danny.email;
         courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
         
         detailsPage.clickDeleteAndCancel(studentName);
