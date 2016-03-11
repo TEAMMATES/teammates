@@ -515,11 +515,11 @@ public class FeedbackSessionsLogic {
                                          Map<String, String> recipients, 
                                          Set<String> hiddenInstructorEmails) {
  
-        boolean noChangeRequired = hiddenInstructorEmails == null
+        boolean isNoChangeRequired = hiddenInstructorEmails == null
                                    || hiddenInstructorEmails.isEmpty() 
                                    || question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS;
 
-        if (noChangeRequired) {
+        if (isNoChangeRequired) {
             return;
         }
 
