@@ -22,7 +22,7 @@ public class FeedbackSessionPublishButton {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 
-        boolean isUnpublishing =  !session.isWaitingToOpen() && session.isPublished();
+        boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
         this.actionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         if (isUnpublishing) {
