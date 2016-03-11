@@ -47,18 +47,18 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         // use both the student accounts injected for this test
         
-        String student1GoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-        String student1Email = student1GoogleId + "@gmail.com"; 
-        String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
-        String student2Email = student2GoogleId + "@gmail.com";
-        testData.accounts.get("Alice").googleId = student1GoogleId;
-        testData.accounts.get("Charlie").googleId = student2GoogleId;
-        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").googleId = student1GoogleId;
-        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").email = student1Email;
-        testData.students.get("charlie.tmms@CCDetailsUiT.CS2104").email = student2Email;
-        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").googleId = student1GoogleId;
-        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").email = student1Email;
-        testData.students.get("charlie.tmms@CCDetailsUiT.CS2103").email = student2Email;
+        String aliceGoogleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        String aliceEmail = aliceGoogleId + "@gmail.com";
+        String charlieGoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
+        String charlieEmail = charlieGoogleId + "@gmail.com";
+        testData.accounts.get("Alice").googleId = aliceGoogleId;
+        testData.accounts.get("Charlie").googleId = charlieGoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").googleId = aliceGoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").email = aliceEmail;
+        testData.students.get("charlie.tmms@CCDetailsUiT.CS2104").email = charlieEmail;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").googleId = aliceGoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").email = aliceEmail;
+        testData.students.get("charlie.tmms@CCDetailsUiT.CS2103").email = charlieEmail;
         
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
