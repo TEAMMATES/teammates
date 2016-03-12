@@ -371,15 +371,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         this.initializeRubricDescriptions();
         
-        setDescription(0,0, "Rarely or never responds.");
-        setDescription(0,1, "Occasionally responds, but never initiates discussions.");
-        setDescription(0,2, "Takes part in discussions and sometimes initiates discussions.");
-        setDescription(0,3, "Initiates discussions frequently, and engages the team.");
+        setDescription(0, 0, "Rarely or never responds.");
+        setDescription(0, 1, "Occasionally responds, but never initiates discussions.");
+        setDescription(0, 2, "Takes part in discussions and sometimes initiates discussions.");
+        setDescription(0, 3, "Initiates discussions frequently, and engages the team.");
         
-        setDescription(1,0, "Rarely or never completes tasks.");
-        setDescription(1,1, "Often misses deadlines.");
-        setDescription(1,2, "Occasionally misses deadlines.");
-        setDescription(1,3, "Tasks are always completed before the deadline.");
+        setDescription(1, 0, "Rarely or never completes tasks.");
+        setDescription(1, 1, "Often misses deadlines.");
+        setDescription(1, 2, "Occasionally misses deadlines.");
+        setDescription(1, 3, "Tasks are always completed before the deadline.");
         
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
