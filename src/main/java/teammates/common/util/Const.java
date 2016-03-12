@@ -871,46 +871,19 @@ public class Const {
         
         public static final String INSTRUCTOR_DETAILS_LENGTH_INVALID = "Instructor Details must have %d columns";
         
-        public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br >";
-        public static final String STUDENT_FIRST_TIME = "<div class=\"align-center\">"
-                                  + "<div style=\"margin-right: auto; margin-left: auto; \""
-                                  + " class=' text-color-red text-bold'>Oops! Your "
-                                  + "Google account is not known to TEAMMATES." 
-                                  + "</div>"
-                                  + "</div>"
-                                  + "<br>"
-                                  + "<div style=\"text-align:left; \">"
-                                  + "<br>"
-                                  + "To access a course on TEAMMATES, first you need to wait till an "
-                                  + "instructor adds you to that course and TEAMMATES sends you "
-                                  + "instructions on how to access that particular course in TEAMMATES."
-                                  + "<br><br>If you 'joined' the course in TEAMMATES using a Google "
-                                  + "account before,but cannot login anymore, these are the possible reasons:"
-                                  + "<ol>"
-                                  + "<li>"
-                                  + "You used a different Google account to access TEAMMATES in the "
-                                  + "past. In that case, you need to use the same Google account to access "
-                                  + "TEAMMATES again. Logout and re-login using the other Google account. "
-                                  + "If you don't remember which Google account you used previously, email "
-                                  + "us from the same email account to which you receive TEAMMATES emails."
-                                  + "</li>"
-                                  + "<li>"
-                                  + "You changed the primary email from a non-Gmail address to a "
-                                  + "Gmail address recently. In that case, "
-                                  + "<a href=\"https://teammatesv4.appspot.com/contact.html\">"
-                                  + "email us "
-                                  + "</a>"
-                                  + "so that we can reconfigure your account to use the new Gmail address."
-                                  + "</li>"
-                                  + "<li>"
-                                  + "You joined this course just a few seconds ago and your data "
-                                  + "may be still in the process of propagating through our servers. "
-                                  + "In that case, please click on the "
-                                  + "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in "
-                                  + "a few minutes."
-                                  + "</li>"
-                                  + "</ol>"
-                                  + "</div>";
+        public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
+        public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
+                + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
+                + "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
+                + "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
+                + "<br/>1. You used a different Google account to access TEAMMATES in the past. "
+                + "In that case, you need to use the same Google account to access TEAMMATES again. Logout and re-login using the other Google account. "
+                + "If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails."
+                + "<br/>2. You changed the primary email from a non-Gmail address to a Gmail address recently. " 
+                + "In that case, <a href='http://www.comp.nus.edu.sg/%7Eteams/contact.html'>email us</a> so that we can reconfigure your account to use the new Gmail address."
+                + "<br/>3. You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. "
+                + "In that case, please click on the <a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in a few minutes. "
+                + "</div>";
         public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
                 + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces.";
 
@@ -1215,6 +1188,7 @@ public class Const {
     public static final String GENERAL_QUESTION = "%GENERAL%";
     public static final String USER_IS_TEAM = "%TEAM%";
     public static final String USER_IS_NOBODY = "%NOBODY%";
+    public static final String USER_IS_MISSING = "%MISSING%";
     
     public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
     public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
