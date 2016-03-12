@@ -3652,13 +3652,14 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
   .navbar-header {
+    padding-left: 65px;
     float: left;
   }
 }
 .navbar-collapse {
   max-height: 340px;
   padding-right: 15px;
-  padding-left: 15px;
+  padding-left: 265px;
   overflow-x: visible;
   -webkit-overflow-scrolling: touch;
   border-top: 1px solid transparent;
@@ -4021,7 +4022,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #333;
 }
 .navbar-inverse {
-  background-color: #222;
+  background-color: #000;
   border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
@@ -4036,6 +4037,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #999;
 }
 .navbar-inverse .navbar-nav > li > a {
+      color: white;
+    float: left;
+    list-style-type: none;
+    padding-left: 20px;
+    padding-right: 20px;
   color: #999;
 }
 .navbar-inverse .navbar-nav > li > a:hover,
