@@ -544,7 +544,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.fsCopyToModal.clickSubmitButton();
    
         feedbackPage.waitForPageToLoad();
-        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        feedbackPage.verifyStatusWithRetry(Const.StatusMessages.FEEDBACK_SESSION_COPIED, 10);
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
