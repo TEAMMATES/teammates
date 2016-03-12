@@ -487,11 +487,16 @@ public class FeedbackResponsesLogic {
                                     throws InvalidParametersException, EntityAlreadyExistsException {
         try {
             newResponse.setId(null);
-            frDb.createEntity(newResponse);
+            FeedbackResponse createdResponseEntity = 
+                    (FeedbackResponse) frDb.createEntity(newResponse);
             frDb.deleteEntity(oldResponse);
+            frcLogic.updateFeedbackResponseCommentsForChangingResponseId
+                    (oldResponse.getId(), createdResponseEntity.getId());
         } catch (EntityAlreadyExistsException e) {
             log.warning("Trying to update an existing response to one that already exists.");
             throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
+        } catch (EntityDoesNotExistException e) {
+            log.warning("Trying to update a feedback response comment that does not exist");
         }
     }
 
