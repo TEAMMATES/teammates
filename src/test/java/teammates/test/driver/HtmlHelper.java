@@ -394,6 +394,7 @@ public class HtmlHelper {
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
                       // today's date
                       .replace(TimeHelper.formatDate(now), "${today}")
+                      // edge case: calling TimeHelper.getNextHour() between 2300h-0000h UTC gives next day's date
                       .replace(dateOfNextHour, "${today}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
