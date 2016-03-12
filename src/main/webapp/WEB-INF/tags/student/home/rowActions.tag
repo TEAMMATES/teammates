@@ -3,7 +3,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.StudentFeedbackSessionActions" required="true" %>
 <%@ attribute name="index" required="true" %>
-<a class="btn btn-default btn-xs btn-tm-actions<c:if test="${not actions.sessionPublished}"> disabled</c:if>"
+<a class="btn btn-default btn-xs btn-tm-actions"
    <c:if test="${not actions.sessionPublished}">onclick="return false"</c:if>
    href="${actions.studentFeedbackResultsLink}"
    name="viewFeedbackResults${index}"
@@ -11,7 +11,8 @@
    data-toggle="tooltip"
    data-placement="top"
    title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
-   role="button">
+   role="button"
+   <c:if test="${not actions.sessionPublished}">disabled=""</c:if>>
     View Responses
 </a>
 <c:choose>
@@ -28,14 +29,15 @@
         </a>
     </c:when>
     <c:otherwise>
-        <a class="btn btn-default btn-xs btn-tm-actions<c:if test="${not actions.sessionVisible}"> disabled</c:if>"
+        <a class="btn btn-default btn-xs btn-tm-actions"
            <c:if test="${not actions.sessionVisible}">onclick="return false"</c:if>
            href="${actions.studentFeedbackResponseEditLink}"
            id="submitFeedback${index}"
            data-toggle="tooltip"
            data-placement="top"
            title="${actions.tooltipText}"
-           role="button">
+           role="button"
+           <c:if test="${not actions.sessionVisible}">disabled=""</c:if>>
             ${actions.buttonText}
         </a>
     </c:otherwise>
