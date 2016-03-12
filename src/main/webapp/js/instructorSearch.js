@@ -8,10 +8,6 @@ $(function() {
 	
 	// highlight search string 
 	highlightSearchResult('#searchBox', '.panel-body');
-	
-	// collapse and expand functionality
-    var panels = $('div.panel');
-    bindCollapseEvents(panels, 0);
 
 	$("div[id^=plainCommentText]").css("margin-left","15px");
 });

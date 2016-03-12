@@ -185,10 +185,6 @@ function registerResponseCommentsEvent() {
     $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
     $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
     
-    // collapse and expand of Comments for students tab of instructorCommentsPage
-    var panels = $('#panel_display-1 .panel');
-    bindCollapseEvents(panels, 0);
-    
     registerResponseCommentCheckboxEvent();
     
     $("div[id^=plainCommentText]").css("margin-left","15px");
