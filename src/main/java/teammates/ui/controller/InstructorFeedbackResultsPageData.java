@@ -1469,9 +1469,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private InstructorFeedbackResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                                       FeedbackResponseAttributes response) {
+        boolean isGiverInstructor = question.giverType == FeedbackParticipantType.INSTRUCTORS;
         boolean isGiverStudentOrTeam = question.giverType == FeedbackParticipantType.STUDENTS 
                                        || question.giverType == FeedbackParticipantType.TEAMS;
-        if (isGiverStudentOrTeam) {
+        
+        if (isGiverStudentOrTeam || isGiverInstructor) {
             return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", MODERATE_SINGLE_RESPONSE);
         } else {
             return null;
@@ -1491,9 +1493,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorFeedbackResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
                                                                             String giverIdentifier, String className,
                                                                             String buttonText) {
+        boolean isGiverInstructorOfCourse = bundle.roster.isInstructorOfCourse(giverIdentifier);
         boolean isGiverVisibleStudentOrTeam = isTeamVisible(giverIdentifier)
                                               || bundle.roster.isStudentInCourse(giverIdentifier);
-        if (!isGiverVisibleStudentOrTeam) {
+        
+        if (!isGiverVisibleStudentOrTeam && !isGiverInstructorOfCourse) {
             return null;
         }
         
