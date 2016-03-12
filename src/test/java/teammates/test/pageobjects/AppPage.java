@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -940,6 +941,18 @@ public abstract class AppPage {
     public void verifyFieldValue (String fieldId, String expectedValue) {
         assertEquals(expectedValue,
                 browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
+    }
+    
+    /**
+     * Verifies that the page source does not contain the given searchString.
+     * 
+     * @param searchString the substring that we want to omit from the page source
+     * @return the AppPage
+     */
+    public AppPage verifyNotContain(String searchString) {
+        String pageSource = getPageSource();
+        assertFalse(pageSource.contains(searchString));
+        return this;
     }
         
     @SuppressWarnings("unused")

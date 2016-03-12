@@ -218,6 +218,21 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                         
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyHtmlMainContent("/instructorCourseEnrollError.html");
+
+        ______TS("enroll action: scripts are successfully sanitized");
+
+        // Enroll a student with a script in the name
+        String xssScript = "<script>alert(\"was here\");</script>";
+        enrollString = "Team | Name | Email | Comments\n";
+        enrollString += "Team GreyHats | Mallory " + xssScript + " | mallory.tmms@gmail.tmt |\n";
+
+        // Check that the script does not appear on the InstructorCourseEnrollResult page
+        resultsPage = enrollPage.enroll(enrollString);
+        resultsPage.verifyNotContain(xssScript);
+
+        // Check that the script does not appear on the InstructorCourseEnroll page either
+        enrollPage = resultsPage.clickEditLink();
+        enrollPage.verifyNotContain(xssScript);
     }
 
     @AfterClass
