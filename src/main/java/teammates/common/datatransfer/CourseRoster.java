@@ -28,6 +28,10 @@ public class CourseRoster {
         return new ArrayList<InstructorAttributes>(instructorListByEmail.values());
     }
     
+    public boolean isInstructorOfCourse(String instructorEmail) {
+        return instructorListByEmail.containsKey(instructorEmail);
+    }
+    
     public boolean isStudentInCourse(String studentEmail){
         return studentListByEmail.containsKey(studentEmail);
     }
