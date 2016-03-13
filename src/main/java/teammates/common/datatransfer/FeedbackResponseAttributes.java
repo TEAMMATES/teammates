@@ -82,8 +82,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.recipientEmail = copy.recipientEmail;
         this.recipientSection = copy.recipientSection;
         this.responseMetaData = copy.responseMetaData;
-        this.createdAt = copy.getCreatedAt();
-        this.updatedAt = copy.getUpdatedAt();
+        this.createdAt = copy.createdAt;
+        this.updatedAt = copy.updatedAt;
     }
 
     public String getId() {
