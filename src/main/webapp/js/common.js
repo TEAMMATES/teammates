@@ -803,7 +803,6 @@ function isBlank(str) {
     return str.trim() === '';
 }
 
-
 /**
  * Sets the chevron of a panel from up to down or from down to up depending on its current state.
  * clickedElement must be at least the parent of the chevron.
@@ -837,5 +836,44 @@ function setChevronToUp(chevronContainer) {
 function setChevronToDown(chevronContainer) {
     chevronContainer.removeClass("glyphicon-chevron-up");
     chevronContainer.addClass("glyphicon-chevron-down");
+}
+
+/**
+ * Changes the state of the panel (collapsed/expanded).
+ */
+function toggleSingleCollapse(e) {
+    if (!$(e.target).is('a') && !$(e.target).is('input')) {
+        var glyphIcon = $(this).find('.glyphicon');
+        var className = $(glyphIcon[0]).attr('class');
+        if (className.indexOf('glyphicon-chevron-up') != -1) {
+            hideSingleCollapse($(e.currentTarget).attr('data-target'));
+        } else {
+            showSingleCollapse($(e.currentTarget).attr('data-target'));
+        }
+    }
+}
+
+/**
+ * Shows panel's content and changes chevron state.
+ */
+function showSingleCollapse(e) {
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
+    $(glyphIcon[0]).addClass('glyphicon-chevron-up');
+    $(e).collapse('show');
+    $(heading).find('a.btn').show();
+}
+
+/**
+ * Hides panel's content and changes chevron state.
+ */
+function hideSingleCollapse(e) {
+    var heading = $(e).parent().children('.panel-heading');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
+    $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
+    $(glyphIcon[0]).addClass('glyphicon-chevron-down');
+    $(e).collapse('hide');
+    $(heading).find('a.btn').hide();
 }
 

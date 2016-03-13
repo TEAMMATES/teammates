@@ -27,16 +27,18 @@
                 <shared:commentsPanel commentsForStudentsTables="${data.commentsForStudentTable}" courseId="${data.courseId}" forRecordsPage="${true}" />
                 <br>
                 <c:forEach items="${data.sessionNames}" var="fsName" varStatus="fbIndex">
-                    <div class="well well-plain student_feedback"
+                    <div class="student_feedback panel panel-default"
                          id="studentFeedback-${fbIndex.index}" 
                          onclick="loadFeedbackSession('${data.courseId}', '${data.studentEmail}', '${data.googleId}','${fsName}', this)">
-                        <div class="text-primary">
-                            <h2 id="feedback_name-${fbIndex.index}">
+                        <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-${fbIndex.index}" style="cursor: pointer;">
+                            <div class="display-icon pull-right"><span class="glyphicon pull-right glyphicon-chevron-up"></span></div>
+                            <span id="feedback_name-${fbIndex.index}">
                                 <strong>Feedback Session : ${fsName}</strong>
-                            </h2>
+                            </span>
                         </div>
                         <div class="placeholder-img-loading"></div>
-                        <div id="target-feedback-${fbIndex.index}">
+                        <div class="panel-collapse collapse in padding-15px" id="collapse-target-feedback-${fbIndex.index}">
+                            <div class="panel-body" id="target-feedback-${fbIndex.index}"></div>
                         </div>
                     </div>
                     <br>                    
