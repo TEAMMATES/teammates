@@ -9,12 +9,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     DataBundle dataBundle;    
@@ -105,7 +105,10 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         RedirectResult pageResult = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals("/page/instructorFeedbacksPage?error=true&user=idOfInstructor1OfCourse1",
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                           .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
+                           .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
+                           .toString(),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pageResult.getStatusMessage());
@@ -130,7 +133,10 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         pageResult = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals("/page/instructorFeedbacksPage?error=true&user=idOfInstructor1OfCourse1",
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                           .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
+                           .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
+                           .toString(),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
