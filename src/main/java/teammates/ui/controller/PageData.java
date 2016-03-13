@@ -485,12 +485,6 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorEditStudentFeedbackLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
     public String getInstructorCourseArchiveLink(String courseId, boolean archiveStatus, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
