@@ -180,7 +180,19 @@ this section.
   `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`
 
 **On OS-X:**
-TBD
+* Build the project in Eclipse (`Project -> Clean`).
+* Start the dev server in Eclipse.
+* Open a Terminal window, navigate to the project folder and run the `runtests.sh` in the following manner.<br>
+  `./runtests.sh GAE_SDK_Location Project_Folder_location`<br>
+  e.g. `./runtests.sh User/someuser/appengine-java-sdk-1.9.27 User/someuser/TEAMMATES`, if the path to GAE_SDK_Location is `User/someuser/appengine-java-sdk-1.9.27` and path to Project_Folder_location is `User/someuser/TEAMMATES`.<br>
+  It's recommanded to use absolute path on Mac, and you could retrieve the absolute path by navigate to that folder and type `pwd` command.<br>
+  If the file is not an executable, change its permission by: `chmod +x runtests.sh`<br>
+  This will run the full test suite once and retry the failed tests several times.
+* The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
+* To run only certain `<test>` segments of the `testng.xml`, add the `-testnames`
+  option followed by the names of the `<test>` segments you want to run.<br>e.g.
+  `./runtests.sh User/someuser/appengine-java-sdk-1.9.27 User/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`
+  
 ##Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
