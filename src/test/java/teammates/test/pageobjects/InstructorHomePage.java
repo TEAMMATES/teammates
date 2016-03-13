@@ -335,6 +335,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     private int getCourseRowId(String courseId) {
+        waitForAjaxLoaderGifToDisappear();
         int id = 0;
         while (isElementPresent(By.id("course-" + id))) {
             if (getElementText(
