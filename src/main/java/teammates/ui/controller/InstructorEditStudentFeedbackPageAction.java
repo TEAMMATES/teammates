@@ -72,6 +72,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.setModeration(true);
         data.setHeaderHidden(true);
         data.setStudentToViewPageAs(studentUnderModeration);
+        data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE);
         
         if (moderatedQuestionNumber != null) {
           data.setModeratedQuestion(moderatedQuestionNumber);

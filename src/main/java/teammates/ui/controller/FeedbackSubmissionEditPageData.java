@@ -28,6 +28,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private StudentAttributes studentToViewPageAs;
     private InstructorAttributes previewInstructor;    
     private String registerMessage; 
+    private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
     
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
@@ -99,8 +100,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
     
     public String getSubmitAction() {
-        return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE
-                              : Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+        return submitAction;
     }
     
     public String getSubmitActionQuestion() {
@@ -150,6 +150,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     public void setRegisterMessage(String registerMessage) {
         this.registerMessage = registerMessage;
+    }
+    
+    public void setSubmitAction(String submitAction) {
+        this.submitAction = submitAction;
     }
 
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {

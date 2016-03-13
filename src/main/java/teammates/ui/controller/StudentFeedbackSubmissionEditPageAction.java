@@ -111,6 +111,8 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
+        data.setSubmitAction(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE);
+        
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }
 
