@@ -315,7 +315,7 @@
               </div>
               <div class="row">
                 <div class="col-xs-6">
-                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="30/04/2016">
+                  <input class="form-control col-sm-2 hasDatepicker" disabled="" id="enddate" name="enddate" placeholder="Date" type="text" value="30/04/2026">
                 </div>
                 <div class="col-xs-6">
                   <select class="form-control" disabled="" id="endtime" name="endtime">
@@ -579,7 +579,7 @@
                   <input checked="checked" disabled="" id="resultsVisibleFromButton_custom" name="resultsVisibleFromButton" type="radio" value="custom">
                 </h5>
                 <div class="col-xs-5">
-                  <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="01/05/2016">
+                  <input class="form-control hasDatepicker" disabled="" id="publishdate" name="publishdate" type="text" value="01/05/2026">
                 </div>
                 <div class="col-xs-5">
                   <select class="form-control" data-original-title="Select this option to enter in a custom date and time for which</br>the responses for this feedback session will become visible." data-placement="top" data-toggle="tooltip" disabled="" id="publishtime" name="publishtime" title="">
@@ -743,7 +743,7 @@
   <div aria-hidden="false" aria-labelledby="fsCopyModal" class="modal fade in" id="fsCopyModal" role="dialog" style="display: block;" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+        <form action="/page/instructorFeedbackEditCopy" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -790,9 +790,10 @@
                   </span>
                 </label>
               </div>
+              <div id="feedback-copy-modal-status">
+              </div>
               <input name="courseid" type="hidden" value="FeedbackEditCopy.CS2104">
               <input name="fsname" type="hidden" value="First Session">
-              <input name="currentPage" type="hidden" value="/page/instructorFeedbackEditPage?user=FeedbackEditCopyinstructor&courseid=FeedbackEditCopy.CS2104&fsname=First+Session">
             </div>
           </div>
           <div class="modal-footer">
