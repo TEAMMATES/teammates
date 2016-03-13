@@ -451,6 +451,12 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopySuccess.html");
         
+        ______TS("Success case: copy successfully a previous session with trimmed name");
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        feedbackPage.copyFeedbackSession(" New Session Trimmed (Copied) ", newSession.courseId);
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        // Check that we are redirected to the edit page.
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopyTrimmedSuccess.html");
         
         ______TS("Failure case: copy fail since the feedback session name is the same with existing one");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);

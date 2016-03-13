@@ -27,11 +27,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -215,6 +217,45 @@ public abstract class AppPage {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
+    /**
+     * Waits for a list of elements to be invisible or not present, or timeout.
+     */
+    public void waitForElementsToDisappear(List<WebElement> elements) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(invisibilityOfAllElements(elements));
+    }
+    
+    /**
+     * Code adapted from SeleniumHQ's GitHub page.
+     * TODO to be removed when Selenium is upgraded to the version supporting this method.
+     *
+     * An expectation for checking all elements from given list to be invisible
+     *
+     * @param elements used to check their invisibility
+     * @return Boolean true when all elements are not visible anymore
+     */
+    private ExpectedCondition<Boolean> invisibilityOfAllElements(final List<WebElement> elements) {
+        return new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver webDriver) {
+                for (WebElement element : elements) {
+                    try {
+                        if (element.isDisplayed()) {
+                            return false;
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public String toString() {
+                return "invisibility of all elements " + elements;
+            }
+        };
+    }
+
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */

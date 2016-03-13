@@ -491,10 +491,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverRecipientQuestion();
         assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
         resultsPage.clickInstructorPanelCollapseStudentsButton();
+        resultsPage.waitForInstructorPanelStudentPanelsToCollapse();
         assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
-        
-        int numOfPanels = resultsPage.getNumOfPanelsInInstructorPanel();
-        resultsPage.verifyParticipantPanelIsCollapsed(4, (numOfPanels * 50));
+        resultsPage.verifySpecifiedPanelIdsAreCollapsed(new int[] { 3, 4, 5 });
 
         resultsPage.clickGroupByTeam();
         resultsPage.displayByQuestion();

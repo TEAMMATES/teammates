@@ -23,7 +23,8 @@
    title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
    data-toggle="tooltip"
    data-placement="top"
-   onclick="return toggleDeleteFeedbackSessionConfirmation(${actions.toggleDeleteFeedbackSessionParams});"
+   <c:if test="${actions.allowedToDelete}">onclick="return toggleDeleteFeedbackSessionConfirmation(${actions.toggleDeleteFeedbackSessionParams});"</c:if>
+   <c:if test="${not actions.allowedToDelete}">onclick="return false"</c:if>
    <c:if test="${not actions.allowedToDelete}">disabled="disabled"</c:if>>
     Delete
 </a>
@@ -43,9 +44,9 @@
      data-toggle="tooltip"
      data-placement="top"
      style="display: inline-block; padding-right: 5px;">
-    <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px<c:if test="${not actions.hasSubmit}"> disabled</c:if>"
+    <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px"
        href="${actions.submitLink}"
-       <c:if test="${not actions.hasSubmit}">onclick="return false"</c:if>
+       <c:if test="${not actions.allowedToSubmit}">onclick="return false"</c:if>
        <c:if test="${not actions.allowedToSubmit}">disabled="disabled"</c:if>>
         Submit
     </a>
@@ -56,7 +57,7 @@
          data-placement="top"
          style="display: inline-block; padding-right: 5px;">
         <div class="btn-group margin-bottom-7px">
-            <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test<c:if test="${not actions.allowedToRemind}"> disabled</c:if>"
+            <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"
                href="${actions.remindLink}"
                <c:if test="${actions.allowedToRemind}">onclick="return toggleRemindStudents(${actions.toggleRemindStudentsParams});"</c:if>
                <c:if test="${not actions.allowedToRemind}">onclick="return false"</c:if>
@@ -74,7 +75,7 @@
                 <li>
                     <a href="${actions.remindLink}"
                        class="session-remind-inner-for-test"
-                       <c:if test="${actions.hasRemind}">onclick="return toggleRemindStudents(${actions.toggleRemindStudentsParams});"</c:if>
+                       <c:if test="${actions.allowedToRemind}">onclick="return toggleRemindStudents(${actions.toggleRemindStudentsParams});"</c:if>
                        <c:if test="${not actions.allowedToRemind}">disabled="disabled"</c:if>>
                         Remind all students
                     </a>
