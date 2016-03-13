@@ -24,7 +24,7 @@ var ajaxRequest = function(e) {
             if (oldStatus) {
                 msg = oldStatus.text() + '<br>' + msg;
             }
-            setStatusMessage(msg, true);
+            util.setStatusMessage(msg, true);
         },
         success: function(data) {
             $(DIV_STATUS_MESSAGE).replaceWith(oldStatus);

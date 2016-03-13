@@ -70,7 +70,7 @@ function disableFormEditInstructor(number) {
 function showNewInstructorForm() {
     $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
-    scrollToElement($('#panelAddInstructor')[0], {duration: 1000});
+    util.scrollToElement($('#panelAddInstructor')[0], {duration: 1000});
 }
 
 function hideNewInstructorForm() {

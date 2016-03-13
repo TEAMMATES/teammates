@@ -53,11 +53,11 @@ $(document).ready(function() {
     $('#'+idOfOtherOptionRadioButton).val($(this).val());
     });
     
-    disallowNonNumericEntries($('input[type=number]'), true, true);
+    util.disallowNonNumericEntries($('input[type=number]'), true, true);
 
     $('input.pointsBox').off('keydown');
 
-    disallowNonNumericEntries($('input.pointsBox'), false, false);
+    util.disallowNonNumericEntries($('input.pointsBox'), false, false);
 
     prepareContribQuestions();
 
@@ -109,7 +109,7 @@ function updateMsqOtherOptionField() {
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
     if ($('.moderated-question').length > 0) {
-        scrollToElement($('.moderated-question')[0], {duration: 1000});
+        util.scrollToElement($('.moderated-question')[0], {duration: 1000});
     }
 }
 
@@ -551,7 +551,7 @@ function updateConstSumMessageQn(qnNum) {
     }
 
     function updateSumBasedOn(pointsAllocated) {
-        if (!isNumber(pointsAllocated)) {
+        if (!util.isNumber(pointsAllocated)) {
             pointsAllocated = 0;
         } else {
             allNotNumbers = false;
@@ -625,7 +625,7 @@ function validateConstSumQuestions() {
         statusMessage += '. ';
         statusMessage += 'To skip a distribution question, leave the boxes blank.';
 
-        setStatusMessage(statusMessage, true);
+        util.setStatusMessage(statusMessage, true);
         return false;
     }
 
@@ -644,7 +644,7 @@ function formatRecipientLists() {
             var selectedOption = $(this).find('option:selected').val();
 
             if (selectedOption !== '') {
-                selectedOption = sanitizeForJs(selectedOption);
+                selectedOption = util.sanitizeForJs(selectedOption);
                 $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
                     .not(this)
                     // leave this in double quotes and single within, will fail otherwise
@@ -669,7 +669,7 @@ function formatRecipientLists() {
         }
 
         if (curSelectedOption !== '') {
-            curSelectedOption = sanitizeForJs(curSelectedOption);
+            curSelectedOption = util.sanitizeForJs(curSelectedOption);
             $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
                 .not(this)
                 // leave this in double quotes and single within, will fail otherwise
@@ -757,7 +757,7 @@ function validateAllAnswersHaveRecipient() {
     }
 
     if (!isAllAnswersToMissingRecipientEmpty) {
-        setStatusMessage(statusMessage + '.', true);
+        util.setStatusMessage(statusMessage + '.', true);
     }
 
     return isAllAnswersToMissingRecipientEmpty;
@@ -825,7 +825,7 @@ function validateRankQuestions() {
         statusMessage += '. ';
         statusMessage += 'To skip a rank question, leave all the boxes blank.';
 
-        setStatusMessage(statusMessage, true);
+        util.setStatusMessage(statusMessage, true);
         return false;
     }
 
@@ -875,7 +875,7 @@ function updateRankMessageQn(qnNum) {
     }
 
     function updateAllocatedRanks(rankAllocated) {
-        if (!isNumber(rankAllocated)) {
+        if (!util.isNumber(rankAllocated)) {
             isAllOptionsRanked = false;
             return;
         }
