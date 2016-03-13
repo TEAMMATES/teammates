@@ -42,7 +42,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         
         FeedbackSessionAttributes fs = null;
         try {
-            fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
+            fs = logic.copyFeedbackSession(copiedFeedbackSessionName.trim(),
                                            copiedCourseId,
                                            feedbackSessionName,
                                            courseId,

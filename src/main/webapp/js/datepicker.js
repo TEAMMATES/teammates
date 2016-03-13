@@ -1,7 +1,9 @@
 $(document).ready(function(){
 	var today = new Date();
-	var yesterday = today.setDate(today.getDate() - 1);
-	var tomorrow = today.setDate(today.getDate() + 1);
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
 	
 	$("#start").datepicker({
     	dateFormat: "dd/mm/yy",

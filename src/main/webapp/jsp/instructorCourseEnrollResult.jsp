@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 
@@ -21,7 +22,7 @@
         <form name='goBack' action="${data.instructorCourseEnrollLink}" method="post" role="form"> 
             Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to do further changes to the student list.
             <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
-            <input type="hidden" name="${STUDENTS_ENROLLMENT_INFO}" value="${data.enrollStudents}">
+            <input type="hidden" name="${STUDENTS_ENROLLMENT_INFO}" value="${fn:escapeXml(data.enrollStudents)}">
         </form>
     </div>
     

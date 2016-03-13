@@ -9,15 +9,13 @@ public class InstructorFeedbackEditCopyPageData extends PageData {
     private List<CourseAttributes> courses;
     private String courseId;
     private String fsName;
-    private String currentPage;
     
     public InstructorFeedbackEditCopyPageData(AccountAttributes account, List<CourseAttributes> courses,
-                                              String courseId, String fsName, String currentPage) {
+                                              String courseId, String fsName) {
         super(account);
         this.courses = courses;
         this.courseId = courseId;
         this.fsName = fsName;
-        this.currentPage = currentPage;
     }
 
     public List<CourseAttributes> getCourses() {
@@ -30,9 +28,5 @@ public class InstructorFeedbackEditCopyPageData extends PageData {
 
     public String getFsName() {
         return fsName;
-    }
-    
-    public String getCurrentPage() {
-        return currentPage;
     }
 }

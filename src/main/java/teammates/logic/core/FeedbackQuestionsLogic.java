@@ -586,7 +586,7 @@ public class FeedbackQuestionsLogic {
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber += 1;
                 try {
-                    updateFeedbackQuestion(question);
+                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
@@ -598,7 +598,7 @@ public class FeedbackQuestionsLogic {
                 FeedbackQuestionAttributes question = questions.get(i-1);
                 question.questionNumber -= 1;
                 try {
-                    updateFeedbackQuestion(question);
+                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
@@ -607,31 +607,41 @@ public class FeedbackQuestionsLogic {
             }
         }
     }
-    
+
     /**
-     * Updates the feedback session identified by {@code newAttributes.getId()}.
-     * For the remaining parameters, the existing value is preserved 
-     *   if the parameter is null (due to 'keep existing' policy).<br> 
-     * Existing responses for the question are automatically deleted if giverType/recipientType
-     * are changed, or if the response visibility is increased.
-     * Preconditions: <br>
-     * * {@code newAttributes} is non-null and it's ID corresponds to an 
-     * existing feedback question. <br>
+     * Updates the feedback question. For each attribute in
+     * {@code newAttributes}, the existing value is preserved if the attribute
+     * is null (due to 'keep existing' policy). Existing responses for the
+     * question are automatically deleted if giverType/recipientType are
+     * changed, or if the response visibility is increased. However, the
+     * response rate of the feedback session is not updated.<br>
+     * Precondition: <br>
+     * {@code newAttributes} is not {@code null}
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
+    private void updateFeedbackQuestionWithoutResponseRateUpdate(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         updateFeedbackQuestion(newAttributes, false);
     }
 
-    public void updateFeedbackQuestionWithResponseRateCheck(FeedbackQuestionAttributes newAttributes)
+    /**
+     * Updates the feedback question. For each attribute in
+     * {@code newAttributes}, the existing value is preserved if the attribute
+     * is null (due to 'keep existing' policy). Existing responses for the
+     * question are automatically deleted and the response rate of the feedback
+     * session is updated if giverType/recipientType are changed, or if the
+     * response visibility is increased.<br>
+     * Precondition: <br>
+     * {@code newAttributes} is not {@code null}
+     */
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         updateFeedbackQuestion(newAttributes, true);
     }
 
 
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateCheck)
+    private void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean hasResponseRateUpdate)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackQuestionAttributes oldQuestion = null;
         if (newAttributes.getId() == null) {
@@ -647,7 +657,7 @@ public class FeedbackQuestionsLogic {
         }
         
         if(oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateCheck);
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId(), hasResponseRateUpdate);
         }
         
         oldQuestion.updateValues(newAttributes);
@@ -661,18 +671,20 @@ public class FeedbackQuestionsLogic {
                 getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         
         for(FeedbackQuestionAttributes question : questions) {
-            deleteFeedbackQuestionCascade(question.getId());
+            deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(question.getId());
         }
         
     }
     
     /**
-     * Deletes a question by it's auto-generated ID. <br>
-     * Cascade the deletion of all existing responses for the question and then 
-     * shifts larger question numbers down by one to preserve number order.
+     * Deletes a question by its auto-generated ID. <br>
+     * Cascade the deletion of all existing responses for the question and then
+     * shifts larger question numbers down by one to preserve number order. The
+     * response rate of the feedback session is not updated.
+     * 
      * @param feedbackQuestionId
      */
-    public void deleteFeedbackQuestionCascade(String feedbackQuestionId){
+    private void deleteFeedbackQuestionCascadeWithoutResponseRateUpdate(String feedbackQuestionId){
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
@@ -686,7 +698,15 @@ public class FeedbackQuestionsLogic {
         
     }
 
-    public void deleteFeedbackQuestionCascadeWithResponseRateCheck(String feedbackQuestionId){
+    /**
+     * Deletes a question by its auto-generated ID. <br>
+     * Cascade the deletion of all existing responses for the question and then
+     * shifts larger question numbers down by one to preserve number order. The
+     * response rate of the feedback session is updated accordingly.
+     * 
+     * @param feedbackQuestionId
+     */
+    public void deleteFeedbackQuestionCascade(String feedbackQuestionId){
         FeedbackQuestionAttributes questionToDeleteById = 
                         getFeedbackQuestion(feedbackQuestionId);
         
@@ -717,8 +737,8 @@ public class FeedbackQuestionsLogic {
      * Cascade the deletion of all existing responses for the question and then 
      * shifts larger question numbers down by one to preserve number order.
      */
-    public void deleteFeedbackQuestionCascade(
-            String feedbackSessionName, String courseId, int questionNumber, boolean hasResponseRateCheck) {
+    private void deleteFeedbackQuestionCascade(
+            String feedbackSessionName, String courseId, int questionNumber, boolean hasResponseRateUpdate) {
         
         FeedbackQuestionAttributes questionToDelete =
                 getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
@@ -727,7 +747,7 @@ public class FeedbackQuestionsLogic {
             return; // Silently fail if question does not exist.
         } else {
             // Cascade delete responses for question.
-            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateCheck);
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId(), hasResponseRateUpdate);
         }
         
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;
@@ -751,7 +771,7 @@ public class FeedbackQuestionsLogic {
             if(question.questionNumber > questionNumberToShiftFrom){
                 question.questionNumber -= 1;
                 try {
-                    updateFeedbackQuestion(question);
+                    updateFeedbackQuestionWithoutResponseRateUpdate(question);
                 } catch (InvalidParametersException e) {
                     Assumption.fail("Invalid question.");
                 } catch (EntityDoesNotExistException e) {
