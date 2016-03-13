@@ -266,17 +266,15 @@ public class AdminSearchPageAction extends Action {
         if(instructorList == null || instructorList.isEmpty()){
             return googleId;
         }
-        
-        for(InstructorAttributes instructor : instructorList){
-          
-            if(instructor.googleId != null){
-               googleId = instructor.googleId;
-               if(instructor.isAllowedForPrivilege(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)){            
-                   break;
-               } 
-            }            
+
+        for (InstructorAttributes instructor : instructorList) {
+
+            if (instructor.isRegistered() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+                googleId = instructor.googleId;
+                break;
+            }
         }
-        
+
         tempCourseIdToInstructorGoogleIdMap.put(courseId, googleId);
         
         return googleId; 
