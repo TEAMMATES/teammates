@@ -54,8 +54,6 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.recipientEmail = recipientEmail;
         this.recipientSection = recipientSection;
         this.responseMetaData = responseMetaData;
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
     }
 
     public FeedbackResponseAttributes(FeedbackResponse fr) {
