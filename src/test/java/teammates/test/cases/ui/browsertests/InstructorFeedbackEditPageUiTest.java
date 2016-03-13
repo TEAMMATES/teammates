@@ -58,7 +58,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         editedSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
         editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
         editedSession.instructions = new Text("Please fill in the edited feedback session.");
-        editedSession.endTime = TimeHelper.convertToDate("2016-05-01 10:00 PM UTC");
+        editedSession.endTime = TimeHelper.convertToDate("2026-05-01 10:00 PM UTC");
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").id;
@@ -513,6 +513,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("question for me");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
+        
 
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
@@ -526,7 +527,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
-        
+        feedbackEditPage.clickNewQuestionButton();
+        assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        feedbackEditPage.fillQuestionBox("question for students to instructors");
+        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectRecipientsToBeInstructors();
+        feedbackEditPage.clickAddQuestionButton();
+
         ______TS("preview as student");
 
         FeedbackSubmitPage previewPage;
