@@ -328,7 +328,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.deleteStudent(s.course, s.email);
 
       //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
-      //       Reason: Difficult to reproduce a persistence delay during testing  
+      //       Reason: Difficult to reproduce a persistence delay during testing
     }
     
     private StudentAttributes createNewStudent() throws InvalidParametersException {
