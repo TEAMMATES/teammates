@@ -83,8 +83,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
         
-        Calendar currentDate = TimeHelper.now(0);
-        String dateAsString = TimeHelper.formatDate(currentDate.getTime());
+        String dateAsString = TimeHelper.formatDate(TimeHelper.getNextHour());
         
         assertEquals(dateAsString, formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
