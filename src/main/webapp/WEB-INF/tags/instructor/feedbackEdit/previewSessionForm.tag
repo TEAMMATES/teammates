@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbacks - feedback sessions preview form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ attribute name="previewForm" type="teammates.ui.template.FeedbackSessionPreviewForm" required="true"%>
@@ -20,7 +21,7 @@
                     <select class="form-control margin-bottom-7px" name="<%= Const.ParamsNames.PREVIEWAS %>">
                         <c:forEach items="${previewForm.studentToPreviewAsOptions}" var="option">
                             <option ${option.attributesToString}>
-                                ${option.content}
+                                ${fn:escapeXml(option.content)}
                             </option>
                         </c:forEach>
                     </select>
