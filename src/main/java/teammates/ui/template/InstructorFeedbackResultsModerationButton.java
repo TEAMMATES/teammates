@@ -56,6 +56,10 @@ public class InstructorFeedbackResultsModerationButton {
         return buttonText;
     }
     
+    /**
+     * Retrieves the link to moderate the feedback.
+     * @return the link to the feedback edit page
+     */
     public String getModerateFeedbackLink() {
         return moderateFeedbackLink;
     }

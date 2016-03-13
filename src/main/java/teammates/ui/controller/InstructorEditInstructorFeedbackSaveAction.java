@@ -15,9 +15,16 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * The {@code InstructorEditInstructorFeedbackSaveAction} class handles incoming requests to 
+ * save the data after moderating the instructor.
+ */
 public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     InstructorAttributes moderatedInstructor;
     
+    /**
+     * Verifies if the user is allowed to carry out the action.
+     */
     @Override
     protected void verifyAccesibleForSpecificUser() {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -29,6 +36,9 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
     
+    /**
+     * Retrieves any additional parameters from request and set them accordingly.
+     */
     @Override
     protected void setAdditionalParameters() {
         String moderatedInstructorEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_INSTRUCTOR);
@@ -37,6 +47,9 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         moderatedInstructor = logic.getInstructorForEmail(courseId, moderatedInstructorEmail);
     }
     
+    /**
+     * Checks if the instructor only submitted responses that he/she should be submitting.
+     */
     @Override
     protected void checkAdditionalConstraints() {
         // check the instructor did not submit responses to questions that he/she should not be able when moderating
@@ -76,7 +89,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
             }
         }
     }
-    
+
     @Override
     protected void appendRespondant() {
         try {
@@ -95,21 +108,38 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         }
     }
 
+    /**
+     * Retrieves the email of the user for the course.
+     * @return the email of the user
+     */
     @Override
     protected String getUserEmailForCourse() {
         return moderatedInstructor.email;
     }
     
+    /**
+     * Retrieves the user's team.
+     * @return the name of the user's team
+     */
     @Override
     protected String getUserTeamForCourse() {
         return Const.USER_TEAM_FOR_INSTRUCTOR;
     }
     
+    /**
+     * Retrieves the user's section for the course.
+     * @return the name of the user's section
+     */
     @Override
     protected String getUserSectionForCourse() {
         return Const.DEFAULT_SECTION;
     }
 
+    /**
+     * Gets data bundle for the course specified.
+     * @param userEmailForCourse the email of the user
+     * @return FeedbackSessionQuestionsBundle object
+     */
     @Override
     protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
             throws EntityDoesNotExistException {
@@ -117,6 +147,9 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
                 feedbackSessionName, courseId, userEmailForCourse);
     }
 
+    /**
+     * Sets the message to log.
+     */
     @Override
     protected void setStatusToAdmin() {
         statusToAdmin = "Instructor moderated instructor session<br>" +
@@ -126,12 +159,21 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
                         "Course ID: " + courseId;
     }
 
+    /**
+     * Checks if the session is still open. However, since the instructor is moderating the session,
+     * they can moderate it anytime. Therefore, it will be true forever.
+     * @return true
+     */
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
         // Feedback session closing date does not matter. Instructors can moderate at any time
         return true; 
     }
 
+    /**
+     * Creates the page to redirect.
+     * @return RedirectResult object
+     */
     @Override
     protected RedirectResult createSpecificRedirectResult() {
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE);

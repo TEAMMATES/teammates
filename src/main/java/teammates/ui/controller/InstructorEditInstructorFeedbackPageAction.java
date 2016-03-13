@@ -13,6 +13,10 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * The {@code InstructorEditInstructorFeedbackPageAction} class handles incoming requests to the page.
+ * {@code FeedbackSubmissionEditPageData} will be generated and the page requested will be loaded.
+ */
 public class InstructorEditInstructorFeedbackPageAction extends Action {
 
     @Override
