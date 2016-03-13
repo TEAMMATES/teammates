@@ -103,13 +103,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage.createInstructorByInstructorDetailsSingleLineForm(instructorDetails);
         assertEquals(String.format(Const.StatusMessages.INSTRUCTOR_DETAILS_LENGTH_INVALID, Const.LENGTH_FOR_NAME_EMAIL_INSTITUTION), 
                      homePage.getMessageFromResultTable(1)); 
-        
-        String encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
-        // use AppUrl from Config because the join link takes its base URL from build.properties
-        String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                        .withRegistrationKey(encryptedKey)
-                                        .withInstructorInstitution(institute)
-                                        .toAbsoluteString();
+       
         assertEquals("Instructor AHPUiT Instrúctör created (join link)",
                      homePage.getMessageFromResultTable(2));
         homePage.createInstructorByInstructorDetailsSingleLineForm(""); // to clear the first form
@@ -122,13 +116,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         homePage.createInstructor(shortName,instructor,institute);
         
-        encryptedKey = StringHelper.encrypt(BackDoor.getKeyForInstructor(demoCourseId, instructor.email));
-        // use AppUrl from Config because the join link takes its base URL from build.properties
-        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                        .withRegistrationKey(encryptedKey)
-                                        .withInstructorInstitution(institute)
-                                        .toAbsoluteString();
-       
         assertEquals("Instructor AHPUiT Instrúctör created (join link)",
                      homePage.getMessageFromResultTable(1));
         
