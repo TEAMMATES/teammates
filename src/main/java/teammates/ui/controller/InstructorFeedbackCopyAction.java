@@ -34,7 +34,8 @@ public class InstructorFeedbackCopyAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
-            FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
+
+            FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName.trim(),
                                                                      copiedCourseId,
                                                                      feedbackSessionName,
                                                                      courseId,
