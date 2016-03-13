@@ -1493,6 +1493,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorFeedbackResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
                                                                             String giverIdentifier, String className,
                                                                             String buttonText) {
+        
         boolean isGiverInstructorOfCourse = bundle.roster.isInstructorOfCourse(giverIdentifier);
         boolean isGiverVisibleStudentOrTeam = isTeamVisible(giverIdentifier)
                                               || bundle.roster.isStudentInCourse(giverIdentifier);
@@ -1505,11 +1506,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                          getFeedbackSessionName(), 
                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isDisabled = !isAllowedToModerate;
+        boolean isGiverInstructor = question.giverType == FeedbackParticipantType.INSTRUCTORS;
+        String moderateFeedbackLink = isGiverInstructor ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
+                                                        : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+        
         
         InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                             isDisabled, className,
                                                                             giverIdentifier, getCourseId(), 
-                                                                            getFeedbackSessionName(), question, buttonText);
+                                                                            getFeedbackSessionName(), question, buttonText, moderateFeedbackLink);
         return moderationButton;
    }
     
@@ -1687,13 +1692,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
             boolean isAllowedToModerate = instructor.isAllowedForPrivilege(
                                                sectionName, feedbackSessionName, 
                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            String moderateFeedbackLink = isStudent ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
+                                                            : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
             
             InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                                 !isAllowedToModerate, "btn btn-default btn-xs", 
                                                                                 giverIdentifier, 
                                                                                 bundle.feedbackSession.courseId, 
                                                                                 bundle.feedbackSession.feedbackSessionName, 
-                                                                                null, "Submit Responses");
+                                                                                null, "Submit Responses", moderateFeedbackLink);
             moderationButtons.put(giverIdentifier, moderationButton);
             
         }
