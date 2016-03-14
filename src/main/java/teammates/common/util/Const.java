@@ -871,8 +871,8 @@ public class Const {
         
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
         public static final String STUDENT_FIRST_TIME = "<div class=\"align-center\">"
-                                        + "<div style=\"margin-right: auto; margin-left: auto; \""
-                                        + " class=' text-color-red text-bold'>Oops! Your "
+                                        + "<div style=\"margin-right: auto; margin-left: auto;\""
+                                        + " class=\"text-color-red text-bold\">Oops! Your "
                                         + "Google account is not known to TEAMMATES." 
                                         + "</div>"
                                         + "</div>"
