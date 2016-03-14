@@ -91,10 +91,6 @@ function checkComment(form) {
     }
 }
 
-function isBlank(str) {
-    return (!str || /^\s*$/.test(str));
-}
-
 /**
  * Show the comment box, focus comment text area and hide "Add Comment link"
  */

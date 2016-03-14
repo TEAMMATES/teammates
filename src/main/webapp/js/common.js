@@ -162,15 +162,17 @@ function isTouchDevice() {
  * Sorts a table
  * @param divElement
  *     The sort button
- * @param colIdx
- *     The column index (1-based) as key for the sort
- * @param row
- *     Row to start sorting from.
- *     The column index (0-based) e.g. use 2 if <th> has 2 rows so that the headers are not sorted.
+ * @param comparator
+ *     The function to compare 2 elements
  */
-function toggleSort(divElement, colIdx, comparator, row) {
-    row = row || 1;
-    
+function toggleSort(divElement, comparator) {
+
+    // The column index (1-based) as key for the sort
+    var colIdx = $(divElement).parent().children().index($(divElement)) + 1;
+
+    // Row to start sorting from (0-based), set to 1 since <th> occupies the first row
+    var row = 1;
+
     var $selectedDivElement = $(divElement);
     
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
@@ -740,6 +742,20 @@ function sanitizeForJs(string) {
     return string;
 }
 
+
+/**
+ * Highlights all words of searchKey (case insensitive), in a particular section
+ * Format of the string  higlight plugin uses - ( ['string1','string2',...] )
+ * @param searchKeyId - Id of searchKey input field 
+ * @param sectionToHighlight - sections to higlight separated by ',' (comma) 
+ *                             Example- '.panel-body, #panel-data, .sub-container'
+ */
+function highlightSearchResult(searchKeyId, sectionToHighlight) {
+    var searchKey = $(searchKeyId).val();
+    var splitSearchKey = searchKey.split(' ');
+    $(sectionToHighlight).highlight(splitSearchKey);
+}
+
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
  * the function.
@@ -749,4 +765,17 @@ if (!String.prototype.includes) {
         'use strict';
         return String.prototype.indexOf.apply(this, arguments) !== -1;
     }
+}
+
+/**
+ * Checks if the input value is a blank string
+ * 
+ * @param str
+ * @returns true if the input is a blank string, false otherwise
+ */
+function isBlank(str) {
+    if (typeof str !== 'string' && !(str instanceof String)) {
+        return false;
+    }
+    return str.trim() === '';
 }

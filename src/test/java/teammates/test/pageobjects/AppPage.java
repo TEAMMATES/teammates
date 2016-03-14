@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,11 +27,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -215,6 +218,45 @@ public abstract class AppPage {
     }
     
     /**
+     * Waits for a list of elements to be invisible or not present, or timeout.
+     */
+    public void waitForElementsToDisappear(List<WebElement> elements) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(invisibilityOfAllElements(elements));
+    }
+    
+    /**
+     * Code adapted from SeleniumHQ's GitHub page.
+     * TODO to be removed when Selenium is upgraded to the version supporting this method.
+     *
+     * An expectation for checking all elements from given list to be invisible
+     *
+     * @param elements used to check their invisibility
+     * @return Boolean true when all elements are not visible anymore
+     */
+    private ExpectedCondition<Boolean> invisibilityOfAllElements(final List<WebElement> elements) {
+        return new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver webDriver) {
+                for (WebElement element : elements) {
+                    try {
+                        if (element.isDisplayed()) {
+                            return false;
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public String toString() {
+                return "invisibility of all elements " + elements;
+            }
+        };
+    }
+
+    /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
     public void waitForElementPresence(By by){
@@ -245,25 +287,13 @@ public abstract class AppPage {
      * Switches to the new browser window just opened.
      */
     protected void switchToNewWindow() {
-        String curWin = browser.driver.getWindowHandle();
-        for (String handle : browser.driver.getWindowHandles()) {
-            if (handle.equals(curWin))
-                continue;
-            browser.selenium.selectWindow(handle);
-            browser.selenium.windowFocus();
-        }
+        browser.switchToNewWindow();
     }
     
     public void closeCurrentWindowAndSwitchToParentWindow() {
-        browser.selenium.close();
-        switchToParentWindow();
+        browser.closeCurrentWindowAndSwitchToParentWindow();
     }
     
-    public void switchToParentWindow() {
-        browser.selenium.selectWindow("null");
-        browser.selenium.windowFocus();
-    }
-
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
         waitForPageToLoad();
@@ -518,7 +548,7 @@ public abstract class AppPage {
      * from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
-        return browser.selenium.getTable("css=table[class~='table']." + row + "." + column);
+        return getCellValueFromDataTable(0, row, column);
     }
     
     /** 
@@ -735,10 +765,10 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
-        return verifyHtml(null, filePath, false);
+        return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath, boolean isAfterAjaxLoad) throws IOException {
+    private AppPage verifyHtml(By by, String filePath) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
         if (filePath.startsWith("/")) {
@@ -747,20 +777,26 @@ public abstract class AppPage {
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
+            int maxRetryCount = 5;
+            int waitDuration = 1000;
             String expected = FileHelper.readFile(filePath);
             expected = HtmlHelper.injectTestProperties(expected);
-            if (isAfterAjaxLoad) {
-                int maxRetryCount = 5;
-                int waitDuration = 1000;
-                for (int i = 0; i < maxRetryCount; i++) {
-                    if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
-                        break;
-                    }
-                    ThreadHelper.waitFor(waitDuration);
-                    actual = getPageSource(by);
+            
+            // The check is done multiple times with waiting times in between to account for
+            // certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
+            for (int i = 0; i < maxRetryCount; i++) {
+                if (i == maxRetryCount - 1) {
+                    // Last retry count: do one last attempt and if it still fails,
+                    // throw assertion error and show the differences
+                    HtmlHelper.assertSameHtml(expected, actual, isPart);
+                    break;
                 }
+                if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
+                    break;
+                }
+                ThreadHelper.waitFor(waitDuration);
+                actual = getPageSource(by);
             }
-            HtmlHelper.assertSameHtml(expected, actual, isPart);
             
         } catch (IOException|AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
@@ -809,7 +845,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) throws IOException {
-        return verifyHtml(by, filePath, false);
+        return verifyHtml(by, filePath);
     }
     
     /**
@@ -825,35 +861,6 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
     
-    /**
-     * Verifies that main content specified id "mainContent" in currently 
-     * loaded page has the same HTML content as 
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * Since the verification is done after making AJAX request(s), the HTML is checked
-     * after "waitDuration", for "maxRetryCount" number of times.
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlAjaxMainContent(String filePath) throws IOException {
-        return verifyHtml(MAIN_CONTENT, filePath, true);
-    }
-
-    /**
-     * Verifies that the currently loaded page has the same HTML content as 
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * Since the verification is done after making AJAX request(s), the HTML is checked
-     * after "waitDuration", for "maxRetryCount" number of times.
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlAjax(String filePath) throws IOException {
-        return verifyHtml(null, filePath, true);
-    }
-
     /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
@@ -975,6 +982,18 @@ public abstract class AppPage {
     public void verifyFieldValue (String fieldId, String expectedValue) {
         assertEquals(expectedValue,
                 browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
+    }
+    
+    /**
+     * Verifies that the page source does not contain the given searchString.
+     * 
+     * @param searchString the substring that we want to omit from the page source
+     * @return the AppPage
+     */
+    public AppPage verifyNotContain(String searchString) {
+        String pageSource = getPageSource();
+        assertFalse(pageSource.contains(searchString));
+        return this;
     }
         
     @SuppressWarnings("unused")

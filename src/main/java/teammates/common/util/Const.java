@@ -372,8 +372,6 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
-        public static final String CURRENT_PAGE = "currentPage";
-        
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
@@ -843,7 +841,7 @@ public class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp"; 
         
-        public static final String MASHUP = "/dev/mashup.jsp";
+        public static final String MASHUP = "/mashup.jsp";
     
         //View fragments
         public static final String INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
@@ -862,6 +860,8 @@ public class Const {
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
+        public static final String EMAIL_NOT_FOUND = "The requested email was not found";
+        public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
         
         public static final String RECEIVER_LIST_FILE_TOO_LARGE = "The uploaded receiver list file was too large. ";
         public static final String NOT_A_RECEIVER_LIST_FILE = "The file that you have uploaded is not a receiver list file. ";
@@ -953,6 +953,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS = "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
+        public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS = "The feedback session has been deleted and is no longer accessible.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.";
@@ -1186,6 +1187,7 @@ public class Const {
     public static final String GENERAL_QUESTION = "%GENERAL%";
     public static final String USER_IS_TEAM = "%TEAM%";
     public static final String USER_IS_NOBODY = "%NOBODY%";
+    public static final String USER_IS_MISSING = "%MISSING%";
     
     public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
     public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;

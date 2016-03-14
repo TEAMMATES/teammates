@@ -97,11 +97,6 @@
                                 </a>
                             </div>
                         </c:when>
-                        <c:when test="${filterPanel.collapsed}">
-                            <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Expand all panels. You can also click on the panel heading to toggle each one individually.">
-                                Expand ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
-                            </a>
-                        </c:when>
                         <c:otherwise>
                             <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse all panels. You can also click on the panel heading to toggle each one individually.">
                                 Collapse ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}

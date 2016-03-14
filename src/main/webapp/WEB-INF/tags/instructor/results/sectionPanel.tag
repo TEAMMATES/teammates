@@ -9,7 +9,6 @@
 <%@ attribute name="isShowingAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="sectionIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="teamIndexOffset" type="java.lang.Integer" required="true" %>
-<%@ attribute name="isPanelsCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isGroupedByQuestion" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="sectionPanel" type="teammates.ui.template.InstructorFeedbackResultsSectionPanel" required="true" %>
 <%@ attribute name="courseId" required="true" %>
@@ -26,8 +25,8 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title='Collapse or expand all ${isGroupedByTeam? "team" : "student"} panels. You can also click on the panel heading to toggle each one individually.'>
-                                ${isPanelsCollapsed ? "Expand " : "Collapse "}${isGroupedByTeam ? "Teams" : "Students"}
+                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+                                Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
                             <span class="glyphicon glyphicon-chevron-up"></span>
@@ -45,7 +44,7 @@
                     <div class="col-sm-3">
                         <div class="pull-right">
                             <a class="btn btn-success btn-xs" style="display:none" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
-                                ${isPanelsCollapsed ? 'Expand ' : 'Collapse '}${isGroupedByTeam ? 'Teams' : 'Students'}
+                                Expand ${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
                             <div class="display-icon" style="display:inline;">
@@ -69,7 +68,7 @@
         </c:otherwise>
     </c:choose>
     
-    <div class="panel-collapse collapse <c:if test="${!isPanelsCollapsed}">in</c:if>">
+    <div class="panel-collapse collapse<c:if test="${!sectionPanel.loadSectionResponsesByAjax}"> in</c:if>">
         <div class="panel-body" id="sectionBody-${sectionIndex}">
             <c:set var="teamIndex" value="${teamIndexOffset}"/>
             <c:choose>
@@ -82,7 +81,7 @@
                 <c:when test="${isGroupedByTeam}">
                     <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}">
                            <results:teamPanel teamName="${teamPanel.key}" teamIndex="${teamIndex}" 
-                                              isShowingAll="${isShowingAll}" isPanelsCollapsed="${isPanelsCollapsed}" 
+                                              isShowingAll="${isShowingAll}" 
                                               statsTables="${sectionPanel.teamStatisticsTable[teamPanel.key]}"
                                               detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
                                               statisticsHeaderText="${sectionPanel.statisticsHeaderText}"
@@ -96,7 +95,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="participantPanel" items="${sectionPanel.participantPanelsInSortedOrder}">
-                        <results:participantPanel isShowingAll="${isShowingAll}" isPanelsCollapsed="${isPanelsCollapsed}"
+                        <results:participantPanel isShowingAll="${isShowingAll}"
                                                   participantPanel="${participantPanel}" 
                                                   isSecondaryParticipantType="${!isGroupedByQuestion}"/>
                     </c:forEach>

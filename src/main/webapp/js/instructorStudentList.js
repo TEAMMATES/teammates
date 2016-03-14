@@ -152,13 +152,13 @@ $(document).ready(function() {
 
     // Pre-sort each table
     $('th[id^="button_sortsection-"]').each(function() {
-        toggleSort($(this), 2);
+        toggleSort($(this));
     });
 
     $('th[id^="button_sortteam-"]').each(function() {
         var col = $(this).parent().children().index($(this));
         if (col == 0) {
-            toggleSort($(this), 2);
+            toggleSort($(this));
         }
     });
 

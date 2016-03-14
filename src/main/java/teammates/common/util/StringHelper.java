@@ -79,6 +79,22 @@ public class StringHelper {
         }
         return result;
     }
+    
+    /**
+     * Trims head of the String if it is longer than specified Length.
+     *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
+     * @param inputString
+     * @param maximumStringLength - maximum required length of the string
+     * @return String with at most maximumStringLength length
+     */
+    public static String truncateHead(String inputString, final int maximumStringLength) {
+        final int inputStringLength = inputString.length();
+        if (inputStringLength <= maximumStringLength) {
+            return inputString;
+        } else {
+            return inputString.substring(inputStringLength - maximumStringLength);
+        }
+    }
 
     /**
      * Checks whether the {@code longId} is longer than the length specified
@@ -492,5 +508,25 @@ public class StringHelper {
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
     }
-
+    
+    /**
+     * Removes the outermost enclosing square brackets surrounding a string.
+     * 
+     * @param str
+     * @return the string without the outermost enclosing square brackets
+     *         if the given string is enclosed by square brackets <br/> 
+     *         the string itself if the given string is not enclosed by square brackets <br/>
+     *         null if the given string is null
+     */
+    public static String removeEnclosingSquareBrackets(String str) {
+        if (str == null) {
+            return null;
+        }
+        
+        if (!str.startsWith("[") || !str.endsWith("]")) {
+            return str;
+        }
+        
+        return str.substring(1, str.length() - 1);
+    }
 }

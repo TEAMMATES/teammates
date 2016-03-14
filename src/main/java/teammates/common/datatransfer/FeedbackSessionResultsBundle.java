@@ -902,7 +902,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getNameForEmail(String email) {
         String name = emailNameTable.get(email);
-        if (name == null) {
+        if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
@@ -915,7 +915,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getLastNameForEmail(String email) {
         String name = emailLastNameTable.get(email);
-        if (name == null) {
+        if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
@@ -932,6 +932,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return Const.USER_NOBODY_TEXT;
         } else {
             return Sanitizer.sanitizeForHtml(teamName);
+        }
+    }
+    
+    // TODO remove this method entirely and handle sanitization during display properly
+    public String getUnsanitizedTeamNameForEmail(String email) {
+        String teamName = emailTeamNameTable.get(email);
+        if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
+            return Const.USER_NOBODY_TEXT;
+        } else {
+            return teamName;
         }
     }
 
@@ -1000,8 +1010,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     
     public String getRecipientNameForResponse(FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.recipientEmail);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
+        if (name == null || name.equals(Const.USER_IS_MISSING)) {
+            return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
         } else {
@@ -1011,7 +1021,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getGiverNameForResponse(FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.giverEmail);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
+        if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;

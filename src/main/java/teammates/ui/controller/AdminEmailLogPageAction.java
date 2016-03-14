@@ -1,42 +1,59 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.log.LogQuery;
-import com.google.appengine.api.log.LogService.LogLevel;
-import com.google.appengine.api.log.LogServiceFactory;
-import com.google.appengine.api.log.RequestLogs;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Config;
+import teammates.common.util.AdminLogQuery;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.GaeLogApi;
+import teammates.common.util.GaeVersionApi;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailLogPageAction extends Action {
-    
-    private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
-    private static final int MAX_LOGSEARCH_LIMIT = 15000;
-
+    /**
+     * The maximum time period to retrieve logs with time increment.
+     */
+    private static final int MAX_SEARCH_PERIOD = 24 * 60 * 60 * 1000; // 24 hrs in milliseconds
+    private static final int SEARCH_TIME_INCREMENT = 2 * 60 * 60 * 1000;  // two hours in milliseconds
+    /**
+     * The maximum number of times to retrieve logs with time increment.
+     */
+    private static final int MAX_SEARCH_TIMES = MAX_SEARCH_PERIOD / SEARCH_TIME_INCREMENT;
+    /**
+     * Maximum number of versions to query.
+     */
+    private static final int MAX_VERSIONS_TO_QUERY = 1 + 5; //the current version and its 5 preceding versions
+    
+    private Long nextEndTimeToSearch;
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         new GateKeeper().verifyAdminPrivileges(account);
+        String timeOffset = getRequestParamValue("offset");
+        Long endTimeToSearch;
+        if ((timeOffset != null) && (!timeOffset.isEmpty())) {
+            endTimeToSearch = Long.parseLong(timeOffset);
+        } else {
+            endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
+        }
         
-        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("offset"),
-                                        getRequestParamValue("filterQuery"), getRequestParamAsBoolean("all"));
+        AdminEmailLogPageData data = new AdminEmailLogPageData(account, getRequestParamValue("filterQuery"), 
+                                                               getRequestParamAsBoolean("all"));
         
         String pageChange = getRequestParamValue("pageChange");
-       
-        if (pageChange != null && pageChange.equals("true")) {
+        boolean isPageChanged = (pageChange != null && pageChange.equals("true")) || (timeOffset == null);
+        if (isPageChanged) {
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
-            data.setOffset(null);
+            endTimeToSearch = TimeHelper.now(0.0).getTimeInMillis();
         }
         
         if (data.getFilterQuery() == null) {
@@ -46,154 +63,83 @@ public class AdminEmailLogPageAction extends Action {
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
         data.generateQueryParameters(data.getFilterQuery());
         
-        LogQuery query = buildQuery(data.getOffset(), includeAppLogs, data.getVersions());
-        data.setLogs(getEmailLogs(query, data));
         
+        data.setLogs(getEmailLogs(endTimeToSearch, data));
         
         statusToAdmin = "adminEmailLogPage Page Load";
         
-        if (data.getOffset() == null) {
+        if (isPageChanged) {
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
         }
         
         return createAjaxResult(data);
     }
     
-    
-    private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
-        LogQuery query = LogQuery.Builder.withDefaults();
-        
-        query.includeAppLogs(includeAppLogs);
-        query.batchSize(1000);
-        query.minLogLevel(LogLevel.INFO);
-        
-        try {
-            query.majorVersionIds(getVersionIdsForQuery(versions));
-        } catch (Exception e) {
-            isError = true;
-            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-        }
-        
-        if (offset != null && !offset.equals("null")) {
-            query.offset(offset);
-        }
-        
-        return query;
-    }
-    
-    private List<String> getVersionIdsForQuery(List<String> versions){
-        
+    /**
+     * Selects versions for query. If versions are not specified, it will return 
+     * MAX_VERSIONS_TO_QUERY most recent versions used for query.
+     */
+    private List<String> getVersionsForQuery(List<String> versions) {
         boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
-        if (isVersionSpecifiedInRequest) {   
-            return versions;        
-        }       
-        
-        return getDefaultVersionIdsForQuery();
-    }
-    
-    private List<String> getDefaultVersionIdsForQuery(){
-    
-        String currentVersion = Config.inst().getAppVersion();
-        List<String> defaultVersions = new ArrayList<String>();
-        
-        //Check whether version Id contains alphabet 
-        //Eg. 5.05rc
-        if (currentVersion.matches(".*[A-z.*]")) {
-            //if current version contains alphatet,
-            //by default just prepare current version as a single element for the query
-            defaultVersions.add(currentVersion.replace(".", "-"));
-            
-        } else {
-            //current version does not contain alphabet
-            //by default prepare current version with preceding 3 versions
-            defaultVersions = getRecentVersionIdsWithDigitOnly(currentVersion);
+        if (isVersionSpecifiedInRequest) {
+            return versions;
         }
-        
-        return defaultVersions;        
+        GaeVersionApi versionApi = new GaeVersionApi();
+        return versionApi.getMostRecentVersions(MAX_VERSIONS_TO_QUERY);
     }
     
-    private List<String> getRecentVersionIdsWithDigitOnly(String currentVersion){
-        
-        List<String> recentVersions = new ArrayList<String>();
-        
-        double curVersionAsDouble = Double.parseDouble(currentVersion);
-        recentVersions.add(currentVersion.replace(".", "-"));
-        
-        //go back for three preceding versions
-        //subtract from double form of current version id
-        //Eg. current version is 4.01 --> 4.00, 3.99, 3.98  --> 4-00, 3-99, 3-98
-        for (int i = 1; i < 4; i++) {
-
-            double preVersionAsDouble = curVersionAsDouble - 0.01 * i;
-            if (preVersionAsDouble > 0) {
-                String preVersion = String.format("%.2f", preVersionAsDouble)
-                                          .replace(".", "-");
-                
-                recentVersions.add(preVersion);
-            }
-        }
-        
-        return recentVersions;
-    }
-    
-    private List<EmailLogEntry> getEmailLogs(LogQuery query, AdminEmailLogPageData data) {
+    /**
+     * Retrieves enough email logs within MAX_SEARCH_PERIOD hours.
+     */
+    private List<EmailLogEntry> getEmailLogs(Long endTimeToSearch, AdminEmailLogPageData data) {
         List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
+        List<String> versionToQuery = getVersionsForQuery(data.getVersions());
+        AdminLogQuery query = new AdminLogQuery(versionToQuery, null, endTimeToSearch);
+        
         int totalLogsSearched = 0;
-        int currentLogsInPage = 0;
         
-        String lastOffset = null;
+        GaeLogApi logApi = new GaeLogApi();
         
-        //fetch request log
-        Iterable<RequestLogs> records = LogServiceFactory.getLogService().fetch(query);
-        for (RequestLogs record : records) {
-            
-            totalLogsSearched ++;
-            lastOffset = record.getOffset();
-            
-            //End the search if we hit limits
-            if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT) {
+        long startTime = query.getEndTime() - SEARCH_TIME_INCREMENT;
+        query.setTimePeriod(startTime, query.getEndTime());
+        
+        for (int i = 0; i < MAX_SEARCH_TIMES; i++) {
+            if (emailLogs.size() >= LOGS_PER_PAGE) {
                 break;
             }
-            
-            if (currentLogsInPage >= LOGS_PER_PAGE) {
-                break;
-            }
-            
-            //fetch application log
-            List<AppLogLine> appLogLines = record.getAppLogLines();
-            for (AppLogLine appLog : appLogLines) {
-                if (currentLogsInPage >= LOGS_PER_PAGE) {
-                    break;
-                }
-                String logMsg = appLog.getLogMessage();
-                if (logMsg.contains("TEAMMATESEMAILLOG")) {
-                    EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);    
-                    if(data.shouldShowLog(emailLogEntry)){
-                        emailLogs.add(emailLogEntry);
-                        currentLogsInPage ++;
-                    }
-                }
-            }    
+            List<AppLogLine> searchResult = logApi.fetchLogs(query);
+            List<EmailLogEntry> filteredLogs = filterLogsForEmailLogPage(searchResult, data);
+            emailLogs.addAll(filteredLogs);
+            totalLogsSearched += searchResult.size();
+            query.moveTimePeriodBackward(SEARCH_TIME_INCREMENT);;
         }
+        nextEndTimeToSearch = query.getEndTime();
         
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
-        if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
-            status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per requst have been searched.</span><br>";
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Search More</button>";           
-        }
-        
-        if (currentLogsInPage >= LOGS_PER_PAGE) {   
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";              
-        }
-        
+        status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('"
+                  + nextEndTimeToSearch + "');\">Search More</button>";
         data.setStatusForAjax(status);
-        statusToUser.add(new StatusMessage(status, 
-                           totalLogsSearched >= MAX_LOGSEARCH_LIMIT ? StatusMessageColor.WARNING : StatusMessageColor.INFO));
-        
+        statusToUser.add(new StatusMessage(status, StatusMessageColor.INFO));
         return emailLogs;
     }
-    
-    
-    
+
+    private List<EmailLogEntry> filterLogsForEmailLogPage(List<AppLogLine> appLogLines,
+                                                          AdminEmailLogPageData data) {
+        List<EmailLogEntry> emailLogs = new LinkedList<EmailLogEntry>();
+        
+        for (AppLogLine appLog : appLogLines) {
+            String logMsg = appLog.getLogMessage();
+            boolean isNotEmailLog = (!logMsg.contains("TEAMMATESEMAILLOG"));
+            if (isNotEmailLog) {
+                continue;
+            }
+            
+            EmailLogEntry emailLogEntry = new EmailLogEntry(appLog);
+            if (data.shouldShowLog(emailLogEntry)) {
+                emailLogs.add(emailLogEntry);
+            }
+        }
+        return emailLogs;
+    }
 }

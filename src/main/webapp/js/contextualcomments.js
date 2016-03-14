@@ -20,10 +20,6 @@ $(document).ready(function(){
 	        return false;
 	    }
 	}
-	
-	function isBlank(str) {
-	    return (!str || /^\s*$/.test(str));
-	}
 
 	$('#visibility-options-trigger').click(function(){
 		if($('#visibility-options').is(':visible')){
