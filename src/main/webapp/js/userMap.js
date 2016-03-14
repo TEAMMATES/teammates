@@ -2,7 +2,12 @@ function handleData(err, userData) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     if (err) {
-        d3.select('#status').text('An error has occured in getting data, please try reloading.');
+        var contentHolder = d3.select('#contentHolder');
+        contentHolder.html('');
+        contentHolder.append('p')
+            .text('An error has occured in getting data, please try reloading.');
+        contentHolder.append('p')
+            .html('If the problem persists after a few retries, please <a href="/contact.html">contact us</a>.');
         return;
     }
     var countriesObj = {};
