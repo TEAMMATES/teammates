@@ -670,10 +670,11 @@ function feedbackRecipientUpdateVisibilityOptions(elem) {
     enableRow($elem, 3);
 }
 
-function isRecipientsTeamMembersValidVisibilityOptionForRecipientType(recipientType) {
-    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
-           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS' 
-           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
+function isRecipientsTeamMembersValidVisibilityOptionForRecipientType(elem) {
+    var $recipientType = elem;
+    return $recipientType === 'OWN_TEAM' || $recipientType === 'TEAMS' 
+           || $recipientType === 'INSTRUCTORS' || $recipientType === 'OWN_TEAM_MEMBERS' 
+           || $recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
 function feedbackGiverUpdateVisibilityOptions(elem) {
