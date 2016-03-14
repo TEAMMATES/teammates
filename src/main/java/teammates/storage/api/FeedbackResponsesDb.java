@@ -553,7 +553,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * @throws InvalidParametersException 
      */
     public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes)
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         updateFeedbackResponse(newAttributes, false);
     }
     
@@ -567,7 +567,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      */
     public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes, boolean keepUpdateTimestamp) 
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, 
@@ -593,7 +593,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
      */
     private void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr,
-        boolean keepUpdateTimestamp) throws InvalidParametersException, EntityDoesNotExistException {
+            boolean keepUpdateTimestamp) throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, 
@@ -621,7 +621,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
     
     public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr) 
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         updateFeedbackResponseOptimized(newAttributes, fr, false);
     }
     
