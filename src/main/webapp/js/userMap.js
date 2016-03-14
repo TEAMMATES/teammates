@@ -1,3 +1,68 @@
+/**
+ * Parse and Clean the user data, pruning invalid and duplicate entries
+ * @param  {Array} userData original user data, each entry in the format of ["name, country"]
+ * @return {Array} result   cleaned user data, each entry in the format of [name, country]
+ */
+function parseAndCleanUserData(userData) {
+    var institutionList = [];
+    var result = [];
+    for (var i = 0; i < userData.length; i++) {
+        var entry = parseAndTrimEntry(userData[i]);
+        if (isEntryValid(entry) && !isEntryDuplicate(entry, institutionList)) {
+            result.push(entry);
+            institutionList.push(entry[0]);
+        }
+    }
+    return result;
+}
+
+/**
+ * Parse the entry into format of [name, country], trim the entry to remove extra spaces
+ * @param  {Array} rawEntry entry to be parsed and trimmed, in the format of ["name, country"]
+ * @return {Array} fields   parsed and trimmed entry, in the format of [name, country]
+ */
+function parseAndTrimEntry(rawEntry) {
+    var fields = rawEntry[0].split(',');
+    for (var i = 0; i < fields.length; i++) {
+        fields[i] = fields[i].trim();
+    }
+    // Remove the middle field (usually the state or city) at index 1 if the array length is 3
+    if (fields.length === 3) {
+        fields.splice(1, 1);
+    }
+    return fields;
+}
+
+/**
+ * Check if an institution entry is valid
+ * @param  {Array}   entry  array representing the institution, in the format of [name, country]
+ * @return {Boolean} result if the entry is valid
+ */
+function isEntryValid(entry) {
+    if (entry.length !== 2) {
+        console.log('invalid entry: ', entry);
+        return false;
+    } else if (entry[0] === '' || entry[1] === '') {
+        console.log('invalid entry: ', entry);
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Check if an institution entry is a duplicate
+ * @param  {Array}   entry              array representing the institution, in the format of [name, country]
+ * @param  {Array}   institutionList    representing the institution, in the format of [name, country]
+ * @return {Boolean} result             if the entry is a duplicate
+ */
+function isEntryDuplicate(entry, institutionList) {
+    if (institutionList.indexOf(entry[0]) !== -1) {
+        console.log('duplicate: ', entry);
+        return true;
+    }
+    return false;
+}
+
 document.addEventListener('DOMContentLoaded', function(event) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
@@ -5,14 +70,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
     var countriesObj = {};
     var countriesArr = [];
 
-    userData.forEach(function(user) {
-        var fields = user[0].split(',');
-        if (fields.length >= 2 && fields[fields.length - 1].trim() !== '') {
-            var countryName = fields[fields.length - 1].trim();
-            var countryCode = getCountryCode(countryName);
-            if (countryCode != null) {
-                countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
-            }
+    var userDataCleaned = parseAndCleanUserData(userData);
+
+    userDataCleaned.forEach(function(entry) {
+        var countryName = entry[entry.length - 1];
+        var countryCode = getCountryCode(countryName);
+        if (countryCode != null) {
+            countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
         }
     });
 
@@ -22,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     }
 
-    d3.select('#totalCount').text(userData.length + ' institutions from ' + countriesArr.length + ' countries');
+    d3.select('#totalCount').text(userDataCleaned.length + ' institutions from ' + countriesArr.length + ' countries');
 
     // Data format example
     // var series = [
