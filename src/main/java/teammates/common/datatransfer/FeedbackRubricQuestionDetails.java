@@ -524,17 +524,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Initialize response frequency variable, used to store frequency each choice is selected.
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
-        // Initialize percentage frequencies and average value
-        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
-        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
-            //+ 1 is the position for average value
-            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
-            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
-                // Initialize to be number of responses
-                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
-            }
-            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
-        }
+        float[][] percentageFrequencyOrAverage = initializePercentageFrequenciesAndAverageValue(fqd,
+                                        responseFrequency);
         
         // Calculate percentage frequencies
         for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
@@ -552,6 +543,23 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         
+        return percentageFrequencyOrAverage;
+    }
+
+    private float[][] initializePercentageFrequenciesAndAverageValue(FeedbackRubricQuestionDetails fqd,
+                                    int[][] responseFrequency) {
+        
+        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
+        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
+            //+ 1 is the position for average value
+            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
+                // Initialize to be number of responses
+                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
+            }
+            // Initialize average value to be 0
+            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
+        }
         return percentageFrequencyOrAverage;
     }
     
