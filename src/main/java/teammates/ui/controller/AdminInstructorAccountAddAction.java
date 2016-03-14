@@ -116,7 +116,7 @@ public class AdminInstructorAccountAddAction extends Action {
         
         List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
         String joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
-        data.statusForAjax = "Instructor " + data.instructorName + " created (" + "<a href=" + joinLink + ">join link</a>)";
+        data.statusForAjax = "Instructor " + data.instructorName + " created (" + "<a href=\"" + joinLink + "\">join link</a>)";
         statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.SUCCESS));
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
