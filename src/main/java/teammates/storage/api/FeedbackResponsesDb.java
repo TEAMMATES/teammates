@@ -620,10 +620,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         getPM().close();
     }
     
-    /**
-     * updates Feedback Response and sets the {@code updatedAt} timestamp to be the time of update. 
-     * 
-     */
     public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr) 
         throws InvalidParametersException, EntityDoesNotExistException {
         updateFeedbackResponseOptimized(newAttributes, fr, false);
