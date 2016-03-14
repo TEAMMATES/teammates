@@ -228,7 +228,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         String actualComment = studentRow.findElement(By.xpath("td[5]")).getText();
 
         String expectedDetails = student.course + "\n"
-                                 + (student.section == null ? "None" : student.section) + "\n"
+                                 + (student.section == null ? Const.DEFAULT_SECTION : student.section) + "\n"
                                  + student.team;
         String expectedName = student.name;
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.googleId);
