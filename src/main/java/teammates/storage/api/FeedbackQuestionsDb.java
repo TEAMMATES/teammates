@@ -158,7 +158,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes) throws InvalidParametersException,
+        EntityDoesNotExistException {
+        
         updateFeedbackQuestion(newAttributes, false);
     }
     
@@ -172,7 +174,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp)
+        throws InvalidParametersException, EntityDoesNotExistException {
+        
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         
         // TODO: Sanitize values and update tests accordingly
