@@ -60,16 +60,16 @@ function isEntryDuplicate(entry, institutionList) {
     return false;
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
+function handleData(err, userData) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-
+    if (err) {
+        console.log('error in getting data');
+        return;
+    }
     var countriesObj = {};
     var countriesArr = [];
-
-    var userDataCleaned = parseAndCleanUserData(userData);
-
-    userDataCleaned.forEach(function(entry) {
+    userData.forEach(function(entry) {
         var countryName = entry[entry.length - 1];
         var countryCode = getCountryCode(countryName);
         if (countryCode != null) {
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
         }
     }
 
-    d3.select('#totalCount').text(userDataCleaned.length + ' institutions from ' + countriesArr.length + ' countries');
+    d3.select('#totalCount').text(userData.length + ' institutions from ' + countriesArr.length + ' countries');
 
     // Data format example
     // var series = [
@@ -161,4 +161,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
             }
         }
     });
+}
+
+document.addEventListener('DOMContentLoaded', function(event) {
+    // var userDataCleaned = parseAndCleanUserData(userData);
+    // userDataCleaned.sort(function(a, b){return a[a.length - 1].toLowerCase().localeCompare(b[b.length - 1].toLowerCase())});
+    // console.log(JSON.stringify(userDataCleaned, 0, 2));
+
+    d3.json('/js/userMapData.json', handleData);
 });
