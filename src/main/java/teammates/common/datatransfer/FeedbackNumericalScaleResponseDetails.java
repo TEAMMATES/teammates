@@ -1,11 +1,13 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 
 public class FeedbackNumericalScaleResponseDetails extends
         FeedbackResponseDetails {
     private double answer;
+    private static final double CONST_INVALID_RESPONSE = -1.0;
     
     public FeedbackNumericalScaleResponseDetails() {
         super(FeedbackQuestionType.NUMSCALE);
@@ -32,9 +34,8 @@ public class FeedbackNumericalScaleResponseDetails extends
 
     @Override
     public String getAnswerString() {
-        if (answer == -1.0) {
-            String invalidAnswer = "Invalid response";
-            return invalidAnswer;
+        if (answer == CONST_INVALID_RESPONSE) {
+            return Const.INVALID_RESPONSE;
         }
         return StringHelper.toDecimalFormatString(answer);
     }

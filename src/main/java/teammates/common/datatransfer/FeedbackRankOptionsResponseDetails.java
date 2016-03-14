@@ -13,6 +13,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
 public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDetails {
+    private static final int CONST_INVALID_RESPONSE = -1;
     private List<Integer> answers;
     
     public FeedbackRankOptionsResponseDetails() {
@@ -58,9 +59,8 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     @Override
     public String getAnswerString() {
         String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
-        if (answers.get(0) == -1) {
-            String invalidAnswer = "Invalid response";
-            return invalidAnswer;
+        if (answers.get(0) == CONST_INVALID_RESPONSE) {
+            return Const.INVALID_RESPONSE;
         }
         return listString.substring(1, listString.length() - 1); //remove []
     }
@@ -69,15 +69,11 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
         
-        String invalidAnswer = "Invalid response";
         StringBuilder htmlBuilder = new StringBuilder();
         htmlBuilder.append("<ul>");
         
-        if (answers.get(0) == -1) {
-            htmlBuilder.append("<li>");
-            htmlBuilder.append(invalidAnswer);
-            htmlBuilder.append("</li>");
-            
+        if (answers.get(0) == CONST_INVALID_RESPONSE) {
+            htmlBuilder.append("<li>" + Const.INVALID_RESPONSE + "</li>");
         } else {
             SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
             

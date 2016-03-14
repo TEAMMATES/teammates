@@ -1225,6 +1225,7 @@ public class Const {
     public static final String INVALID_GIVER_NOT_AN_INSTRUCTOR = "Invalid giver: giver is not an instructor";
     public static final String INVALID_GIVER_NOT_SESSION_CREATOR = "Invalid giver: giver is the creator of the session";
     public static final String INVALID_GIVER_NOT_AN_ANONYMOUS_STUDENT = "Invalid giver: giver is not an anonymous student";
+    public static final String INVALID_GIVER_NOT_ANONYMOUS = "Invalid giver: giver is not anonymous";
     public static final String INVALID_GIVER_NOT_A_STUDENT = "Invalid giver: giver is not an student";
     public static final String INVALID_GIVER_TYPE = "Invalid giver type specified";
     public static final String INVALID_RECIPIENT_NOT_AN_ANONYMOUS_TEAM = "Invalid recipient: recipient is not an anonymous team";
@@ -1235,11 +1236,13 @@ public class Const {
     public static final String INVALID_RECIPIENT_NOT_AN_ANONYMOUS_INSTRUCTOR = "Invalid recipient: recipient is not an anonymous instructor";
     public static final String INVALID_RECIPIENT_NOT_AN_INSTRUCTOR = "Invalid recipient: recipient is not an instructor";
     public static final String INVALID_RECIPIENT_NOT_AN_ANONYMOUS_STUDENT = "Invalid recipient: recipient is not an anonymous student";
+    public static final String INVALID_RECIPIENT_NOT_ANONYMOUS = "Invalid recipient: recipient is not anonymous";
     public static final String INVALID_RECIPIENT_NOT_A_STUDENT = "Invalid recipient: recipient is not an student";
     public static final String INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM = "Invalid recipient: recipient and giver are not in the same team";
     public static final String INVALID_RECIPIENT_SELF = "Invalid recipient: recipient is the giver";
     public static final String INVALID_RECIPIENT_NOT_NOBODY = "Invalid recipient: recipient should be nobody";
     public static final String INVALID_RECIPIENT_TYPE = "Invalid recipient type specified";
+    public static final String INVALID_RESPONSE = "Invalid response";
     
     
 
