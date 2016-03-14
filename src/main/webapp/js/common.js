@@ -145,7 +145,7 @@ var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish dat
 
 // Form input placeholders
 // Used in adminEmail.js only
-var PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'My alt text'
+var PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the image'
 
 // Max length for input
 var TEAMNAME_MAX_LENGTH = 60;
