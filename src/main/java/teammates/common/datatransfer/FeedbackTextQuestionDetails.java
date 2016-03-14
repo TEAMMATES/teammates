@@ -42,7 +42,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
@@ -54,7 +54,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),

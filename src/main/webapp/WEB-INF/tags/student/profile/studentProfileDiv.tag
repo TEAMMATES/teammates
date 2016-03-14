@@ -107,7 +107,7 @@
                            class="radio"
                            type="radio"
                            value="<%= Const.GenderTypes.MALE %>"
-                           <c:if test="${profile.gender == MALE}">checked=""</c:if>> Male
+                           <c:if test="${profile.gender == MALE}">checked</c:if>> Male
                 </label>
                 <label for="genderFemale" class="radio-inline">
                     <input id="genderFemale"
@@ -115,7 +115,7 @@
                            class="radio"
                            type="radio"
                            value="<%= Const.GenderTypes.FEMALE %>"
-                           <c:if test="${profile.gender == FEMALE}">checked=""</c:if>> Female
+                           <c:if test="${profile.gender == FEMALE}">checked</c:if>> Female
                 </label>
                 <label class="radio-inline" for="genderOther">
                     <input id="genderOther"
@@ -123,7 +123,7 @@
                            class="radio"
                            type="radio"
                            value="<%= Const.GenderTypes.OTHER %>"
-                           <c:if test="${profile.gender == OTHER}">checked=""</c:if>> Not Specified
+                           <c:if test="${profile.gender == OTHER}">checked</c:if>> Not Specified
                 </label>
             </div>
         </div>

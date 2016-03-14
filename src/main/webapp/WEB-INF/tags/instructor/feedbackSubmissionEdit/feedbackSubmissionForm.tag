@@ -19,7 +19,7 @@
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"
                        <c:if test="${feedbackSubmissionForm.preview or (not feedbackSubmissionForm.submittable)}">
-                           disabled=""
+                           disabled
                        </c:if>>
             </c:otherwise>
         </c:choose>

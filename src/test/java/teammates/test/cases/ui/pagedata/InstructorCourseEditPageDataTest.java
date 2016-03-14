@@ -119,8 +119,10 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         
         pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
-        assertEquals("", pageData.getDeleteCourseButton().getAttributes().get("disabled"));
-        assertEquals("", pageData.getAddInstructorButton().getAttributes().get("disabled"));
+        assertNull(pageData.getDeleteCourseButton().getAttributes().get("disabled"));
+        assertTrue(pageData.getDeleteCourseButton().getAttributes().containsKey("disabled"));
+        assertNull(pageData.getAddInstructorButton().getAttributes().get("disabled"));
+        assertTrue(pageData.getAddInstructorButton().getAttributes().containsKey("disabled"));
         
         ______TS("test showing only one instructor");
         offset = 1;

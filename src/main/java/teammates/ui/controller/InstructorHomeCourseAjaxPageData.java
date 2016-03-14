@@ -70,7 +70,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                          getInstructorCourseEnrollLink(courseId),
                                          Const.Tooltips.COURSE_ENROLL);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
-                       enroll, disabled, "");
+                       enroll, disabled, null);
         
         ElementTag view = createButton("View",
                                        className + "view-for-test",
@@ -87,7 +87,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                       getInstructorFeedbacksLink(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
-                       add, disabled, "");
+                       add, disabled, null);
         
         ElementTag archive = createButton("Archive",
                                           className + "archive-for-test",
@@ -100,7 +100,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                          getInstructorCourseDeleteLink(courseId, true),
                                          Const.Tooltips.COURSE_DELETE);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE),
-                       delete, disabled, "");
+                       delete, disabled, null);
         addAttributeIf(true, delete, "onclick", "return toggleDeleteCourseConfirmation('" + courseId + "')");
         
         if (pendingCommentsCount <= 0) {

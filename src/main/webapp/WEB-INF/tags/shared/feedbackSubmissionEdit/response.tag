@@ -25,7 +25,7 @@
         <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control" 
                 name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
                 ${isNumResponsesMax ? 'style="display:none;max-width:125px"' : 'style="width:275px;max-width:275px"'}
-                ${isSessionOpenForSubmission ? '' : 'disabled=""' }>
+                ${isSessionOpenForSubmission ? '' : 'disabled' }>
                 
                 <c:forEach items="${response.recipientOptionsForQuestion}" var="option">
                     ${option}

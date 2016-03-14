@@ -56,7 +56,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${qnIdx}", Integer.toString(qnIdx),
                         "${responseIdx}", Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                        "${disabled}", sessionIsOpen ? "" : "disabled",
                         "${rankOptionVisibility}", "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, existingResponse.answer),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -94,7 +94,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         "${qnIdx}", Integer.toString(qnIdx),
                         "${responseIdx}", Integer.toString(responseIdx),
                         "${optionIdx}", "0",
-                        "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                        "${disabled}", sessionIsOpen ? "" : "disabled",
                         "${rankOptionVisibility}", "style=\"display:none\"",
                         "${options}", getSubmissionOptionsHtmlForRankingRecipients(totalNumRecipients, Const.INT_UNINITIALIZED),
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -149,7 +149,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${optionRecipientDisplayName}", "recipient",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked=\"\"" : "");
+                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked" : "");
     
     }
 

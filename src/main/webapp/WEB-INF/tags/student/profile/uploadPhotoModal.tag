@@ -33,7 +33,7 @@
                                            type="file"
                                            name="<%= Const.ParamsNames.STUDENT_PROFILE_PHOTO %>">
                                 </span>
-                                <input type="text" class="filename-preview" value="No File Selected" disabled="">
+                                <input type="text" class="filename-preview" value="No File Selected" disabled>
                                 <p class="help-block align-left">
                                     Max Size: 5 MB
                                 </p>
@@ -41,7 +41,7 @@
                                         id="profileUploadPictureSubmit"
                                         class="btn btn-primary width-100-pc"
                                         onclick="finaliseUploadPictureForm()"
-                                        disabled="">
+                                        disabled>
                                     Upload Picture
                                 </button>
                                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">

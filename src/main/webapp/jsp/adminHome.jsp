@@ -14,7 +14,7 @@
     <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}" 
         instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
 
-    <div class="panel panel-primary" hidden="" id="addInstructorResultPanel">
+    <div class="panel panel-primary" hidden id="addInstructorResultPanel">
         <div class="panel-heading">
             <strong>Result</strong>
         </div>

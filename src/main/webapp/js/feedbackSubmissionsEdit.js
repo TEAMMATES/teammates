@@ -260,7 +260,7 @@ function updateOtherOptionAttributes(otherOption, indexSuffix) {
         $('#msqOtherOptionText' + indexSuffix).prop('disabled', false); // enable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");                    
     } else {
-        $('#msqOtherOptionText' + indexSuffix).prop("disabled", true); // disable textbox
+        $('#msqOtherOptionText' + indexSuffix).prop('disabled', true); // disable textbox
         $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
     }
 }

@@ -58,7 +58,7 @@
                    data-placement="top"
                    title="<%= Const.Tooltips.COMMENT_DELETE %>"
                    <c:if test="${frc.editDeleteEnabledOnlyOnHover}">style="display: none;"</c:if>
-                   <c:if test="${not frc.instructorAllowedToDelete}">disabled=""</c:if>>
+                   <c:if test="${not frc.instructorAllowedToDelete}">disabled</c:if>>
                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                 </a>
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
@@ -75,7 +75,7 @@
                data-placement="top"
                title="<%= Const.Tooltips.COMMENT_EDIT %>"
                <c:if test="${frc.editDeleteEnabledOnlyOnHover}">style="display: none;"</c:if>
-               <c:if test="${not frc.instructorAllowedToEdit}">disabled=""</c:if>>
+               <c:if test="${not frc.instructorAllowedToEdit}">disabled</c:if>>
                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
             </a>
         </c:if>

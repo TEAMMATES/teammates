@@ -6,7 +6,7 @@
 
 <c:choose>
     <c:when test="${preview or (not submittable)}">
-        <input disabled="" type="submit" class="btn btn-primary"
+        <input disabled type="submit" class="btn btn-primary"
                id="response_submit_button" data-toggle="tooltip"
                data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"
                value="Submit Feedback" style="background: #66727A;">

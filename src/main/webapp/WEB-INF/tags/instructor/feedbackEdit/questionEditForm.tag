@@ -81,7 +81,7 @@
                         data-toggle="tooltip" data-placement="top"
                         title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
                         tabindex="9"
-                        disabled="">${fqForm.questionText}</textarea>
+                        disabled>${fqForm.questionText}</textarea>
                 </div>
                 ${fqForm.questionSpecificEditFormHtml}
             </div>

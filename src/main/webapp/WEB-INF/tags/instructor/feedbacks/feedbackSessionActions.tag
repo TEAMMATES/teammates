@@ -15,7 +15,7 @@
    title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
    data-toggle="tooltip"
    data-placement="top"
-   <c:if test="${not actions.allowedToEdit}">disabled=""</c:if>>
+   <c:if test="${not actions.allowedToEdit}">disabled</c:if>>
     Edit
 </a>
 <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px"
@@ -25,7 +25,7 @@
    data-placement="top"
    <c:if test="${actions.allowedToDelete}">onclick="return toggleDeleteFeedbackSessionConfirmation(${actions.toggleDeleteFeedbackSessionParams});"</c:if>
    <c:if test="${not actions.allowedToDelete}">onclick="return false"</c:if>
-   <c:if test="${not actions.allowedToDelete}">disabled=""</c:if>>
+   <c:if test="${not actions.allowedToDelete}">disabled</c:if>>
     Delete
 </a>
 <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px"
@@ -47,7 +47,7 @@
     <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px"
        href="${actions.submitLink}"
        <c:if test="${not actions.allowedToSubmit}">onclick="return false"</c:if>
-       <c:if test="${not actions.allowedToSubmit}">disabled=""</c:if>>
+       <c:if test="${not actions.allowedToSubmit}">disabled</c:if>>
         Submit
     </a>
 </div> 
@@ -61,14 +61,14 @@
                href="${actions.remindLink}"
                <c:if test="${actions.allowedToRemind}">onclick="return toggleRemindStudents(${actions.toggleRemindStudentsParams});"</c:if>
                <c:if test="${not actions.allowedToRemind}">onclick="return false"</c:if>
-               <c:if test="${not actions.allowedToRemind}">disabled=""</c:if>>
+               <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
                 Remind
             </a>
             <button type="button"
                     class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
                     data-toggle="dropdown"
                     aria-expanded="false"
-                    <c:if test="${not actions.allowedToRemind}">disabled=""</c:if>>
+                    <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -76,7 +76,7 @@
                     <a href="${actions.remindLink}"
                        class="session-remind-inner-for-test"
                        <c:if test="${actions.allowedToRemind}">onclick="return toggleRemindStudents(${actions.toggleRemindStudentsParams});"</c:if>
-                       <c:if test="${not actions.allowedToRemind}">disabled=""</c:if>>
+                       <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
                         Remind all students
                     </a>
                 </li>
@@ -88,7 +88,7 @@
                        data-fsname="${actions.fsName}"
                        data-toggle="modal"
                        data-target="#remindModal"
-                       <c:if test="${not actions.allowedToRemind}">disabled=""</c:if>>
+                       <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
                         Remind particular students
                     </a>
                 </li>

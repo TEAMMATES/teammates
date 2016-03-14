@@ -14,19 +14,19 @@
                         </label>
                         <div class="col-sm-10" data-toggle="tooltip" title="View results in different formats">
                             <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
-                                <option value="question"<c:if test="${filterPanel.sortType == 'question'}"> selected=""</c:if>>
+                                <option value="question"<c:if test="${filterPanel.sortType == 'question'}"> selected</c:if>>
                                     Group by - Question
                                 </option>
-                                <option value="giver-recipient-question"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected=""</c:if>>
+                                <option value="giver-recipient-question"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
                                     Group by - Giver > Recipient > Question
                                 </option>
-                                <option value="recipient-giver-question"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected=""</c:if>>
+                                <option value="recipient-giver-question"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
                                     Group by - Recipient > Giver > Question
                                 </option>
-                                <option value="giver-question-recipient"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected=""</c:if>>
+                                <option value="giver-question-recipient"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
                                     Group by - Giver > Question > Recipient
                                 </option>
-                                <option value="recipient-question-giver"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected=""</c:if>>
+                                <option value="recipient-question-giver"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
                                     Group by - Recipient > Question > Giver
                                 </option>
                             </select>
@@ -50,14 +50,14 @@
                   <div data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"<c:if test="${filterPanel.groupedByTeam}"> checked=""</c:if><c:if test="${filterPanel.sortType != 'question'}"> onchange="this.form.submit()"</c:if>> Group by Teams
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"<c:if test="${filterPanel.groupedByTeam}"> checked</c:if><c:if test="${filterPanel.sortType != 'question'}"> onchange="this.form.submit()"</c:if>> Group by Teams
                           </label>
                       </div>
                   </div>
                   <div data-toggle="tooltip" title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked=""</c:if>> Show Statistics
+                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
                           </label>
                       </div>
                   </div>
@@ -72,15 +72,15 @@
                             </label>
                             <div class="col-sm-10">
                                 <select id="sectionSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" onchange="this.form.submit()">
-                                    <option value="All"<c:if test="${filterPanel.allSectionsSelected}"> selected=""</c:if>>
+                                    <option value="All"<c:if test="${filterPanel.allSectionsSelected}"> selected</c:if>>
                                         All
                                     </option>
                                     <c:forEach items="${filterPanel.sections}" var="section">
-                                        <option value="${section}"<c:if test="${filterPanel.selectedSection == section}"> selected=""</c:if>>
+                                        <option value="${section}"<c:if test="${filterPanel.selectedSection == section}"> selected</c:if>>
                                             ${section}
                                         </option>
                                     </c:forEach>
-                                    <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected=""</c:if>>
+                                    <option value="None"<c:if test="${filterPanel.noneSectionSelected}"> selected</c:if>>
                                         Not in a section
                                     </option>
                                 </select>
@@ -92,7 +92,7 @@
                     <c:choose>
                         <c:when test="${not showAll}">
                             <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
-                                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" disabled="">
+                                <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" disabled>
                                     Expand ${filterPanel.sortType == 'question' ? 'Questions' : 'Sections'}
                                 </a>
                             </div>

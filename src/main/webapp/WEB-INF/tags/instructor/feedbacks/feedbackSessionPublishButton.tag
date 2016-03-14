@@ -8,6 +8,6 @@
    data-toggle="tooltip"
    data-placement="top"
    <c:if test="${publishButton.actionAllowed}">onclick="return ${publishButton.onclickAction}"</c:if>
-   <c:if test="${not publishButton.actionAllowed}">onclick="return false" disabled=""</c:if>>
+   <c:if test="${not publishButton.actionAllowed}">onclick="return false" disabled</c:if>>
     ${publishButton.actionName} Results
 </a>

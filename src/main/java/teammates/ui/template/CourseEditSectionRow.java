@@ -156,7 +156,7 @@ public class CourseEditSectionRow {
     private ElementTag createCheckBox(String content, String name, String value, boolean isChecked) {
         ElementTag result = new ElementTag(content, "name", name, "value", value, "type", "checkbox");
         if (isChecked) {
-            result.setAttribute("checked", "");
+            result.setAttribute("checked", null);
         }
         return result;
     }

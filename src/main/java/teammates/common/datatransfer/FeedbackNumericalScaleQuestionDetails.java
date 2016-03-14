@@ -71,7 +71,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
@@ -90,7 +90,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),

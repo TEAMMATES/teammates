@@ -16,19 +16,19 @@
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-default<c:if test="${data.sortCriteria == byCourse}"> active</c:if>"
                        name="sortby" data="id" id="sortById"
-                       <c:if test="${isSortButtonsDisabled}">disabled=""</c:if>>
+                       <c:if test="${isSortButtonsDisabled}">disabled</c:if>>
                     <input type="radio">
                     Course ID
                 </label>
                 <label class="btn btn-default<c:if test="${data.sortCriteria == byName}"> active</c:if>"
                        name="sortby" data="name" id="sortByName"
-                       <c:if test="${isSortButtonsDisabled}">disabled=""</c:if>>
+                       <c:if test="${isSortButtonsDisabled}">disabled</c:if>>
                     <input type="radio" name="sortby" value="name" >
                     Course Name
                 </label>
                 <label class="btn btn-default<c:if test="${data.sortCriteria == byCreationDate}"> active</c:if>"
                        name="sortby" data="createdAt" id="sortByDate"
-                       <c:if test="${isSortButtonsDisabled}">disabled=""</c:if>>
+                       <c:if test="${isSortButtonsDisabled}">disabled</c:if>>
                     <input type="radio">
                     Creation Date
                 </label>

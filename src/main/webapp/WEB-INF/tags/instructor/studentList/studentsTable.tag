@@ -20,7 +20,7 @@
            title="<%= Const.Tooltips.COURSE_ENROLL %>"
            data-toggle="tooltip"
            data-placement="top"
-           <c:if test="${not course.instructorAllowedToModify}"> disabled=""</c:if>>
+           <c:if test="${not course.instructorAllowedToModify}"> disabled</c:if>>
             <span class="glyphicon glyphicon-list"></span> Enroll
         </a>
         <div class='display-icon pull-right'>

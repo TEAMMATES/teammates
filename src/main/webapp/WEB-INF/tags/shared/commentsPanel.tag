@@ -39,7 +39,7 @@
                                 data-toggle="tooltip"
                                 data-placement="top"
                                 title="<%= Const.Tooltips.COMMENT_ADD %>"
-                                <c:if test="${not commentsForStudentsTable.instructorAllowedToGiveComment}">disabled=""</c:if>>
+                                <c:if test="${not commentsForStudentsTable.instructorAllowedToGiveComment}">disabled</c:if>>
                             <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                         </button>
                     </c:if>
@@ -103,7 +103,7 @@
                                                     <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%= CommentParticipantType.PERSON %>">
                                                 </td>
                                                 <td>
-                                                    <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="<%= CommentParticipantType.PERSON %>" disabled="">
+                                                    <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="<%= CommentParticipantType.PERSON %>" disabled>
                                                 </td>
                                             </tr>
                                             <tr id="recipient-team${newCommentIndex}">

@@ -32,7 +32,7 @@
             <div class="checkbox">
                 <label class="bold-label">
                     <input type="checkbox"
-                        disabled=""
+                        disabled
                         id="generateOptionsCheckbox-${questionNumber}"
                         ${checkedGeneratedOptions}
                         onchange="toggleMcqGeneratedOptions(this,${questionNumber})">
@@ -43,7 +43,7 @@
         <div class="col-md-4">
             <select class="form-control" id="mcqGenerateForSelect-${questionNumber}" 
                 onchange="changeMcqGenerateFor(${questionNumber})"
-                disabled="">
+                disabled>
                 <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
                 <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
                 <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>

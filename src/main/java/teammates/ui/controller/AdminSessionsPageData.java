@@ -121,7 +121,7 @@ public class AdminSessionsPageData extends PageData {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 23; i++) {
             result.add("<option value=\"" + i + "\"" + " "
-                       + (date.getHours() == i ? "selected=\"\"" : "")
+                       + (date.getHours() == i ? "selected" : "")
                        + ">" + String.format("%02dH", i) + "</option>");
         }
         return result;
@@ -132,7 +132,7 @@ public class AdminSessionsPageData extends PageData {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 59; i++) {
             result.add("<option value=\"" + i + "\"" + " "
-                       + (date.getMinutes() == i ? "selected=\"\"" : "")
+                       + (date.getMinutes() == i ? "selected" : "")
                        + ">" + String.format("%02d", i) + "</option>");
         }
         return result;

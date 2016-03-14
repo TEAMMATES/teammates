@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-3">
             <div class="checkbox">
-                <input id="displayArchivedCourses_check" type="checkbox"<c:if test="${filterBox.displayArchive}"> checked=""</c:if>>
+                <input id="displayArchivedCourses_check" type="checkbox"<c:if test="${filterBox.displayArchive}"> checked</c:if>>
                 <label for="displayArchivedCourses_check">Display Archived Courses</label>
             </div>
         </div>
@@ -63,7 +63,7 @@
                 </div>
                 <br>
                 <div class="checkbox" style="display:none;">
-                    <input id="show_email" type="checkbox" checked="">
+                    <input id="show_email" type="checkbox" checked>
                     <label for="show_email"><strong>Show Emails</strong></label>
                 </div>
                 <br>

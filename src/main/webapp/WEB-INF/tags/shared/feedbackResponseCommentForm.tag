@@ -53,13 +53,13 @@
                                name="receiverLeaderCheckbox"
                                type="checkbox"
                                value="<%= FeedbackParticipantType.GIVER %>"
-                               <c:if test="${frc.showCommentToResponseGiver}">checked=""</c:if>>
+                               <c:if test="${frc.showCommentToResponseGiver}">checked</c:if>>
                     </td>
                     <td>
                         <input class="visibilityCheckbox giverCheckbox"
                                type="checkbox"
                                value="<%= FeedbackParticipantType.GIVER %>"
-                               <c:if test="${frc.showGiverNameToResponseGiver}">checked=""</c:if>>
+                               <c:if test="${frc.showGiverNameToResponseGiver}">checked</c:if>>
                     </td>
                 </tr>
                 <c:if test="${frc.responseVisibleToRecipient}">
@@ -76,13 +76,13 @@
                                    name="receiverLeaderCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.RECEIVER %>"
-                                   <c:if test="${frc.showCommentToResponseRecipient}">checked=""</c:if>>
+                                   <c:if test="${frc.showCommentToResponseRecipient}">checked</c:if>>
                         </td>
                         <td>
                             <input class="visibilityCheckbox giverCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.RECEIVER %>"
-                                   <c:if test="${frc.showGiverNameToResponseRecipient}">checked=""</c:if>>
+                                   <c:if test="${frc.showGiverNameToResponseRecipient}">checked</c:if>>
                         </td>
                     </tr>
                 </c:if>
@@ -99,13 +99,13 @@
                             <input class="visibilityCheckbox answerCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                   <c:if test="${frc.showCommentToResponseGiverTeam}">checked=""</c:if>>
+                                   <c:if test="${frc.showCommentToResponseGiverTeam}">checked</c:if>>
                         </td>
                         <td>
                             <input class="visibilityCheckbox giverCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                   <c:if test="${frc.showGiverNameToResponseGiverTeam}">checked=""</c:if>>
+                                   <c:if test="${frc.showGiverNameToResponseGiverTeam}">checked</c:if>>
                         </td>
                     </tr>
                 </c:if>
@@ -122,13 +122,13 @@
                             <input class="visibilityCheckbox answerCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                   <c:if test="${frc.showCommentToResponseRecipientTeam}">checked=""</c:if>>
+                                   <c:if test="${frc.showCommentToResponseRecipientTeam}">checked</c:if>>
                         </td>
                         <td>
                             <input class="visibilityCheckbox giverCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                   <c:if test="${frc.showGiverNameToResponseRecipientTeam}">checked=""</c:if>>
+                                   <c:if test="${frc.showGiverNameToResponseRecipientTeam}">checked</c:if>>
                         </td>
                     </tr>
                 </c:if>
@@ -145,13 +145,13 @@
                             <input class="visibilityCheckbox answerCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.STUDENTS %>"
-                                   <c:if test="${frc.showCommentToStudents}">checked=""</c:if>>
+                                   <c:if test="${frc.showCommentToStudents}">checked</c:if>>
                         </td>
                         <td>
                             <input class="visibilityCheckbox giverCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.STUDENTS %>"
-                                   <c:if test="${frc.showGiverNameToStudents}">checked=""</c:if>>
+                                   <c:if test="${frc.showGiverNameToStudents}">checked</c:if>>
                         </td>
                     </tr>
                 </c:if>
@@ -168,13 +168,13 @@
                             <input class="visibilityCheckbox answerCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                   <c:if test="${frc.showCommentToInstructors}">checked=""</c:if>>
+                                   <c:if test="${frc.showCommentToInstructors}">checked</c:if>>
                         </td>
                         <td>
                             <input class="visibilityCheckbox giverCheckbox"
                                    type="checkbox"
                                    value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                   <c:if test="${frc.showGiverNameToInstructors}">checked=""</c:if>>
+                                   <c:if test="${frc.showGiverNameToInstructors}">checked</c:if>>
                         </td>
                     </tr>
                 </c:if>

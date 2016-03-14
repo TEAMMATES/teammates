@@ -176,7 +176,7 @@ public class CourseEditInstructorPanel {
         boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(privilege);
         ElementTag result = new ElementTag(content, "name", privilege, "type", "checkbox", "value", "true");
         if (isChecked) {
-            result.setAttribute("checked", "");
+            result.setAttribute("checked", null);
         }
         return result;
     }

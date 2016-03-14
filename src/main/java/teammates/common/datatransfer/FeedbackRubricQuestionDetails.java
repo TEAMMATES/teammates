@@ -243,9 +243,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(j),
                                 "${row}", Integer.toString(i),
-                                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                                "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked=\"\"" : "", //Check if existing choice for sub-question == current choice
+                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked" : "", //Check if existing choice for sub-question == current choice
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
@@ -277,9 +277,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(j),
                                 "${row}", Integer.toString(i),
-                                "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                                "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked=\"\"" : "", //Check if existing choice for sub-question == current choice
+                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked" : "", //Check if existing choice for sub-question == current choice
                                 "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);

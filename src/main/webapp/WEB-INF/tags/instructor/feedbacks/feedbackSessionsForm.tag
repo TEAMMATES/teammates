@@ -246,7 +246,7 @@
             <div class="row">
                 <div class="col-md-offset-5 col-md-3">
                     <button id="button_submit" type="submit" class="btn btn-primary"
-                        <c:if test="${fsForm.submitButtonDisabled}">disabled=""</c:if>
+                        <c:if test="${fsForm.submitButtonDisabled}">disabled</c:if>
                         <c:if test="${!fsForm.submitButtonVisible}"> style="display:none;" </c:if>
                     >
                             ${fsForm.submitButtonText}

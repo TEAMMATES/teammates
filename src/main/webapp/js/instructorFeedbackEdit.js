@@ -774,7 +774,7 @@ function bindCopyEvents() {
             numRowsSelected--;
         } else {
             $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked="">');
+            $(this).children('td:first').html('<input type="checkbox" checked>');
             numRowsSelected++;
         }
 
@@ -924,7 +924,7 @@ function addMcqOption(questionNumber) {
     $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"radio\" disabled=\"\">"
+        +          "<input type=\"radio\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
@@ -1016,7 +1016,7 @@ function addMsqOption(questionNumber) {
     $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"checkbox\" disabled=\"\">"
+        +          "<input type=\"checkbox\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"

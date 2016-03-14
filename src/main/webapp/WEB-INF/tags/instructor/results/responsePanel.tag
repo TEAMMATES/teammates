@@ -22,7 +22,7 @@
                 onclick="showResponseCommentAddForm(${responsePanel.recipientIndex},${responsePanel.giverIndex},${responsePanel.qnIndex})"
                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
                 <c:if test="${!responsePanel.allowedToAddComment}">
-                        disabled=""
+                        disabled
                 </c:if>
                 >
                 <span class="glyphicon glyphicon-comment glyphicon-primary"></span>

@@ -44,7 +44,7 @@
                 <div id="accessControlEditDivForInstr${addInstructorPanel.index}">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">
-                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" checked=""
+                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" checked
                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>">
                             Display to students as:
                         </label>
@@ -64,7 +64,7 @@
                             <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                     id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor${addInstructorPanel.index}"
                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
-                                    checked="">
+                                    checked>
                             &nbsp;Co-owner: Can do everything
                             <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
                                 View Details

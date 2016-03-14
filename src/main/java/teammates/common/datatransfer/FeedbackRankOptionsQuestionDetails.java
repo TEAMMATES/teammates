@@ -86,7 +86,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
                             "${optionIdx}", Integer.toString(i),
-                            "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                            "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${rankOptionVisibility}", "",
                             "${options}",getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -125,7 +125,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             "${qnIdx}", Integer.toString(qnIdx),
                             "${responseIdx}", Integer.toString(responseIdx),
                             "${optionIdx}", Integer.toString(i),
-                            "${disabled}", sessionIsOpen ? "" : "disabled=\"\"",
+                            "${disabled}", sessionIsOpen ? "" : "disabled",
                             "${rankOptionVisibility}", "",
                             "${options}", getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -194,7 +194,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 "${numOfRankOptions}", String.valueOf(options.size()), 
                 "${optionRecipientDisplayName}", "option",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}", Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked=\"\"" : "");
+                "${areDuplicatesAllowedChecked}", areDuplicatesAllowed ? "checked" : "");
     
     }
 
