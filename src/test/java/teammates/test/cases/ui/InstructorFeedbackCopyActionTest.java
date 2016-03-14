@@ -83,9 +83,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">(Copied Session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
                 + "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Sun Apr 30 23:59:00 UTC 2017<br>"
+                + "<span class=\"bold\"> to</span> Fri Apr 30 23:59:00 UTC 2027<br>"
                 + "<span class=\"bold\">Session visible from:</span> Wed Mar 28 23:59:00 UTC 2012<br>"
-                + "<span class=\"bold\">Results visible from:</span> Mon May 01 23:59:00 UTC 2017<br><br>"
+                + "<span class=\"bold\">Results visible from:</span> Sat May 01 23:59:00 UTC 2027<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
@@ -166,9 +166,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "<span class=\"bold\">(Second copied feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
                 + "<span class=\"bold\">From:</span> Sat Jun 01 23:59:00 UTC 2013"
-                + "<span class=\"bold\"> to</span> Thu Apr 28 23:59:00 UTC 2016<br>"
+                + "<span class=\"bold\"> to</span> Tue Apr 28 23:59:00 UTC 2026<br>"
                 + "<span class=\"bold\">Session visible from:</span> Wed Mar 20 23:59:00 UTC 2013<br>"
-                + "<span class=\"bold\">Results visible from:</span> Fri Apr 29 23:59:00 UTC 2016<br><br>"
+                + "<span class=\"bold\">Results visible from:</span> Wed Apr 29 23:59:00 UTC 2026<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
