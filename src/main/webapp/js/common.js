@@ -143,6 +143,10 @@ var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID = 'Please enter valid opt
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
+// Form input placeholders
+// Used in adminEmail.js only
+var PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'My alt text'
+
 // Max length for input
 var TEAMNAME_MAX_LENGTH = 60;
 var NAME_MAX_LENGTH = 40;
