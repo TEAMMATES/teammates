@@ -40,10 +40,8 @@ function parseAndTrimEntry(rawEntry) {
  */
 function isEntryValid(entry) {
     if (entry.length !== 2) {
-        console.log('invalid entry: ', entry);
         return false;
     } else if (entry[0] === '' || entry[1] === '') {
-        console.log('invalid entry: ', entry);
         return false;
     }
     return true;
@@ -57,7 +55,6 @@ function isEntryValid(entry) {
  */
 function isEntryDuplicate(entry, institutionList) {
     if (institutionList.indexOf(entry[0]) !== -1) {
-        console.log('duplicate: ', entry);
         return true;
     }
     return false;
