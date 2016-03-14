@@ -77,9 +77,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
                       + "to login using a google account</a> (recommended).", pageData.getRegisterMessage());
         
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
-        
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
         assertFalse(pageData.isSubmittable());
@@ -101,9 +98,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "courseid=idOfUnregisteredCourse' class='link'>to login using a google account</a> "
                       + "(recommended).", pageData.getRegisterMessage());
         
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
-        
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
         assertFalse(pageData.isSubmittable());
@@ -123,9 +117,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "you need <a href='/page/studentCourseJoinAuthentication?studentemail=student1InArchivedCourse%40"
                       + "gmail.tmt&courseid=idOfArchivedCourse' class='link'>to login using a google account</a> "
                       + "(recommended).", pageData.getRegisterMessage());
-        
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -148,9 +139,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
                       + "to login using a google account</a> (recommended).", pageData.getRegisterMessage());
         
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
-        
         assertFalse(pageData.isModeration());
         assertTrue(pageData.isSessionOpenForSubmission());
         assertTrue(pageData.isSubmittable());
@@ -165,9 +153,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         pageData.setModeration(true);
         pageData.init("", student.email, student.course);
-        
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitAction());
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
         
         assertTrue(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
@@ -185,9 +170,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.setSessionOpenForSubmission(true);
         pageData.init("", student.email, student.course);
         
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitAction());
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
-        
         assertTrue(pageData.isModeration());
         assertTrue(pageData.isSessionOpenForSubmission());
         assertTrue(pageData.isSubmittable());
@@ -201,9 +183,6 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.setPreview(true);
         pageData.setPreviewInstructor(instructor);
         pageData.init("", student.email, student.course);
-        
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
-        assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
         assertFalse(pageData.isSessionOpenForSubmission());
