@@ -1510,6 +1510,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isDisabled = !isAllowedToModerate;
         String moderateFeedbackLink = isGiverInstructorOfCourse ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
                                                                 : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+        moderateFeedbackLink = addUserIdToUrl(moderateFeedbackLink);
         
         
         InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
@@ -1695,6 +1696,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             String moderateFeedbackLink = isStudent ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE
                                                             : Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE;
+            moderateFeedbackLink = addUserIdToUrl(moderateFeedbackLink);
             
             InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                                 !isAllowedToModerate, "btn btn-default btn-xs", 
