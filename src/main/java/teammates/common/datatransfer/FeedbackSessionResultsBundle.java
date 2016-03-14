@@ -123,22 +123,27 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.isComplete = isComplete;
 
         hideResponsesGiverRecipient();
-        setCorruptedResponse();
+        hideInvalidResponse();
         // unlike emailTeamNameTable, emailLastNameTable and emailTeamNameTable,
         // roster.*Table is populated using the CourseRoster data directly
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
     
-    public void setCorruptedResponse() {
+    
+    public void hideInvalidResponse() {
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            if (!isResponseValid(response, question)) {
-                response.setCorruptionMessage(errorMessage); 
+            if (!isResponseValid(response, questions.get(response.feedbackQuestionId))) {
+                String courseId = response.courseId;
+                String sessionName = response.feedbackSessionName;
+                String questionId = response.feedbackQuestionId;
+                response = null;
+                log.severe("Course ID: " + courseId + "Session Name: " + sessionName 
+                                         + "Question ID: " + questionId + "Error: " + errorMessage );
             }
         }
     }
-    
+
     public boolean isResponseValid(FeedbackResponseAttributes response,
                                     FeedbackQuestionAttributes question) {
         if (!response.isValid()) {
@@ -316,14 +321,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 recipient = emailTeamNameTable.get(response.recipientEmail);
                 if (!isParticipantIdentifierStudent(response.recipientEmail)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
-                }
-                if(isGiverVisible(response) && response.giverEmail.equals(response.recipientEmail)){
+                } else if (isGiverVisible(response) && response.giverEmail.equals(response.recipientEmail)){
                     errorMessage = Const.INVALID_RECIPIENT_SELF;
+                } else if (!giver.equals(recipient)) {
+                    errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
                 }
                 break;
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                giver = emailTeamNameTable.get(response.giverEmail);
+                recipient = emailTeamNameTable.get(response.recipientEmail);
                 if (!isParticipantIdentifierStudent(response.recipientEmail)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
+                } else if (!giver.equals(recipient)) {
+                    errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
                 }
                 break;
             case NONE:
