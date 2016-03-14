@@ -35,7 +35,9 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
+        EntityDoesNotExistException {
+        
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
         fqDb.createEntity(fq);
         verifyPresentInDatastore(fq, true);
@@ -57,7 +59,9 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
+    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException,
+        EntityDoesNotExistException {
+        
         ______TS("success : created");
 
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
