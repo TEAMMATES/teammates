@@ -12,7 +12,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     /**This is the claimed points from giver to recipient.
     */
     private int answer;
-    private static final int CONST_INVALID_RESPONSE = -1;
     
     public FeedbackContributionResponseDetails() {
         super(FeedbackQuestionType.CONTRIB);
@@ -46,35 +45,23 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     
     @Override
     public String getAnswerString() {
-        if (answer == CONST_INVALID_RESPONSE) {
-            return Const.INVALID_RESPONSE;
-        }
         return Integer.toString(answer);
     }
     
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
-        if (answer == CONST_INVALID_RESPONSE) {
-            return Const.INVALID_RESPONSE;
-        }
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
     }
 
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        if (answer == CONST_INVALID_RESPONSE) {
-            return Const.INVALID_RESPONSE;
-        }
         return Sanitizer.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
     }
     
     @Override
     public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        if (answer == CONST_INVALID_RESPONSE) {
-            return Const.INVALID_RESPONSE;
-        }
         return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
     }
 

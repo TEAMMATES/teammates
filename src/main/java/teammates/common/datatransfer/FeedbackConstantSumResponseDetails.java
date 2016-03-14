@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 
 public class FeedbackConstantSumResponseDetails extends
         FeedbackResponseDetails {
     private List<Integer> answers;
-    private static final int CONST_INVALID_RESPONSE = -1;
 
     public FeedbackConstantSumResponseDetails() {
         super(FeedbackQuestionType.CONSTSUM);
@@ -41,9 +39,6 @@ public class FeedbackConstantSumResponseDetails extends
     @Override
     public String getAnswerString() {
         String listString = answers.toString();//[1, 2, 3] format
-        if (answers.get(0) == CONST_INVALID_RESPONSE) {
-            return Const.INVALID_RESPONSE;
-        }
         return listString.substring(1, listString.length()-1);//remove []
     }
 
@@ -57,9 +52,6 @@ public class FeedbackConstantSumResponseDetails extends
             htmlBuilder.append("<ul>");
             for (int i=0 ; i<answers.size() ; i++) {
                 String answerString = answers.get(i).toString();
-                if (answers.get(0) == CONST_INVALID_RESPONSE) {
-                    answerString = Const.INVALID_RESPONSE;
-                }
                 String optionString = csQd.constSumOptions.get(i);
                 
                 htmlBuilder.append("<li>");

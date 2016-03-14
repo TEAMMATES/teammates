@@ -13,7 +13,6 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
 public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDetails {
-    private static final int CONST_INVALID_RESPONSE = -1;
     private List<Integer> answers;
     
     public FeedbackRankOptionsResponseDetails() {
@@ -59,9 +58,6 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     @Override
     public String getAnswerString() {
         String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
-        if (answers.get(0) == CONST_INVALID_RESPONSE) {
-            return Const.INVALID_RESPONSE;
-        }
         return listString.substring(1, listString.length() - 1); //remove []
     }
 
@@ -69,30 +65,27 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
         
+        SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
+        
         StringBuilder htmlBuilder = new StringBuilder();
         htmlBuilder.append("<ul>");
         
-        if (answers.get(0) == CONST_INVALID_RESPONSE) {
-            htmlBuilder.append("<li>" + Const.INVALID_RESPONSE + "</li>");
-        } else {
-            SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
+        for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
+            Integer rank = rankAndOption.getKey();
+            if (rank == Const.POINTS_NOT_SUBMITTED) {
+                continue;
+            }
             
-            for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
-                Integer rank = rankAndOption.getKey();
-                if (rank == Const.POINTS_NOT_SUBMITTED) {
-                    continue;
-                }
-                
-                List<String> optionsWithGivenRank = rankAndOption.getValue();
-                for (String option : optionsWithGivenRank) {
-                    htmlBuilder.append("<li>");
-                    htmlBuilder.append(Sanitizer.sanitizeForHtml(rank.toString()));
-                    htmlBuilder.append(": ");
-                    htmlBuilder.append(option);
-                    htmlBuilder.append("</li>");
-                }
+            List<String> optionsWithGivenRank = rankAndOption.getValue();
+            for (String option : optionsWithGivenRank) {
+                htmlBuilder.append("<li>");
+                htmlBuilder.append(Sanitizer.sanitizeForHtml(rank.toString()));
+                htmlBuilder.append(": ");
+                htmlBuilder.append(option);
+                htmlBuilder.append("</li>");
             }
         }
+        
         htmlBuilder.append("</ul>");
         return htmlBuilder.toString();
     }
