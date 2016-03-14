@@ -50,7 +50,7 @@ function isEntryValid(entry) {
 /**
  * Check if an institution entry is a duplicate
  * @param  {Array}   entry              array representing the institution, in the format of [name, country]
- * @param  {Array}   institutionList    representing the institution, in the format of [name, country]
+ * @param  {Array}   institutionList    array representing the institution, in the format of [name, country]
  * @return {Boolean} result             if the entry is a duplicate
  */
 function isEntryDuplicate(entry, institutionList) {
