@@ -140,7 +140,7 @@ test {
         outputDirectory = file("build/reports/test-try-1")
     }
     jvmArgs "-Duser.timezone=UTC-Xss2m", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-    maxHeapSize = "512m"
+    maxHeapSize = "1g"
     ignoreFailures = numOfTestRetries != 0 ? true : false
     reports.html.enabled = false
     reports.junitXml.enabled = false
@@ -171,7 +171,7 @@ appengineTest.dependsOn "test"
         classpath = sourceSets.test.runtimeClasspath
         testSrcDirs = sourceSets.test.java.srcDirs as List
         jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-        maxHeapSize = "512m"
+        maxHeapSize = "1g"
         ignoreFailures = isLastRetry ? false : true
         reports.html.enabled = false
         reports.junitXml.enabled = false
