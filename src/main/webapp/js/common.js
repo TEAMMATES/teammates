@@ -550,7 +550,7 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * Default message type is info.
  *
  * @param message the text message to be shown to the user
- * @param status the type (StatusType.SUCCESS, StatusType.INFO, StatusType.WARNING, StatusType.DANGER) of the message
+ * @param status type
  */
 function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
