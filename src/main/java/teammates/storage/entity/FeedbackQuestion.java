@@ -77,7 +77,6 @@ public class FeedbackQuestion implements StoreCallback {
      * to true when using scripts to update entities when you want to preserve
      * the lastUpdate time stamp.
      **/
-
     @NotPersistent
     public boolean keepUpdateTimestamp = false;
 
