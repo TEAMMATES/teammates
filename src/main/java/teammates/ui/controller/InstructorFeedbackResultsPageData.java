@@ -516,12 +516,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!viewType.isPrimaryGroupingOfGiverType()) {
                 boolean isStudent = bundle.roster.getStudentForEmail(secondaryParticipantIdentifier) != null;
                 boolean isVisibleTeam = isTeamVisible(secondaryParticipantDisplayableName);
+                boolean isInstructor = bundle.roster.getInstructorForEmail(secondaryParticipantIdentifier) != null;
                 String sectionName = bundle.getSectionFromRoster(secondaryParticipantIdentifier);
-                boolean isAllowedToModerate = (isStudent || isVisibleTeam) 
+                boolean isAllowedToModerate = (isStudent || isVisibleTeam || isInstructor) 
                                            && instructor.isAllowedForPrivilege(
                                                   sectionName, feedbackSessionName, 
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                boolean isShowingModerationButton = (isStudent || isVisibleTeam) 
+                boolean isShowingModerationButton = (isStudent || isVisibleTeam || isInstructor) 
                                                  && isAllowedToModerate;
                 secondaryParticipantPanel.setModerationButton(isShowingModerationButton
                                                             ? buildModerationButtonForGiver(null, secondaryParticipantIdentifier, 
@@ -627,7 +628,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         InstructorFeedbackResultsQuestionTable.sortByQuestionNumber(questionTables);
         InstructorFeedbackResultsGroupByQuestionPanel participantPanel;
         // Construct InstructorFeedbackResultsGroupByQuestionPanel for the current giver
-        if (viewType.isPrimaryGroupingOfGiverType() && bundle.isParticipantIdentifierStudent(participantIdentifier)) {
+        if (viewType.isPrimaryGroupingOfGiverType() && (bundle.isParticipantIdentifierStudent(participantIdentifier) 
+                                                    || bundle.isParticipantIdentifierInstructor(participantIdentifier))) {
             // Moderation button on the participant panels are only shown is the panel is a giver panel,
             // and if the participant is a student
             InstructorFeedbackResultsModerationButton moderationButton 
@@ -1506,9 +1508,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                          getFeedbackSessionName(), 
                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isDisabled = !isAllowedToModerate;
-        boolean isGiverInstructor = question.giverType == FeedbackParticipantType.INSTRUCTORS;
-        String moderateFeedbackLink = isGiverInstructor ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
-                                                        : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+        String moderateFeedbackLink = isGiverInstructorOfCourse ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
+                                                                : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
         
         
         InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
@@ -1692,8 +1693,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             boolean isAllowedToModerate = instructor.isAllowedForPrivilege(
                                                sectionName, feedbackSessionName, 
                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            String moderateFeedbackLink = isStudent ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
-                                                            : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
+            String moderateFeedbackLink = isStudent ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE
+                                                            : Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE;
             
             InstructorFeedbackResultsModerationButton moderationButton = new InstructorFeedbackResultsModerationButton(
                                                                                 !isAllowedToModerate, "btn btn-default btn-xs", 
