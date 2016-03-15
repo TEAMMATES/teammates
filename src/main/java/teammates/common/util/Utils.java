@@ -35,15 +35,15 @@ public class Utils {
                 .setPrettyPrinting()
                 .create();
     }
-    
+
     /**
-     * This method returns a string representing a list of participants separated by delimiters.
+     * This method converts a list of FeedbackParticipantType objects into a string, separated by the delimiter.
      * 
      * @param participants
      *            a list of 'FeedbackParticipantType' objects
      * @param delimiter
      *            a delimiter to separate each participant (e.g. a comma sign ",")
-     * @return a string representing all participants separated by 'delimiter'
+     * @return a string representing all participants separated by the delimiter
      */
     public static String joinParticipantTypes(List<FeedbackParticipantType> participants, String delimiter) {
         String result = "";
