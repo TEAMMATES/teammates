@@ -144,8 +144,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                          + "Question ID: " + questionId + "Error: " + errorMessage );
             }
         }
-        responses.clear();
-        responses.addAll(validResponses);
+        responses = validResponses;
     }
 
     public boolean isResponseValid(FeedbackResponseAttributes response,

@@ -165,6 +165,15 @@
             "team":"Team 2",
             "section":"Section A"
         },
+        "Ford":{
+            "googleId":"CFResultsUiT.danny.e",
+            "email":"CFResultsUiT.ford.g@gmail.tmt",
+            "course":"CFResultsUiT.CS2104",
+            "name":"Ford Goh",
+            "comments":"This student's name is Ford Goh",
+            "team":"Team 2",
+            "section":"Section A"
+        },
         "Emily":{
             "googleId":"CFResultsUiT.emily.f",
             "email":"CFResultsUiT.emily.f@gmail.tmt",
@@ -1467,7 +1476,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"6",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "giverEmail":"CFResultsUiT.ford.g@gmail.tmt",
             "recipientEmail":"CFResultsUiT.charlie.d@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
@@ -1480,7 +1489,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"6",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "giverEmail":"CFResultsUiT.ford.g@gmail.tmt",
             "recipientEmail":"CFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
