@@ -10,7 +10,7 @@
 </c:set>
 
 <ts:studentPage bodyTitle="Team Details for ${data.studentCourseDetailsPanel.courseId}" pageTitle="TEAMMATES - Student">
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     <div class="well well-plain">
         <div class="form-horizontal">

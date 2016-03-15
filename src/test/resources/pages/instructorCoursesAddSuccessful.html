@@ -39,18 +39,20 @@
     <input name="isusingAjax" type="hidden" value="on">
   </form>
   <br>
-  <div class="overflow-auto alert alert-success" id="statusMessage">
-    The course has been added. Click
-    <a href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor">
-      here
-    </a>
-    to add students to the course or click
-    <a href="/page/instructorCourseEditPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor">
-      here
-    </a>
-    to add other instructors.
-    <br>
-    If you don't see the course in the list below, please refresh the page after a few moments.
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-success statusMessage">
+      The course has been added. Click
+      <a href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor">
+        here
+      </a>
+      to add students to the course or click
+      <a href="/page/instructorCourseEditPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor">
+        here
+      </a>
+      to add other instructors.
+      <br>
+      If you don't see the course in the list below, please refresh the page after a few moments.
+    </div>
   </div>
   <script src="/js/statusMessage.js" type="text/javascript">
   </script>

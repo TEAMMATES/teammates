@@ -5,7 +5,7 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="">
     <br />
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br />
     <div class="panel panel-primary panel-narrow">
         <div class="panel-heading">

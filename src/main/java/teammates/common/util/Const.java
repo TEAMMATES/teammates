@@ -519,8 +519,7 @@ public class Const {
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
     
-        public static final String STATUS_MESSAGE = "message";
-        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
+        public static final String STATUS_MESSAGES_LIST = "statusMessagesToUser";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
