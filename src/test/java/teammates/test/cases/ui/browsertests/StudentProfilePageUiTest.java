@@ -171,7 +171,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         // Verify with retry after upload picture due to inconsistency of .click in detecting page load
         profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
-        profilePage.isElementVisible("studentPhotoUploader");
+        profilePage.waitForUploadEditModalVisible();
 
         profilePage.editProfilePhoto();
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
@@ -214,7 +214,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         profilePage.fillProfilePic("src/test/resources/images/image_tall.jpg");
         profilePage.uploadPicture();
-        profilePage.isElementVisible("studentPhotoUploader");
+        
+        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
+        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
+        profilePage.waitForUploadEditModalVisible();
         profilePage.verifyPhotoSize(3074, 156);
 
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
