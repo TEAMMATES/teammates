@@ -158,8 +158,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      * * {@code newAttributes.getId()} is non-null and
      *  correspond to an existing feedback question. <br>
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes) throws InvalidParametersException,
-            EntityDoesNotExistException {
+    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
+            throws InvalidParametersException, EntityDoesNotExistException {
         updateFeedbackQuestion(newAttributes, false);
     }
     
