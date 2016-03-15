@@ -1,9 +1,11 @@
 package teammates.test.cases.storage;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -45,8 +47,75 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(dataBundle.feedbackResponses.get(i));
         }
     }
+    
+    @Test
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
+        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+        frDb.createEntity(fra);
+        verifyPresentInDatastore(fra, true);
+        
+        fra.setCreatedAt_NonProduction(null);
+        fra.setUpdatedAt_NonProduction(null);
+        
+        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        
+        ______TS("success : defaultTimeStamp for createdAt date");
+        
+        assertEquals(defaultTimeStamp, fra.getCreatedAt());
+        
+        ______TS("success : defaultTimeStamp for updatedAt date");
+        
+        assertEquals(defaultTimeStamp, fra.getUpdatedAt());
+        
+        frDb.deleteEntity(fra);
+    }
+    
+    @Test
+    public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        
+        ______TS("success : created");
 
+        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+        frDb.createEntity(fra);
+        verifyPresentInDatastore(fra, true);
+        
+        String feedbackQuestionId = fra.feedbackQuestionId;
+        String giverEmail = fra.giverEmail;
+        String recipientEmail = fra.recipientEmail;
+        
+        FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipientEmail);
+        
+        // Assert dates are now.
+        AssertHelper.assertDateIsNow(feedbackResponse.getCreatedAt());
+        AssertHelper.assertDateIsNow(feedbackResponse.getUpdatedAt());
+        
+        ______TS("success : update lastUpdated");
+        
+        String newRecipientEmail = "new-email@tmt.com";
+        feedbackResponse.recipientEmail = newRecipientEmail;
+        frDb.updateFeedbackResponse(feedbackResponse);
+        
+        FeedbackResponseAttributes updatedFr = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmail);
+        
+        // Assert lastUpdate has changed, and is now.
+        assertFalse(feedbackResponse.getUpdatedAt().equals(updatedFr.getUpdatedAt()));
+        AssertHelper.assertDateIsNow(updatedFr.getUpdatedAt());
+        
+        ______TS("success : keep lastUpdated");
 
+        String newRecipientEmailTwo = "new-email-two@tmt.com";
+        feedbackResponse.recipientEmail = newRecipientEmailTwo;
+        frDb.updateFeedbackResponse(feedbackResponse, true);
+
+        FeedbackResponseAttributes updatedFrTwo = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmailTwo);
+        
+        // Assert lastUpdate has NOT changed.
+        assertEquals(updatedFr.getUpdatedAt(), updatedFrTwo.getUpdatedAt());
+        
+        frDb.deleteEntity(updatedFrTwo);
+            
+    }
+    
     @Test
     public void testCreateDeleteFeedbackResponse() 
             throws InvalidParametersException, EntityAlreadyExistsException {    
