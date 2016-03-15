@@ -106,10 +106,9 @@ public class BaseComponentTestCase extends BaseTestCase {
         if (wildcardId) {
             expected.setId(actual.getId());
         }
-        
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
-
+    
     protected static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frc) {
         assertNull(frcDb.getFeedbackResponseComment(frc.feedbackResponseId, frc.giverEmail, frc.createdAt));
     }
