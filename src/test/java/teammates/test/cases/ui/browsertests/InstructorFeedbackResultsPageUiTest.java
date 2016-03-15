@@ -99,6 +99,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
         
+        ______TS("Typical case: session with invalid responses");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with invalid responses");
+        resultsPage.waitForPanelsToExpand();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageInvalidResponse.html");
+        
     }
     
     @Test
