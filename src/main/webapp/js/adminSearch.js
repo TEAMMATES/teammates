@@ -95,7 +95,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                 	$(button).html("An Error Occurred, Please Retry");      	
                 }
             	               
-                $("#statusMessage").html(data.statusForAjax);
+                setStatusMessage(data.statusForAjax, StatusType.INFO);
 
             },500);
         }

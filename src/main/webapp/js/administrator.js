@@ -43,19 +43,19 @@ function verifyInstructorData() {
     $('[name="' + INSTRUCTOR_INSTITUTION + '"]').val(institution);
 
     if (googleID == "" || name == "" || email == "") {
-        setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+        setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
         return false;
     } else if (!isValidGoogleId(googleID)) {
-        setStatusMessage(DISPLAY_GOOGLEID_INVALID, true);
+        setStatusMessage(DISPLAY_GOOGLEID_INVALID, StatusType.DANGER);
         return false;
     } else if (!isEmailValid(email)) {
-        setStatusMessage(DISPLAY_EMAIL_INVALID, true);
+        setStatusMessage(DISPLAY_EMAIL_INVALID, StatusType.DANGER);
         return false;
     } else if (!isNameValid(name)) {
-        setStatusMessage(DISPLAY_NAME_INVALID, true);
+        setStatusMessage(DISPLAY_NAME_INVALID, StatusType.DANGER);
         return false;
     } else if (!isInstitutionValid(institution)) {
-        setStatusMessage(DISPLAY_INSTITUTION_INVALID, true);
+        setStatusMessage(DISPLAY_INSTITUTION_INVALID, StatusType.DANGER);
         return false;
     }
 

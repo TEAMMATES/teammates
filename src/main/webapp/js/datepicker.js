@@ -9,7 +9,7 @@ $(document).ready(function(){
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
-        defaultDate: new Date(),
+        defaultDate: today,
         onSelect: function(date) {
         	$("#deadline").datepicker("option", "minDate", getMinDateForEndDate($('#start').datepicker("getDate")));
         }
@@ -19,7 +19,7 @@ $(document).ready(function(){
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
-    	defaultDate: new Date(),
+    	defaultDate: today,
     	onSelect: function(date) {
     		$("#start").datepicker("option", "maxDate", date);
     	}
@@ -29,7 +29,7 @@ $(document).ready(function(){
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
-    	defaultDate: new Date(),
+    	defaultDate: today,
         onSelect: function(date, inst) {
     		var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker("getDate"), 
     				$('#publishdate').datepicker("getDate"));
