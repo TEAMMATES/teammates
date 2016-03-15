@@ -11,6 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ActionURIs;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;
@@ -49,7 +50,45 @@ public class StudentHomePageActionTest extends BaseActionTest {
         AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user", 
                                         r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
+        AssertHelper.assertContainsRegex("<div class=\"align-center\">"
+                                        + "<div style=\"margin-right: auto; margin-left: auto;\""
+                                        + " class=\"text-color-red text-bold\">Oops! Your "
+                                        + "Google account is not known to TEAMMATES." 
+                                        + "</div>"
+                                        + "</div>"
+                                        + "<br>"
+                                        + "<div style=\"text-align:left; \">"
+                                        + "<br>"
+                                        + "To access a course on TEAMMATES, first you need to wait till an "
+                                        + "instructor adds you to that course and TEAMMATES sends you "
+                                        + "instructions on how to access that particular course in TEAMMATES."
+                                        + "<br><br>If you 'joined' the course in TEAMMATES using a Google "
+                                        + "account before,but cannot login anymore, these are the possible reasons:"
+                                        + "<ol>"
+                                        + "<li>"
+                                        + "You used a different Google account to access TEAMMATES in the "
+                                        + "past. In that case, you need to use the same Google account to access "
+                                        + "TEAMMATES again. Logout and re-login using the other Google account. "
+                                        + "If you don't remember which Google account you used previously, email "
+                                        + "us from the same email account to which you receive TEAMMATES emails."
+                                        + "</li>"
+                                        + "<li>"
+                                        + "You changed the primary email from a non-Gmail address to a "
+                                        + "Gmail address recently. In that case, "
+                                        + "<a href=\"https://teammatesv4.appspot.com/contact.html\">"
+                                        + "email us "
+                                        + "</a>"
+                                        + "so that we can reconfigure your account to use the new Gmail address."
+                                        + "</li>"
+                                        + "<li>"
+                                        + "You joined this course just a few seconds ago and your data "
+                                        + "may be still in the process of propagating through our servers. "
+                                        + "In that case, please click on the "
+                                        + "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in "
+                                        + "a few minutes."
+                                        + "</li>"
+                                        + "</ol>"
+                                        + "</div>",
                                         r.getStatusMessage());
         
         StudentHomePageData data = (StudentHomePageData) r.data;
@@ -87,7 +126,45 @@ public class StudentHomePageActionTest extends BaseActionTest {
                                           + studentWithoutCourses.googleId, 
                                           r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
+        AssertHelper.assertContainsRegex("<div class=\"align-center\">"
+                                        + "<div style=\"margin-right: auto; margin-left: auto;\""
+                                        + " class=\"text-color-red text-bold\">Oops! Your "
+                                        + "Google account is not known to TEAMMATES." 
+                                        + "</div>"
+                                        + "</div>"
+                                        + "<br>"
+                                        + "<div style=\"text-align:left; \">"
+                                        + "<br>"
+                                        + "To access a course on TEAMMATES, first you need to wait till an "
+                                        + "instructor adds you to that course and TEAMMATES sends you "
+                                        + "instructions on how to access that particular course in TEAMMATES."
+                                        + "<br><br>If you 'joined' the course in TEAMMATES using a Google "
+                                        + "account before,but cannot login anymore, these are the possible reasons:"
+                                        + "<ol>"
+                                        + "<li>"
+                                        + "You used a different Google account to access TEAMMATES in the "
+                                        + "past. In that case, you need to use the same Google account to access "
+                                        + "TEAMMATES again. Logout and re-login using the other Google account. "
+                                        + "If you don't remember which Google account you used previously, email "
+                                        + "us from the same email account to which you receive TEAMMATES emails."
+                                        + "</li>"
+                                        + "<li>"
+                                        + "You changed the primary email from a non-Gmail address to a "
+                                        + "Gmail address recently. In that case, "
+                                        + "<a href=\"https://teammatesv4.appspot.com/contact.html\">"
+                                        + "email us "
+                                        + "</a>"
+                                        + "so that we can reconfigure your account to use the new Gmail address."
+                                        + "</li>"
+                                        + "<li>"
+                                        + "You joined this course just a few seconds ago and your data "
+                                        + "may be still in the process of propagating through our servers. "
+                                        + "In that case, please click on the "
+                                        + "<a href=" + ActionURIs.STUDENT_HOME_PAGE + ">Home</a> link above in "
+                                        + "a few minutes."
+                                        + "</li>"
+                                        + "</ol>"
+                                        + "</div>",
                                           r.getStatusMessage());
         
         data = (StudentHomePageData) r.data;
