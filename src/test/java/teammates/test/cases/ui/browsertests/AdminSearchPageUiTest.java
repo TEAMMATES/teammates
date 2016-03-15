@@ -80,7 +80,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         StudentAttributes student = testData.students.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        assertTrue(isStudentDisplayed(student, instructor));
+        assertTrue(isStudentRowDisplayed(student, instructor));
         
         ______TS("search for student name with special characters");
         
@@ -189,12 +189,13 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
     /**
      * @param student
      *            the student to be displayed
-     * @param instructor
-     *            a registered instructor with the privilege to modify instructors 
+     * @param instructorToMasquaradeAs
+     *            a registered instructor with co-owner privileges or the
+     *            privilege to modify instructors
      * @return true if the student is displayed correctly in the student table,
      *         otherwise false
      */
-    private boolean isStudentDisplayed(StudentAttributes student, InstructorAttributes instructor) {
+    private boolean isStudentRowDisplayed(StudentAttributes student, InstructorAttributes instructorToMasquaradeAs) {
 
         By by = By.xpath("//table[@id = 'search_table']/tbody/tr[@class='studentRow']");
         List<WebElement> studentRows = browser.driver.findElements(by);
@@ -202,7 +203,7 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         for (WebElement studentRow : studentRows) {
             
             boolean isStudentCorrect = isStudentContentCorrect(studentRow, student)
-                                       && isStudentLinkCorrect(studentRow, student, instructor);
+                                       && isStudentLinkCorrect(studentRow, student, instructorToMasquaradeAs);
            
             if (isStudentCorrect) {
                 return true;
@@ -245,21 +246,21 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
      *            a row of the student table
      * @param student
      *            the student to be displayed
-     * @param instructor
-     *            a registered instructor with the privilege to modify
-     *            instructors
+     * @param instructorToMasquaradeAs
+     *            a registered instructor with co-owner privileges or the
+     *            privilege to modify instructors
      * @return true if the links associated with the {@code student}'s name and
      *         googleId (if he/she is registered) are correct, otherwise false
      */
     private boolean isStudentLinkCorrect(WebElement studentRow, 
                                          StudentAttributes student, 
-                                         InstructorAttributes instructor) {
+                                         InstructorAttributes instructorToMasquaradeAs) {
 
         String actualNameLink = studentRow.findElement(By.xpath("td[3]/a")).getAttribute("href");
         String expectedNameLink = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                                   .withCourseId(student.course)
                                   .withStudentEmail(student.email)
-                                  .withUserId(instructor.googleId)
+                                  .withUserId(instructorToMasquaradeAs.googleId)
                                   .toAbsoluteString();
 
         if (student.isRegistered()) {
