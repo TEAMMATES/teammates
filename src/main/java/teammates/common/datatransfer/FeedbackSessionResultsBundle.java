@@ -253,7 +253,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     private boolean isResponseRecipientTypeMatchedToQuestionSetting(FeedbackResponseAttributes response,
                                     FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
         errorMessage = null;
-        
         if (!isRecipientVisible(response)) {
             return isInvisibleResponseRecipientTypeMatchedToQuestionSetting(response, giverType, recipientType);
         }
@@ -282,7 +281,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 } else {
                     giver = emailTeamNameTable.get(response.giverEmail);
                 }
-                if (recipient.equals(giver)) {
+                if (isGiverVisible(response) && recipient.equals(giver)) {
                     errorMessage = Const.INVALID_RECIPIENT_SAME_TEAM;
                 }
                 break;
@@ -307,7 +306,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 break;
             case SELF:
-                if (isGiverVisible(response) && !response.recipientEmail.equals(response.giverEmail)) {
+                if (!response.recipientEmail.equals(response.giverEmail)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_SELF;
                 }
                 break;
@@ -328,7 +327,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
                 } else if (isGiverVisible(response) && response.giverEmail.equals(response.recipientEmail)){
                     errorMessage = Const.INVALID_RECIPIENT_SELF;
-                } else if (!giver.equals(recipient)) {
+                } else if (isGiverVisible(response) && !giver.equals(recipient)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
                 }
                 break;
@@ -337,7 +336,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 recipient = emailTeamNameTable.get(response.recipientEmail);
                 if (!isParticipantIdentifierStudent(response.recipientEmail)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_A_STUDENT;
-                } else if (!giver.equals(recipient)) {
+                } else if (isGiverVisible(response) && !giver.equals(recipient)) {
                     errorMessage = Const.INVALID_RECIPIENT_NOT_IN_THE_SAME_TEAM;
                 }
                 break;
