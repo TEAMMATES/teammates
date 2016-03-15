@@ -159,8 +159,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      *  correspond to an existing feedback question. <br>
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes) throws InvalidParametersException,
-        EntityDoesNotExistException {
-        
+            EntityDoesNotExistException {
         updateFeedbackQuestion(newAttributes, false);
     }
     
@@ -175,7 +174,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
      *  correspond to an existing feedback question. <br>
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes, boolean keepUpdateTimestamp)
-        throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         
