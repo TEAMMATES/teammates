@@ -415,7 +415,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fsCopyModal.clickSubmitButton();
 
         homePage.waitForPageToLoad();
-        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        homePage.verifyStatusWithRetry(Const.StatusMessages.FEEDBACK_SESSION_COPIED, 10);
         
         homePage.goToPreviousPage(InstructorHomePage.class);
         
