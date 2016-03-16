@@ -103,7 +103,7 @@ public class StudentAttributesTest extends BaseTestCase {
                 .generateStringOfLength(FieldValidator.SECTION_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes(longSectionName, "t1", "n", "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(SECTION_NAME_ERROR_MESSAGE, longSectionName, REASON_TOO_LONG),
+        assertEquals(SECTION_NAME_ERROR_MESSAGE,
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: team name too long");
@@ -157,10 +157,10 @@ public class StudentAttributesTest extends BaseTestCase {
         String errorMessage = "\"invalid@google@id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 254 characters. It cannot be empty." + EOL
                             + "\"\" is not acceptable to TEAMMATES as a Course ID because it is empty. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces." + EOL
                             + "\"invalid email\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces." + EOL
-                            + "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 60 characters. It should not be empty." + EOL
+                            + "The field <b>team name</b> cannot be empty and must be no longer than 60 characters." + EOL
                             + "\"" + s.comments
                             + "\" is not acceptable to TEAMMATES as comments about a student enrolled in a course because it is too long. The value of comments about a student enrolled in a course should be no longer than 500 characters." + EOL
-                            + "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 100 characters. It should not be empty.";
+                            + "The field <b>name</b> cannot be empty and must be no longer than 100 characters.";
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
 
