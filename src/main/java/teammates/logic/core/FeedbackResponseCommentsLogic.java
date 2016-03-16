@@ -103,6 +103,17 @@ public class FeedbackResponseCommentsLogic {
         }
     }
     
+    public void updateFeedbackResponseCommentsForChangingResponseId(
+            String oldResponseId, String newResponseId) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        List<FeedbackResponseCommentAttributes> responseComments = 
+                getFeedbackResponseCommentForResponse(oldResponseId);
+        for (FeedbackResponseCommentAttributes responseComment : responseComments) {
+            responseComment.feedbackResponseId = newResponseId;         
+            updateFeedbackResponseComment(responseComment);
+        }
+    }
+    
     public void updateFeedbackResponseCommentsGiverEmail(String courseId, String oldEmail, String updatedEmail) {
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }

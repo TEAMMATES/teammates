@@ -328,6 +328,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setLastEditorEmail(newAttributes.giverEmail);
         frc.setLastEditedAt(newAttributes.createdAt);
         
+        if (newAttributes.feedbackResponseId != null) {
+            frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
+        }
+        
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
         

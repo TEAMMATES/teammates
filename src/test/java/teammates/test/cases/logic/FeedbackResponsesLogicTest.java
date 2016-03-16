@@ -295,27 +295,60 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
         
-        // Student 1 currently has 3 responses to him and 3 from himself.
-        InstructorAttributes studentToUpdate = typicalBundle.instructors.get("instructor1OfCourse1");
-        assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-                studentToUpdate.courseId, studentToUpdate.email).size(), 2);
-        assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
-                studentToUpdate.courseId, studentToUpdate.email).size(), 3);
+        // Student 1 currently has 2 responses to him and 2 from himself.
+        // Student 1 currently has 1 response comment for responses to him 
+        // and 1 response comment from responses from himself.
+        StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
+        List<FeedbackResponseAttributes> responsesForReceiver =
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        studentToUpdate.course, studentToUpdate.email);
+        List<FeedbackResponseAttributes> responsesFromGiver =
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        studentToUpdate.course, studentToUpdate.email);
+        List<FeedbackResponseAttributes> responsesToAndFromStudent =
+                new ArrayList<FeedbackResponseAttributes>();
+        responsesToAndFromStudent.addAll(responsesForReceiver);
+        responsesToAndFromStudent.addAll(responsesFromGiver);
+        List<FeedbackResponseCommentAttributes> responseCommentsForStudent = 
+                getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
+        
+        assertEquals(responsesForReceiver.size(), 2);
+        assertEquals(responsesFromGiver.size(), 2);        
+        assertEquals(responseCommentsForStudent.size(), 2);
+
+        frLogic.updateFeedbackResponsesForChangingEmail(
+                studentToUpdate.course, studentToUpdate.email, "new@email.tmt");
+        
+        responsesForReceiver = frLogic.getFeedbackResponsesForReceiverForCourse(
+                studentToUpdate.course, studentToUpdate.email);
+        responsesFromGiver = frLogic.getFeedbackResponsesFromGiverForCourse(
+                studentToUpdate.course, studentToUpdate.email);
+        responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
+        responsesToAndFromStudent.addAll(responsesForReceiver);
+        responsesToAndFromStudent.addAll(responsesFromGiver);
+        responseCommentsForStudent = 
+                getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
+        
+        assertEquals(responsesForReceiver.size(), 0);
+        assertEquals(responsesFromGiver.size(), 0);
+        assertEquals(responseCommentsForStudent.size(), 0);
+        
+        responsesForReceiver = frLogic.getFeedbackResponsesForReceiverForCourse(
+                studentToUpdate.course, "new@email.tmt");
+        responsesFromGiver = frLogic.getFeedbackResponsesFromGiverForCourse(
+                studentToUpdate.course, "new@email.tmt");
+        responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
+        responsesToAndFromStudent.addAll(responsesForReceiver);
+        responsesToAndFromStudent.addAll(responsesFromGiver);
+        responseCommentsForStudent = 
+                getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
+        
+        assertEquals(responsesForReceiver.size(), 2);
+        assertEquals(responsesFromGiver.size(), 2);
+        assertEquals(responseCommentsForStudent.size(), 2);
         
         frLogic.updateFeedbackResponsesForChangingEmail(
-                studentToUpdate.courseId, studentToUpdate.email, "new@email.tmt");
-        
-        assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-                studentToUpdate.courseId, studentToUpdate.email).size(), 0);
-        assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
-                studentToUpdate.courseId, studentToUpdate.email).size(), 0);
-        assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-                studentToUpdate.courseId, "new@email.tmt").size(), 2);
-        assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
-                studentToUpdate.courseId, "new@email.tmt").size(), 3);
-        
-        frLogic.updateFeedbackResponsesForChangingEmail(
-                studentToUpdate.courseId, "new@email.tmt", studentToUpdate.email);
+                studentToUpdate.course, "new@email.tmt", studentToUpdate.email);
     }
     
     public void testGetViewableResponsesForQuestionInSection() throws Exception {
@@ -577,6 +610,18 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
     private FeedbackResponseAttributes getResponseFromDatastore(String jsonId){
         return getResponseFromDatastore(typicalBundle, jsonId);
+    }
+    
+    private List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponsesFromDatastore(
+            List<FeedbackResponseAttributes> responses) {
+        List<FeedbackResponseCommentAttributes> responseComments = 
+                new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseAttributes response : responses) {
+            List<FeedbackResponseCommentAttributes> responseCommentsForResponse = 
+                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
+            responseComments.addAll(responseCommentsForResponse);
+        }
+        return responseComments;
     }
     
     @AfterClass
