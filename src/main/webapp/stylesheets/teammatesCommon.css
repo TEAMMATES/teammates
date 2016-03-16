@@ -215,6 +215,10 @@ Apply to thead to make headers not bold.
     padding-right: 10px;
 }
 
+.padding-right-25px {
+    padding-right: 25px !important;
+}
+
 .padding-top-0 {
     padding-top: 0;
 }
@@ -281,6 +285,10 @@ Apply to thead to make headers not bold.
 
 .text-preserve-space {
     white-space: pre-wrap;
+}
+
+.text-nowrap {
+    white-space: nowrap;
 }
 
 .text-strike {
