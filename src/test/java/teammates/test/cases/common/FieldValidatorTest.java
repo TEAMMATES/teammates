@@ -55,7 +55,7 @@ public class FieldValidatorTest extends BaseTestCase{
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -66,7 +66,7 @@ public class FieldValidatorTest extends BaseTestCase{
         assertEquals("invalid: empty", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+                        typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -225,7 +225,7 @@ public class FieldValidatorTest extends BaseTestCase{
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        typicalFieldName, maxLength),
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
@@ -237,7 +237,7 @@ public class FieldValidatorTest extends BaseTestCase{
         assertEquals("invalid: empty", 
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                        emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
+                        typicalFieldName, maxLength),
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
