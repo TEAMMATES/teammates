@@ -378,7 +378,7 @@ public class FieldValidator {
     
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
-            "The field <b>%s</b> cannot be empty and must must no longer than %d characters.";
+            "The field <b>%s</b> cannot be empty and must be no longer than %d characters.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
