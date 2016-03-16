@@ -73,12 +73,12 @@ public class FieldValidator {
      * =======================================================================
      * Field: Person name 
      */
-    public static final String PERSON_NAME_FIELD_NAME = "a person name";
+    public static final String PERSON_NAME_FIELD_NAME = "name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
     public static final String PERSON_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+PERSON_NAME_FIELD_NAME+" because it %s. " +
-            "The value of "+PERSON_NAME_FIELD_NAME+" should be no longer than "+
-            PERSON_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "The field <b>" + PERSON_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than " + PERSON_NAME_MAX_LENGTH + " characters.";
+    public static final String PERSON_NAME_ERROR_MESSAGE_WITHOUT_HTML = 
+            "The field " + PERSON_NAME_FIELD_NAME + " cannot be empty and must be no longer than " + PERSON_NAME_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
@@ -117,20 +117,16 @@ public class FieldValidator {
     // one more than longest official nationality name
     public static final int NATIONALITY_MAX_LENGTH = 55;
     public static final String NATIONALITY_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+NATIONALITY_FIELD_NAME+" because it %s. " +
-                    "The value of "+NATIONALITY_FIELD_NAME+" should be no longer than "+
-                    NATIONALITY_MAX_LENGTH+" characters. It should not be empty.";
+            "The field <b>" + NATIONALITY_FIELD_NAME + "</b> cannot be empty and must be no longer than " + NATIONALITY_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
      * Field: Course name
      */
-    private static final String COURSE_NAME_FIELD_NAME = "a course name";
+    private static final String COURSE_NAME_FIELD_NAME = "course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     public static final String COURSE_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+COURSE_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+COURSE_NAME_FIELD_NAME+" should be no longer than "+
-                    COURSE_NAME_MAX_LENGTH+" characters. It should not be empty.";    
+            "The field <b>" + COURSE_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than " + COURSE_NAME_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
@@ -211,9 +207,9 @@ public class FieldValidator {
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
     public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "The field <b>" + FEEDBACK_SESSION_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than " +
+                    FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters.";
+
     
     /*
      * =======================================================================
@@ -256,12 +252,10 @@ public class FieldValidator {
      * =======================================================================
      * Field: Institute name
      */    
-    private static final String INSTITUTE_NAME_FIELD_NAME = "an institute name";
+    private static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
     public static final String INSTITUTE_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+INSTITUTE_NAME_FIELD_NAME+" because it %s. " +
-            "The value of "+INSTITUTE_NAME_FIELD_NAME+" should be no longer than "+
-            INSTITUTE_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "The field <b>" + INSTITUTE_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than " + INSTITUTE_NAME_MAX_LENGTH + " characters.";
 
     /*
      * =======================================================================
@@ -292,23 +286,21 @@ public class FieldValidator {
      * =======================================================================
      * Field: Team name
      */
-    private static final String TEAM_NAME_FIELD_NAME = "a team name";
+    private static final String TEAM_NAME_FIELD_NAME = "team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     public static final String TEAM_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+TEAM_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
-                    TEAM_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "The field <b>" + TEAM_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than " + TEAM_NAME_MAX_LENGTH + " characters.";
+    public static final String TEAM_NAME_ERROR_MESSAGE_WITHOUT_HTML = 
+            "The field <b>" + TEAM_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than " + TEAM_NAME_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
      * Field: Section name
      */
-    private static final String SECTION_NAME_FIELD_NAME = "a section name";
+    private static final String SECTION_NAME_FIELD_NAME = "section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
     public static final String SECTION_NAME_ERROR_MESSAGE =
-            "\"%s\" is not acceptable to TEAMMATES as "+SECTION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+SECTION_NAME_FIELD_NAME+" should be no longer than "+
-                    SECTION_NAME_MAX_LENGTH+" characters. It should not be empty.";
+            "The field <b>" + SECTION_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than " + SECTION_NAME_MAX_LENGTH + " characters.";
 
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
@@ -379,6 +371,8 @@ public class FieldValidator {
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
             "The field <b>%s</b> cannot be empty and must be no longer than %d characters.";
+    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML = 
+            "The field %s cannot be empty and must be no longer than %d characters.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
