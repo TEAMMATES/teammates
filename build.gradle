@@ -3,6 +3,7 @@ apply plugin: "appengine"
 
 def appengineVersion = "1.9.27"
 def numOfTestRetries = 5
+def isTravis = System.getenv("TRAVIS") != null
 
 buildscript {
     repositories {
@@ -95,26 +96,11 @@ appengineRun {
 }
 
 (1..numOfTestRetries + 1).each { id ->
-    task "killFF${id}"(type: Exec) {
+    task "killFirefox${id}"(type: Exec) {
         //on linux
         commandLine "pkill", "firefox"
         ignoreExitValue = true
         outputs.upToDateWhen { false }
-    }
-}
-
-(1..numOfTestRetries + 1).each { id ->
-    task "appengineStop${id}"(type: com.google.appengine.task.StopTask) {
-        onlyIf {
-            file("build/reports/test-try-${id}/testng-failed.xml").exists()
-        }
-    }
-    task "appengineRun${id}"(type: com.google.appengine.task.RunTask) {
-        daemon = true
-        dependsOn "appengineStop${id}"
-        onlyIf {
-            file("build/reports/test-try-${id}/testng-failed.xml").exists()
-        }
     }
 }
 
@@ -135,11 +121,15 @@ def afterTestClosure = { descriptor, result ->
 
 test {
     useTestNG() {
-        suites System.getenv("TEST_SUITE") != null ? System.getenv("TEST_SUITE") : "src/test/testng.xml"
+        suites isTravis ? "src/test/testng-travis.xml" : "src/test/testng.xml"
         useDefaultListeners = true
         outputDirectory = file("build/reports/test-try-1")
     }
-    jvmArgs "-Duser.timezone=UTC-Xss2m", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+    if (isTravis) {
+        jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+    } else {
+        jvmArgs "-Duser.timezone=UTC-Xss2m"
+    }
     maxHeapSize = "1g"
     ignoreFailures = numOfTestRetries != 0 ? true : false
     reports.html.enabled = false
@@ -148,7 +138,7 @@ test {
         events "passed"
     }
     afterTest afterTestClosure 
-    finalizedBy = ["killFF1", "appengineStop1", "appengineRun1"]
+    finalizedBy = ["killFirefox1"]
 }
 test.dependsOn "appengineEnhance"
 
@@ -170,12 +160,16 @@ appengineTest.dependsOn "test"
         testClassesDir = sourceSets.test.output.classesDir
         classpath = sourceSets.test.runtimeClasspath
         testSrcDirs = sourceSets.test.java.srcDirs as List
-        jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        if (isTravis) {
+            jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        } else {
+            jvmArgs "-Duser.timezone=UTC-Xss2m"
+        }
         maxHeapSize = "1g"
         ignoreFailures = isLastRetry ? false : true
         reports.html.enabled = false
         reports.junitXml.enabled = false
-        finalizedBy = isLastRetry ? ["killFF${id+1}", "appengineStop"] : ["killFF${id+1}", "appengineStop${id+1}", "appengineRun${id+1}"]
+        finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop"] : ["killFirefox${id+1}"]
         testLogging {
             events "passed"
             exceptionFormat = isLastRetry ? "full" : "short"

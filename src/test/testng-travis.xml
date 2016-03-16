@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="all-tests-in-parallel" parallel="tests" thread-count="4">
+<suite name="all-tests-in-parallel" parallel="tests" thread-count="2">
+    <test name="component-tests">
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <!--These can be run without starting the server. Should be run often. -->
+        <packages>
+            <package name="teammates.test.cases.automated" />
+            <package name="teammates.test.cases.common" />
+            <package name="teammates.test.cases.logic" />
+            <package name="teammates.test.cases.storage" />
+            <package name="teammates.test.cases.ui" />
+            <package name="teammates.test.cases.ui.pagedata" />
+        </packages>
+        <classes>
+            <class name="teammates.test.cases.testdriver.AssertHelperTest" />
+            <class name="teammates.test.cases.testdriver.DataBundleTest" />
+            <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
+            <!-- Remove for Travis <class name="teammates.test.cases.testdriver.TestNgTest" /> -->
+            <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
+        </classes>
+    </test>
+
+    <test name="sequential-ui-tests">
+        <!--Theses cases need to be run sequentially to avoid state leaks between tests -->
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <classes>
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
+        </classes>
+    </test>
+
+    <test name="occasional-tests" parallel="classes">
+     <!-- These need not to run often unless the modification relates to them
+    directly. But they should be run before pushing new code to the repo. -->
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <classes>
+            <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
+            <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
+            <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
+            <!-- Remove for Travis <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" /> -->
+        </classes>
+    </test>
+
+    <test name="rare-tests" parallel="classes">
+     <!-- These need not be run during staging. -->
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <classes>
+            <class name="teammates.test.cases.testdriver.BackDoorTest" />
+        </classes>
+    </test>
+
     <test name="parallel-ui-tests" parallel="classes">
         <!-- These cover the important UI functionality. Can be run in parallel. -->
         <listeners>
@@ -31,7 +91,7 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackQuestionSubmitPageUiTest" />
-            <!-- Image problem on Travis <class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" /> -->
+            <class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorSubmissionAdjustmentUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
@@ -46,13 +106,6 @@
             <class name="teammates.test.cases.ui.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminSessionsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" />
-        </classes>
-    </test>
-    <test name="unstable-tests">
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
-        <classes>
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />

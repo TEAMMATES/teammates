@@ -13,7 +13,7 @@ public class BrowserPool {
      */
     
     /** Ideally, should be equal to the number of threads used for testing */
-    private static final int CAPACITY = System.getenv("TRAVIS") == null ? 9 + 1 : 3 + 1;
+    private static final int CAPACITY = System.getenv("TRAVIS") == null ? 9 + 1 : 2 + 1;
     //+1 in case a sequential ui test uses a browser other than the first in pool
 
     private static BrowserPool instance = null;

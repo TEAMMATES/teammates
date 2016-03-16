@@ -12,7 +12,7 @@ sudo: required
 dist: trusty
 
 env:
-  - TEST_SUITE=src/test/testng-travis-parallel.xml
+  # - TEST_SUITE=src/test/testng-travis-parallel.xml
   - TEST_SUITE=src/test/testng-travis-others.xml
 
 # cache:
