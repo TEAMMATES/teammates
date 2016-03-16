@@ -276,17 +276,13 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         ______TS("Failure case: empty name, instructor feedbacks page");
@@ -305,17 +301,14 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||"
+                + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         ______TS("Failure case: empty name, instructor feedback copy page");
@@ -335,17 +328,14 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||"
+                + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         ______TS("Failure case: empty name, instructor feedback edit page");
@@ -364,17 +354,14 @@ public class InstructorFeedbackEditCopyActionTest extends
  
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                         + "The value of feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||"
+                + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         

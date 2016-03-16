@@ -59,9 +59,9 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         List<String> expectedErrorMessages = new ArrayList<String>();
         
         expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                                submissionParams[1], "a person name",
+                                                submissionParams[1], "name",
                                                 FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                                                "a person name"));
+                                                "name"));
         expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
                                                 submissionParams[3],
                                                 FieldValidator.REASON_INCORRECT_FORMAT));
