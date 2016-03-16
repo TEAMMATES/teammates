@@ -653,12 +653,12 @@ function disableRow(elem, row) {
 
 function feedbackRecipientUpdateVisibilityOptions(recipientType) {
     $recipientType = $(recipientType);
-    if (isRecipientsTeamMembersValidVisibilityOptionForRecipientType($recipientType.val())) {
+    if (isRecipientsTeamMembersRowDisplayedForRecipientType($recipientType.val())) {
         // show the row Recipient(s) and hide the row Recipient's Team Members
         enableRow($recipientType, 1);
         disableRow($recipientType, 3);
         return;
-    } else if($recipientType.val() === 'NONE') {
+    } else if ($recipientType.val() === 'NONE') {
         // hide both the row Recipient(s) and the row Recipient's Team Members
         disableRow($recipientType, 3);
         disableRow($recipientType, 1);
@@ -669,11 +669,11 @@ function feedbackRecipientUpdateVisibilityOptions(recipientType) {
     enableRow($recipientType, 3);
 }
 
-function isRecipientsTeamMembersValidVisibilityOptionForRecipientType(recipientType) {
-    var $recipientType = recipientType;
-    return $recipientType === 'OWN_TEAM' || $recipientType === 'TEAMS' 
-           || $recipientType === 'INSTRUCTORS' || $recipientType === 'OWN_TEAM_MEMBERS' 
-           || $recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
+function isRecipientsTeamMembersRowDisplayedForRecipientType(recipientTypeValue) {
+    var recipientTypeValue = recipientTypeValue;
+    return recipientTypeValue === 'OWN_TEAM' || recipientTypeValue === 'TEAMS' 
+           || recipientTypeValue === 'INSTRUCTORS' || recipientTypeValue === 'OWN_TEAM_MEMBERS' 
+           || recipientTypeValue === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
 function feedbackGiverUpdateVisibilityOptions(elem) {
