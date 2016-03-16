@@ -4,6 +4,8 @@
    --------------------------------  CSS Reset  -----------------------------------------
 */
 
+<link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -50,18 +52,18 @@ table {
 }
 
 textarea {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Lobster, Helvetica, sans-serif;
     font-size: 13px;
 }
 
 p {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Lobster, Helvetica, sans-serif;
     font-size: 15px;
     line-height: 20px;
 }
 
 h2 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Lobster, Helvetica, sans-serif;
     font-size: 17px;
     line-height: 20px;
 }
@@ -183,8 +185,8 @@ h2 {
 }
 
 #mainContent {
-    width: 1000px;
-    margin: 0px auto;
+    width: 850px;
+    margin: 0px;
 }
 
 #mainContent .toc{
@@ -207,7 +209,7 @@ h2 {
 
 #contentHolder {
     margin: 30px auto;
-    width: 800px;
+    width: 900px;
 }
 
 h2.subcaption {
