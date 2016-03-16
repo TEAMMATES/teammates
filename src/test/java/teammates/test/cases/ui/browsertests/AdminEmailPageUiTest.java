@@ -118,9 +118,7 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     private boolean hasStatusMessageNoSubject() {
-        return emailPage.getStatus().equals("\"\" is not acceptable to TEAMMATES as email subject because "
-                                          + "it is empty. The value of email subject should be no longer "
-                                          + "than 200 characters. It should not be empty.");
+        return emailPage.getStatus().equals("The field email subject cannot be empty and must be no longer than 200 characters.");
     }
     
     private boolean hasErrorMessage() {
