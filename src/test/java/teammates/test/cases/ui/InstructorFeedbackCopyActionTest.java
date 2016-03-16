@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
@@ -8,11 +9,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     DataBundle dataBundle;    
@@ -101,10 +103,15 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        ShowPageResult pageResult = (ShowPageResult) a.executeAndPostProcess();
+        RedirectResult pageResult = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals("/jsp/instructorFeedbacks.jsp?error=true&user=idOfInstructor1OfCourse1",
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                           .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
+                           .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
+                           .toString(),
                      pageResult.getDestinationWithParams());
+        assertTrue(pageResult.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pageResult.getStatusMessage());
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
@@ -124,10 +131,21 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         };
         
         a = getAction(params);
-        pageResult = (ShowPageResult) a.executeAndPostProcess();
+        pageResult = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals("/jsp/instructorFeedbacks.jsp?error=true&user=idOfInstructor1OfCourse1",
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                           .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
+                           .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
+                           .toString(),
                      pageResult.getDestinationWithParams());
+        assertTrue(pageResult.isError);
+        assertEquals(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
+                                   "",
+                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                   FieldValidator.REASON_EMPTY,
+                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                   FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH), 
+                     pageResult.getStatusMessage());
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
