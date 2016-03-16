@@ -835,7 +835,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             result += "<option "+
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
                         "value=\"" + i + "\"" +
-                        (i==points ? "selected" : "") +
+                        (i == points ? "selected" : "") +
                         ">" + convertToEqualShareFormat(i) +
                         "</option>\r\n";
         }
