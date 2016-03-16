@@ -524,9 +524,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Initialize response frequency variable, used to store frequency each choice is selected.
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
-        float[][] percentageFrequencyOrAverage = initializePercentageFrequenciesAndAverageValue(fqd,
-                                        responseFrequency);
+        float[][] percentageFrequencyOrAverage = calculatePercentageFrequencyAndAverage(responseFrequency, fqd);
         
+        return percentageFrequencyOrAverage;
+    }
+
+    private float[][] calculatePercentageFrequencyAndAverage(int[][] responseFrequency, 
+                                                             FeedbackRubricQuestionDetails fqd) {
+        float[][] percentageFrequencyOrAverage = initializePercentageFrequenciesAndAverageValue(fqd, responseFrequency);
         // Calculate percentage frequencies
         for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
             // Count total number of responses for each sub-question
@@ -542,27 +547,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] += choiceWeight;
             }
         }
-        
         return percentageFrequencyOrAverage;
     }
 
-    private float[][] initializePercentageFrequenciesAndAverageValue(FeedbackRubricQuestionDetails fqd,
-                                    int[][] responseFrequency) {
-        
-        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
-        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
-            //+ 1 is the position for average value
-            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
-            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
-                // Initialize to be number of responses
-                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
-            }
-            // Initialize average value to be 0
-            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
-        }
-        return percentageFrequencyOrAverage;
-    }
-    
     private int[][] calculateResponseFrequency(
             List<FeedbackResponseAttributes> responses,
             FeedbackRubricQuestionDetails fqd) {
@@ -586,6 +573,24 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         return responseFrequency;
     }
+    
+    private float[][] initializePercentageFrequenciesAndAverageValue(FeedbackRubricQuestionDetails fqd,
+                                    int[][] responseFrequency) {
+        
+        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
+        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
+            //+ 1 is the position for average value
+            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
+                // Initialize to be number of responses
+                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
+            }
+            // Initialize average value to be 0
+            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
+        }
+        return percentageFrequencyOrAverage;
+    }
+    
 
     @Override
     public String getQuestionResultStatisticsCsv(
