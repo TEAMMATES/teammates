@@ -43,7 +43,8 @@ public class FeedbackResponsesLogic {
         return instance;
     }
 
-    public void createFeedbackResponse(FeedbackResponseAttributes fra) throws InvalidParametersException {
+    public void createFeedbackResponse(FeedbackResponseAttributes fra) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         try {
             frDb.createEntity(fra);
         } catch (EntityAlreadyExistsException eaee) {
@@ -434,11 +435,11 @@ public class FeedbackResponsesLogic {
      * @throws EntityAlreadyExistsException  if trying to prevent an id clash by recreating a response,
      *                                       a response with the same id already exist. 
      * @throws InvalidParametersException               
+     * @throws EntityDoesNotExistException 
      */
     public void updateFeedbackResponse(
-                        FeedbackResponseAttributes updatedResponse,
-                        FeedbackResponse oldResponseEntity)
-                                throws InvalidParametersException, EntityAlreadyExistsException {
+            FeedbackResponseAttributes updatedResponse, FeedbackResponse oldResponseEntity)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(oldResponseEntity);
         
         // Create a copy.
@@ -482,9 +483,9 @@ public class FeedbackResponsesLogic {
         }
     }
 
-    private void recreateResponse(FeedbackResponseAttributes newResponse,
-                                    FeedbackResponseAttributes oldResponse)
-                                    throws InvalidParametersException, EntityAlreadyExistsException {
+    private void recreateResponse(
+            FeedbackResponseAttributes newResponse, FeedbackResponseAttributes oldResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         try {
             newResponse.setId(null);
             FeedbackResponse createdResponseEntity = 
@@ -495,8 +496,6 @@ public class FeedbackResponsesLogic {
         } catch (EntityAlreadyExistsException e) {
             log.warning("Trying to update an existing response to one that already exists.");
             throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
-        } catch (EntityDoesNotExistException e) {
-            log.warning("Trying to update a feedback response comment that does not exist");
         }
     }
 
