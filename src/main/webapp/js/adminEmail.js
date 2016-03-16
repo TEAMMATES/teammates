@@ -1,5 +1,7 @@
-var callbackFunction;
+// Form input placeholders
+var PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the image'
 
+var callbackFunction;
 
 $(document).ready(function(){
 	
