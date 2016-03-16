@@ -37,7 +37,7 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("invalid value", false, c.isValid());
         String errorMessage = 
                 String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_TOO_LONG) + EOL + 
-                String.format(COURSE_NAME_ERROR_MESSAGE, c.name, REASON_EMPTY);
+                COURSE_NAME_ERROR_MESSAGE;
         assertEquals("invalid value", errorMessage, StringHelper.toString(c.getInvalidityInfo()));
     }
 
