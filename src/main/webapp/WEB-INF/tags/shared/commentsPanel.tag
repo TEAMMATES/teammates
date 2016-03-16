@@ -19,9 +19,9 @@
         <c:set var="bodyTitle" value="Comments for students" />
     </c:otherwise>
 </c:choose>
-<div class="panel panel-primary" data-toggle="collapse" data-target="#panelBodyCollapse">
-    <div class="panel-heading cursor-pointer"
-        onclick="toggleChevron(this)">
+<div class="panel panel-primary">
+    <div class="panel-heading cursor-pointer" data-toggle="collapse"
+        data-target="#panelBodyCollapse" onclick="toggleChevron(this)">
         <div class="display-icon pull-right">
             <span class="glyphicon glyphicon-chevron-up pull-right"></span>
         </div>
