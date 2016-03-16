@@ -1825,28 +1825,15 @@ public class Logic {
         feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
 
-    public void updateFeedbackQuestionWithResponseRateCheck(FeedbackQuestionAttributes updatedQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);
-    }
-    
     /**
-     * Deletes the feedback session but not the questions and
-     * responses associated to it.
-     * Fails silently if no such feedback session. <br>
+     * Deletes the feedback question and the responses associated to it. Fails
+     * silently if there is no such feedback question. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
      */
     public void deleteFeedbackQuestion(String questionId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
-    }
-    
-    public void deleteFeedbackQuestionWithResponseRateCheck(String questionId) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
-        feedbackQuestionsLogic.deleteFeedbackQuestionCascadeWithResponseRateCheck(questionId);
     }
 
     /**

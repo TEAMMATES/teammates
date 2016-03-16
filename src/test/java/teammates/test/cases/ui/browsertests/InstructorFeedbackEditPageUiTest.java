@@ -13,6 +13,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -56,7 +58,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         editedSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
         editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;
         editedSession.instructions = new Text("Please fill in the edited feedback session.");
-        editedSession.endTime = TimeHelper.convertToDate("2016-05-01 10:00 PM UTC");
+        editedSession.endTime = TimeHelper.convertToDate("2026-05-01 10:00 PM UTC");
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").id;
@@ -110,6 +112,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteQuestionAction(1);
 
         testEditNonExistentQuestion();
+        
+        testResponseRate();
     }
 
     private void testContent() throws Exception {
@@ -144,7 +148,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
-        assertEquals("alert alert-success", feedbackEditPage.getStatusMessage().getAttribute("class"));
+        assertEquals("overflow-auto alert alert-success statusMessage", 
+                feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, feedbackEditPage.getStatus());
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
@@ -297,7 +302,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         .withSessionName(feedbackSessionName)
                                         .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
 
-        assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
+        assertTrue(feedbackEditPage.isElementVisible("statusMessagesToUser"));
         // different sanitization because the one in actual is sanitized via JS (encodeURIComponent)
         assertEquals("Link for question 1: " + expectedUrl.toAbsoluteString().replace("+", "%20"),
                      feedbackEditPage.getStatus());
@@ -447,6 +452,58 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // Restore feedbackEditPage
         feedbackEditPage = getFeedbackEditPage();
     }
+    
+    private void testResponseRate() {
+        
+        // Create a new question and save
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("new question");
+        feedbackEditPage.clickAddQuestionButton();
+
+        // Create response for the new question
+        FeedbackResponseAttributes feedbackResponse = 
+                new FeedbackResponseAttributes(
+                        feedbackSessionName,
+                        courseId, 
+                        "1", 
+                        FeedbackQuestionType.TEXT,
+                        "tmms.test@gmail.tmt", 
+                        Const.DEFAULT_SECTION, 
+                        "alice.b.tmms@gmail.tmt",
+                        Const.DEFAULT_SECTION, 
+                        new Text("Response from instructor to Alice"));
+        BackDoor.createFeedbackResponse(feedbackResponse);
+
+        ______TS("check response rate before editing question");
+
+        InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
+
+        assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+
+        // Change the feedback path of the question and save
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickEditQuestionButton(1);     
+        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        feedbackEditPage.clickAndConfirmSaveForQuestion1();
+        
+        ______TS("check response rate after editing question");
+
+        feedbacksPage = navigateToInstructorFeedbacksPage();
+
+        assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
+        
+        // Delete the question
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+    }
+    
+    private InstructorFeedbacksPage navigateToInstructorFeedbacksPage() {
+        
+        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
+        InstructorFeedbacksPage feedbacksPage = feedbackEditPage.navigateTo(feedbacksPageUrl, InstructorFeedbacksPage.class);
+        feedbacksPage.waitForPageToLoad();
+        return feedbacksPage;
+    }
 
     private void testPreviewSessionAction() throws Exception {
 
@@ -456,6 +513,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("question for me");
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
+        
 
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
@@ -469,7 +527,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
-        
+        feedbackEditPage.clickNewQuestionButton();
+        assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        feedbackEditPage.fillQuestionBox("question for students to instructors");
+        feedbackEditPage.selectGiverToBeStudents();
+        feedbackEditPage.selectRecipientsToBeInstructors();
+        feedbackEditPage.clickAddQuestionButton();
+
         ______TS("preview as student");
 
         FeedbackSubmitPage previewPage;

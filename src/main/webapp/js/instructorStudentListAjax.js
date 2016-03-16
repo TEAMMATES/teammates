@@ -37,7 +37,7 @@ function numStudentsRetrieved() {
 
 function showStudentLimitError(courseCheck, displayIcon) {
     courseCheck.prop('checked', false);
-    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
+    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, StatusType.DANGER);
     displayIcon.html('');
 }
 
@@ -60,7 +60,7 @@ var seeMoreRequest = function(e) {
     var courseNumStudents = parseInt($('#numStudents-' + courseIdx).val());
     
     if ($(panelHeading).attr('class').indexOf('ajax_submit') == -1) {
-        setStatusMessage('', false);
+        clearStatusMessages();
         if ($(panelCollapse[0]).attr('class').indexOf('checked') != -1) {
             $(panelCollapse[0]).collapse('hide');
             $(panelHeading).addClass('ajax_submit');
@@ -76,7 +76,7 @@ var seeMoreRequest = function(e) {
         checkCourseBinding(courseCheck);
     } else {
         if (numStudents < STUDENT_LIMIT) {
-            setStatusMessage('', false);
+            clearStatusMessages();
             var formObject = $(this).children('form');
             var courseIdx = $(formObject[0]).attr('class').split('-')[1];
             var formData = formObject.serialize();

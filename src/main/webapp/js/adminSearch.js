@@ -1,11 +1,8 @@
 $(document).ready(function() {
     $(".fslink").hide();
 
-    /* Formatting searchKey for highlight searchKey plugin ( ['string1','string2',...] )*/
-    var searchKey = $('#filterQuery').val();
-    var splittedSearchKey = searchKey.split(" ");
-    $(".instructorRow").highlight(splittedSearchKey);
-    $(".studentRow").highlight(splittedSearchKey);
+    // highlight search string 
+    highlightSearchResult("#filterQuery", ".studentRow, .instructorRow");
 
 	$("#rebuildButton").click(function() {
 
@@ -48,7 +45,7 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
-	$(".recentActionButton").click(function(e){
+	$(".optionButton").click(function(e){
 		e.stopPropagation();
 	});
 	
@@ -98,7 +95,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                 	$(button).html("An Error Occurred, Please Retry");      	
                 }
             	               
-                $("#statusMessage").html(data.statusForAjax);
+                setStatusMessage(data.statusForAjax, StatusType.INFO);
 
             },500);
         }

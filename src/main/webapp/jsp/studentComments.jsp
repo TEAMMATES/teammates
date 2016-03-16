@@ -10,7 +10,7 @@
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 </c:set>
 <ts:studentPage bodyTitle="Comments" pageTitle="TEAMMATES - Student" jsIncludes="${jsIncludes}">
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     <c:choose>
         <c:when test="${not empty data.coursePagination.coursePaginationList}">

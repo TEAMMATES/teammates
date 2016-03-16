@@ -664,7 +664,7 @@ public class FeedbackResponsesLogic {
     }
 
     public void deleteFeedbackResponsesForQuestionAndCascade(
-            String feedbackQuestionId, boolean hasResponseRateCheck) {
+            String feedbackQuestionId, boolean hasResponseRateUpdate) {
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
 
@@ -675,7 +675,7 @@ public class FeedbackResponsesLogic {
             emails.add(response.giverEmail);
         }
 
-        if(!hasResponseRateCheck){
+        if (!hasResponseRateUpdate) {
             return;
         }
 

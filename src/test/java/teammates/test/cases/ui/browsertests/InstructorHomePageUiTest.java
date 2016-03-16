@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.ThreadHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -91,7 +92,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
         
         homePage.clickHomeTab();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLWithUnloadedCourse.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLWithUnloadedCourse.html");
         
         loginAsCommonInstructor();
         removeTestDataOnServer(unloadedCourseTestData);
@@ -123,18 +124,18 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("test case: fail, fetch response rate of invalid url");
         homePage.setViewResponseLinkValue(viewResponseLink, "/invalid/url");
         viewResponseLink.click();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLResponseRateFail.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: fail to fetch response rate again, check consistency of fail message");
         viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         viewResponseLink.click();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLResponseRateFail.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLResponseRateFail.html");
         
         ______TS("test case: pass with valid url after multiple fails");
         viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
         viewResponseLink.click();
-        homePage.verifyHtmlMainContentWithRetry("/instructorHomeHTMLResponseRatePass.html");
+        homePage.verifyHtmlMainContent("/instructorHomeHTMLResponseRatePass.html");
     }
     
     public void testContent() throws Exception{
@@ -153,17 +154,17 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
         removeAndRestoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeNewInstructorWithSampleCourse.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithSampleCourse.html");
         
         ______TS("content: multiple courses");
         
         loadFinalHomePageTestData();
         homePage.clickHomeTab();
         // Should not see private session
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLWithHelperView.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLWithHelperView.html");
         updateInstructorToCoownerPrivileges();
         homePage.clickHomeTab();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTML.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTML.html");
     }
 
     private void updateInstructorToCoownerPrivileges() {
@@ -328,7 +329,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         // the course's isArchived status should not be modified
         assertFalse(BackDoor.getCourse(courseIdForCS1101).isArchived);
         
-        homePage.verifyHtmlMainContentWithRetry("/instructorHomeCourseArchiveSuccessful.html");
+        homePage.verifyHtmlMainContent("/instructorHomeCourseArchiveSuccessful.html");
         
         ______TS("archive action failed");
         
@@ -363,41 +364,58 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("Submit empty course list: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.clickFsCopySubmitButton();
-        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.clickSubmitButton();
+        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
+        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
+        homePage.fsCopyModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        
+        homePage.fsCopyModal.clickCloseButton();
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected(feedbackSessionName);
         
-        homePage.clickFsCopySubmitButton();
+        homePage.fsCopyModal.clickSubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
+        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
+        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
+        homePage.fsCopyModal.verifyStatusMessage(error);
         
-        homePage.verifyStatus(error);
+        homePage.fsCopyModal.clickCloseButton();
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        homePage.fsCopyModal.waitForModalToLoad();
+        String invalidFeedbackSessionName = "Invalid name | for feedback session";
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected(invalidFeedbackSessionName);
         
-        homePage.clickFsCopySubmitButton();
+        homePage.fsCopyModal.clickSubmitButton();
+        homePage.fsCopyModal.waitForFormSubmissionErrorMessagePresence();
+        assertTrue(homePage.fsCopyModal.isFormSubmissionStatusMessageVisible());
         
-        homePage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        homePage.fsCopyModal.verifyStatusMessage(
+                                     String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, 
+                                                   invalidFeedbackSessionName,
+                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                                                   FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
+        homePage.fsCopyModal.clickCloseButton();
         
         ______TS("Successful case: Home Page");
         
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.waitForModalToLoad();
-        homePage.fillCopyToOtherCoursesForm("New name!");
+        homePage.fsCopyModal.waitForModalToLoad();
+        homePage.fsCopyModal.fillFormWithAllCoursesSelected("New name!");
         
-        homePage.clickFsCopySubmitButton();
+        homePage.fsCopyModal.clickSubmitButton();
 
-        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        homePage.waitForPageToLoad();
+        homePage.verifyStatusWithRetry(Const.StatusMessages.FEEDBACK_SESSION_COPIED, 10);
         
         homePage.goToPreviousPage(InstructorHomePage.class);
         
@@ -405,10 +423,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         // Change action link so that ajax will fail
         homePage.changeFsCopyButtonActionLink(courseId, feedbackSessionName, "/page/nonExistentPage?");
-        // Click copy
+
         homePage.clickFsCopyButton(courseId, feedbackSessionName);
         // Wait for modal to appear and show error.
-        homePage.waitForModalErrorToLoad();
+        homePage.fsCopyModal.waitForModalLoadingError();
         
         
     }
@@ -423,7 +441,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
         assertTrue(BackDoor.isCourseNonExistent(courseId));
-        homePage.verifyHtmlMainContentWithRetry("/instructorHomeCourseDeleteSuccessful.html");
+        homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
         
         //delete the other course as well
         courseId = testData.courses.get("CHomeUiT.CS1101").id;
@@ -441,27 +459,27 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     public void testSortAction() throws Exception{
         ______TS("sort courses by id");
         homePage.clickSortByIdButton();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortById.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortById.html");
 
         ______TS("sort courses by name");
         homePage.clickSortByNameButton();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortByName.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortByName.html");
 
         ______TS("sort courses by date");
         homePage.clickSortByDateButton();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortByDate.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortByDate.html");
 
         ______TS("sort sessions by session name");
         homePage.sortTablesByName();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortSessionsByName.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortSessionsByName.html");
 
         ______TS("sort sessions by session start date");
         homePage.sortTablesByStartDate();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortSessionsByStartDate.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortSessionsByStartDate.html");
 
         ______TS("sort sessions by session end date");
         homePage.sortTablesByEndDate();
-        homePage.verifyHtmlMainContentWithRetry("/InstructorHomeHTMLSortSessionsByEndDate.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLSortSessionsByEndDate.html");
     }
     
     private void loginAsCommonInstructor(){

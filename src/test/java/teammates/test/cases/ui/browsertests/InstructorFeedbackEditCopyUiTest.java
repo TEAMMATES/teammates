@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertTrue;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -38,52 +39,66 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyPage.html");
         
-        feedbackEditPage.clickFsCopySubmitButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        feedbackEditPage.fsCopyToModal.clickSubmitButton();
+        feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
+        feedbackEditPage.fsCopyToModal.clickCloseButton();
         
         ______TS("Copying fails due to fs with same name in course selected");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected(feedbackSessionName);
         
-        feedbackEditPage.clickFsCopySubmitButton();
+        feedbackEditPage.fsCopyToModal.clickSubmitButton();
+        feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
-                                     feedbackSessionName, testData.courses.get("course").id);
-        feedbackEditPage.verifyStatus(error);
+        feedbackEditPage.fsCopyToModal
+                        .verifyStatusMessage(
+                                 String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, 
+                                               feedbackSessionName, 
+                                               testData.courses.get("course").id));
+        
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
         
+        feedbackEditPage.fsCopyToModal.clickCloseButton();
         
         ______TS("Copying fails due to fs with invalid name");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("Invalid name | for feedback session");
         
-        feedbackEditPage.clickFsCopySubmitButton();
+        feedbackEditPage.fsCopyToModal.clickSubmitButton();
         
-        feedbackEditPage.verifyStatus(
+        feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
+        assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
+        feedbackEditPage.fsCopyToModal.verifyStatusMessage(
                 "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
                 + "feedback session name because it contains invalid characters. "
                 + "All feedback session name must start with an alphanumeric character, "
                 + "and cannot contain any vertical bar (|) or percent sign (%).");
         
         
+        feedbackEditPage.fsCopyToModal.clickCloseButton();
+        
         ______TS("Successful case");
         feedbackEditPage.clickFsCopyButton();
-        feedbackEditPage.waitForModalToLoad();
-        feedbackEditPage.fillCopyToOtherCoursesForm("New name!");
+        feedbackEditPage.fsCopyToModal.waitForModalToLoad();
+        feedbackEditPage.fsCopyToModal.fillFormWithAllCoursesSelected("New name!");
         
-        feedbackEditPage.clickFsCopySubmitButton();
+        feedbackEditPage.fsCopyToModal.clickSubmitButton();
+        feedbackEditPage.waitForPageToLoad();
         
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        feedbackEditPage.verifyStatusWithRetry(Const.StatusMessages.FEEDBACK_SESSION_COPIED, 10);
         feedbackEditPage.waitForElementPresence(By.id("table-sessions"));
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
