@@ -78,30 +78,30 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         ______TS("input validation");
         
-        String teamNameFieldName = "a team name";
-        String personNameFieldName = "a person name";
+        String teamNameFieldName = "team name";
+        String personNameFieldName = "name";
         
         editPage.submitUnsuccessfully(null, "", null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                    "", teamNameFieldName, FieldValidator.REASON_EMPTY, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML, 
+                    teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         ______TS("empty student name and the team field is edited");
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully("", newTeamName, null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                    "", personNameFieldName, FieldValidator.REASON_EMPTY, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML,
+                    personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         ______TS("long student name and the team field is not edited");
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(invalidStudentName, null, null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                    invalidStudentName, personNameFieldName, FieldValidator.REASON_TOO_LONG, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML, 
+                    personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         String newStudentName = "New guy";
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.COURSE_TEAMNAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
-            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
-                    invalidTeamName, teamNameFieldName, FieldValidator.REASON_TOO_LONG, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML, 
+                    teamNameFieldName,  FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         String invalidEmail = "invalidemail";
         editPage.submitUnsuccessfully(newStudentName, newTeamName, invalidEmail, null)
