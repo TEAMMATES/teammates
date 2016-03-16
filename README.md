@@ -81,4 +81,4 @@ TEAMMATES is released under GPLv2
 The best way for potential contributors to contact us is by [posting a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new) 
 (yes, we use the issue tracker as a discussion forum too).
 
-Alternatively (less preferred), you can email `teammates-contributors [at] googlegroups.com` 
+Alternatively (less preferred), you can email `teammates [at] comp.nus.edu.sg` 
