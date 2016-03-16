@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="all-tests-in-parallel" parallel="tests" thread-count="1">
+<suite name="all-tests-in-parallel" parallel="tests" thread-count="4">
     <test name="component-tests">
         <listeners>
             <listener class-name="teammates.test.util.PriorityInterceptor" />
