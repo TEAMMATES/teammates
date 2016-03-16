@@ -43,10 +43,9 @@ Important: When a version is specified, please install that version instead of t
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` and uncheck the `Build` option.
 3. Create main config files {These are not under revision control because their 
-   content vary from developer to developer}. Duplicate template files and remove ".template" from the names of the duplicates.
+   content vary from developer to developer}. In the folders below, duplicate template files and remove ".template" from the names of the duplicates.
    * `src/main/resources/build.properties`<br>
-   Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `copy → paste → rename`).
+   Create it using `build.template.properties`.
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
