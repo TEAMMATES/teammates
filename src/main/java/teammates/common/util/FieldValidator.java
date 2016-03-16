@@ -208,7 +208,7 @@ public class FieldValidator {
      * Field: Feedback session name
      */
     public static final String FEEDBACK_SESSION_NAME = "feedback session";
-    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
+    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
     public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
@@ -378,9 +378,7 @@ public class FieldValidator {
     
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-            "The value of %s should be no longer than %d characters. " +
-            "It should not be empty.";
+            "The field <b>%s</b> cannot be empty and must must no longer than %d characters.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
@@ -519,11 +517,11 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if(value.length()>maxLength){
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
             return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
         }
@@ -551,11 +549,11 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if(value.length()>maxLength){
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } 
         return "";
     }
@@ -581,11 +579,11 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if (value.length()>maxLength) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if(!startsWithBraces){
