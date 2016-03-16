@@ -328,7 +328,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
-                        String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY) + Const.EOL 
+                        PERSON_NAME_ERROR_MESSAGE + Const.EOL 
                         + String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email, REASON_INCORRECT_FORMAT),
                         e.getMessage());
         }
@@ -383,7 +383,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(
                     String.format(GOOGLE_ID_ERROR_MESSAGE, instructorToEdit.googleId, REASON_INCORRECT_FORMAT)
                             + Const.EOL
-                            + String.format(PERSON_NAME_ERROR_MESSAGE, instructorToEdit.name, REASON_EMPTY),
+                            + PERSON_NAME_ERROR_MESSAGE,
                     e.getMessage());
         }
 

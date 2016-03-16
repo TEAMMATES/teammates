@@ -72,7 +72,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is too long",
+            AssertHelper.assertContains("The field <b>course name</b> cannot be empty and must be no longer than 64 characters.",
                                         e.getMessage());
         }
 
@@ -136,7 +136,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is empty",
                                         e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is empty",
+            AssertHelper.assertContains("The field <b>course name</b> cannot be empty and must be no longer than 64 characters.",
                                         e.getMessage());
         }
         
