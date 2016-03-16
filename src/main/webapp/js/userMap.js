@@ -1,18 +1,22 @@
-document.addEventListener('DOMContentLoaded', function(event) {
+function handleData(err, userData) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-
+    if (err) {
+        var contentHolder = d3.select('#contentHolder');
+        contentHolder.html('');
+        contentHolder.append('p')
+            .text('An error has occured in getting data, please try reloading.');
+        contentHolder.append('p')
+            .html('If the problem persists after a few retries, please <a href="/contact.html">contact us</a>.');
+        return;
+    }
     var countriesObj = {};
     var countriesArr = [];
-
-    userData.forEach(function(user) {
-        var fields = user[0].split(',');
-        if (fields.length >= 2 && fields[fields.length - 1].trim() !== '') {
-            var countryName = fields[fields.length - 1].trim();
-            var countryCode = getCountryCode(countryName);
-            if (countryCode != null) {
-                countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
-            }
+    userData.forEach(function(entry) {
+        var countryName = entry[entry.length - 1];
+        var countryCode = getCountryCode(countryName);
+        if (countryCode != null) {
+            countriesObj[countryCode] = countriesObj[countryCode] ? countriesObj[countryCode] + 1 : 1;
         }
     });
 
@@ -100,4 +104,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
             }
         }
     });
+}
+
+document.addEventListener('DOMContentLoaded', function(event) {
+    d3.json('/js/userMapData.json', handleData);
 });

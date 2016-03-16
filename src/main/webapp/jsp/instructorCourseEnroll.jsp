@@ -29,7 +29,7 @@
                             <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
                             <br>
                             
-                            <t:statusMessage />
+                            <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
                             
                             <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
                                 Enroll students

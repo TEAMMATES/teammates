@@ -19,10 +19,8 @@ public class ActionResultTest extends BaseTestCase {
         Map<String, String[]> map = new HashMap<String, String[]>();
         ActionResult svr = new ShowPageResult("/page/instructorHome", null, map, null, null);
         assertEquals("/page/instructorHome", svr.getDestinationWithParams());
-        svr.addResponseParam(Const.ParamsNames.STATUS_MESSAGE, "course deleted");
-        assertEquals("/page/instructorHome?message=course+deleted", svr.getDestinationWithParams());
         svr.addResponseParam(Const.ParamsNames.USER_ID, "david");
-        assertEquals("/page/instructorHome?message=course+deleted&user=david", svr.getDestinationWithParams());
+        assertEquals("/page/instructorHome?user=david", svr.getDestinationWithParams());
     }
 
 }

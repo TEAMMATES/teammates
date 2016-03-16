@@ -14,26 +14,26 @@ function checkFeedbackQuestion(form) {
         if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked')
                    .val() === 'custom' &&
                 !$(form).find('.numberOfEntitiesBox').val()) {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, true);
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER);
             return false;
         }
     }
     if (!$(form).find('[name=' + FEEDBACK_QUESTION_TEXT + ']').val()) {
-        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, true);
+        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER);
         return false;
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
         if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val() ||
                 !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()||
                 !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, true);
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER);
             return false;
         }
         var qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
         } else {
-            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, true);
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
             return false;
         }
     }
@@ -55,13 +55,13 @@ function extractQuestionNumFromEditFormId(id) {
 function checkEditFeedbackSession(form) {
     if (form.visibledate.getAttribute('disabled')) {
         if (!form.visibledate.value) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, true);
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER);
             return false;
         }
     }
     if (form.publishdate.getAttribute('disabled')) {
         if (!form.publishdate.value) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, true);
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER);
             return false;
         }
     }
@@ -137,7 +137,7 @@ function bindCopyButton() {
 
         var $sessionsList = $('tr[id^="session"]');
         if (!$sessionsList.length) {
-            setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
+            setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, StatusType.DANGER);
             return false;
         }
 
@@ -152,9 +152,9 @@ function bindCopyButton() {
         });
 
         if (isExistingSession) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, true);
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, StatusType.DANGER);
         } else {
-            setStatusMessage('', false);
+            clearStatusMessages();
 
             var $firstSession = $($sessionsList[0]).find('td');
             var firstSessionCourseId = $($firstSession[0]).text();

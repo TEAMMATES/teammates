@@ -21,6 +21,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -42,6 +43,7 @@ public class PageData {
 
     private String jQueryFilePath;
     private String jQueryUiFilePath;
+    private List<StatusMessage> statusMessagesToUser;
 
     /**
      * @param account The account for the nominal user.
@@ -1014,6 +1016,22 @@ public class PageData {
     @SuppressWarnings("unused")
     private void ___________methods_to_serve_local_files() {
     //========================================================================    
+    }
+    
+    /**
+     * Sets the list of status messages.
+     * @param statusMessagesToUser a list of status messages that is to be displayed to the user
+     */
+    public void setStatusMessagesToUser(List<StatusMessage> statusMessagesToUser) {
+        this.statusMessagesToUser = statusMessagesToUser;
+    }
+    
+    /**
+     * Gets the list of status messages.
+     * @return a list of status messages that is to be displayed to the user
+     */
+    public List<StatusMessage> getStatusMessagesToUser() {
+        return statusMessagesToUser;
     }
 
     public String getjQueryFilePath() {
