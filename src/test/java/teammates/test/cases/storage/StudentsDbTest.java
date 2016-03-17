@@ -46,6 +46,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.comments = "";
         s.googleId = "validGoogleIdForStudent";
         s.course = "valid-course";
+        
+        // remove possibly conflicting entity from the database
+        studentsDb.deleteStudent(s.course, s.email);
+        
         studentsDb.createEntity(s);
         
         StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
@@ -63,8 +67,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("success : defaultTimeStamp for updatedAt date");
         
         assertEquals(defaultStudentCreationTimeStamp, student.getUpdatedAt());
-        
-        studentsDb.deleteStudent(s.course, s.email);
     }
     
     @Test
@@ -81,6 +83,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
         s.comments = "";
         s.googleId = "validGoogleId";
         s.course = "valid-course";
+        
+        // remove possibly conflicting entity from the database
+        studentsDb.deleteStudent(s.course, s.email);
+        
         studentsDb.createEntity(s);
         
         StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
@@ -111,8 +117,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         // Assert lastUpdate has NOT changed.
         assertTrue(updatedStudent.getUpdatedAt().equals(updatedStudent2.getUpdatedAt()));
-        
-        studentsDb.deleteStudent(s.course, s.email);
     }
     
     @Test
@@ -142,6 +146,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         ______TS("success : valid params");
         s.course = "valid-course";
+        
+        // remove possibly conflicting entity from the database
+        studentsDb.deleteStudent(s.course, s.email);
+        
         studentsDb.createEntity(s);
         verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
@@ -170,7 +178,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
         
-        studentsDb.deleteStudent(s.course, s.email);
     }
 
     @SuppressWarnings("deprecation")
@@ -283,8 +290,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
-        
-        studentsDb.deleteStudent(s.course, s.email);
     }
 
     @SuppressWarnings("deprecation")
