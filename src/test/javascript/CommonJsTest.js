@@ -80,34 +80,63 @@ QUnit.test('sortDate(x, y)', function(assert) {
         '25 April 1999 2:00PM - 25 April 1999 2:01PM');
 });
 
-QUnit.test('setStatusMessage(message,error)', function(assert) {
-    $('body').append('<div id="statusMessage"></div>');
+QUnit.test('setStatusMessage(message,status)', function(assert) {
+    $('body').append('<div id="statusMessagesToUser"></div>');
     var message = 'Status Message';
 
     //isError = false: class = overflow-auto alert alert-warning
     //isError = true: class = overflow-auto alert alert-danger
 
-    setStatusMessage(message, false);
-    assert.equal($('#statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessage').attr('class') === 'overflow-auto alert alert-warning'),
-        'No warning');
-    setStatusMessage('', false);
-    assert.equal($('#statusMessage').html(), '', 'Empty status message');
-    assert.ok(($('#statusMessage').attr('class') === 'overflow-auto alert alert-warning'),
-        'No warning');
-    setStatusMessage(message, true);
-    assert.equal($('#statusMessage').html(), message, 'Normal status message');
-    assert.ok(($('#statusMessage').attr('class') === 'overflow-auto alert alert-danger'), 'No danger');
-    setStatusMessage('', true);
-    assert.equal($('#statusMessage').html(), '', 'Normal status message');
-    assert.ok(($('#statusMessage').attr('class') === 'overflow-auto alert alert-danger'), 'No danger');
+    setStatusMessage(message);
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage'),
+        'Default message status without specifying status of message (info)');
+    clearStatusMessages();
+    
+    setStatusMessage(message, StatusType.INFO);
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage'),
+        'Info message status by specifying status of message (StatusType.INFO)');
+    clearStatusMessages();
+    
+    setStatusMessage(message, StatusType.SUCCESS);
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-success statusMessage'),
+        'Success message status by specifying status of message (StatusType.SUCCESS)');
+    clearStatusMessages();
+    
+    setStatusMessage(message, StatusType.WARNING);
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-warning statusMessage'),
+        'Warning message status by specifying status of message (StatusType.WARNING)');
+    clearStatusMessages();
+    
+    setStatusMessage(message, StatusType.DANGER);
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-danger statusMessage'),
+        'Danger message status by specifying status of message (StatusType.DANGER)');
+    clearStatusMessages();
+    
+    setStatusMessage('');
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === undefined), "Empty message without status");
+    clearStatusMessages();
+    
+    setStatusMessage('', StatusType.INFO);
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), undefined, 'Empty message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === undefined), "Empty message with status (any status will be the same)");
+    clearStatusMessages();
+    
+    setStatusMessage(message, "random");
+    assert.equal($('#statusMessagesToUser .statusMessage').html(), message, 'Normal status message');
+    assert.ok(($('#statusMessagesToUser .statusMessage').attr('class') === 'overflow-auto alert alert-info statusMessage'), 'Message with random status (defaulted to info)');
 });
 
-QUnit.test('clearStatusMessage()', function(assert) {
-    clearStatusMessage();
-    assert.equal($('#statusMessage').html(), '', 'Status message cleared');
-    assert.ok(($('#statusMessage').css('background-color') === 'rgba(0, 0, 0, 0)' || $(
-        '#statusMessage').css('background-color') === 'transparent'), 'No background');
+QUnit.test('clearStatusMessages()', function(assert) {
+    clearStatusMessages();
+    assert.equal($('#statusMessagesToUser').html(), '', 'Status message cleared');
+    assert.ok(($('#statusMessagesToUser').css('background-color') === 'rgba(0, 0, 0, 0)' || $(
+        '#statusMessagesToUser').css('background-color') === 'transparent'), 'No background');
 });
 
 QUnit.test('checkEvaluationForm()', function(assert) {

@@ -51,7 +51,7 @@ function submitFormAjax() {
                     ajaxStatus.html(data.errorMessage);
                     content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 }
-                $('#statusMessage').html(data.statusForAjax);
+                setStatusMessage(data.statusForAjax);
             }, 500);
         }
     });
