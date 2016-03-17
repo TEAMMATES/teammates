@@ -479,17 +479,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
+                String tableBodyCellValue = view.equals("student") 
+                                          ? df.format(rubricStats[j][i] * 100) + "%" 
+                                                  + " (" + responseFrequency[j][i] + ")"
+                                          : df.format(rubricStats[j][i] * 100) + "%";
                 String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i]*100) + "%" 
-                                                                   + " (" + responseFrequency[j][i] +")");
+                                "${percentageFrequencyOrAverage}", tableBodyCellValue);
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
 
-            String tableAverageCell = 
-                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
-                             "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
-            tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
+            if (!view.equals("student")) {
+                String tableAverageCell = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
+                                 "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
+                tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
+            }
             
             // Get entire row
             String tableRow = 
@@ -499,9 +504,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableBodyHtml.append(tableRow + Const.EOL);
         }
         
-        // Create edit form
+        
+        String statsTemplate = view.equals("student") 
+                             ? FeedbackQuestionFormTemplates.RUBRIC_STUDENT_RESULT_STATS
+                             : FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS;
         String html = FeedbackQuestionFormTemplates.populateTemplate(
-                FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
+                statsTemplate,
                 "${statsTitle}", (view=="student")?"Response Summary (of visible responses)":"Response Summary",
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
                 "${tableBodyHtml}", tableBodyHtml.toString());
