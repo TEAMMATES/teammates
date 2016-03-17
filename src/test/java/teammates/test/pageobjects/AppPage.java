@@ -204,6 +204,11 @@ public abstract class AppPage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
+    public void waitForElementToBeClickable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
     public void waitForElementsVisibility(List<WebElement> elements) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
