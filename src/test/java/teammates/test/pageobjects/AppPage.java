@@ -199,6 +199,15 @@ public abstract class AppPage {
         browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
+    public void waitForElementNotCovered(final WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return !isElementCovered(element);
+            }
+        });
+    }
+    
     public void waitForElementVisibility(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
@@ -717,6 +726,19 @@ public abstract class AppPage {
         } catch (NoSuchElementException e) {
             return false;
         }
+    }
+    
+    /**
+     * This function checks if the midpoint of an element is covered by any other element.
+     * @param element
+     * @return true if element is covered, false otherwise.
+     */
+    public boolean isElementCovered(WebElement element) {
+        int x = element.getLocation().x + element.getSize().width / 2;
+        int y = element.getLocation().y + element.getSize().height / 2;
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        WebElement topElem = (WebElement) js.executeScript("return document.elementFromPoint("+x+","+y+");");
+        return !topElem.equals(element);
     }
 
     public void verifyUnclickable(WebElement element){
