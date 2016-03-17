@@ -204,7 +204,7 @@ public class ActivityLogEntry {
             googleId = acc.googleId;
             email = acc.email;
         }
-        id = generateLogId(googleId, unregisteredUserEmail, unregisteredUserCourse);
+        id = generateLogId(googleId, unregisteredUserEmail, unregisteredUserCourse, time);
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -263,7 +263,7 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        id = generateLogId(googleId, student);
+        id = generateLogId(googleId, student, time);
     }
     
     private String formatTimeForId(Date date) {
@@ -503,12 +503,10 @@ public class ActivityLogEntry {
      * @param student StudentAttributes object
      * @return log ID
      */
-    public String generateLogId(String googleId, StudentAttributes student) {
-        if (student != null) {
-            return generateLogId(googleId, student.email, student.course);
-        } else {
-            return generateLogId(googleId, null, null);
-        }
+    public String generateLogId(String googleId, StudentAttributes student, Long time) {
+        
+        return (student != null) ? generateLogId(googleId, student.email, student.course, time)
+                                 : generateLogId(googleId, null, null, time);
     }
     
     /**
@@ -519,15 +517,12 @@ public class ActivityLogEntry {
      * @param course the course
      * @return log ID
      */
-    public String generateLogId(String googleId, String email, String course) {
+    public String generateLogId(String googleId, String email, String course, Long time) {
         boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) 
                                         && email != null && course != null;
         
-        if (isUnregisteredStudent) {
-            return email + "%" + course + "%" + formatTimeForId(new Date(time));
-        } else {
-            return googleId + "%" + formatTimeForId(new Date(time));
-        }
+        return isUnregisteredStudent ? email + "%" + course + "%" + formatTimeForId(new Date(time))
+                                     : googleId + "%" + formatTimeForId(new Date(time));
     }
     
     public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
