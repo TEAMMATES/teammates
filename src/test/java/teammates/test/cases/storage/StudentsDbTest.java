@@ -37,20 +37,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     @Test
     public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
         
-        StudentAttributes s = new StudentAttributes();
-        s.name = "a valid student";
-        s.lastName = "last name of student";
-        s.email = "valid-fresh-student@email.com";
-        s.team = "validTeamNameOfStudent";
-        s.section = "aValidSectionName";
-        s.comments = "";
-        s.googleId = "validGoogleIdForStudent";
-        s.course = "valid-course";
-        
-        // remove possibly conflicting entity from the database
-        studentsDb.deleteStudent(s.course, s.email);
-        
-        studentsDb.createEntity(s);
+        StudentAttributes s = createNewStudent();
         
         StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertNotNull(student);
@@ -74,20 +61,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
     {        
         ______TS("success : created");
         
-        StudentAttributes s = new StudentAttributes();
-        s.name = "valid student";
-        s.lastName = "student";
-        s.email = "valid-fresh@email.com";
-        s.team = "validTeamName";
-        s.section = "validSectionName";
-        s.comments = "";
-        s.googleId = "validGoogleId";
-        s.course = "valid-course";
-        
-        // remove possibly conflicting entity from the database
-        studentsDb.deleteStudent(s.course, s.email);
-        
-        studentsDb.createEntity(s);
+        StudentAttributes s = createNewStudent();
         
         StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertNotNull(student);
