@@ -441,7 +441,46 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(privileges.isAllowedForPrivilege(sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         assertTrue(privileges.isAllowedForPrivilege(sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
     }
-    
+
+    @Test
+    public void testhasDefaultPrivileges() {
+
+        InstructorPrivileges coownerPrivileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        assertTrue(coownerPrivileges.hasCoownerPrivileges());
+        assertFalse(coownerPrivileges.hasManagerPrivileges());
+        assertFalse(coownerPrivileges.hasObserverPrivileges());
+        assertFalse(coownerPrivileges.hasTutorPrivileges());
+
+        InstructorPrivileges managerPrivileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        assertTrue(managerPrivileges.hasManagerPrivileges());
+        assertFalse(managerPrivileges.hasCoownerPrivileges());
+        assertFalse(managerPrivileges.hasObserverPrivileges());
+        assertFalse(managerPrivileges.hasTutorPrivileges());
+
+        InstructorPrivileges observerPrivileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+        assertTrue(observerPrivileges.hasObserverPrivileges());
+        assertFalse(observerPrivileges.hasCoownerPrivileges());
+        assertFalse(observerPrivileges.hasManagerPrivileges());
+        assertFalse(observerPrivileges.hasTutorPrivileges());
+
+        InstructorPrivileges tutorPrivileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
+        assertTrue(tutorPrivileges.hasTutorPrivileges());
+        assertFalse(tutorPrivileges.hasCoownerPrivileges());
+        assertFalse(tutorPrivileges.hasManagerPrivileges());
+        assertFalse(tutorPrivileges.hasObserverPrivileges());
+
+        InstructorPrivileges nonDefaultPrivileges = new InstructorPrivileges();
+        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
+        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,  true);
+        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
+        nonDefaultPrivileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, false);
+
+        assertFalse(nonDefaultPrivileges.hasCoownerPrivileges());
+        assertFalse(nonDefaultPrivileges.hasManagerPrivileges());
+        assertFalse(nonDefaultPrivileges.hasObserverPrivileges());
+        assertFalse(nonDefaultPrivileges.hasTutorPrivileges());
+    }
+
     @AfterClass
     public static void tearDown() {
         printTestClassFooter();
