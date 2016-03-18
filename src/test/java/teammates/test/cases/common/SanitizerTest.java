@@ -44,7 +44,13 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForJs() {
-        
+
+        String unsanitized = "\\ \" ' #"; // i.e., [\ " ' #]
+        String expected = "\\\\ \\&quot; \\&#39; \\#"; // i.e., [\\ \&quot; \&#39; \#]
+        String sanitized = Sanitizer.sanitizeForJs(unsanitized);
+
+        assertEquals(null, Sanitizer.sanitizeForJs(null));
+        assertEquals(expected, sanitized);
     }
     
     @Test
