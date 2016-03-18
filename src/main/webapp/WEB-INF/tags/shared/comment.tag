@@ -1,5 +1,6 @@
 <%@ tag description="Student Comment" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
 <%@ attribute name="comment" type="teammates.ui.template.Comment" required="true" %>

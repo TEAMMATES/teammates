@@ -128,14 +128,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         patternString = "Yet to join{*}Yet to join{*}Joined{*}Joined";
         detailsPage.sortByStatus().verifyTablePattern(1, 4, patternString);
         
-        patternString = "Alice Betsy{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
+        patternString = "Alice Betsy</option></td></div>'\"{*}Benny Charles{*}Charlie Davis{*}Danny Engrid";
         detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         patternString = "Danny Engrid{*}Charlie Davis{*}Benny Charles{*}Alice Betsy";
         detailsPage.sortByName().verifyTablePattern(1, 3, patternString);
         
-        patternString = "Team 1{*}Team 1{*}Team 2{*}Team 2";
+        patternString = "Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 2{*}Team 2";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
-        patternString = "Team 2{*}Team 2{*}Team 1{*}Team 1";
+        patternString = "Team 2{*}Team 2{*}Team 1</option><option value=\"dump\"></td><td>'\"{*}Team 1</option><option value=\"dump\"></td><td>'\"";
         detailsPage.sortByTeam().verifyTablePattern(1, 2, patternString);
     }
     

@@ -31,7 +31,7 @@ public class InstructorStudentRecordsPageData extends PageData {
                                             InstructorAttributes instructor) {
         super(account, student);
         this.courseId = courseId;
-        this.studentName = Sanitizer.sanitizeForHtml(student.name);
+        this.studentName = student.name;
         this.studentEmail = student.email;
         this.showCommentBox = showCommentBox;
         if (spa != null) {
