@@ -208,7 +208,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
                                                                         "${rankOptionValue}",  Sanitizer.sanitizeForHtml(name),
-                                                                        "${team}", teamName,
+                                                                        "${team}", Sanitizer.sanitizeForHtml(teamName),
                                                                         "${ranksReceived}", ranksReceived,
                                                                         "${averageRank}", df.format(average));
 

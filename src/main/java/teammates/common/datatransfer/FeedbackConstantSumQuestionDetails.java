@@ -380,7 +380,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(name),
-                        "${team}", teamName,
+                        "${team}", Sanitizer.sanitizeForHtml(teamName),
                         "${pointsReceived}", pointsReceived,
                         "${averagePoints}", df.format(average));
             

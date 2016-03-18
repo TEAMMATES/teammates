@@ -2,6 +2,7 @@
 <%@ page import="teammates.common.util.Const" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="hidden number-of-pending-comments">${data.numberOfPendingComments}</div>
 <c:choose>
@@ -31,7 +32,7 @@
                     <tbody>
                         <c:forEach items="${questionCommentsEntry.value}" var="response" varStatus="responseStatus">
                             <tr>
-                                <td><b>From:</b> ${response.giverName} <b>To:</b> ${response.recipientName}</td>
+                                <td><b>From:</b> ${fn:escapeXml(response.giverName)} <b>To:</b> ${fn:escapeXml(response.recipientName)}</td>
                             </tr>
                             <tr>
                                 <td><strong>Response: </strong>${response.answerHtml}</td>

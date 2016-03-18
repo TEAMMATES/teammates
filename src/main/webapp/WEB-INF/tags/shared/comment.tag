@@ -69,7 +69,7 @@
                 <div class="form-group form-inline">
                     <div class="form-group text-muted">
                     <p>
-                        Comment about ${comment.recipientDisplay}:
+                        Comment about ${fn:escapeXml(comment.recipientDisplay)}:
                     </p>
                     You may change comment's visibility using the visibility options on the right hand side.
                     </div>

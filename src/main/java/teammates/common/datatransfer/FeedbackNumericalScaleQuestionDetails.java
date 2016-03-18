@@ -217,8 +217,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
             fragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
                                     fragmentTemplateToUse,
-                                    "${recipientTeam}", recipientTeam,
-                                    "${recipientName}", recipientName,
+                                    "${recipientTeam}", Sanitizer.sanitizeForHtml(recipientTeam),
+                                    "${recipientName}", Sanitizer.sanitizeForHtml(recipientName),
                                     "${Average}", df.format(average.get(recipient)),
                                     "${Max}", df.format(max.get(recipient)),
                                     "${Min}", df.format(min.get(recipient)),
@@ -351,8 +351,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             
             String recipientFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
                     fragmentTemplateToUse,
-                    "${recipientTeam}", recipientTeam,
-                    "${recipientName}", recipientName,
+                    "${recipientTeam}", Sanitizer.sanitizeForHtml(recipientTeam),
+                    "${recipientName}", Sanitizer.sanitizeForHtml(recipientName),
                     "${Average}", df.format(averageScore),
                     "${Max}", df.format(maxScore),
                     "${Min}", df.format(minScore),

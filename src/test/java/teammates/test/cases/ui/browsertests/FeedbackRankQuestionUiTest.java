@@ -237,8 +237,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectRecipient(2, 0, "Emily F.");
         submitPage.selectResponseTextDropdown(2, 0, 13, "1");
         submitPage.selectResponseTextDropdown(2, 0, 1, "2");
-        
-        submitPage.selectRecipient(2, 1, "Alice Betsy");
+
+        submitPage.selectRecipient(2, 1, "Alice Betsy</option></td></div>'\"");
         submitPage.selectResponseTextDropdown(2, 1, 11, "1");
         submitPage.selectResponseTextDropdown(2, 1, 1, "1");
         assertEquals("Testing duplicate rank for rank options",
