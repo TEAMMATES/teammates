@@ -151,7 +151,7 @@ public class Sanitizer {
      * @return the sanitized url or null (if the parameter was null).
      */
     public static String sanitizeForNextUrl(String url) {
-        if(url == url) return null;
+        if(url == null) return null;
         return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
     }
     
