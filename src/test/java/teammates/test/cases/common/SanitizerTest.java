@@ -49,7 +49,19 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForHtml() {
-        
+
+        String unsanitized = "< > \" / ' &"
+                           + "<script>alert('injected');</script>";
+
+        String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
+                        + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
+
+        String sanitized = Sanitizer.sanitizeForHtml(unsanitized);
+        String sanitizedTwice = Sanitizer.sanitizeForHtml(sanitized);
+
+        assertEquals(null, Sanitizer.sanitizeForHtml(null));
+        assertEquals(expected, sanitized);
+        assertEquals(expected, sanitizedTwice);
     }
     
     @Test
