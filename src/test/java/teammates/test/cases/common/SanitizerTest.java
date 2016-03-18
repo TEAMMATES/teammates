@@ -77,7 +77,12 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForCsv() {
+
+        String unsanitized = "aaa , bb\"b, c\"\"cc";
+        String expected = "\"aaa , bb\"\"b, c\"\"\"\"cc\"";
         
+        String sanitized = Sanitizer.sanitizeForCsv(unsanitized);
+        assertEquals(expected, sanitized);
     }
     
     @Test
