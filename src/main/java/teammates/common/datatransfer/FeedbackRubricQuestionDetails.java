@@ -479,14 +479,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
-                // hide numerical value of option for student's view
-                String tableBodyCellValue = view.equals("student") 
-                                          ? df.format(rubricStats[j][i] * 100) + "%" 
-                                                  + " (" + responseFrequency[j][i] + ")"
-                                          : df.format(rubricStats[j][i] * 100) + "%";
                 String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequencyOrAverage}", tableBodyCellValue);
+                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i] * 100) + "%" 
+                                                                   + " (" + responseFrequency[j][i] +")");
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
 
