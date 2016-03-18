@@ -66,7 +66,7 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForRichText() {
-        
+        // using org.apache.commons.lang3.StringEscapeUtils.escapeHtml4()
     }
     
     @Test
