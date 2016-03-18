@@ -2,6 +2,9 @@ package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.Sanitizer;
@@ -87,7 +90,19 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeListForCsv() {
+
+        List<String> emptyList = new ArrayList<String>();
+        assertEquals(emptyList, Sanitizer.sanitizeListForCsv(emptyList));
         
+        List<String> unsanitized = new ArrayList<String>();
+        unsanitized.add("aaa , bb\"b, c\"\"cc");
+        unsanitized.add("aaa , bb\"b, c\"\"cc");
+
+        List<String> expected = new ArrayList<String>();
+        expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
+        expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
+
+        assertEquals(expected, Sanitizer.sanitizeListForCsv(unsanitized));
     }
     
     @Test
