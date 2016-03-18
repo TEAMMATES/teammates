@@ -28,14 +28,14 @@
       "email": "CCDetailsUiT.coord@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "Student1": {
+    "Alice": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Alice Betsy",
       "isInstructor": false,
       "email": "alice.b.tmms@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "Student2": {
+    "Charlie": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Charlie Davis",
       "isInstructor": false,
@@ -116,7 +116,7 @@
   },
   
   "students": {
-    "CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2104": {
+    "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104": {
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
       "course": "CCDetailsUiT.CS2104",
@@ -132,7 +132,7 @@
       "comments": "This student's name is Benny Charles",
       "team": "Team 2"
     },
-    "student2.tmms@CCDetailsUiT.CS2104": {
+    "charlie.tmms@CCDetailsUiT.CS2104": {
       "googleId": "",
       "email": "${value.injected.in.testfile}",
       "course": "CCDetailsUiT.CS2104",
@@ -148,7 +148,7 @@
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2"
     },
-    "CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2103": {
+    "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103": {
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
       "course": "CCDetailsUiT.CS2103",

@@ -48,13 +48,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         String student1Email = student1GoogleId + "@gmail.com";
         String student2GoogleId = TestProperties.inst().TEST_STUDENT2_ACCOUNT;
         String student2Email = student2GoogleId + "@gmail.com";
-        testData.accounts.get("Student1").googleId = student1GoogleId;
-        testData.accounts.get("Student2").googleId = student2GoogleId;
-        testData.students.get("CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2104").googleId = student1GoogleId;
-        testData.students.get("CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2104").email = student1Email;
-        testData.students.get("student2.tmms@CCDetailsUiT.CS2104").email = student2Email;
-        testData.students.get("CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2103").googleId = student1GoogleId;
-        testData.students.get("CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2103").email = student1Email;
+        testData.accounts.get("Alice").googleId = student1GoogleId;
+        testData.accounts.get("Charlie").googleId = student2GoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").googleId = student1GoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104").email = student1Email;
+        testData.students.get("charlie.tmms@CCDetailsUiT.CS2104").email = student2Email;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").googleId = student1GoogleId;
+        testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103").email = student1Email;
         testData.students.get("charlie.tmms@CCDetailsUiT.CS2103").email = student2Email;
         
         removeAndRestoreTestDataOnServer(testData);
@@ -140,8 +140,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     public void testLinks() {
-        StudentAttributes student1 = testData.students.get("CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2104");
-        StudentAttributes student2 = testData.students.get("student2.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
         
         ______TS("link: view");
         
@@ -182,8 +182,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     public void testRemindAction() throws Exception {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
-        StudentAttributes student1 = testData.students.get("CCDetailsUiT.student1.tmms@CCDetailsUiT.CS2104");
-        StudentAttributes student2 = testData.students.get("student2.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
 
         // student2 is yet to register, student1 is already registered
         String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
