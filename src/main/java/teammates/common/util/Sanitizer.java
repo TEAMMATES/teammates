@@ -121,6 +121,17 @@ public class Sanitizer {
     }
     
     /**
+     * Sanitize a list of strings for inserting into HTML.
+     */
+    public static List<String> sanitizeForHtml(List<String> list){ 
+        List<String> sanitizedList = new ArrayList<String>();
+        for (String str : list) {
+            sanitizedList.add(sanitizeForHtml(str));
+        }
+        return sanitizedList;
+    }
+    
+    /**
      * Converts a string to be put in URL (replaces some characters)
      */
     public static String sanitizeForUri(String uri) {
