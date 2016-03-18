@@ -195,7 +195,7 @@ public class Sanitizer {
      * {@link http://tools.ietf.org/html/rfc4180}
      */
     public static String sanitizeForCsv(String str){ 
-        return "\"" + str.replace("\"", "\"\"") + "\"";
+        return "\"" + str.replace("\"", "\"\"") + "\""; // in CSV, " is escaped as ""
     }
     
     /**
