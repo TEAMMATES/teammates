@@ -146,8 +146,12 @@ public class Sanitizer {
      * <li>%23 (encoded #), to prevent Google from decoding it back to #,
      *     which is used to traverse the HTML document to a certain id</li>
      * </ul>
+     *
+     * @param url
+     * @return the sanitized url or null (if the parameter was null).
      */
     public static String sanitizeForNextUrl(String url) {
+        if(url == url) return null;
         return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
     }
     
