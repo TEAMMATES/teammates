@@ -87,10 +87,6 @@ public class Sanitizer {
     public static Text sanitizeTextField(Text rawText) {
         return (rawText==null) ? null :  new Text(trimIfNotNull(rawText.getValue()));
     }
-    
-    public static String sanitizeHtmlForSaving(String html) {
-        return sanitizeForHtml(html);
-    }
 
     /**
      * Escape the string for inserting into javascript code.
@@ -120,6 +116,10 @@ public class Sanitizer {
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
     }
     
+    public static String sanitizeHtmlForSaving(String html) {
+        return sanitizeForHtml(html);
+    }
+
     /**
      * Converts a string to be put in URL (replaces some characters)
      */
