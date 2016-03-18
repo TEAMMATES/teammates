@@ -1,10 +1,17 @@
 #TEAMMATES Developer Web Site
 
+<img src="https://img.shields.io/badge/users-80K%2B-brightgreen.svg"> 
+<img src="https://img.shields.io/badge/universities-700%2B-green.svg"> 
+<img src="https://img.shields.io/badge/java-110%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/js-14%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/html-5%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/css-7%20KLoC-blue.svg">
+
 TEAMMATES is a free online tool for managing peer evaluations and other 
 feedback paths of your students. It is provided as a cloud-based service for 
 educators/students and is currently used by hundreds of universities across the world.
-This is the developer web site for TEAMMATES. Click [here](http://teammatesv4.appspot.com/)
- to go to the TEAMMATES product website
+This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/)
+ to go to the TEAMMATES product website**
 
 <img src="http://4-19.teammatesv4.appspot.com/images/overview.png" width='600'>
 
@@ -81,4 +88,4 @@ TEAMMATES is released under GPLv2
 The best way for potential contributors to contact us is by [posting a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new) 
 (yes, we use the issue tracker as a discussion forum too).
 
-Alternatively (less preferred), you can email `teammates-contributors [at] googlegroups.com` 
+Alternatively (less preferred), you can email `teammates [at] comp.nus.edu.sg` 

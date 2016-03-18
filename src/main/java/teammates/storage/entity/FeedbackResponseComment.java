@@ -166,10 +166,6 @@ public class FeedbackResponseComment {
         this.giverEmail = giverEmail;
     }
 
-    public String getFeedbackResponseId() {
-        return feedbackResponseId;
-    }
-    
     public void setShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
         this.showCommentTo = showCommentTo;
     }
@@ -184,6 +180,10 @@ public class FeedbackResponseComment {
     
     public List<FeedbackParticipantType> getShowGiverNameTo() {
         return showGiverNameTo;
+    }
+
+    public String getFeedbackResponseId() {
+        return feedbackResponseId;
     }
 
     public void setFeedbackResponseId(String feedbackResponseId) {

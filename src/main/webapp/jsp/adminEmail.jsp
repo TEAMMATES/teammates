@@ -31,5 +31,5 @@
         </c:otherwise>
     </c:choose>
                         
-    <t:statusMessage/>
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 </ta:adminPage>

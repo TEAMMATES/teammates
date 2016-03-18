@@ -165,7 +165,7 @@ public class InstructorCoursesPage extends AppPage {
     public void waitForAjaxLoadCoursesError() {
         By element = By.id("retryAjax");
         waitForElementPresence(element);
-        WebElement statusMessage = browser.driver.findElement(By.id("statusMessage"));
+        WebElement statusMessage = browser.driver.findElement(By.id("statusMessagesToUser")).findElement(By.className("statusMessage"));
         AssertHelper.assertContains("Courses could not be loaded. Click here to retry", statusMessage.getText());
     }
     

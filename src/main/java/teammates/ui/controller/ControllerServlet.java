@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -16,7 +18,9 @@ import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
+import teammates.common.util.Const.StatusMessageColor;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
@@ -100,15 +104,16 @@ public class ControllerServlet extends HttpServlet {
             String requestUrl = req.getRequestURL().toString();
             log.info(e.getMessage());
             cleanUpStatusMessageInSession(req);
-            req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGE, 
-                                          Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
-            req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, 
-                                            "warning");
-            if(requestUrl.contains("/instructor")) {
+            
+            List<StatusMessage> statusMessagesToUser = new ArrayList<StatusMessage>();
+            statusMessagesToUser.add(new StatusMessage(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, StatusMessageColor.WARNING));
+            req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);
+            
+            if (requestUrl.contains("/instructor")) {
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-            } else if(requestUrl.contains("/student")) {
+            } else if (requestUrl.contains("/student")) {
                 resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
-            } else if(requestUrl.contains("/admin")) {
+            } else if (requestUrl.contains("/admin")) {
                 resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
             } else {
                 cleanUpStatusMessageInSession(req);
@@ -126,7 +131,6 @@ public class ControllerServlet extends HttpServlet {
     }
     
     private void cleanUpStatusMessageInSession(HttpServletRequest req){
-        req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
-        req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+        req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
     }
 }

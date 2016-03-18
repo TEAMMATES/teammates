@@ -15,7 +15,7 @@
             deleteCourseButton="${data.deleteCourseButton}" 
             course="${data.course}" />
     <br>
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <div class="pull-right">
         <a href="../instructorHelp.html#editCourse" class="small" target="_blank">
             <span class="glyphicon glyphicon-info-sign"></span>
