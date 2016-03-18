@@ -479,6 +479,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
+                // hide numerical value of option for student's view
                 String tableBodyCellValue = view.equals("student") 
                                           ? df.format(rubricStats[j][i] * 100) + "%" 
                                                   + " (" + responseFrequency[j][i] + ")"
@@ -490,6 +491,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             if (!view.equals("student")) {
+                // student's view of results do not have the numerical values,
+                // therefore hide the average value
                 String tableAverageCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
                                  "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
