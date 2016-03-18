@@ -9,7 +9,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.StudentProfile;
