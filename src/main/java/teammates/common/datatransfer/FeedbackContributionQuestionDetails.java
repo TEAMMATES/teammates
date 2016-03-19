@@ -576,7 +576,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<String>();
         for(FeedbackResponseAttributes response : responses){
-            String teamNameOfResponseGiver = bundle.getUnsanitizedTeamNameForEmail(response.giverEmail);
+            String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giverEmail);
             if (!teamNames.contains(teamNameOfResponseGiver)) {
                 teamNames.add(teamNameOfResponseGiver);
             }

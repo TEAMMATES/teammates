@@ -169,20 +169,20 @@
     "students":{
         "student1InCourse1":{
             "email":"comments.student1InCourse1@gmail.tmt",
-            "name":"student1 In Course1",
-            "team":"Team 1.1",
-            "section":"Section 1",
+            "name":"student1 In Course1</option></td></div>'\"",
+            "team":"Team 1.1</td></div>'\"",
+            "section":"Section 1</option></td></div>'\"",
             "googleId":"comments.student1InCourse1",
-            "comments":"comment for student1InCourse1",
+            "comments":"comment for student1InCourse1</option></td></div>'\"",
             "course":"comments.idOfTypicalCourse1"
         },
         "student2InCourse1":{
             "email":"comments.student2InCourse1@gmail.tmt",
             "name":"student2 In Course1",
             "googleId":"comments.student2InCourse1",
-            "team":"Team 1.1",
-            "section":"Section 1",
-            "comments":"",
+            "team":"Team 1.1</td></div>'\"",
+            "section":"Section 1</option></td></div>'\"",
+            "comments":"</option></td></div>'\"",
             "course":"comments.idOfTypicalCourse1"
         },
         "student3InCourse1":{
@@ -190,7 +190,7 @@
             "name":"student3 In Course1",
             "googleId":"comments.student3InCourse1",
             "team":"Team 1.2",
-            "section":"Section 1",
+            "section":"Section 1</option></td></div>'\"",
             "comments":"",
             "course":"comments.idOfTypicalCourse1"
         },
@@ -199,7 +199,7 @@
             "name":"student In Course#",
             "googleId":"comments.studentInCourseUri",
             "team":"Team #.1",
-            "section":"Section 1",
+            "section":"Section 1</option></td></div>'\"",
             "comments":"",
             "course":"comments.idOfUriCharsCourse"
         }
@@ -394,8 +394,8 @@
             "responseMetaData":{
                 "value":"Student 1 self feedback."
             },
-            "giverSection":"Section 1",
-            "recipientSection":"Section 1" 
+            "giverSection":"Section 1</option></td></div>'\"",
+            "recipientSection":"Section 1</option></td></div>'\"" 
         },
         "response2ForQ1S1C1":{
             "feedbackSessionName":"comments.First feedback session",
@@ -407,8 +407,8 @@
             "responseMetaData":{
                 "value":"I'm cool'"
             },
-            "giverSection":"Section 1",
-            "recipientSection":"Section 1" 
+            "giverSection":"Section 1</option></td></div>'\"",
+            "recipientSection":"Section 1</option></td></div>'\"" 
             
         },
         "response1ForQ2S1C1":{
@@ -421,8 +421,8 @@
             "responseMetaData":{
                 "value":"Response from student 2 to student 1."
             },
-            "giverSection":"Section 1",
-            "recipientSection":"Section 1" 
+            "giverSection":"Section 1</option></td></div>'\"",
+            "recipientSection":"Section 1</option></td></div>'\"" 
             
         },
         "response2ForQ2S1C1":{
@@ -435,8 +435,8 @@
             "responseMetaData":{
                 "value":"Response from student 1 to student 2."
             },
-            "giverSection":"Section 1",
-            "recipientSection":"Section 1" 
+            "giverSection":"Section 1</option></td></div>'\"",
+            "recipientSection":"Section 1</option></td></div>'\"" 
             
         },
         "response3ForQ2S1C1":{
@@ -449,8 +449,8 @@
             "responseMetaData":{
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
             },
-            "giverSection":"Section 1",
-            "recipientSection":"Section 1" 
+            "giverSection":"Section 1</option></td></div>'\"",
+            "recipientSection":"Section 1</option></td></div>'\"" 
             
         },
         "response1ForQ3S1C1":{
@@ -477,8 +477,8 @@
             "responseMetaData":{
                 "value":"I like the feedback session name."
             },
-            "giverSection":"Section 1",
-            "recipientSection":"Section 1" 
+            "giverSection":"Section 1</option></td></div>'\"",
+            "recipientSection":"Section 1</option></td></div>'\"" 
         }
     },
     "feedbackResponseComments":{
@@ -626,12 +626,12 @@
             "courseId":"comments.idOfTypicalCourse1",
             "giverEmail":"comments.instructor1@course1.tmt",
             "recipientType":"TEAM",
-            "recipients":["Team 1.1"],
+            "recipients":["Team 1.1</td></div>'\""],
             "status": "FINAL",
             "showCommentTo": [TEAM],
             "showGiverNameTo": [TEAM],
             "showRecipientNameTo": [TEAM],
-            "receiverEmail":"Team 1.1",
+            "receiverEmail":"Team 1.1</td></div>'\"",
             "createdAt":"2012-05-05 08:53 AM UTC",
             "commentText":{
                 "value":"team can see this comment with giver and recipient's name"
@@ -643,12 +643,12 @@
             "courseId":"comments.idOfTypicalCourse1",
             "giverEmail":"comments.instructor1@course1.tmt",
             "recipientType":"TEAM",
-            "recipients":["Team 1.1"],
+            "recipients":["Team 1.1</td></div>'\""],
             "status": "FINAL",
             "showCommentTo": [TEAM],
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
-            "receiverEmail":"Team 1.1",
+            "receiverEmail":"Team 1.1</td></div>'\"",
             "createdAt":"2012-05-07 08:54 AM UTC",
             "commentText":{
                 "value":"team can see this comment without giver's name"

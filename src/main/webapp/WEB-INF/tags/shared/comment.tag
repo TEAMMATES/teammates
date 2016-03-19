@@ -8,7 +8,7 @@
 <li class="list-group-item list-group-item-warning${comment.extraClass}">
     <div id="commentBar-${commentIndex}">
         <span class="text-muted">
-            To <b>${comment.recipientDisplay}</b> [${comment.createdAt}] ${comment.editedAt}
+            To <b>${fn:escapeXml(comment.recipientDisplay)}</b> [${comment.createdAt}] ${comment.editedAt}
         </span>
         <c:if test="${comment.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"

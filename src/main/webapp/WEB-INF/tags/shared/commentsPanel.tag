@@ -30,7 +30,7 @@
             <div class="panel panel-info student-record-comments${commentsForStudentsTable.extraClass}"
                  <c:if test="${empty commentsForStudentsTable.rows && not forRecordsPage}">style="display: none;"</c:if>>
                 <div class="panel-heading">
-                    From <b>${commentsForStudentsTable.giverDetails}<c:if test="${not empty courseId}"> (${courseId})</c:if></b>
+                    From <b>${fn:escapeXml(commentsForStudentsTable.giverDetails)}<c:if test="${not empty courseId}"> (${courseId})</c:if></b>
                     <c:if test="${forRecordsPage}">
                         <button type="button"
                                 class="btn btn-default btn-xs icon-button pull-right"

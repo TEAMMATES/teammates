@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -213,14 +212,6 @@ public class CommentAttributes extends EntityAttributes
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
 
-        if (recipients != null) {
-            HashSet<String> sanitizedRecipients = new HashSet<String>();
-            for (String recipientId : recipients) {
-                sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
-            }
-            recipients = sanitizedRecipients;
-        }
-        
         if (commentText != null) {
             //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
             String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");

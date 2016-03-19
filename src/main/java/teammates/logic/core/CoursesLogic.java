@@ -741,11 +741,9 @@ public class CoursesLogic {
                         export += Sanitizer.sanitizeForCsv(section.name) + ",";
                     }
 
-                    export += Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(team.name)) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(
-                                      StringHelper.removeExtraSpace(student.name))) + "," 
-                              + Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(
-                                      StringHelper.removeExtraSpace(student.lastName))) + "," 
+                    export += Sanitizer.sanitizeForCsv(team.name) + "," 
+                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + "," 
+                              + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + "," 
                               + Sanitizer.sanitizeForCsv(studentStatus) + "," 
                               + Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }
