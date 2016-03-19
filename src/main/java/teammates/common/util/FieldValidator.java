@@ -510,12 +510,10 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
-        if (value.isEmpty()) {
+        if (value.isEmpty() || value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if(value.length()>maxLength){
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
             return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
         }
@@ -542,12 +540,10 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
-        if (value.isEmpty()) {
+        if (value.isEmpty() || value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if(value.length()>maxLength){
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } 
         return "";
     }
@@ -572,12 +568,10 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
-        if (value.isEmpty()) {
+        if (value.isEmpty() || value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
-        } else if (value.length()>maxLength) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if(!startsWithBraces){
