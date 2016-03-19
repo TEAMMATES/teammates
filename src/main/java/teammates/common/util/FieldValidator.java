@@ -387,7 +387,7 @@ public class FieldValidator {
             "The field <b>%s</b> must not contain only whitespace or extra spaces at the beginning or at the end of the text.";
     
     public static final String NON_HTML_FIELD_ERROR_MESSAGE = 
-            Sanitizer.sanitizeForHtml("The provided %s is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (< > \\ / ' &)");
+            "The field <b>%s</b> must not contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)";
     
     public static final String NON_NULL_FIELD_ERROR_MESSAGE = 
             "The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
