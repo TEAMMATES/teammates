@@ -177,15 +177,15 @@ var deleteCommentHandler = function(e) {
 };
 
 function registerResponseCommentsEvent() {
-    $("body").on("click", "form[class*='responseCommentAddForm'] > div > a[id^='button_save_comment_for_add']", addCommentHandler);
-    $("body").on("click", "form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']", editCommentHandler);
-    $("body").on("click", "form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']", deleteCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]', addCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]', editCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
     
     $("div[id^=plainCommentText]").css("margin-left","15px");
 }
 
 function registerResponseCommentCheckboxEvent() {
-    $("body").on("click", "ul[id^='responseCommentTable'] * input[type=checkbox]", function(e) {
+    $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
@@ -231,11 +231,11 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
 
 function enableHoverToDisplayEditOptions() {
     //show on hover for comment
-    $("body").on("mouseenter", ".comments > .list-group-item", function() {
+    $('body').on('mouseenter', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).show();
     });
     
-    $("body").on("mouseleave", ".comments > .list-group-item", function() {
+    $('body').on('mouseleave', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).hide();
     });
 }
@@ -457,7 +457,7 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
 }
 
 function registerCheckboxEventForVisibilityOptions() {
-    $("body").on("click", "div[class*='student-record-comments'] * input[type=checkbox]", function(e) {
+    $('body').on('click', 'div[class*="student-record-comments"] * input[type=checkbox]', function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
