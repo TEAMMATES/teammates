@@ -768,8 +768,15 @@ function sanitizeForJs(string) {
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
-    var splitSearchKey = searchKey.split(' ');
-    $(sectionToHighlight).highlight(splitSearchKey);
+    // trim symbols around every word in the string
+    var symbolTrimmedSearchKey = [];
+    $.each(searchKey.split(/["'.-]/), function(){
+        symbolTrimmedSearchKey.push($.trim(this));
+    });
+    // remove empty elements from symbolTrimmedSearchKey
+    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
+        return (!(n == "")) });
+    $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }
 
 /**
