@@ -262,12 +262,10 @@ public class FieldValidator {
      * Field: Student comment
      * Not allowed: |
      */
-    private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
+    private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "student comments";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
     public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" because it %s. " +
-                    "The value of "+STUDENT_ROLE_COMMENTS_FIELD_NAME+" should be no longer than "+
-                    STUDENT_ROLE_COMMENTS_MAX_LENGTH+" characters.";
+            "The field <b>" + STUDENT_ROLE_COMMENTS_FIELD_NAME + "</b> must be no longer than " + STUDENT_ROLE_COMMENTS_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
@@ -375,8 +373,7 @@ public class FieldValidator {
             "The field %s cannot be empty and must be no longer than %d characters.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-                    "The value of %s should be no longer than %d characters.";
+            "The field <b>%s</b> must be no longer than %d characters.";
     
     public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " +
@@ -603,13 +600,12 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
         if (value.length()>maxLength){
-            return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } 
         return "";
     }

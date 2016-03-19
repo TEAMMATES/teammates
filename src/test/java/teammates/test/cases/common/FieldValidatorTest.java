@@ -130,7 +130,7 @@ public class FieldValidatorTest extends BaseTestCase{
         assertEquals("invalid: too long", 
                 String.format(
                         SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, 
-                        tooLongName, typicalFieldName,  REASON_TOO_LONG, typicalFieldName, maxLength),
+                        typicalFieldName, maxLength),
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -665,7 +665,7 @@ public class FieldValidatorTest extends BaseTestCase{
     private void runGenericTestCasesForCappedSizeStringTypeField(
             FieldType fieldType, 
             int maxSize, 
-            String errorMessageFormat, 
+            String errorMessage,
             boolean emptyStringAllowed) {
         
         String maxLengthValue = StringHelper.generateStringOfLength(maxSize);
@@ -678,14 +678,14 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: too long value, without fieldName parameter", 
                 fieldType, 
                 tooLongValue, 
-                String.format(errorMessageFormat, tooLongValue, REASON_TOO_LONG));
+                errorMessage);
         
         String emptyValue = "";
         testOnce("invalid: empty value, *with* fieldName parameter", 
                 fieldType,
                 "course name of the student",
                 emptyValue, 
-                emptyStringAllowed? "" : String.format(errorMessageFormat, emptyValue, REASON_EMPTY));
+                emptyStringAllowed? "" : errorMessage);
     }
 
     private void testOnce(String description, FieldType fieldType, String value, String expected) {

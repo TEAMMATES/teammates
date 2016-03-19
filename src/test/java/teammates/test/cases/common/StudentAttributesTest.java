@@ -133,7 +133,7 @@ public class StudentAttributesTest extends BaseTestCase {
                 .generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", "t1", "name", "e@e.com", longComment, courseId);
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, longComment, REASON_TOO_LONG),
+        assertEquals(STUDENT_ROLE_COMMENTS_ERROR_MESSAGE,
                      invalidStudent.getInvalidityInfo().get(0));
 
         // Other invalid parameters cases are omitted because they are already
@@ -158,8 +158,7 @@ public class StudentAttributesTest extends BaseTestCase {
                             + "\"\" is not acceptable to TEAMMATES as a Course ID because it is empty. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces." + EOL
                             + "\"invalid email\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces." + EOL
                             + "The field <b>team name</b> cannot be empty and must be no longer than 60 characters." + EOL
-                            + "\"" + s.comments
-                            + "\" is not acceptable to TEAMMATES as comments about a student enrolled in a course because it is too long. The value of comments about a student enrolled in a course should be no longer than 500 characters." + EOL
+                            + "The field <b>student comments</b> must be no longer than 500 characters." + EOL
                             + "The field <b>name</b> cannot be empty and must be no longer than 100 characters.";
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
