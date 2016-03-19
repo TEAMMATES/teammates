@@ -221,8 +221,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i))
-                                                    + " (" + (i + 1) + ")");
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+            // TODO display numerical value of option 
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
@@ -458,10 +458,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
+            // TODO display numerical value of option 
+            String rubricChoiceValue = view.equals("student") 
+                                     ? Sanitizer.sanitizeForHtml(rubricChoices.get(i))
+                                     : Sanitizer.sanitizeForHtml(rubricChoices.get(i)) + " (" + (numOfRubricChoices - i) + ")";
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) 
-                                                    + " (" + (numOfRubricChoices - i) + ")");
+                            "${rubricChoiceValue}", rubricChoiceValue);
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
