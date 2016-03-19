@@ -384,7 +384,7 @@ public class FieldValidator {
             "The field %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
-            "The provided %s is not acceptable to TEAMMATES as it contains only whitespace or contains extra spaces at the beginning or at the end of the text.";
+            "The field <b>%s</b> must not contain only whitespace or extra spaces at the beginning or at the end of the text.";
     
     public static final String NON_HTML_FIELD_ERROR_MESSAGE = 
             Sanitizer.sanitizeForHtml("The provided %s is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (< > \\ / ' &)");
