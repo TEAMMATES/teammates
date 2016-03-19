@@ -376,8 +376,7 @@ public class FieldValidator {
             "The field <b>%s</b> must be no longer than %d characters.";
     
     public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it is non-alphanumeric. " +
-                    "Please only use alphabets, numbers and whitespace in %s.";
+            "The field <b>%s</b> can only contain alphabets, numbers and whitespaces.";
     
     public static final String INVALID_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
@@ -505,14 +504,13 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty() || value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
-            return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
+            return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, fieldName);
         }
         return "";
     }
