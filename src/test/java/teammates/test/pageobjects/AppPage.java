@@ -17,9 +17,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
+import org.apache.http.ssl.SSLContexts;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -71,7 +74,7 @@ public abstract class AppPage {
     @SuppressWarnings("unused")
     private void ____Common_page_elements___________________________________() {
     }
-    @FindBy(id = "statusMessage")
+    @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
@@ -204,6 +207,11 @@ public abstract class AppPage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
+    public void waitForElementToBeClickable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
     public void waitForElementsVisibility(List<WebElement> elements) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
@@ -880,7 +888,7 @@ public abstract class AppPage {
             assertEquals(expectedStatus, this.getStatus());
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"));
+                this.waitForElementPresence(By.id("statusMessagesToUser"));
                 if(!statusMessage.isDisplayed()){
                     this.waitForElementVisibility(statusMessage);
                 }
@@ -959,7 +967,10 @@ public abstract class AppPage {
             downloadedFile.setWritable(true);
         }
         
-        CloseableHttpClient client = HttpClientBuilder.create().build();
+        SSLConnectionSocketFactory sslConnectionFactory =
+                new SSLConnectionSocketFactory(SSLContexts.createDefault(), new AllowAllHostnameVerifier());
+        
+        CloseableHttpClient client = HttpClientBuilder.create().setSSLSocketFactory(sslConnectionFactory).build();
         
         HttpGet httpget = new HttpGet(fileToDownload.toURI());
         HttpParams httpRequestParameters = httpget.getParams();

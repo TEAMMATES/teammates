@@ -34,5 +34,5 @@
     <br>
     
     <adminEmailLog:emailLogTable logs="${data.logs}" shouldShowAll="${data.shouldShowAll}"/>                       
-    <t:statusMessage doNotFocusToStatus="${true}" />
+    <t:statusMessage doNotFocusToStatus="${true}" statusMessagesToUser="${data.statusMessagesToUser}" />
 </ta:adminPage>

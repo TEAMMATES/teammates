@@ -12,7 +12,7 @@
     </script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Student Details" jsIncludes="${jsIncludes}">
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <c:if test="${not empty data.studentProfile}">
         <csd:studentProfile student="${data.studentProfile}"/>
     </c:if>

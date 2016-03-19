@@ -44,6 +44,7 @@ public class ShowPageResult extends ActionResult{
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         
+        addStatusMessagesToPageData(req);
         req.setAttribute("data", data); 
         
         /* These two are required for the 'status message' section of the page
@@ -54,27 +55,21 @@ public class ShowPageResult extends ActionResult{
          */ 
         req.setAttribute(Const.ParamsNames.ERROR, ""+isError);
         
-        addStatusMessageToRequest(req);
         req.getRequestDispatcher(getDestinationWithParams()).forward(req, resp);
     }
 
-    private void addStatusMessageToRequest(HttpServletRequest req) {
-        String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
-        String statusMessageColor = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+    /**
+     * Adds the list of status messages (if any) to the page data.
+     * @param req HttpServletRequest object
+     */
+    private void addStatusMessagesToPageData(HttpServletRequest req) {
+        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
-        if(statusMessageInSession != null && !statusMessageInSession.isEmpty()){
-            //Remove status message in session, thus it becomes an one-time message
-            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);            
-            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession);
-        } else {
-            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
-        }
-        
-        if(statusMessageColor != null && !statusMessageColor.isEmpty()){
-            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
-            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
-        } else {
-            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, "info");
+        // If the list of status messages can be found in the session and it is not empty,
+        // means there are status messages to be shown to the user, add them to the page data.
+        if (statusMessagesToUser != null && !statusMessagesToUser.isEmpty()) {
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
+            data.setStatusMessagesToUser(statusMessagesToUser);
         }
     }
 }
