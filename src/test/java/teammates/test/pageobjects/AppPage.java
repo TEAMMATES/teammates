@@ -873,12 +873,20 @@ public abstract class AppPage {
         
     /**
      * Verifies the status message in the page is same as the one specified.
+     * @return The page (for chaining method calls).
      */
-    public void verifyStatus(String expectedStatus) {
+    public AppPage verifyStatus(String expectedStatus){
         
         // The check is done multiple times with waiting times in between to account for
         // timing issues due to page load, inconsistencies in Selenium API, etc.
         for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
+            if (i == VERIFICATION_RETRY_COUNT - 1) {
+                // Last retry count: do one last attempt and if it still fails,
+                // throw assertion error and show the difference
+                waitForElementVisibility(statusMessage);
+                assertEquals(expectedStatus, getStatus());
+                break;
+            }
             try {
                 waitForElementVisibility(statusMessage);
                 if (expectedStatus.equals(getStatus())) {
@@ -888,14 +896,10 @@ public abstract class AppPage {
                 // Might occur if the page reloads, which makes the previous WebElement
                 // stored in the variable statusMessage "stale"
             }
-            if (i == VERIFICATION_RETRY_COUNT - 1) {
-                // Last retry count
-                assertEquals(expectedStatus, getStatus());
-                break;
-            }
             ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
         }
 
+        return this;
     }
 
     /**
