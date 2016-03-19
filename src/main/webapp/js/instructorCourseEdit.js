@@ -344,3 +344,14 @@ $(function(){
 		checkTheRoleThatApplies(i + 1);
 	}
 });
+
+function editCourse() {
+    $("#btnSaveCourse").show();
+    $("#" + COURSE_NAME).prop("disabled", false);
+    
+    $("#courseEditLink").off("click");
+}
+
+$(document).ready(function() {
+    $("#courseEditLink").click(editCourse);
+});

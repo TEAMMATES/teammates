@@ -25,6 +25,7 @@
         <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post" id="formEditcourse" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${course.id}">
             <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${data.account.googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ARCHIVE_STATUS%>" value="${course.archived}">
             
             <div class="form-group">
                 <label class="col-sm-3 control-label">Course ID:</label>
@@ -50,8 +51,8 @@
             
             <div class="form-group">
                 <div class=" col-sm-12 align-center">
-                    <input type="submit" class="button" id="btnSaveCourse" name="btnSaveCourse"
-                            style="display:none;" value="Save Changes" onclick="return verifyCourseData();">
+                    <input type="submit" class="btn btn-primary" id="btnSaveCourse" name="btnSaveCourse"
+                            style="display:none;" value="Save Changes">
                 </div>
             </div>
             
