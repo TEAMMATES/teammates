@@ -2,15 +2,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
+<%@ attribute name="editCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="course" type="teammates.common.datatransfer.CourseAttributes" required="true" %>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong>Course:</strong>
-        <a ${deleteCourseButton.attributesToString}>
-            ${deleteCourseButton.content}
-        </a>
+        
+        <div class="pull-right">
+            <a ${editCourseButton.attributesToString}>
+                ${editCourseButton.content}
+            </a>
+            
+            <a ${deleteCourseButton.attributesToString}>
+                ${deleteCourseButton.content}
+            </a>
+        </div>
     </div>
     
     <div class="panel-body fill-plain">
