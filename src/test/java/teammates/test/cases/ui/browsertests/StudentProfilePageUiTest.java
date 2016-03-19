@@ -11,6 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
@@ -148,10 +149,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
                                           "female", "this is enough!$%&*</>");
-        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " ")
-                                             // de-sanitize
-                                             .replace("&lt;", "<").replace("&gt;", ">")
-                                             .replace("&quot;", "\"").replace("&#x2f;", "/"));
+        profilePage.verifyStatus(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
+                                          FieldValidator.PERSON_NAME_FIELD_NAME));
         
         ______TS("Failure case: invalid data");
 
@@ -162,7 +161,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
                                           "female", "this is enough!$%&*</>");
-        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
+        profilePage.verifyStatus(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
+                                        FieldValidator.PERSON_NAME_FIELD_NAME));
 
         ______TS("Typical case: picture upload and edit");
 

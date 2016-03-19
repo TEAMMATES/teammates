@@ -142,7 +142,7 @@ public class FieldValidatorTest extends BaseTestCase{
         
         ______TS("null value");
         
-        String typicalFieldName = "name field";
+        String typicalFieldName = "name";
         int typicalLength = 25;
         
         try {
@@ -166,8 +166,8 @@ public class FieldValidatorTest extends BaseTestCase{
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
-                     String.format(INVALID_NAME_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(nameContainInvalidChars),
-                                   typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+                     String.format(INVALID_NAME_ERROR_MESSAGE,
+                                   typicalFieldName),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
         
@@ -176,8 +176,7 @@ public class FieldValidatorTest extends BaseTestCase{
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
                      String.format(INVALID_NAME_ERROR_MESSAGE,
-                                   Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar),
-                                   typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+                                   typicalFieldName),
                      validator.getValidityInfoForAllowedName(typicalFieldName,  maxLength, 
                                                              nameStartedWithNonAlphaNumChar));
         
@@ -186,8 +185,7 @@ public class FieldValidatorTest extends BaseTestCase{
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
                      String.format(INVALID_NAME_ERROR_MESSAGE,
-                                   Sanitizer.sanitizeForHtml(nameStartedWithBracesButHasInvalidChar),
-                                   typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+                                   typicalFieldName),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, 
                                                              nameStartedWithBracesButHasInvalidChar));
         
@@ -196,8 +194,7 @@ public class FieldValidatorTest extends BaseTestCase{
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character", 
                      String.format(INVALID_NAME_ERROR_MESSAGE, 
-                                   Sanitizer.sanitizeForHtml(nameStartedWithCurlyBracketButHasNoEnd),
-                                   typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+                                   typicalFieldName),
                      validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
         

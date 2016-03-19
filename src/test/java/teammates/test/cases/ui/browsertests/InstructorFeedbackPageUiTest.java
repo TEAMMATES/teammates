@@ -434,10 +434,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.startTime, newSession.endTime, null, null,
                 newSession.instructions, newSession.gracePeriod);
         assertEquals(String.format(
-                        FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                        "bad name %%",
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                        FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                      feedbackPage.getStatus());
         

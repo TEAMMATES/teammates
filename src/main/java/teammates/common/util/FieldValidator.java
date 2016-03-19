@@ -379,8 +379,9 @@ public class FieldValidator {
             "The field <b>%s</b> can only contain alphabets, numbers and whitespaces.";
     
     public static final String INVALID_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as %s because it %s. " +
-            "All %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
+            "The field <b>%s</b> must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
+    public static final String INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML =
+            "The field %s must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided %s is not acceptable to TEAMMATES as it contains only whitespace or contains extra spaces at the beginning or at the end of the text.";
@@ -560,7 +561,6 @@ public class FieldValidator {
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty() || value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fieldName, maxLength);
@@ -569,14 +569,14 @@ public class FieldValidator {
         } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if(!startsWithBraces){
-                return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+                return String.format(INVALID_NAME_ERROR_MESSAGE, fieldName);
             }
             if(!StringHelper.isMatching(value.substring(1), REGEX_NAME)){
-                return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+                return String.format(INVALID_NAME_ERROR_MESSAGE, fieldName);
             }
             
         } else if (!StringHelper.isMatching(value, REGEX_NAME)) {
-            return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+            return String.format(INVALID_NAME_ERROR_MESSAGE, fieldName);
         }
         return "";
     }

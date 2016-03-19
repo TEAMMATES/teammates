@@ -287,7 +287,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
         } catch (Exception a) {
-            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as session name because it contains invalid characters. All session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", a.getMessage());
+            assertEquals("The field <b>session name</b> must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", a.getMessage());
         }
         
         ______TS("test delete");
