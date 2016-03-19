@@ -26,6 +26,7 @@ src/main/webapp/WEB-INF/classes
 ### Gradle ###
 .gradle
 build/
+bin/
 
 # Ignore Gradle GUI config
 gradle-app.setting

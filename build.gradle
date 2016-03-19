@@ -1,9 +1,11 @@
 apply plugin: "war"
 apply plugin: "appengine"
+apply plugin: "eclipse"
 
 def appengineVersion = "1.9.27"
 def numOfTestRetries = 5
 def isTravis = System.getenv("TRAVIS") != null
+def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
 buildscript {
     repositories {
@@ -25,40 +27,42 @@ repositories {
 }
 
 dependencies {
-    appengineSdk "com.google.appengine:appengine-java-sdk:${appengineVersion}"
-    compile "com.google.code.gson:gson:2.2.2"
-    compile "com.google.guava:guava:15.0"
-    compile "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
-    compile "com.google.appengine:appengine-endpoints-deps:${appengineVersion}"
-    compile "com.google.appengine:appengine-endpoints:${appengineVersion}"
-    compile "com.google.appengine.tools:appengine-gcs-client:0.3.13"
-    compile "com.google.appengine:appengine-jsr107cache:${appengineVersion}"
-    compile "com.google.appengine.orm:datanucleus-appengine:1.0.10"
-    compile "com.google.api-client:google-api-client:1.18.0-rc"
-    compile "com.google.api-client:google-api-client-appengine:1.18.0-rc"
-    compile "com.google.apis:google-api-services-storage:v1beta2-rev47-1.18.0-rc"
-    compile "commons-fileupload:commons-fileupload:1.3.1"
-    compile "com.fasterxml.jackson.core:jackson-core:2.1.3"
-    compile "javax.jdo:jdo2-api:2.3-eb"
-    compile "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1"
-    compile "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1"
-    compile "org.datanucleus:datanucleus-core:1.1.5"
-    compile "org.datanucleus:datanucleus-jpa:1.1.5"
-    compile "xerces:xercesImpl:2.9.1"
+    appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
 
-    providedCompile "com.google.appengine:appengine-api-stubs:${appengineVersion}"
-    providedCompile "com.google.appengine:appengine-remote-api:${appengineVersion}"
-    providedCompile "com.google.appengine:appengine-testing:${appengineVersion}"
-    providedCompile "com.google.appengine:appengine-api-labs:${appengineVersion}"
-    providedCompile "javax.mail:mail:1.4.5"
-    providedCompile "httpunit:httpunit:1.7"
-    providedCompile "org.testng:testng:6.8.7"
+    compile         "com.fasterxml.jackson.core:jackson-core:2.1.3",
+                    "com.google.api-client:google-api-client-appengine:1.18.0-rc",
+                    "com.google.api-client:google-api-client:1.18.0-rc",
+                    "com.google.apis:google-api-services-storage:v1beta2-rev47-1.18.0-rc",
+                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
+                    "com.google.appengine.tools:appengine-gcs-client:0.3.13",
+                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+                    "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
+                    "com.google.appengine:appengine-endpoints:${appengineVersion}",
+                    "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
+                    "com.google.code.gson:gson:2.2.2",
+                    "com.google.guava:guava:15.0",
+                    "commons-fileupload:commons-fileupload:1.3.1",
+                    "javax.jdo:jdo2-api:2.3-eb",
+                    "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
+                    "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
+                    "org.datanucleus:datanucleus-core:1.1.5",
+                    "org.datanucleus:datanucleus-jpa:1.1.5",
+                    "xerces:xercesImpl:2.9.1"
 
-    testRuntime "org.seleniumhq.selenium:selenium-java:2.46.0"
-    testRuntime "com.google.appengine:appengine-tools-sdk:${appengineVersion}"
+    providedCompile "com.google.appengine:appengine-api-labs:${appengineVersion}",
+                    "com.google.appengine:appengine-api-stubs:${appengineVersion}",
+                    "com.google.appengine:appengine-remote-api:${appengineVersion}",
+                    "com.google.appengine:appengine-testing:${appengineVersion}",
+                    "httpunit:httpunit:1.7",
+                    "javax.mail:mail:1.4.5",
+                    "org.testng:testng:6.8.7"
+
+    testRuntime     "com.google.appengine:appengine-tools-sdk:${appengineVersion}",
+                    "org.seleniumhq.selenium:selenium-java:2.46.0"
+
 
     // Hack to get selenium-server-standalone from URL
-    def f = new File('libs/selenium-server-standalone-2.46.jar')
+    def f = new File("libs/selenium-server-standalone-2.46.jar")
     f.getParentFile().mkdirs()
     if (!f.exists()) {
         new URL("http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar")
@@ -72,10 +76,12 @@ sourceSets {
         java {
             srcDir "src/main/java"
             srcDir "src/test/java"
+            include "**/*.java"
         }
         resources {
             srcDir "src/main/resources"
             srcDir "src/test/resources"
+            exclude "**/*.java"
         }
     }
 }
@@ -89,6 +95,9 @@ appengine {
         api = "JPA"
         enhanceOnBuild = true
     }
+    appcfg {
+        oauth2 = true
+    }
 }
 
 appengineRun {
@@ -97,8 +106,11 @@ appengineRun {
 
 (1..numOfTestRetries + 1).each { id ->
     task "killFirefox${id}"(type: Exec) {
-        //on linux
-        commandLine "pkill", "firefox"
+        if (isWindows) {
+            commandLine "Taskkill", "/F", "/IM", "firefox.exe"
+        } else {
+            commandLine "pkill", "firefox"
+        }
         ignoreExitValue = true
         outputs.upToDateWhen { false }
     }
@@ -111,7 +123,11 @@ def afterTestClosure = { descriptor, result ->
         if (shouldDiff) {
             new File("expected").text = msg[(msg.indexOf("<<[expected>\n") + 13)..(msg.indexOf("\n</expected]>>") - 1)]
             new File("actual").text = msg[(msg.indexOf("<<[actual>\n") + 11)..(msg.indexOf("\n</actual]>>") - 1)]
-            def process = 'diff expected actual'.execute()
+            if (isWindows) {
+                def process = "FC expected actual".execute()
+            } else {
+                def process = "diff expected actual".execute()
+            }
             println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
             println process.getText()
             process.waitFor()
@@ -120,63 +136,126 @@ def afterTestClosure = { descriptor, result ->
 }
 
 test {
-    useTestNG() {
-        suites isTravis ? "src/test/testng-travis.xml" : "src/test/testng.xml"
-        useDefaultListeners = true
-        outputDirectory = file("build/reports/test-try-1")
+    useTestNG()
+    options.suites isTravis ? "src/test/testng-travis.xml" : "src/test/testng.xml"
+    options.useDefaultListeners = true
+    options.outputDirectory = file("build/reports/test-try-1")
+    maxHeapSize = "1g"
+    ignoreFailures = numOfTestRetries != 0 ? true : false
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    afterTest afterTestClosure 
+    finalizedBy = ["killFirefox1"]
+    testLogging {
+        events "passed"
     }
     if (isTravis) {
         jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
     } else {
         jvmArgs "-Duser.timezone=UTC-Xss2m"
     }
-    maxHeapSize = "1g"
-    ignoreFailures = numOfTestRetries != 0 ? true : false
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
-    testLogging {
-        events "passed"
-    }
-    afterTest afterTestClosure 
-    finalizedBy = ["killFirefox1"]
+    dependsOn "appengineEnhance"
 }
-test.dependsOn "appengineEnhance"
 
-task appengineTest
-appengineTest.dependsOn "test"
+task appengineTest {
+    dependsOn "test"
+}
 
 (1..numOfTestRetries).each { id ->
     def isLastRetry = id == numOfTestRetries ? true : false
     task "testRetry${id}"(type: Test) {
         dependsOn "test", "appengineEnhance"
-        onlyIf {
-            file("build/reports/test-try-${id}/testng-failed.xml").exists()
-        }
-        useTestNG() {
-            suites("build/reports/test-try-${id}/testng-failed.xml")
-            outputDirectory = file("build/reports/test-try-${id+1}")
-            useDefaultListeners = true
-        }
+        useTestNG()
+        options.suites("build/reports/test-try-${id}/testng-failed.xml")
+        options.outputDirectory = file("build/reports/test-try-${id+1}")
+        options.useDefaultListeners = true
         testClassesDir = sourceSets.test.output.classesDir
         classpath = sourceSets.test.runtimeClasspath
         testSrcDirs = sourceSets.test.java.srcDirs as List
-        if (isTravis) {
-            jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-        } else {
-            jvmArgs "-Duser.timezone=UTC-Xss2m"
-        }
         maxHeapSize = "1g"
         ignoreFailures = isLastRetry ? false : true
         reports.html.enabled = false
         reports.junitXml.enabled = false
         finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop"] : ["killFirefox${id+1}"]
-        testLogging {
-            events "passed"
-            exceptionFormat = isLastRetry ? "full" : "short"
-        }
+        testLogging.events = ["passed"]
+        testLogging.exceptionFormat = isLastRetry ? "full" : "short"
         afterTest afterTestClosure
+        onlyIf {
+            file("build/reports/test-try-${id}/testng-failed.xml").exists()
+        }
+        if (isTravis) {
+            jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        } else {
+            jvmArgs "-Duser.timezone=UTC-Xss2m"
+        }
     }
     appengineTest.dependsOn "testRetry${id}"
 }
 
-defaultTasks "clean", "appengineRun", "appengineTest", "appengineStop"
+defaultTasks "appengineRun", "appengineTest", "appengineStop"
+
+def testTasksMap = [
+    "rare": "rare-tests",
+    "component": "component-tests",
+    "occasional": "occasional-tests",
+    "staging": "component-tests,sequential-ui-tests,parallel-ui-tests"
+]
+testTasksMap.each { taskNamePrefix, testNames ->
+    task "${taskNamePrefix}Tests"(type: JavaExec) {
+        classpath = sourceSets.test.runtimeClasspath
+        main = "org.testng.TestNG"
+        args "-configfailurepolicy", "continue"
+        args "-testnames", "$testNames"
+        args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+        args "src/test/testng.xml"
+        errorOutput = {
+            def f = File.createTempFile("err", null)
+            f.deleteOnExit()
+            f.newOutputStream()
+        }()
+        dependsOn "appengineRun", "cleanTestOutput"
+        finalizedBy "appengineStop", "killFirefox1", "testOutput"
+    }
+}
+
+task cleanTestOutput {
+    def testOutputDir = new File("test-output")
+    testOutputDir.deleteDir()
+    outputs.upToDateWhen { false }
+}
+
+task testOutput(type: Exec) {
+    onlyIf {
+        file("test-output/testng-failed.xml").exists()
+    }
+    if (isWindows) {
+        commandLine "cmd", "/c", "start", "test-output/emailable-report.html"
+    } else {
+        commandLine "open", "-a", "Google Chrome", "test-output/emailable-report.html"
+    }
+    ignoreExitValue = true
+    outputs.upToDateWhen { false }
+}
+
+task singleTest(type: JavaExec) {
+    onlyIf {
+        project.hasProperty("methods") || project.hasProperty("classes")
+    }
+    classpath = sourceSets.test.runtimeClasspath
+    main = "org.testng.TestNG"
+    args "-configfailurepolicy", "continue"
+    args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+    if (project.hasProperty("testClasses")) {
+        args "-testclass", testClasses
+    }
+    if (project.hasProperty("testMethods")) {
+        args "-methods", testMethods
+    }
+    errorOutput = {
+        def f = File.createTempFile("err", null)
+        f.deleteOnExit()
+        f.newOutputStream()
+    }()
+    dependsOn "appengineRun", "cleanTestOutput"
+    finalizedBy "appengineStop", "killFirefox1", "testOutput"
+}
