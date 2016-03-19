@@ -673,6 +673,12 @@ public class CoursesLogic {
         }
     }
     
+    /**
+     * Updates the course details.
+     * @param newCourse the course object containing new details of the course
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
     public void updateCourse(CourseAttributes newCourse) throws InvalidParametersException, 
                                                                 EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newCourse);

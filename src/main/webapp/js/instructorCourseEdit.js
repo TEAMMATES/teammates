@@ -345,6 +345,7 @@ $(function(){
 	}
 });
 
+// Activates the edit course form.
 function editCourse() {
     $("#btnSaveCourse").show();
     $("#" + COURSE_NAME).prop("disabled", false);
