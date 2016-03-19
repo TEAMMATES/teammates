@@ -60,6 +60,10 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return name;
     }
     
+    public boolean isArchived() {
+        return isArchived;
+    }
+    
     public List<String> getInvalidityInfo() {
         
         FieldValidator validator = new FieldValidator();
