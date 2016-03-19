@@ -186,7 +186,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(FieldValidator.EMAIL_ERROR_MESSAGE_WITHOUT_HTML);
 
         String invalidName = "";
         
@@ -323,7 +323,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(FieldValidator.EMAIL_ERROR_MESSAGE_WITHOUT_HTML);
         
         String invalidName = "";
         

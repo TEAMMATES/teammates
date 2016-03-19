@@ -171,11 +171,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                             + "</span>"
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
-                                                + "\"invalid.email.tmt\" is not acceptable to TEAMMATES as "
-                                                + "an email because it is not in the correct format. An "
-                                                + "email address contains some text followed by one '@' sign"
-                                                + " followed by some more text. It cannot be longer than 254 "
-                                                + "characters. It cannot be empty and it cannot have spaces."
+                                                + "The field <b>email</b> must contain some "
+                                                + "text followed by one '@' sign followed "
+                                                + "by some more text. It cannot be longer "
+                                                + "than 254 characters and cannot have spaces."
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());

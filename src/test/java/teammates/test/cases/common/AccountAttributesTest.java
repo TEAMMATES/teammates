@@ -46,7 +46,7 @@ public class AccountAttributesTest extends BaseTestCase {
         account = createInvalidAccountAttributesObject();
         String expectedError = "The field <b>name</b> cannot be empty and must be no longer than 100 characters."+ EOL +
                 "\"invalid google id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 254 characters. It cannot be empty."+ EOL +
-                "\"invalid@email@com\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters. It cannot be empty and it cannot have spaces."+ EOL +
+                "The field <b>email</b> must contain some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters and cannot have spaces."+ EOL +
                 "The field <b>institute name</b> cannot be empty and must be no longer than 64 characters.";
         assertEquals("all valid values",false, account.isValid());
         assertEquals("all valid values",expectedError, StringHelper.toString(account.getInvalidityInfo()));

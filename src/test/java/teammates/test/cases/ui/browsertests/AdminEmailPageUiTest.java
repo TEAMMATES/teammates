@@ -110,11 +110,8 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
-        return emailPage.getStatus().contains("\"" + recipientName + "\" is not acceptable to TEAMMATES as an email "
-                                                + "because it is not in the correct format. An email address "
-                                                + "contains some text followed by one '@' sign followed by "
-                                                + "some more text. It cannot be longer than 254 characters. "
-                                                + "It cannot be empty and it cannot have spaces.");
+        return emailPage.getStatus().contains("The field email must contain some text followed by one '@' sign followed by some more text. " +
+            "It cannot be longer than 254 characters and cannot have spaces.");
     }
     
     private boolean hasStatusMessageNoSubject() {

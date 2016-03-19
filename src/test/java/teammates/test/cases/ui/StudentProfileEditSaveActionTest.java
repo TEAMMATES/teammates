@@ -60,10 +60,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                                                 "name"));
-        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                submissionParams[3],
-                                                FieldValidator.REASON_INCORRECT_FORMAT));
-        
+        expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE);
+
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave"

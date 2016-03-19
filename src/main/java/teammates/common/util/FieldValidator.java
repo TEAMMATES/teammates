@@ -61,10 +61,11 @@ public class FieldValidator {
      */
     public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as an email because it %s. "+
-            "An email address contains some text followed by one '@' sign followed by some more text. " +
-            "It cannot be longer than "+EMAIL_MAX_LENGTH+" characters. " +
-            "It cannot be empty and it cannot have spaces.";
+            "The field <b>email</b> must contain some text followed by one '@' sign followed by some more text. " +
+            "It cannot be longer than "+EMAIL_MAX_LENGTH+" characters and cannot have spaces.";
+    public static final String EMAIL_ERROR_MESSAGE_WITHOUT_HTML =
+            "The field email must contain some text followed by one '@' sign followed by some more text. " +
+            "It cannot be longer than "+EMAIL_MAX_LENGTH+" characters and cannot have spaces.";
     
     public static final String EMAIL_TAKEN_MESSAGE = 
             "Trying to update to an email that is already used by: %s/%s";
@@ -816,13 +817,13 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
+            return EMAIL_ERROR_MESSAGE;
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
         } else if(value.length()>EMAIL_MAX_LENGTH){
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+            return EMAIL_ERROR_MESSAGE;
         }else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
-            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+            return EMAIL_ERROR_MESSAGE;
         }
         return "";
     }

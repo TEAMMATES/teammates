@@ -103,9 +103,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
             instructorsDb.createEntity(i);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT),
-                    e.getMessage());
+            AssertHelper.assertContains(EMAIL_ERROR_MESSAGE, e.getMessage());
         }
 
         ______TS("Failure: null parameters");
@@ -329,7 +327,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(
                         PERSON_NAME_ERROR_MESSAGE + Const.EOL 
-                        + String.format(EMAIL_ERROR_MESSAGE, instructorToEdit.email, REASON_INCORRECT_FORMAT),
+                        + EMAIL_ERROR_MESSAGE,
                         e.getMessage());
         }
 

@@ -96,11 +96,12 @@ public class CommentAttributesTest extends BaseTestCase {
                 commentText
                 );
         
+        // There are 4 recipients in total
         List<String> expectedErrorMessage = new ArrayList<String>();
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, incorrectEmail, FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-1", FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-3", FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessage.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "recipient-2", FieldValidator.REASON_INCORRECT_FORMAT));
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE);
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE);
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE);
+        expectedErrorMessage.add(FieldValidator.EMAIL_ERROR_MESSAGE);
         
         List<String> errorMemssage = comment.getInvalidityInfo();
         assertEquals(4, errorMemssage.size());

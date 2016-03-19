@@ -105,7 +105,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         String invalidEmail = "invalidemail";
         editPage.submitUnsuccessfully(newStudentName, newTeamName, invalidEmail, null)
-            .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.REASON_INCORRECT_FORMAT));
+            .verifyStatus(FieldValidator.EMAIL_ERROR_MESSAGE_WITHOUT_HTML);
     }
 
 
