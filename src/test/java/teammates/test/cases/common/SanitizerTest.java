@@ -81,5 +81,9 @@ public class SanitizerTest extends BaseTestCase {
         expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
         assertEquals(expected, Sanitizer.convertStringForXPath(text));
         
+        text = "Team 1</td></div>'\"";
+        expected = "concat('Team 1</td></div>',\"'\",'\"','')";
+        assertEquals(expected, Sanitizer.convertStringForXPath(text));
+        
     }
 }

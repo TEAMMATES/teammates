@@ -241,22 +241,24 @@ public class Sanitizer {
      */
     public static String convertStringForXPath(String text){
         String result = "";
-        int startPos = 0;
-        for(int i=0;i<text.length();i++){
-            while((i<text.length()) && (text.charAt(i)!='\'')){
+        int startPos = 0, i = 0;
+        while (i < text.length()) { 
+            while ((i < text.length()) && (text.charAt(i) != '\'')) {
                 i++;
             }
-            if (startPos<i){
+            if (startPos < i) {
                 result += "'" + text.substring(startPos, i) + "',";
                 startPos = i;
             }
-            while((i<text.length()) && (text.charAt(i)=='\'')) i++;
-            if (startPos<i){
+            while ((i < text.length()) && (text.charAt(i) == '\'')) {
+                i++;
+            }
+            if (startPos < i) {
                 result += "\"" + text.substring(startPos, i) + "\",";
                 startPos = i;
             }
         }
-        if (result.equals("")){
+        if (result.equals("")) {
             return "''";
         }
         return "concat(" + result + "'')";
