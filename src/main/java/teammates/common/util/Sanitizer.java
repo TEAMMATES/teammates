@@ -47,7 +47,7 @@ public class Sanitizer {
     }    
     
     /**
-     * Sanitizes a Instructor or Student's name by removing leading, trailing, and duplicate internal whitespace.
+     * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
      * 
      * @param string
      * @return the sanitized string or null (if the parameter was null).
@@ -57,7 +57,7 @@ public class Sanitizer {
     }
     
     /**
-     * Sanitizes a Course or Team's name by removing leading, trailing, and duplicate internal whitespace.
+     * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
      * 
      * @param string
      * @return the sanitized string or null (if the parameter was null).
