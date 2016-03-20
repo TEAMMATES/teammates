@@ -5,27 +5,12 @@ jdk:
 notifications:
   email: false
 
-# before_cache:
-#   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-
 sudo: required
 dist: trusty
 
-env:
-  # - TEST_SUITE=src/test/testng-travis-parallel.xml
-  - TEST_SUITE=src/test/testng-travis-others.xml
-
-# cache:
-#   directories:
-#     - $HOME/.gradle/caches/
-#     - $HOME/.gradle/wrapper/
-#     - $TRAVIS_BUILD_DIR/libs
 
 addons:
   firefox: "38.0.5"
-#   apt:
-#     packages:
-#       - net-tools
 
 before_install:
   - cp src/main/resources/build.template.properties src/main/resources/build.properties
