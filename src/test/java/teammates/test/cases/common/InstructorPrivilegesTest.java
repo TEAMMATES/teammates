@@ -379,8 +379,6 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         
         assertTrue(privileges.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        String invalidPrivilegeName = "invalidPrivilegeName";
-        assertFalse(privileges.isAllowedForPrivilege(invalidPrivilegeName));
         
         String sectionId = "sectionId";
         assertTrue(privileges.isAllowedForPrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
