@@ -157,7 +157,7 @@
                   <option value="recipient-giver-question">
                     Group by - Recipient > Giver > Question
                   </option>
-                  <option selected="selected" value="giver-question-recipient">
+                  <option selected="" value="giver-question-recipient">
                     Group by - Giver > Question > Recipient
                   </option>
                   <option value="recipient-question-giver">
@@ -216,8 +216,10 @@
     <input name="user" type="hidden" value="FRubricQnUiT.instructor">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-success">
@@ -312,17 +314,12 @@
                                   </th>
                                   <th>
                                     <p>
-                                      Yes (2)
+                                      Yes
                                     </p>
                                   </th>
                                   <th>
                                     <p>
-                                      No (1)
-                                    </p>
-                                  </th>
-                                  <th>
-                                    <p>
-                                      Average
+                                      No
                                     </p>
                                   </th>
                                 </tr>
@@ -340,9 +337,6 @@
                                   <td>
                                     0% (0)
                                   </td>
-                                  <td>
-                                    2
-                                  </td>
                                 </tr>
                                 <tr>
                                   <td>
@@ -355,9 +349,6 @@
                                   </td>
                                   <td>
                                     0% (0)
-                                  </td>
-                                  <td>
-                                    2
                                   </td>
                                 </tr>
                               </tbody>

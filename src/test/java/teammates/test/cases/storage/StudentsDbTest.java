@@ -112,6 +112,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         // Assert lastUpdate has NOT changed.
         assertTrue(updatedStudent.getUpdatedAt().equals(updatedStudent2.getUpdatedAt()));
         
+        studentsDb.deleteStudent(s.course, s.email);
     }
     
     @Test
@@ -168,6 +169,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
+        
+        studentsDb.deleteStudent(s.course, s.email);
     }
 
     @SuppressWarnings("deprecation")
@@ -221,6 +224,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
+        
+        studentsDb.deleteStudent(s.course, s.email);
     }
     
     @Test
@@ -278,6 +283,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
+        
+        studentsDb.deleteStudent(s.course, s.email);
     }
 
     @SuppressWarnings("deprecation")
@@ -318,6 +325,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
         
+        studentsDb.deleteStudent(s.course, s.email);
+
       //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
       //       Reason: Difficult to reproduce a persistence delay during testing
     }

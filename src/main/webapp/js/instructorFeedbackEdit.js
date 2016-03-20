@@ -73,24 +73,19 @@ function bindFeedbackSessionEditFormSubmission() {
             type: 'POST',
             data: $form.serialize(),
             beforeSend: function() {
-                $('#statusMessage').hide();
+                clearStatusMessages();
             },
             success: function(result) {
-            	$statusMessage = $('#statusMessage');
-            		
-            	$statusMessage.text(result.statusForAjax);
                 
-            	$statusMessage.removeClass("alert alert-danger alert-warning");
                 if (result.hasError) {
-                	$statusMessage.addClass("alert alert-danger");
+                    setStatusMessage(result.statusForAjax, StatusType.DANGER);
                 } else {
+                    setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
                     disableEditFS();
-                    $statusMessage.addClass("alert alert-success");
                 }
-                $statusMessage.show();
                 
                 // focus on status message
-                scrollToElement($statusMessage[0], {offset: ($('.navbar').height() + 30) * -1});
+                scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
             }
         });
     });
@@ -206,7 +201,7 @@ function enableQuestion(number) {
     $currentQuestionTable.find('text,button,textarea,select,input')
                          .not('[name="receiverFollowerCheckbox"]')
                          .not('.disabled_radio')
-                         .removeAttr('disabled', 'disabled');
+                         .prop('disabled', false);
     
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
@@ -265,7 +260,7 @@ function enableNewQuestion() {
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
-                               .removeAttr('disabled', 'disabled');
+                               .prop('disabled', false);
     $currentQuestionTableSuffix.find('.removeOptionLink').show();
     $currentQuestionTableSuffix.find('.addOptionLink').show();
 
@@ -302,7 +297,7 @@ function enableNewQuestion() {
 function disableQuestion(number) {
     var $currentQuestionTable = $('#questionTable' + number);
 
-    $currentQuestionTable.find('text,button,textarea,select,input').attr('disabled', 'disabled');
+    $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
     $currentQuestionTable.find('#mcqAddOptionLink').hide();
     $currentQuestionTable.find('#msqAddOptionLink').hide();
@@ -310,7 +305,7 @@ function disableQuestion(number) {
     
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
-    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
+    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).prop('checked')) {
         $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).closest(".checkbox").hide();
         $currentQuestionTable.find("#msqOtherOptionFlag-" + number).closest(".checkbox").hide();
     } else {
@@ -710,7 +705,7 @@ function getQuestionLink(qnNumber) {
                         '&fsname=' + fsname +
                         '&questionid=' + questionId;
     
-    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, false);
+    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
 }
 
 function toParameterFormat(str) {
@@ -723,9 +718,9 @@ function bindCopyButton() {
         
         var questionRows = $('#copyTableModal >tbody>tr');
         if (!questionRows.length) {
-            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, true);
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
         } else {
-            setStatusMessage('', false);
+            setStatusMessage('', StatusType.WARNING);
             $('#copyModal').modal('show');
         }
        
@@ -751,7 +746,7 @@ function bindCopyButton() {
         });
 
         if (!hasRowSelected) {
-            setStatusMessage('No questions are selected to be copied', true);
+            setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
             $('#copyModal').modal('hide');
         } else {
             $('#copyModalForm').submit();
@@ -774,7 +769,7 @@ function bindCopyEvents() {
             numRowsSelected--;
         } else {
             $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked="checked">');
+            $(this).children('td:first').html('<input type="checkbox" checked>');
             numRowsSelected++;
         }
 
@@ -924,7 +919,7 @@ function addMcqOption(questionNumber) {
     $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"radio\" disabled=\"disabled\">"
+        +          "<input type=\"radio\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
@@ -1016,7 +1011,7 @@ function addMsqOption(questionNumber) {
     $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"checkbox\" disabled=\"disabled\">"
+        +          "<input type=\"checkbox\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"

@@ -7,7 +7,7 @@
     <button type="button" class="btn btn-default btn-xs icon-button pull-right"
             id="button_add_comment" data-toggle="tooltip"
             data-placement="top" title="Add comment"
-        <c:if test="${not studentInfoTable.ableToAddComment}">disabled="disabled"</c:if>>
+        <c:if test="${not studentInfoTable.ableToAddComment}">disabled</c:if>>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
     </button>
     <div class="form form-horizontal" id="studentInfomationTable">
@@ -100,7 +100,7 @@
                             <input class="visibilityCheckbox recipientCheckbox"
                                    name="receiverFollowerCheckbox"
                                    type="checkbox" value="<%= CommentParticipantType.PERSON %>"
-                                   disabled="disabled">
+                                   disabled>
                         </td>
                     </tr>
                     <tr id="recipient-team">

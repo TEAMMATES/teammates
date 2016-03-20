@@ -151,7 +151,7 @@
                   <option value="question">
                     Group by - Question
                   </option>
-                  <option selected="selected" value="giver-recipient-question">
+                  <option selected="" value="giver-recipient-question">
                     Group by - Giver > Recipient > Question
                   </option>
                   <option value="recipient-giver-question">
@@ -216,8 +216,10 @@
     <input name="user" type="hidden" value="FRubricQnUiT.instructor">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-success">
@@ -378,10 +380,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-students-1-0-1">
@@ -391,10 +393,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-1-0-1">
@@ -404,10 +406,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>

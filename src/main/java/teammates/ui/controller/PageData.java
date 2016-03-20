@@ -21,6 +21,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StatusMessage;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -42,6 +43,7 @@ public class PageData {
 
     private String jQueryFilePath;
     private String jQueryUiFilePath;
+    private List<StatusMessage> statusMessagesToUser;
 
     /**
      * @param account The account for the nominal user.
@@ -183,12 +185,12 @@ public class PageData {
        List<Double> options = TimeHelper.getTimeZoneValues();
        ArrayList<String> result = new ArrayList<String>();
        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
+           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
        }
        for (Double timeZoneOption : options) {
            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);      
            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\"" 
-                      + (existingTimeZone == timeZoneOption ? " selected=\"selected\"" : "") + ">" + "(" + utcFormatOption 
+                      + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption 
                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
        }
        return result;
@@ -220,7 +222,7 @@ public class PageData {
      */
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
-            return new ElementTag(text, "value", value, "selected", "selected");
+            return new ElementTag(text, "value", value, "selected", null);
         } else {
             return new ElementTag(text, "value", value);
         }
@@ -240,7 +242,7 @@ public class PageData {
         ArrayList<String> result = new ArrayList<String>();
         for(int i = 0; i <= 30; i += 5) {
             result.add("<option value=\"" + i + "\"" 
-                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected=\"selected\"" : "") 
+                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "") 
                        + ">" + i + " mins</option>");
         }
         return result;
@@ -265,7 +267,7 @@ public class PageData {
         ArrayList<String> result = new ArrayList<String>();
         for(int i = 1; i <= 24; i++) {
             result.add("<option value=\"" + i + "\"" +
-                       (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected=\"selected\"" : "") + ">" 
+                       (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
         }
         return result;
@@ -1014,6 +1016,22 @@ public class PageData {
     @SuppressWarnings("unused")
     private void ___________methods_to_serve_local_files() {
     //========================================================================    
+    }
+    
+    /**
+     * Sets the list of status messages.
+     * @param statusMessagesToUser a list of status messages that is to be displayed to the user
+     */
+    public void setStatusMessagesToUser(List<StatusMessage> statusMessagesToUser) {
+        this.statusMessagesToUser = statusMessagesToUser;
+    }
+    
+    /**
+     * Gets the list of status messages.
+     * @return a list of status messages that is to be displayed to the user
+     */
+    public List<StatusMessage> getStatusMessagesToUser() {
+        return statusMessagesToUser;
     }
 
     public String getjQueryFilePath() {

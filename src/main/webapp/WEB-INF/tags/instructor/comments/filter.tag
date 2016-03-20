@@ -18,7 +18,7 @@
             <div class="checkbox">
                 <input id="displayArchivedCourses_check"
                     type="checkbox"
-                    ${displayArchive ? 'checked=\"checked\"' : ''}>
+                    ${displayArchive ? 'checked' : ''}>
                 <label for="displayArchivedCourses_check">
                     Include Archived Courses
                 </label>
@@ -40,7 +40,7 @@
                         <div class="checkbox">
                             <input id="panel_all"
                                 type="checkbox"
-                                checked="checked">
+                                checked>
                             <label for="panel_all"><strong>All</strong></label>
                         </div>
                         <br>
@@ -50,7 +50,7 @@
                             <div class="checkbox">
                                 <input id="panel_check-${panelIdx}"
                                     type="checkbox"
-                                    checked="checked"> 
+                                    checked> 
                                 <label
                                     for="panel_check-${panelIdx}">
                                     Students 
@@ -62,7 +62,7 @@
                             <div class="checkbox">
                                 <input id="panel_check-${panelIdx}"
                                     type="checkbox"
-                                    checked="checked"> 
+                                    checked> 
                                 <label for="panel_check-${panelIdx}">
                                     Session: ${fs.sessionName}
                                 </label>
@@ -77,7 +77,7 @@
                         <div class="checkbox">
                             <input type="checkbox" value=""
                                 id="giver_all"
-                                checked="checked"> 
+                                checked> 
                             <label for="giver_all">
                                 <strong>All</strong>
                             </label>
@@ -86,7 +86,7 @@
                         <div class="checkbox">
                             <input id="giver_check-by-you"
                                 type="checkbox"
-                                checked="checked">
+                                checked>
                             <label for="giver_check-by-you">
                                 You
                             </label>
@@ -94,7 +94,7 @@
                         <div class="checkbox">
                             <input id="giver_check-by-others"
                                 type="checkbox"
-                                checked="checked">
+                                checked>
                             <label for="giver_check-by-others">
                                 Others
                             </label>
@@ -108,7 +108,7 @@
                         <div class="checkbox">
                             <input type="checkbox" value=""
                                 id="status_all"
-                                checked="checked"> 
+                                checked> 
                             <label for="status_all">
                                 <strong>All</strong>
                             </label>
@@ -117,7 +117,7 @@
                         <div class="checkbox">
                             <input id="status_check-public"
                                 type="checkbox"
-                                checked="checked">
+                                checked>
                             <label for="status_check-public">
                                 Public
                             </label>
@@ -125,7 +125,7 @@
                         <div class="checkbox">
                             <input id="status_check-private"
                                 type="checkbox"
-                                checked="checked">
+                                checked>
                             <label for="status_check-private">
                                 Private
                             </label>

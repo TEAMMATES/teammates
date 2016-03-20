@@ -151,7 +151,7 @@
                   <option value="question">
                     Group by - Question
                   </option>
-                  <option selected="selected" value="giver-recipient-question">
+                  <option selected="" value="giver-recipient-question">
                     Group by - Giver > Recipient > Question
                   </option>
                   <option value="recipient-giver-question">
@@ -210,7 +210,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="selected" value="All">
+                  <option selected="" value="All">
                     All
                   </option>
                   <option value="Section 1">
@@ -239,8 +239,10 @@
     <input name="user" type="hidden" value="FRankUiT.instructor">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-success">
@@ -427,10 +429,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-recipient-1-0-1">
@@ -440,10 +442,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-1-0-1">
@@ -453,10 +455,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>
@@ -553,10 +555,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-recipient-1-0-2">
@@ -566,10 +568,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-1-0-2">
@@ -579,10 +581,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>
@@ -702,10 +704,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-recipient-2-0-1">
@@ -715,10 +717,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-2-0-1">
@@ -728,10 +730,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>
@@ -901,10 +903,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-recipient-3-0-1">
@@ -914,10 +916,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-3-0-1">
@@ -927,10 +929,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>
@@ -1067,10 +1069,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-recipient-4-0-1">
@@ -1080,10 +1082,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                     </td>
                                   </tr>
                                   <tr id="response-instructors-4-0-1">
@@ -1093,10 +1095,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                     <td>
-                                      <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                     </td>
                                   </tr>
                                 </tbody>

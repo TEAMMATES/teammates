@@ -71,7 +71,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" disabled="disabled" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.helper2&user=CFResultsUiT.helper2" onclick="return false" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.helper2&user=CFResultsUiT.helper2" onclick="return false" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -145,7 +145,7 @@
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
                 <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
-                  <option selected="selected" value="question">
+                  <option selected="" value="question">
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
@@ -184,7 +184,7 @@
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
-                  <input checked="checked" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
+                  <input checked="" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
                   Group by Teams
                 </label>
               </div>
@@ -192,7 +192,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -207,7 +207,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="selected" value="All">
+                  <option selected="" value="All">
                     All
                   </option>
                   <option value="Section A">
@@ -236,8 +236,10 @@
     <input name="user" type="hidden" value="CFResultsUiT.helper2">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-info">
@@ -830,7 +832,7 @@
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Moderate Response">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="" title="" type="submit" value="Moderate Response">
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestion" type="hidden" value="2">
@@ -961,7 +963,7 @@
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Moderate Response">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="" title="" type="submit" value="Moderate Response">
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestion" type="hidden" value="4">
@@ -1434,7 +1436,7 @@
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Moderate Response">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="" title="" type="submit" value="Moderate Response">
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestion" type="hidden" value="7">
@@ -1843,7 +1845,7 @@
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Moderate Response">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="" title="" type="submit" value="Moderate Response">
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestion" type="hidden" value="8">
@@ -2203,7 +2205,7 @@
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Moderate Response">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="" title="" type="submit" value="Moderate Response">
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestion" type="hidden" value="9">
@@ -2572,7 +2574,7 @@
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" class="inline" method="post" target="_blank">
-                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Moderate Response">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="" title="" type="submit" value="Moderate Response">
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="First Session">
                     <input name="moderatedquestion" type="hidden" value="10">
@@ -2686,7 +2688,7 @@
               </td>
               <td>
                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" class="inline" method="post" target="_blank">
-                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="disabled" title="" type="submit" value="Submit Responses">
+                  <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" disabled="" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="moderatedstudent" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt">

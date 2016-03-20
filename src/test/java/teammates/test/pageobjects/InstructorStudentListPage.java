@@ -114,7 +114,8 @@ public class InstructorStudentListPage extends AppPage {
                                          .findElement(By.cssSelector(".profile-pic-icon-click > img"));
         Actions action = new Actions(browser.driver);
         action.click(photo).build().perform();
-        assertEquals(profilePhotoSrc, browser.driver.findElement(By.cssSelector(".popover-content > .profile-pic"))
+        assertEquals(profilePhotoSrc, browser.driver.findElement(By.id("studentphoto-c" + rowId))
+                                                    .findElement(By.cssSelector(".popover-content > .profile-pic"))
                                                     .getAttribute("src"));
     }
 

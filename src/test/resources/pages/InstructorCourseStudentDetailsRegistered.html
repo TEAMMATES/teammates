@@ -107,8 +107,10 @@
     Student Details
   </h1>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <div class="row">
     <div class="col-xs-12">
       <div class="row" id="studentProfile">
@@ -224,7 +226,7 @@
           Recipient:
         </label>
         <select class="form-control" id="comment_recipient_select">
-          <option selected="selected" value="PERSON">
+          <option selected="" value="PERSON">
             José Gómez
           </option>
           <option value="TEAM">
@@ -273,7 +275,7 @@
                 <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON">
               </td>
               <td>
-                <input class="visibilityCheckbox recipientCheckbox" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
+                <input class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
               </td>
             </tr>
             <tr id="recipient-team">

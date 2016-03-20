@@ -98,7 +98,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.fsCopyToModal.clickSubmitButton();
         feedbackEditPage.waitForPageToLoad();
         
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        feedbackEditPage.verifyStatusWithRetry(Const.StatusMessages.FEEDBACK_SESSION_COPIED, 10);
         feedbackEditPage.waitForElementPresence(By.id("table-sessions"));
 
         // Full HTML verification already done in InstructorFeedbackEditPageUiTest
