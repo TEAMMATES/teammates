@@ -221,8 +221,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i))
-                                                    + " (" + (i + 1) + ")");
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+            // TODO display numerical value of option 
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
@@ -458,10 +458,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
+            // TODO display numerical value of option 
+            String rubricChoiceValue = Sanitizer.sanitizeForHtml(rubricChoices.get(i));
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) 
-                                                    + " (" + (numOfRubricChoices - i) + ")");
+                            "${rubricChoiceValue}", rubricChoiceValue);
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
@@ -471,22 +472,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY;
         DecimalFormat df = new DecimalFormat("#"); 
-        DecimalFormat dfAverage = new DecimalFormat("###.##");
         
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
                 String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i]*100) + "%" 
+                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i] * 100) + "%" 
                                                                    + " (" + responseFrequency[j][i] +")");
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
-
-            String tableAverageCell = 
-                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
-                             "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
-            tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
             
             // Get entire row
             String tableRow = 
@@ -496,7 +491,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableBodyHtml.append(tableRow + Const.EOL);
         }
         
-        // Create edit form
+        
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
                 "${statsTitle}", (view=="student")?"Response Summary (of visible responses)":"Response Summary",
@@ -594,12 +589,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (String choice : rubricChoices) {
             csv.append("," + Sanitizer.sanitizeForCsv(choice));
         }
-        csv.append("," + "Average");
+        
         csv.append(Const.EOL);
 
         // table body
         DecimalFormat df = new DecimalFormat("#");
-        DecimalFormat dfAverage = new DecimalFormat("###.##");
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
         float[][] rubricStats = calculateRubricStats(responses, question);
@@ -611,7 +605,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
             }
-            csv.append("," + dfAverage.format(rubricStats[i][rubricChoices.size()]));
             csv.append(Const.EOL);
         }
 
