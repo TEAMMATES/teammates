@@ -28,7 +28,6 @@ public class InstructorCourseEditSaveAction extends Action {
         CourseAttributes courseToEdit = new CourseAttributes();
         courseToEdit.id = Sanitizer.sanitizeName(courseId);
         courseToEdit.name = Sanitizer.sanitizeName(courseName);
-        courseToEdit.isArchived = isArchived;
         
         try {
             logic.updateCourse(courseToEdit);
