@@ -471,6 +471,11 @@ public class PageData {
         return link;
     }
     
+    /**
+     * Retrieves the link to submit the request for copy of session.
+     * @param isHome true to indicate the request is from the home page
+     * @return the link to submit request to copy the session with return page link
+     */
     public String getInstructorFeedbackEditCopyActionLink(boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
         link = Url.addParamToUrl(link, 
@@ -567,6 +572,13 @@ public class PageData {
         return link;
     }
     
+    /**
+     * Retrieves the link to submit request to remind all students in the session.
+     * @param courseID the course ID
+     * @param feedbackSessionName the session name
+     * @param isHome true to indicate the request is from the home page
+     * @return the link to submit request to remind all students with return page link
+     */
     public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
@@ -586,7 +598,12 @@ public class PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
+
+    /**
+     * Retrieves the link to submit request to remind particular students in the session.
+     * @param isHome true to indicate the request is from the home page
+     * @return the link to submit request to remind particular students with return page link
+     */
     public String getInstructorFeedbackRemindParticularStudentActionLink(boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
         link = Url.addParamToUrl(link, 

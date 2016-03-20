@@ -284,10 +284,20 @@ public class InstructorFeedbacksPageData extends PageData {
         return result;
     }
 
+    /**
+     * Retrieves the form submit link of reminding particular student with 
+     * link of page to return after completing.
+     * @return form submit action link
+     */
     public String getRemindParticularStudentActionLink() {
         return remindParticularStudentActionLink;
     }
     
+    /**
+     * Retrieves the form submit link of copying a session with link of page to 
+     * return after completing.
+     * @return form submit action link
+     */
     public String getEditCopyActionLink() {
         return editCopyActionLink;
     }
