@@ -1148,7 +1148,7 @@ public class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
+    public static final String USER_NOT_IN_A_SECTION = "No specified recipient";
     
     public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
