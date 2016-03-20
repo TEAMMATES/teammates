@@ -471,6 +471,15 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorFeedbackEditCopyActionLink(boolean isHome) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
+        link = Url.addParamToUrl(link, 
+                                 Const.ParamsNames.NEXT_URL, 
+                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        
+        return link;
+    }
   
     /**
      * @param courseId
@@ -558,10 +567,14 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName) {
+    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, 
+                                 Const.ParamsNames.NEXT_URL, 
+                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -571,6 +584,16 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
+        return link;
+    }
+    
+    public String getInstructorFeedbackRemindParticularStudentActionLink(boolean isHome) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+        link = Url.addParamToUrl(link, 
+                                        Const.ParamsNames.NEXT_URL, 
+                                        (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                                                : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        
         return link;
     }
     
