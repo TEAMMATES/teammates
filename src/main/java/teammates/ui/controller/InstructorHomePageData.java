@@ -12,10 +12,13 @@ public class InstructorHomePageData extends PageData {
     private boolean isSortingDisabled;
     private List<CourseTable> courseTables;
     private String sortCriteria;
-
+    private String remindParticularStudentActionLink;
+    private String editCopyActionLink;
     
     public InstructorHomePageData(AccountAttributes account) {
         super(account);
+        remindParticularStudentActionLink = getInstructorFeedbackRemindParticularStudentActionLink(true);
+        editCopyActionLink = getInstructorFeedbackEditCopyActionLink(true);
     }
     
     public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
@@ -34,6 +37,14 @@ public class InstructorHomePageData extends PageData {
     
     public List<CourseTable> getCourseTables() {
         return courseTables;
+    }
+    
+    public String getRemindParticularStudentActionLink() {
+        return remindParticularStudentActionLink;
+    }
+    
+    public String getEditCopyActionLink() {
+        return editCopyActionLink;
     }
     
     private void setCourseTables(List<CourseSummaryBundle> courses) {

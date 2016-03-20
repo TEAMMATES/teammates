@@ -30,11 +30,15 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsTable fsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
-    
+
+    private String remindParticularStudentActionLink;
+    private String editCopyActionLink;
 
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
-        
+
+        remindParticularStudentActionLink = getInstructorFeedbackRemindParticularStudentActionLink(false);
+        editCopyActionLink = getInstructorFeedbackEditCopyActionLink(false);
     }
 
     public boolean isUsingAjax() {
@@ -279,7 +283,14 @@ public class InstructorFeedbacksPageData extends PageData {
         
         return result;
     }
+
+    public String getRemindParticularStudentActionLink() {
+        return remindParticularStudentActionLink;
+    }
     
+    public String getEditCopyActionLink() {
+        return editCopyActionLink;
+    }
 
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
