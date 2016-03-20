@@ -121,9 +121,9 @@
             "googleId":"IFSubmitUiT.alice.b",
             "email":"IFSubmitUiT.alice.b@gmail.tmt",
             "course":"IFSubmitUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "name":"Alice Betsy</option></td></div>'\"",
+            "comments":"This student's name is Alice Betsy</option></td></div>'\"",
+            "team":"Team 1</td></div>'\""
         },
         "Benny":{
             "googleId":"IFSubmitUiT.benny.c",
@@ -131,7 +131,7 @@
             "course":"IFSubmitUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "ExtraGuy":{
             "googleId":"extra.guy",
