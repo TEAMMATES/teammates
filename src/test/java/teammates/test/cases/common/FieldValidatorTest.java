@@ -427,10 +427,9 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, "");
         testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "");
         String emptyValue = "";
-        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
+        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue, INSTRUCTOR_ROLE_ERROR_MESSAGE);
         String invalidValue = "invalid value";
-        testOnce(invalidValue, FieldType.INTRUCTOR_ROLE, invalidValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE,
-                invalidValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING));
+        testOnce(invalidValue, FieldType.INTRUCTOR_ROLE, invalidValue, INSTRUCTOR_ROLE_ERROR_MESSAGE);
     }
     
     @Test
