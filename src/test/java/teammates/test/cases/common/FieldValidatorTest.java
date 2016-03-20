@@ -381,7 +381,7 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: empty string", 
                 FieldType.GOOGLE_ID, 
                 emptyValue,
-                String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
+                GOOGLE_ID_ERROR_MESSAGE);
         
         String untrimmedValue = " e@email.com ";
         testOnce("invalid: untrimmed", 
@@ -399,20 +399,19 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: too long", 
                 FieldType.GOOGLE_ID, 
                 tooLongValue, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
+                GOOGLE_ID_ERROR_MESSAGE);
         
         String valueWithDisallowedChar = "man woman";
         testOnce("invalid: disallowed char (space)", 
                 FieldType.GOOGLE_ID, 
                 valueWithDisallowedChar, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+                GOOGLE_ID_ERROR_MESSAGE);
         
         valueWithDisallowedChar = "man/woman";
         testOnce("invalid: disallowed char", 
                 FieldType.GOOGLE_ID, 
                 valueWithDisallowedChar, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(valueWithDisallowedChar),
-                              REASON_INCORRECT_FORMAT));
+                GOOGLE_ID_ERROR_MESSAGE);
         
     }
     

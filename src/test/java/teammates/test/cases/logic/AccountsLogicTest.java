@@ -277,7 +277,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             accountsLogic.joinCourseForStudent(studentData.key, "wrong student");
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
-            AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
+            AssertHelper.assertContains(FieldValidator.GOOGLE_ID_ERROR_MESSAGE,
                     e.getMessage());
         }
         

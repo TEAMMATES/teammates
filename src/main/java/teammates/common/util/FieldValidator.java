@@ -228,10 +228,8 @@ public class FieldValidator {
      */    
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as a Google ID because it %s. "+
-            "A Google ID must be a valid id already registered with Google. " +
-            "It cannot be longer than "+GOOGLE_ID_MAX_LENGTH+" characters. " +
-            "It cannot be empty.";
+            "The field <b>Google ID</b> must be a valid id already registered with Google. " +
+            "It must not be empty or longer than "+GOOGLE_ID_MAX_LENGTH+" characters.";
     
     /*
      * ======================================================================= 
@@ -775,16 +773,15 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", value != null);
         Assumption.assertTrue("\""+value+"\""+  "is not expected to be a gmail address.", 
                 !value.toLowerCase().endsWith("@gmail.com"));
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
+            return GOOGLE_ID_ERROR_MESSAGE;
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
         } else if(value.length()>GOOGLE_ID_MAX_LENGTH){
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+            return GOOGLE_ID_ERROR_MESSAGE;
         } else if(!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)){
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+            return GOOGLE_ID_ERROR_MESSAGE;
         }
         return "";
     }

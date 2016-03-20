@@ -117,7 +117,7 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         assertEquals("invalid value", false, i.isValid());
         String errorMessage = 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT) + EOL 
+                GOOGLE_ID_ERROR_MESSAGE + EOL
                 + COURSE_ID_ERROR_MESSAGE + EOL
                 + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
                 + EMAIL_ERROR_MESSAGE;
