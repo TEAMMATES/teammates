@@ -53,7 +53,7 @@ public class Sanitizer {
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeName(String rawName) {
-        return removeExtraSpaceIfNotNull(rawName);
+        return StringHelper.removeExtraSpace(rawName);
     }
     
     /**
@@ -63,7 +63,7 @@ public class Sanitizer {
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeTitle(String rawName) {
-        return removeExtraSpaceIfNotNull(rawName);
+        return StringHelper.removeExtraSpace(rawName);
     }
     
     /**
@@ -214,16 +214,6 @@ public class Sanitizer {
      */
     private static String trimIfNotNull(String string) {
         return ((string == null) ? null : string.trim());
-    }
-
-    /**
-     * Removes leading, trailing, and duplicate internal spaces in the string if it is not null.
-     *
-     * @param string
-     * @return the trimmed string or null (if the parameter was null).
-     */
-    private static String removeExtraSpaceIfNotNull(String string) {
-        return ((string == null) ? null : StringHelper.removeExtraSpace(string));
     }
     
     /**
