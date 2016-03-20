@@ -49,7 +49,7 @@ public class InstructorFeedbackSessionActions {
                                                                       (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
                                                                               : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE));
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
-        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName);
+        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, isHome);
         this.remindParticularStudentsLink = data.getInstructorFeedbackRemindParticularStudentsLink(courseId,
                                                                                                      feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
