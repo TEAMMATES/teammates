@@ -168,7 +168,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         // Add an empty option first.
         result.add(
             "<option value=\"\" " +
-            (currentlySelectedOption == null ? "selected=\"selected\">" : ">") +
+            (currentlySelectedOption == null ? "selected>" : ">") +
             "</option>"
         );
         
@@ -176,7 +176,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             result.add(
                 "<option value=\"" + sanitizeForHtml(pair.getKey()) + "\"" 
                 + (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption)  
-                                                ? " selected=\"selected\"" : "")
+                                                ? " selected" : "")
                 + ">" + sanitizeForHtml(pair.getValue())
                 + "</option>"
             );

@@ -12,7 +12,7 @@
    data-placement="top"
    title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
    role="button"
-   <c:if test="${not actions.sessionPublished}">disabled=""</c:if>>
+   <c:if test="${not actions.sessionPublished}">disabled</c:if>>
     View Responses
 </a>
 <c:choose>
@@ -37,7 +37,7 @@
            data-placement="top"
            title="${actions.tooltipText}"
            role="button"
-           <c:if test="${not actions.sessionVisible}">disabled=""</c:if>>
+           <c:if test="${not actions.sessionVisible}">disabled</c:if>>
             ${actions.buttonText}
         </a>
     </c:otherwise>
