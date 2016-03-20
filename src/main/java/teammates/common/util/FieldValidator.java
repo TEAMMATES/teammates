@@ -213,12 +213,11 @@ public class FieldValidator {
      * Field: Feedback question text
      * TODO: remove if this field is not used
      */
-    private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "a feedback question";
+    private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "feedback question";
     public static final int FEEDBACK_QUESTION_TEXT_MAX_LENGTH = 38;
     public static final String FEEDBACK_QUESTION_TEXT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+FEEDBACK_SESSION_NAME_FIELD_NAME+" should be no longer than "+
-                    FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. It should not be empty. " +
+            "The field <b>"+FEEDBACK_SESSION_NAME_FIELD_NAME+"</b> must not be empty or longer than "+
+                    FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. " +
                             "If you require more characters for your question, " +
                             "please use the instructions box below.";
     
