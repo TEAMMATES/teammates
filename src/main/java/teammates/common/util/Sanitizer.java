@@ -186,7 +186,7 @@ public class Sanitizer {
      * We follow the definition described by RFC 4180:<br>
      * {@link http://tools.ietf.org/html/rfc4180}
      */
-    public static String sanitizeForCsv(String str){ 
+    public static String sanitizeForCsv(String str) {
         return "\"" + str.replace("\"", "\"\"") + "\"";
     }
     
