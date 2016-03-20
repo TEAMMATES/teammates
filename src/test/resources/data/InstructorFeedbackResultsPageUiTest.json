@@ -115,9 +115,9 @@
             "googleId":"CFResultsUiT.alice.b",
             "email":"CFResultsUiT.alice.b@gmail.tmt",
             "course":"CFResultsUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1",
+            "name":"Alice Betsy</td>'\"",
+            "comments":"This student's name is Alice Betsy</td>'\"",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "Benny":{
@@ -126,7 +126,7 @@
             "course":"CFResultsUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "ExtraGuy":{
@@ -1120,8 +1120,8 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"11",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"Team 1",
-            "recipientEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"Response from benny to Team 1 (own team)"
             },
@@ -1133,7 +1133,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"12",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 0}"
@@ -1367,7 +1367,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"None"
@@ -1380,7 +1380,7 @@
             "courseId":"CFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"Team 1",
+            "giverEmail":"Team 1</td></div>'\"",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
