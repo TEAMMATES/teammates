@@ -178,9 +178,9 @@
             "googleId":"CFResultsUiT.alice.b",
             "email":"CFResultsUiT.alice.b@gmail.tmt",
             "course":"CFResultsUiT.SanitizedTeam",
-            "name":"Alic'e Bets'y",
-            "comments":"This student's name is Alic'e Bets'y",
-            "team":"Team '1",
+            "name":"Alic'e Bets'y</td></div>'\"",
+            "comments":"This student's name is Alic'e Bets'y</td></div>'\"",
+            "team":"Team '1</td></div>'\"",
             "section":"Section A"
         },
         "Sanitized.Benny":{
@@ -188,8 +188,8 @@
             "email":"CFResultsUiT.benny.c@gmail.tmt",
             "course":"CFResultsUiT.SanitizedTeam",
             "name":"Benn'y Charle's",
-            "comments":"This student's name is Benn'y Charle's",
-            "team":"Team '1",
+            "comments":"This student's name is Benn'y Charle's</td></div>'\"",
+            "team":"Team '1</td></div>'\"",
             "section":"Section A"
         }
     },
