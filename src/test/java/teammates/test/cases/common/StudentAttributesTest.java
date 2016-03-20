@@ -76,13 +76,13 @@ public class StudentAttributesTest extends BaseTestCase {
         ______TS("Failure case: empty course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "");
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_EMPTY),
+        assertEquals(COURSE_ID_ERROR_MESSAGE,
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid course id");
         invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com", "c", "Course Id with space");
         assertFalse(invalidStudent.isValid());
-        assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course, REASON_INCORRECT_FORMAT),
+        assertEquals(COURSE_ID_ERROR_MESSAGE,
                      invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: empty name");
@@ -155,7 +155,7 @@ public class StudentAttributesTest extends BaseTestCase {
 
         assertFalse("invalid value", s.isValid());
         String errorMessage = "\"invalid@google@id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 254 characters. It cannot be empty." + EOL
-                            + "\"\" is not acceptable to TEAMMATES as a Course ID because it is empty. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces." + EOL
+                            + "The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than 40 characters." + EOL
                             + "The field <b>email</b> must contain some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters and cannot have spaces." + EOL
                             + "The field <b>team name</b> cannot be empty and must be no longer than 60 characters." + EOL
                             + "The field <b>student comments</b> must be no longer than 500 characters." + EOL

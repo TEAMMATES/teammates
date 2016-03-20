@@ -133,10 +133,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
             studentsDb.createEntity(s);
             Assert.fail();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    String.format(COURSE_ID_ERROR_MESSAGE, s.course,
-                            REASON_INCORRECT_FORMAT),
-                    e.getMessage());
+            AssertHelper.assertContains(COURSE_ID_ERROR_MESSAGE, e.getMessage());
         }
         verifyAbsentInDatastore(s);
 

@@ -150,10 +150,7 @@ public class FieldValidator {
      */
     public static final int COURSE_ID_MAX_LENGTH = 40;
     public static final String COURSE_ID_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as a Course ID because it %s. "+
-                    "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
-                    "It cannot be longer than "+COURSE_ID_MAX_LENGTH+" characters. " +
-                    "It cannot be empty or contain spaces.";  
+            "The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than "+COURSE_ID_MAX_LENGTH+" characters.";
     /*
      * =======================================================================
      * Field instructor permission role
@@ -797,16 +794,15 @@ public class FieldValidator {
     private String getValidityInfoForCourseId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
-        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
-            return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
+            return COURSE_ID_ERROR_MESSAGE;
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
         } else if(value.length()>COURSE_ID_MAX_LENGTH){
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
+            return COURSE_ID_ERROR_MESSAGE;
         }else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
-            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
+            return COURSE_ID_ERROR_MESSAGE;
         }
         return "";
     }

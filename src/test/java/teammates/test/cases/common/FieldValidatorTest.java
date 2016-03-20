@@ -531,7 +531,7 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: empty string", 
                 FieldType.COURSE_ID, 
                 emptyValue, 
-                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
+                COURSE_ID_ERROR_MESSAGE);
         
         String untrimmedValue = " $cs1101-sem1.2_ ";
         testOnce("invalid: untrimmed", 
@@ -549,19 +549,19 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: too long", 
                 FieldType.COURSE_ID, 
                 tooLongValue, 
-                String.format(COURSE_ID_ERROR_MESSAGE, tooLongValue, REASON_TOO_LONG));
+                COURSE_ID_ERROR_MESSAGE);
         
         String valueWithDisallowedChar = "my course id";
         testOnce("invalid: disallowed char (space)", 
                 FieldType.COURSE_ID, 
                 valueWithDisallowedChar, 
-                String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+                COURSE_ID_ERROR_MESSAGE);
         
         valueWithDisallowedChar = "cour@s*hy#";
         testOnce("invalid: multiple disallowed chars", 
                 FieldType.COURSE_ID, 
                 valueWithDisallowedChar, 
-                String.format(COURSE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+                COURSE_ID_ERROR_MESSAGE);
     }
     
     @Test

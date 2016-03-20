@@ -69,7 +69,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
             logic.persistDataBundle(dataBundle);
             Assert.fail();
         } catch (InvalidParametersException e) {
-            assertTrue(e.getMessage().contains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format"));
+            assertTrue(e.getMessage().contains("The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than 40 characters."));
         }
 
         // Not checking for invalid values in other entities because they
