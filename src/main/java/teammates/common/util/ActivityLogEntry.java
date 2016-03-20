@@ -503,8 +503,7 @@ public class ActivityLogEntry {
      * @param student StudentAttributes object
      * @return log ID
      */
-    public String generateLogId(String googleId, StudentAttributes student, Long time) {
-        
+    public String generateLogId(String googleId, StudentAttributes student, long time) {
         return (student != null) ? generateLogId(googleId, student.email, student.course, time)
                                  : generateLogId(googleId, null, null, time);
     }
@@ -517,7 +516,7 @@ public class ActivityLogEntry {
      * @param course the course
      * @return log ID
      */
-    public String generateLogId(String googleId, String email, String course, Long time) {
+    public String generateLogId(String googleId, String email, String course, long time) {
         boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) 
                                         && email != null && course != null;
         
