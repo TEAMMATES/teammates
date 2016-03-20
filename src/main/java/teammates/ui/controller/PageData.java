@@ -539,11 +539,20 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String nextURL) {
+    /**
+     * Retrieves the link to submit request to delete the session.
+     * @param courseId course ID
+     * @param feedbackSessionName the session name
+     * @param isHome true to indicate the request is from the home page
+     * @return the link to submit request to delete the session with return page link
+     */
+    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, addUserIdToUrl(nextURL));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, 
+                                       (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
+                                               : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }    
