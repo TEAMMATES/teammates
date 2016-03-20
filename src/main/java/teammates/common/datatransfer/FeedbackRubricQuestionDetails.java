@@ -51,24 +51,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
-        List<String> rubricChoices = new ArrayList<String>();
-        List<String> rubricSubQuestions = new ArrayList<String>();
-        List<List<String>> rubricDescriptions = new ArrayList<List<String>>();
+        List<String> rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
+        List<String> rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
+        List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters, 
+                                                                              numOfRubricChoices, numOfRubricSubQuestions);
         
-        // Get list of choices
-        rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
         int numActualChoices = rubricChoices.size();
-        
-        // Get list of sub-questions
-        rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
         int numActualSubQuestions = rubricSubQuestions.size();
         
-        // Get descriptions
-        rubricDescriptions = getRubricQuestionDescriptions(requestParameters, numOfRubricChoices, numOfRubricSubQuestions);
-        
         // Set details
-        setRubricQuestionDetails(numActualChoices, rubricChoices,
-                numActualSubQuestions, rubricSubQuestions, rubricDescriptions);
+        setRubricQuestionDetails(numActualChoices, rubricChoices, numActualSubQuestions, 
+                                 rubricSubQuestions, rubricDescriptions);
         
         if (!this.isValidDescriptionSize()) {
             // If description sizes are invalid, default to empty descriptions.
