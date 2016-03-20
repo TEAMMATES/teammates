@@ -98,16 +98,16 @@ public class FieldValidator {
     private static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
     public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+EMAIL_SUBJECT_FIELD_NAME+" because it %s. " +
-                    "The value of "+EMAIL_SUBJECT_FIELD_NAME+" should be no longer than "+
-                    EMAIL_SUBJECT_MAX_LENGTH+" characters. It should not be empty.";
+            "The field <b>" + EMAIL_SUBJECT_FIELD_NAME + "</b>must be no longer than "+
+                    EMAIL_SUBJECT_MAX_LENGTH+" characters and cannot not be empty.";
     
     /*
      * ======================================================================= 
      * Field: Email Content
      */
     private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
-    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME+" should not be empty.";
+    public static final String EMAIL_CONTENT_ERROR_MESSAGE =
+            "The field <b>" + EMAIL_CONTENT_FIELD_NAME + "</b> should not be empty.";
     
     
     /*
