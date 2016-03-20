@@ -142,7 +142,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
         return errors;
     }
-
+    
     // TODO: move following methods to PageData?
     // Answer: OK to move to the respective PageData class. Unit test this thoroughly.
     public List<String> getVisibilityMessage() {
