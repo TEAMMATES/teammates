@@ -199,7 +199,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                                                 FieldValidator.REASON_TOO_LONG));
         expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                                                 FieldValidator.NATIONALITY_FIELD_NAME));
-        expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
+        expectedErrorMessages.add(FieldValidator.GENDER_ERROR_MESSAGE);
         return expectedErrorMessages;
     }
 

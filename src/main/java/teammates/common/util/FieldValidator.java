@@ -238,8 +238,7 @@ public class FieldValidator {
     private static final String GENDER_FIELD_NAME = "gender";
     private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
     public static final String GENDER_ERROR_MESSAGE = 
-            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " +
-            "Values have to be one of: " + Const.GenderTypes.MALE + ", " +
+            "The field <b>" + GENDER_FIELD_NAME + "</b> must be one of the following: " + Const.GenderTypes.MALE + ", " +
             Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     /*
@@ -824,7 +823,7 @@ public class FieldValidator {
         String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (!GENDER_ACCEPTED_VALUES.contains(value)) {
-            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
+            return GENDER_ERROR_MESSAGE;
         }
         return "";
     }

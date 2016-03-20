@@ -336,7 +336,7 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: randomn gender value",
                 FieldType.GENDER,
                 invalidInput,
-                String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidInput));
+                FieldValidator.GENDER_ERROR_MESSAGE);
         
         testOnce("invalid: empty string",
                 FieldType.GENDER,
