@@ -20,7 +20,7 @@
 <div class="panel panel-warning">
     <div class="panel-heading">
         <div class="inline panel-heading-text">
-            <strong>${fn:escapeXml(teamName)}</strong>                        
+            <strong>${fn:escapeXml(teamName)}</strong>
         </div>
         <div class="pull-right">
             <%-- If team statistics are displayed, then the "Collapse Students" button appears under the team statistics tables --%>

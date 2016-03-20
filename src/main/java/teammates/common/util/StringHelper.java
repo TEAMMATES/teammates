@@ -413,8 +413,12 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                inquote = !inquote;
-                continue;
+                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                    i++;
+                } else {
+                    inquote = !inquote;
+                    continue;
+                }
             }
             
             if (chars[i] == ',') {    
