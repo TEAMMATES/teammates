@@ -281,4 +281,40 @@ public class StringHelperTest extends BaseTestCase {
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
         }
     }
+    
+    @Test
+    public void testCsvToHtmlTable() {
+        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL 
+                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
+                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
+                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;
+        String htmlText = StringHelper.csvToHtmlTable(csvText);
+        String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">\n"
+                                      + "<tr>"
+                                          + "<td>ColHeader1</td>\n"
+                                          + "<td> ColHeader2</td>\n"
+                                          + "<td> ColHeader3</td>\n"
+                                          + "<td>ColHeader4</td>\n"
+                                      + "</tr>"
+                                      + "<tr>"
+                                          + "<td>Data 1-1</td>\n"
+                                          + "<td> Data 1\"2</td>\n"
+                                          + "<td> Data 1,3</td>\n"
+                                          + "<td>Data 1\"\"4</td>\n"
+                                      + "</tr>"
+                                      + "<tr>"
+                                          + "<td>Data 2-1</td>\n"
+                                          + "<td> Data 2-2</td>\n"
+                                          + "<td> Data 2-3</td>\n"
+                                          + "<td>Data 2-4\"</td>\n"
+                                      + "</tr>"
+                                      + "<tr>"
+                                          + "<td>Data 3-1</td>\n"
+                                          + "<td> Data 3-2</td>\n"
+                                          + "<td> Data 3-3</td>\n"
+                                          + "<td>Data 3-4</td>\n"
+                                      + "</tr>"
+                                  + "</table>";
+        assertEquals(expectedHtmlText, htmlText);
+    }
 }
