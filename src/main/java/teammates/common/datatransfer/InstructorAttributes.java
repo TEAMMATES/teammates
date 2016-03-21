@@ -307,7 +307,23 @@ public class InstructorAttributes extends EntityAttributes {
         }
         return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
     }
-    
+
+    public boolean hasCoownerPrivileges() {
+        return privileges.hasCoownerPrivileges();
+    }
+
+    public boolean hasManagerPrivileges() {
+        return privileges.hasManagerPrivileges();
+    }
+
+    public boolean hasObserverPrivileges() {
+        return privileges.hasObserverPrivileges();
+    }
+
+    public boolean hasTutorPrivileges() {
+        return privileges.hasTutorPrivileges();
+    }
+
     /**
      * pre-condition: instructorPrivilegesAsText and privileges should be non-null
      * @param instructor
