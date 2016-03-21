@@ -214,9 +214,9 @@ public class CommentAttributes extends EntityAttributes
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
         
         if (recipients != null) {
-            HashSet<String> sanitizedRecipients = new HashSet<String>();        
-            for (String recipientId : recipients) {       
-            sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));      
+            HashSet<String> sanitizedRecipients = new HashSet<String>();
+            for (String recipientId : recipients) {
+                sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
             }     
             recipients = sanitizedRecipients;
         }
