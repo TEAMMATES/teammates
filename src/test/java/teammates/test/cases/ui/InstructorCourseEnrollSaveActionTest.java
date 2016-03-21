@@ -49,9 +49,11 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         // A new student
         enrollString += "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + Const.EOL;
         // A new student with extra spaces in the team and name
-        enrollString += "Section 3 \t Team   1\tstudent  with   extra  spaces  \tstudentWithExtraSpaces@gmail.tmt\t" + Const.EOL;
+        enrollString += "Section 3 \t Team   1\tstudent  with   extra  spaces  \t"
+                        + "studentWithExtraSpaces@gmail.tmt\t" + Const.EOL;
         // A student to be modified
-        enrollString += "Section 2 \t Team 1.3\tstudent1 In Course1\tstudent1InCourse1@gmail.tmt\tNew comment added" + Const.EOL;
+        enrollString += "Section 2 \t Team 1.3\tstudent1 In Course1\tstudent1InCourse1@gmail.tmt\t"
+                        + "New comment added" + Const.EOL;
         // An existing student with no modification
         enrollString += "Section 1 \t Team 1.1\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t" + Const.EOL;
         // An existing student, now with extra spaces, should cause no modification
@@ -72,11 +74,13 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
         
-        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", "Exchange student", courseId, "Team 1", "Section 3");
+        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
+                "Exchange student", courseId, "Team 1", "Section 3");
         newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.getEnrollResultPanelList());
 
-        StudentAttributes newStudentWithExtraSpaces = new StudentAttributes("student", "studentWithExtraSpaces@gmail.tmt", "student with extra spaces", "", courseId, "Team 1", "Section 3");
+        StudentAttributes newStudentWithExtraSpaces = new StudentAttributes("student",
+                "studentWithExtraSpaces@gmail.tmt", "student with extra spaces", "", courseId, "Team 1", "Section 3");
         newStudentWithExtraSpaces.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
         
@@ -196,7 +200,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(courseId, enrollPageData.getCourseId());
         assertEquals(enrollString, enrollPageData.getEnrollStudents());
         
-        expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>" + (enrollString).replace("\n", "<br>");
+        expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>"
+                + (enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Boundary test for size limit per enrollment");
