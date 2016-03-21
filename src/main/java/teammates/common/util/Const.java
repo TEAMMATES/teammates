@@ -1074,11 +1074,11 @@ public class Const {
                 + "However, you do not have access to view this student's profile";
         
         public static final String UNREGISTERED_STUDENT = "You are submitting feedback as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
+                + "You may submit feedback for sessions that are currently open and view results without logging in. "
                 + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
                 + "(recommended).";
         public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
+                + "You may submit feedback for sessions that are currently open and view results without logging in. "
                 + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
                 + "(recommended).";
     }
