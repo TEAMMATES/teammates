@@ -513,9 +513,10 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e) {
-        statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
+        String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, "<br>");
+        statusToUser.add(new StatusMessage(exceptionMessageForHtml, StatusMessageColor.DANGER));
         isError = true;
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
     
     /**
@@ -525,9 +526,13 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e, String statusMessageToUser) {
-        statusToUser.add(new StatusMessage(statusMessageToUser, StatusMessageColor.DANGER));
+        String statusMessageForHtml = statusMessageToUser.replace(Const.EOL, "<br>");
+        statusToUser.add(new StatusMessage(statusMessageForHtml, StatusMessageColor.DANGER));
+
         isError = true;
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+
+        String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, "<br>");
+        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
 
     protected boolean isInMasqueradeMode() {
