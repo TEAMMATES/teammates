@@ -136,7 +136,7 @@ appengineRun {
 project.tasks.getByName("war").dependsOn "enhancerRun"
 
 task enhancerRun << {
-    def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-1.9.27/lib/appengine-tools-api.jar"
+    def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
     ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
     ant.enhance(failonerror: true, verbose: true) {
         classpath {
@@ -153,14 +153,16 @@ enhancerRun.dependsOn project.classes
 
 (1..numOfTestRetries + 1).each { id ->
     task "killFirefox${id}"(type: Exec) {
-        if (isWindows) {
-            commandLine "TASKKILL", "/F", "/IM", "firefox.exe"
-        } else {
-            commandLine "pkill", "firefox"
+        doFirst {
+            if (isWindows) {
+                commandLine "TASKKILL", "/F", "/IM", "firefox.exe"
+            } else {
+                commandLine "pkill", "firefox"
+            }
+            // Silence output for this task
+            standardOutput = new ByteArrayOutputStream()
+            errorOutput = standardOutput
         }
-        // Silence output for this task
-        standardOutput = new ByteArrayOutputStream()
-        errorOutput = standardOutput
         ignoreExitValue = true
         outputs.upToDateWhen { false }
     }
@@ -175,46 +177,51 @@ def afterTestClosure = { descriptor, result ->
             new File("actual").text = msg[(msg.indexOf("<<[actual>\n") + 11)..(msg.indexOf("\n</actual]>>") - 1)]
             if (isWindows) {
                 def process = "FC expected actual".execute()
+                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
+                println process.getText()
+                process.waitFor()
             } else {
                 def process = "diff expected actual".execute()
+                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
+                println process.getText()
+                process.waitFor()
             }
-            println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
-            println process.getText()
-            process.waitFor()
         }
     }
 }
 
+
+// TRAVIS TEST TASKS
+
 test {
     useTestNG()
-    options.suites isTravis ? "src/test/testng-travis.xml" : "src/test/testng.xml"
+    options.suites "src/test/testng-travis.xml"
     options.useDefaultListeners = true
     options.outputDirectory = file("build/reports/test-try-1")
-    maxHeapSize = "1g"
     ignoreFailures = numOfTestRetries != 0 ? true : false
+    maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    afterTest afterTestClosure
-    finalizedBy = ["killFirefox1"]
-    testLogging {
-        events "passed"
-    }
     if (isTravis) {
         jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
     } else {
         jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
     }
+    testLogging {
+        events "passed"
+    }
+    afterTest afterTestClosure
+    finalizedBy "killFirefox1"
     dependsOn "enhancerRun"
 }
 
-task appengineTest {
+task travisTests {
     dependsOn "test"
 }
 
 (1..numOfTestRetries).each { id ->
     def isLastRetry = id == numOfTestRetries ? true : false
     task "testRetry${id}"(type: Test) {
-        dependsOn "test", "enhancerRun"
         useTestNG()
         options.suites("build/reports/test-try-${id}/testng-failed.xml")
         options.outputDirectory = file("build/reports/test-try-${id+1}")
@@ -222,11 +229,15 @@ task appengineTest {
         testClassesDir = sourceSets.test.output.classesDir
         classpath = sourceSets.test.runtimeClasspath
         testSrcDirs = sourceSets.test.java.srcDirs as List
-        maxHeapSize = "1g"
         ignoreFailures = isLastRetry ? false : true
+        maxHeapSize = "1g"
         reports.html.enabled = false
         reports.junitXml.enabled = false
-        finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop"] : ["killFirefox${id+1}"]
+        if (isTravis) {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        } else {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+        }
         testLogging {
             events "passed"
             if (isLastRetry) {
@@ -234,85 +245,107 @@ task appengineTest {
             }
         }
         afterTest afterTestClosure
+        finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop", "generateFailedCmd"] : ["killFirefox${id+1}"]
+        dependsOn "test", "enhancerRun"
         onlyIf {
             file("build/reports/test-try-${id}/testng-failed.xml").exists()
         }
-        if (isTravis) {
-            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-        } else {
-            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
-        }
     }
-    appengineTest.dependsOn "testRetry${id}"
+    travisTests.dependsOn "testRetry${id}"
 }
 
-defaultTasks "appengineRun", "appengineTest", "appengineStop"
+task generateFailedCmd(type: Exec) {
+    onlyIf {
+        file("build/reports/test-try-${numOfTestRetries}/testng-failed.xml").exists()
+    }
+    def os = new ByteArrayOutputStream()
+    doFirst {
+        commandLine "gist", "-p", "build/reports/test-try-${numOfTestRetries}/testng-failed.xml"
+        standardOutput = os
+    }
+    doLast {
+        def gistUrl = os.toString()
+        def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1)
+        logger.lifecycle("Run failed tests locally: gradle failedTestsFromTravis -Pgist=${gistHash}")
+    }
+}
+
+defaultTasks "appengineRun", "travisTests", "appengineStop"
+
+// LOCAL TEST TASKS
 
 def testTasksMap = [
-    "rare": "rare-tests",
-    "component": "component-tests",
-    "occasional": "occasional-tests",
-    "ui": "sequential-ui-tests,parallel-ui-tests",
-    "staging": "component-tests,sequential-ui-tests,parallel-ui-tests"
+    "staging": [
+        "xml": "src/test/testng-travis.xml",
+        "names": "component-tests,sequential-ui-tests,parallel-ui-tests"
+    ],
+    "local": [
+        "xml": "src/test/testng-local.xml",
+        "names": "smoke-tests,unstable-tests"
+    ]
 ]
-testTasksMap.each { taskNamePrefix, testNames ->
+
+testTasksMap.each { taskNamePrefix, testParams ->
     task "${taskNamePrefix}Tests"(type: JavaExec) {
-        classpath = sourceSets.test.runtimeClasspath
-        main = "org.testng.TestNG"
-        args "-configfailurepolicy", "continue"
-        args "-testnames", "$testNames"
-        args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
-        args "src/test/testng.xml"
-        errorOutput = {
-            def f = File.createTempFile("err", null)
-            f.deleteOnExit()
-            f.newOutputStream()
-        }()
-        jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+        doFirst {
+            classpath = sourceSets.test.runtimeClasspath
+            main = "org.testng.TestNG"
+            args "-configfailurepolicy", "continue"
+            args "-testnames", testParams["names"]
+            args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+            args testParams["xml"]
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+        }
         dependsOn "appengineRun", "cleanTestOutput"
-        finalizedBy "appengineStop", "killFirefox1", "testOutput"
+        finalizedBy "appengineStop", "testOutput"
     }
 }
 
-task cleanTestOutput << {
-    def testOutputDir = new File("test-output")
-    testOutputDir.deleteDir()
+task cleanTestOutput {
+    doFirst {
+        def testOutputDir = new File("test-output")
+        testOutputDir.deleteDir()
+    }
+    outputs.upToDateWhen { false }
 }
-cleanTestOutput.outputs.upToDateWhen { false }
+clean.dependsOn cleanTestOutput
 
 task testOutput(type: Exec) {
     onlyIf {
         file("test-output/testng-failed.xml").exists()
     }
-    if (isWindows) {
-        commandLine "cmd", "/c", "start", "test-output/emailable-report.html"
-    } else {
-        commandLine "open", "-a", "Google Chrome", "test-output/emailable-report.html"
+    doFirst {
+        if (isWindows) {
+            commandLine "cmd", "/c", "start", "test-output/emailable-report.html"
+        } else {
+            commandLine "open", "-a", "Google Chrome", "test-output/emailable-report.html"
+        }
     }
     ignoreExitValue = true
     outputs.upToDateWhen { false }
 }
 
-task singleTest(type: JavaExec) {
+task manualTest(type: JavaExec) {
     onlyIf {
-        project.hasProperty("methods") || project.hasProperty("classes")
+        project.hasProperty("test_methods") || project.hasProperty("test_classes")
     }
-    classpath = sourceSets.test.runtimeClasspath
-    main = "org.testng.TestNG"
-    args "-configfailurepolicy", "continue"
-    args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
-    if (project.hasProperty("testClasses")) {
-        args "-testclass", testClasses
+    doFirst {
+        classpath = sourceSets.test.runtimeClasspath
+        main = "org.testng.TestNG"
+        args "-configfailurepolicy", "continue"
+        args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+        if (project.hasProperty("test_classes")) {
+            args "-testclass", test_classes
+        }
+        if (project.hasProperty("test_methods")) {
+            args "-methods", test_methods
+        }
+        if (project.hasProperty("god_mode")) {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+        } else {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+        }
     }
-    if (project.hasProperty("testMethods")) {
-        args "-methods", testMethods
-    }
-    errorOutput = {
-        def f = File.createTempFile("err", null)
-        f.deleteOnExit()
-        f.newOutputStream()
-    }()
-    jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
     dependsOn "appengineRun", "cleanTestOutput"
     finalizedBy "appengineStop", "killFirefox1", "testOutput"
 }
@@ -321,13 +354,32 @@ task failedTests(type: JavaExec) {
     onlyIf {
         file("test-output/testng-failed.xml").exists()
     }
-    classpath = sourceSets.test.runtimeClasspath
-    main = "org.testng.TestNG"
-    args "-configfailurepolicy", "continue"
-    args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
-    args "test-output/testng-failed.xml"
-    jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+    doFirst {
+        classpath = sourceSets.test.runtimeClasspath
+        main = "org.testng.TestNG"
+        args "-configfailurepolicy", "continue"
+        args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+        args "test-output/testng-failed.xml"
+        if (project.hasProperty("god_mode")) {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+        } else {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+        }
+    }
     dependsOn "appengineRun"
-    finalizedBy "appengineStop", "killFirefox1", "testOutput"
+    finalizedBy "appengineStop", "testOutput"
+}
 
+task failedTestsFromTravis(type: Exec) {
+    dependsOn "cleanTestOutput"
+    onlyIf {
+        project.hasProperty("gist")
+    }
+    doFirst {
+        commandLine "gist", "-r", gist
+        def testDir = new File("test-output/")
+        testDir.mkdirs()
+        standardOutput = new FileOutputStream("test-output/testng-failed.xml")
+    }
+    finalizedBy "failedTests"
 }

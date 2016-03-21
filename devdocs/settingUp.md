@@ -1,7 +1,8 @@
 #Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
-These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
+These instructions work for Linux, OS X as well as for the Windows 
+environment. The only difference for Windows environment is that the command `./gradlew` should be replaced by `gradlew.bat` everywhere.
 
 The full tool stack is given at the [end of this document](#toolStack).
 
@@ -9,26 +10,60 @@ The full tool stack is given at the [end of this document](#toolStack).
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
-3. Install JDK 7.
-4. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
-6. Install Google Plugin for Eclipse version 4.4. <br>
-   Be careful to omit other plugins shown on the screen 
-   (e.g., Google App Engine Tools for Android, GWT plugin).<br>
-   Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
-   Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
-   follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-7. Install Google App Engine SDK version 1.9.27. <br>
-   Download link to the SDK is http://central.maven.org/maven2/com/google/appengine/appengine-java-sdk/1.9.27/appengine-java-sdk-1.9.27.zip.<br>
-   Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
-   and point it to where you extracted the SDK zip file. <br>
-   Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
-8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
+2. Install JDK 7. (If you have multiple versions of JDK installed, make sure you set `JAVA_HOME` to JDK 7 when working on Teammates. Use Google for more help on this.)
+3. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
+4. Install the BuildShip Gradle Plugin for Eclipse. Instructions can be found [here](https://github.com/eclipse/buildship/blob/master/docs/user/Installation.md)
 
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
-2. Configure Eclipse (if you worry that these settings will interfere with your 
+2. Navigate to the directory where you cloned Teammates and run the following command:
+   `./gradlew appengineRun`
+   This command downloads all the dependencies required by Teammates and starts the dev server on `localhost:8888`.
+   Depending on your network speed, the downloading of the dependencies might take a while.
+   After some time, you should see this message on the console 
+   `Build Successful`.
+   The dev server is now ready to serve requests at `http://localhost:8888`.
+   To stop the server, simply run `./gradlew appengineStop`.
+3. Modify main config files. {These are not under revision control because their 
+   content vary from developer to developer}.
+   * `src/main/resources/build.properties`<br>
+   If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
+   * `src/test/resources/test.properties`<br>
+   Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
+   e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
+4. To confirm the server is up, go to the server URL in your Browser.
+   To log in to the system, you need to add yourself as an instructor first:
+   * Go to `http://[appURL]/admin/adminHomePage` 
+   (On your computer, it may be `http://localhost:8888/admin/adminHomePage`) 
+   * Log in using your Google ID. If this is the dev server, enter any email 
+   address, but remember to check the `log in as administrator` check box. 
+   * Enter credentials for an instructor. e.g.,<br>
+      Google id: `teammates.instructor` <br>
+      Name: `John Dorian` <br>
+      Email: `teammates.instructor@university.edu` <br>
+      Institute: `National University of Singapore` 
+5. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
+   Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
+   Remember to change the URL of the link if necessary, but keep the parameters.<br>
+   e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
+   to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
+8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
+   After that, log in as admin by going to `http://localhost:8888/admin/adminSearchPage` and provide the same GoogleID you used for logging in step 6.<br>
+   Search for the student you added in as instructor. From the search results, click anywhere on the desired row(except on the student name) to get the course join link for that student.<br>
+   Then, log out and use that join link to log in as a student. You have the required access now.<br>
+   (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
+   Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
+
+##Setting up Eclipse
+
+1. Start Eclipse and go to `File → Import...`
+2. If you installed BuildShip correctly, you should be able to find `Gradle → Gradle Project`.
+3. Select `Gradle Project`
+4. Set the project root directory to the directory containing Teammates.
+5. Click Finish.
+6. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
    * Text encoding: Go to `Window → Preferences → General → Workspace` (Mac: `Eclipse → Preferences → General → Workspace`), change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
@@ -44,97 +79,19 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Create main config files {These are not under revision control because their 
-   content vary from developer to developer}.
-   * `src/main/resources/build.properties`<br>
-   Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `duplicate -> remove '.template' from name`).
-   For now, property values can remain as they are.
-   If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
-   * `src/test/resources/test.properties`<br>
-   Create it using `test.template.properties`. 
-   Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
-   e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
-   * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   Create it using `appengine-web.template.xml`. 
-   For now, property values can remain as they are.
-   * `.settings/com.google.gdt.eclipse.core.prefs`<br>
-   Create it using `com.google.gdt.eclipse.core.template.prefs`.
-   In the newly created `com.google.gdt.eclipse.core.prefs` file, replace all the `*` in the value of `jarsExcludedFromWebInfLib` to your TEAMMATES project folder,
-   e.g. `jarsExcludedFromWebInfLib=*/src/test/resources/lib/appengine/appengine-api-labs.jar` becomes `jarsExcludedFromWebInfLib=C:/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if your TEAMMATES project folder is `C:/TEAMMATES`<br>
-   (Mac: `jarsExcludedFromWebInfLib=/Users/someuser/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if the project folder is `/Users/someuser/TEAMMATES`).
-4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.60.zip)
-   containing the required library files and unzip it into
-   your project folder. Note that this will overwrite some existing library files,
-   which is what we want. If you unzipped it into the right location, you should now see
-   a `[project folder]/src/test/resources/lib/appengine` containing several jar files.
-5. Start the dev server.<br>
-    Right-click on the project folder and choose `Run → As Web Application`. 
-    After some time, you should see this message on the console 
-    `Dev App Server is now running` or something similar.
-    The dev server is now ready to serve requests at the URL given in the console output.
-    e.g `http://localhost:8888`.<br> 
-6. To confirm the server is up, go to the server URL in your Browser.
-   To log in to the system, you need to add yourself as an instructor first:
-   * Go to `http://[appURL]/admin/adminHomePage` 
-   (On your computer, it may be `http://localhost:8888/admin/adminHomePage`) 
-   * Log in using your Google ID. If this is the dev server, enter any email 
-   address, but remember to check the `log in as administrator` check box. 
-   * Enter credentials for an instructor. e.g.,<br>
-      Google id: `teammates.instructor` <br>
-      Name: `John Dorian` <br>
-      Email: `teammates.instructor@university.edu` <br>
-      Institute: `National University of Singapore` 
-7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
-   Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
-   Remember to change the URL of the link if necessary, but keep the parameters.<br>
-   e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
-   to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
-8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
-   After that, log in as admin by going to `http://localhost:8888/admin/adminSearchPage` and provide the same GoogleID you used for logging in step 6.<br>
-   Search for the student you added in as instructor. From the search results, click anywhere on the desired row(except on the student name) to get the course join link for that student.<br>
-   Then, log out and use that join link to log in as a student. You have the required access now.<br>
-   (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
-   Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
    
-##Running the test suite
-
-
+##Running the entire test suite
 
 1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X) 
     or Chrome (Windows only). The default browser used for testing is Firefox 
     because it is faster than Chrome and it can be run in the background.
     Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
-   
-2. Before running the test suite, both the server and the test environment 
-   should be using the UTC time zone. The server and the test environment should 
-   also serve the CDN files (files that we off-load to servers such as Google's servers)
-   locally instead. In our case, these are files such as jQuery.min.js.
-   
-   Here is the procedure:
-    
-    a. Stop the dev server, if it is running already.
+2. Navigate to the directory containing Teammates.
+3. Ensure that the dev server is not running. Run `./gradlew appengineStop` to be safe.
+4. Run `./gradlew`
+5. That's it!
 
-    b. Specify timezone as a VM argument: 
-       * Go to the `run configuration` Eclipse created when you started the dev server
-        (`Run → Run configurations ...` and select the appropriate one).
-       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` and '-DisDevEnvironment="true"' to the `VM arguments` text box.
-       * Save the configuration for future use: Go to the `Common` tab (the last one) 
-       and make sure you have selected `Save as → Local file` and 
-       `Display in favorites menu →  Run, Debug`.
-
-    c. Start the server again using the _run configuration_ you created in
-       the previous step..<br>
-   
-4. Run tests. <br>
-    This can be done using the `All tests` option under the green `Run` button 
-    in the Eclipse toolbar. If this option is not available 
-    (sometimes, Eclipse does not show this option immediately after you set up the project. 
-    It will appear in subsequent runs. 'Refreshing' will make it appear too.), 
-    run `src/test/testng.xml` (right click and choose `Run as → TestNG Suite`). Most of the tests should pass.
-    If a few cases fail (this can happen due to timing issues), run the failed cases 
-    using the `Run Failed Test` icon in the TestNG tab in Eclipse until they pass. 
-    
+Running the entire test suite can be very resource intensive for your machine. Use caution!
 
 To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
@@ -162,29 +119,19 @@ it works with the test suite.
   You will need to manually kill these processes after the tests are done. 
   On Windows, you can do this using the Task Manager or `tskill` DOS command. 
 
-###Running the test suite outside Eclipse
-Typically, we run the test suite within Eclipse. But core developers may prefer
-to run it outside Eclipse so that they can continue to use Eclipse while the
-test suite is running. Given below is the procedure. New developers can omit 
-this section.
+##Running parts of the test suite
 
-* Build the project in Eclipse (`Project -> Clean`).
-* Start the dev server in Eclipse.
-* Open a DOS window in the project folder and run the `runtests.bat` 
-  in the following manner.<br>
-  `runtests.bat  appengine_SDK_location  project_folder_location` <br>
-  e.g. `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates`<br>
-  This will run the full test suite once and retry the failed tests several times.<br>
-  (**Mac**: In Terminal, navigate to the project folder and run the `runtests.sh` in the following manner.<br>
-  `./runtests.sh GAE_SDK_Location Project_Folder_location`<br>
-  e.g. `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES`, if the path to GAE_SDK_Location is `/Users/someuser/appengine-java-sdk-1.9.27` and path to Project_Folder_location is `/Users/someuser/TEAMMATES`.<br>
-  It's recommended to use absolute path on Mac, and you could retrieve the absolute path by navigate to that folder and type `pwd` command.<br>
-  If the file is not an executable, change its permission by: `chmod +x runtests.sh`)
-* The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
-* To run only certain `<test>` segments of the `testng.xml`, add the `-testnames`
-  option followed by the names of the `<test>` segments you want to run.<br>e.g.
-  `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
-  (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
+The test suite used by Teammates is divided into some broad (overlapping) categories. These include:
+
+1. Component Tests
+2. UI Tests
+3. Staging Tests
+4. Occasional Tests
+5. Rare Tests
+
+Each of these can be run by running the appropriate command based on the category. For example, running the component tests requires running the command `./gradlew componentTests` and so on.
+
+After a test run, you can see the test results on the console. If there were any failing tests, a test report should open automatically. Any failed tests can be rerun immediately after, by running the command `./gradlew failedTests`.
   
 ##Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
@@ -202,8 +149,8 @@ this section.
       Modify to match app name and app id of your own app.
       
 3. Deploy the application to your staging server.
-   * Choose `Deploy to app engine` from eclipse (under the `Google` menu item ![](https://cloud.google.com/appengine/docs/python/images/transform_resize_after.jpg) ) and follow the steps.
-   * Wait until you see this message in Eclipse console `Deployment completed successfully`
+   * Run the command `./gradlew appengineUpdate`
+   * Wait until you see this message on the console `Deployment completed successfully`
    * Go to appengine dashboard `https://appengine.google.com/dashboard?&app_id=teammates-name`
    * Click `Versions` under `Main` menu on the left bar.
    * Set the version you deployed as the `default`. <br>

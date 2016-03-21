@@ -82,7 +82,7 @@ public class BrowserPool {
                 int n=0;
                 for (Browser b : pool) {
                     n++;
-                    if(!sequentialUiTest && n==1){
+                    if((!sequentialUiTest && n==1)){
                         continue;
                     }
                     if (!b.isInUse) {
