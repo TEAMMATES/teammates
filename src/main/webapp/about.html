@@ -4,6 +4,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="stylesheets/teammates.css" type="text/css">
     
+    
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    
     <title>TEAMMATES[About Us] - Online Peer Feedback/Evaluation
         System for Student Team Projects</title>
     <meta name="application-name"
@@ -32,6 +38,12 @@
             width: 150px;
             text-align: center;
         }
+        
+        .topcorner{
+		    position:absolute;
+		    top:10px;
+		    right: 10px;
+ }
     </style>
 </head>
 
@@ -106,55 +118,88 @@
                 </li>
             </ul>
         </div>
-
+		
+		<!-- Edited by Yasiru -->
         <p class="bold">Core Team:</p>
-          <table>
-            <tr>
-              <td class="coreTeamPhotoCell">
-                <img src="images/teammembers/damith.png" width="180px">
-              </td>
-              <td class="coreTeamDetailsCell">
-                <a href="http://www.comp.nus.edu.sg/~damithch">Damith C. Rajapakse</a><br><br>
-                Founder (2010)<br>
-                Project Mentor (2010 -)
-              </td>
-            </tr>
-            <tr>
-              <td class="coreTeamPhotoCell">
-                <img src="images/teammembers/weilin.png" width="180px">
-              </td>
-              <td class="coreTeamDetailsCell">
-                Low WeiLin<br><br>
-                Project Lead (Aug 2015 - )<br>
-                Area Lead - Sessions (Aug 2014 - Jul 2015)<br>
-                Snr Developer (June 2014 - Jul 2014)<br>
-                Committer (Jan 2014 - Jul 2014)
-              </td>
-            </tr>
-            <tr>
-              <td class="coreTeamPhotoCell">
-                <img src="images/teammembers/hongjin.png" width="180px">
-              </td>
-              <td class="coreTeamDetailsCell">
-                Kang Hong Jin<br><br>
-                Project Lead (Aug 2015 - )<br>
-                Snr Developer (May 2015 - Jul 2015)<br>
-                Committer (Aug 2014 - Apr 2015)
-              </td>
-            </tr>
-            <tr>
-              <td class="coreTeamPhotoCell">
-                <img src="images/teammembers/thyagesh.png" width="180px">
-              </td>
-              <td class="coreTeamDetailsCell">
-                Thyagesh M.<br><br>
-                Project Lead (Jan 2016 - )<br>
-                Area Lead - Profiles (Aug 2014 - Dec 2015)<br>
-                Snr Developer (June 2014 - Jul 2014)<br>
-                Committer (Apr 2014 - May 2014)
-              </td>
-            </tr>
-          </table>
+          
+          <section id="crew">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-sm-2 col-md-2">
+                        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
+                            <div class="team-img">
+                                <img class="img-responsive" src="images/teammembers/damith.png" alt="">
+                            </div>
+                            <div class="team-info">
+                            
+                                <h3><a href="http://www.comp.nus.edu.sg/~damithch">Damith C. Rajapakse</a></h3>
+                                
+                            </div>
+                            <ul>
+                                <li>Founder (2010)</li>
+                				<li>Project Mentor (2010 -)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
+                            <div class="team-img">
+                                <img class="img-responsive" src="images/teammembers/weilin.png" alt="">
+                            </div>
+                            <div class="team-info">
+                                <h3>Low WeiLin</h3>
+                                
+                            </div>
+                            <ul>
+                                <li>Project Lead (Aug 2015 - )</li>
+                				<li>Area Lead - Sessions (Aug 2014 - Jul 2015)</li>
+                				<li>Snr Developer (June 2014 - Jul 2014)</li>
+                				<li>Committer (Jan 2014 - Jul 2014)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
+                            <div class="team-img">
+                                <img class="img-responsive" src="images/teammembers/hongjin.png" alt="">
+                            </div>
+                            <div class="team-info">
+                                <h3>Kang Hong Jin</h3>
+                                
+                            </div>
+                            <ul>
+                                <li>Project Lead (Aug 2015 - )</li>
+                				<li>Snr Developer (May 2015 - Jul 2015)</li>
+                				<li>Committer (Aug 2014 - Apr 2015)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="300ms">
+                            <div class="team-img">
+                                <img class="img-responsive" src="images/teammembers/thyagesh.png" alt="">
+                            </div>
+                            <div class="team-info">
+                                <h3>Thyagesh M.<br/></h3>
+                                
+                            </div>
+                            <ul>
+                                <li>Project Lead (Jan 2016 - )</li>
+				                <li>Area Lead - Profiles (Aug 2014 - Dec 2015)</li>
+				                <li>Snr Developer (June 2014 - Jul 2014)</li>
+				                <li>Committer (Apr 2014 - May 2014)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section><!--/#meet-team-->
+        
+        <!-- Edited by Yasiru -->
+          
+        
           
           <br><br><br>
                     
