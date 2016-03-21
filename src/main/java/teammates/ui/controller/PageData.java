@@ -608,28 +608,24 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL, 
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
     
-    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL,
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     

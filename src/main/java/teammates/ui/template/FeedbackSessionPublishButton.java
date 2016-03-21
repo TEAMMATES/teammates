@@ -22,6 +22,8 @@ public class FeedbackSessionPublishButton {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 
+        String returnUrl = isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
+                                  : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
         this.actionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
@@ -29,7 +31,7 @@ public class FeedbackSessionPublishButton {
             
             this.tooltipText = Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH;
             this.actionName = "Unpublish";
-            this.actionLink = data.getInstructorFeedbackUnpublishLink(courseId, feedbackSessionName, isHome);
+            this.actionLink = data.getInstructorFeedbackUnpublishLink(courseId, feedbackSessionName, returnUrl);
             
             this.onclickAction = "toggleUnpublishEvaluation('" + Sanitizer.sanitizeForJs(feedbackSessionName) + "');";
             
@@ -39,7 +41,7 @@ public class FeedbackSessionPublishButton {
             this.tooltipText = isReadyToPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH
                                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING;            
             this.actionName = "Publish";
-            this.actionLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, isHome);
+            this.actionLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, returnUrl);
             this.actionAllowed &= isReadyToPublish;
             
             this.onclickAction = "togglePublishEvaluation('" + Sanitizer.sanitizeForJs(feedbackSessionName) + "', "
