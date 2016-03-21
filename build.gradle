@@ -7,8 +7,28 @@ def numOfTestRetries = 5
 def isTravis = System.getenv("TRAVIS") != null
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+task copyTemplates << {
+    def templatesToCopy = [
+        "src/main/resources/build.template.properties",
+        "src/test/resources/test.template.properties",
+        "src/main/webapp/WEB-INF/appengine-web.template.xml"
+    ]
+    templatesToCopy.findAll {
+        !file(it.replace(".template", "")).exists()
+    }.each {
+        filename -> copy {
+            from filename
+            into file(filename).getParent()
+            rename '(.*).template(.*)', '$1$2'
+        }
+    }
+}
+
+compileJava.dependsOn copyTemplates
+compileTestJava.dependsOn copyTemplates
 
 buildscript {
     repositories {
@@ -117,14 +137,14 @@ project.tasks.getByName("war").dependsOn "enhancerRun"
 
 task enhancerRun << {
     def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-1.9.27/lib/appengine-tools-api.jar"
-    ant.taskdef(name: 'enhance', classpath: path, classname: 'com.google.appengine.tools.enhancer.EnhancerTask')
+    ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
     ant.enhance(failonerror: true, verbose: true) {
         classpath {
             pathelement(path: path)
             pathelement(path: sourceSets.main.output.classesDir.canonicalPath)
             pathelement(path: project.configurations.enhancer.asPath)
         }
-        fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: 'teammates/storage/entity/*.class')
+        fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: "teammates/storage/entity/*.class")
         arg(value: "-enhancerVersion"); arg(value: "v1")
         arg(value: "-api"); arg(value: "JPA")
     }
