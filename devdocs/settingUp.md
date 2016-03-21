@@ -25,7 +25,7 @@ Important: When a version is specified, please install that version instead of t
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
 
-1. Fork our repo at `https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
+1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
 2. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
    * Text encoding: Go to `Window → Preferences → General → Workspace`, change the 
