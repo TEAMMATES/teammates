@@ -30,7 +30,7 @@
         </c:if>
     </div>
 
-    <ti:remindParticularStudentsModal />
+    <ti:remindParticularStudentsModal remindParticularStudentActionLink="${data.remindParticularStudentActionLink}" />
     <feedbacks:copyFromModal copyFromModal="${data.copyFromModal}" />
     <ti:copyModal />
     
