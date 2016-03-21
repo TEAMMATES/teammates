@@ -13,12 +13,10 @@ public class InstructorHomePageData extends PageData {
     private List<CourseTable> courseTables;
     private String sortCriteria;
     private String remindParticularStudentActionLink;
-    private String editCopyActionLink;
     
     public InstructorHomePageData(AccountAttributes account) {
         super(account);
         remindParticularStudentActionLink = getInstructorFeedbackRemindParticularStudentActionLink(true);
-        editCopyActionLink = getInstructorFeedbackEditCopyActionLink(true);
     }
     
     public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
@@ -46,15 +44,6 @@ public class InstructorHomePageData extends PageData {
      */
     public String getRemindParticularStudentActionLink() {
         return remindParticularStudentActionLink;
-    }
-
-    /**
-     * Retrieves the form submit link of copying a session with link of page to 
-     * return after completing.
-     * @return form submit action link
-     */
-    public String getEditCopyActionLink() {
-        return editCopyActionLink;
     }
     
     private void setCourseTables(List<CourseSummaryBundle> courses) {

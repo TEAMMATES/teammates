@@ -20,6 +20,6 @@
         <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
             <home:coursePanel courseTable="${courseTable}" index="${i.index}" />
         </c:forEach>
-        <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
+        <ti:copyModal />
     </c:if>
 </ti:instructorPage>

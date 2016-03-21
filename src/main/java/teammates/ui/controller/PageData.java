@@ -471,20 +471,6 @@ public class PageData {
         return link;
     }
     
-    /**
-     * Retrieves the link to submit the request for copy of session.
-     * @param isHome true to indicate the request is from the home page
-     * @return the link to submit request to copy the session with return page link
-     */
-    public String getInstructorFeedbackEditCopyActionLink(boolean isHome) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL, 
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
-        
-        return link;
-    }
   
     /**
      * @param courseId

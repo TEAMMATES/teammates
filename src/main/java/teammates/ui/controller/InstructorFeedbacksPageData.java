@@ -32,13 +32,11 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsCopyFromModal copyFromModal;
 
     private String remindParticularStudentActionLink;
-    private String editCopyActionLink;
 
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
 
         remindParticularStudentActionLink = getInstructorFeedbackRemindParticularStudentActionLink(false);
-        editCopyActionLink = getInstructorFeedbackEditCopyActionLink(false);
     }
 
     public boolean isUsingAjax() {
@@ -291,15 +289,6 @@ public class InstructorFeedbacksPageData extends PageData {
      */
     public String getRemindParticularStudentActionLink() {
         return remindParticularStudentActionLink;
-    }
-    
-    /**
-     * Retrieves the form submit link of copying a session with link of page to 
-     * return after completing.
-     * @return form submit action link
-     */
-    public String getEditCopyActionLink() {
-        return editCopyActionLink;
     }
 
     public void setUsingAjax(boolean isUsingAjax) {
