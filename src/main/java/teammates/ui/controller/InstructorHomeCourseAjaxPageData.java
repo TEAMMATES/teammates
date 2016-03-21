@@ -146,7 +146,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                     getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName),
                     isRecent,
                     getInstructorFeedbackSessionActions(
-                            session, false, instructor));
+                            session, true, instructor));
 
             rows.add(row);
         }
