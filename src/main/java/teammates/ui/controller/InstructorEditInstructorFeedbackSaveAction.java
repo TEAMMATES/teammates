@@ -48,7 +48,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
     }
     
     /**
-     * Checks if the instructor only submitted responses that he/she should be submitting.
+     * Checks if the instructor only submitted responses that he/she should be submitting when moderating.
      */
     @Override
     protected void checkAdditionalConstraints() {
@@ -58,9 +58,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
-            String questionId = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, 
-                    Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            String paramMapKey = Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx;
+            String questionId = HttpRequestHelper.getValueFromParamMap(requestParameters, paramMapKey);
             
             if (questionId == null) {
                 // we do not throw an error if the question was not present on the page for instructors to edit
@@ -77,16 +76,25 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
                 continue;
             }
             
-            boolean isGiverVisibleToInstructors = questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            
-            if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
-                isError = true;
-                throw new UnauthorizedAccessException(
-                        "Feedback session [" + feedbackSessionName + 
-                        "] question [" + questionAttributes.getId() + "] is not accessible to instructor ["+ instructor.email + "]");
-            }
+            checkSessionQuestionAccessPermission(instructor, questionAttributes);
+        }
+    }
+    
+    /**
+     * Checks the instructor's access to a particular question in the feedback session.
+     * @param instructor the instructor to be checked
+     * @param questionAttributes the question to be checked against
+     */
+    private void checkSessionQuestionAccessPermission(InstructorAttributes instructor, FeedbackQuestionAttributes questionAttributes) {
+        boolean isGiverVisibleToInstructors = questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+        
+        if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
+            isError = true;
+            throw new UnauthorizedAccessException(
+                    "Feedback session [" + feedbackSessionName + 
+                    "] question [" + questionAttributes.getId() + "] is not accessible to instructor ["+ instructor.email + "]");
         }
     }
 
