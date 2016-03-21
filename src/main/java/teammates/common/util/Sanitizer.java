@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
@@ -129,6 +131,17 @@ public class Sanitizer {
             sanitizedList.add(sanitizeForHtml(str));
         }
         return sanitizedList;
+    }
+    
+    /**
+     * Sanitize a set of strings for inserting into HTML.
+     */
+    public static Set<String> sanitizeForHtml(Set<String> set){ 
+        Set<String> sanitizedSet = new TreeSet<String>();
+        for (String str : set) {
+            sanitizedSet.add(sanitizeForHtml(str));
+        }
+        return sanitizedSet;
     }
     
     /**

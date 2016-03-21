@@ -18,6 +18,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.template.Comment;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
@@ -209,14 +210,16 @@ public class InstructorSearchPageData extends PageData {
         
         List<Comment> rows = new ArrayList<Comment>();
         String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
+        String unsanitizedGiverDetails = StringHelper.recoverFromSanitizedText(giverDetails);
         String instructorCommentsLink = getInstructorCommentsLink();
         
         for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {            
             String recipientDetails = commentSearchResultBundle.recipientTable
                                                                    .get(comment.getCommentId().toString());
+            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID 
                                             + "=" + comment.courseId + "#" + comment.getCommentId();           
-            Comment commentRow = new Comment(comment, giverDetails, recipientDetails);
+            Comment commentRow = new Comment(comment, unsanitizedGiverDetails, unsanitizedRecipientDetails);
             commentRow.withLinkToCommentsPage(link);
             
             rows.add(commentRow);
