@@ -242,19 +242,22 @@ testTasksMap.each { taskNamePrefix, testNames ->
         args "-testnames", "$testNames"
         args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
         args "src/test/testng.xml"
-
-        ignoreExitValue = true
+        errorOutput = {
+            def f = File.createTempFile("err", null)
+            f.deleteOnExit()
+            f.newOutputStream()
+        }()
         jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
         dependsOn "appengineRun", "cleanTestOutput"
         finalizedBy "appengineStop", "killFirefox1", "testOutput"
     }
 }
 
-task cleanTestOutput {
+task cleanTestOutput << {
     def testOutputDir = new File("test-output")
     testOutputDir.deleteDir()
-    outputs.upToDateWhen { false }
 }
+cleanTestOutput.outputs.upToDateWhen { false }
 
 task testOutput(type: Exec) {
     onlyIf {
@@ -283,8 +286,27 @@ task singleTest(type: JavaExec) {
     if (project.hasProperty("testMethods")) {
         args "-methods", testMethods
     }
+    errorOutput = {
+        def f = File.createTempFile("err", null)
+        f.deleteOnExit()
+        f.newOutputStream()
+    }()
     jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
-    ignoreExitValue = true
     dependsOn "appengineRun", "cleanTestOutput"
     finalizedBy "appengineStop", "killFirefox1", "testOutput"
+}
+
+task failedTests(type: JavaExec) {
+    onlyIf {
+        file("test-output/testng-failed.xml").exists()
+    }
+    classpath = sourceSets.test.runtimeClasspath
+    main = "org.testng.TestNG"
+    args "-configfailurepolicy", "continue"
+    args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+    args "test-output/testng-failed.xml"
+    jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+    dependsOn "appengineRun"
+    finalizedBy "appengineStop", "killFirefox1", "testOutput"
+
 }
