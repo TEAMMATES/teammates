@@ -32,8 +32,6 @@ public class InstructorFeedbackDeleteAction extends Action {
         statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span> "
                         + "from Course: <span class=\"bold\">[" + courseId + " deleted.";
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
-        
         return createRedirectResult(nextUrl);
     }
 
