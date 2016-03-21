@@ -75,7 +75,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(courseId, pageData.getCourseId());
         
         StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
-                "Exchange student", courseId, "Team 1", "Section 3");
+                                                             "Exchange student", courseId, "Team 1", "Section 3");
         newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.getEnrollResultPanelList());
 
