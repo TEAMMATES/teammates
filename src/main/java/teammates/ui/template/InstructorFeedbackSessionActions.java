@@ -37,6 +37,8 @@ public class InstructorFeedbackSessionActions {
                                             InstructorAttributes instructor) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
+        String returnUrl = isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                                  : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
 
         this.privateSession = session.isPrivateSession();
 
@@ -49,7 +51,7 @@ public class InstructorFeedbackSessionActions {
                                                                       (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
                                                                               : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE));
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
-        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName);
+        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
         this.remindParticularStudentsLink = data.getInstructorFeedbackRemindParticularStudentsLink(courseId,
                                                                                                      feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
