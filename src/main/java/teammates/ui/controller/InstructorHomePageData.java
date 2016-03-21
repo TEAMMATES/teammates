@@ -12,11 +12,10 @@ public class InstructorHomePageData extends PageData {
     private boolean isSortingDisabled;
     private List<CourseTable> courseTables;
     private String sortCriteria;
-    private String remindParticularStudentActionLink;
+    
     
     public InstructorHomePageData(AccountAttributes account) {
         super(account);
-        remindParticularStudentActionLink = getInstructorFeedbackRemindParticularStudentActionLink(true);
     }
     
     public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
@@ -35,15 +34,6 @@ public class InstructorHomePageData extends PageData {
     
     public List<CourseTable> getCourseTables() {
         return courseTables;
-    }
-
-    /**
-     * Retrieves the form submit link of reminding particular student with 
-     * link of page to return after completing.
-     * @return form submit action link
-     */
-    public String getRemindParticularStudentActionLink() {
-        return remindParticularStudentActionLink;
     }
     
     private void setCourseTables(List<CourseSummaryBundle> courses) {

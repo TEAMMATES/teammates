@@ -31,12 +31,10 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
 
-    private String remindParticularStudentActionLink;
 
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
 
-        remindParticularStudentActionLink = getInstructorFeedbackRemindParticularStudentActionLink(false);
     }
 
     public boolean isUsingAjax() {
@@ -282,14 +280,6 @@ public class InstructorFeedbacksPageData extends PageData {
         return result;
     }
 
-    /**
-     * Retrieves the form submit link of reminding particular student with 
-     * link of page to return after completing.
-     * @return form submit action link
-     */
-    public String getRemindParticularStudentActionLink() {
-        return remindParticularStudentActionLink;
-    }
 
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;

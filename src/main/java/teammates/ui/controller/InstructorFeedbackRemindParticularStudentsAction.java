@@ -12,9 +12,6 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -24,7 +21,7 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         String[] usersToRemind = getRequestParamValues("usersToRemind");
         if (usersToRemind == null || usersToRemind.length == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT, StatusMessageColor.DANGER));
-            return createRedirectResult(nextUrl);
+            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         }
         
         logic.sendReminderForFeedbackSessionParticularUsers(courseId,
@@ -38,6 +35,6 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
         statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName 
                          + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
         
-        return createRedirectResult(nextUrl);
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
 }

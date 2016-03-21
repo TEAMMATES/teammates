@@ -13,7 +13,7 @@
     <home:search />
     <br />
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    <ti:remindParticularStudentsModal remindParticularStudentActionLink="${data.remindParticularStudentActionLink}" />
+    <ti:remindParticularStudentsModal />
     <c:if test="${data.account.instructor}">
         <home:sort isSortButtonsDisabled="${data.sortingDisabled}"/>
         <br />

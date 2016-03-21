@@ -566,21 +566,10 @@ public class PageData {
         return link;
     }
     
-    /**
-     * Retrieves the link to submit request to remind all students in the session.
-     * @param courseID the course ID
-     * @param feedbackSessionName the session name
-     * @param isHome true to indicate the request is from the home page
-     * @return the link to submit request to remind all students with return page link
-     */
-    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName, boolean isHome) {
+    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL, 
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -590,21 +579,6 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
-        return link;
-    }
-
-    /**
-     * Retrieves the link to submit request to remind particular students in the session.
-     * @param isHome true to indicate the request is from the home page
-     * @return the link to submit request to remind particular students with return page link
-     */
-    public String getInstructorFeedbackRemindParticularStudentActionLink(boolean isHome) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
-        link = Url.addParamToUrl(link, 
-                                        Const.ParamsNames.NEXT_URL, 
-                                        (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
-                                                : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
-        
         return link;
     }
     
