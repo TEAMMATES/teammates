@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseSummaryBundle;
+import teammates.common.util.Const;
 import teammates.ui.template.CourseTable;
 
 public class InstructorHomePageData extends PageData {
@@ -12,10 +13,11 @@ public class InstructorHomePageData extends PageData {
     private boolean isSortingDisabled;
     private List<CourseTable> courseTables;
     private String sortCriteria;
-
+    private String remindParticularStudentActionLink;
     
     public InstructorHomePageData(AccountAttributes account) {
         super(account);
+        remindParticularStudentActionLink = getInstructorFeedbackRemindParticularStudentActionLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
     
     public void init(List<CourseSummaryBundle> courseList, String sortCriteria) {
@@ -34,6 +36,15 @@ public class InstructorHomePageData extends PageData {
     
     public List<CourseTable> getCourseTables() {
         return courseTables;
+    }
+    
+    /**
+     * Retrieves the link to submit the request for remind of particular student.
+     * Also contains home page link to return after the action.
+     * @return form submit action link
+     */
+    public String getRemindParticularStudentActionLink() {
+        return remindParticularStudentActionLink;
     }
     
     private void setCourseTables(List<CourseSummaryBundle> courses) {
