@@ -471,7 +471,19 @@ public class PageData {
         return link;
     }
     
-  
+    /**
+     * Retrieves the link to submit the request for copy of session.
+     * Appends the return url to the link.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackEditCopyActionLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        
+        return link;
+    }
+    
     /**
      * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
