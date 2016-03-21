@@ -441,7 +441,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     }
 
     @Test
-    public void testhasDefaultPrivileges() {
+    public void testHasDefaultPrivileges() {
 
         InstructorPrivileges coownerPrivileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         assertTrue(coownerPrivileges.hasCoownerPrivileges());
