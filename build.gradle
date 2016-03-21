@@ -7,6 +7,9 @@ def numOfTestRetries = 5
 def isTravis = System.getenv("TRAVIS") != null
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
 buildscript {
     repositories {
         mavenCentral()
@@ -101,7 +104,7 @@ sourceSets {
 appengine {
     httpPort = 8888
     downloadSdk = true
-    jvmFlags = ["-Duser.timezone=UTC-Xss2m"]
+    jvmFlags = ["-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"]
     appcfg {
         oauth2 = true
     }
@@ -131,10 +134,13 @@ enhancerRun.dependsOn project.classes
 (1..numOfTestRetries + 1).each { id ->
     task "killFirefox${id}"(type: Exec) {
         if (isWindows) {
-            commandLine "Taskkill", "/F", "/IM", "firefox.exe"
+            commandLine "TASKKILL", "/F", "/IM", "firefox.exe"
         } else {
             commandLine "pkill", "firefox"
         }
+        // Silence output for this task
+        standardOutput = new ByteArrayOutputStream()
+        errorOutput = standardOutput
         ignoreExitValue = true
         outputs.upToDateWhen { false }
     }
@@ -168,15 +174,15 @@ test {
     ignoreFailures = numOfTestRetries != 0 ? true : false
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    afterTest afterTestClosure 
+    afterTest afterTestClosure
     finalizedBy = ["killFirefox1"]
     testLogging {
         events "passed"
     }
     if (isTravis) {
-        jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
     } else {
-        jvmArgs "-Duser.timezone=UTC-Xss2m"
+        jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
     }
     dependsOn "enhancerRun"
 }
@@ -212,9 +218,9 @@ task appengineTest {
             file("build/reports/test-try-${id}/testng-failed.xml").exists()
         }
         if (isTravis) {
-            jvmArgs "-Duser.timezone=UTC-Xss2m",  "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
         } else {
-            jvmArgs "-Duser.timezone=UTC-Xss2m"
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
         }
     }
     appengineTest.dependsOn "testRetry${id}"
@@ -236,12 +242,9 @@ testTasksMap.each { taskNamePrefix, testNames ->
         args "-testnames", "$testNames"
         args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
         args "src/test/testng.xml"
-        errorOutput = {
-            def f = File.createTempFile("err", null)
-            f.deleteOnExit()
-            f.newOutputStream()
-        }()
+
         ignoreExitValue = true
+        jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
         dependsOn "appengineRun", "cleanTestOutput"
         finalizedBy "appengineStop", "killFirefox1", "testOutput"
     }
@@ -280,11 +283,7 @@ task singleTest(type: JavaExec) {
     if (project.hasProperty("testMethods")) {
         args "-methods", testMethods
     }
-    errorOutput = {
-        def f = File.createTempFile("err", null)
-        f.deleteOnExit()
-        f.newOutputStream()
-    }()
+    jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
     ignoreExitValue = true
     dependsOn "appengineRun", "cleanTestOutput"
     finalizedBy "appengineStop", "killFirefox1", "testOutput"
