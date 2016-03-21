@@ -252,6 +252,7 @@ def testTasksMap = [
     "rare": "rare-tests",
     "component": "component-tests",
     "occasional": "occasional-tests",
+    "ui": "sequential-ui-tests,parallel-ui-tests",
     "staging": "component-tests,sequential-ui-tests,parallel-ui-tests"
 ]
 testTasksMap.each { taskNamePrefix, testNames ->
