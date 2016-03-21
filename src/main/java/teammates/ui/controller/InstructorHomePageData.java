@@ -12,7 +12,7 @@ public class InstructorHomePageData extends PageData {
     private boolean isSortingDisabled;
     private List<CourseTable> courseTables;
     private String sortCriteria;
-    
+
     
     public InstructorHomePageData(AccountAttributes account) {
         super(account);

@@ -30,11 +30,11 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsTable fsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
-
+    
 
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
-
+        
     }
 
     public boolean isUsingAjax() {
@@ -279,7 +279,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         return result;
     }
-
+    
 
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;

@@ -37,7 +37,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
-
+        
     }
     
 
