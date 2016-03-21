@@ -33,14 +33,14 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackSessionPreviewForm previewForm;
     private FeedbackQuestionCopyTable copyQnForm;
     private String statusForAjax;
+    private String editCopyActionLink;
     private boolean hasError;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
-        
+        editCopyActionLink = getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
     
-
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
                      List<FeedbackQuestionAttributes> copiableQuestions, 
                      Map<String, Boolean> questionHasResponses,
@@ -307,6 +307,15 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public void setStatusForAjax(String statusForAjax) {
         this.statusForAjax = statusForAjax;
+    }
+
+    /**
+     * Retrieves the link to submit the request for copy of session. 
+     * Also contains feedback page link to return after the action.
+     * @return form submit action link
+     */
+    public String getEditCopyActionLink() {
+        return editCopyActionLink;
     }
 
     public boolean getHasError() {
