@@ -29,7 +29,7 @@
      
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-    <ti:copyModal />
+    <ti:copyModal editActionLink="${data.editActionLink}" />
     
     <c:if test="${empty data.qnForms}">
         <br>
