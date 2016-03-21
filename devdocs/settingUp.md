@@ -277,6 +277,8 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     TestNG is a Java test automation framework.
 * **QUnit** [version 1.10.0]
     QUnit is a JavaScript unit test suite.
+* **Blanket.js** [version 1.2.1]
+    Blanket.js is an easy to use JavaScript code coverage library that works both in-browser and with nodejs.
 * **NekoHtml** [version 1.9.22]
     NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
     NekoHTML is included in the Selenium libraries.
