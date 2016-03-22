@@ -207,7 +207,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: edit an instructor");
         
         courseEditPage.editInstructor(instructorId, "New name", "new_email@email.tmt");
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
         
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
         int instructorIndex = 1;
