@@ -514,17 +514,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 .setProfilePictureLink(getProfilePictureIfEmailValid(secondaryParticipantIdentifier));
             
             if (!viewType.isPrimaryGroupingOfGiverType()) {
-                boolean isStudent = bundle.roster.getStudentForEmail(secondaryParticipantIdentifier) != null;
-                boolean isVisibleTeam = isTeamVisible(secondaryParticipantDisplayableName);
-                boolean isInstructor = bundle.roster.getInstructorForEmail(secondaryParticipantIdentifier) != null;
                 String sectionName = bundle.getSectionFromRoster(secondaryParticipantIdentifier);
-                boolean isAllowedToModerate = (isStudent || isVisibleTeam || isInstructor) 
-                                           && instructor.isAllowedForPrivilege(
-                                                  sectionName, feedbackSessionName, 
-                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                boolean isShowingModerationButton = (isStudent || isVisibleTeam || isInstructor) 
-                                                 && isAllowedToModerate;
-                secondaryParticipantPanel.setModerationButton(isShowingModerationButton
+                boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, feedbackSessionName);
+
+                secondaryParticipantPanel.setModerationButton(isAllowedToModerate
                                                             ? buildModerationButtonForGiver(null, secondaryParticipantIdentifier, 
                                                                                             "btn btn-default btn-xs", 
                                                                                             MODERATE_RESPONSES_FOR_GIVER)
@@ -1504,9 +1497,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             return null;
         }
         
-        boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverIdentifier), 
-                                                         getFeedbackSessionName(), 
-                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        String sectionName = bundle.getSectionFromRoster(giverIdentifier);
+        boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, getFeedbackSessionName());
         boolean isDisabled = !isAllowedToModerate;
         String moderateFeedbackResponseLink = isGiverInstructorOfCourse ? Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE
                                                                         : Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
@@ -1691,9 +1683,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             String sectionName = bundle.getSectionFromRoster(giverIdentifier);
-            boolean isAllowedToModerate = instructor.isAllowedForPrivilege(
-                                               sectionName, feedbackSessionName, 
-                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            boolean isAllowedToModerate = isAllowedToModerate(instructor, sectionName, feedbackSessionName);
             String moderateFeedbackLink = isStudent ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE
                                                             : Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE;
             moderateFeedbackLink = addUserIdToUrl(moderateFeedbackLink);
@@ -1799,6 +1789,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     private String getInstructorFeedbackSessionResultsLink() {
         return getInstructorFeedbackResultsLink(bundle.feedbackSession.courseId, bundle.feedbackSession.feedbackSessionName);
+    }
+    
+    private boolean isAllowedToModerate(InstructorAttributes instructor, String sectionName, String feedbackSessionName) {
+        return instructor.isAllowedForPrivilege(sectionName, feedbackSessionName, 
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
     
     public boolean isAllSectionsSelected() {
