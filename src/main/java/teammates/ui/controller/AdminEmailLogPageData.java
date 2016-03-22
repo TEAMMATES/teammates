@@ -111,7 +111,7 @@ public class AdminEmailLogPageData extends PageData {
         query = query.replaceAll(": ", ":");
         String[] tokens = query.split("\\|", -1); 
        
-        System.out.print(tokens.length);
+        //Removed the system.out.print from this page and AdminEmailLogPageData "System.out.print(tokens.length);"
         
         for(int i = 0; i < tokens.length; i++){           
             String[] pair = tokens[i].split(":", -1);
