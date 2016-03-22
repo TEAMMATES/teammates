@@ -33,12 +33,10 @@ public class InstructorFeedbackEditPageData extends PageData {
     private FeedbackSessionPreviewForm previewForm;
     private FeedbackQuestionCopyTable copyQnForm;
     private String statusForAjax;
-    private String editCopyActionLink;
     private boolean hasError;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
-        editCopyActionLink = getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
     
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
@@ -315,7 +313,7 @@ public class InstructorFeedbackEditPageData extends PageData {
      * @return form submit action link
      */
     public String getEditCopyActionLink() {
-        return editCopyActionLink;
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
 
     public boolean getHasError() {
