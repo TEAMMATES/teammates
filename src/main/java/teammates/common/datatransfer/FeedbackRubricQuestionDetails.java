@@ -56,11 +56,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters, 
                                                                               numOfRubricChoices, numOfRubricSubQuestions);
         
-        int numActualChoices = rubricChoices.size();
-        int numActualSubQuestions = rubricSubQuestions.size();
-        
         // Set details
-        setRubricQuestionDetails(numActualChoices, rubricChoices, numActualSubQuestions, 
+        setRubricQuestionDetails(rubricChoices.size(), rubricChoices, rubricSubQuestions.size(), 
                                  rubricSubQuestions, rubricDescriptions);
         
         if (!this.isValidDescriptionSize()) {
@@ -531,12 +528,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return getPercentageFrequencyAndAverage(responseFrequency, fqd);
     }
 
+    /**
+     * gets the result of the percentage frequency for each choice and average value for each subquestion
+     */
     private float[][] getPercentageFrequencyAndAverage(int[][] responseFrequency, 
                                                        FeedbackRubricQuestionDetails fqd) {
         float[][] percentageFrequencyOrAverage = initializePercentageFrequenciesAndAverageValue(responseFrequency, fqd);
         return calculatePercentageFrequencyAndAverageValue(responseFrequency, fqd, percentageFrequencyOrAverage);
     }
 
+    /**
+     * Calculates the response frequency for each choice
+     */
     private int[][] calculateResponseFrequency(
             List<FeedbackResponseAttributes> responses,
             FeedbackRubricQuestionDetails fqd) {
@@ -561,6 +564,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return responseFrequency;
     }
     
+    /**
+     * Initializes a 2D float array percentageFrequencyOrAverage using response frequency statistics
+     */
     private float[][] initializePercentageFrequenciesAndAverageValue(int[][] responseFrequency, 
                                                                      FeedbackRubricQuestionDetails fqd) {
         
@@ -577,6 +583,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return percentageFrequencyOrAverage;
     }
    
+    /**
+     * Calculates the percentage frequency for each choice and the average value for each subquestion
+     * using the response frequency statistics
+     */
     private float[][] calculatePercentageFrequencyAndAverageValue(int[][] responseFrequency,
                                                                   FeedbackRubricQuestionDetails fqd, 
                                                                   float[][] percentageFrequencyOrAverage) {
