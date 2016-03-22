@@ -651,22 +651,22 @@ function disableRow(elem, row) {
     $tdElements.parent().hide();
 }
 
-function feedbackRecipientUpdateVisibilityOptions(recipientType) {
-    $recipientType = $(recipientType);
-    if (isRecipientsTeamMembersVisibilityOptionValidForRecipientType($recipientType.val())) {
+function feedbackRecipientUpdateVisibilityOptions(elem) {
+    var $elem = $(elem);
+    if (isRecipientsTeamMembersVisibilityOptionValidForRecipientType($elem.val())) {
         // show the row Recipient(s) and hide the row Recipient's Team Members
-        enableRow($recipientType, 1);
-        disableRow($recipientType, 3);
+        enableRow($elem, 1);
+        disableRow($elem, 3);
         return;
-    } else if ($recipientType.val() === 'NONE') {
+    } else if ($elem.val() === 'NONE') {
         // hide both the row Recipient(s) and the row Recipient's Team Members
-        disableRow($recipientType, 3);
-        disableRow($recipientType, 1);
+        disableRow($elem, 3);
+        disableRow($elem, 1);
         return;
     }
     
-    enableRow($recipientType, 1);
-    enableRow($recipientType, 3);
+    enableRow($elem, 1);
+    enableRow($elem, 3);
 }
 
 function isRecipientsTeamMembersVisibilityOptionValidForRecipientType(recipientType) {
