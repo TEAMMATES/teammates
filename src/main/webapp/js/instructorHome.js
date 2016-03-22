@@ -3,10 +3,10 @@ var CURRENT_YEAR = (new Date()).getFullYear();
 
 $(document).ready(function() {
 
-    bindDeleteButton();
-    bindRemindButton();
-    bindPublishButton();
-    bindUnpublishButton();
+    bindDeleteButtons();
+    bindRemindButtons();
+    bindPublishButtons();
+    bindUnpublishButtons();
     
     setupFsCopyModal();
     

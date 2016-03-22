@@ -220,10 +220,10 @@ function readyFeedbackPage() {
     loadSessionsByAjax();
     bindUncommonSettingsEvents();
 
-    bindDeleteButton();
-    bindRemindButton();
-    bindPublishButton();
-    bindUnpublishButton();
+    bindDeleteButtons();
+    bindRemindButtons();
+    bindPublishButtons();
+    bindUnpublishButtons();
 
     updateUncommonSettingsInfo();
     hideUncommonPanels();

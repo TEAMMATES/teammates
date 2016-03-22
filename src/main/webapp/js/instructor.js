@@ -305,7 +305,7 @@ function bindStudentPhotoHoverLink(elements) {
     });
 }
 
-function bindDeleteButton() {
+function bindDeleteButtons() {
     $('body').on('click', '.session-delete-for-test', function(e) {
 
         var $button = $(this);
@@ -316,7 +316,7 @@ function bindDeleteButton() {
     });
 }
 
-function bindRemindButton() {
+function bindRemindButtons() {
     $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(e) {
         if (!toggleRemindStudents($(this).data('fsname'))) {
             e.preventDefault();
@@ -324,7 +324,7 @@ function bindRemindButton() {
     });
 }
 
-function bindPublishButton() {
+function bindPublishButtons() {
     $('body').on('click', '.session-publish-for-test', function(e) {
  
         var $button = $(this);
@@ -335,7 +335,7 @@ function bindPublishButton() {
     });
 }
 
-function bindUnpublishButton() {
+function bindUnpublishButtons() {
     $('body').on('click', '.session-unpublish-for-test', function(e) {
         return toggleUnpublishEvaluation($(this).data('fsname'));
     });

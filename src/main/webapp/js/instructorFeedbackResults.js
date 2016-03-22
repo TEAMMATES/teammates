@@ -316,6 +316,6 @@ $(document).ready(function() {
     var panels = $('div.panel');
     bindCollapseEvents(panels, 0);
     
-    bindPublishButton();
-    bindUnpublishButton();
+    bindPublishButtons();
+    bindUnpublishButtons();
 });
