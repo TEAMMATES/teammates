@@ -209,6 +209,15 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
+     * Clicks 'Comments for students' panel heading of the comment panel to either expand/collapse the panel body.
+     */
+    public void clickSingleCommentsPanelHeading() {
+        WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));;
+
+        e.findElement(By.cssSelector(".panel-heading")).click();        
+    }
+    
+    /**
      * Clicks all the headings of the comment panel to either expand/collapse the panel body.
      */
     public void clickAllCommentsPanelHeading() {
@@ -257,6 +266,15 @@ public class InstructorCommentsPage extends AppPage {
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         
+        waitForElementToDisappear(panelCollapseSelector);
+    }
+    
+    /**
+     * Waits for 'comments for students' panel to collapse.
+     */
+    public void waitForSinglePanelsToCollapse() {
+        By panelCollapseSelector = By.cssSelector("div[id='panel_display-1']").cssSelector(".panel-heading+.panel-collapse");
+               
         waitForElementToDisappear(panelCollapseSelector);
     }
     

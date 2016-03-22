@@ -20,7 +20,7 @@
     </c:otherwise>
 </c:choose>
 <div class="panel panel-primary">
-    <div class="panel-heading cursor-pointer" data-toggle="collapse"
+    <div class="panel-heading cursor-pointer"  data-toggle="collapse"
         data-target="#panelBodyCollapse" onclick="toggleChevron(this)">
         <div class="display-icon pull-right">
             <span class="glyphicon glyphicon-chevron-up pull-right"></span>
