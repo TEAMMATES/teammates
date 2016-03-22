@@ -174,7 +174,7 @@
             "courseId":"idOfTypicalCourse1",
             "name":"Helper1 Course1",
             "email":"helper1@course1.tmt",
-            "role":"Helper",
+            "role":"Custom",
             "isDisplayedToStudents":false,
             "displayedName":"Helper",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -184,7 +184,7 @@
             "courseId":"idOfTypicalCourse1",
             "name":"Helper2 Course1",
             "email":"helper2@course1.tmt",
-            "role":"Helper",
+            "role":"Custom",
             "isDisplayedToStudents":false,
             "displayedName":"Helper",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"

@@ -98,7 +98,7 @@
       "courseId": "CCDetailsUiT.CS2103",
       "name": "Teammates Test 2",
       "email": "CCDetailsUiT.instr2Helper@gmail.tmt",
-      "role":"Helper",
+      "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"

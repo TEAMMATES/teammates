@@ -92,7 +92,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "name":"Instructor2 Course1",
             "email":"searchUI.Helper@course1.tmt",
-            "role":"Helper",
+            "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"

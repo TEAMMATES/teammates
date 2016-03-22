@@ -160,7 +160,7 @@
             "courseId":"idOfTypicalCourse1.access",
             "name":"Helper Course1",
             "email":"helper@course1.tmt",
-            "role":"Helper",
+            "role":"Custom",
             "isDisplayedToStudents":false,
             "displayedName":"Helper",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
