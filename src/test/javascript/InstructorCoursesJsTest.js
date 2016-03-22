@@ -85,6 +85,22 @@ QUnit.test('getCourseNameInvalidityInfo(courseId)', function(assert) {
         'Course name too long');
 });
 
+function testGetCourseTimeZoneInvalidityInfo() {}
+
+QUnit.test('getCourseTimeZoneInvalidityInfo(courseTimeZone)', function(assert) {
+
+    // valid cases
+    assert.equal(getCourseTimeZoneInvalidityInfo('Asia/Singapore'), '', 'Course time zone valid #1');
+    assert.equal(getCourseTimeZoneInvalidityInfo('Australia/Adelaide'), '', 'Course time zone valid #2');
+    assert.equal(getCourseTimeZoneInvalidityInfo('America/Los_Angeles'), '', 'Course time zone valid #3');
+    assert.equal(getCourseTimeZoneInvalidityInfo('UTC'), '', 'Course time zone valid #4');
+
+    // invalid case
+    assert.equal(getCourseTimeZoneInvalidityInfo('InvalidTimeZone'),
+            DISPLAY_COURSE_INVALID_TIME_ZONE + '<br>',
+            'Course time zone invalid');
+});
+
 function testCheckAddCourseParam() {}
 
 QUnit.test('checkAddCourseParam(courseID, courseName)', function(assert) {
@@ -101,14 +117,20 @@ QUnit.test('checkAddCourseParam(courseID, courseName)', function(assert) {
         DISPLAY_COURSE_LONG_NAME + '<br>',
         'Course name too long');
 
+    assert.equal(checkAddCourseParam('valid.course-id', 'Software Engineering', 'InvalidTimeZone'),
+        DISPLAY_COURSE_INVALID_TIME_ZONE + '<br>',
+        'Course time zone invalid');
+
     assert.equal(checkAddCourseParam('', '', ''),
         DISPLAY_COURSE_COURSE_ID_EMPTY + '<br>' +
-        DISPLAY_COURSE_COURSE_NAME_EMPTY + '<br>',
+        DISPLAY_COURSE_COURSE_NAME_EMPTY + '<br>' +
+        DISPLAY_COURSE_INVALID_TIME_ZONE + '<br>',
         'both values are invalid');
 
     assert.equal(checkAddCourseParam('invalid course id', generateRandomString(COURSE_NAME_MAX_LENGTH + 1), 'googid|Instructor1|'),
         DISPLAY_COURSE_INVALID_ID + '<br>' +
-        DISPLAY_COURSE_LONG_NAME + '<br>',
+        DISPLAY_COURSE_LONG_NAME + '<br>' +
+        DISPLAY_COURSE_INVALID_TIME_ZONE + '<br>',
         'both values are invalid');
 
 });
