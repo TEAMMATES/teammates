@@ -2,6 +2,7 @@ package teammates.test.cases.common;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -104,6 +106,29 @@ public class CommentAttributesTest extends BaseTestCase {
         List<String> errorMemssage = comment.getInvalidityInfo();
         assertEquals(4, errorMemssage.size());
         assertEquals(expectedErrorMessage.toString(), errorMemssage.toString());
+    }
+    
+    @Test
+    public void testSanitize() {
+        String invalidRecipientId = "invalid-recipients-&-#-'-\\-/-\"";
+        Set<String> recipientsToSanitize = new HashSet<String>();
+        recipientsToSanitize.add(invalidRecipientId);
+        
+        CommentAttributes comment = new CommentAttributes(
+                courseId,
+                giverEmail,
+                recipientType,
+                recipientsToSanitize,
+                createdAt,
+                commentText
+                );
+        
+        ______TS("Sanitize potentially harmful characters");
+        
+        comment.sanitizeForSaving();
+        for(String recipientId : comment.recipients){
+            assertEquals(Sanitizer.sanitizeForHtml(invalidRecipientId), recipientId);
+        }
     }
     
     @AfterClass
