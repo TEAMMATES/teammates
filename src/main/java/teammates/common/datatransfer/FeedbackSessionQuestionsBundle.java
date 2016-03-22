@@ -105,7 +105,27 @@ public class FeedbackSessionQuestionsBundle {
 
         return result;
     }
+    
+    /**
+     * Removes question from the bundle if the question has givers, recipients or responses that are anonymous to instructors.
+     */
+    public void hideQuestionsWithAnonymousResponses() {
+        List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
+        
+        for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
+            boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isRecipientVisibleToInstructor = question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
+            if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
+                questionsToHide.add(question);
+                questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
+            }
+        }
+        
+        questionResponseBundle.keySet().removeAll(questionsToHide);
+    }
+    
     /**
      * Empties responses for all questions in this bundle.
      * Used to not show existing responses when previewing as instructor
