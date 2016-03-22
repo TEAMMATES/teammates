@@ -12,6 +12,6 @@
     <c:if test="${moderationButton.questionNumber != -1}">
         <input type="hidden" name="moderatedquestion" value="${moderationButton.questionNumber}">
     </c:if>
-    <input type="hidden" name="moderatedstudent" value="${moderationButton.giverIdentifier}">
+    <input type="hidden" name="moderatedperson" value="${moderationButton.giverIdentifier}">
 </form>
 
