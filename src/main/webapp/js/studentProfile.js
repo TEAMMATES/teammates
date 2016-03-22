@@ -96,9 +96,7 @@ function finaliseUploadPictureForm(event) {
         },
         error: function() {
             $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
-            $('#statusMessage').css("display", "block")
-                    .attr('class', 'alert alert-danger')
-                    .html('There seems to be a network error, please try again later');
+            setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
             scrollToTop({duration: ''});
         },
         success: function(data) {
@@ -110,9 +108,7 @@ function finaliseUploadPictureForm(event) {
                 $('#profilePictureUploadForm').submit();
             } else {
                 $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
-                $('#statusMessage').css("display", "block")
-                        .attr('class', 'alert alert-danger')
-                        .html('There seems to be a network error, please try again later');
+                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
                 scrollToTop({duration: ''});
             }
         }

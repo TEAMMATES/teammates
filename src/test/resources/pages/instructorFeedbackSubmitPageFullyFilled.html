@@ -9,8 +9,10 @@
     <input name="fsname" type="hidden" value="First Session">
     <input name="courseid" type="hidden" value="IFSubmitUiT.CS2104">
     <input name="user" type="hidden" value="IFSubmitUiT.instr">
-    <div id="statusMessage" style="display: none;">
+    <div id="statusMessagesToUser" style="display: none;">
     </div>
+    <script src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">
@@ -103,7 +105,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -156,7 +158,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.alice.b@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.alice.b@gmail.tmt">
                   Alice Betsy
                 </option>
                 <option value="IFSubmitUiT.benny.c@gmail.tmt">
@@ -207,7 +209,7 @@
                 <option value="IFSubmitUiT.danny.e@gmail.tmt">
                   Danny Engrid
                 </option>
-                <option selected="selected" value="drop.out@gmail.tmt">
+                <option selected="" value="drop.out@gmail.tmt">
                   Drop out
                 </option>
                 <option value="IFSubmitUiT.emily.f@gmail.tmt">
@@ -252,7 +254,7 @@
                 <option value="IFSubmitUiT.emily.f@gmail.tmt">
                   Emily
                 </option>
-                <option selected="selected" value="extra.guy@gmail.tmt">
+                <option selected="" value="extra.guy@gmail.tmt">
                   Extra guy
                 </option>
               </select>
@@ -299,7 +301,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="%GENERAL%">
+                <option selected="" value="%GENERAL%">
                   %GENERAL%
                 </option>
               </select>
@@ -349,7 +351,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr2@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
@@ -385,7 +387,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr3@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
@@ -421,7 +423,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr4@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr4@gmail.tmt">
                   Teammates Test4
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
@@ -457,7 +459,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
                   Teammates Test4
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr5@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr5@gmail.tmt">
                   Teammates Test5
                 </option>
               </select>
@@ -510,7 +512,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-5-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -525,7 +527,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-5-0" type="radio" value="UI">
+                          <input checked="" name="responsetext-5-0" type="radio" value="UI">
                           UI
                         </label>
                       </div>
@@ -581,7 +583,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-6-0" style="width:275px;max-width:275px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr2@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
@@ -602,7 +604,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-6-0" type="radio" value="UI">
+                          <input checked="" name="responsetext-6-0" type="radio" value="UI">
                           UI
                         </label>
                       </div>
@@ -635,7 +637,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr3@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
@@ -653,7 +655,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-6-1" type="radio" value="UI">
+                          <input checked="" name="responsetext-6-1" type="radio" value="UI">
                           UI
                         </label>
                       </div>
@@ -689,7 +691,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr4@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr4@gmail.tmt">
                   Teammates Test4
                 </option>
                 <option value="IFSubmitUiT.instr5@gmail.tmt">
@@ -704,7 +706,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-6-2" type="radio" value="UI">
+                          <input checked="" name="responsetext-6-2" type="radio" value="UI">
                           UI
                         </label>
                       </div>
@@ -763,7 +765,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -778,7 +780,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-7-0" type="checkbox" value="UI">
+                          <input checked="" name="responsetext-7-0" type="checkbox" value="UI">
                           UI
                         </label>
                       </div>
@@ -788,7 +790,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-7-0" type="checkbox" value="Algo">
+                          <input checked="" name="responsetext-7-0" type="checkbox" value="Algo">
                           Algo
                         </label>
                       </div>
@@ -798,7 +800,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-7-0" type="checkbox" value="Design">
+                          <input checked="" name="responsetext-7-0" type="checkbox" value="Design">
                           Design
                         </label>
                       </div>
@@ -856,7 +858,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-8-0" style="width:275px;max-width:275px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr2@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
@@ -887,7 +889,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-8-0" type="checkbox" value="Algo">
+                          <input checked="" name="responsetext-8-0" type="checkbox" value="Algo">
                           Algo
                         </label>
                       </div>
@@ -932,7 +934,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr3@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
@@ -970,7 +972,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-8-1" type="checkbox" value="Design">
+                          <input checked="" name="responsetext-8-1" type="checkbox" value="Design">
                           Design
                         </label>
                       </div>
@@ -1008,7 +1010,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr4@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr4@gmail.tmt">
                   Teammates Test4
                 </option>
                 <option value="IFSubmitUiT.instr5@gmail.tmt">
@@ -1023,7 +1025,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-8-2" type="checkbox" value="UI">
+                          <input checked="" name="responsetext-8-2" type="checkbox" value="UI">
                           UI
                         </label>
                       </div>
@@ -1104,7 +1106,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -1159,7 +1161,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-9-0" type="radio" value="Drop out (Team 2)">
+                          <input checked="" name="responsetext-9-0" type="radio" value="Drop out (Team 2)">
                           Drop out (Team 2)
                         </label>
                       </div>
@@ -1228,7 +1230,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -1243,7 +1245,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-10-0" type="checkbox" value="Alice Betsy (Team 1)">
+                          <input checked="" name="responsetext-10-0" type="checkbox" value="Alice Betsy (Team 1)">
                           Alice Betsy (Team 1)
                         </label>
                       </div>
@@ -1253,7 +1255,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-10-0" type="checkbox" value="Benny Charles (Team 1)">
+                          <input checked="" name="responsetext-10-0" type="checkbox" value="Benny Charles (Team 1)">
                           Benny Charles (Team 1)
                         </label>
                       </div>
@@ -1263,7 +1265,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-10-0" type="checkbox" value="Charlie Davis (Team 2)">
+                          <input checked="" name="responsetext-10-0" type="checkbox" value="Charlie Davis (Team 2)">
                           Charlie Davis (Team 2)
                         </label>
                       </div>
@@ -1303,7 +1305,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-10-0" type="checkbox" value="Extra guy (Team 2)">
+                          <input checked="" name="responsetext-10-0" type="checkbox" value="Extra guy (Team 2)">
                           Extra guy (Team 2)
                         </label>
                       </div>
@@ -1364,7 +1366,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -1389,7 +1391,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-11-0" type="radio" value="Team 2">
+                          <input checked="" name="responsetext-11-0" type="radio" value="Team 2">
                           Team 2
                         </label>
                       </div>
@@ -1448,7 +1450,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -1463,7 +1465,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-12-0" type="checkbox" value="Team 1">
+                          <input checked="" name="responsetext-12-0" type="checkbox" value="Team 1">
                           Team 1
                         </label>
                       </div>
@@ -1483,7 +1485,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-12-0" type="checkbox" value="Team 3">
+                          <input checked="" name="responsetext-12-0" type="checkbox" value="Team 3">
                           Team 3
                         </label>
                       </div>
@@ -1544,7 +1546,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -1600,7 +1602,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-14-0" style="width:275px;max-width:275px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr2@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
@@ -1639,7 +1641,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                   Teammates Test2
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr3@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
                 <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
@@ -1678,7 +1680,7 @@
                 <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
                   Teammates Test3
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr4@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr4@gmail.tmt">
                   Teammates Test4
                 </option>
                 <option value="IFSubmitUiT.instr5@gmail.tmt">
@@ -1737,7 +1739,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -1762,7 +1764,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-15-0" type="radio" value="Teammates Test2">
+                          <input checked="" name="responsetext-15-0" type="radio" value="Teammates Test2">
                           Teammates Test2
                         </label>
                       </div>
@@ -1841,7 +1843,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -1856,7 +1858,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-16-0" type="checkbox" value="Teammates Test">
+                          <input checked="" name="responsetext-16-0" type="checkbox" value="Teammates Test">
                           Teammates Test
                         </label>
                       </div>
@@ -1876,7 +1878,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-16-0" type="checkbox" value="Teammates Test3">
+                          <input checked="" name="responsetext-16-0" type="checkbox" value="Teammates Test3">
                           Teammates Test3
                         </label>
                       </div>
@@ -1957,7 +1959,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -2039,7 +2041,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="Team 1">
+                <option selected="" value="Team 1">
                   Team 1
                 </option>
                 <option style="display: none;" value="Team 2">
@@ -2091,7 +2093,7 @@
                 <option style="display: none;" value="Team 1">
                   Team 1
                 </option>
-                <option selected="selected" value="Team 2">
+                <option selected="" value="Team 2">
                   Team 2
                 </option>
                 <option style="display: none;" value="Team 3">
@@ -2143,7 +2145,7 @@
                 <option style="display: none;" value="Team 2">
                   Team 2
                 </option>
-                <option selected="selected" value="Team 3">
+                <option selected="" value="Team 3">
                   Team 3
                 </option>
               </select>
@@ -2216,7 +2218,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="Team 1">
+                <option selected="" value="Team 1">
                   Team 1
                 </option>
                 <option style="display: none;" value="Team 2">
@@ -2268,7 +2270,7 @@
                 <option style="display: none;" value="Team 1">
                   Team 1
                 </option>
-                <option selected="selected" value="Team 2">
+                <option selected="" value="Team 2">
                   Team 2
                 </option>
                 <option style="display: none;" value="Team 3">
@@ -2320,7 +2322,7 @@
                 <option style="display: none;" value="Team 2">
                   Team 2
                 </option>
-                <option selected="selected" value="Team 3">
+                <option selected="" value="Team 3">
                   Team 3
                 </option>
               </select>
@@ -2393,7 +2395,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="Team 1">
+                <option selected="" value="Team 1">
                   Team 1
                 </option>
                 <option style="display: none;" value="Team 2">
@@ -2463,7 +2465,7 @@
                 <option style="display: none;" value="Team 1">
                   Team 1
                 </option>
-                <option selected="selected" value="Team 2">
+                <option selected="" value="Team 2">
                   Team 2
                 </option>
                 <option style="display: none;" value="Team 3">
@@ -2533,7 +2535,7 @@
                 <option style="display: none;" value="Team 2">
                   Team 2
                 </option>
-                <option selected="selected" value="Team 3">
+                <option selected="" value="Team 3">
                   Team 3
                 </option>
               </select>
@@ -2623,7 +2625,7 @@
               <select class="participantSelect middlealign form-control" name="responserecipient-21-0" style="display:none;max-width:125px">
                 <option value="">
                 </option>
-                <option selected="selected" value="IFSubmitUiT.instr@gmail.tmt">
+                <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
                   Myself
                 </option>
               </select>
@@ -2668,7 +2670,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input checked="checked" name="responsetext-21-0" type="checkbox" value="">
+                          <input checked="" name="responsetext-21-0" type="checkbox" value="">
                           <i>
                             None of the above
                           </i>

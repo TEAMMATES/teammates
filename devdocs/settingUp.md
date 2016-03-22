@@ -17,7 +17,7 @@ Important: When a version is specified, please install that version instead of t
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
 7. Install Google App Engine SDK version 1.9.27. <br>
    Download link to the SDK is http://central.maven.org/maven2/com/google/appengine/appengine-java-sdk/1.9.27/appengine-java-sdk-1.9.27.zip.<br>
-   Go to `Window → Preferences → Google → App Engine`, click the `Add` button,
+   Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
    and point it to where you extracted the SDK zip file. <br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
@@ -28,25 +28,25 @@ Important: When a version is specified, please install that version instead of t
 1. Fork our repo at `https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
 2. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
-   * Text encoding: Go to `Window → Preferences → General → Workspace`, change the 
+   * Text encoding: Go to `Window → Preferences → General → Workspace` (Mac: `Eclipse → Preferences → General → Workspace`), change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
-   * JRE: Go to `Windows → Preferences → Java → Installed JRE` and ensure a 
+   * JRE: Go to `Windows → Preferences → Java → Installed JRE` (Mac: `Eclipse → Preferences → Java → Installed JRE`) and ensure a 
    JDK (not a JRE) is selected(Use a Java 7 JDK, as recommended by GAE). One of the items in the [Troubleshooting help]
    (https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
     explains how to do this.
     * Tab behavior: In TEAMMATES, we use spaces in place of tabs. 
-    `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs` <br>
+    `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs` (Mac: `Eclipse → Preferences → General → Editors → Text Editors → Insert spaces for tabs`)<br>
     Similarly, configure `Web → CSS Files → Editor`, 
     `Web → HTML Files → Editor`, `XML Files → Editor`, and
     `JavaScript → Code Style → Formatter → Edit → Tab Policy → Spaces Only`
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
-    To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` and uncheck the `Build` option.
+    To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
 3. Create main config files {These are not under revision control because their 
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
    Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `copy → paste → rename`).
+   as the template (i.e. `duplicate -> remove '.template' from name`).
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
@@ -59,7 +59,8 @@ Important: When a version is specified, please install that version instead of t
    * `.settings/com.google.gdt.eclipse.core.prefs`<br>
    Create it using `com.google.gdt.eclipse.core.template.prefs`.
    In the newly created `com.google.gdt.eclipse.core.prefs` file, replace all the `*` in the value of `jarsExcludedFromWebInfLib` to your TEAMMATES project folder,
-   e.g. `jarsExcludedFromWebInfLib=*/src/test/resources/lib/appengine/appengine-api-labs.jar` becomes `jarsExcludedFromWebInfLib=C:/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if your TEAMMATES project folder is `C:/TEAMMATES`.
+   e.g. `jarsExcludedFromWebInfLib=*/src/test/resources/lib/appengine/appengine-api-labs.jar` becomes `jarsExcludedFromWebInfLib=C:/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if your TEAMMATES project folder is `C:/TEAMMATES`<br>
+   (Mac: `jarsExcludedFromWebInfLib=/Users/someuser/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if the project folder is `/Users/someuser/TEAMMATES`).
 4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.60.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
@@ -165,21 +166,24 @@ to run it outside Eclipse so that they can continue to use Eclipse while the
 test suite is running. Given below is the procedure. New developers can omit 
 this section.
 
-**On Windows:**
 * Build the project in Eclipse (`Project -> Clean`).
 * Start the dev server in Eclipse.
 * Open a DOS window in the project folder and run the `runtests.bat` 
   in the following manner.<br>
   `runtests.bat  appengine_SDK_location  project_folder_location` <br>
   e.g. `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates`<br>
-  This will run the full test suite once and retry the failed tests several times.
+  This will run the full test suite once and retry the failed tests several times.<br>
+  (**Mac**: In Terminal, navigate to the project folder and run the `runtests.sh` in the following manner.<br>
+  `./runtests.sh GAE_SDK_Location Project_Folder_location`<br>
+  e.g. `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES`, if the path to GAE_SDK_Location is `/Users/someuser/appengine-java-sdk-1.9.27` and path to Project_Folder_location is `/Users/someuser/TEAMMATES`.<br>
+  It's recommended to use absolute path on Mac, and you could retrieve the absolute path by navigate to that folder and type `pwd` command.<br>
+  If the file is not an executable, change its permission by: `chmod +x runtests.sh`)
 * The final result can be viewed by opening `[project folder]/testrunner/test-output/index.html`.
 * To run only certain `<test>` segments of the `testng.xml`, add the `-testnames`
   option followed by the names of the `<test>` segments you want to run.<br>e.g.
-  `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`
-
-**On OS-X:**
-TBD
+  `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
+  (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
+  
 ##Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 

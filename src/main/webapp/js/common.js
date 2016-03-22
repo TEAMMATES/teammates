@@ -83,6 +83,17 @@ var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
 var FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
 
+// Status message type
+var StatusType = {
+    SUCCESS : "success",
+    INFO : "info",
+    WARNING : "warning",
+    DANGER : "danger",
+    isValidType : function(type) {
+        return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
+    }
+};
+
 // Display messages
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = 'There are too many fields.';
@@ -532,56 +543,61 @@ function scrollToTop(duration) {
 }
 
 /** Selector for status message div tag (to be used in jQuery) */
-var DIV_STATUS_MESSAGE = '#statusMessage';
+var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
- * Sets a status message. Change the background color to red if it's an error
+ * Sets a status message and the message status.
+ * Default message type is info.
  *
- * @param message
- * @param error
+ * @param message the text message to be shown to the user
+ * @param status type
  */
-function setStatusMessage(message, error) {
-    if (message === '') {
-        clearStatusMessage();
+function setStatusMessage(message, status) {
+    if (message === '' || message === undefined || message === null) {
         return;
     }
-    
-    $(DIV_STATUS_MESSAGE).html(message);
-    $(DIV_STATUS_MESSAGE).show();
-    
-    if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-danger');
-    } else {
-        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-warning');
+
+    // Default the status type to info if any invalid status is passed in
+    if (!StatusType.isValidType(status)) {
+        status = StatusType.INFO;
     }
     
-    scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    var $statusMessage = $("<div></div>");
+    
+    $statusMessage.addClass("overflow-auto");
+    $statusMessage.addClass("alert");
+    $statusMessage.addClass("alert-" + status);
+    $statusMessage.addClass("statusMessage");
+    $statusMessage.html(message);
+    
+    $statusMessagesToUser.empty();
+    $statusMessagesToUser.append($statusMessage);
+    $statusMessagesToUser.show();
+    
+    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
 }
 
 /**
- * Append a message to the existing status message
- * @param  message
+ * Appends the status messages panels into the current list of panels of status messages.
+ * @param  messages the list of status message panels to be added (not just text)
  * 
  */
-function appendStatusMessage(message, error) {
-    if (message.trim() === '') {
-        return;
-    }
-    var currentContent = $(DIV_STATUS_MESSAGE).html();
-    if (currentContent.trim() !== '') {
-        $(DIV_STATUS_MESSAGE).html(currentContent + '<br/>' + message);    
-    } else {
-        setStatusMessage(message, error);
-    }
+function appendStatusMessage(messages, error) {
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    
+    $statusMessagesToUser.append($(messages));
+    $statusMessagesToUser.show();
 }
 
 /**
  * Clears the status message div tag and hides it
  */
-function clearStatusMessage() {
-    $(DIV_STATUS_MESSAGE).html('');
-    $(DIV_STATUS_MESSAGE).css('background', '');
-    $(DIV_STATUS_MESSAGE).attr('style', 'display: none;');
+function clearStatusMessages() {
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    
+    $statusMessagesToUser.empty();
+    $statusMessagesToUser.hide();
 }
 
 /**
@@ -752,8 +768,15 @@ function sanitizeForJs(string) {
  */
 function highlightSearchResult(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
-    var splitSearchKey = searchKey.split(' ');
-    $(sectionToHighlight).highlight(splitSearchKey);
+    // trim symbols around every word in the string
+    var symbolTrimmedSearchKey = [];
+    $.each(searchKey.split(/["'.-]/), function(){
+        symbolTrimmedSearchKey.push($.trim(this));
+    });
+    // remove empty elements from symbolTrimmedSearchKey
+    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
+        return (!(n == "")) });
+    $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }
 
 /**

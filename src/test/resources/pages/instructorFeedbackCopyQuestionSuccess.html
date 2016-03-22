@@ -105,7 +105,7 @@
                     <option value="1">
                       (UTC +01:00) Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw
                     </option>
-                    <option selected="selected" value="2">
+                    <option selected="" value="2">
                       (UTC +02:00) Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest
                     </option>
                     <option value="3">
@@ -298,7 +298,7 @@
                     <option value="23">
                       2300H
                     </option>
-                    <option selected="selected" value="24">
+                    <option selected="" value="24">
                       2359H
                     </option>
                   </select>
@@ -382,7 +382,7 @@
                     <option value="21">
                       2100H
                     </option>
-                    <option selected="selected" value="22">
+                    <option selected="" value="22">
                       2200H
                     </option>
                     <option value="23">
@@ -424,7 +424,7 @@
                     <option value="25">
                       25 mins
                     </option>
-                    <option selected="selected" value="30">
+                    <option selected="" value="30">
                       30 mins
                     </option>
                   </select>
@@ -540,7 +540,7 @@
                     <option value="23">
                       2300H
                     </option>
-                    <option selected="selected" value="24">
+                    <option selected="" value="24">
                       2359H
                     </option>
                   </select>
@@ -551,7 +551,7 @@
                   <label for="sessionVisibleFromButton_atopen">
                     Submission opening time
                   </label>
-                  <input checked="checked" disabled="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
+                  <input checked="" disabled="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
                 </div>
               </div>
               <div class="row radio">
@@ -652,7 +652,7 @@
                     <option value="23">
                       2300H
                     </option>
-                    <option selected="selected" value="24">
+                    <option selected="" value="24">
                       2359H
                     </option>
                   </select>
@@ -663,7 +663,7 @@
                   <label for="resultsVisibleFromButton_atvisible">
                     Immediately
                   </label>
-                  <input checked="checked" disabled="" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
+                  <input checked="" disabled="" id="resultsVisibleFromButton_atvisible" name="resultsVisibleFromButton" type="radio" value="atvisible">
                 </div>
               </div>
               <div class="row radio">
@@ -701,7 +701,7 @@
                 <label>
                   Session opening reminder
                 </label>
-                <input checked="checked" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
+                <input checked="" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
               </div>
             </div>
             <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
@@ -709,7 +709,7 @@
                 <label for="sendreminderemail_closing">
                   Session closing reminder
                 </label>
-                <input checked="checked" disabled="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
+                <input checked="" disabled="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
               </div>
             </div>
             <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
@@ -717,7 +717,7 @@
                 <label for="sendreminderemail_published">
                   Results published announcement
                 </label>
-                <input checked="checked" disabled="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
+                <input checked="" disabled="" id="sendreminderemail_published" name="sendreminderemail" type="checkbox" value="FEEDBACK_PUBLISHED">
               </div>
             </div>
           </div>
@@ -738,8 +738,10 @@
     </form>
   </div>
   <br>
-  <div class="overflow-auto alert alert-success" id="statusMessage">
-    The question has been added to this feedback session.
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-success statusMessage">
+      The question has been added to this feedback session.
+    </div>
   </div>
   <script src="/js/statusMessage.js" type="text/javascript">
   </script>
@@ -819,7 +821,7 @@
       <div class="panel-body">
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
           <div>
-            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="disabled" id="questiontext-1" name="questiontext" rows="5" tabindex="9" title="">
+            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext-1" name="questiontext" rows="5" tabindex="9" title="">
               filled qn
             </textarea>
           </div>
@@ -837,8 +839,8 @@
               Who will give the feedback:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="disabled" id="givertype-1" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                <option selected="selected" value="SELF">
+              <select class="form-control participantSelect" disabled="" id="givertype-1" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+                <option selected="" value="SELF">
                   Me (Session creator)
                 </option>
                 <option value="STUDENTS">
@@ -858,11 +860,11 @@
               Who the feedback is about:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="disabled" id="recipienttype-1" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+              <select class="form-control participantSelect" disabled="" id="recipienttype-1" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <option value="SELF">
                   Giver (Self feedback)
                 </option>
-                <option selected="selected" value="STUDENTS">
+                <option selected="" value="STUDENTS">
                   Other students in the course
                 </option>
                 <option value="INSTRUCTORS">
@@ -896,11 +898,11 @@
             </label>
             <div class="col-sm-8 form-control-static">
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                <input class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="custom">
-                <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="disabled" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1">
+                <input class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="custom">
+                <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="" id="numofrecipients-1" max="250" min="1" name="numofrecipients" type="number" value="1">
               </div>
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                <input checked="checked" class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="max">
+                <input checked="" class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="max">
                 <span class="">
                   Unlimited
                 </span>
@@ -918,13 +920,13 @@
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
-              <input disabled="disabled" type="radio">
+              <input disabled="" type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
-              <input disabled="disabled" type="radio">
+              <input disabled="" type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>
               Preview Visibility
@@ -969,13 +971,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox answerCheckbox1 centered" disabled="disabled" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox answerCheckbox1 centered" disabled="" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox giverCheckbox1" disabled="disabled" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox recipientCheckbox1" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox recipientCheckbox1" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                 </tr>
                 <tr>
@@ -985,13 +987,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox1" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox1" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox1" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                 </tr>
                 <tr>
@@ -1001,13 +1003,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox1" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox1" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox1" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                 </tr>
                 <tr>
@@ -1017,13 +1019,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox1" disabled="disabled" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox1" disabled="disabled" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox1" disabled="disabled" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                 </tr>
                 <tr>
@@ -1033,13 +1035,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox answerCheckbox1" disabled="disabled" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox answerCheckbox1" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox giverCheckbox1" disabled="disabled" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox giverCheckbox1" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox recipientCheckbox1" disabled="disabled" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox recipientCheckbox1" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                 </tr>
               </tbody>
@@ -1048,7 +1050,7 @@
         </div>
         <div>
           <span class="pull-right">
-            <input class="btn btn-primary" disabled="disabled" id="button_question_submit-1" style="display:none" tabindex="0" type="submit" value="Save Changes">
+            <input class="btn btn-primary" disabled="" id="button_question_submit-1" style="display:none" tabindex="0" type="submit" value="Save Changes">
           </span>
         </div>
       </div>
@@ -1110,7 +1112,7 @@
       <div class="panel-body">
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
           <div>
-            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="disabled" id="questiontext-2" name="questiontext" rows="5" tabindex="9" title="">
+            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext-2" name="questiontext" rows="5" tabindex="9" title="">
               filled qn
             </textarea>
           </div>
@@ -1128,8 +1130,8 @@
               Who will give the feedback:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="disabled" id="givertype-2" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                <option selected="selected" value="SELF">
+              <select class="form-control participantSelect" disabled="" id="givertype-2" name="givertype" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+                <option selected="" value="SELF">
                   Me (Session creator)
                 </option>
                 <option value="STUDENTS">
@@ -1149,11 +1151,11 @@
               Who the feedback is about:
             </label>
             <div class="col-sm-8 col-lg-7">
-              <select class="form-control participantSelect" disabled="disabled" id="recipienttype-2" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+              <select class="form-control participantSelect" disabled="" id="recipienttype-2" name="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <option value="SELF">
                   Giver (Self feedback)
                 </option>
-                <option selected="selected" value="STUDENTS">
+                <option selected="" value="STUDENTS">
                   Other students in the course
                 </option>
                 <option value="INSTRUCTORS">
@@ -1187,11 +1189,11 @@
             </label>
             <div class="col-sm-8 form-control-static">
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                <input class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="custom">
-                <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="disabled" id="numofrecipients-2" max="250" min="1" name="numofrecipients" type="number" value="1">
+                <input class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="custom">
+                <input class="nonDestructive numberOfEntitiesBox width-75-pc" disabled="" id="numofrecipients-2" max="250" min="1" name="numofrecipients" type="number" value="1">
               </div>
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                <input checked="checked" class="nonDestructive" disabled="disabled" name="numofrecipientstype" type="radio" value="max">
+                <input checked="" class="nonDestructive" disabled="" name="numofrecipientstype" type="radio" value="max">
                 <span class="">
                   Unlimited
                 </span>
@@ -1209,13 +1211,13 @@
           </div>
           <div class="col-sm-6 btn-group" data-toggle="buttons">
             <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-2" onchange="toggleVisibilityOptions(this)">
-              <input disabled="disabled" type="radio">
+              <input disabled="" type="radio">
               <span class="glyphicon glyphicon-pencil">
               </span>
               Edit Visibility
             </label>
             <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-2" onchange="toggleVisibilityMessage(this)">
-              <input disabled="disabled" type="radio">
+              <input disabled="" type="radio">
               <span class="glyphicon glyphicon-eye-open">
               </span>
               Preview Visibility
@@ -1260,13 +1262,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox answerCheckbox2 centered" disabled="disabled" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox answerCheckbox2 centered" disabled="" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox giverCheckbox2" disabled="" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox recipientCheckbox2" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox recipientCheckbox2" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                 </tr>
                 <tr>
@@ -1276,13 +1278,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox answerCheckbox2" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox giverCheckbox2" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="OWN_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox recipientCheckbox2" disabled="" type="checkbox" value="OWN_TEAM_MEMBERS">
                   </td>
                 </tr>
                 <tr>
@@ -1292,13 +1294,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox answerCheckbox2" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox giverCheckbox2" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                    <input class="visibilityCheckbox recipientCheckbox2" disabled="" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
                   </td>
                 </tr>
                 <tr>
@@ -1308,13 +1310,13 @@
                     </div>
                   </td>
                   <td>
-                    <input class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox answerCheckbox2" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox giverCheckbox2" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                   <td>
-                    <input class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="STUDENTS">
+                    <input class="visibilityCheckbox recipientCheckbox2" disabled="" type="checkbox" value="STUDENTS">
                   </td>
                 </tr>
                 <tr>
@@ -1324,13 +1326,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox answerCheckbox2" disabled="disabled" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox answerCheckbox2" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox giverCheckbox2" disabled="disabled" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox giverCheckbox2" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox recipientCheckbox2" disabled="disabled" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox recipientCheckbox2" disabled="" type="checkbox" value="INSTRUCTORS">
                   </td>
                 </tr>
               </tbody>
@@ -1339,7 +1341,7 @@
         </div>
         <div>
           <span class="pull-right">
-            <input class="btn btn-primary" disabled="disabled" id="button_question_submit-2" style="display:none" tabindex="0" type="submit" value="Save Changes">
+            <input class="btn btn-primary" disabled="" id="button_question_submit-2" style="display:none" tabindex="0" type="submit" value="Save Changes">
           </span>
         </div>
       </div>
@@ -1461,7 +1463,7 @@
       <div class="panel-body">
         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
           <div>
-            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="disabled" id="questiontext" name="questiontext" rows="5" tabindex="9" title="">
+            <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext" name="questiontext" rows="5" tabindex="9" title="">
             </textarea>
           </div>
           <div id="mcqForm">
@@ -1472,9 +1474,9 @@
                   <div class="margin-bottom-7px" id="mcqOptionRow-0--1">
                     <div class="input-group width-100-pc">
                       <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="disabled" type="radio">
+                        <input class="disabled_radio" disabled="" type="radio">
                       </span>
-                      <input class="form-control" disabled="disabled" id="mcqOption-0--1" name="mcqOption-0" type="text" value="">
+                      <input class="form-control" disabled="" id="mcqOption-0--1" name="mcqOption-0" type="text" value="">
                       <span class="input-group-btn">
                         <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,-1)" style="display:none" tabindex="-1" type="button">
                           <span class="glyphicon glyphicon-remove">
@@ -1486,9 +1488,9 @@
                   <div class="margin-bottom-7px" id="mcqOptionRow-1--1">
                     <div class="input-group width-100-pc">
                       <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="disabled" type="radio">
+                        <input class="disabled_radio" disabled="" type="radio">
                       </span>
-                      <input class="form-control" disabled="disabled" id="mcqOption-1--1" name="mcqOption-1" type="text" value="">
+                      <input class="form-control" disabled="" id="mcqOption-1--1" name="mcqOption-1" type="text" value="">
                       <span class="input-group-btn">
                         <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,-1)" style="display:none" tabindex="-1" type="button">
                           <span class="glyphicon glyphicon-remove">
@@ -1519,13 +1521,13 @@
                 <div class="col-md-8 margin-bottom-7px">
                   <div class="checkbox">
                     <label class="bold-label">
-                      <input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
+                      <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
                       Or, generate options from the list of all
                     </label>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <select class="form-control" disabled="disabled" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)">
+                  <select class="form-control" disabled="" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)">
                     <option value="STUDENTS">
                       students
                     </option>
@@ -1550,9 +1552,9 @@
                   <div class="margin-bottom-7px" id="msqOptionRow-0--1">
                     <div class="input-group width-100-pc">
                       <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="disabled" type="checkbox">
+                        <input class="disabled_radio" disabled="" type="checkbox">
                       </span>
-                      <input class="form-control" disabled="disabled" id="msqOption-0--1" name="msqOption-0" type="text" value="">
+                      <input class="form-control" disabled="" id="msqOption-0--1" name="msqOption-0" type="text" value="">
                       <span class="input-group-btn">
                         <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(0,-1)" style="display:none" tabindex="-1" type="button">
                           <span class="glyphicon glyphicon-remove">
@@ -1564,9 +1566,9 @@
                   <div class="margin-bottom-7px" id="msqOptionRow-1--1">
                     <div class="input-group width-100-pc">
                       <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="disabled" type="checkbox">
+                        <input class="disabled_radio" disabled="" type="checkbox">
                       </span>
-                      <input class="form-control" disabled="disabled" id="msqOption-1--1" name="msqOption-1" type="text" value="">
+                      <input class="form-control" disabled="" id="msqOption-1--1" name="msqOption-1" type="text" value="">
                       <span class="input-group-btn">
                         <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(1,-1)" style="display:none" tabindex="-1" type="button">
                           <span class="glyphicon glyphicon-remove">
@@ -1597,13 +1599,13 @@
                 <div class="col-md-8 margin-bottom-7px">
                   <div class="checkbox">
                     <label class="bold-label">
-                      <input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
+                      <input disabled="" id="generateOptionsCheckbox--1" onchange="toggleMsqGeneratedOptions(this,-1)" type="checkbox">
                       Or, generate options from the list of all
                     </label>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <select class="form-control" disabled="disabled" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
+                  <select class="form-control" disabled="" id="msqGenerateForSelect--1" onchange="changeMsqGenerateFor(-1)">
                     <option value="STUDENTS">
                       students
                     </option>
@@ -1628,15 +1630,15 @@
                   <div class="row">
                     <div class="col-sm-4" data-original-title="Minimum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
                       Minimum value:
-                      <input class="form-control minScaleBox" disabled="disabled" id="minScaleBox--1" name="numscalemin" onchange="updateNumScalePossibleValues(-1)" type="number" value="1">
+                      <input class="form-control minScaleBox" disabled="" id="minScaleBox--1" name="numscalemin" onchange="updateNumScalePossibleValues(-1)" type="number" value="1">
                     </div>
                     <div class="col-sm-4" data-original-title="Value to be increased/decreased each step" data-placement="top" data-toggle="tooltip" title="">
                       Increment:
-                      <input class="form-control stepBox" disabled="disabled" id="stepBox--1" min="0.001" name="numscalestep" onchange="updateNumScalePossibleValues(-1)" step="0.001" type="number" value="1">
+                      <input class="form-control stepBox" disabled="" id="stepBox--1" min="0.001" name="numscalestep" onchange="updateNumScalePossibleValues(-1)" step="0.001" type="number" value="1">
                     </div>
                     <div class="col-sm-4" data-original-title="Maximum acceptable response value" data-placement="top" data-toggle="tooltip" title="">
                       Maximum value:
-                      <input class="form-control maxScaleBox" disabled="disabled" id="maxScaleBox--1" name="numscalemax" onchange="updateNumScalePossibleValues(-1)" type="number" value="5">
+                      <input class="form-control maxScaleBox" disabled="" id="maxScaleBox--1" name="numscalemax" onchange="updateNumScalePossibleValues(-1)" type="number" value="5">
                     </div>
                   </div>
                   <br>
@@ -1657,7 +1659,7 @@
               <div class="col-sm-6" id="constSumOptionTable--1">
                 <div class="margin-bottom-7px" id="constSumOptionRow-0--1">
                   <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="disabled" id="constSumOption-0--1" name="constSumOption-0" type="text" value="">
+                    <input class="form-control" disabled="" id="constSumOption-0--1" name="constSumOption-0" type="text" value="">
                     <span class="input-group-btn">
                       <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,-1)" style="display:none" tabindex="-1" type="button">
                         <span class="glyphicon glyphicon-remove">
@@ -1668,7 +1670,7 @@
                 </div>
                 <div class="margin-bottom-7px" id="constSumOptionRow-1--1">
                   <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="disabled" id="constSumOption-1--1" name="constSumOption-1" type="text" value="">
+                    <input class="form-control" disabled="" id="constSumOption-1--1" name="constSumOption-1" type="text" value="">
                     <span class="input-group-btn">
                       <button class="btn btn-default removeOptionLink" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,-1)" style="display:none" tabindex="-1" type="button">
                         <span class="glyphicon glyphicon-remove">
@@ -1700,7 +1702,7 @@
                       </label>
                     </div>
                     <div class="col-md-4">
-                      <select class="width-100-pc select form-control margin-bottom-7px" disabled="disabled" id="constSumPointsPerOptionSelect--1" name="constSumPointsPerOption">
+                      <select class="width-100-pc select form-control margin-bottom-7px" disabled="" id="constSumPointsPerOptionSelect--1" name="constSumPointsPerOption">
                         <option value="false">
                           in total:
                         </option>
@@ -1713,7 +1715,7 @@
                       </select>
                     </div>
                     <div class="col-md-3">
-                      <input class="form-control width-100-pc pointsBox" disabled="disabled" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
+                      <input class="form-control width-100-pc pointsBox" disabled="" id="constSumPoints--1" min="1" name="constSumPoints" onchange="updateConstSumPointsValue(-1)" step="1" type="number" value="100">
                     </div>
                   </div>
                 </div>
@@ -1721,7 +1723,7 @@
                   <div class="col-sm-12">
                     <div class="checkbox" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
                       <label class="bold-label">
-                        <input disabled="disabled" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" type="checkbox">
+                        <input disabled="" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" type="checkbox">
                         <span id="constSum_labelText--1">
                           Every option to receive a different number of points
                         </span>
@@ -1738,7 +1740,7 @@
               <br>
               <div class="col-sm-6 row">
                 <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" title="">
-                  <input checked="checked" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" type="checkbox">
+                  <input checked="" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" type="checkbox">
                   <span style="margin-left: 5px; font-weight: bold;">
                     Allow response giver to select 'Not Sure' as the answer
                   </span>
@@ -1757,7 +1759,7 @@
                       </th>
                       <th class="rubricCol--1-0">
                         <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-0" name="rubricChoice-0" type="text" value="Strongly Agree">
+                          <input class="form-control" id="rubricChoice--1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
                           <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-0" onclick="removeRubricCol(0, -1)" onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)">
                             <span class="glyphicon glyphicon-remove">
                             </span>
@@ -1766,7 +1768,7 @@
                       </th>
                       <th class="rubricCol--1-1">
                         <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-1" name="rubricChoice-1" type="text" value="Agree">
+                          <input class="form-control" id="rubricChoice--1-1" name="rubricChoice-1" type="text" value="Disagree">
                           <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-1" onclick="removeRubricCol(1, -1)" onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)">
                             <span class="glyphicon glyphicon-remove">
                             </span>
@@ -1775,7 +1777,7 @@
                       </th>
                       <th class="rubricCol--1-2">
                         <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-2" name="rubricChoice-2" type="text" value="Disagree">
+                          <input class="form-control" id="rubricChoice--1-2" name="rubricChoice-2" type="text" value="Agree">
                           <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-2" onclick="removeRubricCol(2, -1)" onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)">
                             <span class="glyphicon glyphicon-remove">
                             </span>
@@ -1784,7 +1786,7 @@
                       </th>
                       <th class="rubricCol--1-3">
                         <div class="col-sm-12 input-group">
-                          <input class="form-control" id="rubricChoice--1-3" name="rubricChoice-3" type="text" value="Strongly Disagree">
+                          <input class="form-control" id="rubricChoice--1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
                           <span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" id="rubricRemoveChoiceLink--1-3" onclick="removeRubricCol(3, -1)" onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)">
                             <span class="glyphicon glyphicon-remove">
                             </span>
@@ -1808,22 +1810,22 @@
                       </td>
                       <td class="align-center rubricCol--1-0">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-0-0" name="rubricDesc-0-0" rows="3">
-                          Initiates discussions frequently, and engages the team.
+                          Rarely or never responds.
                         </textarea>
                       </td>
                       <td class="align-center rubricCol--1-1">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-0-1" name="rubricDesc-0-1" rows="3">
-                          Takes part in discussions and sometimes initiates discussions.
+                          Occasionally responds, but never initiates discussions.
                         </textarea>
                       </td>
                       <td class="align-center rubricCol--1-2">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-0-2" name="rubricDesc-0-2" rows="3">
-                          Occasionally responds, but never initiates discussions.
+                          Takes part in discussions and sometimes initiates discussions.
                         </textarea>
                       </td>
                       <td class="align-center rubricCol--1-3">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-0-3" name="rubricDesc-0-3" rows="3">
-                          Rarely or never responds.
+                          Initiates discussions frequently, and engages the team.
                         </textarea>
                       </td>
                     </tr>
@@ -1841,22 +1843,22 @@
                       </td>
                       <td class="align-center rubricCol--1-0">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-0" name="rubricDesc-1-0" rows="3">
-                          Tasks are always completed before the deadline.
+                          Rarely or never completes tasks.
                         </textarea>
                       </td>
                       <td class="align-center rubricCol--1-1">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-1" name="rubricDesc-1-1" rows="3">
-                          Occasionally misses deadlines.
+                          Often misses deadlines.
                         </textarea>
                       </td>
                       <td class="align-center rubricCol--1-2">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-2" name="rubricDesc-1-2" rows="3">
-                          Often misses deadlines.
+                          Occasionally misses deadlines.
                         </textarea>
                       </td>
                       <td class="align-center rubricCol--1-3">
                         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-3" name="rubricDesc-1-3" rows="3">
-                          Rarely or never completes tasks.
+                          Tasks are always completed before the deadline.
                         </textarea>
                       </td>
                     </tr>
@@ -1890,7 +1892,7 @@
               <div class="col-sm-6" id="rankOptionTable--1">
                 <div class="margin-bottom-7px" id="rankOptionRow-0--1">
                   <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="disabled" id="rankOption-0--1" name="rankOption-0" type="text" value="">
+                    <input class="form-control" disabled="" id="rankOption-0--1" name="rankOption-0" type="text" value="">
                     <span class="input-group-btn">
                       <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
                         <span class="glyphicon glyphicon-remove">
@@ -1901,7 +1903,7 @@
                 </div>
                 <div class="margin-bottom-7px" id="rankOptionRow-1--1">
                   <div class="input-group width-100-pc">
-                    <input class="form-control" disabled="disabled" id="rankOption-1--1" name="rankOption-1" type="text" value="">
+                    <input class="form-control" disabled="" id="rankOption-1--1" name="rankOption-1" type="text" value="">
                     <span class="input-group-btn">
                       <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
                         <span class="glyphicon glyphicon-remove">
@@ -2021,7 +2023,7 @@
                 <input class="nonDestructive numberOfEntitiesBox width-75-pc" id="numofrecipients" max="250" min="1" name="numofrecipients" type="number" value="1">
               </div>
               <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
-                <input checked="checked" class="nonDestructive" name="numofrecipientstype" type="radio" value="max">
+                <input checked="" class="nonDestructive" name="numofrecipientstype" type="radio" value="max">
                 <span class="">
                   Unlimited
                 </span>
@@ -2084,13 +2086,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox recipientCheckbox" disabled="disabled" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
+                    <input checked="" class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER">
                   </td>
                 </tr>
                 <tr>
@@ -2148,13 +2150,13 @@
                     </div>
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                   </td>
                   <td>
-                    <input checked="checked" class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS">
+                    <input checked="" class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTORS">
                   </td>
                 </tr>
               </tbody>
@@ -2268,7 +2270,7 @@
           </form>
         </div>
         <div class="modal-footer margin-0">
-          <button class="btn btn-primary" disabled="disabled" id="button_copy_submit" type="button">
+          <button class="btn btn-primary" disabled="" id="button_copy_submit" type="button">
             Copy
           </button>
           <button class="btn btn-default" data-dismiss="modal" type="button">

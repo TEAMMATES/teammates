@@ -26,18 +26,20 @@
     </div>
   </div>
   <br>
-  <div class="overflow-auto alert alert-info" id="statusMessage">
-    New to TEAMMATES? You may wish to have a look at our
-    <a href="/instructorHelp.html#gs" target="_blank">
-      Getting Started Guide
-    </a>
-    .
-    <br>
-    A video tour is also available in our
-    <a href="/index.html" target="_blank">
-      home page
-    </a>
-    .
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-info statusMessage">
+      New to TEAMMATES? You may wish to have a look at our
+      <a href="/instructorHelp.html#gs" target="_blank">
+        Getting Started Guide
+      </a>
+      .
+      <br>
+      A video tour is also available in our
+      <a href="/index.html" target="_blank">
+        home page
+      </a>
+      .
+    </div>
   </div>
   <script src="/js/statusMessage.js" type="text/javascript">
   </script>
@@ -85,15 +87,15 @@
           </strong>
         </h5>
         <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-default" data="id" disabled="disabled" id="sortById" name="sortby">
+          <label class="btn btn-default" data="id" disabled="" id="sortById" name="sortby">
             <input type="radio">
             Course ID
           </label>
-          <label class="btn btn-default" data="name" disabled="disabled" id="sortByName" name="sortby">
+          <label class="btn btn-default" data="name" disabled="" id="sortByName" name="sortby">
             <input name="sortby" type="radio" value="name">
             Course Name
           </label>
-          <label class="btn btn-default active" data="createdAt" disabled="disabled" id="sortByDate" name="sortby">
+          <label class="btn btn-default active" data="createdAt" disabled="" id="sortByDate" name="sortby">
             <input type="radio">
             Creation Date
           </label>
@@ -270,21 +272,21 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" onclick="return false">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" onclick="return false">
                   Remind
                 </a>
-                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="disabled" type="button">
+                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
                   <span class="caret">
                   </span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}">
+                    <a class="session-remind-inner-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}">
                       Remind all students
                     </a>
                   </li>
                   <li>
-                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="First team feedback session" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
+                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="First team feedback session" data-target="#remindModal" data-toggle="modal" disabled="" href="#">
                       Remind particular students
                     </a>
                   </li>
@@ -336,21 +338,21 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" onclick="return false">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" onclick="return false">
                   Remind
                 </a>
-                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="disabled" type="button">
+                <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
                   <span class="caret">
                   </span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" disabled="disabled" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}">
+                    <a class="session-remind-inner-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}">
                       Remind all students
                     </a>
                   </li>
                   <li>
-                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Session with different question types" data-target="#remindModal" data-toggle="modal" disabled="disabled" href="#">
+                    <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Session with different question types" data-target="#remindModal" data-toggle="modal" disabled="" href="#">
                       Remind particular students
                     </a>
                   </li>

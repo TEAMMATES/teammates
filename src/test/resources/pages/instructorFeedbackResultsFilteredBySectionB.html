@@ -148,7 +148,7 @@
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
                 <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
-                  <option selected="selected" value="question">
+                  <option selected="" value="question">
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
@@ -195,7 +195,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -216,7 +216,7 @@
                   <option value="Section A">
                     Section A
                   </option>
-                  <option selected="selected" value="Section B">
+                  <option selected="" value="Section B">
                     Section B
                   </option>
                   <option value="None">
@@ -239,8 +239,10 @@
     <input name="user" type="hidden" value="CFResultsUiT.instr">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-default">

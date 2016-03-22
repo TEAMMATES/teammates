@@ -519,8 +519,7 @@ public class Const {
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
     
-        public static final String STATUS_MESSAGE = "message";
-        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
+        public static final String STATUS_MESSAGES_LIST = "statusMessagesToUser";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
@@ -915,7 +914,7 @@ public class Const {
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
-        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
+        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor %s has been updated.";
         public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
         public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED = "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";

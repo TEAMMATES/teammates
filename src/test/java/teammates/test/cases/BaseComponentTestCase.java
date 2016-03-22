@@ -137,6 +137,7 @@ public class BaseComponentTestCase extends BaseTestCase {
         if (wildcardId) {
             expected.setId(actual.getId());
         }
+        
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
     

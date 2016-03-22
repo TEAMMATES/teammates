@@ -71,7 +71,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" disabled="disabled" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.helper1&user=CFResultsUiT.helper1" onclick="return false" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.helper1&user=CFResultsUiT.helper1" onclick="return false" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -145,7 +145,7 @@
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
                 <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
-                  <option selected="selected" value="question">
+                  <option selected="" value="question">
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
@@ -207,7 +207,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="selected" value="All">
+                  <option selected="" value="All">
                     All
                   </option>
                   <option value="Section A">
@@ -225,7 +225,7 @@
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
             <div class="pull-right" data-original-title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below." data-toggle="tooltip" style="display:inline-block;" title="">
-              <a class="btn btn-default btn-xs pull-right" disabled="disabled" id="collapse-panels-button" onclick="toggleCollapse(this)">
+              <a class="btn btn-default btn-xs pull-right" disabled="" id="collapse-panels-button" onclick="toggleCollapse(this)">
                 Expand Questions
               </a>
             </div>
@@ -238,8 +238,10 @@
     <input name="user" type="hidden" value="CFResultsUiT.helper1">
   </form>
   <br>
-  <div class="overflow-auto alert alert-danger" id="statusMessage">
-    This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-warning statusMessage">
+      This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
+    </div>
   </div>
   <script src="/js/statusMessage.js" type="text/javascript">
   </script>

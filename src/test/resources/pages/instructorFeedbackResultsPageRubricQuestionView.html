@@ -148,7 +148,7 @@
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
                 <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
-                  <option selected="selected" value="question">
+                  <option selected="" value="question">
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
@@ -216,8 +216,10 @@
     <input name="user" type="hidden" value="FRubricQnUiT.instructor">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-info">
@@ -280,17 +282,12 @@
                       </th>
                       <th>
                         <p>
-                          Yes (2)
+                          Yes
                         </p>
                       </th>
                       <th>
                         <p>
-                          No (1)
-                        </p>
-                      </th>
-                      <th>
-                        <p>
-                          Average
+                          No
                         </p>
                       </th>
                     </tr>
@@ -308,9 +305,6 @@
                       <td>
                         0% (0)
                       </td>
-                      <td>
-                        2
-                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -323,9 +317,6 @@
                       </td>
                       <td>
                         0% (0)
-                      </td>
-                      <td>
-                        2
                       </td>
                     </tr>
                   </tbody>

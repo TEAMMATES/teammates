@@ -253,7 +253,7 @@
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
                 <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
-                  <option selected="selected" value="question">
+                  <option selected="" value="question">
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
@@ -292,7 +292,7 @@
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
-                  <input checked="checked" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
+                  <input checked="" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
                   Group by Teams
                 </label>
               </div>
@@ -300,7 +300,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -315,7 +315,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="selected" value="All">
+                  <option selected="" value="All">
                     All
                   </option>
                   <option value="Section A">
@@ -344,8 +344,10 @@
     <input name="user" type="hidden" value="CFResultsUiT.instr">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-info">

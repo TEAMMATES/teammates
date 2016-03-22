@@ -10,7 +10,7 @@
     <script type="text/javascript" src="/js/studentProfile.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student Profile" bodyTitle="Student Profile" jsIncludes="${jsIncludes}">
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     <tsp:uploadPhotoModal modal="${data.uploadPhotoModal}" />
     <tsp:studentProfileDiv profile="${data.profileEditBox}" />
