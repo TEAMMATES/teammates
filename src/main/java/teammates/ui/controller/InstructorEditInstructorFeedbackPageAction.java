@@ -39,7 +39,7 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
         InstructorAttributes instructorUnderModeration = logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);
 
