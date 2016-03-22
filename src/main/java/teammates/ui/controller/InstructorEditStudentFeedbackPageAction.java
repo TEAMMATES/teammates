@@ -20,8 +20,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
-        String moderatedQuestionNumber = getRequestParamValue("moderatedquestion");
+        String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        String moderatedQuestionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION);
 
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
@@ -31,7 +31,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                                                Const.ParamsNames.FEEDBACK_SESSION_NAME),
                                  feedbackSessionName);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT),
+                                               Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON),
                                  moderatedEntityIdentifier);
 
         

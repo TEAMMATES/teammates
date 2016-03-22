@@ -23,8 +23,8 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
-        String moderatedQuestionNumber = getRequestParamValue("moderatedquestion");
+        String instructorUnderModerationEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        String moderatedQuestionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION);
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.COURSE_ID), 
@@ -33,20 +33,20 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
                                                Const.ParamsNames.FEEDBACK_SESSION_NAME), 
                                  feedbackSessionName);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT), 
-                                 moderatedEntityIdentifier);
+                                               Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON), 
+                                 instructorUnderModerationEmail);
 
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
-        InstructorAttributes instructorUnderModeration = logic.getInstructorForEmail(courseId, moderatedEntityIdentifier);
+        InstructorAttributes instructorUnderModeration = logic.getInstructorForEmail(courseId, instructorUnderModerationEmail);
 
         // If the instructor doesn't exist
         if (instructorUnderModeration == null) {
             throw new EntityDoesNotExistException("Instructor Email "
-                    + moderatedEntityIdentifier + " does not exist in " + courseId
+                    + instructorUnderModerationEmail + " does not exist in " + courseId
                     + ".");
         }
 
