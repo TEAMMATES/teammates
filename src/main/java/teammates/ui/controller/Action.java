@@ -513,9 +513,10 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e) {
+        isError = true;
+
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, "<br>");
         statusToUser.add(new StatusMessage(exceptionMessageForHtml, StatusMessageColor.DANGER));
-        isError = true;
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
     
@@ -526,10 +527,10 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e, String statusMessageToUser) {
+        isError = true;
+
         String statusMessageForHtml = statusMessageToUser.replace(Const.EOL, "<br>");
         statusToUser.add(new StatusMessage(statusMessageForHtml, StatusMessageColor.DANGER));
-
-        isError = true;
 
         String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, "<br>");
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
