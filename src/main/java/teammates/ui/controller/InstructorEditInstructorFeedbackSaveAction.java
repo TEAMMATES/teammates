@@ -40,11 +40,18 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
      * Retrieves any additional parameters from request and set them accordingly.
      */
     @Override
-    protected void setAdditionalParameters() {
+    protected void setAdditionalParameters() throws EntityDoesNotExistException {
         String moderatedInstructorEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail);
 
         moderatedInstructor = logic.getInstructorForEmail(courseId, moderatedInstructorEmail);
+        
+        // If the instructor doesn't exist
+        if (moderatedInstructor == null) {
+            throw new EntityDoesNotExistException("Instructor Email "
+                    + moderatedInstructorEmail + " does not exist in " + courseId
+                    + ".");
+        }
     }
     
     /**
@@ -72,7 +79,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
                 statusToUser.add(new StatusMessage("The feedback session or questions may have changed while you were submitting. "
                                                 + "Please check your responses to make sure they are saved correctly.", StatusMessageColor.WARNING));
                 isError = true;
-                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                log.warning("Question not found in Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]." + 
+                            "(deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
                 continue;
             }
             
@@ -103,7 +111,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         try {
             logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append instructor respondant");
+            log.severe("Failed to append instructor respondant. " + 
+                       "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }
     
@@ -112,7 +121,8 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         try {
             logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove instructor respondant");
+            log.severe("Failed to append instructor respondant. " + 
+                       "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
         }
     }
 
