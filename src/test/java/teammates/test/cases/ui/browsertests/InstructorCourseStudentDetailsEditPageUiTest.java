@@ -78,7 +78,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         ______TS("input validation");
         
-        String teamNameFieldName = "team name";
+        String teamNameFieldName = "team";
         String personNameFieldName = "name";
         
         editPage.submitUnsuccessfully(null, "", null, null)

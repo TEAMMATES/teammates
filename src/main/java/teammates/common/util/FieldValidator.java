@@ -262,7 +262,7 @@ public class FieldValidator {
      * Field: Student comment
      * Not allowed: |
      */
-    private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "student comments";
+    private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
     public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
             "The field <b>" + STUDENT_ROLE_COMMENTS_FIELD_NAME + "</b> must be no longer than "
@@ -285,7 +285,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Team name
      */
-    private static final String TEAM_NAME_FIELD_NAME = "team name";
+    private static final String TEAM_NAME_FIELD_NAME = "team";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     public static final String TEAM_NAME_ERROR_MESSAGE = 
             "The field <b>" + TEAM_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
@@ -298,7 +298,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Section name
      */
-    private static final String SECTION_NAME_FIELD_NAME = "section name";
+    private static final String SECTION_NAME_FIELD_NAME = "section";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
     public static final String SECTION_NAME_ERROR_MESSAGE =
             "The field <b>" + SECTION_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
