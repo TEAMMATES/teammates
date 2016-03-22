@@ -77,38 +77,14 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         if (moderatedQuestionNumber != null) {
           data.setModeratedQuestion(moderatedQuestionNumber);
         }
-        
-        hideQuestionsWithAnonymousResponses(data.bundle);
 
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
         
-        data.init("", "", courseId);
+        data.bundle.hideQuestionsWithAnonymousResponses();
+        data.init();
         
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
-    }
-    
-    /**
-     * Removes question from the bundle if the question has givers, recipients or responses that are anonymous to instructors.
-     * @param bundle
-     */
-    private boolean hideQuestionsWithAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
-        List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
-        
-        for (FeedbackQuestionAttributes question : bundle.questionResponseBundle.keySet()) {
-            boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isRecipientVisibleToInstructor = question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
-
-            if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
-                questionsToHide.add(question);
-                bundle.questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
-            }
-        }
-        
-        bundle.questionResponseBundle.keySet().removeAll(questionsToHide);
-        
-        return !questionsToHide.isEmpty();
     }
 }
