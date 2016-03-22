@@ -10,7 +10,7 @@
     
     <div class="bold align-center"> 
         <c:if test="${feedbackSubmissionForm.moderation}">       
-            <input name="moderatedinstructor" value="${feedbackSubmissionForm.previewInstructor.email}" type="hidden">
+            <input name="moderatedperson" value="${feedbackSubmissionForm.previewInstructor.email}" type="hidden">
         </c:if>
         
         <c:choose>
