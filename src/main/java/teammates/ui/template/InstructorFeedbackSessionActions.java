@@ -37,8 +37,8 @@ public class InstructorFeedbackSessionActions {
 
         this.privateSession = session.isPrivateSession();
 
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.fsName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeForJs(courseId);
+        this.fsName = Sanitizer.sanitizeForJs(feedbackSessionName);
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
