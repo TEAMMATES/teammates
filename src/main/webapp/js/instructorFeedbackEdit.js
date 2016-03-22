@@ -669,8 +669,7 @@ function feedbackRecipientUpdateVisibilityOptions(recipientType) {
     enableRow($recipientType, 3);
 }
 
-function isRecipientsTeamMembersVisibilityOptionValidForRecipientType(recipientTypeValue) {
-    var recipientType = recipientTypeValue;
+function isRecipientsTeamMembersVisibilityOptionValidForRecipientType(recipientType) {
     return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
            || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS' 
            || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
