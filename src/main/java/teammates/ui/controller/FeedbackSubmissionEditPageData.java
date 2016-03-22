@@ -38,6 +38,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isShowRealQuestionNumber = false;
         isHeaderHidden = false;        
     }
+    
+    public void init() {
+        createQuestionsWithResponses();
+    }
 
     public void init(String regKey, String email, String courseId) {
         String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
@@ -48,7 +52,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         registerMessage = (student == null || joinUrl == null) ? "" : String.format(Const.StatusMessages.UNREGISTERED_STUDENT, 
                                                                                        student.name, joinUrl);
-        createQuestionsWithResponses();        
+        init();        
     }
     
     public FeedbackSessionQuestionsBundle getBundle() {
