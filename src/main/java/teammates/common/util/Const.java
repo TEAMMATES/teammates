@@ -417,8 +417,8 @@ public class Const {
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
-        public static final String FEEDBACK_SESSION_MODERATED_STUDENT = "moderatedstudent";
-        public static final String FEEDBACK_SESSION_MODERATED_INSTRUCTOR = "moderatedinstructor";
+        public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
+        public static final String FEEDBACK_SESSION_MODERATED_QUESTION = "moderatedquestion";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
