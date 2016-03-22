@@ -529,7 +529,7 @@ public class PageData {
      * Retrieves the link to submit request to delete the session.
      * @param courseId course ID
      * @param feedbackSessionName the session name
-     * @param isHome true to indicate the request is from the home page
+     * @param returnUrl the url of the page to return to after the delete
      * @return the link to submit request to delete the session with return page link
      */
     public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String returnUrl) {
