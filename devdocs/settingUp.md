@@ -46,7 +46,7 @@ Important: When a version is specified, please install that version instead of t
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
    Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `copy → paste → rename`).
+   as the template (i.e. `duplicate -> remove '.template' from name`).
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
