@@ -10,7 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;

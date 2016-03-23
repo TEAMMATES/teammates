@@ -33,7 +33,6 @@ import teammates.storage.api.FeedbackQuestionsDb;
 
 public class FeedbackQuestionsLogic {
     
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
 
     private static FeedbackQuestionsLogic instance = null;

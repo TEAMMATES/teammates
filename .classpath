@@ -26,5 +26,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/google-api-client-1.18.0-rc.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/repackaged-appengine-jakarta-jstl-1.1.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/repackaged-appengine-jakarta-standard-1.1.2.jar"/>
+	<classpathentry kind="lib" path="taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="taglibs-standard-spec-1.2.5.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>
