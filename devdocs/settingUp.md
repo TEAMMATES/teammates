@@ -275,7 +275,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
 * **TestNG** [latest stable]
     TestNG is a Java test automation framework.
-* **QUnit** [version 1.10.0]
+* **QUnit** [version 1.22.0]
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.1]
     Blanket.js is a JavaScript code coverage library.
