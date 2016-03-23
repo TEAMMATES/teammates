@@ -26,7 +26,9 @@ public class Sanitizer {
      * @return the sanitized google ID or null (if the parameter was null).
      */
     public static String sanitizeGoogleId(String rawGoogleId) {
-        if (rawGoogleId == null) return null;
+        if (rawGoogleId == null) {
+            return null;
+        }
         
         String sanitized = rawGoogleId.trim();
         // trim @gmail.com in ID field
@@ -44,7 +46,7 @@ public class Sanitizer {
      */
     public static String sanitizeEmail(String rawEmail) {
         return trimIfNotNull(rawEmail);
-    }    
+    }
     
     /**
      * Sanitizes a Instructor or Student's name by removing leading/trailing whitespace.
@@ -85,7 +87,7 @@ public class Sanitizer {
      * @return the sanitized string or null (if the parameter was null).
      */
     public static Text sanitizeTextField(Text rawText) {
-        return (rawText==null) ? null :  new Text(trimIfNotNull(rawText.getValue()));
+        return (rawText == null) ? null : new Text(trimIfNotNull(rawText.getValue()));
     }
 
     /**
@@ -95,8 +97,10 @@ public class Sanitizer {
      * @param string
      * @return the sanitized string or null (if the parameter was null).
      */
-    public static String sanitizeForJs(String str){ 
-        if(str == null) return null;
+    public static String sanitizeForJs(String str) {
+        if (str == null) {
+            return null;
+        }
         return Sanitizer.sanitizeForHtml(
                 str.replace("\\", "\\\\")
                 .replace("\"", "\\\"")
@@ -108,8 +112,10 @@ public class Sanitizer {
      * Sanitize the string for inserting into HTML. Converts special characters
      * into HTML-safe equivalents.
      */
-    public static String sanitizeForHtml(String str){ 
-        if(str == null) return null;
+    public static String sanitizeForHtml(String str) {
+        if(str == null) {
+            return null;
+        }
         return str.replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
@@ -151,7 +157,9 @@ public class Sanitizer {
      * @return the sanitized url or null (if the parameter was null).
      */
     public static String sanitizeForNextUrl(String url) {
-        if(url == null) return null;
+        if (url == null) {
+            return null;
+        }
         return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
     }
     
@@ -175,8 +183,10 @@ public class Sanitizer {
     /**
      * Sanitize the string for searching. 
      */
-    public static String sanitizeForSearch(String str){ 
-        if(str == null) return null;
+    public static String sanitizeForSearch(String str) {
+        if (str == null) {
+            return null;
+        }
         return str
                 //general case for punctuation
                 .replace("`", " ").replace("!", " ").replace("#", " ").replace("$", " ").replace("%", " ").replace("^", " ")
@@ -194,7 +204,7 @@ public class Sanitizer {
      * We follow the definition described by RFC 4180:<br>
      * {@link http://tools.ietf.org/html/rfc4180}
      */
-    public static String sanitizeForCsv(String str){ 
+    public static String sanitizeForCsv(String str) {
         return "\"" + str.replace("\"", "\"\"") + "\""; // in CSV, " is escaped as ""
     }
     
@@ -203,11 +213,11 @@ public class Sanitizer {
      * We follow the definition described by RFC 4180:<br>
      * {@link http://tools.ietf.org/html/rfc4180}
      */
-    public static List<String> sanitizeListForCsv(List<String> strList){
+    public static List<String> sanitizeListForCsv(List<String> strList) {
         List<String> sanitizedStrList = new ArrayList<String>();
         
         Iterator<String> itr = strList.iterator();
-        while(itr.hasNext()) {
+        while (itr.hasNext()) {
             sanitizedStrList.add(sanitizeForCsv(itr.next()));
         }
         
@@ -221,7 +231,7 @@ public class Sanitizer {
      * @return the trimmed string or null (if the parameter was null).
      */
     private static String trimIfNotNull(String string) {
-        return ((string == null) ? null : string.trim());
+        return (string == null) ? null : string.trim();
     }
     
     /**
@@ -236,24 +246,26 @@ public class Sanitizer {
      * @param text
      * @return safer version of the text for XPath
      */
-    public static String convertStringForXPath(String text){
+    public static String convertStringForXPath(String text) {
         String result = "";
         int startPos = 0;
-        for(int i=0;i<text.length();i++){
-            while((i<text.length()) && (text.charAt(i)!='\'')){
+        for (int i = 0; i < text.length(); i++) {
+            while (i < text.length() && text.charAt(i) != '\'') {
                 i++;
             }
-            if (startPos<i){
+            if (startPos < i) {
                 result += "'" + text.substring(startPos, i) + "',";
                 startPos = i;
             }
-            while((i<text.length()) && (text.charAt(i)=='\'')) i++;
-            if (startPos<i){
+            while (i < text.length() && text.charAt(i) == '\'') {
+                i++;
+            }
+            if (startPos < i) {
                 result += "\"" + text.substring(startPos, i) + "\",";
                 startPos = i;
             }
         }
-        if (result.equals("")){
+        if (result.equals("")) {
             return "''";
         }
         return "concat(" + result + "'')";
