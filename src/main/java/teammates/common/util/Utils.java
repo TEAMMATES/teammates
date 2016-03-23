@@ -1,8 +1,10 @@
 package teammates.common.util;
 
 import java.text.DateFormat;
+import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const.SystemParams;
 
 import com.google.gson.Gson;
@@ -34,4 +36,26 @@ public class Utils {
                 .create();
     }
 
+    /**
+     * This method converts a list of FeedbackParticipantType objects into a string, separated by the delimiter.
+     * 
+     * @param participants
+     *            a list of 'FeedbackParticipantType' objects
+     * @param delimiter
+     *            a delimiter to separate each participant (e.g. a comma sign ",")
+     * @return a string representing all participants separated by the delimiter
+     */
+    public static String joinParticipantTypes(List<FeedbackParticipantType> participants, String delimiter) {
+        String result = "";
+        
+        if (!participants.isEmpty()) {
+            for (FeedbackParticipantType fpt : participants) {
+                result += fpt + delimiter;
+            }
+            result = result.substring(0, result.length() - delimiter.length());
+        }
+        
+        return result;
+    }
+    
 }
