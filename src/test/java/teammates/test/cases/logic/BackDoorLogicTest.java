@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -69,7 +70,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
             logic.persistDataBundle(dataBundle);
             Assert.fail();
         } catch (InvalidParametersException e) {
-            assertTrue(e.getMessage().contains("The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than 40 characters."));
+            assertTrue(e.getMessage().contains(FieldValidator.COURSE_ID_ERROR_MESSAGE));
         }
 
         // Not checking for invalid values in other entities because they

@@ -78,30 +78,27 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         ______TS("input validation");
         
-        String teamNameFieldName = "team";
-        String personNameFieldName = "name";
-        
         editPage.submitUnsuccessfully(null, "", null, null)
             .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML, 
-                    teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
+                    FieldValidator.TEAM_NAME_FIELD_NAME, FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         ______TS("empty student name and the team field is edited");
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully("", newTeamName, null, null)
             .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML,
-                    personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         ______TS("long student name and the team field is not edited");
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(invalidStudentName, null, null, null)
             .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML, 
-                    personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         String newStudentName = "New guy";
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.COURSE_TEAMNAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
             .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML, 
-                    teamNameFieldName,  FieldValidator.TEAM_NAME_MAX_LENGTH));
+                    FieldValidator.TEAM_NAME_FIELD_NAME,  FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         String invalidEmail = "invalidemail";
         editPage.submitUnsuccessfully(newStudentName, newTeamName, invalidEmail, null)

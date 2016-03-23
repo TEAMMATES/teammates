@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
@@ -180,7 +181,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.editFeedbackSession(editedSession.endTime, editedSession.startTime,
                                         editedSession.instructions, editedSession.gracePeriod);
         
-        String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
+        String expectedString = String.format(FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                                              FieldValidator.END_TIME_FIELD_NAME,
+                                              FieldValidator.FEEDBACK_SESSION_NAME,
+                                              FieldValidator.START_TIME_FIELD_NAME);
         feedbackEditPage.verifyFieldValue("instructions", "Made some changes");
         feedbackEditPage.verifyStatus(expectedString);
     }

@@ -466,17 +466,15 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Failure case: copy fail since the feedback session name is blank");
         
         feedbackPage.copyFeedbackSession("", newSession.courseId);
-        feedbackPage.verifyStatus(
-                "The field session name cannot be empty and must be no longer than 38 characters.");
+        feedbackPage.verifyStatus(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE_WITHOUT_HTML);
         
         
         ______TS("Failure case: copy fail since the feedback session name starts with (");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.copyFeedbackSession("(New Session)", newSession.courseId);
-        feedbackPage.verifyStatus(
-                "The field session name must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+        feedbackPage.verifyStatus(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
+                                                FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
@@ -526,9 +524,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(
-                "The field <b>session name</b> must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+        feedbackPage.fsCopyToModal.verifyStatusMessage(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                                                                     FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         feedbackPage.fsCopyToModal.clickCloseButton();
         

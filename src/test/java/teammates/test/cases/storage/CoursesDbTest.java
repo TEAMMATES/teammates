@@ -62,7 +62,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than 40 characters.",
+            AssertHelper.assertContains(FieldValidator.COURSE_ID_ERROR_MESSAGE,
                                         e.getMessage());
         }
 
@@ -72,7 +72,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("The field <b>course name</b> cannot be empty and must be no longer than 64 characters.",
+            AssertHelper.assertContains(FieldValidator.COURSE_NAME_ERROR_MESSAGE,
                                         e.getMessage());
         }
 
@@ -134,9 +134,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.updateCourse(course);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than 40 characters.",
+            AssertHelper.assertContains(FieldValidator.COURSE_ID_ERROR_MESSAGE,
                                         e.getMessage());
-            AssertHelper.assertContains("The field <b>course name</b> cannot be empty and must be no longer than 64 characters.",
+            AssertHelper.assertContains(FieldValidator.COURSE_NAME_ERROR_MESSAGE,
                                         e.getMessage());
         }
         

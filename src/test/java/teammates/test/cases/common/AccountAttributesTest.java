@@ -44,10 +44,10 @@ public class AccountAttributesTest extends BaseTestCase {
         ______TS("invalid account");
         
         account = createInvalidAccountAttributesObject();
-        String expectedError = "The field <b>name</b> cannot be empty and must be no longer than 100 characters."+ EOL +
-                "The field <b>Google ID</b> must be a valid id already registered with Google. It must not be empty or longer than 254 characters."+ EOL +
-                "The field <b>email</b> must contain some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters and cannot have spaces."+ EOL +
-                "The field <b>institute name</b> cannot be empty and must be no longer than 64 characters.";
+        String expectedError = FieldValidator.PERSON_NAME_ERROR_MESSAGE + EOL +
+                               FieldValidator.GOOGLE_ID_ERROR_MESSAGE + EOL +
+                               FieldValidator.EMAIL_ERROR_MESSAGE + EOL +
+                               FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE;
         assertEquals("all valid values",false, account.isValid());
         assertEquals("all valid values",expectedError, StringHelper.toString(account.getInvalidityInfo()));
         

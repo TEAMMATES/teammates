@@ -41,6 +41,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.ParamsNames;
@@ -279,7 +280,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
         } catch (Exception a) {
-            assertEquals("The field <b>session name</b> must not contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)", a.getMessage());
+            assertEquals(String.format(FieldValidator.NON_HTML_FIELD_ERROR_MESSAGE,
+                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME), a.getMessage());
         }
 
         fs.feedbackSessionName = "test %| test";
@@ -287,7 +289,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             fsLogic.createFeedbackSession(fs);
             signalFailureToDetectException();
         } catch (Exception a) {
-            assertEquals("The field <b>session name</b> must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", a.getMessage());
+            assertEquals(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                    FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME), a.getMessage());
         }
         
         ______TS("test delete");

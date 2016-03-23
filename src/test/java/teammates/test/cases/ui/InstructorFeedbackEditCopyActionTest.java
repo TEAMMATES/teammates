@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.AjaxResult;
@@ -276,13 +277,14 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
+        expectedString = FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE;
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : " + FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         ______TS("Failure case: empty name, instructor feedbacks page");
@@ -301,14 +303,14 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
+        expectedString = FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE;
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||"
-                + "/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : " + FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         ______TS("Failure case: empty name, instructor feedback copy page");
@@ -328,14 +330,14 @@ public class InstructorFeedbackEditCopyActionTest extends
 
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
+        expectedString = FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE;
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||"
-                + "/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : " + FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         ______TS("Failure case: empty name, instructor feedback edit page");
@@ -354,14 +356,14 @@ public class InstructorFeedbackEditCopyActionTest extends
  
         assertEquals("", editCopyData.redirectUrl);
         
-        expectedString = "The field <b>session name</b> cannot be empty and must be no longer than 38 characters.";
+        expectedString = FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE;
         assertEquals(expectedString, editCopyData.errorMessage);
         
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||"
-                + "/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : " + FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         

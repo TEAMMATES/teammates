@@ -12,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
@@ -80,8 +81,10 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ar = (AjaxResult) a.executeAndPostProcess();
         pageData = (InstructorFeedbackEditPageData) ar.data;
         
-        expectedString = "The start time for this feedback session cannot be "
-                         + "earlier than the time when the session will be visible.";
+        expectedString = String.format(FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                                       FieldValidator.START_TIME_FIELD_NAME,
+                                       FieldValidator.FEEDBACK_SESSION_NAME,
+                                       FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME);
         assertEquals(expectedString, pageData.getStatusForAjax());
         assertTrue(pageData.getHasError());
         

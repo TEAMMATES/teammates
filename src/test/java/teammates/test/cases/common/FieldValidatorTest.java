@@ -142,7 +142,7 @@ public class FieldValidatorTest extends BaseTestCase{
         
         ______TS("null value");
         
-        String typicalFieldName = "name";
+        String typicalFieldName = "Name";
         int typicalLength = 25;
         
         try {

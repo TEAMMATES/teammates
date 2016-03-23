@@ -25,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -1103,7 +1104,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than 40 characters.", e.getMessage());
+            AssertHelper.assertContains(FieldValidator.COURSE_ID_ERROR_MESSAGE, e.getMessage());
         }
         verifyAbsentInDatastore(c);
         verifyAbsentInDatastore(i);

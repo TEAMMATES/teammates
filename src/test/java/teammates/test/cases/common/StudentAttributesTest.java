@@ -152,12 +152,12 @@ public class StudentAttributesTest extends BaseTestCase {
         s.team = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 
         assertFalse("invalid value", s.isValid());
-        String errorMessage = "The field <b>Google ID</b> must be a valid id already registered with Google. It must not be empty or longer than 254 characters." + EOL
-                            + "The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores, and dollar signs (no spaces allowed). It must not be empty and must be no longer than 40 characters." + EOL
-                            + "The field <b>email</b> must contain some text followed by one '@' sign followed by some more text. It cannot be longer than 254 characters and cannot have spaces." + EOL
-                            + "The field <b>team</b> cannot be empty and must be no longer than 60 characters." + EOL
-                            + "The field <b>comments</b> must be no longer than 500 characters." + EOL
-                            + "The field <b>name</b> cannot be empty and must be no longer than 100 characters.";
+        String errorMessage = FieldValidator.GOOGLE_ID_ERROR_MESSAGE + EOL
+                            + FieldValidator.COURSE_ID_ERROR_MESSAGE + EOL
+                            + FieldValidator.EMAIL_ERROR_MESSAGE + EOL
+                            + FieldValidator.TEAM_NAME_ERROR_MESSAGE+ EOL
+                            + FieldValidator.STUDENT_ROLE_COMMENTS_ERROR_MESSAGE + EOL
+                            + FieldValidator.PERSON_NAME_ERROR_MESSAGE;
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
 

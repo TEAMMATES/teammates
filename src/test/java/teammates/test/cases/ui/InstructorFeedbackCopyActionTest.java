@@ -147,8 +147,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Servlet Action Failure : The field <b>session name</b> cannot be empty and must be no longer than 38 characters.|||"
-                + "/page/instructorFeedbackCopy";
+                + "Servlet Action Failure : " + FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE
+                + "|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         
         

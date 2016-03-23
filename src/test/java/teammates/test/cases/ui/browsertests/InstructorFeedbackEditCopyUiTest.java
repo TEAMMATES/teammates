@@ -1,6 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertTrue;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -9,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -81,9 +83,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackEditPage.fsCopyToModal.verifyStatusMessage(
-                "The field <b>session name</b> must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+        feedbackEditPage.fsCopyToModal.verifyStatusMessage(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+                                                                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         
         feedbackEditPage.fsCopyToModal.clickCloseButton();

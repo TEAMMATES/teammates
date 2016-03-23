@@ -61,10 +61,10 @@ public class FieldValidator {
      */
     public static final int EMAIL_MAX_LENGTH = 254;
     public static final String EMAIL_ERROR_MESSAGE = 
-            "The field <b>email</b> must contain some text followed by one '@' sign followed by some more text. "
+            "<b>Email</b> must contain some text followed by one '@' sign followed by some more text. "
             + "It cannot be longer than "+ EMAIL_MAX_LENGTH +" characters and cannot have spaces.";
     public static final String EMAIL_ERROR_MESSAGE_WITHOUT_HTML =
-            "The field email must contain some text followed by one '@' sign followed by some more text. "
+            "Email must contain some text followed by one '@' sign followed by some more text. "
             + "It cannot be longer than "+ EMAIL_MAX_LENGTH +" characters and cannot have spaces.";
     
     public static final String EMAIL_TAKEN_MESSAGE = 
@@ -74,13 +74,13 @@ public class FieldValidator {
      * =======================================================================
      * Field: Person name 
      */
-    public static final String PERSON_NAME_FIELD_NAME = "name";
+    public static final String PERSON_NAME_FIELD_NAME = "Name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
     public static final String PERSON_NAME_ERROR_MESSAGE = 
-            "The field <b>" + PERSON_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            "<b>" + PERSON_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
             + PERSON_NAME_MAX_LENGTH + " characters.";
     public static final String PERSON_NAME_ERROR_MESSAGE_WITHOUT_HTML = 
-            "The field " + PERSON_NAME_FIELD_NAME + " cannot be empty and must be no longer than "
+            PERSON_NAME_FIELD_NAME + " cannot be empty and must be no longer than "
             + PERSON_NAME_MAX_LENGTH + " characters.";
     
     /*
@@ -97,40 +97,43 @@ public class FieldValidator {
      * ======================================================================= 
      * Field: Email Subject
      */
-    private static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
+    public static final String EMAIL_SUBJECT_FIELD_NAME = "Email subject";
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
     public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
-            "The field <b>" + EMAIL_SUBJECT_FIELD_NAME + "</b>must be no longer than "
+            "<b>" + EMAIL_SUBJECT_FIELD_NAME + "</b>must be no longer than "
+            + EMAIL_SUBJECT_MAX_LENGTH + " characters and cannot not be empty.";
+    public static final String EMAIL_SUBJECT_ERROR_MESSAGE_WITHOUT_HTML = 
+            EMAIL_SUBJECT_FIELD_NAME + " must be no longer than "
             + EMAIL_SUBJECT_MAX_LENGTH + " characters and cannot not be empty.";
     
     /*
      * ======================================================================= 
      * Field: Email Content
      */
-    private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
+    private static final String EMAIL_CONTENT_FIELD_NAME = "Email content";
     public static final String EMAIL_CONTENT_ERROR_MESSAGE =
-            "The field <b>" + EMAIL_CONTENT_FIELD_NAME + "</b> should not be empty.";
+            "<b>" + EMAIL_CONTENT_FIELD_NAME + "</b> should not be empty.";
     
     
     /*
      * ======================================================================= 
      * Field: Nationality
      */
-    public static final String NATIONALITY_FIELD_NAME = "nationality";
+    public static final String NATIONALITY_FIELD_NAME = "Nationality";
     // one more than longest official nationality name
     public static final int NATIONALITY_MAX_LENGTH = 55;
     public static final String NATIONALITY_ERROR_MESSAGE = 
-            "The field <b>" + NATIONALITY_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            "<b>" + NATIONALITY_FIELD_NAME + "</b> cannot be empty and must be no longer than "
             + NATIONALITY_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
      * Field: Course name
      */
-    private static final String COURSE_NAME_FIELD_NAME = "course name";
+    private static final String COURSE_NAME_FIELD_NAME = "Course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     public static final String COURSE_NAME_ERROR_MESSAGE = 
-            "The field <b>" + COURSE_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            "<b>" + COURSE_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
             + COURSE_NAME_MAX_LENGTH + " characters.";
     
     /*
@@ -154,7 +157,7 @@ public class FieldValidator {
      */
     public static final int COURSE_ID_MAX_LENGTH = 40;
     public static final String COURSE_ID_ERROR_MESSAGE = 
-            "The field <b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores,"
+            "<b>Course ID</b> must contain only letters, numbers, fullstops, hyphens, underscores,"
             + " and dollar signs (no spaces allowed). It must not be empty and must be no longer than "
             + COURSE_ID_MAX_LENGTH + " characters.";
     /*
@@ -162,7 +165,7 @@ public class FieldValidator {
      * Field instructor permission role
      */
     public static final String INSTRUCTOR_ROLE_ERROR_MESSAGE = 
-            "The field <b>role</b> must be one of the following: "
+            "<b>Role</b> must be one of the following: "
                     + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", "
                     + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", "
                     + Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", "
@@ -199,18 +202,21 @@ public class FieldValidator {
      * Only 1 hour increments allowed.
      * TODO: allow smaller increments.
      */
-    public static final String START_TIME_FIELD_NAME = "start time";
-    public static final String END_TIME_FIELD_NAME = "end time";
+    public static final String START_TIME_FIELD_NAME = "Start time";
+    public static final String END_TIME_FIELD_NAME = "End time";
     
     /*
      * =======================================================================
      * Field: Feedback session name
      */
-    public static final String FEEDBACK_SESSION_NAME = "feedback session";
-    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "session name";
+    public static final String FEEDBACK_SESSION_NAME = "Feedback session";
+    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "Session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
-    public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
-            "The field <b>" + FEEDBACK_SESSION_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+    public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE =             
+            "<b>" + FEEDBACK_SESSION_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            + FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters.";
+    public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE_WITHOUT_HTML =
+            FEEDBACK_SESSION_NAME_FIELD_NAME + " cannot be empty and must be no longer than "
             + FEEDBACK_SESSION_NAME_MAX_LENGTH + " characters.";
 
     
@@ -219,10 +225,10 @@ public class FieldValidator {
      * Field: Feedback question text
      * TODO: remove if this field is not used
      */
-    private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "feedback question";
+    private static final String FEEDBACK_QUESTION_TEXT_FIELD_NAME = "Feedback question";
     public static final int FEEDBACK_QUESTION_TEXT_MAX_LENGTH = 38;
     public static final String FEEDBACK_QUESTION_TEXT_ERROR_MESSAGE = 
-            "The field <b>"+FEEDBACK_SESSION_NAME_FIELD_NAME+"</b> must not be empty or longer than "
+            "<b>"+FEEDBACK_SESSION_NAME_FIELD_NAME+"</b> must not be empty or longer than "
             + FEEDBACK_SESSION_NAME_MAX_LENGTH+" characters. If you require more characters for your question, "
             + "please use the instructions box below.";
     
@@ -233,28 +239,28 @@ public class FieldValidator {
      */    
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
     public static final String GOOGLE_ID_ERROR_MESSAGE = 
-            "The field <b>Google ID</b> must be a valid id already registered with Google. "
+            "<b>Google ID</b> must be a valid id already registered with Google. "
             + "It must not be empty or longer than " + GOOGLE_ID_MAX_LENGTH + " characters.";
     
     /*
      * ======================================================================= 
      * Field: Gender
      */
-    private static final String GENDER_FIELD_NAME = "gender";
+    private static final String GENDER_FIELD_NAME = "Gender";
     private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(
             Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
     public static final String GENDER_ERROR_MESSAGE = 
-            "The field <b>" + GENDER_FIELD_NAME + "</b> must be one of the following: " + Const.GenderTypes.MALE
+            "<b>" + GENDER_FIELD_NAME + "</b> must be one of the following: " + Const.GenderTypes.MALE
             + ", " + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     /*
      * =======================================================================
      * Field: Institute name
      */    
-    private static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
+    private static final String INSTITUTE_NAME_FIELD_NAME = "Institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
     public static final String INSTITUTE_NAME_ERROR_MESSAGE = 
-            "The field <b>" + INSTITUTE_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            "<b>" + INSTITUTE_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
             + INSTITUTE_NAME_MAX_LENGTH + " characters.";
 
     /*
@@ -262,10 +268,10 @@ public class FieldValidator {
      * Field: Student comment
      * Not allowed: |
      */
-    private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments";
+    private static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "Comments";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
     public static final String STUDENT_ROLE_COMMENTS_ERROR_MESSAGE = 
-            "The field <b>" + STUDENT_ROLE_COMMENTS_FIELD_NAME + "</b> must be no longer than "
+            "<b>" + STUDENT_ROLE_COMMENTS_FIELD_NAME + "</b> must be no longer than "
             + STUDENT_ROLE_COMMENTS_MAX_LENGTH + " characters.";
     
     /*
@@ -285,23 +291,23 @@ public class FieldValidator {
      * =======================================================================
      * Field: Team name
      */
-    private static final String TEAM_NAME_FIELD_NAME = "team";
+    public static final String TEAM_NAME_FIELD_NAME = "Team";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     public static final String TEAM_NAME_ERROR_MESSAGE = 
-            "The field <b>" + TEAM_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            "<b>" + TEAM_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
             + TEAM_NAME_MAX_LENGTH + " characters.";
     public static final String TEAM_NAME_ERROR_MESSAGE_WITHOUT_HTML = 
-            "The field <b>" + TEAM_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            "<b>" + TEAM_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
             + TEAM_NAME_MAX_LENGTH + " characters.";
     
     /*
      * =======================================================================
      * Field: Section name
      */
-    private static final String SECTION_NAME_FIELD_NAME = "section";
+    private static final String SECTION_NAME_FIELD_NAME = "Section";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
     public static final String SECTION_NAME_ERROR_MESSAGE =
-            "The field <b>" + SECTION_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
+            "<b>" + SECTION_NAME_FIELD_NAME + "</b> cannot be empty and must be no longer than "
             + SECTION_NAME_MAX_LENGTH + " characters.";
 
     // ////////////////////////////////////////////////////////////////////////
@@ -377,32 +383,32 @@ public class FieldValidator {
     
     //TODO: move these out of this area
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE = 
-            "The field <b>%s</b> cannot be empty and must be no longer than %d characters.";
+            "<b>%s</b> cannot be empty and must be no longer than %d characters.";
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML = 
-            "The field %s cannot be empty and must be no longer than %d characters.";
+            "%s cannot be empty and must be no longer than %d characters.";
     
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE = 
-            "The field <b>%s</b> must be no longer than %d characters.";
+            "<b>%s</b> must be no longer than %d characters.";
     
     public static final String ALPHANUMERIC_STRING_ERROR_MESSAGE = 
-            "The field <b>%s</b> can only contain alphabets, numbers and whitespaces.";
+            "<b>%s</b> can only contain alphabets, numbers and whitespaces.";
     
     public static final String INVALID_NAME_ERROR_MESSAGE = 
-            "The field <b>%s</b> must start with an alphanumeric character, "
+            "<b>%s</b> must start with an alphanumeric character, "
             + "and cannot contain any vertical bar (|) or percent sign (%%).";
     public static final String INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML =
-            "The field %s must start with an alphanumeric character, "
+            "%s must start with an alphanumeric character, "
             + "and cannot contain any vertical bar (|) or percent sign (%%).";
     
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
-            "The field <b>%s</b> must not contain only whitespace or extra spaces at the beginning or at the end of the text.";
+            "<b>%s</b> must not contain only whitespace or extra spaces at the beginning or at the end of the text.";
     
     public static final String NON_HTML_FIELD_ERROR_MESSAGE = 
-            "The field <b>%s</b> must not contain the following special html characters in brackets: "
+            "<b>%s</b> must not contain the following special html characters in brackets: "
             + "(&lt; &gt; \\ &#x2f; &#39; &amp;)";
     
     public static final String NON_NULL_FIELD_ERROR_MESSAGE = 
-            "The field <b>%s</b> must not be empty.";
+            "<b>%s</b> must not be empty.";
     
     /**
      * 

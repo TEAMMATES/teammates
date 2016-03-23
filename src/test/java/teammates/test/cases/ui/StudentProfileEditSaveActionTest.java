@@ -59,7 +59,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         List<String> expectedErrorMessages = new ArrayList<String>();
         
         expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                                                "name"));
+                                                FieldValidator.PERSON_NAME_FIELD_NAME));
         expectedErrorMessages.add(FieldValidator.EMAIL_ERROR_MESSAGE);
 
         AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
