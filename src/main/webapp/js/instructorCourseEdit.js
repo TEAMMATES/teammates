@@ -351,8 +351,7 @@ $(function(){
 function editCourse() {
     $("#btnSaveCourse").show();
     $("#" + COURSE_NAME).prop("disabled", false);
-    
-    $("#courseEditLink").off("click");
+    $("#courseEditLink").hide();
 }
 
 $(document).ready(function() {
