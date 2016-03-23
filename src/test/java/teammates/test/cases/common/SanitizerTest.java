@@ -45,29 +45,45 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForJs() {
+        sanitizeJs_receivesNull_returnsNull();
+        sanitizeJs_receivesUnsanitized_returnsSanitized();
+    }
+
+    private void sanitizeJs_receivesNull_returnsNull() {
+        assertEquals(null, Sanitizer.sanitizeForJs(null));
+    }
+
+    private void sanitizeJs_receivesUnsanitized_returnsSanitized() {
         String unsanitized = "\\ \" ' #"; // i.e., [\ " ' #]
         String expected = "\\\\ \\&quot; \\&#39; \\#"; // i.e., [\\ \&quot; \&#39; \#]
         String sanitized = Sanitizer.sanitizeForJs(unsanitized);
-
-        assertEquals(null, Sanitizer.sanitizeForJs(null));
         assertEquals(expected, sanitized);
     }
-    
     @Test
     public void testSanitizeForHtml() {
+        sanitizeHtml_receivesNull_returnsNull();
+        sanitizeHtml_receivesCodeInjection_returnsSanitized();
+        sanitizeHtml_receivesSanitized_returnsUnchanged();
+    }
+
+    private void sanitizeHtml_receivesNull_returnsNull() {
+        assertEquals(null, Sanitizer.sanitizeForHtml(null));
+    };
+
+    private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
         String unsanitized = "< > \" / ' &"
                            + "<script>alert('injected');</script>";
-
         String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
                         + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
-
         String sanitized = Sanitizer.sanitizeForHtml(unsanitized);
-        String sanitizedTwice = Sanitizer.sanitizeForHtml(sanitized);
-
-        assertEquals(null, Sanitizer.sanitizeForHtml(null));
         assertEquals(expected, sanitized);
-        assertEquals(expected, sanitizedTwice);
-    }
+    };
+
+    private void sanitizeHtml_receivesSanitized_returnsUnchanged() {
+        String sanitized = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
+                         + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
+        assertEquals(sanitized, Sanitizer.sanitizeForHtml(sanitized));
+    };
     
     @Test
     public void testSanitizeForRichText() {
@@ -76,18 +92,28 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForCsv() {
+        sanitizeCsv_receivesUnsanitized_returnsSanitized();
+    }
+
+    private void sanitizeCsv_receivesUnsanitized_returnsSanitized() {
         String unsanitized = "aaa , bb\"b, c\"\"cc";
         String expected = "\"aaa , bb\"\"b, c\"\"\"\"cc\"";
-        
         String sanitized = Sanitizer.sanitizeForCsv(unsanitized);
         assertEquals(expected, sanitized);
     }
     
     @Test
     public void testSanitizeListForCsv() {
+        sanitizeCsvList_receivesEmptyList_returnsEmptyList();
+        sanitizeCsvList_receivesUnsanitized_returnsSanitized();
+    }
+
+    private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
         List<String> emptyList = new ArrayList<String>();
         assertEquals(emptyList, Sanitizer.sanitizeListForCsv(emptyList));
-        
+    }
+
+    private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
         List<String> unsanitized = new ArrayList<String>();
         unsanitized.add("aaa , bb\"b, c\"\"cc");
         unsanitized.add("aaa , bb\"b, c\"\"cc");
