@@ -287,10 +287,6 @@ Apply to thead to make headers not bold.
     white-space: pre-wrap;
 }
 
-.text-nowrap {
-    white-space: nowrap;
-}
-
 .text-strike {
     text-decoration: line-through;
 }
@@ -823,5 +819,11 @@ Prevent Long URL From Breaking Out of Container
     }
     .tablet-margin-10px {
         margin: 10px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .text-nowrap {
+        white-space: nowrap;
     }
 }
