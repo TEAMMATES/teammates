@@ -33,7 +33,7 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
         new GateKeeper().verifyAccessible(instructor,
                 session,
                 false, 
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
     
     /**

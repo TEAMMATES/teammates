@@ -61,7 +61,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                 false, studentUnderModeration.section, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, studentUnderModeration.email);

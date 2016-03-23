@@ -31,6 +31,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
     
+    public FeedbackSubmissionEditPageData(AccountAttributes account) {
+        this(account, null);
+    }
+    
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
         super(account, student);
         isPreview = false;
