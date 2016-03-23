@@ -347,6 +347,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void clickFsCopyButton() {
+        waitForElementNotCovered(fscopyButton);
         fscopyButton.click();
     }
     
@@ -677,7 +678,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectRecipientsToBeStudents() {
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
-    
+
+    public void selectRecipientsToBeInstructors() {
+        selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
+    }
+
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;

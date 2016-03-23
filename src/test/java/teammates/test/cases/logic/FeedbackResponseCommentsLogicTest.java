@@ -233,6 +233,22 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         // reset email
         frcLogic.updateFeedbackResponseCommentsGiverEmail(frComment.courseId, updatedEmail, oldEmail);
+        
+        ______TS("typical success case update feedback response comment feedbackResponseId");
+        
+        String oldId = frComment.feedbackResponseId;
+        String updatedId = "newResponseId";
+        frcLogic.updateFeedbackResponseCommentsForChangingResponseId(oldId, updatedId);
+        
+        actualFrComment = frcLogic.getFeedbackResponseComment(
+                updatedId, frComment.giverEmail, frComment.createdAt);
+
+        assertEquals(frComment.courseId, actualFrComment.courseId);
+        assertEquals(updatedId, actualFrComment.feedbackResponseId);
+        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        
+        // reset id
+        frcLogic.updateFeedbackResponseCommentsForChangingResponseId(updatedId, oldId);
     }
     
     @Test

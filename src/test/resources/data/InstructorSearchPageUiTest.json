@@ -85,7 +85,7 @@
             "role":"Manager",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "helperOfCourse1":{
             "googleId":"searchUI.idOfHelperOfCourse1",
@@ -146,7 +146,7 @@
             },
             "createdTime":"2012-03-20 11:59 PM UTC",
             "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2017-04-30 11:59 PM UTC",
+            "endTime":"2027-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
             "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":2.0,
@@ -361,7 +361,7 @@
             "feedbackQuestionId":"1",
             "giverEmail":"searchUI.instructor1@course1.tmt",
             "feedbackResponseId":"1%searchUI.student1InCourse1@gmail.tmt%searchUI.student1InCourse1@gmail.tmt",
-            "createdAt":"2016-03-01 11:59 PM UTC",
+            "createdAt":"2026-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor 1 comment to student 1 self feedback"   
             }

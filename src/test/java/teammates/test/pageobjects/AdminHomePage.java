@@ -58,7 +58,7 @@ public class AdminHomePage extends AppPage {
         }
 
         submitButton.click();
-        waitForAjaxLoaderGifToDisappear();
+        waitForElementToBeClickable(submitButton);
         return this;
     }
 
@@ -67,7 +67,7 @@ public class AdminHomePage extends AppPage {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
         submitButtonDetailsSingleLineForm.click();
-        waitForAjaxLoaderGifToDisappear();
+        waitForElementToBeClickable(submitButtonDetailsSingleLineForm);
     }
     
     public String getMessageFromResultTable(int index) {

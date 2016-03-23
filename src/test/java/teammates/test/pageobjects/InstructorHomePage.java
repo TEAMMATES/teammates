@@ -335,6 +335,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     private int getCourseRowId(String courseId) {
+        waitForAjaxLoaderGifToDisappear();
         int id = 0;
         while (isElementPresent(By.id("course-" + id))) {
             if (getElementText(
@@ -370,6 +371,7 @@ public class InstructorHomePage extends AppPage {
         waitForElementPresence(fsCopyButtonElement);
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
+        waitForElementNotCovered(fsCopyButton);
         fsCopyButton.click();
     }
 }

@@ -28,7 +28,7 @@
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
      
     <br>
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <ti:copyModal />
     
     <c:if test="${empty data.qnForms}">

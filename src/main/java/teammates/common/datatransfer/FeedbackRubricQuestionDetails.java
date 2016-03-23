@@ -221,8 +221,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i))
-                                                    + " (" + (numOfRubricChoices - i) + ")");
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+            // TODO display numerical value of option 
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         return tableHeaderFragmentHtml.toString();
@@ -243,9 +243,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(j),
                                 "${row}", Integer.toString(i),
-                                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                                "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j)? "checked":"", //Check if existing choice for sub-question == current choice
+                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked" : "", //Check if existing choice for sub-question == current choice
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
@@ -277,9 +277,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(j),
                                 "${row}", Integer.toString(i),
-                                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                                "${disabled}", sessionIsOpen ? "" : "disabled",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(i, j)),
-                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j)? "checked":"", //Check if existing choice for sub-question == current choice
+                                "${checked}", (isExistingResponse && frd.getAnswer(i) == j) ? "checked" : "", //Check if existing choice for sub-question == current choice
                                 "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(j)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 panelBody.append(panelBodyFragment);
@@ -359,10 +359,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public String getNewQuestionSpecificEditFormHtml() {
         // Add some choices by default
         this.numOfRubricChoices = 4;
-        this.rubricChoices.add("Strongly Agree");
-        this.rubricChoices.add("Agree");
-        this.rubricChoices.add("Disagree");
         this.rubricChoices.add("Strongly Disagree");
+        this.rubricChoices.add("Disagree");
+        this.rubricChoices.add("Agree");
+        this.rubricChoices.add("Strongly Agree");
         
         // Add some sub-questions by default
         this.numOfRubricSubQuestions = 2;
@@ -371,15 +371,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         this.initializeRubricDescriptions();
         
-        setDescription(0,0, "Initiates discussions frequently, and engages the team.");
-        setDescription(0,1, "Takes part in discussions and sometimes initiates discussions.");
-        setDescription(0,2, "Occasionally responds, but never initiates discussions.");
-        setDescription(0,3, "Rarely or never responds.");
+        setDescription(0, 0, "Rarely or never responds.");
+        setDescription(0, 1, "Occasionally responds, but never initiates discussions.");
+        setDescription(0, 2, "Takes part in discussions and sometimes initiates discussions.");
+        setDescription(0, 3, "Initiates discussions frequently, and engages the team.");
         
-        setDescription(1,0, "Tasks are always completed before the deadline.");
-        setDescription(1,1, "Occasionally misses deadlines.");
-        setDescription(1,2, "Often misses deadlines.");
-        setDescription(1,3, "Rarely or never completes tasks.");
+        setDescription(1, 0, "Rarely or never completes tasks.");
+        setDescription(1, 1, "Often misses deadlines.");
+        setDescription(1, 2, "Occasionally misses deadlines.");
+        setDescription(1, 3, "Tasks are always completed before the deadline.");
         
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
@@ -458,10 +458,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
+            // TODO display numerical value of option 
+            String rubricChoiceValue = Sanitizer.sanitizeForHtml(rubricChoices.get(i));
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)) 
-                                                    + " (" + (numOfRubricChoices - i) + ")");
+                            "${rubricChoiceValue}", rubricChoiceValue);
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
@@ -471,22 +472,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY;
         DecimalFormat df = new DecimalFormat("#"); 
-        DecimalFormat dfAverage = new DecimalFormat("###.##");
         
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
                 String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i]*100) + "%" 
+                                "${percentageFrequencyOrAverage}", df.format(rubricStats[j][i] * 100) + "%" 
                                                                    + " (" + responseFrequency[j][i] +")");
                 tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
-
-            String tableAverageCell = 
-                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate, 
-                             "${percentageFrequencyOrAverage}", dfAverage.format(rubricStats[j][numOfRubricChoices]));
-            tableBodyFragmentHtml.append(tableAverageCell + Const.EOL);
             
             // Get entire row
             String tableRow = 
@@ -496,7 +491,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableBodyHtml.append(tableRow + Const.EOL);
         }
         
-        // Create edit form
+        
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
                 "${statsTitle}", (view=="student")?"Response Summary (of visible responses)":"Response Summary",
@@ -547,7 +542,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // Divide by totalForSubQuestion to get percentage and calculate the average value
             for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
                 percentageFrequencyOrAverage[i][j] /= totalForSubQuestion;
-                float choiceWeight = (fqd.numOfRubricChoices - j) * percentageFrequencyOrAverage[i][j];
+                float choiceWeight = (j + 1) * percentageFrequencyOrAverage[i][j];
                 percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] += choiceWeight;
             }
         }
@@ -594,12 +589,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (String choice : rubricChoices) {
             csv.append("," + Sanitizer.sanitizeForCsv(choice));
         }
-        csv.append("," + "Average");
+        
         csv.append(Const.EOL);
 
         // table body
         DecimalFormat df = new DecimalFormat("#");
-        DecimalFormat dfAverage = new DecimalFormat("###.##");
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
         float[][] rubricStats = calculateRubricStats(responses, question);
@@ -611,7 +605,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
             }
-            csv.append("," + dfAverage.format(rubricStats[i][rubricChoices.size()]));
             csv.append(Const.EOL);
         }
 

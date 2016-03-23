@@ -7,7 +7,7 @@
     <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student" bodyTitle="" jsIncludes="${jsIncludes}">
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
 	<div class="panel panel-primary panel-narrow">
 	    <div class="panel-heading">

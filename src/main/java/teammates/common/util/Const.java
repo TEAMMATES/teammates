@@ -519,8 +519,7 @@ public class Const {
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
     
-        public static final String STATUS_MESSAGE = "message";
-        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
+        public static final String STATUS_MESSAGES_LIST = "statusMessagesToUser";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
@@ -915,7 +914,7 @@ public class Const {
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
-        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
+        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor %s has been updated.";
         public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
         public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED = "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";
@@ -953,6 +952,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS = "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
+        public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS = "The feedback session has been deleted and is no longer accessible.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.";
@@ -1073,14 +1073,15 @@ public class Const {
         public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
                 + "However, you do not have access to view this student's profile";
         
-        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
-                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
-                + "(recommended).";
-        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
-                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
-                + "(recommended).";
+        public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "
+                + "that are currently open and view results without logging in. To access other features "
+                + "you need <a href='%s' class='link'>to login using a Google account</a> (recommended).";
+        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as "
+                + "<span class='text-danger text-bold text-large'>%s</span>. " 
+                + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
+                + "<span class='text-danger text-bold text-large'>%s</span>. " 
+                + UNREGISTERED_STUDENT_MESSAGE;
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

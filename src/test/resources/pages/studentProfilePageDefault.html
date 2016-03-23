@@ -92,8 +92,10 @@
     Student Profile
   </h1>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="studentPhotoUploader" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -116,11 +118,11 @@
                     Browse...
                     <input id="studentPhoto" name="studentprofilephoto" type="file">
                   </span>
-                  <input class="filename-preview" disabled="disabled" type="text" value="No File Selected">
+                  <input class="filename-preview" disabled="" type="text" value="No File Selected">
                   <p class="help-block align-left">
                     Max Size: 5 MB
                   </p>
-                  <button class="btn btn-primary width-100-pc" disabled="disabled" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
+                  <button class="btn btn-primary width-100-pc" disabled="" id="profileUploadPictureSubmit" onclick="finaliseUploadPictureForm()" type="button">
                     Upload Picture
                   </button>
                   <input name="user" type="hidden" value="SHomeUiT.benny.c">
@@ -198,7 +200,7 @@
             Female
           </label>
           <label class="radio-inline" for="genderOther">
-            <input checked="checked" class="radio" id="genderOther" name="studentgender" type="radio" value="other">
+            <input checked="" class="radio" id="genderOther" name="studentgender" type="radio" value="other">
             Not Specified
           </label>
         </div>
