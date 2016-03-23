@@ -4,7 +4,7 @@
 <%@ attribute name="fsIdx" required="true" %>
 <%@ attribute name="panelIdx" required="true" %>
 <div class="panel panel-primary">
-    <div class="panel-heading" onclick="loadFeedbackResponseComments('${data.account.googleId}','${courseId}','${fsName}', '${fsIdx}', this);"
+    <div class="panel-heading" onclick="loadFeedbackResponseComments('${data.account.googleId}','${courseId}','${fsName}', '${fsIdx}', this, true);"
         style="cursor: pointer;">
         <strong>Comments in session: ${fsName}</strong>
         <div class="pull-right">

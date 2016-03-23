@@ -85,7 +85,8 @@
     <c:if test="${frc.editDeleteEnabled}">
         <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
-        <shared:feedbackResponseCommentForm frc="${frc}"
+        <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
+                                            frc="${frc}"
                                             divId="${divId}"
                                             divIdAsJsParams="${divIdAsJsParams}"
                                             formType="Edit"
