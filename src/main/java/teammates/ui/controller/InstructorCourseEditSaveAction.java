@@ -19,8 +19,6 @@ public class InstructorCourseEditSaveAction extends Action {
         
         String courseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_NAME, courseName);
-        
-        Boolean isArchived = getRequestParamAsBoolean(Const.ParamsNames.COURSE_ARCHIVE_STATUS);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
