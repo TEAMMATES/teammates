@@ -1,5 +1,5 @@
 #Setting Up the Developer Environment
-If you encounter any problems during the setting up process, please refer our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
+>If you encounter any problems during the setting up process, please refer our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
 These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
 
