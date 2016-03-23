@@ -83,6 +83,17 @@ var FEEDBACK_RESPONSE_ID = 'responseid';
 var FEEDBACK_RESPONSE_COMMENT_ID = 'responsecommentid';
 var FEEDBACK_RESPONSE_COMMENT_TEXT = 'responsecommenttext';
 
+// Status message type
+var StatusType = {
+    SUCCESS : "success",
+    INFO : "info",
+    WARNING : "warning",
+    DANGER : "danger",
+    isValidType : function(type) {
+	    return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
+    }
+};
+
 // Display messages
 // Used for validating input
 var DISPLAY_INPUT_FIELDS_EXTRA = 'There are too many fields.';
@@ -144,8 +155,8 @@ var util = {
  * Reference: https://github.com/Modernizr/Modernizr/blob/master/feature-detects/touchevents.js
  */
 isTouchDevice: function() {
-	return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
-}
+    return true === (('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
+},
 
 /**
  * Sorts a table
@@ -180,7 +191,7 @@ toggleSort: function(divElement, comparator) {
         $selectedDivElement.attr('class', 'button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     }
-}
+},
 
 // http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
@@ -270,7 +281,7 @@ sortTable: function(oneOfTableCell, colIdx, comparator, ascending, row) {
     }
     
     store = null;
-}
+},
 
 /**
  * The base comparator (ascending)
@@ -282,7 +293,7 @@ sortTable: function(oneOfTableCell, colIdx, comparator, ascending, row) {
 sortBase: function(x, y) {
     // Text sorting
     return (x < y ? -1 : x > y ? 1 : 0);
-}
+},
 
 /**
  * Comparator for numbers (integer, double) (ascending)
@@ -293,7 +304,7 @@ sortBase: function(x, y) {
  */
 sortNum: function(x, y) {
     return x - y;
-}
+},
 
 /**
  * Comparator for date. Allows for the same format as isDate()
@@ -307,7 +318,7 @@ sortDate: function(x, y) {
     y = Date.parse(y);
     var comparisonResult = (x > y) ? 1 : (x < y) ? -1 : 0;
     return comparisonResult;
-}
+},
 
 /**
 * Function that returns the pattern of DayMonthYearFormat (dd/mm/yyyy)
@@ -316,7 +327,7 @@ sortDate: function(x, y) {
 */
 getDayMonthYearFormat: function() {
     return /^\s*(\d{2})[\/\- ](\d{2})[\/\- ](\d{4}|\d{2})\s*$/;
-}
+},
 
 /**
  * Tests whether the passed object is an actual date
@@ -332,7 +343,7 @@ getDayMonthYearFormat: function() {
  */
 isDate: function(date) {
     return !isNaN(Date.parse(date));
-}
+},
 
 /**
 * Function to test if param is a numerical value
@@ -341,7 +352,7 @@ isDate: function(date) {
 */
 isNumber: function(num) {
     return (typeof num === 'string' || typeof num === 'number') && !isNaN(num - 0) && num !== '';
-}
+},
 
 /**
  * Comparator to sort strings in format: E([+-]x%) | N/A | N/S | 0% with
@@ -359,7 +370,7 @@ sortByPoint: function(a, b) {
     } else {
         return util.sortBase(a, b);
     }
-}
+},
 
 /**
  * Comparator to sort strings in format: [+-]x% | N/A with possibly a tag that
@@ -377,7 +388,7 @@ sortByDiff: function(a, b) {
     } else {
         return util.sortBase(a, b);
     }
-}
+},
 
 /**
  * To get point value from a formatted string
@@ -418,7 +429,7 @@ getPointValue: function(s, ditchZero) {
     }
     
     return 100 + eval(s); // Other typical cases
-}
+},
 
 /** -----------------------UI Related Helper Functions-----------------------* */
 
@@ -440,7 +451,7 @@ isWithinView: function(element) {
            ? viewTop <= elementTop && viewBottom >= elementBottom          // all within view
            : (viewTop <= elementTop && viewBottom >= elementTop)           // top within view
              || (viewTop <= elementBottom && viewBottom >= elementBottom); // btm within view
-}
+},
 
 /**
  * Scrolls the screen to a certain position.
@@ -455,7 +466,7 @@ scrollToPosition: function(scrollPos, duration) {
     } else {
         $('html, body').animate({scrollTop: scrollPos}, duration);
     }
-}
+},
 
 /**
  * Scrolls to an element.
@@ -508,7 +519,7 @@ scrollToElement: function(element, options) {
     var scrollPos = element.offsetTop + offset;
     
     util.scrollToPosition(scrollPos, duration);
-}
+},
 
 /**
  * Scrolls the screen to top
@@ -518,37 +529,63 @@ scrollToElement: function(element, options) {
  */
 scrollToTop: function(duration) {
     util.scrollToPosition(0, duration);
-}
+},
 
+<<<<<<< HEAD
+=======
+/** Selector for status message div tag (to be used in jQuery) */
+var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
+
+>>>>>>> master
 /**
- * Sets a status message. Change the background color to red if it's an error
+ * Sets a status message and the message status.
+ * Default message type is info.
  *
- * @param message
- * @param error
+ * @param message the text message to be shown to the user
+ * @param status type
  */
+<<<<<<< HEAD
 setStatusMessage: function(message, error) {
     if (message === '') {
         util.clearStatusMessage();
+=======
+function setStatusMessage(message, status) {
+    if (message === '' || message === undefined || message === null) {
+>>>>>>> master
         return;
     }
-    
-    $(DIV_STATUS_MESSAGE).html(message);
-    $(DIV_STATUS_MESSAGE).show();
-    
-    if (error === true) {
-        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-danger');
-    } else {
-        $(DIV_STATUS_MESSAGE).attr('class', 'overflow-auto alert alert-warning');
+
+    // Default the status type to info if any invalid status is passed in
+    if (!StatusType.isValidType(status)) {
+        status = StatusType.INFO;
     }
     
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    var $statusMessage = $("<div></div>");
+    
+    $statusMessage.addClass("overflow-auto");
+    $statusMessage.addClass("alert");
+    $statusMessage.addClass("alert-" + status);
+    $statusMessage.addClass("statusMessage");
+    $statusMessage.html(message);
+    
+    $statusMessagesToUser.empty();
+    $statusMessagesToUser.append($statusMessage);
+    $statusMessagesToUser.show();
+    
+<<<<<<< HEAD
     util.scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
+=======
+    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
+>>>>>>> master
 }
 
 /**
- * Append a message to the existing status message
- * @param  message
+ * Appends the status messages panels into the current list of panels of status messages.
+ * @param  messages the list of status message panels to be added (not just text)
  * 
  */
+<<<<<<< HEAD
 appendStatusMessage: function(message, error) {
     if (message.trim() === '') {
         return;
@@ -559,15 +596,30 @@ appendStatusMessage: function(message, error) {
     } else {
         util.setStatusMessage(message, error);
     }
+=======
+function appendStatusMessage(messages, error) {
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    
+    $statusMessagesToUser.append($(messages));
+    $statusMessagesToUser.show();
+>>>>>>> master
 }
 
 /**
  * Clears the status message div tag and hides it
  */
+<<<<<<< HEAD
 clearStatusMessage: function() {
     $(DIV_STATUS_MESSAGE).html('');
     $(DIV_STATUS_MESSAGE).css('background', '');
     $(DIV_STATUS_MESSAGE).attr('style', 'display: none;');
+=======
+function clearStatusMessages() {
+    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+    
+    $statusMessagesToUser.empty();
+    $statusMessagesToUser.hide();
+>>>>>>> master
 }
 
 /**
@@ -611,7 +663,7 @@ isValidGoogleId: function(googleId) {
     
     // email addresses are valid google IDs too
     return isValidNonEmailGoogleId || isValidEmailGoogleId;
-}
+},
 
 /**
  * Checks whether an e-mail is valid.
@@ -622,7 +674,7 @@ isValidGoogleId: function(googleId) {
  */
 isEmailValid: function(email) {
     return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
-}
+},
 
 /**
  * Checks whether a person's name is valid.
@@ -649,7 +701,7 @@ isNameValid: function(name) {
     } else {
         return true;
     }
-}
+},
 
 /**
  * Checks whether an institution name is valid
@@ -675,7 +727,7 @@ isInstitutionValid: function(institution) {
     } else {
         return true;
     }
-}
+},
 
 /**
  * Disallow non-numeric entries
@@ -707,18 +759,18 @@ disallowNonNumericEntries: function(element, decimalPointAllowed, negativeAllowe
             }
         }
     });
-}
+},
 
 /**
  * Helper function to replace all occurrences of a sub-string in a string.
  */
 replaceAll: function(string, find, replace) {
     return string.replace(new RegExp(util.escapeRegExp(find), 'g'), replace);
-}
+},
 
 escapeRegExp: function(string) {
     return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-}
+},
 
 /**
  * Sanitizes special characters such as ' and \ to \' and \\ respectively
@@ -727,7 +779,7 @@ sanitizeForJs: function(string) {
     string = util.replaceAll(string, '\\', '\\\\');
     string = util.replaceAll(string, '\'', '\\\'');
     return string;
-}
+},
 
 /**
  * Checks if the input value is a blank string
@@ -740,7 +792,7 @@ isBlank: function(str) {
         return false;
     }
     return str.trim() === '';
-}
+},
 
 /**
  * Highlights all words of searchKey (case insensitive), in a particular section

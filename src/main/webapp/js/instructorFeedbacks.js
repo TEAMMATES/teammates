@@ -14,26 +14,42 @@ function checkFeedbackQuestion(form) {
         if ($(form).find('[name|=' + FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE + ']:checked')
                    .val() === 'custom' &&
                 !$(form).find('.numberOfEntitiesBox').val()) {
+<<<<<<< HEAD
             util.setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, true);
+=======
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, StatusType.DANGER);
+>>>>>>> master
             return false;
         }
     }
     if (!$(form).find('[name=' + FEEDBACK_QUESTION_TEXT + ']').val()) {
+<<<<<<< HEAD
         util.setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, true);
+=======
+        setStatusMessage(DISPLAY_FEEDBACK_QUESTION_TEXTINVALID, StatusType.DANGER);
+>>>>>>> master
         return false;
     }
     if ($(form).find('[name=' + FEEDBACK_QUESTION_TYPE + ']').val() === 'NUMSCALE') {
         if (!$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MIN + ']').val() ||
                 !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_MAX + ']').val()||
                 !$(form).find('[name=' + FEEDBACK_QUESTION_NUMSCALE_STEP + ']').val()) {
+<<<<<<< HEAD
             util.setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, true);
+=======
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID, StatusType.DANGER);
+>>>>>>> master
             return false;
         }
         var qnNum = getQuestionNumFromEditForm(form);
         if (updateNumScalePossibleValues(qnNum)) {
             return true;
         } else {
+<<<<<<< HEAD
             util.setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, true);
+=======
+            setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, StatusType.DANGER);
+>>>>>>> master
             return false;
         }
     }
@@ -55,13 +71,21 @@ function extractQuestionNumFromEditFormId(id) {
 function checkEditFeedbackSession(form) {
     if (form.visibledate.getAttribute('disabled')) {
         if (!form.visibledate.value) {
+<<<<<<< HEAD
             util.setStatusMessage(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, true);
+=======
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID, StatusType.DANGER);
+>>>>>>> master
             return false;
         }
     }
     if (form.publishdate.getAttribute('disabled')) {
         if (!form.publishdate.value) {
+<<<<<<< HEAD
             util.setStatusMessage(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, true);
+=======
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID, StatusType.DANGER);
+>>>>>>> master
             return false;
         }
     }
@@ -137,7 +161,11 @@ function bindCopyButton() {
 
         var $sessionsList = $('tr[id^="session"]');
         if (!$sessionsList.length) {
+<<<<<<< HEAD
             util.setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
+=======
+            setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, StatusType.DANGER);
+>>>>>>> master
             return false;
         }
 
@@ -152,9 +180,15 @@ function bindCopyButton() {
         });
 
         if (isExistingSession) {
+<<<<<<< HEAD
             util.setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, true);
         } else {
             util.setStatusMessage('', false);
+=======
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, StatusType.DANGER);
+        } else {
+            clearStatusMessages();
+>>>>>>> master
 
             var $firstSession = $($sessionsList[0]).find('td');
             var firstSessionCourseId = $($firstSession[0]).text();

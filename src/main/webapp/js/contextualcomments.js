@@ -14,9 +14,15 @@ $(document).ready(function(){
 	
 	function checkComment(form){
 	    var formTextField = $(form).find('[name=commenttext]').val();
+<<<<<<< HEAD
 	    if (util.isBlank(formTextField)) {
 	        util.setStatusMessage("Please enter a valid comment. The comment can't be empty.", true);
 	        util.scrollToTop();
+=======
+	    if (isBlank(formTextField)) {
+	        setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
+	        scrollToTop();
+>>>>>>> master
 	        return false;
 	    }
 	}

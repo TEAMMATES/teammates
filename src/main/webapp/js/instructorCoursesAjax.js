@@ -24,7 +24,7 @@ $(document).ready(function(){
                 $('#coursesList').html('');
                 util.setStatusMessage(
                     'Courses could not be loaded. Click <a href="#" id="retryAjax">here</a> to retry.'
-                );
+                , StatusType.WARNING);
                 $('#retryAjax').click(function(e) {
                     e.preventDefault();
                     $('#ajaxForCourses').trigger('submit');
@@ -33,11 +33,17 @@ $(document).ready(function(){
             success: function(data) {
                 isFetchingCourses = false;
                 if (needsRetrying) {
+<<<<<<< HEAD
                     util.clearStatusMessage();
+=======
+                    clearStatusMessages();
+>>>>>>> master
                     needsRetrying = false;
                 }
-                var statusMessage = $(data).find('#statusMessage').text();
-                appendStatusMessage(statusMessage);
+                
+                var statusMessages = $(data).find('.statusMessage');
+                appendStatusMessage(statusMessages);
+
                 var appendedCoursesTable = $(data).find('#coursesList').html();
                 $('#coursesList')
                     .removeClass('align-center')

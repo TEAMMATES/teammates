@@ -84,9 +84,15 @@ function submitCommentForm(commentIdx) {
  */
 function checkComment(form) {
     var formTextField = $(form).find('[name="' + COMMENT_TEXT + '"]').val();
+<<<<<<< HEAD
     if (util.isBlank(formTextField)) {
         util.setStatusMessage(DISPLAY_COMMENT_BLANK,true);
         util.scrollToTop();
+=======
+    if (isBlank(formTextField)) {
+        setStatusMessage(DISPLAY_COMMENT_BLANK, StatusType.DANGER);
+        scrollToTop();
+>>>>>>> master
         return false;
     }
 }

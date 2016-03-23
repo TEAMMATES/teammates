@@ -73,24 +73,23 @@ function bindFeedbackSessionEditFormSubmission() {
             type: 'POST',
             data: $form.serialize(),
             beforeSend: function() {
-                $('#statusMessage').hide();
+                clearStatusMessages();
             },
             success: function(result) {
-            	$statusMessage = $('#statusMessage');
-            		
-            	$statusMessage.text(result.statusForAjax);
                 
-            	$statusMessage.removeClass("alert alert-danger alert-warning");
                 if (result.hasError) {
-                	$statusMessage.addClass("alert alert-danger");
+                    setStatusMessage(result.statusForAjax, StatusType.DANGER);
                 } else {
+                    setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
                     disableEditFS();
-                    $statusMessage.addClass("alert alert-success");
                 }
-                $statusMessage.show();
                 
                 // focus on status message
+<<<<<<< HEAD
                 util.scrollToElement($statusMessage[0], {offset: ($('.navbar').height() + 30) * -1});
+=======
+                scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
+>>>>>>> master
             }
         });
     });
@@ -710,7 +709,11 @@ function getQuestionLink(qnNumber) {
                         '&fsname=' + fsname +
                         '&questionid=' + questionId;
     
+<<<<<<< HEAD
     util.setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, false);
+=======
+    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
+>>>>>>> master
 }
 
 function toParameterFormat(str) {
@@ -723,9 +726,15 @@ function bindCopyButton() {
         
         var questionRows = $('#copyTableModal >tbody>tr');
         if (!questionRows.length) {
+<<<<<<< HEAD
             util.setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, true);
         } else {
             util.setStatusMessage('', false);
+=======
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
+        } else {
+            setStatusMessage('', StatusType.WARNING);
+>>>>>>> master
             $('#copyModal').modal('show');
         }
        
@@ -751,7 +760,11 @@ function bindCopyButton() {
         });
 
         if (!hasRowSelected) {
+<<<<<<< HEAD
             util.setStatusMessage('No questions are selected to be copied', true);
+=======
+            setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
+>>>>>>> master
             $('#copyModal').modal('hide');
         } else {
             $('#copyModalForm').submit();

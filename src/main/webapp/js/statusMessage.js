@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var statusMessage = document.getElementById('statusMessage');
+    var statusMessage = document.getElementById('statusMessagesToUser');
     var navbarHeight = 0;
     var extraPadding = 15;
     
