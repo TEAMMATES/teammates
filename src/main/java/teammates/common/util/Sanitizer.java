@@ -127,10 +127,6 @@ public class Sanitizer {
                 //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
     }
-    
-    public static String sanitizeHtmlForSaving(String html) {
-        return sanitizeForHtml(html);
-    }
 
     /**
      * Converts a string to be put in URL (replaces some characters)
