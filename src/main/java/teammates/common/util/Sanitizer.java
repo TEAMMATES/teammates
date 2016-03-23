@@ -48,23 +48,23 @@ public class Sanitizer {
     }
     
     /**
-     * Sanitizes a name by removing leading/trailing whitespace.
+     * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
      * 
      * @param rawName
      * @return the sanitized name or null (if the parameter was null).
      */
     public static String sanitizeName(String rawName) {
-        return trimIfNotNull(rawName);
+        return StringHelper.removeExtraSpace(rawName);
     }
     
     /**
-     * Sanitizes a title by removing leading/trailing whitespace.
+     * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
      * 
      * @param rawTitle
      * @return the sanitized title or null (if the parameter was null).
      */
     public static String sanitizeTitle(String rawTitle) {
-        return trimIfNotNull(rawTitle);
+        return StringHelper.removeExtraSpace(rawTitle);
     }
     
     /**

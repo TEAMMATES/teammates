@@ -22,7 +22,7 @@ public class SanitizerTest extends BaseTestCase {
     public void testSanitizeEmail() {
         String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
         String normalEmail = "normal@email.com";
-        
+
         assertEquals(null, Sanitizer.sanitizeEmail(null));
         assertEquals(normalEmail, Sanitizer.sanitizeEmail(normalEmail));
         assertEquals(normalEmail, Sanitizer.sanitizeEmail(emailWithWhiteSpaces));
@@ -30,12 +30,18 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeName() {
-        // tested as email
+
+        String nameWithWhiteSpaces = "\t alice   bob \t\n";
+        String normalName = "alice bob";
+
+        assertEquals(null, Sanitizer.sanitizeName(null));
+        assertEquals(normalName, Sanitizer.sanitizeName(normalName));
+        assertEquals(normalName, Sanitizer.sanitizeName(nameWithWhiteSpaces));
     }
     
     @Test
     public void testSanitizeTitle() {
-        // tested as email
+        // tested as name
     }
     
     @Test
