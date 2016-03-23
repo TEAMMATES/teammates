@@ -34,7 +34,6 @@ var addCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    //panelHeading.click();
                     var user = formObject.find("[name='user']").val();
                     var courseId = formObject.find("[name='courseid']").val();
                     var fsName = formObject.find("[name='fsname']").val();
@@ -75,8 +74,7 @@ var editCommentHandler = function(e) {
     var formObject = $(this).parent().parent();
     var displayedText = $(this).parent().parent().prev();
     var commentBar = displayedText.parent().find("div[id^=commentBar]");
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find("[class*='panel-heading']").first();
     var formData = formObject.serialize();
     
     e.preventDefault();
@@ -100,7 +98,12 @@ var editCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if(isInCommentsPage()) {
-                    panelHeading.click();
+                    var user = formObject.find("[name='user']").val();
+                    var courseId = formObject.find("[name='courseid']").val();
+                    var fsName = formObject.find("[name='fsname']").val();
+                    var fsIndx = formObject.find("[name='fsindex']").val();
+                    
+                    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
                 } else {
                     // Update editted comment
                     displayedText.html(data.comment.commentText.value);
@@ -135,8 +138,7 @@ var deleteCommentHandler = function(e) {
     var formData = formObject.serialize();
     var editForm = submitButton.parent().next().next().next();
     var frCommentList = submitButton.parent().parent().parent().parent();
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find("[class*='panel-heading']").first();
     
     e.preventDefault();
     
@@ -157,7 +159,12 @@ var deleteCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    panelHeading.click();
+                    var user = formObject.find("[name='user']").val();
+                    var courseId = formObject.find("[name='courseid']").val();
+                    var fsName = formObject.find("[name='fsname']").val();
+                    var fsIndx = formObject.find("[name='fsindex']").val();
+                    
+                    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
                 } else {
                     var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
                     if (numberOfItemInFrCommentList.length <= 2) {
