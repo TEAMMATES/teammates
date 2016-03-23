@@ -7,8 +7,7 @@ var addCommentHandler = function(e) {
     var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).parent().parent();
     var addFormRow = $(this).parent().parent().parent();
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find("[class*='panel-heading']").first();
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
     var numberOfComments = addFormRow.parent().find('li').length;
@@ -35,7 +34,13 @@ var addCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    panelHeading.click();
+                    //panelHeading.click();
+                    var user = formObject.find("[name='user']").val();
+                    var courseId = formObject.find("[name='courseid']").val();
+                    var fsName = formObject.find("[name='fsname']").val();
+                    var fsIndx = formObject.find("[name='fsindex']").val();
+                    
+                    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
                 } else {
                     // Inject new comment row
                     addFormRow.parent().attr("class", "list-group");
@@ -367,7 +372,7 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
     $("#responseCommentEditForm-" + addedIndex).show();
 }
 
-function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement) {
+function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement, isClicked) {
     $(".tooltip").hide();
     var $clickedElement = $(clickedElement);
     var $collapsiblePanel = $clickedElement.siblings(".collapse");
@@ -376,7 +381,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
     
     // If the content is already loaded, toggle the chevron and exit.
-    if ($clickedElement.hasClass("loaded")) {
+    if ($clickedElement.hasClass("loaded") && isClicked) {
         toggleCollapsiblePanel($collapsiblePanel);
         toggleChevron(clickedElement);
         
@@ -395,9 +400,12 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
             $clickedElement.addClass("loaded");
         }
 
-        toggleCollapsiblePanel($collapsiblePanel);
+        if (isClicked) {
+            toggleCollapsiblePanel($collapsiblePanel);
+            toggleChevron(clickedElement);
+        }
+
         $clickedElement.find('div[class^="placeholder-img-loading"]').html("");
-        toggleChevron(clickedElement);
     });
     
 }
