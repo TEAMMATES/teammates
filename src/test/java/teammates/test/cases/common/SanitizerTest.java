@@ -14,14 +14,12 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeGoogleId() {
-
         assertEquals("big-small.20_12", Sanitizer.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
         assertEquals("user@hotmail.com", Sanitizer.sanitizeGoogleId(" user@hotmail.com \t\n"));
     }
     
     @Test
     public void testSanitizeEmail() {
-        
         String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
         String normalEmail = "normal@email.com";
         
@@ -47,7 +45,6 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForJs() {
-
         String unsanitized = "\\ \" ' #"; // i.e., [\ " ' #]
         String expected = "\\\\ \\&quot; \\&#39; \\#"; // i.e., [\\ \&quot; \&#39; \#]
         String sanitized = Sanitizer.sanitizeForJs(unsanitized);
@@ -58,7 +55,6 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForHtml() {
-
         String unsanitized = "< > \" / ' &"
                            + "<script>alert('injected');</script>";
 
@@ -75,12 +71,11 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeForRichText() {
-        // using org.apache.commons.lang3.StringEscapeUtils.escapeHtml4()
+        // Not tested - using org.apache.commons.lang3.StringEscapeUtils.escapeHtml4()
     }
     
     @Test
     public void testSanitizeForCsv() {
-
         String unsanitized = "aaa , bb\"b, c\"\"cc";
         String expected = "\"aaa , bb\"\"b, c\"\"\"\"cc\"";
         
@@ -90,7 +85,6 @@ public class SanitizerTest extends BaseTestCase {
     
     @Test
     public void testSanitizeListForCsv() {
-
         List<String> emptyList = new ArrayList<String>();
         assertEquals(emptyList, Sanitizer.sanitizeListForCsv(emptyList));
         
@@ -118,6 +112,5 @@ public class SanitizerTest extends BaseTestCase {
         text = "'''''Will o''''' The''''' Wisp";
         expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
         assertEquals(expected, Sanitizer.convertStringForXPath(text));
-        
     }
 }
