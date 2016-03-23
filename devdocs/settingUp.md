@@ -25,7 +25,7 @@ Important: When a version is specified, please install that version instead of t
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
 
-1. Fork our repo at `https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
+1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
 2. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
    * Text encoding: Go to `Window → Preferences → General → Workspace` (Mac: `Eclipse → Preferences → General → Workspace`), change the 
@@ -46,7 +46,7 @@ Important: When a version is specified, please install that version instead of t
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
    Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `copy → paste → rename`).
+   as the template (i.e. `duplicate -> remove '.template' from name`).
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
@@ -277,6 +277,8 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     TestNG is a Java test automation framework.
 * **QUnit** [version 1.10.0]
     QUnit is a JavaScript unit test suite.
+* **Blanket.js** [version 1.2.1]
+    Blanket.js is a JavaScript code coverage library.
 * **NekoHtml** [version 1.9.22]
     NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
     NekoHTML is included in the Selenium libraries.

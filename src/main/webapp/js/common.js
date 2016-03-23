@@ -176,18 +176,18 @@ toggleSort: function(divElement, comparator) {
     var $selectedDivElement = $(divElement);
     
     if ($selectedDivElement.attr('class') === 'button-sort-none') {
-        util.sortTable(divElement, colIdx, comparator, true, row);
+        this.sortTable(divElement, colIdx, comparator, true, row);
         $selectedDivElement.parent().find('.button-sort-ascending').attr('class', 'button-sort-none');
         $selectedDivElement.parent().find('.button-sort-descending').attr('class', 'button-sort-none');
         $selectedDivElement.parent().find('.icon-sort').attr('class', 'icon-sort unsorted');
         $selectedDivElement.attr('class', 'button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     } else if ($selectedDivElement.attr('class') === 'button-sort-ascending') {
-        util.sortTable(divElement, colIdx, comparator, false, row);
+        this.sortTable(divElement, colIdx, comparator, false, row);
         $selectedDivElement.attr('class', 'button-sort-descending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-descending');
     } else {
-        util.sortTable(divElement, colIdx, comparator, true, row);
+        this.sortTable(divElement, colIdx, comparator, true, row);
         $selectedDivElement.attr('class', 'button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
     }
@@ -230,9 +230,9 @@ sortTable: function(oneOfTableCell, colIdx, comparator, ascending, row) {
         // Store rows together with the innerText to compare
         store.push([innerText, $RowList[i], i]);
         
-        if ((columnType === 0 || columnType === 1) && util.isNumber(innerText)) {
+        if ((columnType === 0 || columnType === 1) && this.isNumber(innerText)) {
             columnType = 1;
-        } else if ((columnType === 0 || columnType === 2) && util.isDate(innerText)) {
+        } else if ((columnType === 0 || columnType === 2) && this.isDate(innerText)) {
             columnType = 2;
         } else {
             columnType = 3;
@@ -245,7 +245,7 @@ sortTable: function(oneOfTableCell, colIdx, comparator, ascending, row) {
         } else if (columnType === 2) {
             comparator = sortDate;
         } else {
-            comparator = util.sortBase;
+            comparator = this.sortBase;
         }
     }
     
@@ -362,13 +362,13 @@ isNumber: function(num) {
  * @param b
  */
 sortByPoint: function(a, b) {
-    a = util.getPointValue(a, true);
-    b = util.getPointValue(b, true);
+    a = this.getPointValue(a, true);
+    b = this.getPointValue(b, true);
     
-    if (util.isNumber(a) && util.isNumber(b)) {
-        return util.sortNum(a, b);
+    if (this.isNumber(a) && this.isNumber(b)) {
+        return this.sortNum(a, b);
     } else {
-        return util.sortBase(a, b);
+        return this.sortBase(a, b);
     }
 },
 
@@ -380,13 +380,13 @@ sortByPoint: function(a, b) {
  * @param b
  */
 sortByDiff: function(a, b) {
-    a = util.getPointValue(a, false);
-    b = util.getPointValue(b, false);
+    a = this.getPointValue(a, false);
+    b = this.getPointValue(b, false);
 
-    if (util.isNumber(a) && util.isNumber(b)) {
-        return util.sortNum(a, b);
+    if (this.isNumber(a) && this.isNumber(b)) {
+        return this.sortNum(a, b);
     } else {
-        return util.sortBase(a, b);
+        return this.sortBase(a, b);
     }
 },
 
@@ -491,7 +491,7 @@ scrollToElement: function(element, options) {
         duration = options.duration !== undefined ? options.duration : defaultOptions.duration;
     
     var isViewType = (type === 'view');
-    if (isViewType && util.isWithinView(element)) {
+    if (isViewType && this.isWithinView(element)) {
         return;
     }
     
@@ -518,7 +518,7 @@ scrollToElement: function(element, options) {
     
     var scrollPos = element.offsetTop + offset;
     
-    util.scrollToPosition(scrollPos, duration);
+    this.scrollToPosition(scrollPos, duration);
 },
 
 /**
@@ -528,7 +528,7 @@ scrollToElement: function(element, options) {
  *                 400 ms will be used if any other string is supplied.
  */
 scrollToTop: function(duration) {
-    util.scrollToPosition(0, duration);
+    this.scrollToPosition(0, duration);
 },
 
 <<<<<<< HEAD
@@ -547,7 +547,7 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 <<<<<<< HEAD
 setStatusMessage: function(message, error) {
     if (message === '') {
-        util.clearStatusMessage();
+        this.clearStatusMessage();
 =======
 function setStatusMessage(message, status) {
     if (message === '' || message === undefined || message === null) {
@@ -574,7 +574,7 @@ function setStatusMessage(message, status) {
     $statusMessagesToUser.show();
     
 <<<<<<< HEAD
-    util.scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
+    this.scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
 =======
     scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
 >>>>>>> master
@@ -594,7 +594,7 @@ appendStatusMessage: function(message, error) {
     if (currentContent.trim() !== '') {
         $(DIV_STATUS_MESSAGE).html(currentContent + '<br/>' + message);    
     } else {
-        util.setStatusMessage(message, error);
+        this.setStatusMessage(message, error);
     }
 =======
 function appendStatusMessage(messages, error) {
@@ -655,7 +655,7 @@ isValidGoogleId: function(googleId) {
     
     isValidNonEmailGoogleId = (matches != null && matches[0] === googleId);
     
-    var isValidEmailGoogleId = util.isEmailValid(googleId);
+    var isValidEmailGoogleId = this.isEmailValid(googleId);
     
     if (googleId.toLowerCase().indexOf('@gmail.com') > -1) {
         isValidEmailGoogleId = false;
@@ -765,7 +765,7 @@ disallowNonNumericEntries: function(element, decimalPointAllowed, negativeAllowe
  * Helper function to replace all occurrences of a sub-string in a string.
  */
 replaceAll: function(string, find, replace) {
-    return string.replace(new RegExp(util.escapeRegExp(find), 'g'), replace);
+    return string.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
 },
 
 escapeRegExp: function(string) {
@@ -776,8 +776,8 @@ escapeRegExp: function(string) {
  * Sanitizes special characters such as ' and \ to \' and \\ respectively
  */
 sanitizeForJs: function(string) {
-    string = util.replaceAll(string, '\\', '\\\\');
-    string = util.replaceAll(string, '\'', '\\\'');
+    string = this.replaceAll(string, '\\', '\\\\');
+    string = this.replaceAll(string, '\'', '\\\'');
     return string;
 },
 
@@ -815,7 +815,7 @@ $(document).on('ajaxComplete ready', function() {
     */
     var $tooltips = $('[data-toggle="tooltip"]');
     $tooltips.tooltip({html: true, container: 'body'});
-    if (util.isTouchDevice()) {
+    if (this.isTouchDevice()) {
         $tooltips.tooltip('disable');
     }
 });
