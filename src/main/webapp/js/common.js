@@ -531,12 +531,6 @@ scrollToTop: function(duration) {
     this.scrollToPosition(0, duration);
 },
 
-<<<<<<< HEAD
-=======
-/** Selector for status message div tag (to be used in jQuery) */
-var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
-
->>>>>>> master
 /**
  * Sets a status message and the message status.
  * Default message type is info.
@@ -544,14 +538,9 @@ var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  * @param message the text message to be shown to the user
  * @param status type
  */
-<<<<<<< HEAD
-setStatusMessage: function(message, error) {
-    if (message === '') {
-        this.clearStatusMessage();
-=======
-function setStatusMessage(message, status) {
+setStatusMessage: function(message, status) {
     if (message === '' || message === undefined || message === null) {
->>>>>>> master
+
         return;
     }
 
@@ -573,54 +562,30 @@ function setStatusMessage(message, status) {
     $statusMessagesToUser.append($statusMessage);
     $statusMessagesToUser.show();
     
-<<<<<<< HEAD
-    this.scrollToElement($(DIV_STATUS_MESSAGE)[0], {offset: window.innerHeight / 2 * -1});
-=======
-    scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
->>>>>>> master
-}
+    this.scrollToElement($statusMessagesToUser[0], {offset: window.innerHeight / 2 * -1});
+},
 
 /**
  * Appends the status messages panels into the current list of panels of status messages.
  * @param  messages the list of status message panels to be added (not just text)
  * 
  */
-<<<<<<< HEAD
 appendStatusMessage: function(message, error) {
-    if (message.trim() === '') {
-        return;
-    }
-    var currentContent = $(DIV_STATUS_MESSAGE).html();
-    if (currentContent.trim() !== '') {
-        $(DIV_STATUS_MESSAGE).html(currentContent + '<br/>' + message);    
-    } else {
-        this.setStatusMessage(message, error);
-    }
-=======
-function appendStatusMessage(messages, error) {
-    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+	var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.append($(messages));
     $statusMessagesToUser.show();
->>>>>>> master
-}
+},
 
 /**
  * Clears the status message div tag and hides it
  */
-<<<<<<< HEAD
 clearStatusMessage: function() {
-    $(DIV_STATUS_MESSAGE).html('');
-    $(DIV_STATUS_MESSAGE).css('background', '');
-    $(DIV_STATUS_MESSAGE).attr('style', 'display: none;');
-=======
-function clearStatusMessages() {
-    var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
+	var $statusMessagesToUser = $(DIV_STATUS_MESSAGE);
     
     $statusMessagesToUser.empty();
     $statusMessagesToUser.hide();
->>>>>>> master
-}
+},
 
 /**
  * Sanitize GoogleID by trimming space and '@gmail.com'
@@ -803,6 +768,7 @@ isBlank: function(str) {
  */
 highlightSearchResult: function(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
+<<<<<<< HEAD
     var splitSearchKey = searchKey.split(' ');
     $(sectionToHighlight).highlight(splitSearchKey);
 }};
@@ -819,6 +785,18 @@ $(document).on('ajaxComplete ready', function() {
         $tooltips.tooltip('disable');
     }
 });
+=======
+    // trim symbols around every word in the string
+    var symbolTrimmedSearchKey = [];
+    $.each(searchKey.split(/["'.-]/), function(){
+        symbolTrimmedSearchKey.push($.trim(this));
+    });
+    // remove empty elements from symbolTrimmedSearchKey
+    symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
+        return (!(n == "")) });
+    $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
+}
+>>>>>>> master
 
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
@@ -832,8 +810,7 @@ if (!String.prototype.includes) {
 }
 
 /** Selector for status message div tag (to be used in jQuery) */
-var DIV_STATUS_MESSAGE = '#statusMessage';
-
+var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 
 

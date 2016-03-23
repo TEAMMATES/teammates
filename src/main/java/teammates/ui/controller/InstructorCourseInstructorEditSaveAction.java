@@ -43,7 +43,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
             }
             
-            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, StatusMessageColor.SUCCESS));
+            statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName), StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                     + "New Name: " + instructorName + "<br>New Email: " + instructorEmail;

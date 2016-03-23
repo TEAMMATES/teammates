@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbackResults - team panel containing participant panels, and optionally, statistics tables" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -20,7 +21,7 @@
 <div class="panel panel-warning">
     <div class="panel-heading">
         <div class="inline panel-heading-text">
-            <strong>${teamName}</strong>                        
+            <strong>${fn:escapeXml(teamName)}</strong>
         </div>
         <div class="pull-right">
             <%-- If team statistics are displayed, then the "Collapse Students" button appears under the team statistics tables --%>
@@ -40,7 +41,7 @@
                 <%-- Statistics Tables for entire team --%>
                 <div class="resultStatistics">
                     <c:if test="${isTeamHasResponses}">
-                        <h3>${teamName} ${statisticsHeaderText}</h3>
+                        <h3>${fn:escapeXml(teamName)} ${statisticsHeaderText}</h3>
                         <hr class="margin-top-0">
                         <c:choose>
                             <%-- Not all questions have statistics, so we still need to test for the non-emptiness of statsTable --%>
@@ -55,7 +56,7 @@
                         </c:choose>
                         <div class="row">
                             <div class="col-sm-9">
-                                <h3>${teamName} ${detailedResponsesHeaderText}</h3>
+                                <h3>${fn:escapeXml(teamName)} ${detailedResponsesHeaderText}</h3>
                             </div>
                             <div class="col-sm-3 h3">
                                 <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">

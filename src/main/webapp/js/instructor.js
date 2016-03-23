@@ -100,29 +100,16 @@ function isStudentTeamNameValid(teamName) {
  */
 function isStudentInputValid(editName, editTeamName, editEmail) {
     if (editName === '' || editTeamName === '' || editEmail === '') {
-<<<<<<< HEAD
-        util.setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+        util.setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
         return false;
     } else if (!util.isNameValid(editName)) {
-        util.setStatusMessage(DISPLAY_NAME_INVALID, true);
+        util.setStatusMessage(DISPLAY_NAME_INVALID, StatusType.DANGER);
         return false;
     } else if (!isStudentTeamNameValid(editTeamName)) {
-        util.setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, true);
+        util.setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, StatusType.DANGER);
         return false;
     } else if (!util.isEmailValid(editEmail)) {
-        util.setStatusMessage(DISPLAY_EMAIL_INVALID, true);
-=======
-        setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
-        return false;
-    } else if (!isNameValid(editName)) {
-        setStatusMessage(DISPLAY_NAME_INVALID, StatusType.DANGER);
-        return false;
-    } else if (!isStudentTeamNameValid(editTeamName)) {
-        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, StatusType.DANGER);
-        return false;
-    } else if (!isEmailValid(editEmail)) {
-        setStatusMessage(DISPLAY_EMAIL_INVALID, StatusType.DANGER);
->>>>>>> master
+        util.setStatusMessage(DISPLAY_EMAIL_INVALID, StatusType.DANGER);
         return false;
     }
     
@@ -265,7 +252,7 @@ function bindStudentPhotoLink(elements) {
                         // this is so that the user can hover over the
                         // pop-over photo without hiding the photo
                         setTimeout(function(obj) {
-                            if (!$(obj).siblings('.popover').is(':hover')) {
+                            if ($(obj).siblings('.popover').find(':hover').length === 0) {
                                 $(obj).popover('hide');
                             }
                         }, 200, this);
@@ -297,8 +284,8 @@ function bindStudentPhotoHoverLink(elements) {
             // pop-over without accidentally hiding the 'view photo' link
             setTimeout(function(obj) {
                 if ($(obj).siblings('.popover').find('.profile-pic').length !== 0 ||
-                    !$(obj).siblings('.popover').is(':hover')) {
-                    
+                    $(obj).siblings('.popover').find(':hover').length === 0) {
+
                     $(obj).popover('hide');
                 }
             }, 200, this);
@@ -376,7 +363,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
                 // this is so that the user can hover over the
                 // pop-over photo without hiding the photo
                 setTimeout(function(obj) {
-                    if (!$(obj).siblings('.popover').is(':hover')) {
+                    if ($(obj).siblings('.popover').find(':hover').length === 0) {
                         $(obj).popover('hide');
                     }
                 }, 200, this);

@@ -17,9 +17,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
+import org.apache.http.ssl.SSLContexts;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -28,6 +31,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
@@ -61,6 +65,8 @@ import teammates.test.driver.TestProperties;
 public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
     private static final By MAIN_CONTENT = By.id("mainContent");
+    private static final int VERIFICATION_RETRY_COUNT = 5;
+    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     
     static final long ONE_MINUTE_IN_MILLIS=60000;
     
@@ -199,11 +205,28 @@ public abstract class AppPage {
         browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
+    /**
+     * Waits until the element is not covered by any other element.
+     */
+    public void waitForElementNotCovered(final WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return !isElementCovered(element);
+            }
+        });
+    }
+    
     public void waitForElementVisibility(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
+    public void waitForElementToBeClickable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
     public void waitForElementsVisibility(List<WebElement> elements) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
@@ -718,6 +741,19 @@ public abstract class AppPage {
             return false;
         }
     }
+    
+    /**
+     * Checks if the midpoint of an element is covered by any other element.
+     * @param element
+     * @return true if element is covered, false otherwise.
+     */
+    public boolean isElementCovered(WebElement element) {
+        int x = element.getLocation().x + element.getSize().width / 2;
+        int y = element.getLocation().y + element.getSize().height / 2;
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        WebElement topElem = (WebElement) js.executeScript("return document.elementFromPoint(" + x + "," + y + ");");
+        return !topElem.equals(element);
+    }
 
     public void verifyUnclickable(WebElement element){
         try {
@@ -777,15 +813,13 @@ public abstract class AppPage {
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {
-            int maxRetryCount = 5;
-            int waitDuration = 1000;
             String expected = FileHelper.readFile(filePath);
             expected = HtmlHelper.injectTestProperties(expected);
             
             // The check is done multiple times with waiting times in between to account for
             // certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
-            for (int i = 0; i < maxRetryCount; i++) {
-                if (i == maxRetryCount - 1) {
+            for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
+                if (i == VERIFICATION_RETRY_COUNT - 1) {
                     // Last retry count: do one last attempt and if it still fails,
                     // throw assertion error and show the differences
                     HtmlHelper.assertSameHtml(expected, actual, isPart);
@@ -794,7 +828,7 @@ public abstract class AppPage {
                 if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
                     break;
                 }
-                ThreadHelper.waitFor(waitDuration);
+                ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
                 actual = getPageSource(by);
             }
             
@@ -809,7 +843,7 @@ public abstract class AppPage {
 
     private String getPageSource(By by) {
         waitForAjaxLoaderGifToDisappear();
-        String actual = by == null ? getPageSource()
+        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
                                    : browser.driver.findElement(by).getAttribute("outerHTML");
         return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
@@ -876,51 +910,27 @@ public abstract class AppPage {
      */
     public AppPage verifyStatus(String expectedStatus){
         
-        try{
-            assertEquals(expectedStatus, this.getStatus());
-        } catch(Exception e){
-            if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessagesToUser"));
-                if(!statusMessage.isDisplayed()){
-                    this.waitForElementVisibility(statusMessage);
-                }
-            }
-        }
-        assertEquals(expectedStatus, this.getStatus());
-        return this;
-    }
-
-    /**
-     * Verifies the status message in the page is same as the one specified, retrying up till numberOfTries
-     * times. This can be used when status message test results in inconsistency due to timing issues
-     * or inconsistency in Selenium's API such as .click() which may or may not result in detecting a page
-     * load depending on things such as browser type and how an event is triggered.
-     * 
-     * Note that we must wait for the next page's status message to be visible on every try within the while
-     * loop. This is because the previous check might have checked early and have not waited for the page
-     * load to finish. From that, it is possible to create a situation whereby the page has now loaded
-     * on the next try (after 1000ms) and the status message is still loading and still not displayed.
-     * 
-     * @return The app page itself for method chaining flexibility
-     */
-    public AppPage verifyStatusWithRetry(String expectedStatus, int maxRetryCount) {
-        int currentRetryCount = 0;
-
-        while (currentRetryCount < maxRetryCount) {
-            if (!statusMessage.isDisplayed()) {
-                this.waitForElementVisibility(statusMessage);
-            }
-
-            if (expectedStatus.equals(this.getStatus())) {
+        // The check is done multiple times with waiting times in between to account for
+        // timing issues due to page load, inconsistencies in Selenium API, etc.
+        for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
+            if (i == VERIFICATION_RETRY_COUNT - 1) {
+                // Last retry count: do one last attempt and if it still fails,
+                // throw assertion error and show the difference
+                waitForElementVisibility(statusMessage);
+                assertEquals(expectedStatus, getStatus());
                 break;
             }
-
-            currentRetryCount++;
-
-            ThreadHelper.waitFor(1000);
+            try {
+                waitForElementVisibility(statusMessage);
+                if (expectedStatus.equals(getStatus())) {
+                    break;
+                }
+            } catch (StaleElementReferenceException e) {
+                // Might occur if the page reloads, which makes the previous WebElement
+                // stored in the variable statusMessage "stale"
+            }
+            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
         }
-
-        assertEquals(expectedStatus, this.getStatus());
 
         return this;
     }
@@ -959,7 +969,10 @@ public abstract class AppPage {
             downloadedFile.setWritable(true);
         }
         
-        CloseableHttpClient client = HttpClientBuilder.create().build();
+        SSLConnectionSocketFactory sslConnectionFactory =
+                new SSLConnectionSocketFactory(SSLContexts.createDefault(), new AllowAllHostnameVerifier());
+        
+        CloseableHttpClient client = HttpClientBuilder.create().setSSLSocketFactory(sslConnectionFactory).build();
         
         HttpGet httpget = new HttpGet(fileToDownload.toURI());
         HttpParams httpRequestParameters = httpget.getParams();
