@@ -19,7 +19,7 @@ import com.google.appengine.api.datastore.Text;
 public class Sanitizer {
     
     /**
-     * Sanitizes a google ID by removing any whitespaces at the start/end
+     * Sanitizes a google ID by removing leading/trailing whitespace
      * and the trailing "@gmail.com".
      * 
      * @param rawGoogleId
@@ -31,7 +31,6 @@ public class Sanitizer {
         }
         
         String sanitized = rawGoogleId.trim();
-        // trim @gmail.com in ID field
         if (sanitized.toLowerCase().endsWith("@gmail.com")) {
             sanitized = sanitized.split("@")[0];
         }
@@ -41,39 +40,39 @@ public class Sanitizer {
     /**
      * Sanitizes an email address by removing leading/trailing whitespace.
      * 
-     * @param rawGoogleId
-     * @return the sanitized google ID or null (if the parameter was null).
+     * @param rawEmail
+     * @return the sanitized email address or null (if the parameter was null).
      */
     public static String sanitizeEmail(String rawEmail) {
         return trimIfNotNull(rawEmail);
     }
     
     /**
-     * Sanitizes a Instructor or Student's name by removing leading/trailing whitespace.
+     * Sanitizes a name by removing leading/trailing whitespace.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawName
+     * @return the sanitized name or null (if the parameter was null).
      */
     public static String sanitizeName(String rawName) {
         return trimIfNotNull(rawName);
     }
     
     /**
-     * Sanitizes a Course or Team's name by removing leading/trailing whitespace.
+     * Sanitizes a title by removing leading/trailing whitespace.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawTitle
+     * @return the sanitized title or null (if the parameter was null).
      */
-    public static String sanitizeTitle(String rawName) {
-        return trimIfNotNull(rawName);
+    public static String sanitizeTitle(String rawTitle) {
+        return trimIfNotNull(rawTitle);
     }
     
     /**
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawText
+     * @return the sanitized text or null (if the parameter was null).
      */
     public static String sanitizeTextField(String rawText) {
         return trimIfNotNull(rawText);
@@ -83,11 +82,14 @@ public class Sanitizer {
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawText
+     * @return the sanitized text or null (if the parameter was null).
      */
     public static Text sanitizeTextField(Text rawText) {
-        return (rawText == null) ? null : new Text(trimIfNotNull(rawText.getValue()));
+        if (rawText == null) {
+            return null;
+        }
+        return new Text(trimIfNotNull(rawText.getValue()));
     }
 
     /**
@@ -205,7 +207,7 @@ public class Sanitizer {
      * {@link http://tools.ietf.org/html/rfc4180}
      */
     public static String sanitizeForCsv(String str) {
-        return "\"" + str.replace("\"", "\"\"") + "\""; // in CSV, " is escaped as ""
+        return "\"" + str.replace("\"", "\"\"") + "\"";
     }
     
     /**
