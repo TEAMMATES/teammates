@@ -63,9 +63,10 @@ Contributing to an OSS project requires you to figure out things on your own whe
 
 Note: The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
 
-Orientation task list
+## Orientation task list
 
 <mark style="background-color: #cfe2f3">**Phase A**: Know the project</mark>
+<br />
 1.  Understand what TEAMMATES is about.
     * [product intro page](https://www.google.com/url?q=https://teammatesv4.appspot.com&sa=D&ust=1458427634385000&usg=AFQjCNEDi3V_xRJj6Sv4x0rTuMreo4zIXA) shown to potential users
 
