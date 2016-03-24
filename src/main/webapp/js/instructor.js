@@ -185,7 +185,7 @@ function setupFsCopyModal() {
                         window.location.href = data.redirectUrl;
                     } else {
                         $copyModalStatusMessage.addClass("alert alert-danger");
-                        $copyModalStatusMessage.text(data.errorMessage);
+                        $copyModalStatusMessage.html(data.errorMessage);
                         $('#fscopy_submit').prop('disabled', false);
                     }
                 }
