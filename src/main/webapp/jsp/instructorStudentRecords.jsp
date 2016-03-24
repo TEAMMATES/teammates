@@ -37,7 +37,7 @@
                             </span>
                         </div>
                         <div class="placeholder-img-loading"></div>
-                        <div class="panel-collapse collapse in padding-15px" id="collapse-target-feedback-${fbIndex.index}">
+                        <div class="panel-collapse collapse in" id="collapse-target-feedback-${fbIndex.index}">
                             <div class="panel-body" id="target-feedback-${fbIndex.index}"></div>
                         </div>
                     </div>
