@@ -44,7 +44,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
         FeedbackResponse feedbackResponse = getFeedbackResponseEntityWithCheck(feedbackResponseId);
-        if (feedbackResponse == null) {
+        if (feedbackResponse == null || JDOHelper.isDeleted(feedbackResponse)) {
             return null;
         }
         return new FeedbackResponseAttributes(feedbackResponse);    
@@ -78,7 +78,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         FeedbackResponse fr = 
                 getFeedbackResponseEntity(feedbackResponseId);
         
-        if (fr == null) {
+        if (fr == null || JDOHelper.isDeleted(fr)) {
             log.info("Trying to get non-existent response: " +
                     feedbackResponseId + ".");
             return null;
@@ -102,7 +102,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         FeedbackResponse fr = 
                 getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);
         
-        if (fr == null) {
+        if (fr == null || JDOHelper.isDeleted(fr)) {
             log.warning("Trying to get non-existent response: " +
                     feedbackQuestionId + "/" + "from: " +
                     giverEmail + " to: " + receiverEmail );
@@ -137,7 +137,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -159,7 +161,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -182,7 +186,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if(!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;   
@@ -204,7 +210,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -226,7 +234,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -249,7 +259,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if(!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -272,7 +284,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if(!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -295,7 +309,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if(!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -318,7 +334,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if(!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -341,7 +359,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if(!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -364,7 +384,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if(!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -387,7 +409,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -411,7 +435,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -435,7 +461,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -459,7 +487,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -605,7 +635,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
         
-        if (fr == null) {
+        if (fr == null || JDOHelper.isDeleted(fr)) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
@@ -658,7 +688,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if(!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         return fraList;
     }
@@ -809,7 +841,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
@@ -817,7 +851,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         return FeedbackResponseList.values();   
@@ -865,7 +901,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
@@ -874,7 +912,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         return FeedbackResponseList.values();   
@@ -938,7 +978,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam "
@@ -947,7 +989,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         return FeedbackResponseList.values();   
@@ -981,7 +1025,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam "
@@ -990,7 +1036,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                FeedbackResponseList.put(response.getId(), response);
+            }
         }
         
         return FeedbackResponseList.values(); 

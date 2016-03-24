@@ -147,7 +147,7 @@ public class StudentsDb extends EntitiesDb {
     
         Student s = getStudentEntityForEmail(courseId, email);
 
-        if (s == null) {
+        if (s == null || JDOHelper.isDeleted(s)) {
             log.info("Trying to get non-existent Student: " + courseId + "/" + email);
             return null;
         }
@@ -330,7 +330,11 @@ public class StudentsDb extends EntitiesDb {
         List<Student> entities = getStudentEntities();
         Iterator<Student> it = entities.iterator();
         while(it.hasNext()) {
-            list.add(new StudentAttributes(it.next()));
+            Student student = it.next();
+            
+            if (!JDOHelper.isDeleted(student)) {
+                list.add(new StudentAttributes(student));
+            }
         }
         return list;
     }

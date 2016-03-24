@@ -46,7 +46,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackQuestionId);
         
-        if (fq == null) {
+        if (fq == null || JDOHelper.isDeleted(fq)) {
             log.info("Trying to get non-existent Question: " + feedbackQuestionId);
             return null;
         }
@@ -78,7 +78,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackSessionName,
                 courseId, questionNumber);
         
-        if (fq == null) {
+        if (fq == null || JDOHelper.isDeleted(fq)) {
             log.info("Trying to get non-existent Question: " +
                          questionNumber + "." + feedbackSessionName + "/" + courseId);
             return null;
@@ -102,7 +102,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {
-            fqList.add(new FeedbackQuestionAttributes(question));
+            if (!JDOHelper.isDeleted(question)) {
+                fqList.add(new FeedbackQuestionAttributes(question));
+            }
         }
         
         return fqList;
@@ -124,7 +126,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {
-            fqList.add(new FeedbackQuestionAttributes(question));
+            if (!JDOHelper.isDeleted(question)) {
+                fqList.add(new FeedbackQuestionAttributes(question));
+            }
         }
         
         return fqList;
@@ -142,7 +146,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {
-            fqList.add(new FeedbackQuestionAttributes(question));
+            if (!JDOHelper.isDeleted(question)) {
+                fqList.add(new FeedbackQuestionAttributes(question));
+            }
         }
         
         return fqList;
@@ -186,7 +192,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         FeedbackQuestion fq = (FeedbackQuestion) getEntity(newAttributes);
         
-        if (fq == null) {
+        if (fq == null || JDOHelper.isDeleted(fq)) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }

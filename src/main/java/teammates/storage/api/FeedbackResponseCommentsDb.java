@@ -65,7 +65,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackResponseComment createdEntity = (FeedbackResponseComment) super.createEntity(entityToAdd);
-        if (createdEntity == null) {
+        if (createdEntity == null || JDOHelper.isDeleted(createdEntity)) {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
         } else {
@@ -97,7 +97,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         FeedbackResponseComment frc = getFeedbackResponseCommentEntity(feedbackResponseCommentId);
         
-        if (frc == null) {
+        if (frc == null || JDOHelper.isDeleted(frc)) {
             log.info("Trying to get non-existent response comment: " + feedbackResponseCommentId + ".");
             return null;
         }
@@ -118,7 +118,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         FeedbackResponseComment frc = getFeedbackResponseCommentEntity(feedbackResponseId, giverEmail, createdAt);
         
-        if (frc == null) {
+        if (frc == null || JDOHelper.isDeleted(frc)) {
             log.info("Trying to get non-existent response comment: "
                     + feedbackResponseId + "/from: " + giverEmail
                     + "created at: " + createdAt);
@@ -142,7 +142,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         FeedbackResponseComment frc =
                 (FeedbackResponseComment) getFeedbackResponseCommentEntity(courseId, createdAt, giverEmail);
         
-        if (frc == null) {
+        if (frc == null || JDOHelper.isDeleted(frc)) {
             log.info("Trying to get non-existent response comment: from: " + giverEmail
                     + " in the course " + courseId + " created at: " + createdAt);
             return null;
@@ -171,7 +171,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;    
@@ -187,7 +189,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList; 
@@ -248,7 +252,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;
@@ -269,7 +275,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;    
@@ -290,7 +298,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;    
@@ -314,7 +324,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         FeedbackResponseComment frc = (FeedbackResponseComment) getEntity(newAttributes);
         
-        if (frc == null) {
+        if (frc == null || JDOHelper.isDeleted(frc)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
@@ -375,7 +385,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state);
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;  
@@ -392,7 +404,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
         
         for(FeedbackResponseComment frComment : frcList) {
-            frComment.setSendingState(newState);
+            if (!JDOHelper.isDeleted(frComment)) {
+                frComment.setSendingState(newState);
+            }
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
@@ -432,7 +446,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
         List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
         for(FeedbackResponseComment comment : entities) {
-            list.add(new FeedbackResponseCommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                list.add(new FeedbackResponseCommentAttributes(comment));
+            }
         }
         return list;
     }

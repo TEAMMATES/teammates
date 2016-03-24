@@ -91,7 +91,7 @@ public class AccountsDb extends EntitiesDb {
         
         Account a = getAccountEntity(googleId, retrieveStudentProfile);
     
-        if (a == null) {
+        if (a == null || JDOHelper.isDeleted(a)) {
             return null;
         }
         closePM();
@@ -118,7 +118,9 @@ public class AccountsDb extends EntitiesDb {
         List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
                 
         for (Account a : accountsList) {
-            instructorsAccountData.add(new AccountAttributes(a));
+            if (!JDOHelper.isDeleted(a)) {
+                instructorsAccountData.add(new AccountAttributes(a));
+            }
         }
         
         return instructorsAccountData;
@@ -138,7 +140,7 @@ public class AccountsDb extends EntitiesDb {
         
         Account accountToUpdate = getAccountEntity(a.googleId, updateStudentProfile);
 
-        if (accountToUpdate == null) {
+        if (accountToUpdate == null || JDOHelper.isDeleted(accountToUpdate)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
                 + ThreadHelper.getCurrentThreadStack());
         }
@@ -183,7 +185,7 @@ public class AccountsDb extends EntitiesDb {
         
         AccountAttributes accountToDelete = getAccount(googleId, true);
 
-        if (accountToDelete == null) {
+        if (accountToDelete == null || JDOHelper.isDeleted(accountToDelete)) {
             return;
         }
         

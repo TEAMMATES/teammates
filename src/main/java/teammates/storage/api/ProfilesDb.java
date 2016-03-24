@@ -186,7 +186,7 @@ public class ProfilesDb extends EntitiesDb {
 
     private void ensureUpdatingProfileExists(String googleId,
             StudentProfile profileToUpdate) throws EntityDoesNotExistException {
-        if (profileToUpdate == null) {
+        if (profileToUpdate == null || JDOHelper.isDeleted(profileToUpdate)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + googleId
                     + ThreadHelper.getCurrentThreadStack());
         }
