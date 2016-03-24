@@ -83,7 +83,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         
         expectedString = String.format(FieldValidator.TIME_FRAME_ERROR_MESSAGE,
                                        FieldValidator.START_TIME_FIELD_NAME,
-                                       FieldValidator.FEEDBACK_SESSION_NAME,
                                        FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME);
         assertEquals(expectedString, pageData.getStatusForAjax());
         assertTrue(pageData.getHasError());

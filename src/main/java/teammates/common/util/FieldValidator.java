@@ -202,8 +202,8 @@ public class FieldValidator {
      * Only 1 hour increments allowed.
      * TODO: allow smaller increments.
      */
-    public static final String START_TIME_FIELD_NAME = "Start time";
-    public static final String END_TIME_FIELD_NAME = "End time";
+    public static final String START_TIME_FIELD_NAME = "Submission opening time";
+    public static final String END_TIME_FIELD_NAME = "Submission closing time";
     
     /*
      * =======================================================================
@@ -314,11 +314,11 @@ public class FieldValidator {
     // ///////////////////End of field type info //////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
     
-    public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
-    public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
+    public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "Session visibility date";
+    public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "Response visibility date";
     
-    public static final String TIME_FRAME_ERROR_MESSAGE = "The %s for this %s cannot be earlier than the %s.";
-    
+    public static final String TIME_FRAME_ERROR_MESSAGE = "<b>%s</b> cannot be earlier than <b>%s</b>.";
+
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String GIVER_TYPE_NAME = "feedback giver.";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient.";
@@ -684,7 +684,7 @@ public class FieldValidator {
         }
         
         if (laterTime.before(earlierTime)) {
-            return String.format(TIME_FRAME_ERROR_MESSAGE, laterFieldName, mainFieldName, earlierFieldName);
+            return String.format(TIME_FRAME_ERROR_MESSAGE, laterFieldName, earlierFieldName);
         }
         
         return "";

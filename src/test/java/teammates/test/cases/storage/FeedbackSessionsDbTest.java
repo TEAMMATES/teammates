@@ -246,8 +246,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(
-                    String.format(TIME_FRAME_ERROR_MESSAGE, END_TIME_FIELD_NAME,
-                            FEEDBACK_SESSION_NAME, START_TIME_FIELD_NAME),
+                    String.format(TIME_FRAME_ERROR_MESSAGE, END_TIME_FIELD_NAME, START_TIME_FIELD_NAME),
                             e.getLocalizedMessage());
         }
         ______TS("feedback session does not exist");

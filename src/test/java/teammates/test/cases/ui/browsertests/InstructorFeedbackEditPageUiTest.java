@@ -183,7 +183,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         String expectedString = String.format(FieldValidator.TIME_FRAME_ERROR_MESSAGE,
                                               FieldValidator.END_TIME_FIELD_NAME,
-                                              FieldValidator.FEEDBACK_SESSION_NAME,
                                               FieldValidator.START_TIME_FIELD_NAME);
         feedbackEditPage.verifyFieldValue("instructions", "Made some changes");
         feedbackEditPage.verifyStatus(expectedString);
