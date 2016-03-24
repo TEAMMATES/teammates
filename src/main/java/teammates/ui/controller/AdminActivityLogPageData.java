@@ -266,10 +266,7 @@ public class AdminActivityLogPageData extends PageData {
         query = query.replaceAll(", ", ",");
         query = query.replaceAll(": ", ":");
         String[] tokens = query.split("\\|", -1); 
-       
-        
-      
-        
+         
         for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
             
