@@ -50,7 +50,7 @@ Roles:
 
 ## Getting started
 
-Contributing to an OSS project requires you to figure out things on your own when you can and seek help from the right resource when you cannot. To become a TEAMMATES contributor, you need to start honing those skills. To help you with that, we have created a sequence of tasks you can try to complete.  Try to complete as many of them as you can, in the order they are listed. Of course we are happy to guide you if you encounter any difficulties when doing these tasks; just post your question in [our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues&sa=D&ust=1458427634380000&usg=AFQjCNEfiA-pDqfeFk-NWy7uSU2vJdd4UA). If you are seeking help on project setup, remember to include the below in your post.
+Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resource when you cannot. To become a TEAMMATES contributor, you need to start honing those skills. To help you with that, we have created a sequence of tasks you can try to complete.  Try to complete as many of them as you can, in the order they are listed. Of course we are happy to guide you if you encounter any difficulties when doing these tasks; just post your question in [our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues&sa=D&ust=1458427634380000&usg=AFQjCNEfiA-pDqfeFk-NWy7uSU2vJdd4UA). If you are seeking help on project setup, remember to include the below in your post.
 
 1. Step in the setting up guide that you are in
 
@@ -58,7 +58,7 @@ Contributing to an OSS project requires you to figure out things on your own whe
 
 3. Operating system
 
-4. Screenshots (of any)
+4. Screenshots (if any)
 
 
 Note: The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
