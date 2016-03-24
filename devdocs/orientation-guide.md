@@ -33,12 +33,12 @@ Although TEAMMATES uses many tools and technologies, you need not know all of th
 
 Roles:
 
-* Tester: Tests the App manually and reports bugs or suggestions for enhancements in the issue tracker.
-*   Copy editor: Helps in improving documentation.
-*   Web page developer: Works on static web pages, such as those used in the TEAMMATES web site
-*   Test developer: Works on automating system tests.
-*   Frontend developer: Works on the frontend of the App that is generated dynamically from the server side.
-*   Backend developer: Works on the backend logic of the App, including data storage.
+* **Tester**: Tests the App manually and reports bugs or suggestions for enhancements in the issue tracker.
+*   **Copy editor**: Helps in improving documentation.
+*   **Web page developer**: Works on static web pages, such as those used in the TEAMMATES web site
+*   **Test developer**: Works on automating system tests.
+*   **Frontend developer**: Works on the frontend of the App that is generated dynamically from the server side.
+*   **Backend developer**: Works on the backend logic of the App, including data storage.
 
 ## Workload
 
