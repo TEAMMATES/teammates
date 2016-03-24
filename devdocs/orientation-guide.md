@@ -50,7 +50,7 @@ Roles:
 
 ## Getting started
 
-Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resource when you cannot. To become a TEAMMATES contributor, you need to start honing those skills. To help you with that, we have created a sequence of tasks you can try to complete.  Try to complete as many of them as you can, in the order they are listed. Of course we are happy to guide you if you encounter any difficulties when doing these tasks; just post your question in [our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues&sa=D&ust=1458427634380000&usg=AFQjCNEfiA-pDqfeFk-NWy7uSU2vJdd4UA). If you are seeking help on project setup, remember to include the below in your post.
+Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resource when you cannot. To become a TEAMMATES contributor, you need to start honing those skills. To help you with that, we have created a sequence of tasks you can try to complete.  Try to complete as many of them as you can, in the order they are listed. Of course we are happy to guide you if you encounter any difficulties when doing these tasks; just post your question in [our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues&sa=D&ust=1458427634380000&usg=AFQjCNEfiA-pDqfeFk-NWy7uSU2vJdd4UA). If you are seeking help on project setup, remember to include the following in your post.
 
 1. Step in the setting up guide that you are in
 
@@ -65,7 +65,7 @@ Note: The task descriptions are brief by intention. We want you to try to figure
 
 ## Orientation task list
 
-<mark style="background-color: #cfe2f3">**Phase A**: Know the project</mark>
+_**Phase A**: Know the project_
 <br />
 1.  Understand what TEAMMATES is about.
     * [product intro page](https://www.google.com/url?q=https://teammatesv4.appspot.com&sa=D&ust=1458427634385000&usg=AFQjCNEDi3V_xRJj6Sv4x0rTuMreo4zIXA) shown to potential users
@@ -82,25 +82,25 @@ Note: The task descriptions are brief by intention. We want you to try to figure
 
 
 
-<mark style="background-color: #cfe2f3">**Phase B**: Set up locally</mark>
+_**Phase B**: Set up locally_
 
 1.  Set up TEAMMATES development environment on your computer.  
     Important:  
-    * Follow instructions to the letter. <mark>Install the specified versions of the tool stack, not the latest versions.</mark>  
+    * Follow instructions to the letter. _Install the specified versions of the tool stack, not the latest versions._  
     * If you encounter any problems, refer to the [Developer Troubleshooting Guide](https://www.google.com/url?q=https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded%3Dtrue&sa=D&ust=1458427634398000&usg=AFQjCNGVBlVtbfAZEnGnVwGudarEORsfRw).
 2.  Get dev green. It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 
 
 
-<mark style="background-color: #cfe2f3">**Phase C**: Deploy</mark>
+_**Phase C**: Deploy_
 
 1.  Deploy your own copy of TEAMMATES to your staging server.
 
-<mark style="background-color: #cfe2f3">**Phase D**: Tinker with the code</mark>
+_**Phase D**: Tinker with the code_
 
 1.  Fork our repo at GitHub
-2.  Create a branch names ‘tinker’
+2.  Create a branch named ‘tinker’
 3.  In that branch, do a small change to the code that makes a visible change to TEAMMATES UI. Preferably, your change should improve the UI in some way, or at least not make it worse.
 4.  Deploy the changed version to your staging server.
 5.  Push your changes to your fork.
@@ -112,11 +112,11 @@ Note: The task descriptions are brief by intention. We want you to try to figure
     d) your real name and a short self-intro
 
 
-<mark style="background-color: #cfe2f3">**Phase E**: Start contributing</mark>  
+_**Phase E**: Start contributing_
 After you complete the above tasks, you are ready to become a contributor. Steps for fixing an issue is explained in the [process](https://www.google.com/url?q=https://github.com/TEAMMATES/repo/blob/master/devdocs/process.md&sa=D&ust=1458427634412000&usg=AFQjCNGUevpZNIogCae6RA0FQvZoI2etWQ) document. New contributors are advised to start doing an issue labeled d.FirstTimers (but do not do more than one of those), move to other issues labeled as d.Contributors  
 
 
-#### ** <mark> Important: </mark> **
+#### **_Important:_**
 
 Fixing an issue quickly is not the important thing. In fact, issues given to new contributors are ones we already know how to fix. We are more interested to see how you go about fixing the issue. We want to know whether you are systematic and detail-oriented.  
 Take your time to learn and follow the workflow to the letter. Do not skip any steps because you think that step is 'not important'. We are more impressed when you finish an issue in fewer attempts than when you finish it in a shorter time but take many attempts because you were not meticulous enough along the way.  
@@ -124,8 +124,8 @@ Take your time to learn and follow the workflow to the letter. Do not skip any s
 
 ## Contacting us
 
-The best way to contact us is to[ ](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues/new&sa=D&ust=1458427634421000&usg=AFQjCNHGZZ7OUGSW29iXO6FKgOaRHmq0Eg) [post a message in our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues/new&sa=D&ust=1458427634422000&usg=AFQjCNFXV3v7oCbAQmkZQbtnQKEQwSAOGQ). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
+The best way to contact us is to [post a message in our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues/new&sa=D&ust=1458427634422000&usg=AFQjCNFXV3v7oCbAQmkZQbtnQKEQwSAOGQ). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
-Alternatively (less preferred), you can email us at teammates[at]comp.nus.edu.sg
+Alternatively (less preferred), you can **email** us at teammates[at]comp.nus.edu.sg
 
 <center> ---End of Document---- </center>
