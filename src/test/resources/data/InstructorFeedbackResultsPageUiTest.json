@@ -283,6 +283,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":true
+        },
+        "Session with Instructors as Givers":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "instructions":{
+                "value":"Session with Instructors as Givers"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
         }
     },
     "feedbackQuestions":{
@@ -902,6 +920,34 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS"
             ]
+        },
+        "qn1InInstructorsAsGivers":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"Rate 3 other students' products"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER",
+                "STUDENTS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS",
+                "STUDENTS",
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "STUDENTS",
+                "RECEIVER"
+            ]
         }
     },
     "feedbackResponses":{
@@ -1400,7 +1446,42 @@
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"
+        },
+        "InstructorsAsGiversResponse1":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.instr@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientSection":"Section A",
+            "responseMetaData":{
+                "value":"Alice you did okay. You get B-"
+            }
+        },
+        "InstructorsAsGiversResponse2":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.instr@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
+            "recipientSection":"Section A",
+            "responseMetaData":{
+                "value":"You did better than Alice. You get C+"
+            }
+        },
+        "InstructorsAsGiversResponse3":{
+            "feedbackSessionName":"Instructors as Givers",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.instr@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.charlie.d@gmail.tmt",
+            "recipientSection":"Section A",
+            "responseMetaData":{
+                "value":"I like you so I give you above A-"
+            }
         }
-
     }
 }
