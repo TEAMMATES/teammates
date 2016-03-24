@@ -36,7 +36,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     
     private static String instructorId;
     private static String courseId;
-    
+
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -140,72 +140,66 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     public void testLinks() {
+        StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
         
         ______TS("link: view");
         
-        StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        InstructorCourseStudentDetailsViewPage studentDetailsPage = detailsPage.clickViewStudent(alice.name);
-        studentDetailsPage.verifyIsCorrectPage(alice.email);
+        InstructorCourseStudentDetailsViewPage studentDetailsPage = detailsPage.clickViewStudent(student1.name);
+        studentDetailsPage.verifyIsCorrectPage(student1.email);
         studentDetailsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: edit");
         
-        StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
-        InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(charlie.name);
-        studentEditPage.verifyIsCorrectPage(charlie.email);
+        InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(student2.name);
+        studentEditPage.verifyIsCorrectPage(student2.email);
         studentEditPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: all records");
         
-        InstructorStudentRecordsPage studentAllRecordsPage = detailsPage.clickAllRecordsLink(charlie.name);
-        studentAllRecordsPage.verifyIsCorrectPage(charlie.email);
+        InstructorStudentRecordsPage studentAllRecordsPage = detailsPage.clickAllRecordsLink(student2.name);
+        studentAllRecordsPage.verifyIsCorrectPage(student2.email);
         studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
         
-        studentAllRecordsPage = detailsPage.clickAllRecordsLink(alice.name);
-        studentAllRecordsPage.verifyIsCorrectPage(alice.email);
+        studentAllRecordsPage = detailsPage.clickAllRecordsLink(student1.name);
+        studentAllRecordsPage.verifyIsCorrectPage(student1.email);
         studentAllRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: add comment");
         
-        StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name);
-        studentCommentsPage.verifyIsCorrectPage(aliceBetsy.email);
+        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(student1.name);
+        studentCommentsPage.verifyIsCorrectPage(student1.email);
         studentCommentsPage.closeCurrentWindowAndSwitchToParentWindow();
         
         ______TS("link: download student list");
-        
+
         AppUrl studentListDownloadUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
                                         .withUserId("CCDetailsUiT.instr")
                                         .withCourseId("CCDetailsUiT.CS2104");
-        
+
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
 
     public void testRemindAction() throws Exception {
-
-        //Charlie is yet to register
-        StudentAttributes charlie = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
-        String charlieEmail = charlie.email;
-        String charliePassword = TestProperties.inst().TEST_STUDENT2_PASSWORD;
-        
-        //Alice is already registered
-        StudentAttributes alice = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        String alicePassword = TestProperties.inst().TEST_STUDENT1_PASSWORD;
-        
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+        StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes student2 = testData.students.get("charlie.tmms@CCDetailsUiT.CS2104");
+
+        // student2 is yet to register, student1 is already registered
+        String student1Password = TestProperties.inst().TEST_STUDENT1_PASSWORD;
+        String student2Password = TestProperties.inst().TEST_STUDENT2_PASSWORD;
         boolean isEmailEnabled = !TestProperties.inst().isDevServer();
 
         ______TS("action: remind single student");
 
-        detailsPage.clickRemindStudentAndCancel(charlie.name);
+        detailsPage.clickRemindStudentAndCancel(student2.name);
         if (isEmailEnabled) {
-            assertFalse(didStudentReceiveReminder(courseId, charlieEmail, charliePassword));
+            assertFalse(didStudentReceiveReminder(courseId, student2.email, student2Password));
         }
-        
 
-        detailsPage.clickRemindStudentAndConfirm(charlie.name);
+        detailsPage.clickRemindStudentAndConfirm(student2.name);
         if (isEmailEnabled) {
-            assertTrue(didStudentReceiveReminder(courseId, charlie.email, charliePassword));
+            assertTrue(didStudentReceiveReminder(courseId, student2.email, student2Password));
         }
         
         // Hiding of the 'Send invite' link is already covered by content test.
@@ -218,34 +212,28 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         if (isEmailEnabled) {
             // verify an unregistered student received reminder
-            assertTrue(didStudentReceiveReminder(courseId, charlie.email, charliePassword));
+            assertTrue(didStudentReceiveReminder(courseId, student2.email, student2Password));
             // verify a registered student did not receive a reminder
-            assertFalse(didStudentReceiveReminder(courseId, alice.email, alicePassword));
+            assertFalse(didStudentReceiveReminder(courseId, student1.email, student1Password));
         }
     }
 
     public void testDeleteAction() throws Exception {
+        String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;        
+        StudentAttributes benny = testData.students.get("benny.tmms@CCDetailsUiT.CS2104");
+        StudentAttributes danny = testData.students.get("danny.tmms@CCDetailsUiT.CS2104");
         
         ______TS("action: delete");
-        
-        String studentName = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").name;
-        String studentEmail = testData.students.get("benny.tmms@CCDetailsUiT.CS2104").email;
-        String courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
-        
-        detailsPage.clickDeleteAndCancel(studentName);
-        assertNotNull(BackDoor.getStudent(courseId, studentEmail));
+                
+        detailsPage.clickDeleteAndCancel(benny.name);
+        assertNotNull(BackDoor.getStudent(courseId, benny.email));
 
         //Use ${test.student1} etc. 
-        detailsPage.clickDeleteAndConfirm(studentName)
+        detailsPage.clickDeleteAndConfirm(benny.name)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
-        
-        studentName = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").name;
-        studentEmail = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").email;
-        courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
-        
-        detailsPage.clickDeleteAndCancel(studentName);
-        assertNotNull(BackDoor.getStudent(courseId, studentEmail));
-        
+                
+        detailsPage.clickDeleteAndCancel(danny.name);
+        assertNotNull(BackDoor.getStudent(courseId, danny.email));        
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {

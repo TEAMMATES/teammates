@@ -106,8 +106,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
 
-        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
-        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
         profilePage.verifyHtmlMainContent("/studentProfilePageFilled.html");
         
@@ -169,8 +168,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
 
-        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
-        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
 
         profilePage.editProfilePhoto();
@@ -197,8 +195,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
         profilePage.uploadPicture();
 
-        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
-        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE, 10);
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
         verifyPictureIsPresent(prevPictureKey);
 
         ______TS("Failure case: picture too large");
@@ -206,8 +203,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_large.jpg");
         profilePage.uploadPicture();
 
-        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
-        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE, 10);
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
         verifyPictureIsPresent(prevPictureKey);
 
         ______TS("Typical case: update picture (too tall)");
@@ -215,8 +211,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/image_tall.jpg");
         profilePage.uploadPicture();
         
-        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
-        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         profilePage.waitForUploadEditModalVisible();
         profilePage.verifyPhotoSize(3074, 156);
 

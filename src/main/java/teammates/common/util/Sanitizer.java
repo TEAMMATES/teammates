@@ -49,23 +49,23 @@ public class Sanitizer {
     }    
     
     /**
-     * Sanitizes a Instructor or Student's name by removing leading/trailing whitespace.
+     * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
      * 
      * @param string
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeName(String rawName) {
-        return trimIfNotNull(rawName);
+        return StringHelper.removeExtraSpace(rawName);
     }
     
     /**
-     * Sanitizes a Course or Team's name by removing leading/trailing whitespace.
+     * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
      * 
      * @param string
      * @return the sanitized string or null (if the parameter was null).
      */
     public static String sanitizeTitle(String rawName) {
-        return trimIfNotNull(rawName);
+        return StringHelper.removeExtraSpace(rawName);
     }
     
     /**
