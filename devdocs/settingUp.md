@@ -1,9 +1,18 @@
 #Setting Up the Developer Environment
 These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
 
-The full tool stack is given at the [end of this document](#toolStack).
 
-##Prerequisites
+##Table Of Contents
+[Prerequisites](#pre) <br/>
+[Setting up the dev server](#setDevServer) <br/>
+[Running the test suite](#runTestSuite) <br/>
+[Deploying to a staging server](#deployServer) <br/>
+[Running client scripts](#runClientScripts) <br/>
+[Troubleshooting](#troubleshoot) <br/>
+[Full tool stack](#toolStack) <br/>
+
+
+##<a name="pre"></a>Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
@@ -22,10 +31,10 @@ Important: When a version is specified, please install that version instead of t
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
-##Setting up the dev server
+##<a name="setDevServer"></a>Setting up the dev server
 `Dev server` means running the server in your own computer.
 
-1. Fork our repo at `https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
+1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
 2. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
    * Text encoding: Go to `Window → Preferences → General → Workspace` (Mac: `Eclipse → Preferences → General → Workspace`), change the 
@@ -46,7 +55,7 @@ Important: When a version is specified, please install that version instead of t
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
    Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `copy → paste → rename`).
+   as the template (i.e. `duplicate -> remove '.template' from name`).
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
@@ -95,7 +104,7 @@ Important: When a version is specified, please install that version instead of t
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
    Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
    
-##Running the test suite
+##<a name="runTestSuite"></a>Running the test suite
 
 
 
@@ -184,7 +193,7 @@ this section.
   `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
   (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
   
-##Deploying to a staging server
+##<a name="deployServer"></a>Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
 1. Create your own app on GAE.
@@ -214,7 +223,7 @@ this section.
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
 
 
-##Running client scripts
+##<a name="runClientScripts"></a>Running client scripts
 Client scripts are scripts that remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
 
 1. Download and install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
@@ -224,7 +233,7 @@ Client scripts are scripts that remotely manipulate data on GAE via its Remote A
 3. Now you can run your scripts.
 
 
-##Troubleshooting
+##<a name="troubleshoot"></a>Troubleshooting
 Troubleshooting instructions are given [in this document](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
 
 ##<a name="toolStack"></a>Tool stack
@@ -277,6 +286,8 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     TestNG is a Java test automation framework.
 * **QUnit** [version 1.10.0]
     QUnit is a JavaScript unit test suite.
+* **Blanket.js** [version 1.2.1]
+    Blanket.js is a JavaScript code coverage library.
 * **NekoHtml** [version 1.9.22]
     NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
     NekoHTML is included in the Selenium libraries.
