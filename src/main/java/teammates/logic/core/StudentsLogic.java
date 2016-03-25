@@ -274,7 +274,8 @@ public class StudentsLogic {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, hasDocument);    
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, 
+                                 student.email, student.googleId, student.comments, hasDocument, false);    
         
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
@@ -299,7 +300,7 @@ public class StudentsLogic {
         }     
         studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name, 
                                  originalStudent.team, originalStudent.section, originalStudent.email, 
-                                 originalStudent.googleId, originalStudent.comments, hasDocument);  
+                                 originalStudent.googleId, originalStudent.comments, hasDocument, false);  
     }
 
     public List<StudentAttributes> enrollStudents(String enrollLines,
