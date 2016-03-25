@@ -658,7 +658,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-                fraList.add(new FeedbackResponseAttributes(fr));
+            fraList.add(new FeedbackResponseAttributes(fr));
         }
         return fraList;
     }
@@ -670,6 +670,32 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> feedbackResponseList = (List<FeedbackResponse>) q.execute(courseId);
+        return feedbackResponseList;
+    }
+    
+    @Deprecated
+    /**
+     * Retrieves all responses. This function is not scalable.
+     */
+    
+    public List<FeedbackResponseAttributes> getAllFeedbackResponses() {
+        List<FeedbackResponse> frList = getAllFeedbackResponseEntities();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
+        
+        for (FeedbackResponse fr : frList) {
+            fraList.add(new FeedbackResponseAttributes(fr));
+        }
+        return fraList;
+    }
+    
+    @Deprecated
+    /**
+     * Retrieves all response entities. This function is not scalable.
+     */
+    private List<FeedbackResponse> getAllFeedbackResponseEntities() {
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> feedbackResponseList = (List<FeedbackResponse>) q.execute();
         return feedbackResponseList;
     }
     
