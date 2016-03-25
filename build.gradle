@@ -131,7 +131,11 @@ appengine {
 }
 
 appengineRun {
-    daemon = true
+    if (project.hasProperty("disable_daemon")) {
+        daemon = false
+    } else {
+        daemon = true
+    }
 }
 project.tasks.getByName("war").dependsOn "enhancerRun"
 

@@ -10,7 +10,7 @@ The full tool stack is given at the [end of this document](#toolStack).
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
-2. Install JDK 7. (If you have multiple versions of JDK installed, make sure you set `JAVA_HOME` to JDK 7 when working on Teammates. Use Google for more help on this.)
+2. Install JDK 7.
 3. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
 4. Install the BuildShip Gradle Plugin for Eclipse. Instructions can be found [here](https://github.com/eclipse/buildship/blob/master/docs/user/Installation.md)
 
@@ -18,8 +18,10 @@ Important: When a version is specified, please install that version instead of t
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
-2. Navigate to the directory where you cloned Teammates and run the following command:
-   `./gradlew appengineRun`
+2. Navigate to the directory where you cloned Teammates and perform the following steps:
+   * Copy and rename `gradle.properties.template` to `gradle.properties`
+   * Set `org.gradle.java.home` to the location where JDK 7 is installed
+   * Run the following command: `./gradlew appengineRun`
    This command downloads all the dependencies required by Teammates and starts the dev server on `localhost:8888`.
    Depending on your network speed, the downloading of the dependencies might take a while.
    After some time, you should see this message on the console 
