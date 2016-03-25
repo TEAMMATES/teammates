@@ -66,7 +66,7 @@ public class CommentsDb extends EntitiesDb {
     public CommentAttributes createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         Comment createdEntity = (Comment) super.createEntity(entityToAdd);
-        if (createdEntity == null || JDOHelper.isDeleted(createdEntity)) {
+        if (createdEntity == null) {
             log.info("Trying to get non-existent Comment, possibly entity not persistent yet.");
             return null;
         } else {

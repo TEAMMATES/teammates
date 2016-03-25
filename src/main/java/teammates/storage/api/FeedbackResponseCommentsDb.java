@@ -65,7 +65,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackResponseComment createdEntity = (FeedbackResponseComment) super.createEntity(entityToAdd);
-        if (createdEntity == null || JDOHelper.isDeleted(createdEntity)) {
+        if (createdEntity == null) {
             log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
             return null;
         } else {
