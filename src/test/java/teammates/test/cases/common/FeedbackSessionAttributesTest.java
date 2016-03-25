@@ -90,7 +90,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 "feedback session name", 
                 "course ID", 
                 "instructions to students", 
-                "time for the session to become visible", 
+                FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME,
                 "creator's email", 
                 "session creation time"};
         for  (String fieldName : fieldNames) {
