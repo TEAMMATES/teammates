@@ -52,9 +52,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(
-                    String.format(COURSE_ID_ERROR_MESSAGE, c.id, REASON_INCORRECT_FORMAT), 
-                    e.getMessage());
+            AssertHelper.assertContains(COURSE_ID_ERROR_MESSAGE, e.getMessage());
         } 
         
         ______TS("fails: null parameter");

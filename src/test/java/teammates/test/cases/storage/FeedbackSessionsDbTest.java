@@ -26,6 +26,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -96,7 +97,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             // start time is now after end time
-            AssertHelper.assertContains("start time", e.getLocalizedMessage());
+            AssertHelper.assertContains(FieldValidator.START_TIME_FIELD_NAME, e.getLocalizedMessage());
         }
         
     }
@@ -245,8 +246,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(
-                    String.format(TIME_FRAME_ERROR_MESSAGE, END_TIME_FIELD_NAME,
-                            FEEDBACK_SESSION_NAME, START_TIME_FIELD_NAME),
+                    String.format(TIME_FRAME_ERROR_MESSAGE, END_TIME_FIELD_NAME, START_TIME_FIELD_NAME),
                             e.getLocalizedMessage());
         }
         ______TS("feedback session does not exist");

@@ -117,10 +117,10 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         assertEquals("invalid value", false, i.isValid());
         String errorMessage = 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, i.googleId, REASON_INCORRECT_FORMAT) + EOL 
-                + String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
+                GOOGLE_ID_ERROR_MESSAGE + EOL
+                + COURSE_ID_ERROR_MESSAGE + EOL
                 + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
-                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
+                + EMAIL_ERROR_MESSAGE;
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
         
         i.googleId = null;
@@ -129,7 +129,7 @@ public class InstructorAttributesTest extends BaseTestCase {
         errorMessage = 
                 String.format(COURSE_ID_ERROR_MESSAGE, i.courseId, REASON_EMPTY) + EOL 
                 + String.format(PERSON_NAME_ERROR_MESSAGE, i.name, REASON_EMPTY)+ EOL
-                + String.format(EMAIL_ERROR_MESSAGE, i.email, REASON_INCORRECT_FORMAT);  
+                + EMAIL_ERROR_MESSAGE;
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));      
     }
     

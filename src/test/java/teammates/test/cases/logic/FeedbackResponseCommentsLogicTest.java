@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
@@ -198,7 +199,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         ______TS("fail: invalid params");
         
         frComment.courseId = "invalid course name";
-        verifyExceptionThrownWhenUpdateFrComment(frComment, "not acceptable to TEAMMATES as a Course ID");
+        verifyExceptionThrownWhenUpdateFrComment(frComment, FieldValidator.COURSE_ID_ERROR_MESSAGE);
         restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("typical success case");

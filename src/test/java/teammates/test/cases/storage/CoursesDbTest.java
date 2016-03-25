@@ -62,7 +62,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is not in the correct format", 
+            AssertHelper.assertContains(FieldValidator.COURSE_ID_ERROR_MESSAGE,
                                         e.getMessage());
         }
 
@@ -72,7 +72,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.createEntity(c);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is too long",
+            AssertHelper.assertContains(FieldValidator.COURSE_NAME_ERROR_MESSAGE,
                                         e.getMessage());
         }
 
@@ -134,9 +134,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
             coursesDb.updateCourse(course);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a Course ID because it is empty",
+            AssertHelper.assertContains(FieldValidator.COURSE_ID_ERROR_MESSAGE,
                                         e.getMessage());
-            AssertHelper.assertContains("not acceptable to TEAMMATES as a course name because it is empty",
+            AssertHelper.assertContains(FieldValidator.COURSE_NAME_ERROR_MESSAGE,
                                         e.getMessage());
         }
         

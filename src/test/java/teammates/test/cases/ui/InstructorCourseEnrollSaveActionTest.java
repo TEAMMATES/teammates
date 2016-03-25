@@ -12,6 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
@@ -187,11 +188,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                             + "</span>"
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
-                                                + "\"invalid.email.tmt\" is not acceptable to TEAMMATES as "
-                                                + "an email because it is not in the correct format. An "
-                                                + "email address contains some text followed by one '@' sign"
-                                                + " followed by some more text. It cannot be longer than 254 "
-                                                + "characters. It cannot be empty and it cannot have spaces."
+                                                + FieldValidator.EMAIL_ERROR_MESSAGE
                                             + "</span>"
                                         + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());

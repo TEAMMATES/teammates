@@ -319,7 +319,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
             studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
+            AssertHelper.assertContains(FieldValidator.EMAIL_ERROR_MESSAGE,
                     e.getMessage());
         }
         

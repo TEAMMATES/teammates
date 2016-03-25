@@ -55,7 +55,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try{
             commentsDb.createEntity(c);
         } catch (InvalidParametersException e){
-            assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT), 
+            assertEquals(COURSE_ID_ERROR_MESSAGE,
                     e.getLocalizedMessage());
         }
 
@@ -183,7 +183,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         try{
             commentsDb.updateComment(c);
         } catch(InvalidParametersException e) {
-            assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT), 
+            assertEquals(EMAIL_ERROR_MESSAGE,
                     e.getLocalizedMessage());
         }
         

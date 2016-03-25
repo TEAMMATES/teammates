@@ -403,21 +403,18 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         List<String> expectedStatusStrings = new ArrayList<String>();
         expectedStatusStrings.add(String.format(
-                FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                FieldValidator.TIME_FRAME_ERROR_MESSAGE_WITHOUT_HTML,
                 FieldValidator.RESULTS_VISIBLE_TIME_FIELD_NAME,
-                FieldValidator.FEEDBACK_SESSION_NAME,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME));
         
         expectedStatusStrings.add(String.format(
-                FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                FieldValidator.TIME_FRAME_ERROR_MESSAGE_WITHOUT_HTML,
                 FieldValidator.START_TIME_FIELD_NAME,
-                FieldValidator.FEEDBACK_SESSION_NAME,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME));
 
         expectedStatusStrings.add(String.format(
-                FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                FieldValidator.TIME_FRAME_ERROR_MESSAGE_WITHOUT_HTML,
                 FieldValidator.END_TIME_FIELD_NAME,
-                FieldValidator.FEEDBACK_SESSION_NAME,
                 FieldValidator.START_TIME_FIELD_NAME));
         
         AssertHelper.assertContains(expectedStatusStrings, feedbackPage.getStatus());
@@ -434,10 +431,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.startTime, newSession.endTime, null, null,
                 newSession.instructions, newSession.gracePeriod);
         assertEquals(String.format(
-                        FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                        "bad name %%",
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.REASON_CONTAINS_INVALID_CHAR,
+                        FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                      feedbackPage.getStatus());
         
@@ -469,21 +463,15 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Failure case: copy fail since the feedback session name is blank");
         
         feedbackPage.copyFeedbackSession("", newSession.courseId);
-        feedbackPage.verifyStatus(
-                "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
-                + "The value of feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.");
+        feedbackPage.verifyStatus(FieldValidator.FEEDBACK_SESSION_NAME_ERROR_MESSAGE_WITHOUT_HTML);
         
         
         ______TS("Failure case: copy fail since the feedback session name starts with (");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.copyFeedbackSession("(New Session)", newSession.courseId);
-        feedbackPage.verifyStatus(
-                "\"(New Session)\" is not acceptable to TEAMMATES as feedback session name because "
-                + "it starts with a non-alphanumeric character. "
-                + "All feedback session name must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+        feedbackPage.verifyStatus(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
+                                                FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
     }
@@ -533,11 +521,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(
-                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
-                + "feedback session name because it contains invalid characters. "
-                + "All feedback session name must start with an alphanumeric character, "
-                + "and cannot contain any vertical bar (|) or percent sign (%).");
+        feedbackPage.fsCopyToModal.verifyStatusMessage(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
+                                                                     FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         feedbackPage.fsCopyToModal.clickCloseButton();
         
@@ -999,13 +984,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                 newSession.instructions,
                 newSession.gracePeriod );
         assertEquals(String.format(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                        "",
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_WITHOUT_HTML,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.REASON_EMPTY,
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH,
-                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
+                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      feedbackPage.getStatus());
         assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
         assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));

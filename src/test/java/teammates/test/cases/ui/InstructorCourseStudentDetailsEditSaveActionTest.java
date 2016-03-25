@@ -156,13 +156,12 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 result.getDestinationWithParams());
         
         assertEquals(true, result.isError);
-        assertEquals(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG), 
+        assertEquals(FieldValidator.EMAIL_ERROR_MESSAGE,
                 result.getStatusMessage());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                "Servlet Action Failure : " + 
-                String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG) + 
+                "Servlet Action Failure : " + FieldValidator.EMAIL_ERROR_MESSAGE +
                 "|||/page/instructorCourseStudentDetailsEditSave";
         
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());

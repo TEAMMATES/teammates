@@ -181,7 +181,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         error = validator.getValidityInfoForNonNullField("instructions to students", instructions);
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getValidityInfoForNonNullField("time for the session to become visible", sessionVisibleFromTime);
+        error = validator.getValidityInfoForNonNullField(FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME,
+                                                         sessionVisibleFromTime);
         if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getValidityInfoForNonNullField("creator's email", creatorEmail);
@@ -205,13 +206,14 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         // Skip time frame checks if session type is private.
         if (this.isPrivateSession()) { return errors; }
 
-        error = validator.getValidityInfoForNonNullField("submission opening time", startTime);
+        error = validator.getValidityInfoForNonNullField(FieldValidator.START_TIME_FIELD_NAME, startTime);
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getValidityInfoForNonNullField("submission closing time", endTime);
+        error = validator.getValidityInfoForNonNullField(FieldValidator.END_TIME_FIELD_NAME, endTime);
         if (!error.isEmpty()) { errors.add(error); }
 
-        error = validator.getValidityInfoForNonNullField("time for the responses to become visible", resultsVisibleFromTime);
+        error = validator.getValidityInfoForNonNullField(FieldValidator.RESULTS_VISIBLE_TIME_FIELD_NAME,
+                                                         resultsVisibleFromTime);
         if (!error.isEmpty()) { errors.add(error); }
 
         // Early return if any null fields

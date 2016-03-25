@@ -10,7 +10,7 @@
         <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
             <div class="form-group">
-                <label class="col-sm-1 control-label">Student Name:</label>
+                <label class="col-sm-1 control-label">Name:</label>
                 <div class="col-sm-11">
                     <input class="form-control" name="<%=Const.ParamsNames.STUDENT_NAME%>" 
                            id="<%=Const.ParamsNames.STUDENT_NAME%>"
@@ -28,7 +28,7 @@
                 </div>
             </c:if>
             <div class="form-group">
-                <label class="col-sm-1 control-label">Team Name:</label>
+                <label class="col-sm-1 control-label">Team:</label>
                 <div class="col-sm-11">
                     <input class="form-control" name="<%=Const.ParamsNames.TEAM_NAME%>" 
                            id="<%=Const.ParamsNames.TEAM_NAME%>"
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-1 control-label">E-mail Address:
+                <label class="col-sm-1 control-label">Email:
                     <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" 
                            id="<%=Const.ParamsNames.STUDENT_EMAIL%>"
                            value="${studentInfoTable.email}">

@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.test.pageobjects.AdminEmailPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -110,17 +111,11 @@ public class AdminEmailPageUiTest extends BaseUiTestCase {
     }
     
     private boolean hasStatusMessageRecipientEmailFormatError(String recipientName) {
-        return emailPage.getStatus().contains("\"" + recipientName + "\" is not acceptable to TEAMMATES as an email "
-                                                + "because it is not in the correct format. An email address "
-                                                + "contains some text followed by one '@' sign followed by "
-                                                + "some more text. It cannot be longer than 254 characters. "
-                                                + "It cannot be empty and it cannot have spaces.");
+        return emailPage.getStatus().contains(FieldValidator.EMAIL_ERROR_MESSAGE_WITHOUT_HTML);
     }
     
     private boolean hasStatusMessageNoSubject() {
-        return emailPage.getStatus().equals("\"\" is not acceptable to TEAMMATES as email subject because "
-                                          + "it is empty. The value of email subject should be no longer "
-                                          + "than 200 characters. It should not be empty.");
+        return emailPage.getStatus().equals(FieldValidator.EMAIL_SUBJECT_ERROR_MESSAGE_WITHOUT_HTML);
     }
     
     private boolean hasErrorMessage() {

@@ -225,8 +225,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
         } catch (EnrollException e) {
             String actualErrorMessage = e.getLocalizedMessage();
 
-            String errorReason = String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "e6@g@",
-                    FieldValidator.REASON_INCORRECT_FORMAT);
+            String errorReason = FieldValidator.EMAIL_ERROR_MESSAGE;
             String expectedMessage = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
                     invalidStudentId, errorReason);
             

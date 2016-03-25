@@ -186,12 +186,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(FieldValidator.EMAIL_ERROR_MESSAGE_WITHOUT_HTML);
 
         String invalidName = "";
         
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE_WITHOUT_HTML, FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -323,12 +323,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
+        courseEditPage.verifyStatus(FieldValidator.EMAIL_ERROR_MESSAGE_WITHOUT_HTML);
         
         String invalidName = "";
         
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        courseEditPage.verifyStatus(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE_WITHOUT_HTML,
+                                        FieldValidator.PERSON_NAME_FIELD_NAME,
+                                        FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         instructorIndex = 2;

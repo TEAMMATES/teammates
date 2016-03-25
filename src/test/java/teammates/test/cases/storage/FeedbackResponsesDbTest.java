@@ -160,9 +160,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.createEntity(fra);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, 
-                                                      "invalid course id!", FieldValidator.REASON_INCORRECT_FORMAT),
-                                        e.getLocalizedMessage());
+            AssertHelper.assertContains(FieldValidator.COURSE_ID_ERROR_MESSAGE, e.getLocalizedMessage());
         }
         
     }
@@ -769,8 +767,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             frDb.updateFeedbackResponse(invalidFra);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(String.format(FieldValidator.COURSE_ID_ERROR_MESSAGE, 
-                                            "invalid course_", FieldValidator.REASON_INCORRECT_FORMAT),
+            AssertHelper.assertContains(FieldValidator.COURSE_ID_ERROR_MESSAGE,
                                         e.getLocalizedMessage());
         }
         
