@@ -124,7 +124,7 @@ public class FieldValidator {
      * ======================================================================= 
      * Field: Email Subject
      */
-    public static final String EMAIL_SUBJECT_FIELD_NAME = "Email subject";
+    private static final String EMAIL_SUBJECT_FIELD_NAME = "Email subject";
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
     public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
             String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, EMAIL_SUBJECT_FIELD_NAME,
@@ -319,7 +319,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Team name
      */
-    public static final String TEAM_NAME_FIELD_NAME = "Team";
+    private static final String TEAM_NAME_FIELD_NAME = "Team";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
     public static final String TEAM_NAME_ERROR_MESSAGE = 
             String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, TEAM_NAME_FIELD_NAME,
