@@ -677,7 +677,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
     /**
      * Retrieves all responses. This function is not scalable.
      */
-    
     public List<FeedbackResponseAttributes> getAllFeedbackResponses() {
         List<FeedbackResponse> frList = getAllFeedbackResponseEntities();
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
