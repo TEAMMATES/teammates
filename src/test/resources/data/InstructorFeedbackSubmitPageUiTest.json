@@ -80,7 +80,7 @@
             "courseId":"IFSubmitUiT.CS2104",
             "name":"Teammates Test2",
             "email":"IFSubmitUiT.instr2@gmail.tmt",
-            "role":"Co-owner",
+            "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canmodifyinstructor\": false,\n    \"canmodifystudent\": false,\n    \"canviewcommentinsection\": false\n  },\n  \"sectionLevel\": {\n    \"Section 1\": {\n      \"cansubmitsessioninsection\": true\n    }\n  },\n  \"sessionLevel\": {}\n}"

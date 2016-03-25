@@ -43,7 +43,7 @@
       "courseId":"CCAddUiTest.CS1101",
       "name": "Teammates Demo Instr",
       "email": "CCAddUiTest.instructor@gmail.tmt",
-      "role":"Co-owner",
+      "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
