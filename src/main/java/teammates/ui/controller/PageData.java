@@ -34,8 +34,6 @@ import teammates.ui.template.InstructorFeedbackSessionActions;
  */
 public class PageData {
 
-    public static final String DISABLED = " disabled\" onclick=\"return false\"";
-
     /** The user for whom the pages are displayed (i.e. the 'nominal user'). 
      *  May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;
@@ -135,47 +133,6 @@ public class PageData {
      *         Whether or not the "Equal Share" and the percentage will be
      *         displayed in one line.
      */
-    protected static String getPointsInEqualShareFormatAsHtml(int points, boolean inline) {
-        int delta = 0;
-        if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"badge background-color-white color_neutral\">N/A</span>";
-        } else if (points == Const.POINTS_NOT_SURE) {
-            return "<span class=\"badge background-color-white color-negative\">Not sure</span>";
-        } else if (points == 0) {
-            return "<span class=\"badge background-color-white color-negative\">0%</span>";
-        } else if (points > 100) {
-            delta = points - 100;
-            if(inline) return "<span class=\"badge background-color-white color-positive\"> E +" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-positive\"> + " + delta + 
-                        "%</span>";
-        } else if (points < 100) {
-            delta = 100 - points;
-            if(inline) return "<span class=\"badge background-color-white color-negative\"> E -" + delta + "%</span>";
-            else return "Equal Share<br /><span class=\"badge background-color-white color-negative\"> - " + delta + 
-                        "%</span>";
-        } else {
-            return "<span class=\"badge background-color-white color-positive\"> E </span>";
-        }
-    }
-    
-    /**
-     * Formats P2P feedback.
-     * Make the headings bold, and converts newlines to html line breaks.
-     */
-    protected static String getP2pFeedbackAsHtml(String str, boolean enabled) {
-        if (!enabled) {
-            return "<span style=\"font-style: italic;\">Disabled</span>";
-        }
-        if (str == null || str.equals("")) {
-            return "N/A";
-        }
-        return str.replace("&lt;&lt;What I appreciate about you as a team member&gt;&gt;:", 
-                           "<strong>What I appreciate about you as a team member:</strong>")
-                  .replace("&lt;&lt;Areas you can improve further&gt;&gt;:", 
-                           "<strong class=\"bold\">Areas you can improve further:</strong>")
-                  .replace("&lt;&lt;Other comments&gt;&gt;:", "<strong>Other comments:</strong>")
-                  .replace("&#010;", "<br>");
-    }
     
     /**
      * Returns the timezone options as HTML code.
@@ -235,40 +192,12 @@ public class PageData {
         return new ElementTag(text, "value", value);
     }
     
-    /**
-     * Returns the grace period options as HTML code.
-     */
-    protected ArrayList<String> getGracePeriodOptionsAsHtml(int existingGracePeriod) {
-        ArrayList<String> result = new ArrayList<String>();
-        for(int i = 0; i <= 30; i += 5) {
-            result.add("<option value=\"" + i + "\"" 
-                       + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected" : "") 
-                       + ">" + i + " mins</option>");
-        }
-        return result;
-    }
-    
     public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
                                             (isGracePeriodToBeSelected(existingGracePeriod, i)));
             result.add(option);
-        }
-        return result;
-    }
-    
-    /**
-     * Returns the time options as HTML code.
-     * By default the selected one is the last one.
-     * @param timeToShowAsSelected
-     */
-    public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected) {
-        ArrayList<String> result = new ArrayList<String>();
-        for(int i = 1; i <= 24; i++) {
-            result.add("<option value=\"" + i + "\"" +
-                       (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected" : "") + ">" 
-                       + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
         }
         return result;
     }
@@ -918,28 +847,6 @@ public class PageData {
     public boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
                                                        FeedbackParticipantType viewerType) {
         return true;
-    }
-    
-    public boolean isResponseCommentVisibleTo(FeedbackResponseCommentAttributes frComment, 
-                                              FeedbackQuestionAttributes qn,
-                                              FeedbackParticipantType viewerType) {
-        if (frComment.isVisibilityFollowingFeedbackQuestion && viewerType == FeedbackParticipantType.GIVER) {
-            return true;
-        } else if (frComment.isVisibilityFollowingFeedbackQuestion) {
-            return qn.isResponseVisibleTo(viewerType);
-        } else {
-            return frComment.isVisibleTo(viewerType);
-        }
-    }
-    
-    public boolean isResponseCommentGiverNameVisibleTo(FeedbackResponseCommentAttributes frComment, 
-                                                       FeedbackQuestionAttributes qn,
-                                                       FeedbackParticipantType viewerType) {
-        if (frComment.isVisibilityFollowingFeedbackQuestion) {
-            return true;
-        } else {
-            return frComment.showGiverNameTo.contains(viewerType);
-        }
     }
     
     public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn) {
