@@ -37,6 +37,8 @@ public class RepairTeamNameInStudentAttributesAndResponses extends RemoteApiClie
         List<StudentAttributes> allStudents = studentsLogic.getAllStudents();
         @SuppressWarnings("deprecation")
         List<FeedbackResponseAttributes> allResponses = responsesLogic.getAllFeedbackResponses();
+        int totalNumberOfStudents = allStudents.size();
+        int totalNumberOfResponses = allResponses.size();
         
         if (isPreview) {
             System.out.println("Checking extra spaces in team name...");
@@ -71,15 +73,15 @@ public class RepairTeamNameInStudentAttributesAndResponses extends RemoteApiClie
         }
         
         if (isPreview) {
-            System.out.println("There are/is " + numberOfReponsesWithExtraSpacesInRecipient 
-                               + " student(s) with extra spaces in team name!");
-            System.out.println("There are/is " + numberOfStudentsWithExtraSpacesInTeamName 
-                                            + " response(s) with extra spaces in recipient!");
+            System.out.println("There are/is " + numberOfStudentsWithExtraSpacesInTeamName
+                               + "/" + totalNumberOfStudents + " student(s) with extra spaces in team name!");
+            System.out.println("There are/is " + numberOfReponsesWithExtraSpacesInRecipient
+                               + "/" + totalNumberOfResponses + " response(s) with extra spaces in recipient!");
         } else {
-            System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
-                               + " student(s) have been fixed!");
             System.out.println("" + numberOfStudentsWithExtraSpacesInTeamName 
-                               + " response(s) have been fixed!");
+                               + "/" + totalNumberOfStudents + " student(s) have been fixed!");
+            System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
+                               + "/" + totalNumberOfResponses + " response(s) have been fixed!");
             System.out.println("Extra space removing done!");
         }
     }
