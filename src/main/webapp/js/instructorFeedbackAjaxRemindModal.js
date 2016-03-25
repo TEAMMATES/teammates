@@ -9,6 +9,7 @@ $(document).ready(function() {
             url : actionlink,
             beforeSend : function() {
                 $('#studentList').html('<img class="margin-center-horizontal" src="/images/ajax-loader.gif"/>');
+                $('#remindModal input[type="submit"]').prop('disabled', true).prop('value', 'Loading...');
             },
             error : function() {
                 $('#studentList').html('Error retrieving student list.' + 
@@ -17,6 +18,7 @@ $(document).ready(function() {
             success : function(data) {
                 setTimeout(function() {
                     $('#studentList').html(data);
+                    $('#remindModal input[type="submit"]').prop('disabled', false).prop('value', 'Remind');
                 }, 500);
             }
         });

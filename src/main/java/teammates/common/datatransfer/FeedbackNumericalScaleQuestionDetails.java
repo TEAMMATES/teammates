@@ -71,7 +71,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
@@ -90,7 +90,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.NUMSCALE_SUBMISSION_FORM,
                 "${qnIdx}", Integer.toString(qnIdx),
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${minScale}", Integer.toString(minScale),
                 "${maxScale}", Integer.toString(maxScale),
@@ -217,8 +217,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
             fragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
                                     fragmentTemplateToUse,
-                                    "${recipientTeam}", recipientTeam,
-                                    "${recipientName}", recipientName,
+                                    "${recipientTeam}", Sanitizer.sanitizeForHtml(recipientTeam),
+                                    "${recipientName}", Sanitizer.sanitizeForHtml(recipientName),
                                     "${Average}", df.format(average.get(recipient)),
                                     "${Max}", df.format(max.get(recipient)),
                                     "${Min}", df.format(min.get(recipient)),
@@ -383,13 +383,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Replace current user name with "You"
         if (!isHiddenRecipient && isRecipientCurrentUser && hasAtLeastTwoResponses){
-            return isRecipientTypeStudent? "You" : "Your Team (" + currentUserTeam + ")";
+            return isRecipientTypeStudent? "You" : "Your Team (" + Sanitizer.sanitizeForHtml(currentUserTeam) + ")";
         }
         
         // Replace general identifier with "General"
         if (!isHiddenRecipient && !isRecipientCurrentUser && 
             hasAtLeastTwoResponsesOtherThanCurrentUser){
-            return isRecipientGeneral ? "General" : recipientName;
+            return isRecipientGeneral ? "General" : Sanitizer.sanitizeForHtml(recipientName);
         }
         return null;
     }
@@ -401,13 +401,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Replace current user team with "" when recipient type is not student
         if (!isHiddenRecipient && isRecipientCurrentUser && hasAtLeastTwoResponses){
-            return isRecipientTypeStudent? currentUserTeam : "";
+            return isRecipientTypeStudent? Sanitizer.sanitizeForHtml(currentUserTeam) : "";
         }
         
         // Display other recipients' team name
         if (!isHiddenRecipient && !isRecipientCurrentUser && 
             hasAtLeastTwoResponsesOtherThanCurrentUser){
-            return recipientTeamName;
+            return Sanitizer.sanitizeForHtml(recipientTeamName);
         }
         return null;
     }
