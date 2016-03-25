@@ -403,17 +403,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         List<String> expectedStatusStrings = new ArrayList<String>();
         expectedStatusStrings.add(String.format(
-                FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                FieldValidator.TIME_FRAME_ERROR_MESSAGE_WITHOUT_HTML,
                 FieldValidator.RESULTS_VISIBLE_TIME_FIELD_NAME,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME));
         
         expectedStatusStrings.add(String.format(
-                FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                FieldValidator.TIME_FRAME_ERROR_MESSAGE_WITHOUT_HTML,
                 FieldValidator.START_TIME_FIELD_NAME,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME));
 
         expectedStatusStrings.add(String.format(
-                FieldValidator.TIME_FRAME_ERROR_MESSAGE,
+                FieldValidator.TIME_FRAME_ERROR_MESSAGE_WITHOUT_HTML,
                 FieldValidator.END_TIME_FIELD_NAME,
                 FieldValidator.START_TIME_FIELD_NAME));
         
@@ -521,7 +521,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackPage.fsCopyToModal.verifyStatusMessage(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+        feedbackPage.fsCopyToModal.verifyStatusMessage(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
                                                                      FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         feedbackPage.fsCopyToModal.clickCloseButton();

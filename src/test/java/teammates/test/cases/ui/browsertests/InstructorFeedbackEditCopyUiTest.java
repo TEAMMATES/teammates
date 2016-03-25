@@ -83,7 +83,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.fsCopyToModal.waitForFormSubmissionErrorMessagePresence();
         assertTrue(feedbackEditPage.fsCopyToModal.isFormSubmissionStatusMessageVisible());
-        feedbackEditPage.fsCopyToModal.verifyStatusMessage(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
+        feedbackEditPage.fsCopyToModal.verifyStatusMessage(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE_WITHOUT_HTML,
                                                                          FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME));
         
         
