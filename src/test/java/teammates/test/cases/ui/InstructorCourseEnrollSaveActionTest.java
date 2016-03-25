@@ -58,7 +58,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         // An existing student with no modification
         enrollString += "Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t" + Const.EOL;
         // An existing student, now with extra spaces, should cause no modification
-        enrollString += "Section 1 \t Team   1.1\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
+        enrollString += "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
