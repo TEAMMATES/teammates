@@ -329,7 +329,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if(fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null || JDOHelper.isDeleted(fs)) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
@@ -382,7 +382,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if(fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null || JDOHelper.isDeleted(fs)) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
@@ -431,7 +431,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if(fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null || JDOHelper.isDeleted(fs)) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }

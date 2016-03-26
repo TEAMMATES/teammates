@@ -137,7 +137,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -161,7 +161,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -186,7 +186,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -210,7 +210,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -234,7 +234,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -259,7 +259,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -284,7 +284,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -309,7 +309,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -334,7 +334,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -359,7 +359,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -384,7 +384,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -409,7 +409,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -435,7 +435,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -461,7 +461,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -487,7 +487,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }
@@ -688,7 +688,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            if(!JDOHelper.isDeleted(fr)) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
             }
         }

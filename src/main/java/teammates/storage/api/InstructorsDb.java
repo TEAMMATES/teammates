@@ -301,7 +301,7 @@ public class InstructorsDb extends EntitiesDb{
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.googleId);
         
-        if(instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)){
+        if (instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)){
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId
                         + ThreadHelper.getCurrentThreadStack());
         }
@@ -340,7 +340,7 @@ public class InstructorsDb extends EntitiesDb{
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.email);
         
-        if(instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)){
+        if (instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)){
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.email
                         + ThreadHelper.getCurrentThreadStack());
         }
