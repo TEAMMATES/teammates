@@ -60,7 +60,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                 System.out.println("There are/is " + numberOfStudentsWithExtraSpacesInTeamName
                                    + "/" + totalNumberOfStudents + " student(s) with extra spaces in team name!");
                 System.out.println("There are/is " + numberOfReponsesWithExtraSpacesInRecipient
-                                   + "/" + totalNumberOfResponses + " response(s) with extra spaces in recipient!");
+                                   + "/" + totalNumberOfResponses + " response(s) with extra spaces in recipient and/or giver!");
                 System.out.println("There are/is " + numberOfCommentsWithExtraSpacesInRecipient
                                    + "/" + totalNumberOfComments + " comment(s) with extra spaces in recipient!");
                              
@@ -112,15 +112,17 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
                     throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         int numberOfReponsesWithExtraSpacesInRecipient = 0;
         for (FeedbackResponseAttributes response : allResponses) {
-            if (hasExtraSpaces(response.recipientEmail)) {
+            if (hasExtraSpaces(response.recipientEmail) || hasExtraSpaces(response.giverEmail)) {
                 numberOfReponsesWithExtraSpacesInRecipient++;
                 if (isPreview) {
                     System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
-                                       + ". \"" + response.recipientEmail + "\" "
+                                       + ". From \"" + response.giverEmail + "\" "
+                                       + ". To \"" + response.recipientEmail + "\" "
                                        + "courseId: " + response.courseId + " sessionName: "
                                        + response.feedbackSessionName);
                 } else {
                     response.recipientEmail = StringHelper.removeExtraSpace(response.recipientEmail);
+                    response.giverEmail = StringHelper.removeExtraSpace(response.giverEmail);
                     responsesLogic.updateFeedbackResponse(response);
                 }
             }
