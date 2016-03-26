@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
@@ -111,7 +113,7 @@ public class Sanitizer {
     }
 
     /**
-     * Sanitize the string for inserting into HTML. Converts special characters
+     * Sanitizes the string for inserting into HTML. Converts special characters
      * into HTML-safe equivalents.
      */
     public static String sanitizeForHtml(String str) {
@@ -128,6 +130,28 @@ public class Sanitizer {
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
     }
 
+    /**
+     * Sanitizes a list of strings for inserting into HTML.
+     */
+    public static List<String> sanitizeForHtml(List<String> list){ 
+        List<String> sanitizedList = new ArrayList<String>();
+        for (String str : list) {
+            sanitizedList.add(sanitizeForHtml(str));
+        }
+        return sanitizedList;
+    }
+    
+    /**
+     * Sanitizes a set of strings for inserting into HTML.
+     */
+    public static Set<String> sanitizeForHtml(Set<String> set){ 
+        Set<String> sanitizedSet = new TreeSet<String>();
+        for (String str : set) {
+            sanitizedSet.add(sanitizeForHtml(str));
+        }
+        return sanitizedSet;
+    }
+    
     /**
      * Converts a string to be put in URL (replaces some characters)
      */
@@ -246,8 +270,8 @@ public class Sanitizer {
      */
     public static String convertStringForXPath(String text) {
         String result = "";
-        int startPos = 0;
-        for (int i = 0; i < text.length(); i++) {
+        int startPos = 0, i = 0;
+        while (i < text.length()) {
             while (i < text.length() && text.charAt(i) != '\'') {
                 i++;
             }

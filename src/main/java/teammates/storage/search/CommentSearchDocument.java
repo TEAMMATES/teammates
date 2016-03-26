@@ -9,6 +9,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
@@ -56,7 +57,7 @@ public class CommentSearchDocument extends SearchDocument {
             break;
         case TEAM:
             for(String team:comment.recipients){
-                List<StudentAttributes> students = logic.getStudentsForTeam(team, comment.courseId);
+                List<StudentAttributes> students = logic.getStudentsForTeam(StringHelper.recoverFromSanitizedText(team), comment.courseId);
                 if(students != null){
                     relatedStudents.addAll(students);
                 }
