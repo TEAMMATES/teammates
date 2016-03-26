@@ -81,9 +81,9 @@
     "alice.tmms@SHomeUiT.CS2104": {
       "email": "${value.injected.in.testfile}",
       "course": "SHomeUiT.CS2104",
-      "name": "Amy Betsy",
-      "comments": "This student's name is Amy Betsy",
-      "team": "Team 1"
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "SHomeUiT.benny.c@SHomeUiT.CS2104": {
       "googleId": "SHomeUiT.benny.c",
@@ -91,7 +91,7 @@
       "course": "SHomeUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     },
     "SHomeUiT.charlie.d@SHomeUiT.CS2104": {
       "googleId": "SHomeUiT.charlie.d",
@@ -113,9 +113,9 @@
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
       "course": "SHomeUiT.CS1101",
-      "name": "Amy Betsy",
-      "comments": "This student's name is Amy Betsy",
-      "team": "Team 1"
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "SHomeUiT.benny.c@SHomeUiT.CS1101": {
       "googleId": "SHomeUiT.benny.c",
@@ -123,7 +123,7 @@
       "course": "SHomeUiT.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     },
     "SHomeUiT.charlie.d@SHomeUiT.CS1101": {
       "googleId": "SHomeUiT.charlie.d",
@@ -145,9 +145,9 @@
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
       "course": "SHomeUiT.CS4215",
-      "name": "Amy Betsy",
-      "comments": "This student's name is Amy Betsy",
-      "team": "Team 1"
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "alice.tmms@SHomeUiT.CS4221": {
       "googleId": "${value.injected.in.testfile}",
@@ -155,7 +155,7 @@
       "course": "SHomeUiT.CS4221",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     }
   },
   

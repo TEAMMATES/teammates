@@ -26,9 +26,6 @@ public class InstructorFeedbackSessionActions {
     private boolean allowedToSubmit;
     private boolean allowedToRemind;
 
-    private String toggleDeleteFeedbackSessionParams;
-    private String toggleRemindStudentsParams;
-    
     private FeedbackSessionPublishButton publishButton;
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
@@ -40,8 +37,8 @@ public class InstructorFeedbackSessionActions {
 
         this.privateSession = session.isPrivateSession();
 
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.fsName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeForJs(courseId);
+        this.fsName = Sanitizer.sanitizeForJs(feedbackSessionName);
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
@@ -63,10 +60,6 @@ public class InstructorFeedbackSessionActions {
         
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
         this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-
-        this.toggleDeleteFeedbackSessionParams = "'" + Sanitizer.sanitizeForJs(courseId) + "','"
-                                               + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
-        this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
             
         this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor,
                                                               PUBLISH_BUTTON_TYPE);
@@ -126,14 +119,6 @@ public class InstructorFeedbackSessionActions {
 
     public boolean isAllowedToRemind() {
         return allowedToRemind;
-    }
-
-    public String getToggleDeleteFeedbackSessionParams() {
-        return toggleDeleteFeedbackSessionParams;
-    }
-
-    public String getToggleRemindStudentsParams() {
-        return toggleRemindStudentsParams;
     }
 
     public FeedbackSessionPublishButton getPublishButton() {

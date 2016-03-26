@@ -316,7 +316,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
 
         assertEquals(1, courseSummary.sections.get(0).teams.size()); 
-        assertEquals("Team 1.1", courseSummary.sections.get(0).teams.get(0).name);
+        assertEquals("Team 1.1</td></div>'\"", courseSummary.sections.get(0).teams.get(0).name);
 
         ______TS("course without students");
 
@@ -434,7 +434,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseDetails.stats.unregisteredTotal);
         
         assertEquals(1, courseDetails.sections.get(0).teams.size()); 
-        assertEquals("Team 1.1", courseDetails.sections.get(0).teams.get(0).name);
+        assertEquals("Team 1.1</td></div>'\"", courseDetails.sections.get(0).teams.get(0).name);
         
         ______TS("course without students");
 
@@ -484,7 +484,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(course.id);
         
         assertEquals(2, teams.size()); 
-        assertEquals("Team 1.1", teams.get(0).name);
+        assertEquals("Team 1.1</td></div>'\"", teams.get(0).name);
         assertEquals("Team 1.2", teams.get(1).name);
 
 
@@ -916,10 +916,10 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                  + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
                                  + "Section,Team,Full Name,Last Name,Status,Email" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"Joined\",\"student1InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"" + Const.EOL
                                  + "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"" + Const.EOL;
 
         assertEquals(expectedCsvString, csvString);
