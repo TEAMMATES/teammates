@@ -59,24 +59,24 @@
     "alice.tmms@SCJConfirmationUiT.CS2104": {
       "email": "${value.injected.in.testfile}",
       "course": "SCJConfirmationUiT.CS2104",
-      "name": "Amy Betsy",
-      "comments": "This student's name is Amy Betsy",
-      "team": "Team 1"
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "alice.tmms@SCJConfirmationUiT.CS2103": {
       "email": "${value.injected.in.testfile}",
       "course": "SCJConfirmationUiT.CS2103",
-      "name": "Amy Betsy",
-      "comments": "This student's name is Amy Betsy",
-      "team": "Team 1"
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "alice.tmms@SCJConfirmationUiT.CS1101": {
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
       "course": "SCJConfirmationUiT.CS1101",
-      "name": "Amy Betsy",
-      "comments": "This student's name is Amy Betsy",
-      "team": "Team 1"
+      "name": "Amy Betsy</option></td></div>'\"",
+      "comments": "This student's name is Amy Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     }
   }
 }

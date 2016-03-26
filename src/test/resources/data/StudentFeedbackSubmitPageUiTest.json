@@ -94,9 +94,9 @@
             "googleId":"SFSubmitUiT.alice.b",
             "email":"SFSubmitUiT.alice.b@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team >'\"< 1"
+            "name":"Alice Betsy</option></td></div>'\"",
+            "comments":"This student's name is Alice Betsy</option></td></div>'\"",
+            "team":"Team >'\"< 1</td></div>'\""
         },
         "Benny":{
             "googleId":"SFSubmitUiT.benny.c",
@@ -104,7 +104,7 @@
             "course":"SFSubmitUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team >'\"< 1"
+            "team":"Team >'\"< 1</td></div>'\""
         },
         "ExtraGuy":{
             "googleId":"extra.guy",

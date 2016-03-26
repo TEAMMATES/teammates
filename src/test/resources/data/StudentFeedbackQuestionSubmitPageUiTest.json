@@ -39,9 +39,9 @@
             "googleId":"SFQSubmitUiT.alice.b",
             "email":"SFQSubmitUiT.alice.b@gmail.tmt",
             "course":"SFQSubmitUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "name":"Alice Betsy</option></td></div>'\"",
+            "comments":"This student's name is Alice Betsy</option></td></div>'\"",
+            "team":"Team 1</td></div>'\""
         },
         "Unregistered":{
             "googleId":"",
@@ -49,7 +49,7 @@
             "course":"SFQSubmitUiT.CS2104",
             "name":"Unregistered Charles",
             "comments":"This student's name is Unreg Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         }
     },
     "feedbackSessions":{
