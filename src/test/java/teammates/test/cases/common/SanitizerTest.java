@@ -73,7 +73,8 @@ public class SanitizerTest extends BaseTestCase {
     }
 
     private void sanitizeHtml_receivesNull_returnsNull() {
-        assertEquals(null, Sanitizer.sanitizeForHtml(null));
+        String nullString = null;
+        assertEquals(null, Sanitizer.sanitizeForHtml(nullString));
     };
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
@@ -144,5 +145,10 @@ public class SanitizerTest extends BaseTestCase {
         text = "'''''Will o''''' The''''' Wisp";
         expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
         assertEquals(expected, Sanitizer.convertStringForXPath(text));
+        
+        text = "Team 1</td></div>'\"";
+        expected = "concat('Team 1</td></div>',\"'\",'\"','')";
+        assertEquals(expected, Sanitizer.convertStringForXPath(text));
+        
     }
 }

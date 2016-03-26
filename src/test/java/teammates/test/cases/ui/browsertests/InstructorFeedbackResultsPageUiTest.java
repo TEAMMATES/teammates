@@ -166,7 +166,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: test moderate responses button for team response");
 
-        verifyModerateResponsesButton(4, "Team 1");
+        verifyModerateResponsesButton(4, "Team 1</td></div>'\"");
 
     }
 
@@ -274,9 +274,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
          * TODO: split up verifySortingOrder to enable this test
         verifySortingOrder(By.id("button_sortToTeam"), 
                 "Team 2{*}Team 3",
-                "Team 1{*}Team 2",
-                "Team 1{*}Team 2",
-                "Team 1{*}Team 1");
+                "Team 1</td></div>'\"{*}Team 2",
+                "Team 1</td></div>'\"{*}Team 2",
+                "Team 1</td></div>'\"{*}Team 1</td></div>'\"");
          */
 
     }

@@ -9,7 +9,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.StudentProfile;
@@ -31,7 +31,7 @@ public class InstructorStudentRecordsPageData extends PageData {
                                             InstructorAttributes instructor) {
         super(account, student);
         this.courseId = courseId;
-        this.studentName = Sanitizer.sanitizeForHtml(student.name);
+        this.studentName = student.name;
         this.studentEmail = student.email;
         this.showCommentBox = showCommentBox;
         if (spa != null) {
@@ -41,7 +41,9 @@ public class InstructorStudentRecordsPageData extends PageData {
         }
         List<Comment> commentDivs = new ArrayList<Comment>();
         for (CommentAttributes comment : comments) {
-            Comment commentDiv = new Comment(comment, "You", student.name + " (" + student.team + ", " + student.email + ")");
+            String recipientDetails = student.name + " (" + student.team + ", " + student.email + ")";
+            String unsanitizedRecipientDetails = StringHelper.recoverFromSanitizedText(recipientDetails);
+            Comment commentDiv = new Comment(comment, "You", unsanitizedRecipientDetails);
             String whoCanSeeComment = getTypeOfPeopleCanViewComment(comment);
             commentDiv.setVisibilityIcon(whoCanSeeComment);
             commentDiv.setEditDeleteEnabled(false);

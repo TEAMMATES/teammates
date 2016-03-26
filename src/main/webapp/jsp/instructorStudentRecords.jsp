@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetails" prefix="ticsd" %>
@@ -12,7 +14,7 @@
         var showCommentBox = "${data.showCommentBox}";
     </script>
 </c:set>
-<c:set var="bodyTitle">${data.studentName}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
+<c:set var="bodyTitle">${fn:escapeXml(data.studentName)}'s Records<small class="muted"> - ${data.courseId}</small></c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" jsIncludes="${jsIncludes}" bodyTitle="${bodyTitle}">
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <div class="container-fluid">
