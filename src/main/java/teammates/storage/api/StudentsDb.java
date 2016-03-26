@@ -625,7 +625,11 @@ public class StudentsDb extends EntitiesDb {
         return studentList;
     }
 
-    private List<Student> getStudentEntities() { 
+    @Deprecated
+    /**
+     * Retrieves all student entities. This function is not scalable.
+     */
+    public List<Student> getStudentEntities() { 
         
         Query q = getPM().newQuery(Student.class);
         
