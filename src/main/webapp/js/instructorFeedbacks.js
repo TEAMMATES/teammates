@@ -154,7 +154,7 @@ function bindCopyButton() {
         if (isExistingSession) {
             util.setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, StatusType.DANGER);
         } else {
-            util.clearStatusMessages();
+            clearStatusMessages();
 
             var $firstSession = $($sessionsList[0]).find('td');
             var firstSessionCourseId = $($firstSession[0]).text();
