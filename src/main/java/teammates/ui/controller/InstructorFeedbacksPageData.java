@@ -152,6 +152,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                                 String feedbackSessionNameForSessionList, List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        
         return FeedbackSessionsForm.getFormForNewFs(
                                         newFeedbackSession,
                                         getFeedbackSessionTypeOptions(feedbackSessionType),
@@ -159,7 +160,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                         courseIds, getCourseIdOptions(courses,  courseIdForNewSession, 
                                                            instructors, newFeedbackSession), 
                                         instructors,
-                                        additionalSettings);
+                                        additionalSettings, isNoModifyPermissionForAllCourses(courses, instructors));
     }
 
     private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
@@ -271,13 +272,37 @@ public class InstructorFeedbacksPageData extends PageData {
             }
         }
         
-        // Add "No active courses" option if there are no active courses
-        if (result.isEmpty()) {
-            ElementTag blankOption = createOption("No active courses!", "", true);
-            result.add(blankOption);
+        // if courses is not empty but result is empty, means the instructor have no permission to edit
+        // rather than the instructor have no active courses
+        // add "No active courses" option if there are no active courses
+        ElementTag defaultOption;
+        if (result.isEmpty() && !courses.isEmpty()) {
+            defaultOption = createOption("No permission to modify courses!", "", true);
+            result.add(defaultOption);
+        } if (result.isEmpty()) {
+            defaultOption = createOption("No active courses!", "", true);
+            result.add(defaultOption);
         }
         
         return result;
+    }
+    
+    /**
+     * Checks if the instructor have modify permission for any of the courses that he is in.
+     * @param courses list of courses
+     * @param instructors instructor and the courses that he is in
+     * @return true if he does not have modify permission for all the courses that he is in
+     */
+    private boolean isNoModifyPermissionForAllCourses(List<CourseAttributes> courses, Map<String, InstructorAttributes> instructors) {
+        for (CourseAttributes course : courses) {
+            InstructorAttributes instructor = instructors.get(course.id);
+            boolean isAllowedForPriviledge = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            if (isAllowedForPriviledge) {
+                return false;
+            }
+        }
+        
+        return true;
     }
     
 
