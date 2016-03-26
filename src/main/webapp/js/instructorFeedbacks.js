@@ -219,6 +219,12 @@ function readyFeedbackPage() {
     selectDefaultTimeOptions();
     loadSessionsByAjax();
     bindUncommonSettingsEvents();
+
+    bindDeleteButtons();
+    bindRemindButtons();
+    bindPublishButtons();
+    bindUnpublishButtons();
+
     updateUncommonSettingsInfo();
     hideUncommonPanels();
 }

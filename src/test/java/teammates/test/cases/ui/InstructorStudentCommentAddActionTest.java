@@ -10,6 +10,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -338,7 +339,7 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentCommentAdd|||instructorStudentCommentAdd"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
                 "|||instr3@course1n2.tmt|||" +
-                "Created Comment for Student:<span class=\"bold\">([" + student.team + "])</span> " +
+                "Created Comment for Student:<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
                 "<span class=\"bold\">Comment:</span> "  + "<Text: A typical comment to be added>" +
                 "|||/page/instructorStudentCommentAdd";

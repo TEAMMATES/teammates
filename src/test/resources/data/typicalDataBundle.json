@@ -285,18 +285,18 @@
     "students":{
         "student1InCourse1":{
             "email":"student1InCourse1@gmail.tmt",
-            "name":"student1 In Course1",
-            "team":"Team 1.1",
+            "name":"student1 In Course1</td></div>'\"",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "googleId":"student1InCourse1",
-            "comments":"comment for student1InCourse1",
+            "comments":"comment for student1InCourse1</td></div>'\"",
             "course":"idOfTypicalCourse1"
         },
         "student2InCourse1":{
             "email":"student2InCourse1@gmail.tmt",
             "name":"student2 In Course1",
             "googleId":"student2InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
@@ -305,7 +305,7 @@
             "email":"student3InCourse1@gmail.tmt",
             "name":"student3 In Course1",
             "googleId":"student3InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
@@ -314,7 +314,7 @@
             "email":"student4InCourse1@gmail.tmt",
             "name":"student4 In Course1",
             "googleId":"student4InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
@@ -1211,7 +1211,7 @@
             "courseId":"idOfTypicalCourse1",
             "giverEmail":"instructor1@course1.tmt",
             "recipientType":"TEAM",
-            "recipients":["Team 1.1"],
+            "recipients":["Team 1.1</td></div>'\""],
             "status": "FINAL",
             "showCommentTo": [],
             "showGiverNameTo": [],

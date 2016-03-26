@@ -173,9 +173,9 @@
       "googleId": "FeedbackEditCopy.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "FeedbackEditCopy.CS2104",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "name": "Alice Betsy</td></div>'\"",
+      "comments": "This student's name is Alice Betsy</td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "benny.tmms@FeedbackEditCopy.CS2104": {
       "googleId": "FeedbackEditCopy.benny.tmms",
@@ -183,7 +183,7 @@
       "course": "FeedbackEditCopy.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     },
     "charlie.tmms@FeedbackEditCopy.CS1101": {
       "googleId": "charlie.tmms",

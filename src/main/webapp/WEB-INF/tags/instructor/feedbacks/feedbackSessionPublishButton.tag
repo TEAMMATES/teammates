@@ -7,7 +7,8 @@
    title="${publishButton.tooltipText}"
    data-toggle="tooltip"
    data-placement="top"
-   <c:if test="${publishButton.actionAllowed}">onclick="return ${publishButton.onclickAction}"</c:if>
-   <c:if test="${not publishButton.actionAllowed}">onclick="return false" disabled</c:if>>
+   data-fsname="${publishButton.feedbackSessionName}"
+   data-sending-published-email="${publishButton.sendingPublishedEmail}"
+   <c:if test="${not publishButton.actionAllowed}">disabled</c:if>>
     ${publishButton.actionName} Results
 </a>
