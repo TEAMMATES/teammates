@@ -1,6 +1,5 @@
 apply plugin: "war"
 apply plugin: "appengine"
-apply plugin: "eclipse"
 
 def appengineVersion = "1.9.27"
 def numOfTestRetries = 5
