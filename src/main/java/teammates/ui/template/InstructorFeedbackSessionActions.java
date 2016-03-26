@@ -68,8 +68,7 @@ public class InstructorFeedbackSessionActions {
                                                + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
         this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor,
-                                                              PUBLISH_BUTTON_TYPE);
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,PUBLISH_BUTTON_TYPE);
     }
 
     public boolean isPrivateSession() {

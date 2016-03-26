@@ -17,13 +17,11 @@ public class FeedbackSessionPublishButton {
     private String onclickAction;
     private String buttonType;
     
-    public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, boolean isHome,
+    public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                         InstructorAttributes instructor, String buttonType) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 
-        String returnUrl = isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                  : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
         this.actionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
