@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <noscript>
+            This is going to be ignored.
+        </noscript>
+    </head>
+    <body>
+        <div id="mainContent">
+            <h2>Injected values</h2>
+            <ul>
+                <li>window.location.origin + '/<!-- studentmotd.url -->';</li>
+                <li>V<!-- version --></li>
+                <li><!-- test.student1 --></li>
+                <li><!-- test.student2 --></li>
+                <li><!-- test.instructor --></li>
+                <li><!-- test.admin --></li>
+            </ul>
+            <h2>Variations in injected values</h2>
+            <ul>
+                <li><!-- test.student1.truncated --></li>
+                <li><!-- test.student2.truncated --></li>
+                <li><!-- test.instructor.truncated --></li>
+                <li><!-- test.admin.truncated --></li>
+            </ul>
+            <h2>Unpredictable values</h2>
+            <ul>
+                <li>"<!-- test.url -->/_ah"</li>
+                <li>_ah/logout?continue=http://www.google.com"</li>
+                <li>/page/studentProfilePic?studentemail=1CAAAF9A82CEF76B0BA249598DDF9CBC2031E84F1AF45D607A84A83D181C168E&amp;courseid=FA95864E467A11325349CB53B4C6D3C39398C035D135466658ABD102B08D4487</li>
+                <li>/page/studentProfilePic?blob-key=ag_10ZWFtbWF0ZXMtdGh5ch0LEhBGZWVkYm-Fja1F1ZXN0aW9uGICAgICA0NQLDA</li>
+                <li><input type="hidden" value="encoded_gs_key:ag_10ZWFtbWF0ZXMtdGh5ch0LEhBGZWVkYm-Fja1F1ZXN0aW9uGICAgICA0NQLDA" name="blob-key" id="blobKey"></li>
+                <li>key=ag_10ZWFtbWF0ZXMtdGh5ch0LEhBGZWVkYm-Fja1F1ZXN0aW9uGICAgICA0NQLDA</li>
+                <li><input type="hidden" value="ag_10ZWFtbWF0ZXMtdGh5ch0LEhBGZWVkYm-Fja1F1ZXN0aW9uGICAgICA0NQLDA" name="key"></li>
+                <li>value="ag_10ZWFtbWF0ZXMtdGh5ch0LEhBGZWVkYm-Fja1F1ZXN0aW9uGICAgICA0NQLDA"</li>
+                <li>"ag_10ZWFtbWF0ZXMtdGh5ch0LEhBGZWVkYm-Fja1F1ZXN0aW9uGICAgICA0NQLDA%</li>
+                <li>"1234567812345678"</li>
+                <li>#1234567812345678</li>
+                <li>responseCommentRow-1234567812345678</li>
+                <li>commentBar-1234567812345678</li>
+                <li>plainCommentText-1234567812345678</li>
+                <li><!-- now.date --></li>
+                <li><!-- now.datetime --></li>
+                <li><!-- now.datetime.comments --></li>
+                <li>/js/lib/jquery.min.js</li>
+                <li>https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js</li>
+                <li>/js/lib/jquery-ui.min.js</li>
+                <li>https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js</li>
+                <li><div class="col-md-8" id="adminInstitute">
+                </div></li>
+                <li><div id="adminInstitute" class="col-md-8">
+                    Test Institute 123
+                </div></li>
+            </ul>
+        </div>
+    </body>
+</html>
