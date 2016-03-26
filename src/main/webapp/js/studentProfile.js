@@ -96,15 +96,8 @@ function finaliseUploadPictureForm(event) {
         },
         error: function() {
             $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
-<<<<<<< HEAD
-            $('#statusMessage').css("display", "block")
-                    .attr('class', 'alert alert-danger')
-                    .html('There seems to be a network error, please try again later');
+            util.setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
             util.scrollToTop({duration: ''});
-=======
-            setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-            scrollToTop({duration: ''});
->>>>>>> master
         },
         success: function(data) {
             if (!data.isError) {
@@ -115,15 +108,8 @@ function finaliseUploadPictureForm(event) {
                 $('#profilePictureUploadForm').submit();
             } else {
                 $('#profileUploadPictureSubmit').Text(initialSubmitMessage);
-<<<<<<< HEAD
-                $('#statusMessage').css("display", "block")
-                        .attr('class', 'alert alert-danger')
-                        .html('There seems to be a network error, please try again later');
+                util.setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
                 util.scrollToTop({duration: ''});
-=======
-                setStatusMessage('There seems to be a network error, please try again later', StatusType.DANGER);
-                scrollToTop({duration: ''});
->>>>>>> master
             }
         }
     });

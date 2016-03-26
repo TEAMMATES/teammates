@@ -26,10 +26,6 @@ var ajaxRequest = function(e) {
             if (oldStatus !== null && oldStatus !== undefined && oldStatus !== "") {
                 appendStatusMessage(oldStatus);
             }
-<<<<<<< HEAD
-            util.setStatusMessage(msg, true);
-=======
->>>>>>> master
         },
         success: function(data) {
             clearStatusMessages();

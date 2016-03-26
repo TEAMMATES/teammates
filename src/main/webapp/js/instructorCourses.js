@@ -15,11 +15,7 @@ function verifyCourseData() {
     
     allErrorMessage += checkAddCourseParam(courseID, courseName);
     if(allErrorMessage.length>0){
-<<<<<<< HEAD
-        util.setStatusMessage(allErrorMessage,true);
-=======
-        setStatusMessage(allErrorMessage, StatusType.DANGER);
->>>>>>> master
+        util.setStatusMessage(allErrorMessage,StatusType.DANGER);
         return false;
     }
     

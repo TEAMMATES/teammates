@@ -37,11 +37,7 @@ function numStudentsRetrieved() {
 
 function showStudentLimitError(courseCheck, displayIcon) {
     courseCheck.prop('checked', false);
-<<<<<<< HEAD
-    util.setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
-=======
-    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, StatusType.DANGER);
->>>>>>> master
+    util.setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, StatusType.DANGER);
     displayIcon.html('');
 }
 
@@ -64,11 +60,7 @@ var seeMoreRequest = function(e) {
     var courseNumStudents = parseInt($('#numStudents-' + courseIdx).val());
     
     if ($(panelHeading).attr('class').indexOf('ajax_submit') == -1) {
-<<<<<<< HEAD
-        util.setStatusMessage('', false);
-=======
         clearStatusMessages();
->>>>>>> master
         if ($(panelCollapse[0]).attr('class').indexOf('checked') != -1) {
             $(panelCollapse[0]).collapse('hide');
             $(panelHeading).addClass('ajax_submit');
@@ -84,11 +76,7 @@ var seeMoreRequest = function(e) {
         checkCourseBinding(courseCheck);
     } else {
         if (numStudents < STUDENT_LIMIT) {
-<<<<<<< HEAD
-            util.setStatusMessage('', false);
-=======
             clearStatusMessages();
->>>>>>> master
             var formObject = $(this).children('form');
             var courseIdx = $(formObject[0]).attr('class').split('-')[1];
             var formData = formObject.serialize();
