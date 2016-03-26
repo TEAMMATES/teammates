@@ -768,24 +768,6 @@ isBlank: function(str) {
  */
 highlightSearchResult: function(searchKeyId, sectionToHighlight) {
     var searchKey = $(searchKeyId).val();
-<<<<<<< HEAD
-    var splitSearchKey = searchKey.split(' ');
-    $(sectionToHighlight).highlight(splitSearchKey);
-}};
-
-$(document).on('ajaxComplete ready', function() {
-    /**
-     * Initializing then disabling is better than simply
-     * not initializing for mobile due to some tooltips-specific
-     * code that throws errors.
-    */
-    var $tooltips = $('[data-toggle="tooltip"]');
-    $tooltips.tooltip({html: true, container: 'body'});
-    if (this.isTouchDevice()) {
-        $tooltips.tooltip('disable');
-    }
-});
-=======
     // trim symbols around every word in the string
     var symbolTrimmedSearchKey = [];
     $.each(searchKey.split(/["'.-]/), function(){
@@ -796,7 +778,6 @@ $(document).on('ajaxComplete ready', function() {
         return (!(n == "")) });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
 }
->>>>>>> master
 
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
