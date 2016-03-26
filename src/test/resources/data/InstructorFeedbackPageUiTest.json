@@ -133,9 +133,9 @@
       "googleId": "CFeedbackUiT.alice.tmms",
       "email": "CFeedbackUiT.alice.b.tmms@gmail.tmt",
       "course": "CFeedbackUiT.CS2104",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "name": "Alice Betsy</td></div>'\"",
+      "comments": "This student's name is Alice Betsy</td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "benny.tmms@CFeedbackUiT.CS2104": {
       "googleId": "CFeedbackUiT.benny.tmms",
@@ -143,7 +143,7 @@
       "course": "CFeedbackUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     },
     "charlie.tmms@CFeedbackUiT.CS1101": {
       "googleId": "CFeedbackUiT.charlie.tmms",

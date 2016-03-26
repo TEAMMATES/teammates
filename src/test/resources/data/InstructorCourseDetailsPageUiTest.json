@@ -120,9 +120,9 @@
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
       "course": "CCDetailsUiT.CS2104",
-      "name": "Alice Betsy",
+      "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
     },
     "benny.tmms@CCDetailsUiT.CS2104": {
       "googleId": "",
@@ -138,7 +138,7 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1"
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
     },
     "danny.tmms@CCDetailsUiT.CS2104": {
       "googleId": "danny.tmms",
@@ -154,7 +154,7 @@
       "course": "CCDetailsUiT.CS2103",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Tut Group 1"
     },
     "benny.tmms@CCDetailsUiT.CS2103": {
@@ -172,7 +172,7 @@
       "course": "CCDetailsUiT.CS2103",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Tut Group 1"
     }
   }

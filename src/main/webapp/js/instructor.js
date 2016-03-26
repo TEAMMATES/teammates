@@ -305,6 +305,42 @@ function bindStudentPhotoHoverLink(elements) {
     });
 }
 
+function bindDeleteButtons() {
+    $('body').on('click', '.session-delete-for-test', function(e) {
+
+        var $button = $(this);
+        var courseId = $button.data('courseid');
+        var feedbackSessionName = $button.data('fsname');
+
+        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName); 
+    });
+}
+
+function bindRemindButtons() {
+    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(e) {
+        if (!toggleRemindStudents($(this).data('fsname'))) {
+            e.preventDefault();
+        }
+    });
+}
+
+function bindPublishButtons() {
+    $('body').on('click', '.session-publish-for-test', function(e) {
+ 
+        var $button = $(this);
+        var feedbackSessionName = $button.data('fsname');
+        var isSendingPublishedEmail = $button.data('sending-published-email');
+
+        return togglePublishEvaluation(feedbackSessionName, isSendingPublishedEmail);
+    });
+}
+
+function bindUnpublishButtons() {
+    $('body').on('click', '.session-unpublish-for-test', function(e) {
+        return toggleUnpublishEvaluation($(this).data('fsname'));
+    });
+}
+
 /**
  * completes the loading cycle for showing profile picture
  * for a onhover event

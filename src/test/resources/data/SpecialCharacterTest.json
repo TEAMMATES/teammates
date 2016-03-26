@@ -68,8 +68,8 @@
             "googleId":"FQLogicPCT.alice.b",
             "email":"FQLogicPCT.alice.b@gmail.tmt",
             "course":"FQLogicPCT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
+            "name":"Alice Betsy</td></div>'\"",
+            "comments":"This student's name is Alice Betsy</td></div>'\"",
             "team":"Team 1\"><\'"
         },
         "Benny":{

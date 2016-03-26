@@ -373,7 +373,7 @@ public class StringHelper {
             
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", td));
+                result.append(String.format("<td>%s</td>\n", Sanitizer.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }

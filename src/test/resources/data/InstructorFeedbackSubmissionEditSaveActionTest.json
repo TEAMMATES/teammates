@@ -68,10 +68,10 @@
     "students":{
         "student1InCourse1":{
             "email":"student1InCourse1@gmail.tmt",
-            "name":"student1 In Course1",
-            "team":"Team 1.1",
+            "name":"student1 In Course1</td></div>'\"",
+            "team":"Team 1.1</td></div>'\"",
             "googleId":"student1InCourse1",
-            "comments":"comment for student1InCourse1",
+            "comments":"comment for student1InCourse1</td></div>'\"",
             "course":"idOfCourse1"
         }
     },
