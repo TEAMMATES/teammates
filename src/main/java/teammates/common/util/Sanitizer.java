@@ -107,7 +107,7 @@ public class Sanitizer {
     }
 
     /**
-     * Sanitize the string for inserting into HTML. Converts special characters
+     * Sanitizes the string for inserting into HTML. Converts special characters
      * into HTML-safe equivalents.
      */
     public static String sanitizeForHtml(String str){ 
@@ -123,7 +123,7 @@ public class Sanitizer {
     }
     
     /**
-     * Sanitize a list of strings for inserting into HTML.
+     * Sanitizes a list of strings for inserting into HTML.
      */
     public static List<String> sanitizeForHtml(List<String> list){ 
         List<String> sanitizedList = new ArrayList<String>();
@@ -134,7 +134,7 @@ public class Sanitizer {
     }
     
     /**
-     * Sanitize a set of strings for inserting into HTML.
+     * Sanitizes a set of strings for inserting into HTML.
      */
     public static Set<String> sanitizeForHtml(Set<String> set){ 
         Set<String> sanitizedSet = new TreeSet<String>();
