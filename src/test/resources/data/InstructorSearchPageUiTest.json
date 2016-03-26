@@ -101,18 +101,18 @@
     "students":{
         "student1InCourse1":{
             "email":"searchUI.student1InCourse1@gmail.tmt",
-            "name":"student1 In Course1",
-            "team":"Team 1.1",
+            "name":"student1 In Course1</option></td></div>'\"",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "googleId":"searchUI.student1InCourse1",
-            "comments":"comment for student1InCourse1",
+            "comments":"comment for student1InCourse1</option></td></div>'\"",
             "course":"searchUI.idOfTypicalCourse1"
         },
         "student2InCourse1":{
             "email":"searchUI.student2InCourse1@gmail.tmt",
             "name":"student2 In Course1",
             "googleId":"searchUI.student2InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"searchUI.idOfTypicalCourse1"
@@ -121,7 +121,7 @@
             "email":"searchUI.student2.2InCourse1@gmail.tmt",
             "name":"student2 2 In Course1",
             "googleId":"searchUI.student2.2InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"searchUI.idOfTypicalCourse1"
@@ -484,12 +484,12 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"TEAM",
-            "recipients":["Team 1.1"],
+            "recipients":["Team 1.1</td></div>'\""],
             "status": "FINAL",
             "showCommentTo": [TEAM],
             "showGiverNameTo": [TEAM],
             "showRecipientNameTo": [TEAM],
-            "receiverEmail":"Team 1.1",
+            "receiverEmail":"Team 1.1</td></div>'\"",
             "createdAt":"2012-05-05 08:53 AM UTC",
             "commentText":{
                 "value":"team can see this comment with giver and recipient's name"
@@ -499,12 +499,12 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"TEAM",
-            "recipients":["Team 1.1"],
+            "recipients":["Team 1.1</td></div>'\""],
             "status": "FINAL",
             "showCommentTo": [TEAM],
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
-            "receiverEmail":"Team 1.1",
+            "receiverEmail":"Team 1.1</td></div>'\"",
             "createdAt":"2012-05-07 08:54 AM UTC",
             "commentText":{
                 "value":"team can see this comment without giver's name"

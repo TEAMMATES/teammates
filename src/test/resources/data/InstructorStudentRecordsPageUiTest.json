@@ -123,9 +123,9 @@
             "googleId":"ISR.teammates.test",
             "email":"teammates.test@gmail.tmt",
             "course":"ISR.CS2104",
-            "name":"Teammates Test",
-            "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "name":"Teammates Test</option></td></div>'\"",
+            "comments":"This student's name is Teammates Test</option></td></div>'\"",
+            "team":"Team 1</td></div>'\""
         },
         "benny.c.tmms@ISR.CS2104":{
             "googleId":"ISR.benny.c.tmms",
@@ -133,7 +133,7 @@
             "course":"ISR.CS2104",
             "name":"Benny Charlés",
             "comments":"This student's name is Benny Charlés",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "charlie.d.tmms@ISR.CS2104":{
             "googleId":"ISR.charlie.d.tmms",
@@ -141,7 +141,7 @@
             "course":"ISR.CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "alice.b.tmms@ISR.CS2104":{
             "googleId":"ISR.alice.b.tmms",
@@ -165,7 +165,7 @@
             "course":"ISR.CS1101",
             "name":"Teammates Test",
             "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "benny.c.tmms@ISR.CS1101":{
             "googleId":"ISR.benny.c.tmms",
@@ -173,7 +173,7 @@
             "course":"ISR.CS1101",
             "name":"Benny Charlés",
             "comments":"This student's name is Benny Charlés",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "charlie.d.tmms@ISR.CS1101":{
             "googleId":"ISR.charlie.d.tmms",
@@ -197,7 +197,7 @@
             "course":"ISR.NoEval",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         }
     },
    

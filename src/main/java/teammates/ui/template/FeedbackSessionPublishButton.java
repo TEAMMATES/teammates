@@ -9,18 +9,21 @@ import teammates.ui.controller.PageData;
 public class FeedbackSessionPublishButton {
 
     private String tooltipText;
+    
+    private String feedbackSessionName;
+    private boolean isSendingPublishedEmail;
 
     private String actionName;
     private String actionLink;
     private boolean actionAllowed;
 
-    private String onclickAction;
     private String buttonType;
     
     public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, boolean isHome,
                                         InstructorAttributes instructor, String buttonType) {
         String courseId = session.courseId;
-        String feedbackSessionName = session.feedbackSessionName;
+        this.feedbackSessionName = Sanitizer.sanitizeForJs(session.feedbackSessionName);
+        this.isSendingPublishedEmail = session.isPublishedEmailEnabled;
 
         boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
         this.actionAllowed = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -31,8 +34,6 @@ public class FeedbackSessionPublishButton {
             this.actionName = "Unpublish";
             this.actionLink = data.getInstructorFeedbackUnpublishLink(courseId, feedbackSessionName, isHome);
             
-            this.onclickAction = "toggleUnpublishEvaluation('" + Sanitizer.sanitizeForJs(feedbackSessionName) + "');";
-            
         } else {
             
             boolean isReadyToPublish = !session.isWaitingToOpen() && !session.isPublished();
@@ -41,10 +42,6 @@ public class FeedbackSessionPublishButton {
             this.actionName = "Publish";
             this.actionLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, isHome);
             this.actionAllowed &= isReadyToPublish;
-            
-            this.onclickAction = "togglePublishEvaluation('" + Sanitizer.sanitizeForJs(feedbackSessionName) + "', "
-                               + session.isPublishedEmailEnabled + ");";
-            
         }
 
         this.buttonType = buttonType;
@@ -52,6 +49,14 @@ public class FeedbackSessionPublishButton {
 
     public String getTooltipText() {
         return tooltipText;
+    }
+
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
+
+    public boolean isSendingPublishedEmail() {
+        return isSendingPublishedEmail;
     }
 
     public String getActionName() {
@@ -68,10 +73,6 @@ public class FeedbackSessionPublishButton {
 
     public boolean isActionAllowed() {
         return actionAllowed;
-    }
-
-    public String getOnclickAction() {
-        return onclickAction;
     }
 
     public String getButtonType() {

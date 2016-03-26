@@ -130,9 +130,9 @@
             "googleId":"teammates.test",
             "email":"teammates.test@gmail.tmt",
             "course":"CS2104",
-            "name":"Teammates Test",
-            "comments":"This student's name is Teammates Test",
-            "team":"Team 1",
+            "name":"Teammates Test</option></td></div>'\"",
+            "comments":"This student's name is Teammates Test</option></td></div>'\"",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "benny.c.tmms@CS2104":{
@@ -141,7 +141,7 @@
             "course":"CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "charlie.d.tmms@CS2104":{
@@ -150,7 +150,7 @@
             "course":"CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
-            "team":"Team 1",
+            "team":"Team 1</td></div>'\"",
             "section":"Section A"
         },
         "alice.b.tmms@CS2104":{
@@ -177,7 +177,7 @@
             "course":"CS1101",
             "name":"Teammates Test",
             "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "benny.c.tmms@CS1101":{
             "googleId":"benny.c.tmms",
@@ -185,7 +185,7 @@
             "course":"CS1101",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "charlie.d.tmms@CS1101":{
             "googleId":"charlie.d.tmms",
@@ -209,7 +209,7 @@
             "course":"CS4215",
             "name":"Teammates Test",
             "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         }
     },
    
