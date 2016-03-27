@@ -673,31 +673,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponseList;
     }
     
-    @Deprecated
-    /**
-     * Retrieves all responses. This function is not scalable.
-     */
-    public List<FeedbackResponseAttributes> getAllFeedbackResponses() {
-        List<FeedbackResponse> frList = getAllFeedbackResponseEntities();
-        List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
-        
-        for (FeedbackResponse fr : frList) {
-            fraList.add(new FeedbackResponseAttributes(fr));
-        }
-        return fraList;
-    }
-    
-    @Deprecated
-    /**
-     * Retrieves all response entities. This function is not scalable.
-     */
-    private List<FeedbackResponse> getAllFeedbackResponseEntities() {
-        Query q = getPM().newQuery(FeedbackResponse.class);
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponseList = (List<FeedbackResponse>) q.execute();
-        return feedbackResponseList;
-    }
-    
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackResponseIdParam");

@@ -68,14 +68,6 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
     
-    @Deprecated
-    /**
-     * Retrieves all responses. This function is not scalable.
-     */
-    public List<FeedbackResponseAttributes> getAllFeedbackResponses() {
-        return frDb.getAllFeedbackResponses();
-    }
-    
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
