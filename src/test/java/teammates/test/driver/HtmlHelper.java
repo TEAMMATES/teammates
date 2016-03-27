@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
@@ -139,9 +140,11 @@ public class HtmlHelper {
     
     private static String generateNodeTextContent(Node currentNode, String indentation) {
         String text = currentNode.getNodeValue().trim();
+        text = text.replaceAll("[ ]*(\\r?\\n[ ]*)+[ ]*", " ");
+        text = Sanitizer.sanitizeForHtml(text);
         // line breaks in text are removed as they are ignored in HTML
         // the lines separated by line break will be joined with a single whitespace character
-        return text.isEmpty() ? "" : indentation + text.replaceAll("[ ]*(\\r?\\n[ ]*)+[ ]*", " ") + "\n";
+        return text.isEmpty() ? "" : indentation + text + "\n";
     }
 
     private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
