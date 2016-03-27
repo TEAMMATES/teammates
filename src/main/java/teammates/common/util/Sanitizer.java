@@ -131,6 +131,16 @@ public class Sanitizer {
     }
 
     /**
+     * Escapes HTML tag safely. This function can be applied multiple times.
+     */
+    public static String sanitizeForHtmlTag(String str) {
+        if (str == null) {
+            return null;
+        }
+        return str.replace("&", "&amp;").replace("<", "&lt;");
+    }
+    
+    /**
      * Sanitizes a list of strings for inserting into HTML.
      */
     public static List<String> sanitizeForHtml(List<String> list){ 

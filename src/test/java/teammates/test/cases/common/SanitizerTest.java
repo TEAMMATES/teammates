@@ -71,6 +71,24 @@ public class SanitizerTest extends BaseTestCase {
         sanitizeHtml_receivesCodeInjection_returnsSanitized();
         sanitizeHtml_receivesSanitized_returnsUnchanged();
     }
+    
+    @Test
+    public void testSanitizeForHtmlTag() {
+        sanitizeHtmlTag_receivesNull_returnsNull();
+        sanitizeHtmlTag_receivesHtml_returnsSanitized();
+    }
+
+    private void sanitizeHtmlTag_receivesHtml_returnsSanitized() {
+        String unsanitized = "<div><td>&lt;</td></div>";
+         String expected = "&lt;div>&lt;td>&amp;lt;&lt;/td>&lt;/div>";
+         String sanitized = Sanitizer.sanitizeForHtmlTag(unsanitized);
+         assertEquals(expected, sanitized);
+    }
+
+    private void sanitizeHtmlTag_receivesNull_returnsNull() {
+        String nullString = null;
+        assertEquals(null, Sanitizer.sanitizeForHtmlTag(nullString));
+    }
 
     private void sanitizeHtml_receivesNull_returnsNull() {
         String nullString = null;
