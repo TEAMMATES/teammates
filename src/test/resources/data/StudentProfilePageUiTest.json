@@ -57,7 +57,23 @@
       "courseId": "SHomeUiT.CS2104",
       "name": "Teammates Test Helper",
       "email": "SHomeUiT.helper@gmail.tmt",
-      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+      "instructorPrivilegesAsText": "{
+        \"courseLevel\": {
+          \"canviewstudentinsection\": false,
+          \"cangivecommentinsection\": false,
+          \"cansubmitsessioninsection\": false,
+          \"canmodifysessioncommentinsection\": false,
+          \"canmodifycommentinsection\": false,
+          \"canmodifycourse\": false,
+          \"canviewsessioninsection\": false,
+          \"canmodifysession\": false,
+          \"canviewcommentinsection\": false,
+          \"canmodifystudent\": false,
+          \"canmodifyinstructor\": false
+        },
+        \"sectionLevel\": {},
+        \"sessionLevel\": {}
+      }"
     }
   },
   "students": {
