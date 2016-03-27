@@ -653,7 +653,7 @@ function disableRow(elem, row) {
 
 function feedbackRecipientUpdateVisibilityOptions(elem) {
     var $elem = $(elem);
-    if (isRecipientsTeamMembersVisibilityOptionHiddenForRecipientType($elem.val())) {
+    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
         // show the row Recipient(s) and hide the row Recipient's Team Members
         enableRow($elem, 1);
         disableRow($elem, 3);
@@ -669,7 +669,10 @@ function feedbackRecipientUpdateVisibilityOptions(elem) {
     enableRow($elem, 3);
 }
 
-function isRecipientsTeamMembersVisibilityOptionHiddenForRecipientType(recipientType) {
+/**
+ * Checks if recipient's team members visibility option is invalid for the recipient type 
+ */
+function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
     return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
            || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS' 
            || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
