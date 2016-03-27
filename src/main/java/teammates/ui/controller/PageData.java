@@ -746,8 +746,8 @@ public class PageData {
      * Returns the links of actions available for a specific session
      * @param session
      *         The feedback session details
-     * @param isHome
-     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param returnUrl
+     *         The return URL after performing the action.
      * @param instructor
      *         The Instructor details
      * @param sectionsInCourse
@@ -756,9 +756,9 @@ public class PageData {
      * @throws EntityDoesNotExistException 
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-                                                                                boolean isHome,
+                                                                                String returnUrl,
                                                                                 InstructorAttributes instructor) {
-        return new InstructorFeedbackSessionActions(this, session, isHome, instructor);
+        return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
     }
 
     /**

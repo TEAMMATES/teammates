@@ -33,12 +33,10 @@ public class InstructorFeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, boolean isHome,
+    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
-        String returnUrl = isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                                  : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
 
         this.privateSession = session.isPrivateSession();
 
@@ -68,7 +66,8 @@ public class InstructorFeedbackSessionActions {
                                                + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
         this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,PUBLISH_BUTTON_TYPE);
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor, 
+                                                              PUBLISH_BUTTON_TYPE);
     }
 
     public boolean isPrivateSession() {
