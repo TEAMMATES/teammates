@@ -84,7 +84,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             if (!JDOHelper.isDeleted(feedbackSession)) {
                 startCal.setTime(start);
                 endCal.setTime(end);
-                FeedbackSessionAttributes fs = new FeedbackSessionAttributes(it.next());
+                FeedbackSessionAttributes fs = new FeedbackSessionAttributes(feedbackSession);
                 
                 Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
                 Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
