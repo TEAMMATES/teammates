@@ -119,9 +119,9 @@
       "email": "alice.b.tmms@gmail.tmt",
       "course": "InsCrsEdit.CS2104",
       "section":"Section 1",
-      "name": "Alice Betsy",
+      "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
     },
     "benny.tmms@InsCrsEdit.CS2104": {
       "googleId": "",
@@ -139,7 +139,7 @@
       "name": "Charlie Davis",
       "section":"Section 2",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1"
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
     },
     "danny.tmms@InsCrsEdit.CS2104": {
       "googleId": "InsCrsEdit.danny.tmms",

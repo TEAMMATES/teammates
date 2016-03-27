@@ -34,10 +34,10 @@
       "googleId": "CCEnrollUiT.alice.b.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "CCEnrollUiT.CS2104",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1",
-      "section": "Section 1"
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</option></td></div>'\"",
+      "section": "Section 1</option></td></div>'\""
     },
     "benny.c.tmms@CCEnrollUiT.CS2104": {
       "googleId": "CCEnrollUiT.benny.c.tmms",
@@ -45,8 +45,8 @@
       "course": "CCEnrollUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1",
-      "section": "Section 1"
+      "team": "Team 1</option></td></div>'\"",
+      "section": "Section 1</option></td></div>'\""
     },
     "charlie.d.tmms@CCEnrollUiT.CS2104": {
       "googleId": "CCEnrollUiT.charlie.d.tmms",
