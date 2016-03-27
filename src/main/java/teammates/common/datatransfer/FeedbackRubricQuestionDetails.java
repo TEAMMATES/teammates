@@ -57,8 +57,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                                                               numOfRubricChoices, numOfRubricSubQuestions);
         
         // Set details
-        setRubricQuestionDetails(rubricChoices.size(), rubricChoices, rubricSubQuestions.size(), 
-                                 rubricSubQuestions, rubricDescriptions);
+        setRubricQuestionDetails(rubricChoices, rubricSubQuestions, rubricDescriptions);
         
         if (!this.isValidDescriptionSize()) {
             // If description sizes are invalid, default to empty descriptions.
@@ -127,14 +126,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return true;
     }
 
-    private void setRubricQuestionDetails(int numOfRubricChoices,
-            List<String> rubricChoices,
-            int numOfRubricSubQuestions,
+    private void setRubricQuestionDetails(List<String> rubricChoices,
             List<String> rubricSubQuestions,
             List<List<String>> rubricDescriptions) {
-        this.numOfRubricChoices = numOfRubricChoices;
+        this.numOfRubricChoices = rubricChoices.size();
         this.rubricChoices = rubricChoices;
-        this.numOfRubricSubQuestions = numOfRubricSubQuestions;
+        this.numOfRubricSubQuestions = rubricSubQuestions.size();
         this.rubricSubQuestions = rubricSubQuestions;
         this.rubricDescriptions = rubricDescriptions;
     }
