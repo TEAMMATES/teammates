@@ -20,6 +20,10 @@ import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Student;
 
+/**
+ * Previews and removes extra spaces in StudentAttributes, FeedbackResponseAttributes
+ * and CommentAttributes.
+ */
 public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteApiClient {
     private final boolean isPreview = true;
     
@@ -78,6 +82,9 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         }
     }
 
+    /**
+     * Concatenates strings with extra spaces in the set. 
+     */
     private String extractStringsWithExtraSpace(Set<String> set) {
         StringBuilder result = new StringBuilder();
         for (String s : set) {
@@ -88,62 +95,77 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         return result.toString();
     }
     
+    /**
+     * Previews or removes extra spaces in recipients of comments.
+     * @return the number of comments with extra spaces in recipients.
+     */
     private int removeExtraSpacesInComments(List<CommentAttributes> allComments) 
                     throws InvalidParametersException, EntityDoesNotExistException {
         int numberOfCommentWithExtraSpacesInRecipient = 0;
         for (CommentAttributes comment : allComments) {
-            if (hasExtraSpaces(comment.recipients)) {
-                numberOfCommentWithExtraSpacesInRecipient++;
-                if (isPreview) {
-                    String recipientsWithExtraSpace = extractStringsWithExtraSpace(comment.recipients);
-                    System.out.println("" + numberOfCommentWithExtraSpacesInRecipient 
-                                       + ". \"" + recipientsWithExtraSpace + "\""
-                                       + "courseId: " + comment.courseId);
-                } else {
-                    comment.recipients = StringHelper.removeExtraSpace(comment.recipients);
-                    commentsLogic.updateComment(comment);
-                }
+            if (!hasExtraSpaces(comment.recipients)) {
+                continue;
+            }
+            numberOfCommentWithExtraSpacesInRecipient++;
+            if (isPreview) {
+                String recipientsWithExtraSpace = extractStringsWithExtraSpace(comment.recipients);
+                System.out.println("" + numberOfCommentWithExtraSpacesInRecipient 
+                                   + ". \"" + recipientsWithExtraSpace + "\""
+                                   + "courseId: " + comment.courseId);
+            } else {
+                comment.recipients = StringHelper.removeExtraSpace(comment.recipients);
+                commentsLogic.updateComment(comment);
             }
         }
         return numberOfCommentWithExtraSpacesInRecipient;
     }
 
+    /**
+     * Previews or removes extra spaces in recipient and/or giver of feedback responses.
+     * @return the number of responses with extra spaces in recipient and/or giver.
+     */
     private int removeExtraSpacesInResponses(List<FeedbackResponseAttributes> allResponses) 
                     throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         int numberOfReponsesWithExtraSpacesInRecipient = 0;
         for (FeedbackResponseAttributes response : allResponses) {
-            if (hasExtraSpaces(response.recipientEmail) || hasExtraSpaces(response.giverEmail)) {
-                numberOfReponsesWithExtraSpacesInRecipient++;
-                if (isPreview) {
-                    System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
-                                       + ". From \"" + response.giverEmail + "\" "
-                                       + ". To \"" + response.recipientEmail + "\" "
-                                       + "courseId: " + response.courseId + " sessionName: "
-                                       + response.feedbackSessionName);
-                } else {
-                    response.recipientEmail = StringHelper.removeExtraSpace(response.recipientEmail);
-                    response.giverEmail = StringHelper.removeExtraSpace(response.giverEmail);
-                    responsesLogic.updateFeedbackResponse(response);
-                }
+            if (!hasExtraSpaces(response.recipientEmail) && !hasExtraSpaces(response.giverEmail)) {
+                continue;
+            }
+            numberOfReponsesWithExtraSpacesInRecipient++;
+            if (isPreview) {
+                System.out.println("" + numberOfReponsesWithExtraSpacesInRecipient 
+                                   + ". From \"" + response.giverEmail + "\" "
+                                   + ". To \"" + response.recipientEmail + "\" "
+                                   + "courseId: " + response.courseId + " sessionName: "
+                                   + response.feedbackSessionName);
+            } else {
+                response.recipientEmail = StringHelper.removeExtraSpace(response.recipientEmail);
+                response.giverEmail = StringHelper.removeExtraSpace(response.giverEmail);
+                responsesLogic.updateFeedbackResponse(response);
             }
         }
         return numberOfReponsesWithExtraSpacesInRecipient;
     }
 
+    /**
+     * Previews or removes extra spaces in team name of students.
+     * @return the number of students with extra spaces in team name.
+     */
     private int removeExtraSpacesInStudents(List<Student> allStudents) 
                     throws InvalidParametersException, EntityDoesNotExistException {
         int numberOfStudentsWithExtraSpacesInTeamName = 0;
         for (Student studentEntity : allStudents) {
-            if (hasExtraSpaces(studentEntity.getTeamName())) {
-                numberOfStudentsWithExtraSpacesInTeamName++;
-                if (isPreview) {
-                    System.out.println("" + numberOfStudentsWithExtraSpacesInTeamName 
-                                       + ". \"" + studentEntity.getTeamName() + "\" "
-                                       + "courseId: " + studentEntity.getCourseId());
-                } else {
-                    StudentAttributes student = new StudentAttributes(studentEntity);
-                    updateStudent(student.email, student);
-                }
+            if (!hasExtraSpaces(studentEntity.getTeamName())) {
+                continue;
+            }
+            numberOfStudentsWithExtraSpacesInTeamName++;
+            if (isPreview) {
+                System.out.println("" + numberOfStudentsWithExtraSpacesInTeamName 
+                                   + ". \"" + studentEntity.getTeamName() + "\" "
+                                   + "courseId: " + studentEntity.getCourseId());
+            } else {
+                StudentAttributes student = new StudentAttributes(studentEntity);
+                updateStudent(student.email, student);
             }
         }
         return numberOfStudentsWithExtraSpacesInTeamName;
@@ -156,6 +178,9 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         return !s.equals(StringHelper.removeExtraSpace(s));
     }
     
+    /**
+     * Check if there is extra space in a set of strings.
+     */
     private boolean hasExtraSpaces(Set<String> stringSet) {
         for (String s : stringSet) {
             if (hasExtraSpaces(s)) {
