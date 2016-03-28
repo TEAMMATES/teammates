@@ -20,7 +20,7 @@ Important: When a version is specified, please install that version instead of t
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
 2. Navigate to the directory where you cloned Teammates and perform the following steps:
    * Copy and rename `gradle.properties.template` to `gradle.properties`
-   * Set `org.gradle.java.home` to the location where JDK 7 is installed
+   * Set `org.gradle.java.home` to the location where JDK 7 is installed. An example of this on OSX could be `/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home`. On Windows, it could look something like `C:\\Program Files\\Java\\jdk1.7.0_79\\`.
    * Run the following command: `./gradlew appengineRun`
    This command downloads all the dependencies required by Teammates and starts the dev server on `localhost:8888`.
    Depending on your network speed, the downloading of the dependencies might take a while.
