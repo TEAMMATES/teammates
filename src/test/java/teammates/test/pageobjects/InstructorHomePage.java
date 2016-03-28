@@ -161,11 +161,11 @@ public class InstructorHomePage extends AppPage {
     /**
      * This is for customized feedback session 
      */
-    public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName){
+    public InstructorFeedbacksPage clickFeedbackSessionRemindLink(String courseId, String fsName){
         clickAndConfirm(getRemindLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorHomePage.class);
+        return changePageType(InstructorFeedbacksPage.class);
     }
     
     /**
