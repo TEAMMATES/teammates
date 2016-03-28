@@ -114,10 +114,16 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                         courseIdForNewSession);
         
         String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        
+        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        
+        // adds the default option to courseIdOptions if it is empty
+        if (courseIdOptions.isEmpty()) {
+            addDefaultOption(courseIdOptions);
+        }
+        
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
-                                                          fsName, 
-                                                          getCourseIdOptions(courses, courseIdForNewSession, 
-                                                                             instructors, newFeedbackSession));
+                                                          fsName, courseIdOptions);
     }
 
     private void buildFsList(String courseIdToHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
@@ -153,14 +159,21 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 String feedbackSessionNameForSessionList, List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         
+        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        boolean isSubmitButtonDisabled = courseIdOptions.isEmpty();
+        
+        // adds the default option to courseIdOptions if it is empty
+        if (isSubmitButtonDisabled) {
+            addDefaultOption(courseIdOptions);
+        }
+        
         return FeedbackSessionsForm.getFormForNewFs(
                                         newFeedbackSession,
                                         getFeedbackSessionTypeOptions(feedbackSessionType),
                                         courseIdForNewSession,
-                                        courseIds, getCourseIdOptions(courses,  courseIdForNewSession, 
-                                                           instructors, newFeedbackSession), 
+                                        courseIds, courseIdOptions, 
                                         instructors,
-                                        additionalSettings, isNoModifyPermissionForAllCourses(courses, instructors));
+                                        additionalSettings, isSubmitButtonDisabled);
     }
 
     private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
@@ -272,39 +285,17 @@ public class InstructorFeedbacksPageData extends PageData {
             }
         }
         
-        // if courses is not empty but result is empty, means the instructor have no permission to edit
-        // rather than the instructor have no active courses
-        // add "No active courses" option if there are no active courses
-        ElementTag defaultOption;
-        if (result.isEmpty() && !courses.isEmpty()) {
-            defaultOption = createOption("No permission to modify courses!", "", true);
-            result.add(defaultOption);
-        } if (result.isEmpty()) {
-            defaultOption = createOption("No active courses!", "", true);
-            result.add(defaultOption);
-        }
-        
         return result;
     }
     
     /**
-     * Checks if the instructor have modify permission for any of the courses that he is in.
-     * @param courses list of courses
-     * @param instructors instructor and the courses that he is in
-     * @return true if he does not have modify permission for all the courses that he is in
+     * Adds the default option to the list of select options if the list is empty.
+     * @param selectOptions list containing all the options
      */
-    private boolean isNoModifyPermissionForAllCourses(List<CourseAttributes> courses, Map<String, InstructorAttributes> instructors) {
-        for (CourseAttributes course : courses) {
-            InstructorAttributes instructor = instructors.get(course.id);
-            boolean isAllowedForPriviledge = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            if (isAllowedForPriviledge) {
-                return false;
-            }
-        }
-        
-        return true;
+    private void addDefaultOption(List<ElementTag> selectOptions) {
+        ElementTag defaultOption = createOption("No active courses!", "", true);
+        selectOptions.add(defaultOption);
     }
-    
 
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
