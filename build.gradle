@@ -269,7 +269,7 @@ task generateFailedCmd(type: Exec) {
     doLast {
         def gistUrl = os.toString()
         def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1)
-        logger.lifecycle("Run failed tests locally: gradle failedTestsFromTravis -Pgist=${gistHash}")
+        logger.lifecycle("Run failed tests locally: ./gradlew -Pgist=${gistHash} failedTestsFromTravis")
     }
 }
 
@@ -328,21 +328,16 @@ task testOutput(type: Exec) {
     outputs.upToDateWhen { false }
 }
 
-task manualTest(type: JavaExec) {
+task manualTests(type: JavaExec) {
     onlyIf {
-        project.hasProperty("test_methods") || project.hasProperty("test_classes")
+        project.hasProperty("test_classes")
     }
     doFirst {
         classpath = sourceSets.test.runtimeClasspath
         main = "org.testng.TestNG"
         args "-configfailurepolicy", "continue"
         args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
-        if (project.hasProperty("test_classes")) {
-            args "-testclass", test_classes
-        }
-        if (project.hasProperty("test_methods")) {
-            args "-methods", test_methods
-        }
+        args "-testclass", test_classes
         if (project.hasProperty("god_mode")) {
             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
         } else {
@@ -350,7 +345,7 @@ task manualTest(type: JavaExec) {
         }
     }
     dependsOn "appengineRun", "cleanTestOutput"
-    finalizedBy "appengineStop", "killFirefox1", "testOutput"
+    finalizedBy "appengineStop", "testOutput"
 }
 
 task failedTests(type: JavaExec) {

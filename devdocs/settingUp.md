@@ -27,7 +27,8 @@ Important: When a version is specified, please install that version instead of t
    After some time, you should see this message on the console 
    `Build Successful`.
    The dev server is now ready to serve requests at `http://localhost:8888`.
-   To stop the server, simply run `./gradlew appengineStop`.
+   To stop the server, simply run `./gradlew appengineStop`. The complete gradle task reference can be found [here](/devdocs/gradle.md).
+
 3. Modify main config files. {These are not under revision control because their 
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
