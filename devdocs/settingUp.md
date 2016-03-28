@@ -1,4 +1,6 @@
 #Setting Up the Developer Environment
+>If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
+
 These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
 
 The full tool stack is given at the [end of this document](#toolStack).
@@ -25,7 +27,7 @@ Important: When a version is specified, please install that version instead of t
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
 
-1. Fork our repo at `https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
+1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
 2. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
    * Text encoding: Go to `Window → Preferences → General → Workspace` (Mac: `Eclipse → Preferences → General → Workspace`), change the 
@@ -275,8 +277,10 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
 * **TestNG** [latest stable]
     TestNG is a Java test automation framework.
-* **QUnit** [version 1.10.0]
+* **QUnit** [version 1.22.0]
     QUnit is a JavaScript unit test suite.
+* **Blanket.js** [version 1.2.1]
+    Blanket.js is a JavaScript code coverage library.
 * **NekoHtml** [version 1.9.22]
     NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
     NekoHTML is included in the Selenium libraries.

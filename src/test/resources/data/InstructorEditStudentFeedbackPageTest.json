@@ -70,7 +70,23 @@
             "role":"Co-owner",
             "isInstructor":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "IESFPTCoursehelper1":{
             "googleId":"IESFPTCoursehelper1",
@@ -80,7 +96,33 @@
             "role":"Custom",
             "isInstructor":true,
             "displayedName":"Instructor Helper 1",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section 2\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": true,\n      \"canmodifysessioncommentinsection\": true,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": false,
+                    \"cangivecommentinsection\": false,
+                    \"cansubmitsessioninsection\": false,
+                    \"canmodifysessioncommentinsection\": false,
+                    \"canmodifycommentinsection\": false,
+                    \"canmodifycourse\": false,
+                    \"canviewsessioninsection\": false,
+                    \"canmodifysession\": false,
+                    \"canviewcommentinsection\": false,
+                    \"canmodifystudent\": false,
+                    \"canmodifyinstructor\": false
+                },
+                \"sectionLevel\": {
+                    \"Section 2\": {
+                      \"canviewstudentinsection\": false,
+                      \"cangivecommentinsection\": false,
+                      \"cansubmitsessioninsection\": true,
+                      \"canmodifysessioncommentinsection\": true,
+                      \"canmodifycommentinsection\": false,
+                      \"canviewsessioninsection\": true,
+                      \"canviewcommentinsection\": false
+                    }
+                },
+                \"sessionLevel\": {}
+            }"
         },
 
         "IESFPTCoursehelper2":{
@@ -92,7 +134,41 @@
             "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor Helper 2",
-            "instructorPrivilegesAsText":"{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section 2\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": false,\n      \"canmodifysessioncommentinsection\": true,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {\n    \"Section 2\": {\n      \"First feedback session\": {\n        \"cansubmitsessioninsection\": false,\n        \"canmodifysessioncommentinsection\": false,\n        \"canviewsessioninsection\": true\n      }\n    }\n  }\n}"
+            "instructorPrivilegesAsText":"{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": false,
+                    \"cangivecommentinsection\": false,
+                    \"cansubmitsessioninsection\": false,
+                    \"canmodifysessioncommentinsection\": false,
+                    \"canmodifycommentinsection\": false,
+                    \"canmodifycourse\": false,
+                    \"canviewsessioninsection\": false,
+                    \"canmodifysession\": false,
+                    \"canviewcommentinsection\": false,
+                    \"canmodifystudent\": false,
+                    \"canmodifyinstructor\": false
+                },
+                \"sectionLevel\": {
+                    \"Section 2\": {
+                      \"canviewstudentinsection\": false,
+                      \"cangivecommentinsection\": false,
+                      \"cansubmitsessioninsection\": false,
+                      \"canmodifysessioncommentinsection\": true,
+                      \"canmodifycommentinsection\": false,
+                      \"canviewsessioninsection\": true,
+                      \"canviewcommentinsection\": false
+                    }
+                },
+                \"sessionLevel\": {
+                    \"Section 2\": {
+                        \"First feedback session\": {
+                            \"cansubmitsessioninsection\": false,
+                            \"canmodifysessioncommentinsection\": false,
+                            \"canviewsessioninsection\": true
+                        }
+                    }
+                }
+            }"
         },
         "IESFPTCoursehelper3":{
             "googleId":"IESFPTCoursehelper3",
@@ -103,17 +179,51 @@
             "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor Helper 3",
-            "instructorPrivilegesAsText":"{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section 2\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": false,\n      \"canmodifysessioncommentinsection\": false,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {\n    \"Section 2\": {\n      \"First feedback session\": {\n        \"cansubmitsessioninsection\": false,\n        \"canmodifysessioncommentinsection\": true,\n        \"canviewsessioninsection\": true\n      }\n    }\n  }\n}"
+            "instructorPrivilegesAsText":"{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": false,
+                    \"cangivecommentinsection\": false,
+                    \"cansubmitsessioninsection\": false,
+                    \"canmodifysessioncommentinsection\": false,
+                    \"canmodifycommentinsection\": false,
+                    \"canmodifycourse\": false,
+                    \"canviewsessioninsection\": false,
+                    \"canmodifysession\": false,
+                    \"canviewcommentinsection\": false,
+                    \"canmodifystudent\": false,
+                    \"canmodifyinstructor\": false
+                },
+                \"sectionLevel\": {
+                    \"Section 2\": {
+                      \"canviewstudentinsection\": false,
+                      \"cangivecommentinsection\": false,
+                      \"cansubmitsessioninsection\": false,
+                      \"canmodifysessioncommentinsection\": false,
+                      \"canmodifycommentinsection\": false,
+                      \"canviewsessioninsection\": true,
+                      \"canviewcommentinsection\": false
+                    }
+                },
+                \"sessionLevel\": {
+                    \"Section 2\": {
+                        \"First feedback session\": {
+                            \"cansubmitsessioninsection\": false,
+                            \"canmodifysessioncommentinsection\": true,
+                            \"canviewsessioninsection\": true
+                        }
+                    }
+                }
+            }"
         }
     },
     "students":{
         "student1InCourse1":{
             "email":"student1InIESFPTCourse@gmail.tmt",
-            "name":"student1 In Course1",
-            "team":"Team 1.1",
+            "name":"student1 In Course1</td></div>'\"",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "googleId":"student1InCourse1",
-            "comments":"comment for student1InCourse1",
+            "comments":"comment for student1InCourse1</td></div>'\"",
             "course":"IESFPTCourse"
         },
         "student2InCourse1":{

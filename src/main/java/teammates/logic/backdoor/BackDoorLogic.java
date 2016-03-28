@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
@@ -105,6 +106,9 @@ public class BackDoorLogic extends Logic {
         HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
         List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
         for (InstructorAttributes instructor : instructors.values()) {
+
+            validateInstructorPrivileges(instructor);
+
             if (instructor.googleId != null && !instructor.googleId.equals("")) {
                 AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
@@ -182,6 +186,47 @@ public class BackDoorLogic extends Logic {
         
         
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+    }
+
+    /**
+     * Checks if the role of {@code instructor} matches its privileges
+     * 
+     * @param instructor
+     *            the {@link InstructorAttributes} of an instructor, cannot be
+     *            {@code null}
+     */
+    private void validateInstructorPrivileges(InstructorAttributes instructor) {
+
+        if (instructor.getRole() == null) {
+            return;
+        }
+
+        InstructorPrivileges privileges = instructor.getInstructorPrivilegesFromText();
+
+        switch (instructor.getRole()) {
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+            Assumption.assertTrue(privileges.hasCoownerPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+            Assumption.assertTrue(privileges.hasManagerPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+            Assumption.assertTrue(privileges.hasObserverPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+            Assumption.assertTrue(privileges.hasTutorPrivileges());
+            break;
+
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+            break;
+
+        default:
+            Assumption.fail("Invalid instructor permission role name");
+        }
     }
 
     /**

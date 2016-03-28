@@ -909,7 +909,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_TEAM)) {
             return getTeamNameForEmail(email);
         } else {
-            return Sanitizer.sanitizeForHtml(name);
+            return name;
         }
     }
 
@@ -922,21 +922,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_TEAM)) {
             return getTeamNameForEmail(email);
         } else {
-            return Sanitizer.sanitizeForHtml(name);
+            return name;
         }
     }
 
     public String getTeamNameForEmail(String email) {
-        String teamName = emailTeamNameTable.get(email);
-        if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
-            return Const.USER_NOBODY_TEXT;
-        } else {
-            return Sanitizer.sanitizeForHtml(teamName);
-        }
-    }
-    
-    // TODO remove this method entirely and handle sanitization during display properly
-    public String getUnsanitizedTeamNameForEmail(String email) {
         String teamName = emailTeamNameTable.get(email);
         if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
@@ -1015,7 +1005,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            return Sanitizer.sanitizeForHtml(name);
+            return name;
         }
     }
 
@@ -1026,7 +1016,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            return Sanitizer.sanitizeForHtml(name);
+            return name;
         }
     }
 

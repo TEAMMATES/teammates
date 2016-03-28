@@ -1,5 +1,6 @@
 <%@ tag description="Feedback Response Comment" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
@@ -21,7 +22,7 @@
 <li class="list-group-item list-group-item-warning${frc.extraClass}" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
         <span class="text-muted">
-            From: ${frc.giverDisplay} [${frc.createdAt}] ${frc.editedAt}
+            From: ${fn:escapeXml(frc.giverDisplay)} [${frc.createdAt}] ${frc.editedAt}
         </span>
         <c:if test="${frc.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"
@@ -58,7 +59,7 @@
                    data-placement="top"
                    title="<%= Const.Tooltips.COMMENT_DELETE %>"
                    <c:if test="${frc.editDeleteEnabledOnlyOnHover}">style="display: none;"</c:if>
-                   <c:if test="${not frc.instructorAllowedToDelete}">disabled="disabled"</c:if>>
+                   <c:if test="${not frc.instructorAllowedToDelete}">disabled</c:if>>
                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                 </a>
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
@@ -75,7 +76,7 @@
                data-placement="top"
                title="<%= Const.Tooltips.COMMENT_EDIT %>"
                <c:if test="${frc.editDeleteEnabledOnlyOnHover}">style="display: none;"</c:if>
-               <c:if test="${not frc.instructorAllowedToEdit}">disabled="disabled"</c:if>>
+               <c:if test="${not frc.instructorAllowedToEdit}">disabled</c:if>>
                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
             </a>
         </c:if>
