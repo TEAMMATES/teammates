@@ -30,11 +30,9 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsTable fsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
-    
 
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
-        
     }
 
     public boolean isUsingAjax() {
@@ -279,8 +277,16 @@ public class InstructorFeedbacksPageData extends PageData {
         
         return result;
     }
-    
 
+    /**
+     * Retrieves the link to submit the request for copy of session. 
+     * Also contains feedback page link to return after the action.
+     * @return form submit action link
+     */
+    public String getEditCopyActionLink() {
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    }
+    
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
     }
