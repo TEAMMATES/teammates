@@ -1,5 +1,7 @@
-var callbackFunction;
+// Form input placeholders
+var PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT = 'Please enter an alt text for the image';
 
+var callbackFunction;
 
 $(document).ready(function(){
 	
@@ -219,7 +221,7 @@ function submitImageUploadFormAjax() {
                 if (!data.isError) {
                    if(data.isFileUploaded){
                 	   url = data.fileSrcUrl;
-                	   callbackFunction(url, {alt: 'My alt text'});
+                	   callbackFunction(url, {alt: PLACEHOLDER_IMAGE_UPLOAD_ALT_TEXT});
                 	   setStatusMessage(data.ajaxStatus, StatusType.SUCCESS);
                    } else {
                    	   setErrorMessage(data.ajaxStatus);

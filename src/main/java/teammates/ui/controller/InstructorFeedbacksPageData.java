@@ -196,7 +196,8 @@ public class InstructorFeedbacksPageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, false,
+            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, 
+                                                                                           Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                                                            instructors.get(courseId));
             
             ElementTag elementAttributes ;
@@ -285,6 +286,15 @@ public class InstructorFeedbacksPageData extends PageData {
      */
     public String getRemindParticularStudentActionLink() {
         return getInstructorFeedbackRemindParticularStudentActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    }
+    
+    /**
+     * Retrieves the link to submit the request for copy of session. 
+     * Also contains feedback page link to return after the action.
+     * @return form submit action link
+     */
+    public String getEditCopyActionLink() {
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
     
     public void setUsingAjax(boolean isUsingAjax) {

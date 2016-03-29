@@ -25,10 +25,13 @@ public class InstructorFeedbackEditCopyAction extends Action {
         String[] coursesIdToCopyTo = getRequestParamValues(Const.ParamsNames.COPIED_COURSES_ID);
         String originalFeedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String originalCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         
         Assumption.assertNotNull("null course id", originalCourseId);
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
+        
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
             return createAjaxResultWithErrorMessage(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
@@ -93,7 +96,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // so that the instructor can see the new feedback sessions
             return createAjaxResultWithoutClearingStatusMessage(
                        new InstructorFeedbackEditCopyData(account,
-                                                          Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                                                          Config.getAppUrl(nextUrl)
                                                                 .withParam(Const.ParamsNames.ERROR, 
                                                                            Boolean.FALSE.toString())
                                                                 .withParam(Const.ParamsNames.USER_ID, 

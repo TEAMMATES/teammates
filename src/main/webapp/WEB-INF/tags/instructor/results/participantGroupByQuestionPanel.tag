@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbackResults - participant > question > participant" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -15,14 +16,14 @@
         <c:choose>
             <c:when test="${groupByQuestionPanel.emailValid}">
                 <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
-                    <strong>${groupByQuestionPanel.name}</strong>
+                    <strong>${fn:escapeXml(groupByQuestionPanel.name)}</strong>
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                     <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailto:${groupByQuestionPanel.participantIdentifier}">[${groupByQuestionPanel.participantIdentifier}]</a>
                 </div>
             </c:when>
             <c:otherwise>
                 <div class="inline panel-heading-text">
-                    <strong>${groupByQuestionPanel.name}</strong>
+                    <strong>${fn:escapeXml(groupByQuestionPanel.name)}</strong>
                 </div>
             </c:otherwise>
         </c:choose>

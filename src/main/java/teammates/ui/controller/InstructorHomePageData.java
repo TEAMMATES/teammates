@@ -44,6 +44,15 @@ public class InstructorHomePageData extends PageData {
     public String getRemindParticularStudentActionLink() {
         return getInstructorFeedbackRemindParticularStudentActionLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
+
+    /**
+     * Retrieves the link to submit the request for copy of session. 
+     * Also contains home page link to return after the action.
+     * @return form submit action link
+     */
+    public String getEditCopyActionLink() {
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+    }
     
     private void setCourseTables(List<CourseSummaryBundle> courses) {
         courseTables = new ArrayList<CourseTable>(); 

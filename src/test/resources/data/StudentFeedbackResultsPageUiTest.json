@@ -60,18 +60,33 @@
             "email":"SFResultsUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         }
-        
     },
     "students":{
         "Alice":{
             "googleId":"SFResultsUiT.alice.b",
             "email":"SFResultsUiT.alice.b@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "name":"Alice Betsy</option></td></div>'\"",
+            "comments":"This student's name is Alice Betsy</option></td></div>'\"",
+            "team":"Team 1</td></div>'\""
         },
         "Benny":{
             "googleId":"SFResultsUiT.benny.c",
@@ -79,7 +94,7 @@
             "course":"SFResultsUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "ExtraGuy":{
             "googleId":"extra.guy",
@@ -1173,7 +1188,7 @@
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"SFResultsUiT.danny.e@gmail.tmt",
-            "recipientEmail":"Team 1",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"Team 2 (danny) to team 1"
             }
@@ -1185,7 +1200,7 @@
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"SFResultsUiT.emily.f@gmail.tmt",
-            "recipientEmail":"Team 1",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"Team 3 to Team 1 \r\n multiline special char test"
             }
@@ -1221,7 +1236,7 @@
             "feedbackQuestionId":"6",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
-            "recipientEmail":"Team 1",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"Feedback from alice to the team"
             }
@@ -1489,7 +1504,7 @@
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"SFResultsUiT.danny.e@gmail.tmt",
-            "recipientEmail":"Team 1",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
             }
@@ -1501,7 +1516,7 @@
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"SFResultsUiT.emily.f@gmail.tmt",
-            "recipientEmail":"Team 1",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4.0}"
             }
@@ -1513,7 +1528,7 @@
             "feedbackQuestionId":"6",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"SFResultsUiT.charlie.d@gmail.tmt",
-            "recipientEmail":"Team 1",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4.5}"
             }
@@ -1525,7 +1540,7 @@
             "feedbackQuestionId":"6",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"SFResultsUiT.danny.e@gmail.tmt",
-            "recipientEmail":"Team 1",
+            "recipientEmail":"Team 1</td></div>'\"",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
             }

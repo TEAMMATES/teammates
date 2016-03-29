@@ -12,6 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
@@ -48,10 +49,16 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollString = "Section | Team | Name | Email | Comment" + Const.EOL;
         // A new student
         enrollString += "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + Const.EOL;
+        // A new student with extra spaces in the team and name
+        enrollString += "Section 3 \t Team   1\tstudent  with   extra  spaces  \t"
+                        + "studentWithExtraSpaces@gmail.tmt\t" + Const.EOL;
         // A student to be modified
-        enrollString += "Section 2 \t Team 1.3\tstudent1 In Course1\tstudent1InCourse1@gmail.tmt\tNew comment added" + Const.EOL;
+        enrollString += "Section 2 \t Team 1.3\tstudent1 In Course1</td></div>'\"\tstudent1InCourse1@gmail.tmt\t"
+                        + "New comment added" + Const.EOL;
         // An existing student with no modification
-        enrollString += "Section 1 \t Team 1.1\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t";
+        enrollString += "Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t" + Const.EOL;
+        // An existing student, now with extra spaces, should cause no modification
+        enrollString += "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -68,9 +75,15 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
         
-        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", "Exchange student", courseId, "Team 1", "Section 3");
+        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
+                                                             "Exchange student", courseId, "Team 1", "Section 3");
         newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.getEnrollResultPanelList());
+
+        StudentAttributes newStudentWithExtraSpaces = new StudentAttributes("student",
+                "studentWithExtraSpaces@gmail.tmt", "student with extra spaces", "", courseId, "Team 1", "Section 3");
+        newStudentWithExtraSpaces.updateStatus = StudentAttributes.UpdateStatus.NEW;
+        verifyStudentEnrollmentStatus(newStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
@@ -83,8 +96,12 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         unmodifiedStudent.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.getEnrollResultPanelList());
         
+        StudentAttributes unmodifiedStudentWithExtraSpaces = dataBundle.students.get("student3InCourse1");
+        unmodifiedStudentWithExtraSpaces.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
+        verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
+
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
-                                    + ":</span><br>" + enrollString.replace("\n", "<br>"); 
+                                    + ":</span><br>" + Sanitizer.sanitizeForHtml(enrollString).replace("\n", "<br>"); 
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Masquerade mode, enrollment into empty course");
@@ -154,7 +171,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         String expectedStatusMessage = "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">"
-                                                    + studentWithoutEnoughParam 
+                                                    + Sanitizer.sanitizeForHtml(studentWithoutEnoughParam) 
                                                 + "</span>"
                                             + "</span>"
                                             + "<br>"
@@ -166,14 +183,14 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                                         + "<p>"
                                             + "<span class=\"bold\">Problem in line : "
                                                 + "<span class=\"invalidLine\">" 
-                                                    + studentWithInvalidEmail 
+                                                    + Sanitizer.sanitizeForHtml(studentWithInvalidEmail) 
                                                 + "</span>"
                                             + "</span>"
                                             + "<br>"
                                             + "<span class=\"problemDetail\">&bull; "
-                                                + "\"invalid.email.tmt\" is not acceptable to TEAMMATES as "
+                                                + "&quot;invalid.email.tmt&quot; is not acceptable to TEAMMATES as "
                                                 + "an email because it is not in the correct format. An "
-                                                + "email address contains some text followed by one '@' sign"
+                                                + "email address contains some text followed by one &#39;@&#39; sign"
                                                 + " followed by some more text. It cannot be longer than 254 "
                                                 + "characters. It cannot be empty and it cannot have spaces."
                                             + "</span>"
@@ -184,7 +201,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(courseId, enrollPageData.getCourseId());
         assertEquals(enrollString, enrollPageData.getEnrollStudents());
         
-        expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>" + (enrollString).replace("\n", "<br>");
+        expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>"
+                             + (enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Boundary test for size limit per enrollment");

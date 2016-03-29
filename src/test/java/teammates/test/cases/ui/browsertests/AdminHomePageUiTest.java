@@ -243,14 +243,12 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("new instructor can unpublish feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionUnpublishLink("AHPUiT.instr1.gma-demo", 
-                                                                             "Second team feedback session");
+        instructorHomePage.clickFeedbackSessionUnpublishLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionUnpublished.html");
         
         ______TS("new instructor can publish feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
-        instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", 
-                                                                           "Second team feedback session");
+        instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionPublished.html");
         
         feedbacksPage.logout();

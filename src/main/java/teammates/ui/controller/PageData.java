@@ -471,7 +471,19 @@ public class PageData {
         return link;
     }
     
-  
+    /**
+     * Retrieves the link to submit the request for copy of session.
+     * Appends the return url to the link.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackEditCopyActionLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        
+        return link;
+    }
+    
     /**
      * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
@@ -525,12 +537,20 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String nextURL) {
+    /**
+     * Retrieves the link to submit request to delete the session.
+     * @param courseId course ID
+     * @param feedbackSessionName the session name
+     * @param returnUrl the url of the page to return to after the delete
+     * @return the link to submit request to delete the session with return page link
+     */
+    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, addUserIdToUrl(nextURL));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }    
     
@@ -595,29 +615,25 @@ public class PageData {
         
         return link;
     }
-    
-    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+
+    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL, 
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
     
-    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL,
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
@@ -764,8 +780,8 @@ public class PageData {
      * Returns the links of actions available for a specific session
      * @param session
      *         The feedback session details
-     * @param isHome
-     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param returnUrl
+     *         The return URL after performing the action.
      * @param instructor
      *         The Instructor details
      * @param sectionsInCourse
@@ -774,9 +790,9 @@ public class PageData {
      * @throws EntityDoesNotExistException 
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-                                                                                boolean isHome,
+                                                                                String returnUrl,
                                                                                 InstructorAttributes instructor) {
-        return new InstructorFeedbackSessionActions(this, session, isHome, instructor);
+        return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
     }
 
     /**

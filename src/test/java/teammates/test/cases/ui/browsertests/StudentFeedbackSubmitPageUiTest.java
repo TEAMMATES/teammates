@@ -273,13 +273,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(9, 1, "Design");
 
         submitPage.chooseMcqOption(10, 0, "Drop out (Team 2)");
-        submitPage.toggleMsqOption(11, 0, "Alice Betsy (Team >'\"< 1)");
-        submitPage.toggleMsqOption(11, 0, "Benny Charles (Team >'\"< 1)");
+        submitPage.toggleMsqOption(11, 0, "Alice Betsy</option></td></div>'\" (Team >'\"< 1</td></div>'\")");
+        submitPage.toggleMsqOption(11, 0, "Benny Charles (Team >'\"< 1</td></div>'\")");
         submitPage.toggleMsqOption(11, 0, "Charlie Davis (Team 2)");
         submitPage.toggleMsqOption(11, 0, "Extra guy (Team 2)");
 
         submitPage.chooseMcqOption(12, 0, "Team 2");
-        submitPage.toggleMsqOption(13, 0, "Team >'\"< 1");
+        submitPage.toggleMsqOption(13, 0, "Team >'\"< 1</td></div>'\"");
         submitPage.toggleMsqOption(13, 0, "Team 3");
 
         submitPage.fillResponseTextBox(14, 0, "5");
@@ -378,7 +378,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
         submitPage.selectRecipient(2,0,"Benny Charles");
         submitPage.fillResponseTextBox(2, 0, "Response to Benny.");
-        submitPage.selectRecipient(2, 1, "Alice Betsy");
+        submitPage.selectRecipient(2, 1, "Alice Betsy</option></td></div>'\"");
         submitPage.fillResponseTextBox(2, 1, "Response to student who is number 1.");
         submitPage.selectRecipient(2, 2, "Extra guy");
         submitPage.fillResponseTextBox(2, 2, "Response to extra guy.");
