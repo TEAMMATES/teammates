@@ -89,8 +89,10 @@ public class FeedbackSessionsDb extends EntitiesDb {
                 Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
                 Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
                 
-                if((fs.startTime != null && fs.startTime.getTime() >= standardStart.getTime() && fs.startTime.getTime() < standardEnd.getTime())                    
-                    ||(fs.endTime != null && fs.endTime.getTime() > standardStart.getTime() && fs.endTime.getTime() <= standardEnd.getTime())) {
+                if ((fs.startTime != null && fs.startTime.getTime() >= standardStart.getTime() 
+                                          && fs.startTime.getTime() < standardEnd.getTime())
+                    ||(fs.endTime != null && fs.endTime.getTime() > standardStart.getTime() 
+                                          && fs.endTime.getTime() <= standardEnd.getTime())) {
                 
                     list.add(fs);
                 
@@ -115,7 +117,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         
         FeedbackSession fs = getFeedbackSessionEntity(feedbackSessionName, courseId);
         
-        if (fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null) {
             log.info("Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
             return null;
         }
@@ -239,7 +241,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         
         FeedbackSession fs = (FeedbackSession) getEntity(newAttributes);
         
-        if (fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
@@ -280,7 +282,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if (fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
@@ -304,7 +306,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if (fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
@@ -329,7 +331,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if (fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
@@ -382,7 +384,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if (fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
@@ -406,7 +408,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if(fs == null) {
+        if (fs == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
@@ -431,7 +433,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if (fs == null || JDOHelper.isDeleted(fs)) {
+        if (fs == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }

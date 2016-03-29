@@ -58,7 +58,7 @@ public class CoursesDb extends EntitiesDb {
         
         Course c = getCourseEntity(courseId);
 
-        if (c == null || JDOHelper.isDeleted(c)) {
+        if (c == null) {
             return null;
         }
 
@@ -121,7 +121,7 @@ public class CoursesDb extends EntitiesDb {
         
         Course courseEntityToUpdate = getCourseEntity(courseToUpdate.id);
         
-        if (courseEntityToUpdate == null || JDOHelper.isDeleted(courseEntityToUpdate)) {
+        if (courseEntityToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
         }
         

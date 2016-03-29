@@ -147,7 +147,7 @@ public class StudentsDb extends EntitiesDb {
     
         Student s = getStudentEntityForEmail(courseId, email);
 
-        if (s == null || JDOHelper.isDeleted(s)) {
+        if (s == null) {
             log.info("Trying to get non-existent Student: " + courseId + "/" + email);
             return null;
         }

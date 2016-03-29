@@ -96,7 +96,7 @@ public class CommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentId);
         
         Comment comment = getCommentEntity(commentId);
-        if (comment == null || JDOHelper.isDeleted(comment)) {
+        if (comment == null) {
             log.info("Trying to get non-existent Comment: " + commentId);
             return null;
         } else {
@@ -287,7 +287,7 @@ public class CommentsDb extends EntitiesDb {
         }
         Comment comment = (Comment) getEntity(newAttributes);
         
-        if (comment == null || JDOHelper.isDeleted(comment)) {
+        if (comment == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
 

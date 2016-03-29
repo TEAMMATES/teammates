@@ -50,7 +50,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(ae.emailId);
         
-        if (adminEmailToUpdate == null || JDOHelper.isDeleted(adminEmailToUpdate)) {
+        if (adminEmailToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject() +
                                                   "/" + ae.getSendDate() +
                                                   ThreadHelper.getCurrentThreadStack());
@@ -110,7 +110,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(emailId);
-        if (adminEmailToUpdate == null || JDOHelper.isDeleted(adminEmailToUpdate)) {
+        if (adminEmailToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + "with Id : " + emailId + 
                                                   ThreadHelper.getCurrentThreadStack());
         }
@@ -153,7 +153,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail matched = getAdminEmailEntity(emailId);
         
-        if (matched == null || JDOHelper.isDeleted(matched)) {
+        if (matched == null) {
             return null;
         }
         
@@ -168,7 +168,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail matched = getAdminEmailEntity(subject, createDate);
         
-        if (matched == null || JDOHelper.isDeleted(matched)) {
+        if (matched == null) {
             return null;
         }
         

@@ -44,7 +44,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
         FeedbackResponse feedbackResponse = getFeedbackResponseEntityWithCheck(feedbackResponseId);
-        if (feedbackResponse == null || JDOHelper.isDeleted(feedbackResponse)) {
+        if (feedbackResponse == null) {
             return null;
         }
         return new FeedbackResponseAttributes(feedbackResponse);    
@@ -78,7 +78,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         FeedbackResponse fr = 
                 getFeedbackResponseEntity(feedbackResponseId);
         
-        if (fr == null || JDOHelper.isDeleted(fr)) {
+        if (fr == null) {
             log.info("Trying to get non-existent response: " +
                     feedbackResponseId + ".");
             return null;
@@ -102,7 +102,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         FeedbackResponse fr = 
                 getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);
         
-        if (fr == null || JDOHelper.isDeleted(fr)) {
+        if (fr == null) {
             log.warning("Trying to get non-existent response: " +
                     feedbackQuestionId + "/" + "from: " +
                     giverEmail + " to: " + receiverEmail );
@@ -831,7 +831,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
 
-        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponseList = new HashMap<String,FeedbackResponse>();
 
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
@@ -842,7 +842,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : firstQueryResponses){
             if (!JDOHelper.isDeleted(response)) {
-                FeedbackResponseList.put(response.getId(), response);
+                feedbackResponseList.put(response.getId(), response);
             }
         }
         
@@ -852,11 +852,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : secondQueryResponses){
             if (!JDOHelper.isDeleted(response)) {
-                FeedbackResponseList.put(response.getId(), response);
+                feedbackResponseList.put(response.getId(), response);
             }
         }
         
-        return FeedbackResponseList.values();   
+        return feedbackResponseList.values();   
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSection(
@@ -890,7 +890,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSectionWithinRange(
             String feedbackSessionName, String courseId, String section, long range) {
 
-        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponseList = new HashMap<String,FeedbackResponse>();
 
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
@@ -902,7 +902,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : firstQueryResponses){
             if (!JDOHelper.isDeleted(response)) {
-                FeedbackResponseList.put(response.getId(), response);
+                feedbackResponseList.put(response.getId(), response);
             }
         }
         
@@ -913,11 +913,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : secondQueryResponses){
             if (!JDOHelper.isDeleted(response)) {
-                FeedbackResponseList.put(response.getId(), response);
+                feedbackResponseList.put(response.getId(), response);
             }
         }
         
-        return FeedbackResponseList.values();   
+        return feedbackResponseList.values();   
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSectionWithinRange(

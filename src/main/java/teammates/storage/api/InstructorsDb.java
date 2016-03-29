@@ -152,7 +152,7 @@ public class InstructorsDb extends EntitiesDb{
     
         Instructor i = getInstructorEntityForEmail(courseId, email);
     
-        if (i == null || JDOHelper.isDeleted(i)) {
+        if (i == null) {
             log.info("Trying to get non-existent Instructor: " + courseId +"/"+ email );
             return null;
         }
@@ -340,7 +340,7 @@ public class InstructorsDb extends EntitiesDb{
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.email);
         
-        if (instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)){
+        if (instructorToUpdate == null){
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.email
                         + ThreadHelper.getCurrentThreadStack());
         }

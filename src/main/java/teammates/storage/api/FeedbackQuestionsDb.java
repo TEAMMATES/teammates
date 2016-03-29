@@ -46,7 +46,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
 
         FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackQuestionId);
         
-        if (fq == null || JDOHelper.isDeleted(fq)) {
+        if (fq == null) {
             log.info("Trying to get non-existent Question: " + feedbackQuestionId);
             return null;
         }
@@ -78,7 +78,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         FeedbackQuestion fq = getFeedbackQuestionEntity(feedbackSessionName,
                 courseId, questionNumber);
         
-        if (fq == null || JDOHelper.isDeleted(fq)) {
+        if (fq == null) {
             log.info("Trying to get non-existent Question: " +
                          questionNumber + "." + feedbackSessionName + "/" + courseId);
             return null;
@@ -192,7 +192,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         FeedbackQuestion fq = (FeedbackQuestion) getEntity(newAttributes);
         
-        if (fq == null || JDOHelper.isDeleted(fq)) {
+        if (fq == null) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }

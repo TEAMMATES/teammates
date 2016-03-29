@@ -97,7 +97,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         FeedbackResponseComment frc = getFeedbackResponseCommentEntity(feedbackResponseCommentId);
         
-        if (frc == null || JDOHelper.isDeleted(frc)) {
+        if (frc == null) {
             log.info("Trying to get non-existent response comment: " + feedbackResponseCommentId + ".");
             return null;
         }
@@ -118,7 +118,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         FeedbackResponseComment frc = getFeedbackResponseCommentEntity(feedbackResponseId, giverEmail, createdAt);
         
-        if (frc == null || JDOHelper.isDeleted(frc)) {
+        if (frc == null) {
             log.info("Trying to get non-existent response comment: "
                     + feedbackResponseId + "/from: " + giverEmail
                     + "created at: " + createdAt);
@@ -142,7 +142,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         FeedbackResponseComment frc =
                 (FeedbackResponseComment) getFeedbackResponseCommentEntity(courseId, createdAt, giverEmail);
         
-        if (frc == null || JDOHelper.isDeleted(frc)) {
+        if (frc == null) {
             log.info("Trying to get non-existent response comment: from: " + giverEmail
                     + " in the course " + courseId + " created at: " + createdAt);
             return null;
