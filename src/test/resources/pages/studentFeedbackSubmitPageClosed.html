@@ -17,8 +17,10 @@
     <input name="fsname" type="hidden" value="Second Session">
     <input name="courseid" type="hidden" value="SFSubmitUiT.CS2104">
     <input name="user" type="hidden" value="SFSubmitUiT.alice.b">
-    <div class="overflow-auto alert alert-warning" id="statusMessage">
-      You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-warning statusMessage">
+        You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+      </div>
     </div>
     <script src="/js/statusMessage.js" type="text/javascript">
     </script>
@@ -108,8 +110,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -123,7 +125,7 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="disabled" name="responsetext-1-0" rows="4">
+              <textarea class="form-control" cols="100%" disabled="" name="responsetext-1-0" rows="4">
               </textarea>
             </div>
           </div>
@@ -133,8 +135,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-1-1" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-1" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -148,7 +150,7 @@
               </span>
             </div>
             <div class="col-sm-10">
-              <textarea class="form-control" cols="100%" disabled="disabled" name="responsetext-1-1" rows="4">
+              <textarea class="form-control" cols="100%" disabled="" name="responsetext-1-1" rows="4">
               </textarea>
             </div>
           </div>
@@ -184,8 +186,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-2-0" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-2-0" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -205,7 +207,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-2-0" type="radio" value="It's good">
+                          <input disabled="" name="responsetext-2-0" type="radio" value="It's good">
                           It's good
                         </label>
                       </div>
@@ -215,7 +217,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-2-0" type="radio" value="It's perfect">
+                          <input disabled="" name="responsetext-2-0" type="radio" value="It's perfect">
                           It's perfect
                         </label>
                       </div>
@@ -231,8 +233,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-2-1" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-2-1" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -252,7 +254,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-2-1" type="radio" value="It's good">
+                          <input disabled="" name="responsetext-2-1" type="radio" value="It's good">
                           It's good
                         </label>
                       </div>
@@ -262,7 +264,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-2-1" type="radio" value="It's perfect">
+                          <input disabled="" name="responsetext-2-1" type="radio" value="It's perfect">
                           It's perfect
                         </label>
                       </div>
@@ -304,8 +306,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-3-0" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-3-0" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -325,7 +327,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-3-0" type="checkbox" value="It's good">
+                          <input disabled="" name="responsetext-3-0" type="checkbox" value="It's good">
                           It's good
                         </label>
                       </div>
@@ -335,7 +337,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-3-0" type="checkbox" value="It's perfect">
+                          <input disabled="" name="responsetext-3-0" type="checkbox" value="It's perfect">
                           It's perfect
                         </label>
                       </div>
@@ -345,7 +347,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-3-0" type="checkbox" value="">
+                          <input disabled="" name="responsetext-3-0" type="checkbox" value="">
                           <i>
                             None of the above
                           </i>
@@ -363,8 +365,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-3-1" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-3-1" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -384,7 +386,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-3-1" type="checkbox" value="It's good">
+                          <input disabled="" name="responsetext-3-1" type="checkbox" value="It's good">
                           It's good
                         </label>
                       </div>
@@ -394,7 +396,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-3-1" type="checkbox" value="It's perfect">
+                          <input disabled="" name="responsetext-3-1" type="checkbox" value="It's perfect">
                           It's perfect
                         </label>
                       </div>
@@ -404,7 +406,7 @@
                     <td>
                       <div class="checkbox">
                         <label class="bold-label">
-                          <input disabled="disabled" name="responsetext-3-1" type="checkbox" value="">
+                          <input disabled="" name="responsetext-3-1" type="checkbox" value="">
                           <i>
                             None of the above
                           </i>
@@ -448,8 +450,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-4-0" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-4-0" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -464,7 +466,7 @@
             </div>
             <div class="col-sm-10">
               <div class="col-sm-3 mobile-no-padding">
-                <input class="numScaleAnswerBox form-control col-sm-2" disabled="disabled" max="5" min="1" name="responsetext-4-0" onchange="validateNumScaleAnswer(4, 0)" step="0.5" type="number" value="">
+                <input class="numScaleAnswerBox form-control col-sm-2" disabled="" max="5" min="1" name="responsetext-4-0" onchange="validateNumScaleAnswer(4, 0)" step="0.5" type="number" value="">
                 <input name="numscalemin-4-0" type="hidden" value="1">
                 <input name="numscalemax-4-0" type="hidden" value="5">
                 <input name="numscalestep-4-0" type="hidden" value="0.5">
@@ -480,8 +482,8 @@
               <label for="input">
                 To:
               </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="disabled" name="responserecipient-4-1" style="display:none;max-width:125px">
-                <option selected="selected" value="">
+              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-4-1" style="display:none;max-width:125px">
+                <option selected="" value="">
                 </option>
                 <option style="display: none;" value="SFSubmitUiT.instr@gmail.tmt">
                   Teammates Test
@@ -496,7 +498,7 @@
             </div>
             <div class="col-sm-10">
               <div class="col-sm-3 mobile-no-padding">
-                <input class="numScaleAnswerBox form-control col-sm-2" disabled="disabled" max="5" min="1" name="responsetext-4-1" onchange="validateNumScaleAnswer(4, 1)" step="0.5" type="number" value="">
+                <input class="numScaleAnswerBox form-control col-sm-2" disabled="" max="5" min="1" name="responsetext-4-1" onchange="validateNumScaleAnswer(4, 1)" step="0.5" type="number" value="">
                 <input name="numscalemin-4-1" type="hidden" value="1">
                 <input name="numscalemax-4-1" type="hidden" value="5">
                 <input name="numscalestep-4-1" type="hidden" value="0.5">
@@ -512,7 +514,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="disabled" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback">
+      <input class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit" value="Submit Feedback">
     </div>
     <br>
     <br>

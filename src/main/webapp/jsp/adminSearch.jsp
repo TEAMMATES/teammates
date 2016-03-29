@@ -20,5 +20,5 @@
         <adminSearch:studentResultsTable studentResultsTable="${data.studentTable}"/>
     </c:if>
     
-    <t:statusMessage/>
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 </ta:adminPage>

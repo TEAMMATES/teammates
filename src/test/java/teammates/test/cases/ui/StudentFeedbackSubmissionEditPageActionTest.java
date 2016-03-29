@@ -129,7 +129,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         assertEquals("/page/studentHomePage?error=false&user=student1InCourse1",
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The feedback session has been deleted and is no longer accessible.",
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED_NO_ACCESS,
                      redirectResult.getStatusMessage());
 
         // for unregistered student

@@ -367,21 +367,19 @@ public abstract class Action {
         return response;
     }
 
+    /**
+     * Adds the list of status messages from ActionResult into session variables.
+     * @param response ActionResult 
+     */
     protected void putStatusMessageToSession(ActionResult response) {
-        String statusMessageInSession = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
-        String statusMessageColor = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
-        if (statusMessageInSession == null || statusMessageInSession.isEmpty()) {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
-        } else {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession + "<br>"  + response.getStatusMessage());
+        if (statusMessagesToUser == null) {
+            statusMessagesToUser = new ArrayList<StatusMessage>();
         }
         
-        if (statusMessageColor == null || statusMessageColor.isEmpty()) {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, response.getStatusMessageColor());
-        } else {
-            session.setAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR, statusMessageColor);
-        }
+        statusMessagesToUser.addAll(response.statusToUser);
+        session.setAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST, statusMessagesToUser);
     }
 
     /**
@@ -450,6 +448,17 @@ public abstract class Action {
                               requestParameters,
                               statusToUser,
                               pageData);
+    }
+    
+    /**
+     * Generates a {@link AjaxResult} with the information in the {@code pageData}, 
+     * but without removing any status message from the session.
+     */
+    public AjaxResult createAjaxResultWithoutClearingStatusMessage(PageData pageData) {
+        return new AjaxResult(account,
+                              requestParameters,
+                              statusToUser,
+                              pageData, false);
     }
     
     protected boolean isJoinedCourse(String courseId, String googleId) {

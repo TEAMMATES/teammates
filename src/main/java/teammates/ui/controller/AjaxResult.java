@@ -17,6 +17,7 @@ import teammates.common.util.StatusMessage;
 public class AjaxResult extends ActionResult {
 
     public PageData data;
+    public boolean isClearingStatusMessage = true;
     
     public AjaxResult(String destination, 
                       AccountAttributes account, 
@@ -33,11 +34,24 @@ public class AjaxResult extends ActionResult {
         this.data = data;
     }
     
+    public AjaxResult(AccountAttributes account,
+                      Map<String, String[]> parametersFromPreviousRequest,
+                      List<StatusMessage> status, 
+                      PageData data, boolean isClearingStatusMessage) {
+          this(account, parametersFromPreviousRequest, status, data);
+          this.isClearingStatusMessage = isClearingStatusMessage;
+    }
+    
     @Override
     public void send(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         
-        req.setAttribute(Const.ParamsNames.ERROR, "" + isError);        
-        clearStatusMessageForRequest(req);
+        req.setAttribute(Const.ParamsNames.ERROR, "" + isError);
+
+        addStatusMessagesToPageData(req);
+
+        if (isClearingStatusMessage) {
+            clearStatusMessageForRequest(req);
+        }
         
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -45,18 +59,30 @@ public class AjaxResult extends ActionResult {
         
         resp.getWriter().write(jsonData);    
     } 
-    
-    private void clearStatusMessageForRequest(HttpServletRequest req) {
-        String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
-        String statusMessageColor = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR); 
+
+    /**
+     * Adds the list of status messages (if any) to the page data.
+     * @param req HttpServletRequest object
+     */
+    private void addStatusMessagesToPageData(HttpServletRequest req) {
+        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
-        if (statusMessageInSession != null) {
-            //Remove status message in session, thus it becomes an one-time message
-            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        // If the list of status messages can be found in the session and it is not empty,
+        // means there are status messages to be shown to the user, add them to the page data.
+        if (statusMessagesToUser != null && !statusMessagesToUser.isEmpty()) {
+            data.setStatusMessagesToUser(statusMessagesToUser);
         }
+    }
+    
+    /**
+     * Clears the list of status message in session variable.
+     * @param req HttpServeletRequest object
+     */
+    private void clearStatusMessageForRequest(HttpServletRequest req) {
+        List<StatusMessage> statusMessagesToUser = (List<StatusMessage>) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         
-        if (statusMessageColor != null) {
-            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE_COLOR);
+        if (statusMessagesToUser != null) {
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
         }
     }
 }

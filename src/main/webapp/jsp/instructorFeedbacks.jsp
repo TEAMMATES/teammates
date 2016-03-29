@@ -22,7 +22,7 @@
         <feedbacks:loadSessionsTableByAjaxForm fsList="${data.fsList}" />
     </c:if>
     <br>
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     <div id="sessionList" class="align-center">
         <c:if test="${data.usingAjax}"> 
@@ -32,6 +32,6 @@
 
     <ti:remindParticularStudentsModal />
     <feedbacks:copyFromModal copyFromModal="${data.copyFromModal}" />
-    <ti:copyModal />
+    <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
     
 </ti:instructorPage>

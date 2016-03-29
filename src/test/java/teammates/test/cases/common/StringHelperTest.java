@@ -248,10 +248,73 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
     }
+    
+    @Test
+    public void testRemoveEnclosingSquareBrackets() {
+        // typical case
+        assertEquals("test1, test2", StringHelper.removeEnclosingSquareBrackets("[test1, test2]"));
+        
+        // input multiple square brackets, expected outermost brackets removed
+        assertEquals("[ \"test\" ]", StringHelper.removeEnclosingSquareBrackets("[[ \"test\" ]]"));
+        
+        // input nested square brackets, expected outermost brackets removed
+        assertEquals("test1, [], ] test2",
+                     StringHelper.removeEnclosingSquareBrackets("[test1, [], ] test2]"));
+        
+        // input no square brackets, expected same input string
+        assertEquals("test", StringHelper.removeEnclosingSquareBrackets("test"));
+        assertEquals("  test  ", StringHelper.removeEnclosingSquareBrackets("  test  "));
+        
+        // input unmatched brackets, expected same input string 
+        assertEquals("[test", StringHelper.removeEnclosingSquareBrackets("[test"));        
+        assertEquals("(test]", StringHelper.removeEnclosingSquareBrackets("(test]"));
+        
+        // input empty string, expected empty string
+        assertEquals("", StringHelper.removeEnclosingSquareBrackets(""));
+        
+        // input null, expected null
+        assertEquals(null, StringHelper.removeEnclosingSquareBrackets(null));
+    }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
         for(String str : stringsToMatch){
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
         }
+    }
+    
+    @Test
+    public void testCsvToHtmlTable() {
+        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL 
+                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
+                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
+                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL;
+        String htmlText = StringHelper.csvToHtmlTable(csvText);
+        String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">\n"
+                                      + "<tr>"
+                                          + "<td>ColHeader1</td>\n"
+                                          + "<td> ColHeader2</td>\n"
+                                          + "<td> ColHeader3</td>\n"
+                                          + "<td>ColHeader4</td>\n"
+                                      + "</tr>"
+                                      + "<tr>"
+                                          + "<td>Data 1-1</td>\n"
+                                          + "<td> Data 1&quot;2</td>\n"
+                                          + "<td> Data 1,3</td>\n"
+                                          + "<td>Data 1&quot;&quot;4</td>\n"
+                                      + "</tr>"
+                                      + "<tr>"
+                                          + "<td>Data 2-1</td>\n"
+                                          + "<td> Data 2-2</td>\n"
+                                          + "<td> Data 2-3</td>\n"
+                                          + "<td>Data 2-4&quot;</td>\n"
+                                      + "</tr>"
+                                      + "<tr>"
+                                          + "<td>Data 3-1</td>\n"
+                                          + "<td> Data 3-2</td>\n"
+                                          + "<td> Data 3-3</td>\n"
+                                          + "<td>Data 3-4</td>\n"
+                                      + "</tr>"
+                                  + "</table>";
+        assertEquals(expectedHtmlText, htmlText);
     }
 }

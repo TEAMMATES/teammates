@@ -29,6 +29,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
@@ -263,7 +264,8 @@ public class StudentsLogic {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
         
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments, hasDocument);    
+        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section, 
+                                 student.email, student.googleId, student.comments, hasDocument, false);    
         
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
@@ -288,7 +290,7 @@ public class StudentsLogic {
         }     
         studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name, 
                                  originalStudent.team, originalStudent.section, originalStudent.email, 
-                                 originalStudent.googleId, originalStudent.comments, hasDocument);  
+                                 originalStudent.googleId, originalStudent.comments, hasDocument, false);  
     }
 
     public List<StudentAttributes> enrollStudents(String enrollLines,
@@ -472,7 +474,7 @@ public class StudentsLogic {
 
         String errorMessage = "";
         for(String team : invalidTeamList){
-            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, team);
+            errorMessage += String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, Sanitizer.sanitizeForHtml(team));
         }
         if(!errorMessage.equals("")){
             errorMessage += "Please use the enroll page to edit multiple students";
@@ -683,6 +685,7 @@ public class StudentsLogic {
         
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
+            String sanitizedLine = Sanitizer.sanitizeForHtml(line);
             try {
                 if (StringHelper.isWhiteSpace(line)) {
                     continue;
@@ -690,20 +693,20 @@ public class StudentsLogic {
                 StudentAttributes student = saf.makeStudent(line, courseId);
                 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(student.getInvalidityInfo(),
+                    String info = StringHelper.toString(Sanitizer.sanitizeForHtml(student.getInvalidityInfo()),
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
+                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
                 
                 if (isStudentEmailDuplicated(student.email, studentEmailList)){
                     String info = StringHelper.toString(getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList,linesArray), 
                                                     "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, info));
+                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
                 }
                 
                 studentEmailList.add(student.email);
             } catch (EnrollException e) {
-                String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, line, e.getMessage());
+                String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, e.getMessage());
                 invalidityInfo.add(info);
             }
         }

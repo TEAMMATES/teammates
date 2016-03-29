@@ -611,6 +611,17 @@ public class BackDoor {
         return feedbackResponseJson;
     }
     
+    public static String deleteFeedbackResponse(String feedbackQuestionId,
+                                              String giverEmail, 
+                                              String recipient) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_RESPONSE);
+        params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
+        params.put(BackDoorServlet.PARAMETER_GIVER_EMAIL, giverEmail);
+        params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipient);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+    
     @SuppressWarnings("unused")
     private void ____helper_methods______________________________() {
     }

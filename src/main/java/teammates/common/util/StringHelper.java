@@ -373,7 +373,7 @@ public class StringHelper {
             
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", td));
+                result.append(String.format("<td>%s</td>\n", Sanitizer.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }
@@ -413,8 +413,12 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                inquote = !inquote;
-                continue;
+                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                    i++;
+                } else {
+                    inquote = !inquote;
+                    continue;
+                }
             }
             
             if (chars[i] == ',') {    
@@ -507,5 +511,39 @@ public class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
-    }  
+    }
+    
+    /**
+     * Removes the outermost enclosing square brackets surrounding a string.
+     * 
+     * @param str
+     * @return the string without the outermost enclosing square brackets
+     *         if the given string is enclosed by square brackets <br/> 
+     *         the string itself if the given string is not enclosed by square brackets <br/>
+     *         null if the given string is null
+     */
+    public static String removeEnclosingSquareBrackets(String str) {
+        if (str == null) {
+            return null;
+        }
+        
+        if (!str.startsWith("[") || !str.endsWith("]")) {
+            return str;
+        }
+        
+        return str.substring(1, str.length() - 1);
+    }
+	
+    /**
+     * Returns a String array after removing white spaces leading and
+     * trailing any string in the input array.
+     */
+    public static String[] trim(String[] stringsToTrim) {
+        String[] stringsAfterTrim = new String[stringsToTrim.length];
+        int i = 0;
+        for (String stringToTrim : stringsToTrim) {
+            stringsAfterTrim[i++] = stringToTrim.trim();
+        }
+        return stringsAfterTrim;
+    }
 }

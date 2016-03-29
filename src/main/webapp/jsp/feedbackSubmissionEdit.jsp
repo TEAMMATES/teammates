@@ -17,7 +17,7 @@
     </c:otherwise>
 </c:choose>
 
-<t:statusMessage />
+<t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 <feedbackSubmissionEdit:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
 
 <c:if test="${data.moderation}">

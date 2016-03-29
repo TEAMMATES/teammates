@@ -45,7 +45,7 @@
                   <b>
                     to
                   </b>
-                     Sat, 30 Apr 2016, 11:59 PM
+                     Thu, 30 Apr 2026, 11:59 PM
                 </p>
               </div>
             </div>
@@ -55,7 +55,7 @@
               </label>
               <div class="col-lg-8">
                 <p class="form-control-static">
-                  Sun, 01 May 2016, 11:59 PM
+                  Fri, 01 May 2026, 11:59 PM
                 </p>
               </div>
             </div>
@@ -74,7 +74,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" onclick="return togglePublishEvaluation('Second Session', true);" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
                     Publish Results
                   </a>
                 </div>
@@ -148,7 +148,7 @@
               </label>
               <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
                 <select class="form-control" id="viewSelect" name="frsorttype" onchange="this.form.submit()">
-                  <option selected="selected" value="question">
+                  <option selected="" value="question">
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
@@ -195,7 +195,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -213,7 +213,7 @@
                   <option value="All">
                     All
                   </option>
-                  <option selected="selected" value="Section A">
+                  <option selected="" value="Section A">
                     Section A
                   </option>
                   <option value="Section B">
@@ -239,8 +239,10 @@
     <input name="user" type="hidden" value="CFResultsUiT.instr">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-default">
@@ -398,20 +400,20 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -434,7 +436,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -443,7 +445,7 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -739,20 +741,20 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -778,7 +780,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -787,7 +789,7 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1040,10 +1042,10 @@
                   <tbody>
                     <tr>
                       <td>
-                        Team 1
+                        Team 1</td></div>'"
                       </td>
                       <td>
-                        Alice Betsy
+                        Alice Betsy</td>'"
                       </td>
                       <td>
                         3.5
@@ -1100,20 +1102,20 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -1132,7 +1134,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1141,7 +1143,7 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1450,20 +1452,20 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -1489,7 +1491,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1498,7 +1500,7 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1754,7 +1756,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Team 1
+                        Team 1</td></div>'"
                       </td>
                       <td>
                         Benny Charles
@@ -1782,10 +1784,10 @@
                     </tr>
                     <tr>
                       <td>
-                        Team 1
+                        Team 1</td></div>'"
                       </td>
                       <td>
-                        Alice Betsy
+                        Alice Betsy</td>'"
                       </td>
                       <td>
                         110
@@ -1839,20 +1841,20 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -1871,16 +1873,16 @@
               </tr>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1903,11 +1905,11 @@
               </tr>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -1935,11 +1937,11 @@
               </tr>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -1967,7 +1969,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -1976,11 +1978,11 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -2001,7 +2003,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -2010,7 +2012,7 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -2677,62 +2679,6 @@
                   <tbody>
                     <tr id="student<%=idx%>">
                       <td>
-                        Team 1
-                      </td>
-                      <td id="studentname">
-                        Alice Betsy
-                      </td>
-                      <td>
-                        <span class="color-positive">
-                          E +11%
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr id="student<%=idx%>">
-                      <td>
-                        Team 1
-                      </td>
-                      <td id="studentname">
-                        Benny Charles
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral">
-                          E
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral">
-                          E
-                        </span>
-                      </td>
-                    </tr>
-                    <tr id="student<%=idx%>">
-                      <td>
                         Team 2
                       </td>
                       <td id="studentname">
@@ -2875,6 +2821,62 @@
                         </span>
                       </td>
                     </tr>
+                    <tr id="student<%=idx%>">
+                      <td>
+                        Team 1</td></div>'"
+                      </td>
+                      <td id="studentname">
+                        Alice Betsy</td>'"
+                      </td>
+                      <td>
+                        <span class="color-positive">
+                          E +11%
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr id="student<%=idx%>">
+                      <td>
+                        Team 1</td></div>'"
+                      </td>
+                      <td id="studentname">
+                        Benny Charles
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral">
+                          E
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral">
+                          E
+                        </span>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -2920,20 +2922,20 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -2961,16 +2963,16 @@
               </tr>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -2995,7 +2997,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -3004,11 +3006,11 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -3029,7 +3031,7 @@
               </tr>
               <tr class="pending_response_row">
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -3038,7 +3040,7 @@
                   </div>
                 </td>
                 <td class="middlealign color_neutral">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign color_neutral">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
@@ -3697,19 +3699,19 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Anonymous student 227201833's Team
+                  Anonymous student 25643809's Team
                 </td>
                 <td class="middlealign">
-                  Anonymous student 227201833
+                  Anonymous student 25643809
                 </td>
                 <td class="text-preserve-space">
                   3
@@ -3726,11 +3728,11 @@
               </tr>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -4024,62 +4026,6 @@
                   <tbody>
                     <tr id="student<%=idx%>">
                       <td>
-                        Anonymous student 227201833's Team
-                      </td>
-                      <td id="studentname">
-                        Anonymous student 227201833
-                      </td>
-                      <td>
-                        <span class="color-positive">
-                          E +11%
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                    </tr>
-                    <tr id="student<%=idx%>">
-                      <td>
-                        Anonymous student 410339386's Team
-                      </td>
-                      <td id="studentname">
-                        Anonymous student 410339386
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral">
-                          E
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
-                          N/A
-                        </span>
-                      </td>
-                      <td>
-                        <span class="color_neutral">
-                          E
-                        </span>
-                      </td>
-                    </tr>
-                    <tr id="student<%=idx%>">
-                      <td>
                         Anonymous student 27458453's Team
                       </td>
                       <td id="studentname">
@@ -4222,6 +4168,62 @@
                         </span>
                       </td>
                     </tr>
+                    <tr id="student<%=idx%>">
+                      <td>
+                        Anonymous student 25643809's Team
+                      </td>
+                      <td id="studentname">
+                        Anonymous student 25643809
+                      </td>
+                      <td>
+                        <span class="color-positive">
+                          E +11%
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                    </tr>
+                    <tr id="student<%=idx%>">
+                      <td>
+                        Anonymous student 410339386's Team
+                      </td>
+                      <td id="studentname">
+                        Anonymous student 410339386
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral">
+                          E
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral" data-container="body" data-original-title="Not Available: There is no data for this or the data is not enough" data-placement="top" data-toggle="tooltip" title="">
+                          N/A
+                        </span>
+                      </td>
+                      <td>
+                        <span class="color_neutral">
+                          E
+                        </span>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -4267,19 +4269,19 @@
             <tbody>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
                 <td class="middlealign">
-                  Anonymous student 227201833's Team
+                  Anonymous student 25643809's Team
                 </td>
                 <td class="middlealign">
-                  Anonymous student 227201833
+                  Anonymous student 25643809
                 </td>
                 <td class="text-preserve-space">
                   <span class="color_neutral">
@@ -4298,11 +4300,11 @@
               </tr>
               <tr>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                    Alice Betsy
+                    Alice Betsy</td>'"
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                   </div>
                 </td>
@@ -4403,12 +4405,12 @@
                 <td class="middlealign">
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="text-preserve-space">
                   Response from benny to Team 1 (own team)
@@ -4419,7 +4421,7 @@
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestion" type="hidden" value="11">
-                    <input name="moderatedstudent" type="hidden" value="Team 1">
+                    <input name="moderatedstudent" type="hidden" value="Team 1</td></div>'&quot;">
                   </form>
                 </td>
               </tr>
@@ -4579,7 +4581,7 @@
                 <td class="middlealign">
                 </td>
                 <td class="middlealign">
-                  Team 1
+                  Team 1</td></div>'"
                 </td>
                 <td class="middlealign">
                   -
@@ -4596,7 +4598,7 @@
                     <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                     <input name="fsname" type="hidden" value="Second Session">
                     <input name="moderatedquestion" type="hidden" value="12">
-                    <input name="moderatedstudent" type="hidden" value="Team 1">
+                    <input name="moderatedstudent" type="hidden" value="Team 1</td></div>'&quot;">
                   </form>
                 </td>
               </tr>

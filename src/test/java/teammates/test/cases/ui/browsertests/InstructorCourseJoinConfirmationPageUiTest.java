@@ -112,7 +112,6 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         confirmationPage.verifyHtml("/instructorCourseJoinConfirmationHTML.html");
         
         instructorHome = confirmationPage.clickConfirmButton();
-        instructorHome.verifyStatus("");
         
         ______TS("Already joined, no confirmation page");
                 

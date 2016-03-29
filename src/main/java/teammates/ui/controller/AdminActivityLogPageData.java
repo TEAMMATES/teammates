@@ -12,6 +12,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
@@ -265,9 +266,7 @@ public class AdminActivityLogPageData extends PageData {
         query = query.replaceAll(", ", ",");
         query = query.replaceAll(": ", ":");
         String[] tokens = query.split("\\|", -1); 
-       
-        System.out.print(tokens.length);
-        
+         
         for (int i = 0; i < tokens.length; i++) {           
             String[] pair = tokens[i].split(":", -1);
             
@@ -276,7 +275,8 @@ public class AdminActivityLogPageData extends PageData {
             }
             
             String[] values = pair[1].split(",", -1);
-            String label = pair[0];
+            values = StringHelper.trim(values);
+            String label = pair[0].trim();
             
             if (label.equals("version")) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
@@ -510,6 +510,7 @@ public class AdminActivityLogPageData extends PageData {
     public boolean isFromDateSpecifiedInQuery() {
         return isFromDateSpecifiedInQuery;
     }
+  
 
     
 }

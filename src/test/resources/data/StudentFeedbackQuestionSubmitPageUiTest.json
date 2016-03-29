@@ -29,8 +29,25 @@
             "name":"Teammates Test",
             "email":"SFQSubmitUiT.instr@gmail.tmt",
             "role":"Co-owner",
+            "isDisplayedToStudents":true,
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         }
     },
     "students":{
@@ -38,9 +55,9 @@
             "googleId":"SFQSubmitUiT.alice.b",
             "email":"SFQSubmitUiT.alice.b@gmail.tmt",
             "course":"SFQSubmitUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "name":"Alice Betsy</option></td></div>'\"",
+            "comments":"This student's name is Alice Betsy</option></td></div>'\"",
+            "team":"Team 1</td></div>'\""
         },
         "Unregistered":{
             "googleId":"",
@@ -48,7 +65,7 @@
             "course":"SFQSubmitUiT.CS2104",
             "name":"Unregistered Charles",
             "comments":"This student's name is Unreg Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         }
     },
     "feedbackSessions":{
@@ -61,9 +78,9 @@
             },
             "createdTime":"2012-04-01 11:59 PM UTC",
             "startTime":"2012-04-01 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
+            "endTime":"2026-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2026-05-01 11:59 PM UTC",
             "timeZone":8.0,
             "gracePeriod":10,
             "feedbackSessionType":"STANDARD",
@@ -81,7 +98,7 @@
             "startTime":"2012-04-02 11:59 PM UTC",
             "endTime":"2012-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2016-05-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2026-05-01 11:59 PM UTC",
             "timeZone":8.0,
             "gracePeriod":20,
             "feedbackSessionType":"STANDARD",
