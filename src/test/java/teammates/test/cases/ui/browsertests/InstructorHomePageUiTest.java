@@ -304,54 +304,36 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("publish action: OPEN feedback session");
         
         homePage.clickFeedbackSessionPublishLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-
-        //go back to previous page because 'publish' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
 
         ______TS("unpublish action: OPEN feedback session");
         
         homePage.clickFeedbackSessionUnpublishLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-
-        //go back to previous page because 'unpublish' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
 
         ______TS("publish action: CLOSED feedback session");
         
         homePage.clickFeedbackSessionPublishLink(feedbackSession_CLOSED.courseId, feedbackSession_CLOSED.feedbackSessionName);
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-
-        //go back to previous page because 'publish' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
 
         ______TS("unpublish action: CLOSED feedback session");
         
         homePage.clickFeedbackSessionUnpublishLink(feedbackSession_CLOSED.courseId, feedbackSession_CLOSED.feedbackSessionName);
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-
-        //go back to previous page because 'unpublish' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("unpublish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionUnpublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        
-        //go back to previous page because 'unpublish' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
 
         ______TS("publish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionPublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
-        ThreadHelper.waitFor(1000);
+        homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-        
-        //go back to previous page because 'publish' redirects to the 'Feedbacks' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
     }
     
     public void testArchiveCourseAction() throws Exception {
