@@ -196,7 +196,8 @@ public class InstructorFeedbacksPageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, false,
+            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, 
+                                                                                           Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                                                            instructors.get(courseId));
             
             ElementTag elementAttributes ;

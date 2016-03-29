@@ -76,7 +76,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.courseId, fsa.feedbackSessionName, "");
+        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.courseId, fsa.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
         
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings, 
