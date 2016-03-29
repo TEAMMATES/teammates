@@ -34,8 +34,6 @@ public class InstructorFeedbackSessionActions {
                                             InstructorAttributes instructor) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
-        String returnUrl = isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                                  : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
 
         this.privateSession = session.isPrivateSession();
 
