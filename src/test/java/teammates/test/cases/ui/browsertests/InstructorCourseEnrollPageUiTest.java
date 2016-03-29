@@ -101,7 +101,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         enrollString = "Section | Team | Name | Email | Comments\n";
         // Modify team for student within section
-        enrollString += "Section 1| Team 4 | Alice Betsy | alice.b.tmms@gmail.tmt | This comment has been changed\n";
+        enrollString += "Section 1| Team 4 | Alice Betsy</textarea><textarea>'\" | alice.b.tmms@gmail.tmt | This comment has been changed\n";
         // Modify section and team
         enrollString += "Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.tmt |\n";
         // A student with no comment
@@ -140,9 +140,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
         
         enrollString = "| Name | Email | | Team | Comments\n";
-        enrollString += "|Alice Betsy | alice.b.tmms@gmail.tmt || Team 1 | This comment has been changed\n";
+        enrollString += "|Alice Betsy</option></td></div>'\" | alice.b.tmms@gmail.tmt || Team 1</option></td></div>'\" | This comment has been changed\n";
         // A student with no comment
-        enrollString += "|Frank Galoe | frank.g.tmms@gmail.tmt || Team 1 |\n";
+        enrollString += "|Frank Galoe | frank.g.tmms@gmail.tmt || Team 1</option></td></div>'\" |\n";
         // A new student with name containing accented characters
         enrollString += "|José Gómez | jose.gomez.tmns@gmail.tmt || Team 3 | This student name contains accented characters\n";
                 
@@ -170,10 +170,10 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
         enrollString = "Section | Team | Name | Email | Comments\n";
-        enrollString += "Different Section | Team 1 | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
+        enrollString += "Different Section | Team 1</option></td></div>'\" | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The team \"Team 1\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections."
+        enrollPage.verifyStatus("The team \"Team 1</option></td></div>'\"\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections."
                 + "\nPlease use the enroll page to edit multiple students");
 
         ______TS("enroll action: fail to enroll due to invalid header");
@@ -208,7 +208,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         // A new student with no email input
         enrollString += "Team 3 | Frank Hughe\n";
         // A new student with invalid email input
-        enrollString += "Team 1 | Black Jack | bjack.gmail.tmt | This student email is invalid\n";
+        enrollString += "Team 1</option></td></div>'\" | Black Jack | bjack.gmail.tmt | This student email is invalid\n";
         // A new student with invalid team name
         enrollString += StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
                         + " | Robert Downey | rob@email.tmt | This student team name is too long\n";

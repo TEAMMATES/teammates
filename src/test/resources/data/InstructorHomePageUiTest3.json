@@ -57,27 +57,75 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "CHomeUiT.helper.CS1101":{
             "googleId":"CHomeUiT.instructor.tmms.helper",
             "courseId":"CHomeUiT.CS1101",
             "name":"Teammates Test Helper",
             "email":"CHomeUiT.instructor.tmms.helper@gmail.tmt",
-            "role":"Helper",
+            "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "CHomeUiT.instr.CS1101":{
             "googleId":"CHomeUiT.instructor.tmms",
             "courseId":"CHomeUiT.CS1101",
             "name":"Teammates Test",
             "email":"CHomeUiT.instructor.tmms@gmail.tmt",
-            "role":"Helper",
+            "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": false,
+                    \"cangivecommentinsection\": false,
+                    \"cansubmitsessioninsection\": false,
+                    \"canmodifysessioncommentinsection\": false,
+                    \"canmodifycommentinsection\": false,
+                    \"canmodifycourse\": false,
+                    \"canviewsessioninsection\": false,
+                    \"canmodifysession\": false,
+                    \"canviewcommentinsection\": false,
+                    \"canmodifystudent\": false,
+                    \"canmodifyinstructor\": false
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "CHomeUiT.instr.Sample":{
             "googleId":"newIns.withSample",
@@ -87,7 +135,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         }
     },
     "students":{
@@ -95,9 +159,9 @@
             "googleId":"CHomeUiT.alice.b.tmms",
             "email":"CHomeUiT.alice.b.tmms@gmail.tmt",
             "course":"CHomeUiT.CS2104",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "name":"Alice Betsy</td></div>'\"",
+            "comments":"This student's name is Alice Betsy</td></div>'\"",
+            "team":"Team 1</td></div>'\""
         },
         "CHomeUiT.benny.c.tmms@CHomeUiT.CS2104":{
             "googleId":"CHomeUiT.benny.c.tmms",
@@ -105,7 +169,7 @@
             "course":"CHomeUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "CHomeUiT.charlie.d.tmms@CHomeUiT.CS2104":{
             "googleId":"CHomeUiT.charlie.d.tmms",
@@ -127,9 +191,9 @@
             "googleId":"CHomeUiT.alice.b.tmms",
             "email":"CHomeUiT.alice.b.tmms@gmail.tmt",
             "course":"CHomeUiT.CS1101",
-            "name":"Alice Betsy",
-            "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "name":"Alice Betsy</td></div>'\"",
+            "comments":"This student's name is Alice Betsy</td></div>'\"",
+            "team":"Team 1</td></div>'\""
         },
         "CHomeUiT.benny.c.tmms@CHomeUiT.CS1101":{
             "googleId":"CHomeUiT.benny.c.tmms",
@@ -137,7 +201,7 @@
             "course":"CHomeUiT.CS1101",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1</td></div>'\""
         },
         "CHomeUiT.charlie.d.tmms@CHomeUiT.CS1101":{
             "googleId":"CHomeUiT.charlie.d.tmms",

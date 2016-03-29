@@ -315,4 +315,7 @@ $(document).ready(function() {
 
     var panels = $('div.panel');
     bindCollapseEvents(panels, 0);
+    
+    bindPublishButtons();
+    bindUnpublishButtons();
 });
