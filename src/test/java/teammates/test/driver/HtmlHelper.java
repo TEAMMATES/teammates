@@ -392,8 +392,6 @@ public class HtmlHelper {
                       .replaceAll("responseCommentRow-" + REGEX_COMMENT_ID, "responseCommentRow-\\${comment\\.id}")
                       .replaceAll("commentBar-" + REGEX_COMMENT_ID, "commentBar-\\${comment\\.id}")
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
-                      // today's date
-                      .replace(TimeHelper.formatDate(now), "${today}")
                       // edge case: calling TimeHelper.getNextHour() between 2300h-0000h UTC gives next day's date
                       .replace(dateOfNextHour, "${today}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
@@ -446,7 +444,7 @@ public class HtmlHelper {
                       .replace("<!-- test.admin -->", TP.TEST_ADMIN_ACCOUNT)
                       .replace("<!-- test.admin.truncated -->",
                                StringHelper.truncateLongId(TP.TEST_ADMIN_ACCOUNT))
-                      .replace("<!-- now.date -->", TimeHelper.formatDate(now))
+                      .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now));
     }
