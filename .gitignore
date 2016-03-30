@@ -15,7 +15,7 @@ chromedriver*
 *.bak
 *.db
 *.md.html
-*.project
+libs/
 
 .launches/TM - Start dev server.launch
 test-output/*

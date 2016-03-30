@@ -2,9 +2,11 @@ apply plugin: "war"
 apply plugin: "appengine"
 
 def appengineVersion = "1.9.27"
-def numOfTestRetries = 5
+def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
+def libUrl = "http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.60.zip"
+def libPath = "libs/libs.zip"
 
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
@@ -24,6 +26,22 @@ task copyTemplates << {
             rename '(.*).template(.*)', '$1$2'
         }
     }
+}
+
+task downloadLibs {
+    doFirst {
+        def currentDependencies = file(libPath)
+        currentDependencies.getParentFile().mkdirs()
+        new URL(libUrl).withInputStream{i -> currentDependencies.withOutputStream{ it << i }}
+    }
+}
+
+task updateLibs(type: Copy) {
+    def zipFile = file(libPath)
+    def outputDir = projectDir
+    from zipTree(zipFile)
+    into outputDir
+    dependsOn downloadLibs
 }
 
 compileJava.dependsOn copyTemplates
@@ -275,109 +293,109 @@ task generateFailedCmd(type: Exec) {
 
 defaultTasks "appengineRun", "travisTests", "appengineStop"
 
-// LOCAL TEST TASKS
+// LOCAL TEST TASKS (NOT USED CURRENTLY)
 
-def testTasksMap = [
-    "staging": [
-        "xml": "src/test/testng-travis.xml",
-        "names": "component-tests,sequential-ui-tests,parallel-ui-tests"
-    ],
-    "local": [
-        "xml": "src/test/testng-local.xml",
-        "names": "smoke-tests,unstable-tests"
-    ]
-]
-
-testTasksMap.each { taskNamePrefix, testParams ->
-    task "${taskNamePrefix}Tests"(type: JavaExec) {
-        doFirst {
-            classpath = sourceSets.test.runtimeClasspath
-            main = "org.testng.TestNG"
-            args "-configfailurepolicy", "continue"
-            args "-testnames", testParams["names"]
-            args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
-            args testParams["xml"]
-            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
-        }
-        dependsOn "appengineRun", "cleanTestOutput"
-        finalizedBy "appengineStop", "testOutput"
-    }
-}
-
-task cleanTestOutput {
-    doFirst {
-        def testOutputDir = new File("test-output")
-        testOutputDir.deleteDir()
-    }
-    outputs.upToDateWhen { false }
-}
-clean.dependsOn cleanTestOutput
-
-task testOutput(type: Exec) {
-    onlyIf {
-        file("test-output/testng-failed.xml").exists()
-    }
-    doFirst {
-        if (isWindows) {
-            commandLine "cmd", "/c", "start", "test-output/emailable-report.html"
-        } else {
-            commandLine "open", "-a", "Google Chrome", "test-output/emailable-report.html"
-        }
-    }
-    ignoreExitValue = true
-    outputs.upToDateWhen { false }
-}
-
-task manualTests(type: JavaExec) {
-    onlyIf {
-        project.hasProperty("test_classes")
-    }
-    doFirst {
-        classpath = sourceSets.test.runtimeClasspath
-        main = "org.testng.TestNG"
-        args "-configfailurepolicy", "continue"
-        args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
-        args "-testclass", test_classes
-        if (project.hasProperty("god_mode")) {
-            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
-        } else {
-            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
-        }
-    }
-    dependsOn "appengineRun", "cleanTestOutput"
-    finalizedBy "appengineStop", "testOutput"
-}
-
-task failedTests(type: JavaExec) {
-    onlyIf {
-        file("test-output/testng-failed.xml").exists()
-    }
-    doFirst {
-        classpath = sourceSets.test.runtimeClasspath
-        main = "org.testng.TestNG"
-        args "-configfailurepolicy", "continue"
-        args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
-        args "test-output/testng-failed.xml"
-        if (project.hasProperty("god_mode")) {
-            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
-        } else {
-            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
-        }
-    }
-    dependsOn "appengineRun"
-    finalizedBy "appengineStop", "testOutput"
-}
-
-task failedTestsFromTravis(type: Exec) {
-    dependsOn "cleanTestOutput"
-    onlyIf {
-        project.hasProperty("gist")
-    }
-    doFirst {
-        commandLine "gist", "-r", gist
-        def testDir = new File("test-output/")
-        testDir.mkdirs()
-        standardOutput = new FileOutputStream("test-output/testng-failed.xml")
-    }
-    finalizedBy "failedTests"
-}
+// def testTasksMap = [
+//     "staging": [
+//         "xml": "src/test/testng-travis.xml",
+//         "names": "component-tests,sequential-ui-tests,parallel-ui-tests"
+//     ],
+//     "local": [
+//         "xml": "src/test/testng-local.xml",
+//         "names": "smoke-tests,unstable-tests"
+//     ]
+// ]
+//
+// testTasksMap.each { taskNamePrefix, testParams ->
+//     task "${taskNamePrefix}Tests"(type: JavaExec) {
+//         doFirst {
+//             classpath = sourceSets.test.runtimeClasspath
+//             main = "org.testng.TestNG"
+//             args "-configfailurepolicy", "continue"
+//             args "-testnames", testParams["names"]
+//             args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+//             args testParams["xml"]
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+//         }
+//         dependsOn "appengineRun", "cleanTestOutput"
+//         finalizedBy "appengineStop", "testOutput"
+//     }
+// }
+//
+// task cleanTestOutput {
+//     doFirst {
+//         def testOutputDir = new File("test-output")
+//         testOutputDir.deleteDir()
+//     }
+//     outputs.upToDateWhen { false }
+// }
+// clean.dependsOn cleanTestOutput
+//
+// task testOutput(type: Exec) {
+//     onlyIf {
+//         file("test-output/testng-failed.xml").exists()
+//     }
+//     doFirst {
+//         if (isWindows) {
+//             commandLine "cmd", "/c", "start", "test-output/emailable-report.html"
+//         } else {
+//             commandLine "open", "-a", "Google Chrome", "test-output/emailable-report.html"
+//         }
+//     }
+//     ignoreExitValue = true
+//     outputs.upToDateWhen { false }
+// }
+//
+// task manualTests(type: JavaExec) {
+//     onlyIf {
+//         project.hasProperty("test_classes")
+//     }
+//     doFirst {
+//         classpath = sourceSets.test.runtimeClasspath
+//         main = "org.testng.TestNG"
+//         args "-configfailurepolicy", "continue"
+//         args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+//         args "-testclass", test_classes
+//         if (project.hasProperty("god_mode")) {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+//         } else {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+//         }
+//     }
+//     dependsOn "appengineRun", "cleanTestOutput"
+//     finalizedBy "appengineStop", "testOutput"
+// }
+//
+// task failedTests(type: JavaExec) {
+//     onlyIf {
+//         file("test-output/testng-failed.xml").exists()
+//     }
+//     doFirst {
+//         classpath = sourceSets.test.runtimeClasspath
+//         main = "org.testng.TestNG"
+//         args "-configfailurepolicy", "continue"
+//         args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+//         args "test-output/testng-failed.xml"
+//         if (project.hasProperty("god_mode")) {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+//         } else {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+//         }
+//     }
+//     dependsOn "appengineRun"
+//     finalizedBy "appengineStop", "testOutput"
+// }
+//
+// task failedTestsFromTravis(type: Exec) {
+//     dependsOn "cleanTestOutput"
+//     onlyIf {
+//         project.hasProperty("gist")
+//     }
+//     doFirst {
+//         commandLine "gist", "-r", gist
+//         def testDir = new File("test-output/")
+//         testDir.mkdirs()
+//         standardOutput = new FileOutputStream("test-output/testng-failed.xml")
+//     }
+//     finalizedBy "failedTests"
+// }
