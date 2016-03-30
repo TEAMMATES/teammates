@@ -96,10 +96,8 @@ task downloadFailedXml {
         new URL(downloadUrl).withInputStream{i -> failedXml.withOutputStream{ it << i }}
     }
     doLast {
-        logger.lifecycle("""
-        The failed xml has been downloaded successfully.
-        You can now run the failed tests from Eclipse.
-        """)
+        logger.lifecycle("The failed xml has been downloaded successfully.")
+        logger.lifecycle("You can now run the failed tests from Eclipse.")
     }
     dependsOn cleanTestOutput
 }
@@ -340,11 +338,9 @@ task generateFailedCmd(type: Exec) {
     doLast {
         def gistUrl = os.toString()
         def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1)
-        logger.lifecycle("""
-        Run failed tests locally using
-        ./gradlew -Pgist=${gistHash} downloadFailedXml
-        followed by running \"Failed tests\" in Eclipse
-        """)
+        logger.lifecycle("Run failed tests locally using")
+        logger.lifecycle("./gradlew -Pgist=${gistHash} downloadFailedXml")
+        logger.lifecycle("followed by running \"Failed tests\" in Eclipse")
     }
 }
 
