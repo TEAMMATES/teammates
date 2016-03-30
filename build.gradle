@@ -5,17 +5,21 @@ def appengineVersion = "1.9.27"
 def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
-def libUrl = "http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.60.zip"
-def libPath = "libs/libs.zip"
+def libsVersion = "5.60"
+def libUrl = "http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV${libsVersion}.zip"
+def libPath = "libs/libsV${libsVersion}.zip"
+def failedXmlPath = "test-output/testng-failed.xml"
+def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
 
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
-task copyTemplates << {
+task copyTemplateConfigs << {
     def templatesToCopy = [
         "src/main/resources/build.template.properties",
         "src/test/resources/test.template.properties",
-        "src/main/webapp/WEB-INF/appengine-web.template.xml"
+        "src/main/webapp/WEB-INF/appengine-web.template.xml",
+        ".settings/com.google.gdt.eclipse.core.template.prefs"
     ]
     templatesToCopy.findAll {
         !file(it.replace(".template", "")).exists()
@@ -28,7 +32,25 @@ task copyTemplates << {
     }
 }
 
+task populateProjectDir << {
+    def filesToPopulate = [
+        ".settings/com.google.gdt.eclipse.core.template.prefs"
+    ]
+    filesToPopulate.each { filename -> 
+        filename = filename.replace(".template", "")
+        def filecontents = file(filename).getText('UTF-8')
+        file(filename).text = filecontents.replaceAll(/\*/, projectDir.canonicalPath)
+    }
+}
+
+task createConfigs {
+    dependsOn copyTemplateConfigs, populateProjectDir
+}
+
 task downloadLibs {
+    onlyIf {
+        !file(libPath).exists()
+    }
     doFirst {
         def currentDependencies = file(libPath)
         currentDependencies.getParentFile().mkdirs()
@@ -37,15 +59,51 @@ task downloadLibs {
 }
 
 task updateLibs(type: Copy) {
-    def zipFile = file(libPath)
-    def outputDir = projectDir
-    from zipTree(zipFile)
-    into outputDir
+    doFirst {
+        def zipFile = file(libPath)
+        def outputDir = projectDir
+        from zipTree(zipFile)
+        into outputDir
+    }
     dependsOn downloadLibs
 }
 
-compileJava.dependsOn copyTemplates
-compileTestJava.dependsOn copyTemplates
+task setUp {
+    dependsOn updateLibs, createConfigs
+}
+
+compileJava.dependsOn copyTemplateConfigs
+compileTestJava.dependsOn copyTemplateConfigs
+
+task cleanTestOutput {
+    doFirst {
+        def testOutputDir = file("test-output")
+        testOutputDir.deleteDir()
+    }
+    outputs.upToDateWhen { false }
+}
+clean.dependsOn cleanTestOutput
+
+
+task downloadFailedXml {
+    onlyIf {
+        project.hasProperty("gist")
+    }
+    doFirst {
+        def failedXml = file(failedXmlPath)
+        failedXml.getParentFile().mkdirs()
+        def downloadUrl = failedXmlUrl.replace(/gist_id/, project.getProperty("gist"))
+        new URL(downloadUrl).withInputStream{i -> failedXml.withOutputStream{ it << i }}
+    }
+    doLast {
+        logger.lifecycle("""
+        The failed xml has been downloaded successfully.
+        You can now run the failed tests from Eclipse.
+        """)
+    }
+    dependsOn cleanTestOutput
+}
+
 
 buildscript {
     repositories {
@@ -287,7 +345,10 @@ task generateFailedCmd(type: Exec) {
     doLast {
         def gistUrl = os.toString()
         def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1)
-        logger.lifecycle("Run failed tests locally: ./gradlew -Pgist=${gistHash} failedTestsFromTravis")
+        logger.lifecycle("""
+        Run failed tests locally using \"./gradlew -Pgist=${gistHash} downloadFailedXml\"
+        followed by running \"Failed tests\" in Eclipse
+        """)
     }
 }
 
