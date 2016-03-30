@@ -77,6 +77,7 @@
             <class name="teammates.test.cases.ui.browsertests.FeedbackRankQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEditStudentFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditCopyUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" />
