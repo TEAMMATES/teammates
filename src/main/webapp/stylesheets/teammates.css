@@ -220,6 +220,19 @@ h2.subcaption {
     font-size: 20px;
 }
 
+.totalCount {
+	color: #e46d0b;
+    font-size: 20px;
+}
+
+.lastUpdate {
+	position: relative; 
+	bottom: 20px; 
+	left: 600px; 
+	width: 200px; 
+	text-align:right;
+}
+
 .overviewByte {
     padding: 10px;
 }
