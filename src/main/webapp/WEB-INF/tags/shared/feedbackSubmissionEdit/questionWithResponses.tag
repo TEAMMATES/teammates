@@ -38,6 +38,11 @@
                 </c:forEach>
             </ul>
                 
+            
+            <c:if test="${questionWithResponses.question.giverType=='TEAMS'}">
+                <p class="text-warning">Please note that you are editing this question on behave of your team.</p> 
+            </c:if>
+              
             <c:forEach items="${questionWithResponses.responses}" var="response">
                 <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}" 
                                                  questionWithResponses="${questionWithResponses}"/>
