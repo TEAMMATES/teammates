@@ -230,7 +230,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
-        assertEquals(7, responses.size());
+        assertEquals(8, responses.size());
         
         ______TS("null params");
         
