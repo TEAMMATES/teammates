@@ -80,10 +80,11 @@ $(document).ready(function(){
  * @assumption: all passed in divs are valid datepicker divs
  */
 function triggerDatepickerOnClick(datepickerDivs) {
-    $.each(datepickerDivs, function(i) {
-        var datepickerDiv = datepickerDivs[i];
+    $.each(datepickerDivs, function(i, datepickerDiv) {
         datepickerDiv.on('click', function() {
-            datepickerDiv.datepicker('show');
+            if (!datepickerDiv.prop('disabled')) {
+                datepickerDiv.datepicker('show');        		
+            }
         });
     });
 }
