@@ -17,7 +17,9 @@ addons:
   firefox: "38.0.5"
 
 before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
+    --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 \
+    1440x900x16"
 
 before_script:
   - "export DISPLAY=:99.0"

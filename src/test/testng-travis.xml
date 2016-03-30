@@ -56,7 +56,7 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
-            <class name="teammates.test.cases.ui.browsertests.AppPageUiTest" />
+            <!-- <class name="teammates.test.cases.ui.browsertests.AppPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
@@ -86,9 +86,9 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorSubmissionAdjustmentUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorSearchPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" /> -->
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.StudentFeedbackQuestionSubmitPageUiTest" />
+            <!-- <class name="teammates.test.cases.ui.browsertests.StudentFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
@@ -96,7 +96,7 @@
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminSessionsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" /> -->
         </classes>
     </test>
 

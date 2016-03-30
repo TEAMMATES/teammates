@@ -172,7 +172,7 @@ dependencies {
 
 
     // Hack to get selenium-server-standalone from URL
-    def f = new File("libs/selenium-server-standalone-2.46.jar")
+    def f = file("libs/selenium-server-standalone-2.46.jar")
     f.getParentFile().mkdirs()
     if (!f.exists()) {
         new URL("http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar")
@@ -247,27 +247,27 @@ enhancerRun.dependsOn project.classes
     }
 }
 
-def afterTestClosure = { descriptor, result ->
-    if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
-        def msg = result.exception.getMessage()
-        def shouldDiff = msg.indexOf("<<[expected>\n") != -1
-        if (shouldDiff) {
-            new File("expected").text = msg[(msg.indexOf("<<[expected>\n") + 13)..(msg.indexOf("\n</expected]>>") - 1)]
-            new File("actual").text = msg[(msg.indexOf("<<[actual>\n") + 11)..(msg.indexOf("\n</actual]>>") - 1)]
-            if (isWindows) {
-                def process = "FC expected actual".execute()
-                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
-                println process.getText()
-                process.waitFor()
-            } else {
-                def process = "diff expected actual".execute()
-                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
-                println process.getText()
-                process.waitFor()
-            }
-        }
-    }
-}
+// def afterTestClosure = { descriptor, result ->
+//     if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
+//         def msg = result.exception.getMessage()
+//         def shouldDiff = msg.indexOf("<<[expected>\n") != -1
+//         if (shouldDiff) {
+//             file("expected").text = msg[(msg.indexOf("<<[expected>\n") + 13)..(msg.indexOf("\n</expected]>>") - 1)]
+//             file("actual").text = msg[(msg.indexOf("<<[actual>\n") + 11)..(msg.indexOf("\n</actual]>>") - 1)]
+//             if (isWindows) {
+//                 def process = "FC expected actual".execute()
+//                 println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
+//                 println process.getText()
+//                 process.waitFor()
+//             } else {
+//                 def process = "icdiff -U 2 --cols=130 expected actual".execute()
+//                 println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
+//                 println process.getText()
+//                 process.waitFor()
+//             }
+//         }
+//     }
+// }
 
 
 // TRAVIS TEST TASKS
@@ -289,7 +289,6 @@ test {
     testLogging {
         events "passed"
     }
-    afterTest afterTestClosure
     finalizedBy "killFirefox1"
     dependsOn "enhancerRun"
 }
@@ -319,13 +318,9 @@ task travisTests {
         }
         testLogging {
             events "passed"
-            if (isLastRetry) {
-                exceptionFormat = "full"
-            }
         }
-        afterTest afterTestClosure
         finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop", "generateFailedCmd"] : ["killFirefox${id+1}"]
-        dependsOn "test", "enhancerRun"
+        dependsOn test, enhancerRun
         onlyIf {
             file("build/reports/test-try-${id}/testng-failed.xml").exists()
         }
@@ -346,7 +341,8 @@ task generateFailedCmd(type: Exec) {
         def gistUrl = os.toString()
         def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1)
         logger.lifecycle("""
-        Run failed tests locally using \"./gradlew -Pgist=${gistHash} downloadFailedXml\"
+        Run failed tests locally using
+        ./gradlew -Pgist=${gistHash} downloadFailedXml
         followed by running \"Failed tests\" in Eclipse
         """)
     }
