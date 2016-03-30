@@ -20,6 +20,7 @@ import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.NotAuthorizedPage;
 import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.util.Priority;
 
@@ -157,7 +158,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         ______TS("unauthorized page");
         AppUrl url = createUrl(Const.ViewURIs.UNAUTHORIZED);
         currentPage.navigateTo(url);
-        verifyRedirectToNotAuthorized();
+        currentPage.verifyHtml("/unauthorized.html");
         
         ______TS("error page");
         url = createUrl(Const.ViewURIs.ERROR_PAGE);
@@ -214,10 +215,10 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     private void verifyCannotAccessAdminPages() {
         //cannot access directly
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
-        verifyRedirectToNotAuthorized(url);
+        verifyRedirectToForbidden(url);
         //cannot access by masquerading either
         url = url.withUserId(adminUsername);
-        verifyRedirectToNotAuthorized(url);
+        verifyRedirectToForbidden(url);
     }
 
     private void verifyCannotMasquerade(AppUrl url, String otherInstructorId) {
@@ -234,17 +235,20 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
                 currentPage.getPageSource());
     }
 
-    private void verifyRedirectToNotAuthorized() {
-        String pageSource = currentPage.getPageSource();
-        //TODO: Distinguish between these two types of access denial
-        assertTrue(pageSource.contains("You are not authorized to view this page.")||
-                pageSource.contains("Your client does not have permission"));
+    private void verifyRedirectToForbidden(AppUrl url) {
+        if (TestProperties.inst().isDevServer()) {
+            verifyRedirectToNotAuthorized(url);
+        } else {
+            printUrl(url.toAbsoluteString());
+            currentPage.navigateTo(url);
+            assertTrue(currentPage.getPageSource().contains("Your client does not have permission"));
+        }
     }
 
     private void verifyRedirectToNotAuthorized(AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
-        verifyRedirectToNotAuthorized();
+        currentPage.changePageType(NotAuthorizedPage.class);
     }
 
     private void verifyRedirectToLogin(AppUrl url) {
