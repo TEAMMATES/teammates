@@ -57,6 +57,8 @@ function readyFeedbackEditPage() {
     
     setupFsCopyModal();
     
+    bindAssignWeightsButtons();
+    
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
 }
@@ -208,6 +210,7 @@ function enableQuestion(number) {
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).show();
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).show();
+    $currentQuestionTable.find('#rubricAssignWeightsLink-' + number).show();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).show();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).show();
     
@@ -266,9 +269,10 @@ function enableNewQuestion() {
 
     $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + number).show();
     $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + number).show();
+    $currentQuestionTableNumber.find('#rubricAssignWeightsLink-' + number).show();
+    $currentQuestionTableSuffix.find('input[id^="rubricWeight"]').hide();
     $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + number).show();
     $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + number).show();
-
 
     if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
         $('#mcqChoiceTable-' + number).hide();
@@ -315,8 +319,13 @@ function disableQuestion(number) {
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).hide();
+    $currentQuestionTable.find('#rubricAssignWeightsLink-' + number).hide();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).hide();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).hide();
+
+    if (!hasAssignedWeights(number)) {
+        $currentQuestionTable.find('input[id^="rubricWeight"]').hide();
+    }
 
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).show();
     $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).hide();
@@ -365,6 +374,7 @@ function formatNumberBoxes() {
     disallowNonNumericEntries($('input.maxScaleBox'), false, true);
     disallowNonNumericEntries($('input.stepBox'), true, false);
     disallowNonNumericEntries($('input.pointsBox'), false, false);
+    disallowNonNumericEntries($('input[id^="rubricWeight"]'), false, true);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
     var modifyVisibility = function() {
@@ -1424,6 +1434,7 @@ function addRubricCol(questionNumber) {
       +             "<span class=\"glyphicon glyphicon-remove\"></span>"
       +         "</span>"
       +     "</div>"
+      +     "<input type=\"number\" class=\"form-control\" value=\"${rubricWeight}\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${qnIndex}-${col}\"  name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${col}\">"
       + "</th>";
 
     var rubricHeaderFragment = rubricHeaderFragmentTemplate;
@@ -1433,10 +1444,20 @@ function addRubricCol(questionNumber) {
     rubricHeaderFragment = replaceAll(rubricHeaderFragment,
                                       '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}',
                                       'rubricChoice');
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment,
+                                      '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}',
+                                      'rubricWeight');
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${rubricWeight}", 0);
 
     // Insert after last <th>
     var lastTh = $('#rubricEditTable' + idSuffix + ' th:last');
     $(rubricHeaderFragment).insertAfter(lastTh);
+
+    // Hide the new rubric weight box if the others are hidden
+    var visibleRubricWeightBoxes = $('input[id^="rubricWeight-' + questionNumber + '"]:visible');
+    if (visibleRubricWeightBoxes.length === 1) {
+        visibleRubricWeightBoxes.hide();
+    }
 
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
@@ -1547,6 +1568,36 @@ function highlightRubricCol(index, questionNumber, highlight) {
     } else {
         $rubricCol.removeClass('cell-selected-negative');
     }
+}
+
+/**
+ * Attaches event handlers to "assign weights" buttons to toggle the visibility
+ * of the input boxes for rubric weights
+ */
+function bindAssignWeightsButtons() {
+    $('body').on('click', 'a[id^="rubricAssignWeightsLink"]', function(e) {
+        $(this).closest('form').find('input[id^="rubricWeight"]').toggle();
+    });
+}
+
+/**
+ * @param questionNumber
+ *            the question number of the feedback question
+ * @returns {Boolean} true if the weights are assigned by the user(the weights
+ *          are not all zeros), otherwise false
+ */
+function hasAssignedWeights(questionNumber) {
+
+    var areWeightsAssigned = false;
+
+    $('#questionTable' + questionNumber).find('input[id^="rubricWeight"]').each(function() {
+        if ($(this).val() != 0) {
+            areWeightsAssigned = true;
+            return false;
+        }
+    });
+
+    return areWeightsAssigned;
 }
 
 /**
