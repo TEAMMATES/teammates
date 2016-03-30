@@ -103,7 +103,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
         
    * Ensure _dev green_ (i.e., all *local* tests are passing on dev server).
      
-     Local tests can be run using the command ```./gradlew localTests``` (on windows: ```gradlew.bat localTests```)
+     Local tests can be run using the "Local Tests" run configuration in Eclipse.
 
     >If any of the browsertests fail, use [*GodMode*](/devdocs/godmode.md) to fix them. 
     Ensure that dev green is reached without GodMode before submitting for review
@@ -125,8 +125,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      build is successful. If the some tests fail, look at the CI log and fix any tests that
      failed. Repeat until all tests pass on the CI server.
      
-     If tests fail on the CI server, the CI log will contain the command to run the failing tests locally.
-     Copy and use this to run and fix the failing tests.
+     If tests fail on the CI server, the CI log will contain the command that will enable running the failing tests locally.
+    
 
    * The PR will be assigned to the reviewer, not to you. 
      Wait for a reviewer to be assigned to the issue.
