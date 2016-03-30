@@ -670,7 +670,8 @@ function feedbackRecipientUpdateVisibilityOptions(elem) {
 }
 
 /**
- * Checks if recipient's team members visibility option is invalid for the recipient type 
+ * Returns true if "recipient's team members" visibility option 
+ * is not applicable for the recipient type
  */
 function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
     return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
