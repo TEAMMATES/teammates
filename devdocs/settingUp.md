@@ -1,6 +1,9 @@
 #Setting Up the Developer Environment
+>If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
+
 These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
 
+The full tool stack is given at the [end of this document](#toolStack).
 
 ##Table Of Contents
 [Prerequisites](#pre) <br/>
@@ -9,7 +12,6 @@ These instructions are for the Windows environment. Instructions for Mac OS is s
 [Deploying to a staging server](#deployServer) <br/>
 [Running client scripts](#runClientScripts) <br/>
 [Troubleshooting](#troubleshoot) <br/>
-[Full tool stack](#toolStack) <br/>
 
 
 ##<a name="pre"></a>Prerequisites
