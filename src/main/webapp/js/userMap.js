@@ -31,8 +31,13 @@ function handleData(err, countryCoordinates, userData) {
         }
     }
 
-    d3.select('#totalCount').text(userData.length + ' institutions from ' + countriesArr.length + ' countries');
-
+    //set the institution count in the page
+    var e = document.getElementById('totalUserCount');
+    e.innerHTML=userData.length;
+   //set the country count in the page
+    var f = document.getElementById('totalCountryCount');
+    f.innerHTML=countriesArr.length;
+    
     // Data format example
     // var series = [
     //     ['BLR', 1], ['BLZ', 1], ['RUS', 1], ['RWA', 1], ['SRB', 1], ['TLS', 1],

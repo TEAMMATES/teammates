@@ -215,22 +215,33 @@ h2.subcaption {
     display: block;
 }
 
+h2.subcaptionTypeTwo {
+    color: #4379D1;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin: 10px auto;
+    display: block;
+    text-align:center;
+}
+
 .submissionsNumber {
     color: #e46d0b;
     font-size: 20px;
 }
 
 .totalCount {
-	color: #e46d0b;
+    color: #e46d0b;
     font-size: 20px;
 }
 
 .lastUpdate {
-	position: relative; 
-	bottom: 20px; 
-	left: 600px; 
-	width: 200px; 
-	text-align:right;
+    position: relative; 
+    bottom: 0px; 
+    left: 600px; 
+    width: 200px; 
+    text-align:right;
+    font-weight:bold;
 }
 
 .overviewByte {
