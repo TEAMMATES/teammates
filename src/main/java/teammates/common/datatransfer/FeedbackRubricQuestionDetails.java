@@ -802,7 +802,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     private boolean hasAssignedWeights() {
 
-        if (rubricWeights == null || rubricWeights.size() != numOfRubricChoices) {
+        if (rubricWeights.size() != numOfRubricChoices) {
             return false;
         }
 
