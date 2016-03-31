@@ -61,7 +61,7 @@ Contributing to an OSS project requires you to figure out things on your own whe
 4. Screenshots (if any)
 
 
-Note: The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
+> Note: The task descriptions are brief by intention. We want you to try to figure out how to do those things by yourself.
 
 ## Orientation task list
 
