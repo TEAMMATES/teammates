@@ -1,9 +1,6 @@
 ![](images/teammates_heading.png)
 
-
 # **Contributor Orientation Guide**
-
-
 
 We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.html) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
 
@@ -19,17 +16,11 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 * * *
 
-
-
 ## Knowledge required
 
 Although TEAMMATES uses many tools and technologies, you need not know all of them before you can contribute. The diagram below shows which technologies you need to learn to contribute in different roles. As you can see, some roles don't need learning any technologies at all. Note that these role aren't fixed or formally assigned. It is simply for guidance only.
 
-
-
 ![RolesAndTechnologies.png](https://lh6.googleusercontent.com/3cvr4dEJEBiqlsY_X6-sTwTyYCvk_d5YKsLM2Z-IWI7AEd6c1bYgZ4LDW5yDbwrd9b3kIrGD08kIKyVkg9vHmO-_iXhs8bpGQyJnwpKA12pFWj1Tj-XYuXVYkOBgoI_BVBHkR6I)
-
-
 
 Roles:
 
@@ -66,8 +57,8 @@ Contributing to an OSS project requires you to figure out things on your own whe
 ## Orientation task list
 
 _**Phase A**: Know the project_
-<br />
-1.  Understand what TEAMMATES is about.
+
+1.  Understand what TEAMMATES is about.<>
     * [product intro page](https://teammatesv4.appspot.com) shown to potential users
 
     * [project vision, challenges, and principles](http://teammatesv4.appspot.com/dev/devman.html%23project)
