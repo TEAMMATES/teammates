@@ -1591,7 +1591,7 @@ function hasAssignedWeights(questionNumber) {
     var areWeightsAssigned = false;
 
     $('#questionTable' + questionNumber).find('input[id^="rubricWeight"]').each(function() {
-        if ($(this).val() != 0) {
+        if ($(this).val() !== '0') {
             areWeightsAssigned = true;
             return false;
         }
