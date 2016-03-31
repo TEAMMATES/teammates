@@ -5,7 +5,7 @@
 
 
 
-We welcome contributions from anyone, in particular, students (see [here](https://www.google.com/url?q=http://teammatesv4.appspot.com/about.html&sa=D&ust=1458427634357000&usg=AFQjCNGIbS5nfk0HxVCMSqPXXmcaOSz47w) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
+We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.html) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
 
 
 
@@ -42,7 +42,7 @@ Roles:
 
 ## Workload
 
-[TEAMMATES community](https://www.google.com/url?q=https://teammatesv4.appspot.com/about.html&sa=D&ust=1458427634375000&usg=AFQjCNF9iNnM6PPTk5wwrsnKRUCsLst1xQ) has three tiers, defined based on the level of involvement.
+[TEAMMATES community](https://teammatesv4.appspot.com/about.html) has three tiers, defined based on the level of involvement.
 
 *   Contributor: Small but noteworthy contribution to the project.
 *   Committer: Significant contributions sustained over a long period of time.
@@ -50,7 +50,7 @@ Roles:
 
 ## Getting started
 
-Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resource when you cannot. To become a TEAMMATES contributor, you need to start honing those skills. To help you with that, we have created a sequence of tasks you can try to complete.  Try to complete as many of them as you can, in the order they are listed. Of course we are happy to guide you if you encounter any difficulties when doing these tasks; just post your question in [our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues&sa=D&ust=1458427634380000&usg=AFQjCNEfiA-pDqfeFk-NWy7uSU2vJdd4UA). If you are seeking help on project setup, remember to include the following in your post.
+Contributing to an OSS project requires you to figure out things on your own when you can, and seek help from the right resource when you cannot. To become a TEAMMATES contributor, you need to start honing those skills. To help you with that, we have created a sequence of tasks you can try to complete.  Try to complete as many of them as you can, in the order they are listed. Of course we are happy to guide you if you encounter any difficulties when doing these tasks; just post your question in [our issue tracker](https://github.com/TEAMMATES/teammates/issues). If you are seeking help on project setup, remember to include the following in your post.
 
 1. Step in the setting up guide that you are in
 
@@ -68,10 +68,10 @@ Contributing to an OSS project requires you to figure out things on your own whe
 _**Phase A**: Know the project_
 <br />
 1.  Understand what TEAMMATES is about.
-    * [product intro page](https://www.google.com/url?q=https://teammatesv4.appspot.com&sa=D&ust=1458427634385000&usg=AFQjCNEDi3V_xRJj6Sv4x0rTuMreo4zIXA) shown to potential users
+    * [product intro page](https://teammatesv4.appspot.com) shown to potential users
 
-    * [project vision, challenges, and principles](https://www.google.com/url?q=http://teammatesv4.appspot.com/dev/devman.html%23project&sa=D&ust=1458427634387000&usg=AFQjCNGm_T3iGMuSsidiGRVwLGI_Ybs4Gg)
-    * [feature overview](https://www.google.com/url?q=https://teammatesv4.appspot.com/features.html&sa=D&ust=1458427634388000&usg=AFQjCNFEaB-epSz6Mo5ICeLwqA-BNxCJMg) (users’ point of view)
+    * [project vision, challenges, and principles](http://teammatesv4.appspot.com/dev/devman.html%23project)
+    * [feature overview](https://teammatesv4.appspot.com/features.html) (users’ point of view)
 
 2.  Decide in which role(s) you want to contribute. i.e., tester, copy-editor, etc. as specified [earlier in this document](#id.49lgk6iu1w59).
 3.  If you are aiming for tech writer or tester roles, get an instructor account using the link in the TEAMMATES home page. Remember to mention the purpose of your request under any other comments.
@@ -87,7 +87,7 @@ _**Phase B**: Set up locally_
 1.  Set up TEAMMATES development environment on your computer.  
     Important:  
     * Follow instructions to the letter. _Install the specified versions of the tool stack, not the latest versions._  
-    * If you encounter any problems, refer to the [Developer Troubleshooting Guide](https://www.google.com/url?q=https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded%3Dtrue&sa=D&ust=1458427634398000&usg=AFQjCNGVBlVtbfAZEnGnVwGudarEORsfRw).
+    * If you encounter any problems, refer to the [Developer Troubleshooting Guide](https://www.google.com/url?qhttps://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded%3Dtrue&sa=D&ust=1458427634398000&usg=AFQjCNGVBlVtbfAZEnGnVwGudarEORsfRw).
 2.  Get dev green. It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 
@@ -113,7 +113,7 @@ _**Phase D**: Tinker with the code_
 
 
 _**Phase E**: Start contributing_
-After you complete the above tasks, you are ready to become a contributor. Steps for fixing an issue is explained in the [process](https://www.google.com/url?q=https://github.com/TEAMMATES/repo/blob/master/devdocs/process.md&sa=D&ust=1458427634412000&usg=AFQjCNGUevpZNIogCae6RA0FQvZoI2etWQ) document. New contributors are advised to start doing an issue labeled d.FirstTimers (but do not do more than one of those), move to other issues labeled as d.Contributors  
+After you complete the above tasks, you are ready to become a contributor. Steps for fixing an issue is explained in the [process](https://github.com/TEAMMATES/repo/blob/master/devdocs/process.md) document. New contributors are advised to start doing an issue labeled d.FirstTimers (but do not do more than one of those), move to other issues labeled as d.Contributors  
 
 
 #### **_Important:_**
@@ -124,6 +124,6 @@ Take your time to learn and follow the workflow to the letter. Do not skip any s
 
 ## Contacting us
 
-The best way to contact us is to [post a message in our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues/new&sa=D&ust=1458427634422000&usg=AFQjCNFXV3v7oCbAQmkZQbtnQKEQwSAOGQ). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
+The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
 Alternatively (less preferred), you can **email** us at teammates[at]comp.nus.edu.sg
