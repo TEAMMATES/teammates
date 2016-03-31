@@ -57,14 +57,17 @@ Important: When a version is specified, please install that version instead of t
    * `.settings/com.google.gdt.eclipse.core.prefs`<br>
    Additionally, this command downloads the dependencies required by TEAMMATES and places them in the appropriate directories.<br>
    This command can be run again whenever the dependencies need to be updated.
-
-4. Start the dev server.<br>
+   Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse
+   should fix that.
+4. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
+   the repo is cloned. Click `Finish`.
+5. Start the dev server.<br>
     Right-click on the project folder and choose `Run → As Web Application`. 
     After some time, you should see this message on the console 
     `Dev App Server is now running` or something similar.
     The dev server is now ready to serve requests at the URL given in the console output.
     e.g `http://localhost:8888`.<br> 
-5. To confirm the server is up, go to the server URL in your Browser.
+6. To confirm the server is up, go to the server URL in your Browser.
    To log in to the system, you need to add yourself as an instructor first:
    * Go to `http://[appURL]/admin/adminHomePage` 
    (On your computer, it may be `http://localhost:8888/admin/adminHomePage`) 
@@ -75,12 +78,12 @@ Important: When a version is specified, please install that version instead of t
       Name: `John Dorian` <br>
       Email: `teammates.instructor@university.edu` <br>
       Institute: `National University of Singapore` 
-6. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
+7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
    Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
    Remember to change the URL of the link if necessary, but keep the parameters.<br>
    e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
    to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
-7. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
+8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
    After that, log in as admin by going to `http://localhost:8888/admin/adminSearchPage` and provide the same GoogleID you used for logging in step 6.<br>
    Search for the student you added in as instructor. From the search results, click anywhere on the desired row(except on the student name) to get the course join link for that student.<br>
    Then, log out and use that join link to log in as a student. You have the required access now.<br>
@@ -108,7 +111,7 @@ Important: When a version is specified, please install that version instead of t
     b. Specify timezone as a VM argument: 
        * Go to the `run configuration` Eclipse created when you started the dev server
         (`Run → Run configurations ...` and select the appropriate one).
-       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` and '-DisDevEnvironment="true"' to the `VM arguments` text box.
+       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` and `-DisDevEnvironment="true"` to the `VM arguments` text box.
        * Save the configuration for future use: Go to the `Common` tab (the last one) 
        and make sure you have selected `Save as → Local file` and 
        `Display in favorites menu →  Run, Debug`.
@@ -116,15 +119,29 @@ Important: When a version is specified, please install that version instead of t
     c. Start the server again using the _run configuration_ you created in
        the previous step..<br>
    
-4. Run tests. <br>
-    This can be done using the `All tests` option under the green `Run` button 
-    in the Eclipse toolbar. If this option is not available 
-    (sometimes, Eclipse does not show this option immediately after you set up the project. 
-    It will appear in subsequent runs. 'Refreshing' will make it appear too.), 
-    run `src/test/testng.xml` (right click and choose `Run as → TestNG Suite`). Most of the tests should pass.
-    If a few cases fail (this can happen due to timing issues), run the failed cases 
-    using the `Run Failed Test` icon in the TestNG tab in Eclipse until they pass. 
-    
+3. Run tests. <br>
+   Test can be run using the configurations available under the green `Run` button
+   in the Eclipse toolbar. There are several configurations that are provided by default.
+   These are:
+
+      * `All tests` - This runs the files `src/test/testng-travis.xml` as well as `src/test/testng-local.xml`.
+      * `Travis tests` - This runs the file `src/test/testng-travis.xml`. It contains all the tests that are run by Travis.
+      * `Local tests` - This runs the file `src/test/testng-local.xml`. It contains all the tests that need
+                         to be run locally by developers. `Dev green` mean passing all the tests in this configuration.
+      * `Staging tests` - This runs a subset of the tests in `src/test/testng-travis.xml`.
+                           This is run before deploying to a staging server.
+
+   New developers should at least run the `Local tests` and have all of them passing on their local environments.
+   Running `Travis tests` and getting everything passing is also recommended.
+
+   Additionally, configurations that run the tests with `GodMode` turned on are also provided.
+   More info on this can be found [here](/devdocs/godmode.md). Sometimes, Eclipse does not show
+   these options immediately after you set up the project. 'Refreshing' the project should fix that. 
+
+   When running the test cases, if a few cases fail (this can happen due to timing issues),
+   run the failed cases using the `Run Failed Test` icon in the TestNG tab in Eclipse
+   until they pass. 
+
 
 To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
