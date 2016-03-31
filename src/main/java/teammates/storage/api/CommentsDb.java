@@ -263,9 +263,7 @@ public class CommentsDb extends EntitiesDb {
         List<Comment> comments = getCommentEntitiesForSendingState(courseId, oldState);
         
         for (Comment comment : comments) {
-            if (!JDOHelper.isDeleted(comment)) {
-                comment.setSendingState(newState);
-            }
+            comment.setSendingState(newState);
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);

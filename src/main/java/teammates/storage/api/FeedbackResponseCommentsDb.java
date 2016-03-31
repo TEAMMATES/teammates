@@ -404,9 +404,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
         
         for(FeedbackResponseComment frComment : frcList) {
-            if (!JDOHelper.isDeleted(frComment)) {
-                frComment.setSendingState(newState);
-            }
+            frComment.setSendingState(newState);
         }
         
         log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);

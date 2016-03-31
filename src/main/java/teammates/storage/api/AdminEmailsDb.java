@@ -223,7 +223,7 @@ public class AdminEmailsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(false);
        
-        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
+        if (adminEmailList.isEmpty()) {
             return list;
         }
         
