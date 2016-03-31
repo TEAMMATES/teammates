@@ -14,7 +14,7 @@ task downloadFailedXml {
         project.hasProperty("gist")
     }
     doFirst {
-        def failedXml = ew File(failedXmlPath)
+        def failedXml = new File(failedXmlPath)
         failedXml.getParentFile().mkdirs()
         def downloadUrl = failedXmlUrl.replace(/gist_id/, project.getProperty("gist"))
         new URL(downloadUrl).withInputStream{i -> failedXml.withOutputStream{ it << i }}

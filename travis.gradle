@@ -2,7 +2,7 @@ apply plugin: "war"
 apply plugin: "appengine"
 
 def appengineVersion = "1.9.27"
-def numOfTestRetries = 3
+def numOfTestRetries = 1
 def isTravis = System.getenv("TRAVIS") != null
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
@@ -222,6 +222,9 @@ task travisTests {
         }
         testLogging {
             events "passed"
+            if (isLastRetry) {
+                exceptionFormat = "full"
+            }
         }
         finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop", "generateFailedCmd"] : ["killFirefox${id+1}"]
         dependsOn test, enhancerRun
@@ -243,8 +246,8 @@ task generateFailedCmd(type: Exec) {
     }
     doLast {
         def gistUrl = os.toString()
-        def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1)
-        logger.lifecycle("Run failed tests locally using")
+        def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1).replaceAll("\\s", "")
+        logger.lifecycle("Run failed tests locally using the gradle task")
         logger.lifecycle("./gradlew -Pgist=${gistHash} downloadFailedXml")
         logger.lifecycle("followed by running \"Failed tests\" in Eclipse")
     }

@@ -412,6 +412,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
                                            ".getElementsByTagName('a')[0].click();");
 
+        assertEquals(popoverContent.getAttribute("innerHTML"), "");
         waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
