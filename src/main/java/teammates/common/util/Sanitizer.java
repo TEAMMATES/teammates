@@ -137,7 +137,7 @@ public class Sanitizer {
         if (str == null) {
             return null;
         }
-        return str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+        return str.replace("<", "&lt;").replace(">", "&gt;");
     }
     
     /**
