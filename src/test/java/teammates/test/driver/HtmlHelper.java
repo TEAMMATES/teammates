@@ -392,8 +392,8 @@ public class HtmlHelper {
                       .replaceAll("responseCommentRow-" + REGEX_COMMENT_ID, "responseCommentRow-\\${comment\\.id}")
                       .replaceAll("commentBar-" + REGEX_COMMENT_ID, "commentBar-\\${comment\\.id}")
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
-                      // edge case: calling TimeHelper.getNextHour() between 2300h-0000h UTC gives next day's date
-                      .replace(dateOfNextHour, "${today}")
+                      // date of next hour (datepicker's date is generated based on next hour's date)
+                      .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
                       // jQuery files
