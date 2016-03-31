@@ -1,6 +1,7 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ import javax.jdo.PersistenceManager;
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -48,7 +50,8 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     @Override
     protected void doOperation() {
         Datastore.initialize();
-        List<Student> allStudents = studentsDb.getStudentEntities();
+        List<CourseAttributes> courseList = getCoursesWithinOneYear();
+        List<Student> allStudents = getStudentsFromCourses(courseList);
         int totalNumberOfStudents = allStudents.size();
         
         if (isPreview) {
@@ -83,6 +86,19 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<Student> getStudentsFromCourses(List<CourseAttributes> courseList) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private List<CourseAttributes> getCoursesWithinOneYear() {
+        List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
+        
+        
+        
+        return courseList;
     }
 
     /**
