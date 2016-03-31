@@ -231,9 +231,18 @@
       "email": "FSRTest.student6InCourse1@gmail.tmt",
       "name": "student6 In Course1",
       "googleId": "FSRTest.student5InCourse1",
-      "team": "Team 1.4",
+      "team": "Team 1.2",
       "section": "Section A",
       "comments" : "same googleId as student 5",
+      "course" : "FSRTest.idOfTypicalCourse1"
+    },
+    "student7InCourse1":{
+      "email": "FSRTest.student7InCourse1@gmail.tmt",
+      "name": "student7 In Course1",
+      "googleId": "FSRTest.student7InCourse1",
+      "team": "Team 1.4",
+      "section": "Section A",
+      "comments" : "",
       "course" : "FSRTest.idOfTypicalCourse1"
     }
   }, 

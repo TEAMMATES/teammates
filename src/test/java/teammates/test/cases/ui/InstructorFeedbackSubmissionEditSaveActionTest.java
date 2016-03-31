@@ -209,7 +209,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                      r.getDestinationWithParams());
-        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        assertNotNull("Feedback response not found in database", frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 
         ______TS("Successful case: new response, did not specify recipient");
 
@@ -230,7 +230,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                      r.getDestinationWithParams());
-        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        assertNotNull("Feedback response not found in database", frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
 
         ______TS("Successful case: private session");
 

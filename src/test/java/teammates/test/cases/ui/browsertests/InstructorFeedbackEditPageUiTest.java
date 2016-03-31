@@ -469,11 +469,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                         FeedbackQuestionType.TEXT,
                         "tmms.test@gmail.tmt", 
                         Const.DEFAULT_SECTION, 
-                        "alice.b.tmms@gmail.tmt",
+                        "tmms.test@gmail.tmt", 
                         Const.DEFAULT_SECTION, 
-                        new Text("Response from instructor to Alice"));
+                        new Text("Instructor self feedback"));
         BackDoor.createFeedbackResponse(feedbackResponse);
-
+        
         ______TS("check response rate before editing question");
 
         InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();

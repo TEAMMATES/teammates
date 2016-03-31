@@ -192,10 +192,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         responseToUpdate = getResponseFromDatastore("response1GracePeriodFeedback");
         responseToUpdate.giverEmail = "student5InCourse1@gmail.tmt";
-        responseToUpdate.recipientEmail = "Team 1.1";
+        responseToUpdate.recipientEmail = "Team 1.1</td></div>'\"";
         
         assertNotNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt","Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "student3InCourse1@gmail.tmt","Team 1.2"));
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
@@ -203,7 +203,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
                 responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt","Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "student3InCourse1@gmail.tmt","Team 1.2"));
         
         
         ______TS("failure: invalid params");
@@ -343,9 +343,9 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         responseCommentsForStudent = 
                 getFeedbackResponseCommentsForResponsesFromDatastore(responsesToAndFromStudent);
         
-        assertEquals(responsesForReceiver.size(), 2);
-        assertEquals(responsesFromGiver.size(), 2);
-        assertEquals(responseCommentsForStudent.size(), 2);
+        assertEquals(responsesForReceiver.size(), 0);
+        assertEquals(responsesFromGiver.size(), 0);
+        assertEquals(responseCommentsForStudent.size(), 0);
         
         frLogic.updateFeedbackResponsesForChangingEmail(
                 studentToUpdate.course, "new@email.tmt", studentToUpdate.email);
@@ -385,13 +385,19 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         assertEquals(responses.size(), 1);
         
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
-        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        fq.showResponsesTo.remove(FeedbackParticipantType.STUDENTS);
+        //Update response before updating the question 
+        //because after the question is updated, the response become invalid
         FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1");
         fr.recipientEmail = student.email;
         frLogic.updateFeedbackResponse(fr);
+        
+        fq.recipientType = FeedbackParticipantType.TEAMS;
+        fq.showResponsesTo.remove(FeedbackParticipantType.STUDENTS);
+        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
+        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        fq.showGiverNameTo.remove(FeedbackParticipantType.STUDENTS);
+        fq.showRecipientNameTo.remove(FeedbackParticipantType.STUDENTS);
+        fqLogic.updateFeedbackQuestion(fq);
         
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
         
@@ -418,9 +424,10 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         existingResponse.responseMetaData);
       
         frLogic.createFeedbackResponse(newResponse);
-        student = typicalBundle.students.get("student2InCourse1");           
+        student = typicalBundle.students.get("student2InCourse1");   
+        //The "null" response is invalid, hence it will not show up
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserType.Role.STUDENT, null);
-        assertEquals(responses.size(), 4);
+        assertEquals(responses.size(), 3);
         
         
         ______TS("failure: GetViewableResponsesForQuestion invalid role");

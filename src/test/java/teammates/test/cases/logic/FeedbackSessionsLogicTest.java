@@ -948,7 +948,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "FSRTest.student3InCourse1@gmail.tmt=Team 1.2",
                 "FSRTest.student4InCourse1@gmail.tmt=Team 1.2",
                 "FSRTest.student5InCourse1@gmail.tmt=Team 1.3",
-                "FSRTest.student6InCourse1@gmail.tmt=Team 1.4",
+                "FSRTest.student6InCourse1@gmail.tmt=Team 1.2",
                 "FSRTest.instr2@course1.tmt=Instructors",
                 "FSRTest.instr1@course1.tmt=Instructors",
                 "Anonymous student 1479876785@@Anonymous student 1479876785.com=Anonymous student 1479876785's Team",
