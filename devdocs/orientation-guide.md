@@ -1,4 +1,4 @@
-<center>![](images/teammates_heading.png) </center>
+![](images/teammates_heading.png)
 
 
 # **Contributor Orientation Guide**
@@ -25,11 +25,11 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 Although TEAMMATES uses many tools and technologies, you need not know all of them before you can contribute. The diagram below shows which technologies you need to learn to contribute in different roles. As you can see, some roles don't need learning any technologies at all. Note that these role aren't fixed or formally assigned. It is simply for guidance only.
 
-<center>
+
 
 ![RolesAndTechnologies.png](https://lh6.googleusercontent.com/3cvr4dEJEBiqlsY_X6-sTwTyYCvk_d5YKsLM2Z-IWI7AEd6c1bYgZ4LDW5yDbwrd9b3kIrGD08kIKyVkg9vHmO-_iXhs8bpGQyJnwpKA12pFWj1Tj-XYuXVYkOBgoI_BVBHkR6I)
 
-</center>
+
 
 Roles:
 
@@ -127,5 +127,3 @@ Take your time to learn and follow the workflow to the letter. Do not skip any s
 The best way to contact us is to [post a message in our issue tracker](https://www.google.com/url?q=https://github.com/TEAMMATES/teammates/issues/new&sa=D&ust=1458427634422000&usg=AFQjCNFXV3v7oCbAQmkZQbtnQKEQwSAOGQ). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
 Alternatively (less preferred), you can **email** us at teammates[at]comp.nus.edu.sg
-
-<center> ---End of Document---- </center>
