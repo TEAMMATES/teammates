@@ -117,7 +117,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         // adds the default option to courseIdOptions if it is empty
         if (courseIdOptions.isEmpty()) {
-            addDefaultOption(courseIdOptions);
+            addPlaceholder(courseIdOptions);
         }
         
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
@@ -160,9 +160,9 @@ public class InstructorFeedbacksPageData extends PageData {
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         boolean isSubmitButtonDisabled = courseIdOptions.isEmpty();
         
-        // adds the default option to courseIdOptions if it is empty
+        // adds the placeholder option to courseIdOptions if it is empty
         if (isSubmitButtonDisabled) {
-            addDefaultOption(courseIdOptions);
+            addPlaceholder(courseIdOptions);
         }
         
         return FeedbackSessionsForm.getFormForNewFs(
@@ -288,12 +288,12 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     /**
-     * Adds the default option to the list of select options if the list is empty.
+     * Adds the placeholder option to the list of select options if the list is empty.
      * @param selectOptions list containing all the options
      */
-    private void addDefaultOption(List<ElementTag> selectOptions) {
-        ElementTag defaultOption = createOption("No active courses!", "", true);
-        selectOptions.add(defaultOption);
+    private void addPlaceholder(List<ElementTag> selectOptions) {
+        ElementTag placeholder = createOption("No active courses!", "", true);
+        selectOptions.add(placeholder);
     }
     
     /**
