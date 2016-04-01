@@ -14,7 +14,7 @@ import teammates.common.util.StringHelper;
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public int numOfRubricChoices;
     public List<String> rubricChoices;
-    public List<Integer> rubricWeights;
+    public List<Double> rubricWeights;
     public int numOfRubricSubQuestions;
     public List<String> rubricSubQuestions;
     public List<List<String>> rubricDescriptions;
@@ -24,7 +24,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<String>();
-        this.rubricWeights = new ArrayList<Integer>();
+        this.rubricWeights = new ArrayList<Double>();
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<String>();
         this.initializeRubricDescriptions();
@@ -35,7 +35,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<String>();
-        this.rubricWeights = new ArrayList<Integer>();
+        this.rubricWeights = new ArrayList<Double>();
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<String>();
         this.initializeRubricDescriptions();
@@ -55,7 +55,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
         List<String> rubricChoices = new ArrayList<String>();
-        List<Integer> rubricWeights = new ArrayList<Integer>();
+        List<Double> rubricWeights = new ArrayList<Double>();
         List<String> rubricSubQuestions = new ArrayList<String>();
         List<List<String>> rubricDescriptions = new ArrayList<List<String>>();
         
@@ -70,7 +70,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 rubricChoices.add(choice);
 
                 try {
-                    rubricWeights.add(Integer.parseInt(weight));
+                    rubricWeights.add(Double.parseDouble(weight));
                 } catch (NumberFormatException e) {
                     // Do not add weight to rubricWeights if the weight cannot be parsed
                 }
@@ -135,7 +135,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     private void setRubricQuestionDetails(int numOfRubricChoices,
             List<String> rubricChoices,
-            List<Integer> rubricWeights,
+            List<Double> rubricWeights,
             int numOfRubricSubQuestions,
             List<String> rubricSubQuestions,
             List<List<String>> rubricDescriptions) {
@@ -310,7 +310,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         String questionNumberString = Integer.toString(questionNumber);
-        
+        DecimalFormat weightFormat = new DecimalFormat("#.##");
         
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
@@ -322,7 +322,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE,
-                            "${rubricWeight}", hasAssignedWeights() ? Integer.toString(rubricWeights.get(i)) : "0",
+                            "${rubricWeight}", hasAssignedWeights() ? weightFormat.format(rubricWeights.get(i)) : "0",
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
@@ -380,10 +380,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.rubricChoices.add("Agree");
         this.rubricChoices.add("Strongly Agree");
         
-        this.rubricWeights.add(0);
-        this.rubricWeights.add(0);
-        this.rubricWeights.add(0);
-        this.rubricWeights.add(0);
+        this.rubricWeights.add(0d);
+        this.rubricWeights.add(0d);
+        this.rubricWeights.add(0d);
+        this.rubricWeights.add(0d);
         
         // Add some sub-questions by default
         this.numOfRubricSubQuestions = 2;
@@ -472,7 +472,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
-        float[][] rubricStats = calculateRubricStats(responses, question);
+        double[][] rubricStats = calculateRubricStats(responses, question);
         
         
         // Create table row header fragments
@@ -481,7 +481,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfRubricChoices; i++) {
             // TODO display numerical value of option 
             String rubricChoiceValue = Sanitizer.sanitizeForHtml(rubricChoices.get(i));
-            String rubricWeight = hasAssignedWeights() ? Integer.toString(rubricWeights.get(i)) : "0";
+            String rubricWeight = hasAssignedWeights() ? Double.toString(rubricWeights.get(i)) : "0";
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${rubricChoiceValue}",
@@ -549,7 +549,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      *  -> is the percentage choiceIndex is chosen for subQuestionIndex, for the given question/responses.
      *
      */
-    private float[][] calculateRubricStats(List<FeedbackResponseAttributes> responses,
+    private double[][] calculateRubricStats(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question) {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         
@@ -557,10 +557,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
         // Initialize percentage frequencies and average value
-        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
+        double[][] percentageFrequencyOrAverage = new double[fqd.numOfRubricSubQuestions][fqd.numOfRubricChoices + 1];
         for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
-            //+ 1 is the position for average value
-            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
             for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
                 // Initialize to be number of responses
                 percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
@@ -585,7 +583,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // Calculate the average for each sub-question
             if (hasAssignedWeights()) {
                 for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
-                    float choiceWeight = fqd.rubricWeights.get(j) * responseFrequency[i][j];
+                    double choiceWeight = fqd.rubricWeights.get(j) * responseFrequency[i][j];
                     percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] += choiceWeight;
                 }
             }
@@ -655,7 +653,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat dfAverage = new DecimalFormat("0.00");
 
         int[][] responseFrequency = calculateResponseFrequency(responses, this);
-        float[][] rubricStats = calculateRubricStats(responses, question);
+        double[][] rubricStats = calculateRubricStats(responses, question);
         
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
@@ -812,7 +810,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             return false;
         }
 
-        for (Integer weight : rubricWeights) {
+        for (Double weight : rubricWeights) {
             if (weight != 0) {
                 return true;
             }

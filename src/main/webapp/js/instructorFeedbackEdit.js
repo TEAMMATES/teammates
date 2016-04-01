@@ -374,7 +374,7 @@ function formatNumberBoxes() {
     disallowNonNumericEntries($('input.maxScaleBox'), false, true);
     disallowNonNumericEntries($('input.stepBox'), true, false);
     disallowNonNumericEntries($('input.pointsBox'), false, false);
-    disallowNonNumericEntries($('input[id^="rubricWeight"]'), false, true);
+    disallowNonNumericEntries($('input[id^="rubricWeight"]'), true, true);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
     var modifyVisibility = function() {
