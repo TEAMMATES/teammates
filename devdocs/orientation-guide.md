@@ -20,7 +20,7 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 Although TEAMMATES uses many tools and technologies, you need not know all of them before you can contribute. The diagram below shows which technologies you need to learn to contribute in different roles. As you can see, some roles don't need learning any technologies at all. Note that these role aren't fixed or formally assigned. It is simply for guidance only.
 
-![RolesAndTechnologies.png](https://lh6.googleusercontent.com/3cvr4dEJEBiqlsY_X6-sTwTyYCvk_d5YKsLM2Z-IWI7AEd6c1bYgZ4LDW5yDbwrd9b3kIrGD08kIKyVkg9vHmO-_iXhs8bpGQyJnwpKA12pFWj1Tj-XYuXVYkOBgoI_BVBHkR6I)
+![RolesAndTechnologies.png](images/RolesAndTechnologies.png)
 
 Roles:
 
