@@ -484,7 +484,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String rubricWeight = hasAssignedWeights() ? Integer.toString(rubricWeights.get(i)) : "0";
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", rubricChoiceValue + (hasAssignedWeights() ? "(" + rubricWeight + ")" : ""));
+                            "${rubricChoiceValue}",
+                            rubricChoiceValue + (hasAssignedWeights() ? "(" + rubricWeight + ")" : ""));
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
 
