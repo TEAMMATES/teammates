@@ -15,8 +15,13 @@ import teammates.common.util.StringHelper;
 import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.EntityNotFoundPage;
+import teammates.test.pageobjects.GenericAppPage;
+import teammates.test.pageobjects.NotAuthorizedPage;
+import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.pageobjects.StudentProfilePicturePage;
@@ -234,43 +239,45 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: with blob-key");
 
-        getProfilePicturePage(studentId, currentPictureKey).verifyHasPicture();
+        getProfilePicturePage(studentId, currentPictureKey, StudentProfilePicturePage.class).verifyHasPicture();
 
         ______TS("Failure case: invalid blob-key");
 
-        String expectedFilename = "/studentProfilePictureNotFound.html";
-        getProfilePicturePage(studentId, "random-StRing123").verifyIsErrorPage(expectedFilename);
+        String invalidKey = "random-StRing123";
+        if (TestProperties.inst().isDevServer()) {
+            getProfilePicturePage(studentId, invalidKey, NotFoundPage.class);
+        } else {
+            getProfilePicturePage(studentId, invalidKey, GenericAppPage.class);
+            assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
+        }
 
         ______TS("Typical case: with email and course");
 
-        getProfilePicturePage(instructorId, email, courseId).verifyHasPicture();
+        getProfilePicturePage(instructorId, email, courseId, StudentProfilePicturePage.class).verifyHasPicture();
 
         ______TS("Failure case: instructor does not have privilege");
 
-        expectedFilename = "/studentProfilePictureUnauthorized.html";
-        getProfilePicturePage(helperId, email, courseId)
-                .verifyIsUnauthorisedErrorPage(expectedFilename);
+        getProfilePicturePage(helperId, email, courseId, NotAuthorizedPage.class);
 
         ______TS("Failure case: non-existent student");
 
-        expectedFilename = "/studentProfilePictureStudentDoesNotExist.html";
-        getProfilePicturePage(instructorId, invalidEmail, courseId).verifyIsEntityNotFoundErrorPage(expectedFilename);
+        getProfilePicturePage(instructorId, invalidEmail, courseId, EntityNotFoundPage.class);
     }
 
-    private StudentProfilePicturePage getProfilePicturePage(String instructorId, String email,
-                                                            String courseId) {
+    private <T extends AppPage> T getProfilePicturePage(String instructorId, String email, String courseId,
+                                                        Class<T> typeOfPage) {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withUserId(testData.accounts.get(instructorId).googleId)
                                    .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
                                    .withParam(Const.ParamsNames.COURSE_ID, courseId);
-        return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
+        return loginAdminToPage(browser, profileUrl, typeOfPage);
     }
 
-    private StudentProfilePicturePage getProfilePicturePage(String studentId, String pictureKey) {
+    private <T extends AppPage> T getProfilePicturePage(String studentId, String pictureKey, Class<T> typeOfPage) {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withUserId(testData.accounts.get(studentId).googleId)
                                    .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
-        return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
+        return loginAdminToPage(browser, profileUrl, typeOfPage);
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
@@ -284,7 +291,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public void testAfter() {
+    public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
 

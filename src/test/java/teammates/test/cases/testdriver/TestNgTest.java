@@ -15,8 +15,8 @@ import teammates.test.cases.BaseTestCase;
 public class TestNgTest extends BaseTestCase {
 
     @Test
-    public void checkTestsInTestNg() throws FileNotFoundException {        
-        String testNgXml = FileHelper.readFile("./src/test/testng.xml");
+    public void checkTestsInTestNg() throws FileNotFoundException {
+        String testNgXml = FileHelper.readFile("./src/test/testng-travis.xml") + FileHelper.readFile("./src/test/testng-local.xml");
         HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases"); // <class name, package name>
              
         testFiles = excludeFilesNotInTestNg(testFiles, 
