@@ -152,7 +152,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructor2OfCourse1":{
             "googleId":"idOfInstructor2OfCourse1",
@@ -162,7 +178,23 @@
             "role":"Manager",
             "isDisplayedToStudents":true,
             "displayedName":"Manager",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": false,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructor3OfCourse1":{
             "googleId":"idOfInstructor3",
@@ -173,17 +205,49 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "helperOfCourse1":{
             "googleId":"idOfHelperOfCourse1",
             "courseId":"idOfTypicalCourse1",
             "name":"Helper Course1",
             "email":"helper@course1.tmt",
-            "role":"Helper",
+            "role":"Custom",
             "isDisplayedToStudents":false,
             "displayedName":"Helper",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": false,
+                    \"cangivecommentinsection\": false,
+                    \"cansubmitsessioninsection\": false,
+                    \"canmodifysessioncommentinsection\": false,
+                    \"canmodifycommentinsection\": false,
+                    \"canmodifycourse\": false,
+                    \"canviewsessioninsection\": false,
+                    \"canmodifysession\": false,
+                    \"canviewcommentinsection\": false,
+                    \"canmodifystudent\": false,
+                    \"canmodifyinstructor\": false
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructorNotYetJoinCourse1":{
             "googleId":null,
@@ -194,7 +258,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructor1OfCourse2":{
             "googleId":"idOfInstructor1OfCourse2",
@@ -204,7 +284,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructor2OfCourse2":{
             "googleId":"idOfInstructor2OfCourse2",
@@ -214,7 +310,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructor3OfCourse2":{
             "googleId":"idOfInstructor3",
@@ -224,7 +336,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructor4":{
             "googleId":"idOfInstructor4",
@@ -235,7 +363,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructor5":{
             "googleId":"idOfInstructor5",
@@ -245,7 +389,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructorWithOnlyOneSampleCourse":{
             "googleId":"idOfInstructorWithOnlyOneSampleCourse",
@@ -255,7 +415,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructorOfArchivedCourse":{
             "googleId":"idOfInstructorOfArchivedCourse",
@@ -268,7 +444,23 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         },
         "instructorNotYetJoinCourse":{
             "googleId":null,
@@ -279,24 +471,40 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{
+                \"courseLevel\": {
+                    \"canviewstudentinsection\": true,
+                    \"cangivecommentinsection\": true,
+                    \"cansubmitsessioninsection\": true,
+                    \"canmodifysessioncommentinsection\": true,
+                    \"canmodifycommentinsection\": true,
+                    \"canmodifycourse\": true,
+                    \"canviewsessioninsection\": true,
+                    \"canmodifysession\": true,
+                    \"canviewcommentinsection\": true,
+                    \"canmodifystudent\": true,
+                    \"canmodifyinstructor\": true
+                },
+                \"sectionLevel\": {},
+                \"sessionLevel\": {}
+            }"
         }
     },
     "students":{
         "student1InCourse1":{
             "email":"student1InCourse1@gmail.tmt",
-            "name":"student1 In Course1",
-            "team":"Team 1.1",
+            "name":"student1 In Course1</td></div>'\"",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "googleId":"student1InCourse1",
-            "comments":"comment for student1InCourse1",
+            "comments":"comment for student1InCourse1</td></div>'\"",
             "course":"idOfTypicalCourse1"
         },
         "student2InCourse1":{
             "email":"student2InCourse1@gmail.tmt",
             "name":"student2 In Course1",
             "googleId":"student2InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
@@ -305,7 +513,7 @@
             "email":"student3InCourse1@gmail.tmt",
             "name":"student3 In Course1",
             "googleId":"student3InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
@@ -314,7 +522,7 @@
             "email":"student4InCourse1@gmail.tmt",
             "name":"student4 In Course1",
             "googleId":"student4InCourse1",
-            "team":"Team 1.1",
+            "team":"Team 1.1</td></div>'\"",
             "section":"Section 1",
             "comments":"",
             "course":"idOfTypicalCourse1"
@@ -1248,7 +1456,7 @@
             "courseId":"idOfTypicalCourse1",
             "giverEmail":"instructor1@course1.tmt",
             "recipientType":"TEAM",
-            "recipients":["Team 1.1"],
+            "recipients":["Team 1.1</td></div>'\""],
             "status": "FINAL",
             "showCommentTo": [],
             "showGiverNameTo": [],

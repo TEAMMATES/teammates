@@ -5,17 +5,18 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="../../javascript/qunit.css" type="text/css" media="screen" />
   <script type="text/javascript" src="../../javascript/qunit.js"></script>
+  <script type="text/javascript" src="../../javascript/blanket.js"></script>
   <script type="text/javascript" src="../../../main/webapp/js/lib/jquery.min.js"></script>
   <script type="text/javascript" src="../../../main/webapp/bootstrap/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/common.js"></script>  
-  <script type="text/javascript" src="../../../main/webapp/js/instructorCourses.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorCourseEnrollPage.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorCourseDetails.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbacks.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructorStudentList.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/instructor.js"></script>
-  <script type="text/javascript" src="../../../main/webapp/js/student.js"></script>
+  <script type="text/javascript" src="../../../main/webapp/js/common.js" data-cover></script>  
+  <script type="text/javascript" src="../../../main/webapp/js/instructorCourses.js" data-cover></script>
+  <script type="text/javascript" src="../../../main/webapp/js/instructorCourseEnrollPage.js" data-cover></script>
+  <script type="text/javascript" src="../../../main/webapp/js/instructorCourseDetails.js" data-cover></script>
+  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbacks.js" data-cover></script>
+  <script type="text/javascript" src="../../../main/webapp/js/instructorFeedbackEdit.js" data-cover></script>
+  <script type="text/javascript" src="../../../main/webapp/js/instructorStudentList.js" data-cover></script>
+  <script type="text/javascript" src="../../../main/webapp/js/instructor.js" data-cover></script>
+  <script type="text/javascript" src="../../../main/webapp/js/student.js" data-cover></script>
   <script type="text/javascript" src="../../../main/webapp/js/index.js"></script>
 
   <script type="text/javascript" src="../../javascript/CommonTestFunctions.js"></script>
@@ -34,7 +35,7 @@
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
-
+  <div id="blanket-main"></div>
   <hr /><hr /><hr />
   <h3>Elements required for Testing</h3>
   <span id= "submissionsNumber" class="submissionsNumber"></span>
@@ -60,16 +61,16 @@
                     </div>
                     <br>
                     <div class="checkbox">
-                        <input type="checkbox" value="" id="course_all" checked="checked"> 
+                        <input type="checkbox" value="" id="course_all" checked=""> 
                         <label for="course_all"><strong>Select all</strong></label>
                     </div>
                     <br>
-                    <div class="checkbox"><input id="course_check-0" type="checkbox" checked="checked">
+                    <div class="checkbox"><input id="course_check-0" type="checkbox" checked="">
                         <label for="course_check-0"> Name of Course 2 
                         
                         </label>
                     </div>
-                    <div class="checkbox"><input id="course_check-1" type="checkbox" checked="checked">
+                    <div class="checkbox"><input id="course_check-1" type="checkbox" checked="">
                         <label for="course_check-1"> Name of Course 3 
                         
                         </label>
@@ -82,22 +83,22 @@
                     </div>
                     <br>
                     <div class="checkbox">
-                        <input type="checkbox" value="" id="section_all" checked="checked"> 
+                        <input type="checkbox" value="" id="section_all" checked=""> 
                         <label for="course_all"><strong>Select all</strong></label>
                     </div>
                     <br>
                     <div class="checkbox">
-                        <input id="section_check-0-0" type="checkbox" checked="checked" class="section_check">
+                        <input id="section_check-0-0" type="checkbox" checked="" class="section_check">
                         <label for="section_check-0-0"> [course2] : Name of Section A
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="section_check-0-1" type="checkbox" checked="checked" class="section_check">
+                        <input id="section_check-0-1" type="checkbox" checked="" class="section_check">
                         <label for="section_check-0-1"> [course2] : Name of Section B
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="section_check-1-0" type="checkbox" checked="checked" class="section_check">
+                        <input id="section_check-1-0" type="checkbox" checked="" class="section_check">
                         <label for="section_check-1-0"> [course3] : Name of Section C
                         </label>
                     </div>    
@@ -109,22 +110,22 @@
                     </div>
                     <br>
                     <div class="checkbox">
-                        <input id="team_all" type="checkbox" checked="checked">
+                        <input id="team_all" type="checkbox" checked="">
                         <label for="team_all"><strong>Select All</strong></label>
                     </div>
                     <br>
                     <div class="checkbox">
-                        <input id="team_check-0-0-0" type="checkbox" checked="checked" class="team_check">
+                        <input id="team_check-0-0-0" type="checkbox" checked="" class="team_check">
                         <label for="team_check-0-0-0">  [course2-sectionA] : Team 1 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-0-1-0" type="checkbox" checked="checked" class="team_check">
+                        <input id="team_check-0-1-0" type="checkbox" checked="" class="team_check">
                         <label for="team_check-0-1-0">  [course2-sectionB] : Team 2 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-0-1-1" type="checkbox" checked="checked" class="team_check">
+                        <input id="team_check-0-1-1" type="checkbox" checked="" class="team_check">
                         <label for="team_check-0-1-1">  [course2-sectionB] : Team 3 
                         </label>
                     </div>
@@ -134,17 +135,17 @@
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-1-0-0" type="checkbox" checked="checked" class="team_check">
+                        <input id="team_check-1-0-0" type="checkbox" checked="" class="team_check">
                         <label for="team_check-1-0-0">  [course3-sectionC] : Team 1 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-1-0-1" type="checkbox" checked="checked" class="team_check">
+                        <input id="team_check-1-0-1" type="checkbox" checked="" class="team_check">
                         <label for="team_check-1-0-1">  [course3-sectionC] : Team 2 
                         </label>
                     </div>
                     <div class="checkbox">
-                        <input id="team_check-1-0-2" type="checkbox" checked="checked" class="team_check">
+                        <input id="team_check-1-0-2" type="checkbox" checked="" class="team_check">
                         <label for="team_check-1-0-2">  [course3-sectionC] : Team 3 
                         </label>
                     </div>
@@ -156,7 +157,7 @@
                     </div>
                     <br>
                     <div class="checkbox">
-                        <input id="show_email" type="checkbox" checked="checked">
+                        <input id="show_email" type="checkbox" checked="">
                             <label for="show_email"><strong>Show Emails</strong></label>
                     </div>
                     <br>

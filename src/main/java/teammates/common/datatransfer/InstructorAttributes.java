@@ -255,20 +255,20 @@ public class InstructorAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         googleId = Sanitizer.sanitizeGoogleId(googleId);
-        name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(name));
+        name = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(name));
         email = Sanitizer.sanitizeEmail(email);
         courseId = Sanitizer.sanitizeTitle(courseId);
         
         if (role == null) {
             role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            role = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(role));
+            role = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(role));
         }
         
         if (displayedName == null) {
             displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            displayedName = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(displayedName));
+            displayedName = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(displayedName));
         }
         
         if (instructorPrivilegesAsText == null) {
@@ -307,7 +307,23 @@ public class InstructorAttributes extends EntityAttributes {
         }
         return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
     }
-    
+
+    public boolean hasCoownerPrivileges() {
+        return privileges.hasCoownerPrivileges();
+    }
+
+    public boolean hasManagerPrivileges() {
+        return privileges.hasManagerPrivileges();
+    }
+
+    public boolean hasObserverPrivileges() {
+        return privileges.hasObserverPrivileges();
+    }
+
+    public boolean hasTutorPrivileges() {
+        return privileges.hasTutorPrivileges();
+    }
+
     /**
      * pre-condition: instructorPrivilegesAsText and privileges should be non-null
      * @param instructor

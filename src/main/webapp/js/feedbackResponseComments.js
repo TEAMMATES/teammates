@@ -41,10 +41,6 @@ var addCommentHandler = function(e) {
                     addFormRow.parent().attr("class", "list-group");
                     addFormRow.before(data);
                     removeUnwantedVisibilityOptions(commentId);
-                    var newCommentRow = addFormRow.prev();
-                    newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
-                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-                    registerResponseCommentCheckboxEvent();
 
                     // Reset add comment form
                     formObject.find("textarea").prop("disabled", false);
@@ -181,17 +177,15 @@ var deleteCommentHandler = function(e) {
 };
 
 function registerResponseCommentsEvent() {
-    $("form[class*='responseCommentAddForm'] > div > a[id^='button_save_comment_for_add']").click(addCommentHandler);
-    $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
-    $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
-    
-    registerResponseCommentCheckboxEvent();
+    $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]', addCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]', editCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
     
     $("div[id^=plainCommentText]").css("margin-left","15px");
 }
 
 function registerResponseCommentCheckboxEvent() {
-    $("input[type=checkbox]").click(function(e) {
+    $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
@@ -237,14 +231,21 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
 
 function enableHoverToDisplayEditOptions() {
     //show on hover for comment
-    $('.comments > .list-group-item').hover(function() {
+    $('body').on('mouseenter', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).show();
-    }, function() {
+    });
+    
+    $('body').on('mouseleave', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).hide();
     });
 }
 
-$(document).ready(registerResponseCommentsEvent);
+$(document).ready(function() {
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    registerCheckboxEventForVisibilityOptions();
+    enableHoverToDisplayEditOptions();
+});
 
 function removeUnwantedVisibilityOptions(commentId) {
     var addFormId = "showResponseCommentAddForm-" + commentId.split('-').splice(0, 3).join('-');
@@ -390,9 +391,6 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
         } else {
             updateBadgeForPendingComments(panelBody.children(":first").text());
             panelBody.children(":first").remove();
-            registerResponseCommentsEvent();
-            registerCheckboxEventForVisibilityOptions();
-            enableHoverToDisplayEditOptions();
 
             $clickedElement.addClass("loaded");
         }
@@ -459,7 +457,7 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
 }
 
 function registerCheckboxEventForVisibilityOptions() {
-    $("input[type=checkbox]").click(function(e) {
+    $('body').on('click', 'div[class*="student-record-comments"] * input[type=checkbox]', function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];

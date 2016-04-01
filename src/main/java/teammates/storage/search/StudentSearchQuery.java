@@ -2,11 +2,13 @@ package teammates.storage.search;
 
 import java.util.List;
 
+import com.google.appengine.api.search.Cursor;
+import com.google.appengine.api.search.MatchScorer;
+import com.google.appengine.api.search.QueryOptions;
+import com.google.appengine.api.search.SortOptions;
+
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-
-import com.google.appengine.api.search.Cursor;
-import com.google.appengine.api.search.QueryOptions;
 
 public class StudentSearchQuery extends SearchQuery {
     
@@ -14,8 +16,12 @@ public class StudentSearchQuery extends SearchQuery {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);
+        SortOptions sortOptions = SortOptions.newBuilder()
+                .setMatchScorer(MatchScorer.newBuilder())
+                .build();
         QueryOptions options = QueryOptions.newBuilder()
                 .setLimit(20)
+                .setSortOptions(sortOptions)
                 .setCursor(cursor)
                 .build();
         setOptions(options);

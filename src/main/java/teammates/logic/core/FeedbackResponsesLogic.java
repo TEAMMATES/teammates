@@ -43,7 +43,8 @@ public class FeedbackResponsesLogic {
         return instance;
     }
 
-    public void createFeedbackResponse(FeedbackResponseAttributes fra) throws InvalidParametersException {
+    public void createFeedbackResponse(FeedbackResponseAttributes fra) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         try {
             frDb.createEntity(fra);
         } catch (EntityAlreadyExistsException eaee) {
@@ -434,11 +435,11 @@ public class FeedbackResponsesLogic {
      * @throws EntityAlreadyExistsException  if trying to prevent an id clash by recreating a response,
      *                                       a response with the same id already exist. 
      * @throws InvalidParametersException               
+     * @throws EntityDoesNotExistException 
      */
     public void updateFeedbackResponse(
-                        FeedbackResponseAttributes updatedResponse,
-                        FeedbackResponse oldResponseEntity)
-                                throws InvalidParametersException, EntityAlreadyExistsException {
+            FeedbackResponseAttributes updatedResponse, FeedbackResponse oldResponseEntity)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Assumption.assertNotNull(oldResponseEntity);
         
         // Create a copy.
@@ -482,13 +483,16 @@ public class FeedbackResponsesLogic {
         }
     }
 
-    private void recreateResponse(FeedbackResponseAttributes newResponse,
-                                    FeedbackResponseAttributes oldResponse)
-                                    throws InvalidParametersException, EntityAlreadyExistsException {
+    private void recreateResponse(
+            FeedbackResponseAttributes newResponse, FeedbackResponseAttributes oldResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         try {
             newResponse.setId(null);
-            frDb.createEntity(newResponse);
+            FeedbackResponse createdResponseEntity = 
+                    (FeedbackResponse) frDb.createEntity(newResponse);
             frDb.deleteEntity(oldResponse);
+            frcLogic.updateFeedbackResponseCommentsForChangingResponseId
+                    (oldResponse.getId(), createdResponseEntity.getId());
         } catch (EntityAlreadyExistsException e) {
             log.warning("Trying to update an existing response to one that already exists.");
             throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
@@ -768,7 +772,7 @@ public class FeedbackResponsesLogic {
         }
         
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                                        feedbackQuestionId, StringHelper.recoverFromSanitizedText(teamName)));
+                                        feedbackQuestionId, teamName));
 
         return responses;
     }
@@ -812,11 +816,10 @@ public class FeedbackResponsesLogic {
 
         if (question.recipientType.isTeam() &&
                 question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-            String reverseSanitizedTeamName = StringHelper.recoverFromSanitizedText(student.team);
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(
-                            question.getId(), reverseSanitizedTeamName));
+                            question.getId(), student.team));
         }
 
         if (question.giverType == FeedbackParticipantType.TEAMS

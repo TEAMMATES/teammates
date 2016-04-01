@@ -248,10 +248,14 @@ public class AdminSearchPageAction extends Action {
     
     
     /**
-     * This method loops through all instructors for the given course until a verified (Corresponding Account Exists) and registered Instructor is found.
-     * It returns the google id of the found instructor.
-     * @param CourseId
-     * @return empty string if no available instructor google id is found
+     * Finds the googleId of a registered instructor with co-owner privileges.
+     * If there is no such instructor, finds the googleId of a registered
+     * instructor with the privilege to modify instructors.
+     * 
+     * @param courseId
+     *            the ID of the course
+     * @return the googleId of a suitable instructor if found, otherwise an
+     *         empty string
      */
     private String findAvailableInstructorGoogleIdForCourse(String courseId){
         
@@ -259,27 +263,31 @@ public class AdminSearchPageAction extends Action {
             return tempCourseIdToInstructorGoogleIdMap.get(courseId);
         }
         
-        String googleId = "";
-        
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         
         if(instructorList == null || instructorList.isEmpty()){
-            return googleId;
+            return "";
         }
-        
-        for(InstructorAttributes instructor : instructorList){
-          
-            if(instructor.googleId != null){
-               googleId = instructor.googleId;
-               if(instructor.isAllowedForPrivilege(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)){            
-                   break;
-               } 
-            }            
+
+        for (InstructorAttributes instructor : instructorList) {
+
+            if (instructor.isRegistered() && instructor.hasCoownerPrivileges()) {
+                tempCourseIdToInstructorGoogleIdMap.put(courseId, instructor.googleId);
+                return instructor.googleId;
+            }
         }
-        
-        tempCourseIdToInstructorGoogleIdMap.put(courseId, googleId);
-        
-        return googleId; 
+
+        for (InstructorAttributes instructor : instructorList) {
+
+            if (instructor.isRegistered() 
+                && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+
+                tempCourseIdToInstructorGoogleIdMap.put(courseId, instructor.googleId);
+                return instructor.googleId;
+            }
+        }
+
+        return "";
     }
 
     private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){

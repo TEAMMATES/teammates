@@ -204,15 +204,7 @@ public class ActivityLogEntry {
             googleId = acc.googleId;
             email = acc.email;
         }
-        
-        boolean isUnregisteredStudent = googleId.contentEquals("Unknown") 
-                                     && unregisteredUserCourse != null 
-                                     && unregisteredUserEmail != null;
-        if (isUnregisteredStudent) {
-            id = unregisteredUserEmail + "%" + unregisteredUserCourse + "%" + formatTimeForId(new Date(time));
-        } else {
-            id = googleId + "%" + formatTimeForId(new Date(time));
-        }
+        id = generateLogId(googleId, unregisteredUserEmail, unregisteredUserCourse, time);
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -271,12 +263,7 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) && student != null;
-        if (isUnregisteredStudent) {
-            id = student.email + "%" + student.course + "%" + formatTimeForId(new Date(time));
-        } else {
-            id = googleId + "%" + formatTimeForId(new Date(time));
-        }
+        id = generateLogId(googleId, student, time);
     }
     
     private String formatTimeForId(Date date) {
@@ -507,6 +494,34 @@ public class ActivityLogEntry {
     public Long getTimeTaken(){
         
         return timeTaken;       
+    }
+    
+    /**
+     * Generates the ID for the log. If the googleId is unknown or unregistered, 
+     * the email and course of the {@code student} will be used to construct the id.
+     * @param googleId the google ID
+     * @param student StudentAttributes object
+     * @return log ID
+     */
+    public String generateLogId(String googleId, StudentAttributes student, long time) {
+        return (student != null) ? generateLogId(googleId, student.email, student.course, time)
+                                 : generateLogId(googleId, null, null, time);
+    }
+    
+    /**
+     * Generates the ID for the log. If the googleId is unknown or unregistered, 
+     * the {@code email} and {@code course} will be used to construct the id.
+     * @param googleId the google ID
+     * @param email the email
+     * @param course the course
+     * @return log ID
+     */
+    public String generateLogId(String googleId, String email, String course, long time) {
+        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) 
+                                        && email != null && course != null;
+        
+        return isUnregisteredStudent ? email + "%" + course + "%" + formatTimeForId(new Date(time))
+                                     : googleId + "%" + formatTimeForId(new Date(time));
     }
     
     public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
