@@ -1533,7 +1533,8 @@ function removeRubricCol(index, questionNumber) {
     }
     
     if (numberOfCols <= 1) {
-        $thisCol.find('input, textarea').val('');
+        $thisCol.find('input[id^="rubricChoice"], textarea').val('');
+        $thisCol.find('input[id^="rubricWeight"]').val(0);
     } else {
         $thisCol.remove();
     
