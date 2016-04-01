@@ -6,6 +6,7 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
         </classes>
     </test>
 

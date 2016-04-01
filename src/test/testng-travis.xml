@@ -7,19 +7,19 @@
         </listeners>
         <!--These can be run without starting the server. Should be run often. -->
         <packages>
-            <!-- <package name="teammates.test.cases.automated" />
+            <package name="teammates.test.cases.automated" />
             <package name="teammates.test.cases.common" />
             <package name="teammates.test.cases.logic" />
             <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.ui" />
-            <package name="teammates.test.cases.ui.pagedata" /> -->
+            <package name="teammates.test.cases.ui.pagedata" />
         </packages>
         <classes>
-            <!-- <class name="teammates.test.cases.testdriver.AssertHelperTest" />
+            <class name="teammates.test.cases.testdriver.AssertHelperTest" />
             <class name="teammates.test.cases.testdriver.DataBundleTest" />
             <class name="teammates.test.cases.testdriver.HtmlHelperTest" />
             <class name="teammates.test.cases.testdriver.TestNgTest" />
-            <class name="teammates.test.cases.testdriver.TestPropertiesTest" /> -->
+            <class name="teammates.test.cases.testdriver.TestPropertiesTest" />
         </classes>
     </test>
 
@@ -29,11 +29,11 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
-            <!-- <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" /> -->
+            <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
         </classes>
     </test>
 
@@ -44,9 +44,9 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
-            <!-- <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
+            <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
             <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
-            <class name="teammates.test.cases.ui.browsertests.AllJsTests" /> -->
+            <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
         </classes>
     </test>
 
@@ -56,7 +56,7 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
-            <!-- <class name="teammates.test.cases.ui.browsertests.AppPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AppPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseStudentDetailsEditPageUiTest" />
@@ -78,9 +78,8 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorEditStudentFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditCopyUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" /> -->
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
-            <!-- <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
@@ -97,7 +96,7 @@
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminSessionsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" /> -->
+            <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" />
         </classes>
     </test>
 
@@ -107,7 +106,7 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
-            <!-- <class name="teammates.test.cases.testdriver.BackDoorTest" /> -->
+            <class name="teammates.test.cases.testdriver.BackDoorTest" />
         </classes>
     </test>
 </suite>
