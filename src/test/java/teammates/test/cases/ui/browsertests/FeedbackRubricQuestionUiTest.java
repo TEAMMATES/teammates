@@ -312,7 +312,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Edit the weight of the first choice
         feedbackEditPage.clickAssignWeightsLink(1);
-        feedbackEditPage.fillRubricWeightBox("2", 1, 0);
+        feedbackEditPage.fillRubricWeightBox("2.25", 1, 0);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditWeightSuccess.html");
