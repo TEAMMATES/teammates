@@ -198,7 +198,7 @@ Role: committer
   * Checkout the branch and update with latest master<br>
     `git checkout -b 2287-add-sample-course-test origin/2287-add-sample-course-test`<br>
     `git merge master` <br>
-  * Test the code. 
+  * Test the code by running the `Local tests` and ensure that the all tests pass on Travis.
   * If green, 
     * Merge to master and push.<br>
       `git checkout master` <br>
