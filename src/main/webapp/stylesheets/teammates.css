@@ -222,10 +222,6 @@ h2.subcaption {
 }
 
 .lastUpdate {
-    position: relative; 
-    bottom: 0px; 
-    left: 600px; 
-    width: 200px; 
     text-align:right;
     color:#808080;
 }
