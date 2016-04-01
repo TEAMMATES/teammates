@@ -32,6 +32,6 @@
 
     <ti:remindParticularStudentsModal />
     <feedbacks:copyFromModal copyFromModal="${data.copyFromModal}" />
-    <ti:copyModal />
+    <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
     
 </ti:instructorPage>

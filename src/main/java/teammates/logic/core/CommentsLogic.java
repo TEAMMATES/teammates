@@ -24,6 +24,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.InstructorsDb;
@@ -405,7 +406,7 @@ public class CommentsLogic {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
             //for team
-            } else if (c.recipientType == CommentParticipantType.TEAM && c.recipients.contains(student.team)) {
+            } else if (c.recipientType == CommentParticipantType.TEAM && c.recipients.contains(Sanitizer.sanitizeForHtml(student.team))) {
                 if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);

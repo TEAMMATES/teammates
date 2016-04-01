@@ -9,6 +9,7 @@ import static org.testng.AssertJUnit.assertFalse;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
@@ -37,6 +38,11 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception {
         testContent();
+    }
+
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
     }
     
     private void testContent() {

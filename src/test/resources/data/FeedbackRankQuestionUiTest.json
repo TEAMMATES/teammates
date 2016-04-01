@@ -117,9 +117,9 @@
       "googleId": "FRankUiT.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "FRankUiT.CS4221",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Section 1"
     },
     "benny.tmms@FRubricQnUiT.CS2104": {
@@ -128,7 +128,7 @@
       "course": "FRankUiT.CS4221",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1",
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Section 1"
     },
     "charlie.tmms@FRubricQnUiT.CS2104": {
@@ -738,7 +738,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giverEmail":"charlie.d.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"Team 1",
+       "recipientEmail":"Team 1</option><option value=\"dump\"></td><td>'\"",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{
@@ -755,7 +755,7 @@
        "feedbackQuestionType":"RANK_RECIPIENTS",
        "giverEmail":"emily.f.tmms@gmail.tmt",
        "giverSection":"Section 2",
-       "recipientEmail":"Team 1",
+       "recipientEmail":"Team 1</option><option value=\"dump\"></td><td>'\"",
        "recipientSection":"Section 1",
        "responseMetaData":{
             "value": "{

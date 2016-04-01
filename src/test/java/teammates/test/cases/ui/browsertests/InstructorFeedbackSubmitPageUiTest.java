@@ -104,7 +104,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
 
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
-        submitPage.selectRecipient(2, 0, "Alice Betsy");
+        submitPage.selectRecipient(2, 0, "Alice Betsy</option></td></div>'\"");
         submitPage.fillResponseTextBox(2, 0, "Response to Alice.");
         submitPage.selectRecipient(2, 1, "Drop out");
         submitPage.fillResponseTextBox(2, 1, "Response to student who is going to drop out.");
@@ -203,13 +203,13 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(8, 2, "UI");
 
         submitPage.chooseMcqOption(9, 0, "Drop out (Team 2)");
-        submitPage.toggleMsqOption(10, 0, "Alice Betsy (Team 1)");
-        submitPage.toggleMsqOption(10, 0, "Benny Charles (Team 1)");
+        submitPage.toggleMsqOption(10, 0, "Alice Betsy</option></td></div>'\" (Team 1</td></div>'\")");
+        submitPage.toggleMsqOption(10, 0, "Benny Charles (Team 1</td></div>'\")");
         submitPage.toggleMsqOption(10, 0, "Charlie Davis (Team 2)");
         submitPage.toggleMsqOption(10, 0, "Extra guy (Team 2)");
 
         submitPage.chooseMcqOption(11, 0, "Team 2");
-        submitPage.toggleMsqOption(12, 0, "Team 1");
+        submitPage.toggleMsqOption(12, 0, "Team 1</td></div>'\"");
         submitPage.toggleMsqOption(12, 0, "Team 3");
 
         submitPage.fillResponseTextBox(13, 0, "5");
@@ -247,7 +247,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Just check the edited responses, and two new response.
         assertNull(BackDoor.getFeedbackResponse(fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 2"));
-        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 1"));
+        assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 1</td></div>'\""));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 3"));
 
@@ -296,7 +296,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         FeedbackConstantSumResponseDetails frConstSum2_0 =
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(
-                         fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 1").getResponseDetails();
+                         fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 1</td></div>'\"").getResponseDetails();
 
         assertEquals("90", frConstSum2_0.getAnswerString());
 

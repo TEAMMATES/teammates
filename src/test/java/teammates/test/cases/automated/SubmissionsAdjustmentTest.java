@@ -30,6 +30,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
@@ -228,7 +229,7 @@ public class SubmissionsAdjustmentTest extends BaseComponentUsingTaskQueueTestCa
             String errorReason = String.format(FieldValidator.EMAIL_ERROR_MESSAGE, "e6@g@",
                     FieldValidator.REASON_INCORRECT_FORMAT);
             String expectedMessage = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM,
-                    invalidStudentId, errorReason);
+                    invalidStudentId, Sanitizer.sanitizeForHtml(errorReason));
             
             assertEquals(expectedMessage, actualErrorMessage);
         }
