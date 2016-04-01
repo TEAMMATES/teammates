@@ -571,7 +571,7 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
 
-    private List<Student> getStudentEntitiesForCourse(String courseId) {
+    public List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");

@@ -2,6 +2,7 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,6 +11,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CommentAttributes;
@@ -26,6 +28,7 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.Student;
 
 /**
@@ -46,13 +49,14 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         migrator.doOperationRemotely();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void doOperation() {
         Datastore.initialize();
         List<CourseAttributes> courseList = getCoursesWithinOneYear();
         List<Student> allStudents = getStudentsFromCourses(courseList);
         int totalNumberOfStudents = allStudents.size();
+        
+        System.out.println("There is/are " + courseList.size() + " course(s) within one year.");
         
         if (isPreview) {
             System.out.println("Checking extra spaces in team name...");
@@ -89,15 +93,28 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
     }
 
     private List<Student> getStudentsFromCourses(List<CourseAttributes> courseList) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Student> studentList = new ArrayList<Student>();
+        for (CourseAttributes course : courseList) {
+            studentList.addAll(studentsDb.getStudentEntitiesForCourse(course.id));
+        }
+        return studentList;
     }
 
     private List<CourseAttributes> getCoursesWithinOneYear() {
         List<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
         
+        Query q = getPM().newQuery(Course.class);
+        q.declareParameters("java.util.Date startTime");
+        q.setFilter("createdAt >= startTime");
         
+        Calendar startTime = Calendar.getInstance();
+        startTime.add(Calendar.YEAR, -1);
         
+        @SuppressWarnings("unchecked")
+        List<Course> courseEntityList = (List<Course>) q.execute(startTime.getTime());
+        for (Course course : courseEntityList) {
+            courseList.add(new CourseAttributes(course));
+        }
         return courseList;
     }
 
