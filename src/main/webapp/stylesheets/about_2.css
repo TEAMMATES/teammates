@@ -1,0 +1,133 @@
+#core_team{
+width:100%;
+height:auto;
+overflow:hidden;
+text-align:center;
+}
+
+#core_1 section{
+float:left;
+overflow:hidden;
+width:210px;
+margin-left:5px;
+position:relative;
+}
+
+#core_2 section{
+float:left;
+overflow:hidden;
+width:210px;
+margin-left:5px;
+}
+#core_3 section{
+float:left;
+overflow:hidden;
+width:210px;
+margin-left:5px;
+}
+#core_4 section{
+float:left;
+overflow:hidden;
+width:210px;
+margin-left:5px;
+}
+#core_1 section p{
+display:none;
+}
+#core_2 section p{
+display:none;
+}
+#core_3 section p{
+display:none;
+}
+#core_4 section p{
+display:none;
+}
+#core_4 section:hover {
+	height:auto;	
+	background-color:grey;
+	border-radius:10px;
+}
+#core_3 section:hover {
+	height:auto;
+	background-color:grey;
+	border-radius:10px;
+}
+#core_2 section:hover {
+	height:auto;
+	background-color:grey;
+	border-radius:10px;	
+}
+#core_1 section:hover {
+	height:auto;
+	background-color:grey;
+	border-radius:10px;
+}
+#core_4 section:hover p {
+	display:block;	
+	background-color:grey;
+	color:white;
+	border-radius:10px;
+	font-size:12px;
+	padding:10px;
+}
+#core_3 section:hover p {
+	display:block;	
+	background-color:grey;
+	color:white;
+	border-radius:10px;
+	font-size:12px;
+	padding:10px;
+}
+#core_2 section:hover p {
+	display:block;	
+	background-color:grey;
+	color:white;
+	border-radius:10px;
+	font-size:12px;
+	padding:10px;
+}
+#core_1 section:hover p {
+	display:block;	
+	padding:10px;
+	background-color:grey;
+	font-size:12px;
+	color:white;
+	border-radius:10px;
+}
+#core_1{
+	clear:both;
+	display:block;
+	margin:10px 10px;
+	padding:10px 0px 10px 0px;
+	height:120px;
+}
+#core_2{
+	clear:both;
+	display:block;
+	margin:10px 10px;
+	padding:10px 0px 10px 0px;
+	height:120px;
+}
+#core_3{
+	clear:both;
+	display:block;
+	margin:10px 10px;
+	padding:10px 0px 10px 0px;
+	height:120px;
+}
+#core_4{
+	clear:both;
+	display:block;
+	margin:10px 10px;
+	padding:10px 0px 10px 0px;
+	height:120px;
+}
+.sec{
+border:7px solid grey; 
+position:absolute; 
+z-index:100;
+width:166px; 
+height:123px; 
+margin-left:15px;
+}
