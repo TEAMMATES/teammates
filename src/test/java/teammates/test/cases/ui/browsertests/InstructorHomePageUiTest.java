@@ -313,15 +313,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFeedbackSessionUnpublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-        assertEquals(false, BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
-                                                        feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
+        assertFalse(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
+                                                feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
 
         ______TS("publish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionPublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-        assertEquals(true, BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
-                                                       feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
+        assertTrue(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
+                                               feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
     }
     
     public void testArchiveCourseAction() throws Exception {
