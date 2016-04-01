@@ -31,8 +31,18 @@ function handleData(err, countryCoordinates, userData) {
         }
     }
 
-    d3.select('#totalCount').text(userData.length + ' institutions from ' + countriesArr.length + ' countries');
-
+ //   d3.select('#totalCount').text('userData.length' + ' institutions from ' + countriesArr.length + ' countries');
+   // d3.select('#totalCount').text('abc');
+    
+  // var tc =  document.getElementById('totalCount');
+   var first = userData.length;
+   
+   var second = countriesArr.length;
+   
+   document.getElementById('totalCount').innerHTML = '<span class="highlight">'+first+'</span> institutions from <span class="highlight">'+ second+'</span> countries';
+   
+   
+    
     // Data format example
     // var series = [
     //     ['BLR', 1], ['BLZ', 1], ['RUS', 1], ['RWA', 1], ['SRB', 1], ['TLS', 1],

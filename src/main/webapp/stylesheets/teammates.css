@@ -29,6 +29,24 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+#totalCount{
+  font-weight:bold;
+  color:blue;  
+  text-align:center;
+  font-size:16px;
+  margin-left:20%;
+}
+#lastUpdate{
+    float:right;
+    font-size:14px;
+    color:grey;
+    
+}
+
+.highlight{
+ color:#e46d0b;
+ font-size:20px;   
+}
 body {
     line-height: 1;
     font-family: Arial, Helvetica, sans-serif;
