@@ -66,13 +66,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for(int i = 0 ; i<numOfRubricChoices ; i++) {
             String choice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
             String weight = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-" + i);
-            if(choice != null && weight != null) {
+            if (choice != null && weight != null) {
                 rubricChoices.add(choice);
 
                 try {
                     rubricWeights.add(Integer.parseInt(weight));
                 } catch (NumberFormatException e) {
-                    rubricWeights.add(0);
+                    // Do not add weight to rubricWeights if the weight cannot be parsed
                 }
 
                 numActualChoices++;
@@ -754,6 +754,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      *      2) At least 2 choices
      *      3) At least 1 sub-question
      *      4) Choices and sub-questions should not be empty
+     *      5) Choices must have corresponding weights
      */
     @Override
     public List<String> validateQuestionDetails() {
@@ -789,7 +790,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 break;
             }
         }
-        
+
+        if (rubricChoices.size() != rubricWeights.size()) {
+            errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
+        }
+
         return errors;
     }
 

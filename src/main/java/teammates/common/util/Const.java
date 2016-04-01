@@ -290,7 +290,7 @@ public class Const {
         public static final String RUBRIC_ERROR_EMPTY_CHOICE = "Choices for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION = "Sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
         public static final String RUBRIC_ERROR_INVALID_CHOICE = "An invalid choice was chosen for the " + Const.FeedbackQuestionTypeNames.RUBRIC + ".";
-        
+        public static final String RUBRIC_ERROR_INVALID_WEIGHT = "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.RUBRIC + " must be integers.";
     }
 
     public class FeedbackQuestionTypeNames{
