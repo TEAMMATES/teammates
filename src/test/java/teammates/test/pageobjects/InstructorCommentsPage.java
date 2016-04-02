@@ -289,7 +289,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     /**
-     * Waits for all the panels to expand.
+     * Waits for CommentsForStudents the panels to expand.
      */
     public void waitForCommentsForStudentsPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector("div[id='panel_display-1']");
