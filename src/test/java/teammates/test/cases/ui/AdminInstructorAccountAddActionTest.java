@@ -82,7 +82,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
         
         AjaxResult r = (AjaxResult) a.executeAndPostProcess();
-        assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
+        assertTrue(r.getStatusMessage().contains("Instructor " + name + " created"));
         
         ______TS("Error: invalid parameter");
         
@@ -112,7 +112,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
         r = (AjaxResult) a.executeAndPostProcess();
-        assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
+        assertTrue(r.getStatusMessage().contains("Instructor " + name + " created"));
         
         // delete the comment that was created
         CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentParticipantType.PERSON,  "alice.b.tmms@gmail.tmt").get(0);
