@@ -12,12 +12,12 @@ public class FeedbackSubmissionEditQuestion {
     private int qnIndx; // If not showing real question number
     private String questionId;
     private String questionText;
-    private FeedbackParticipantType giverType;
     private List<String> visibilityMessages;
     private FeedbackQuestionType questionType;
     private int numberOfEntitiesToGiveFeedbackTo;
     private boolean isModeratedQuestion;
     private boolean isRecipientNameHidden;
+    private boolean isTeamQuestion;
     
     public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
                                     boolean isModeratedQuestion) {
@@ -29,10 +29,10 @@ public class FeedbackSubmissionEditQuestion {
         questionText = questionAttributes.getQuestionDetails().questionText;
         visibilityMessages = questionAttributes.getVisibilityMessage();
         questionType = questionAttributes.questionType;
-        giverType = questionAttributes.giverType;
         numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
         this.isModeratedQuestion = isModeratedQuestion;
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
+        isTeamQuestion = (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS));
     }
 
     public String getCourseId() {
@@ -63,10 +63,6 @@ public class FeedbackSubmissionEditQuestion {
         return questionType;
     }
     
-    public FeedbackParticipantType getGiverType() {
-        return giverType;
-    }
-    
     public int getNumberOfEntitiesToGiveFeedbackTo() {
         return numberOfEntitiesToGiveFeedbackTo;
     }
@@ -77,5 +73,9 @@ public class FeedbackSubmissionEditQuestion {
     
     public boolean isRecipientNameHidden() {
         return isRecipientNameHidden;
+    }
+    
+    public boolean isTeamQuestion() {
+        return isTeamQuestion;
     }
 }

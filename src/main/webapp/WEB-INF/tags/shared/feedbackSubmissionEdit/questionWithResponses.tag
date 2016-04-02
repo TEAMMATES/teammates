@@ -37,10 +37,9 @@
                     <li class="unordered">${line}</li>
                 </c:forEach>
             </ul>
-                
             
-            <c:if test="${questionWithResponses.question.giverType=='TEAMS'}">
-                <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p> 
+            <c:if test="${questionWithResponses.question.teamQuestion}">
+                    <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p> 
             </c:if>
               
             <c:forEach items="${questionWithResponses.responses}" var="response">
