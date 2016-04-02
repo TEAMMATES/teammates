@@ -8,6 +8,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -51,33 +52,22 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
         AppUrl sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
-        assertFalse(isTimeFramePanelVisible());
+        By timeFramePanel = By.id("timeFramePanel");
+        sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());
         
         ______TS("content: show filter");
         
         sessionsPage.clickDetailButton();
-        assertTrue(isTimeFramePanelVisible());
+        sessionsPage.waitForElementVisibility(browser.driver.findElement(timeFramePanel));
         assertTrue(isSessionDataDisplayCorrect());
         
         ______TS("content: hide filter");
         
         sessionsPage.clickDetailButton();
-        assertTrue(isTimeFramePanelInvisible());
+        sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());
         
-    }
-    
-    private boolean isTimeFramePanelVisible() {
-        By timeFramePanel = By.id("timeFramePanel");
-        sessionsPage.waitForElementPresence(timeFramePanel);
-        return sessionsPage.isElementVisible(timeFramePanel) == true;
-    }
-
-    private boolean isTimeFramePanelInvisible() {
-        By timeFramePanel = By.id("timeFramePanel");
-        sessionsPage.waitForElementToDisappear(timeFramePanel);
-        return sessionsPage.isElementVisible(timeFramePanel) == false;
     }
     
     /**
