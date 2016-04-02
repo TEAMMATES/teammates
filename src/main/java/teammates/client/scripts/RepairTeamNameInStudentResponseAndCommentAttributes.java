@@ -3,6 +3,7 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -109,8 +110,7 @@ public class RepairTeamNameInStudentResponseAndCommentAttributes extends RemoteA
         q.declareParameters("java.util.Date startTime");
         q.setFilter("createdAt >= startTime");
         
-        Calendar startTime = Calendar.getInstance();
-        startTime.add(Calendar.YEAR, -1);
+        Calendar startTime = new GregorianCalendar(2016, Calendar.JANUARY, 1);
         
         @SuppressWarnings("unchecked")
         List<Course> courseEntityList = (List<Course>) q.execute(startTime.getTime());
