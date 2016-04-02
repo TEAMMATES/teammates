@@ -26,6 +26,7 @@ before_install:
     src/test/resources/test.properties"
   - "cp src/main/webapp/WEB-INF/appengine-web.template.xml \
     src/main/webapp/WEB-INF/appengine-web.xml"
+  - "sed -i -- 's/timeout=15/timeout=60/g' src/test/resources/test.properties"
 
 before_script:
   - export DISPLAY=:99.0

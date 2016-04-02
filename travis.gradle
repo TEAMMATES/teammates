@@ -2,7 +2,7 @@ apply plugin: "war"
 apply plugin: "appengine"
 
 def appengineVersion = "1.9.27"
-def numOfTestRetries = 3
+def numOfTestRetries = 1
 def isTravis = System.getenv("TRAVIS") != null
 def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 
@@ -192,6 +192,7 @@ test {
     }
     testLogging {
         events "passed"
+        exceptionFormat = "full"
     }
     afterTest afterTestClosure
     finalizedBy "killFirefox1"
