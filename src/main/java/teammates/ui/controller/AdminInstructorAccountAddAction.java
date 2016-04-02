@@ -60,7 +60,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 data.instructorEmail = instructorInfo[1];
                 data.instructorInstitution = instructorInfo[2];
             } catch (InvalidParametersException e1) {
-                data.statusForAjax = e1.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+                data.statusForAjax = e1.getMessage();
                 data.instructorAddingResultForAjax = false;
                 statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
                 return createAjaxResult(data);
@@ -84,7 +84,7 @@ public class AdminInstructorAccountAddAction extends Action {
         try {
             logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
         } catch (InvalidParametersException e1) {
-            data.statusForAjax = e1.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+            data.statusForAjax = e1.getMessage();
             data.instructorAddingResultForAjax = false;
             statusToUser.add(new StatusMessage(data.statusForAjax, StatusMessageColor.DANGER));
             return createAjaxResult(data);
