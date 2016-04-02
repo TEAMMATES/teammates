@@ -211,7 +211,7 @@ public class InstructorCommentsPage extends AppPage {
     /**
      * Clicks 'Comments for students' panel heading of the comment panel to either expand/collapse the panel body.
      */
-    public void clickSingleCommentsPanelHeading() {
+    public void clickCommentsForStudentsPanelHeading() {
         WebElement e = browser.driver.findElement(By.cssSelector("div[id='panel_display-1']"));;
 
         e.findElement(By.cssSelector(".panel-heading")).click();        
@@ -272,7 +272,7 @@ public class InstructorCommentsPage extends AppPage {
     /**
      * Waits for 'comments for students' panel to collapse.
      */
-    public void waitForSinglePanelsToCollapse() {
+    public void waitForCommentsForStudentsPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector("div[id='panel_display-1']").cssSelector(".panel-heading+.panel-collapse");
                
         waitForElementToDisappear(panelCollapseSelector);
@@ -283,6 +283,16 @@ public class InstructorCommentsPage extends AppPage {
      */
     public void waitForPanelsToExpand() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        waitForElementsVisibility(webElements);
+    }
+    
+    /**
+     * Waits for all the panels to expand.
+     */
+    public void waitForCommentsForStudentsPanelsToExpand() {
+        By panelCollapseSelector = By.cssSelector("div[id='panel_display-1']");
         List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
         
         waitForElementsVisibility(webElements);

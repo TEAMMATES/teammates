@@ -154,8 +154,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         commentsPage.clickCommentsPageLinkInHeader();
         
-        commentsPage.clickSingleCommentsPanelHeading();
-        commentsPage.waitForSinglePanelsToCollapse();
+        commentsPage.clickCommentsForStudentsPanelHeading();
+        commentsPage.waitForCommentsForStudentsPanelsToCollapse();
         assertTrue(commentsPage.areCommentsHidden());
         
         commentsPage.clickAllCommentsPanelHeading();
@@ -165,6 +165,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickAllCommentsPanelHeading();
         commentsPage.waitForPanelsToCollapse();
         assertTrue(commentsPage.areCommentsHidden());
+        
+        commentsPage.clickCommentsForStudentsPanelHeading();
+        commentsPage.waitForCommentsForStudentsPanelsToExpand();
         
     }
 
