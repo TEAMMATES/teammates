@@ -6,13 +6,13 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 
 
-[Knowledge required](#h.abftcg92xk1k)
+[Knowledge required](#knowledge-required)
 
-[Workload](#h.8yn20iebwilp)
+[Workload](#workload)
 
-[Getting started](#h.4es3v3yquxal)
+[Getting started](#getting-started)
 
-[Contacting us](#h.5lngkuxtl5mo)
+[Contacting us](#contacting-us)
 
 * * *
 
