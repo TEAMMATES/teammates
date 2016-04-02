@@ -757,7 +757,7 @@ function validateAllAnswersHaveRecipient() {
 
     if (!isAllAnswersToMissingRecipientEmpty) {
         util.setStatusMessage(statusMessage + '.', StatusType.DANGER);
-	}
+    }
 
     return isAllAnswersToMissingRecipientEmpty;
 }

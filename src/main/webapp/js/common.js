@@ -90,7 +90,7 @@ var StatusType = {
     WARNING : "warning",
     DANGER : "danger",
     isValidType : function(type) {
-	    return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
+    return type === StatusType.SUCCESS || type === StatusType.INFO || type === StatusType.WARNING || type === StatusType.DANGER;
     }
 };
 
@@ -792,25 +792,3 @@ if (!String.prototype.includes) {
 
 /** Selector for status message div tag (to be used in jQuery) */
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

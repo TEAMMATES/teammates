@@ -17,9 +17,6 @@ $(document).ready(function(){
 	    if (util.isBlank(formTextField)) {
 	        util.setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
 	        util.scrollToTop();
-	    if (isBlank(formTextField)) {
-	        setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
-	        scrollToTop();
 	        return false;
 	    }
 	}
