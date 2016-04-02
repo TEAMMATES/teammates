@@ -238,7 +238,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         ______TS("new instructor can send reminder of sample course");
         instructorHomePage.loadInstructorHomeTab();
         instructorHomePage.clickFeedbackSessionRemindLink("AHPUiT.instr1.gma-demo", 
-                                                                          "Second team feedback session");
+                                                          "Second team feedback session");
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbackSessionRemind.html");
         
         ______TS("new instructor can unpublish feedbackSession of sample course");

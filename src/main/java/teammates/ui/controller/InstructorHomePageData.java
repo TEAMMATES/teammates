@@ -37,12 +37,12 @@ public class InstructorHomePageData extends PageData {
     }
     
     /**
-     * Retrieves the link to submit the request for remind of particular student.
+     * Retrieves the link to submit the request to remind a particular student(s)
      * Also contains home page link to return after the action.
      * @return form submit action link
      */
-    public String getRemindParticularStudentActionLink() {
-        return getInstructorFeedbackRemindParticularStudentActionLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+    public String getRemindParticularStudentsLink() {
+        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     /**
