@@ -1,0 +1,367 @@
+apply plugin: "war"
+apply plugin: "appengine"
+
+def appengineVersion = "1.9.27"
+def numOfTestRetries = 3
+def isTravis = System.getenv("TRAVIS") != null
+def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.google.appengine:gradle-appengine-plugin:1.9.30"
+    }
+}
+
+configurations {
+    enhancer
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "commons-codec:commons-codec:1.6"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    appengineSdk    "com.google.appengine:appengine-java-sdk:${appengineVersion}"
+
+    compile         "com.fasterxml.jackson.core:jackson-core:2.1.3",
+                    "com.google.api-client:google-api-client-appengine:1.18.0-rc",
+                    "com.google.api-client:google-api-client:1.18.0-rc",
+                    "com.google.apis:google-api-services-storage:v1beta2-rev47-1.18.0-rc",
+                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
+                    "com.google.appengine.tools:appengine-gcs-client:0.3.13",
+                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
+                    "com.google.appengine:appengine-endpoints-deps:${appengineVersion}",
+                    "com.google.appengine:appengine-endpoints:${appengineVersion}",
+                    "com.google.appengine:appengine-jsr107cache:${appengineVersion}",
+                    "com.google.code.gson:gson:2.2.2",
+                    "com.google.guava:guava:15.0",
+                    "commons-fileupload:commons-fileupload:1.3.1",
+                    "javax.jdo:jdo2-api:2.3-eb",
+                    "org.apache.geronimo.specs:geronimo-jpa_3.0_spec:1.1.1",
+                    "org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1",
+                    "org.datanucleus:datanucleus-core:1.1.5",
+                    "org.datanucleus:datanucleus-jpa:1.1.5",
+                    "xerces:xercesImpl:2.9.1"
+
+    enhancer        "javax.jdo:jdo2-api:2.3-eb",
+                    "com.google.code.gson:gson:2.2.2",
+                    "com.google.appengine.orm:datanucleus-appengine:1.0.10",
+                    "org.datanucleus:datanucleus-core:1.1.5",
+                    "org.datanucleus:datanucleus-jpa:1.1.5",
+                    "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}"
+
+
+    providedCompile "com.google.appengine:appengine-api-labs:${appengineVersion}",
+                    "com.google.appengine:appengine-api-stubs:${appengineVersion}",
+                    "com.google.appengine:appengine-remote-api:${appengineVersion}",
+                    "com.google.appengine:appengine-testing:${appengineVersion}",
+                    "httpunit:httpunit:1.7",
+                    "javax.mail:mail:1.4.5",
+                    "org.testng:testng:6.8.7"
+
+    testRuntime     "com.google.appengine:appengine-tools-sdk:${appengineVersion}",
+                    "org.seleniumhq.selenium:selenium-java:2.46.0"
+
+
+    // Hack to get selenium-server-standalone from URL
+    def f = file("libs/selenium-server-standalone-2.46.jar")
+    f.getParentFile().mkdirs()
+    if (!f.exists()) {
+        new URL("http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar")
+            .withInputStream{i -> f.withOutputStream{ it << i }}
+    }
+    providedCompile fileTree(dir: "libs", include: ["*.jar"])
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "src/main/java"
+            srcDir "src/test/java"
+            include "**/*.java"
+        }
+        resources {
+            srcDir "src/main/resources"
+            srcDir "src/test/resources"
+            exclude "**/*.java"
+        }
+    }
+}
+
+appengine {
+    httpPort = 8888
+    downloadSdk = true
+    jvmFlags = ["-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"]
+    appcfg {
+        oauth2 = true
+    }
+}
+
+appengineRun {
+    if (project.hasProperty("disable_daemon")) {
+        daemon = false
+    } else {
+        daemon = true
+    }
+}
+project.tasks.getByName("war").dependsOn "enhancerRun"
+
+task enhancerRun << {
+    def path = System.getProperty("java.class.path") + ":" + project.gradle.gradleUserHomeDir + "/appengine-sdk/appengine-java-sdk-${appengineVersion}/lib/appengine-tools-api.jar"
+    ant.taskdef(name: "enhance", classpath: path, classname: "com.google.appengine.tools.enhancer.EnhancerTask")
+    ant.enhance(failonerror: true, verbose: true) {
+        classpath {
+            pathelement(path: path)
+            pathelement(path: sourceSets.main.output.classesDir.canonicalPath)
+            pathelement(path: project.configurations.enhancer.asPath)
+        }
+        fileset(dir: sourceSets.main.output.classesDir.canonicalPath, includes: "teammates/storage/entity/*.class")
+        arg(value: "-enhancerVersion"); arg(value: "v1")
+        arg(value: "-api"); arg(value: "JPA")
+    }
+}
+enhancerRun.dependsOn project.classes
+
+(1..numOfTestRetries + 1).each { id ->
+    task "killFirefox${id}"(type: Exec) {
+        doFirst {
+            if (isWindows) {
+                commandLine "TASKKILL", "/F", "/IM", "firefox.exe"
+            } else {
+                commandLine "pkill", "firefox"
+            }
+            // Silence output for this task
+            standardOutput = new ByteArrayOutputStream()
+            errorOutput = standardOutput
+        }
+        ignoreExitValue = true
+        outputs.upToDateWhen { false }
+    }
+}
+
+def afterTestClosure = { descriptor, result ->
+    if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
+        def msg = result.exception.getMessage()
+        def shouldDiff = msg.indexOf("<<[expected>\n") != -1
+        if (shouldDiff) {
+            file("expected").text = msg[(msg.indexOf("<<[expected>\n") + 13)..(msg.indexOf("\n</expected]>>") - 1)]
+            file("actual").text = msg[(msg.indexOf("<<[actual>\n") + 11)..(msg.indexOf("\n</actual]>>") - 1)]
+            if (isWindows) {
+                def process = "FC expected actual".execute()
+                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
+                println process.getText()
+                process.waitFor()
+            } else {
+                def process = "diff expected actual".execute()
+                println "Diff for " + descriptor.getClassName() + "." + descriptor.getName() + ":\n"
+                println process.getText()
+                process.waitFor()
+            }
+        }
+    }
+}
+
+
+// TRAVIS TEST TASKS
+
+test {
+    useTestNG()
+    options.suites "src/test/testng-travis.xml"
+    options.useDefaultListeners = true
+    options.outputDirectory = file("build/reports/test-try-1")
+    ignoreFailures = numOfTestRetries != 0 ? true : false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (isTravis) {
+        jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+    } else {
+        jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    testLogging {
+        events "passed"
+    }
+    afterTest afterTestClosure
+    finalizedBy "killFirefox1"
+    dependsOn "enhancerRun"
+}
+
+task travisTests {
+    dependsOn "test"
+}
+
+(1..numOfTestRetries).each { id ->
+    def isLastRetry = id == numOfTestRetries ? true : false
+    task "testRetry${id}"(type: Test) {
+        useTestNG()
+        options.suites("build/reports/test-try-${id}/testng-failed.xml")
+        options.outputDirectory = file("build/reports/test-try-${id+1}")
+        options.useDefaultListeners = true
+        testClassesDir = sourceSets.test.output.classesDir
+        classpath = sourceSets.test.runtimeClasspath
+        testSrcDirs = sourceSets.test.java.srcDirs as List
+        ignoreFailures = isLastRetry ? false : true
+        maxHeapSize = "1g"
+        reports.html.enabled = false
+        reports.junitXml.enabled = false
+        if (isTravis) {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+        } else {
+            jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+        }
+        testLogging {
+            events "passed"
+            if (isLastRetry) {
+                exceptionFormat = "full"
+            }
+        }
+        if (!isLastRetry) {
+            afterTest afterTestClosure
+        }
+        finalizedBy = isLastRetry ? ["killFirefox${id+1}", "appengineStop", "generateFailedCmd"] : ["killFirefox${id+1}"]
+        dependsOn test, enhancerRun
+        onlyIf {
+            file("build/reports/test-try-${id}/testng-failed.xml").exists()
+        }
+    }
+    travisTests.dependsOn "testRetry${id}"
+}
+
+task generateFailedCmd(type: Exec) {
+    onlyIf {
+        file("build/reports/test-try-${numOfTestRetries}/testng-failed.xml").exists()
+    }
+    def os = new ByteArrayOutputStream()
+    doFirst {
+        commandLine "gist", "-p", "build/reports/test-try-${numOfTestRetries}/testng-failed.xml"
+        standardOutput = os
+    }
+    doLast {
+        def gistUrl = os.toString()
+        def gistHash = gistUrl.substring(gistUrl.lastIndexOf("/") + 1).replaceAll("\\s", "")
+        logger.lifecycle("Run failed tests locally using the gradle task")
+        logger.lifecycle("./gradlew -Pgist=${gistHash} downloadFailedXml")
+        logger.lifecycle("followed by running \"Failed tests\" in Eclipse")
+    }
+}
+
+defaultTasks "appengineRun", "travisTests", "appengineStop"
+
+// LOCAL TEST TASKS (NOT USED CURRENTLY)
+
+// def testTasksMap = [
+//     "staging": [
+//         "xml": "src/test/testng-travis.xml",
+//         "names": "component-tests,sequential-ui-tests,parallel-ui-tests"
+//     ],
+//     "local": [
+//         "xml": "src/test/testng-local.xml",
+//         "names": "smoke-tests,unstable-tests"
+//     ]
+// ]
+//
+// testTasksMap.each { taskNamePrefix, testParams ->
+//     task "${taskNamePrefix}Tests"(type: JavaExec) {
+//         doFirst {
+//             classpath = sourceSets.test.runtimeClasspath
+//             main = "org.testng.TestNG"
+//             args "-configfailurepolicy", "continue"
+//             args "-testnames", testParams["names"]
+//             args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+//             args testParams["xml"]
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+//         }
+//         dependsOn "appengineRun", "cleanTestOutput"
+//         finalizedBy "appengineStop", "testOutput"
+//     }
+// }
+//
+// task cleanTestOutput {
+//     doFirst {
+//         def testOutputDir = new File("test-output")
+//         testOutputDir.deleteDir()
+//     }
+//     outputs.upToDateWhen { false }
+// }
+// clean.dependsOn cleanTestOutput
+//
+// task testOutput(type: Exec) {
+//     onlyIf {
+//         file("test-output/testng-failed.xml").exists()
+//     }
+//     doFirst {
+//         if (isWindows) {
+//             commandLine "cmd", "/c", "start", "test-output/emailable-report.html"
+//         } else {
+//             commandLine "open", "-a", "Google Chrome", "test-output/emailable-report.html"
+//         }
+//     }
+//     ignoreExitValue = true
+//     outputs.upToDateWhen { false }
+// }
+//
+// task manualTests(type: JavaExec) {
+//     onlyIf {
+//         project.hasProperty("test_classes")
+//     }
+//     doFirst {
+//         classpath = sourceSets.test.runtimeClasspath
+//         main = "org.testng.TestNG"
+//         args "-configfailurepolicy", "continue"
+//         args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+//         args "-testclass", test_classes
+//         if (project.hasProperty("god_mode")) {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+//         } else {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+//         }
+//     }
+//     dependsOn "appengineRun", "cleanTestOutput"
+//     finalizedBy "appengineStop", "testOutput"
+// }
+//
+// task failedTests(type: JavaExec) {
+//     onlyIf {
+//         file("test-output/testng-failed.xml").exists()
+//     }
+//     doFirst {
+//         classpath = sourceSets.test.runtimeClasspath
+//         main = "org.testng.TestNG"
+//         args "-configfailurepolicy", "continue"
+//         args "-reporter", "org.testng.reporters.SuiteHTMLReporter"
+//         args "test-output/testng-failed.xml"
+//         if (project.hasProperty("god_mode")) {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8", "-Dgodmode=true"
+//         } else {
+//             jvmArgs "-Duser.timezone=UTC-Xss2m", "-Dfile.encoding=UTF-8"
+//         }
+//     }
+//     dependsOn "appengineRun"
+//     finalizedBy "appengineStop", "testOutput"
+// }
+//
+// task failedTestsFromTravis(type: Exec) {
+//     dependsOn "cleanTestOutput"
+//     onlyIf {
+//         project.hasProperty("gist")
+//     }
+//     doFirst {
+//         commandLine "gist", "-r", gist
+//         def testDir = new File("test-output/")
+//         testDir.mkdirs()
+//         standardOutput = new FileOutputStream("test-output/testng-failed.xml")
+//     }
+//     finalizedBy "failedTests"
+// }
