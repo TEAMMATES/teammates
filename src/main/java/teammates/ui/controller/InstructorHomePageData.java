@@ -37,7 +37,7 @@ public class InstructorHomePageData extends PageData {
     }
     
     /**
-     * Retrieves the link to submit the request to remind a particular student(s)
+     * Retrieves the link to submit the request to remind particular students.
      * Also contains home page link to return after the action.
      * @return form submit action link
      */

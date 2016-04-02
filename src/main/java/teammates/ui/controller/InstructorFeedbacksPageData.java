@@ -280,8 +280,8 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     /**
-     * Retrieves the link to submit the request to remind a particular student(s)
-     * Also contains home page link to return after the action.
+     * Retrieves the link to submit the request to remind particular students.
+     * Also contains feedbacks page link to return after the action.
      * @return form submit action link
      */
     public String getRemindParticularStudentsLink() {
