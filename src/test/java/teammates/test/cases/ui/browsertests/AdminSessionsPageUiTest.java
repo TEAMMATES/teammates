@@ -63,13 +63,21 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         ______TS("content: hide filter");
         
         sessionsPage.clickDetailButton();
-        assertFalse(isTimeFramePanelVisible());
+        assertTrue(isTimeFramePanelInvisible());
         assertTrue(isSessionDataDisplayCorrect());
         
     }
     
     private boolean isTimeFramePanelVisible() {
-        return sessionsPage.isElementVisible(By.id("timeFramePanel"));
+        By timeFramePanel = By.id("timeFramePanel");
+        sessionsPage.waitForElementPresence(timeFramePanel);
+        return sessionsPage.isElementVisible(timeFramePanel) == true;
+    }
+
+    private boolean isTimeFramePanelInvisible() {
+        By timeFramePanel = By.id("timeFramePanel");
+        sessionsPage.waitForElementToDisappear(timeFramePanel);
+        return sessionsPage.isElementVisible(timeFramePanel) == false;
     }
     
     /**
