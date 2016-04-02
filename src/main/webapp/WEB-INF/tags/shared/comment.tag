@@ -1,5 +1,6 @@
 <%@ tag description="Student Comment" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
 <%@ attribute name="comment" type="teammates.ui.template.Comment" required="true" %>
@@ -7,7 +8,7 @@
 <li class="list-group-item list-group-item-warning${comment.extraClass}">
     <div id="commentBar-${commentIndex}">
         <span class="text-muted">
-            To <b>${comment.recipientDisplay}</b> [${comment.createdAt}] ${comment.editedAt}
+            To <b>${fn:escapeXml(comment.recipientDisplay)}</b> [${comment.createdAt}] ${comment.editedAt}
         </span>
         <c:if test="${comment.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"
@@ -69,7 +70,7 @@
                 <div class="form-group form-inline">
                     <div class="form-group text-muted">
                     <p>
-                        Comment about ${comment.recipientDisplay}:
+                        Comment about ${fn:escapeXml(comment.recipientDisplay)}:
                     </p>
                     You may change comment's visibility using the visibility options on the right hand side.
                     </div>

@@ -2,6 +2,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@ attribute name="moderationButton" type="teammates.ui.template.InstructorFeedbackResultsModerationButton" required="true" %>
 
@@ -12,6 +13,6 @@
     <c:if test="${moderationButton.questionNumber != -1}">
         <input type="hidden" name="moderatedquestion" value="${moderationButton.questionNumber}">
     </c:if>
-    <input type="hidden" name="moderatedstudent" value="${moderationButton.giverIdentifier}">
+    <input type="hidden" name="moderatedstudent" value="${fn:escapeXml(moderationButton.giverIdentifier)}">
 </form>
 

@@ -15,6 +15,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentCommentEditAction;
@@ -387,7 +388,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         comments = backDoorLogic.getCommentsForReceiver(
                                          instructor.courseId, 
                                          CommentParticipantType.TEAM, 
-                                         student.team);
+                                         Sanitizer.sanitizeForHtml(student.team));
         iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
@@ -421,7 +422,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentCommentEdit|||instructorStudentCommentEdit"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
                 "|||instr3@course1n2.tmt|||" +
-                "Edited Comment for Student:<span class=\"bold\">([" + student.team + "])</span> " +
+                "Edited Comment for Student:<span class=\"bold\">([" + Sanitizer.sanitizeForHtml(student.team) + "])</span> " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
                 "<span class=\"bold\">Comment:</span> "  + "<Text: some text>" +
                 "|||/page/instructorStudentCommentEdit";

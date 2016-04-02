@@ -772,7 +772,7 @@ public class FeedbackResponsesLogic {
         }
         
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                                        feedbackQuestionId, StringHelper.recoverFromSanitizedText(teamName)));
+                                        feedbackQuestionId, teamName));
 
         return responses;
     }
@@ -816,11 +816,10 @@ public class FeedbackResponsesLogic {
 
         if (question.recipientType.isTeam() &&
                 question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-            String reverseSanitizedTeamName = StringHelper.recoverFromSanitizedText(student.team);
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(
-                            question.getId(), reverseSanitizedTeamName));
+                            question.getId(), student.team));
         }
 
         if (question.giverType == FeedbackParticipantType.TEAMS

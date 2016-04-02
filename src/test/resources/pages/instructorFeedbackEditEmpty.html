@@ -120,7 +120,7 @@
             <button class="btn btn-primary btn-sm" disabled="" id="fsSaveLink" onclick="return checkEditFeedbackSession(this.form);" style="display:none;" type="submit">
               Save Changes
             </button>
-            <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%3Fuser%3DCFeedbackEditUiT.instructor&user=CFeedbackEditUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackEditUiT.CS2104','First Session');" title="">
+            <a class="btn btn-primary btn-sm" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFeedbackEditUiT.instructor" id="fsDeleteLink" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackEditUiT.CS2104','First Session');" title="">
               Delete
             </a>
             <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
@@ -849,7 +849,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorFeedbacksPage" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -1774,10 +1774,10 @@
           <div class="col-sm-6">
             <select class="form-control margin-bottom-7px" name="previewas">
               <option value="alice.b.tmms@gmail.tmt">
-                [Team 1] Alice Betsy
+                [Team 1&lt;/td&gt;&lt;/div&gt;'"] Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </option>
               <option value="benny.tmms@gmail.tmt">
-                [Team 1] Benny Charles
+                [Team 1&lt;/td&gt;&lt;/div&gt;'"] Benny Charles
               </option>
             </select>
           </div>

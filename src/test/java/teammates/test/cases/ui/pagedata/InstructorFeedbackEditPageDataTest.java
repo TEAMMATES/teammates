@@ -89,7 +89,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertNull(fsForm.getFeedbackSessionTypeOptions());
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction());
         
-        assertEquals(data.getInstructorFeedbackDeleteLink(fs.courseId, fs.feedbackSessionName, ""), fsForm.getFsDeleteLink());
+        assertEquals(data.getInstructorFeedbackDeleteLink(fs.courseId, fs.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE), 
+                     fsForm.getFsDeleteLink());
         assertEquals(TimeHelper.formatDate(fs.endTime), fsForm.getFsEndDate());
         
         assertEquals(fs.feedbackSessionName, fsForm.getFsName());
