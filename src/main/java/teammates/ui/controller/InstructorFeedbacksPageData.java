@@ -117,7 +117,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         // adds the default option to courseIdOptions if it is empty
         if (courseIdOptions.isEmpty()) {
-            addPlaceholder(courseIdOptions);
+            addPlaceholder(courseIdOptions, courses);
         }
         
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
@@ -162,7 +162,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         // adds the placeholder option to courseIdOptions if it is empty
         if (isSubmitButtonDisabled) {
-            addPlaceholder(courseIdOptions);
+            addPlaceholder(courseIdOptions, courses);
         }
         
         return FeedbackSessionsForm.getFormForNewFs(
@@ -291,8 +291,15 @@ public class InstructorFeedbacksPageData extends PageData {
      * Adds the placeholder option to the list of select options if the list is empty.
      * @param selectOptions list containing all the options
      */
-    private void addPlaceholder(List<ElementTag> selectOptions) {
-        ElementTag placeholder = createOption("No active courses!", "", true);
+    private void addPlaceholder(List<ElementTag> selectOptions, List<CourseAttributes> courses) {
+        ElementTag placeholder;
+        
+        if (courses.size() == 0) {
+            placeholder = createOption("No active courses!", "", true);
+        } else {
+            placeholder = createOption("No permission to modify course's sessions!", "", true);
+        }
+        
         selectOptions.add(placeholder);
     }
     
