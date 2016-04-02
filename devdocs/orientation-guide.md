@@ -117,4 +117,4 @@ Take your time to learn and follow the workflow to the letter. Do not skip any s
 
 The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
-Alternatively (less preferred), you can **email** us at teammates[at]comp.nus.edu.sg
+Alternatively (less preferred), you can email us at _**teammates[at]comp.nus.edu.sg**_
