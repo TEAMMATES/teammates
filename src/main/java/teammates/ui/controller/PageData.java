@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
@@ -68,9 +69,7 @@ public class PageData {
      * live but through local files on Dev server to allow local testing without internet.
      */
     private void initCustomFilePaths() {
-        boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty("isDevEnvironment"));
-
-        if (isDevEnvironment) {
+        if (Config.inst().isDevServer()) {
             // V1.11.3
             jQueryFilePath = "/js/lib/jquery.min.js";
             // V1.11.4
