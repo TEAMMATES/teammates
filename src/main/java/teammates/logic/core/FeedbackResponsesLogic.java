@@ -21,7 +21,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -1013,12 +1012,25 @@ public class FeedbackResponsesLogic {
             return false;
         }
         
+        // get team name from the course
+        List<TeamDetailsBundle> teams;
+        try {
+            teams = coursesLogic.getTeamsForCourse(courseId);
+        } catch (EntityDoesNotExistException e) {
+            log.severe(e.toString());
+            return false;
+        }
+        ArrayList<String> teamName = new ArrayList<String>();
+        for (int i = 0; i < teams.size(); i++) {
+            teamName.add(teams.get(i).name);
+        }
+        
         switch (giverType) {
         case TEAMS:
             // Check if giver is in the course (as a student or an instructor or a team)
             if (!studentsLogic.isStudentInCourse(courseId, response.giverEmail) 
                 && !instructorLogic.isEmailOfInstructorOfCourse(response.giverEmail, courseId)
-                && studentsLogic.getStudentsForTeam(response.giverEmail, courseId) == null) {
+                && !teamName.contains(response.giverEmail)) {
                 return false;
             }
             break;
@@ -1054,6 +1066,19 @@ public class FeedbackResponsesLogic {
             return false;
         }
         
+        // get team name from the course
+        List<TeamDetailsBundle> teams;
+        try {
+            teams = coursesLogic.getTeamsForCourse(courseId);
+        } catch (EntityDoesNotExistException e) {
+            log.severe(e.toString());
+            return false;
+        }
+        ArrayList<String> teamName = new ArrayList<String>();
+        for (int i = 0; i < teams.size(); i++) {
+            teamName.add(teams.get(i).name);
+        }
+        
         String giver;
         String recipient;
         String giverTeam;
@@ -1082,20 +1107,9 @@ public class FeedbackResponsesLogic {
             recipient = response.recipientEmail;
             recipientTeam = response.recipientEmail;
         }
-
+        
         switch(recipientType) {
             case TEAMS:
-                List<TeamDetailsBundle> teams;
-                try {
-                    teams = coursesLogic.getTeamsForCourse(courseId);
-                } catch (EntityDoesNotExistException e) {
-                    log.severe(e.toString());
-                    return false;
-                }
-                ArrayList<String> teamName = new ArrayList<String>();
-                for (int i = 0; i < teams.size(); i++) {
-                    teamName.add(teams.get(i).name);
-                }
                 if (!teamName.contains(recipientTeam) || recipientTeam.equals(giverTeam)) {
                     return false;
                 }
@@ -1121,12 +1135,30 @@ public class FeedbackResponsesLogic {
                 }
                 break;
             case OWN_TEAM_MEMBERS:
-                if (!studentsLogic.isStudentsInSameTeam(courseId, giver, recipient) || recipient.equals(giver)) {
+                if (teamName.contains(giver)) {
+                    List<StudentAttributes> studentsInThisTeam = studentsLogic.getStudentsForTeam(giver, courseId);
+                    ArrayList<String> studentEmails = new ArrayList<String>();
+                    for(int i = 0; i < studentsInThisTeam.size(); i++) {
+                        studentEmails.add(studentsInThisTeam.get(i).email);
+                    }
+                    if (!studentEmails.contains(recipient)) {
+                        return false;
+                    }
+                } else if (!studentsLogic.isStudentsInSameTeam(courseId, giver, recipient) || recipient.equals(giver)) {
                     return false;
                 }
                 break;
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                if (!studentsLogic.isStudentsInSameTeam(courseId, giver, recipient)) {
+                if (teamName.contains(giver)) {
+                    List<StudentAttributes> studentsInThisTeam = studentsLogic.getStudentsForTeam(giver, courseId);
+                    ArrayList<String> studentEmails = new ArrayList<String>();
+                    for(int i = 0; i < studentsInThisTeam.size(); i++) {
+                        studentEmails.add(studentsInThisTeam.get(i).email);
+                    }
+                    if (!studentEmails.contains(recipient)) {
+                        return false;
+                    }
+                } else if (!studentsLogic.isStudentsInSameTeam(courseId, giver, recipient)) {
                     return false;
                 }
                 break;
