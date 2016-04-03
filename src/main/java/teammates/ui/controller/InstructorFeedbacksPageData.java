@@ -290,6 +290,7 @@ public class InstructorFeedbacksPageData extends PageData {
     /**
      * Adds the placeholder option to the list of select options if the list is empty.
      * @param selectOptions list containing all the options
+     * @param courses list of courses that the instructor have
      */
     private void addPlaceholder(List<ElementTag> selectOptions, List<CourseAttributes> courses) {
         ElementTag placeholder;
