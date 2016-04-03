@@ -81,22 +81,29 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         while (it.hasNext()) {
             FeedbackSession feedbackSession = it.next();
-            if (!JDOHelper.isDeleted(feedbackSession)) {
-                startCal.setTime(start);
-                endCal.setTime(end);
-                FeedbackSessionAttributes fs = new FeedbackSessionAttributes(feedbackSession);
-                
-                Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
-                Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
-                
-                if ((fs.startTime != null && fs.startTime.getTime() >= standardStart.getTime() 
-                                          && fs.startTime.getTime() < standardEnd.getTime())
-                    ||(fs.endTime != null && fs.endTime.getTime() > standardStart.getTime() 
-                                          && fs.endTime.getTime() <= standardEnd.getTime())) {
-                
-                    list.add(fs);
-                
-                }
+            
+            // Continue to the next element if the current element is deleted
+            if (JDOHelper.isDeleted(feedbackSession)) {
+                continue;
+            }
+            
+            startCal.setTime(start);
+            endCal.setTime(end);
+            FeedbackSessionAttributes fs = new FeedbackSessionAttributes(feedbackSession);
+            
+            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
+            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
+            
+            boolean isStartTimeWithinRangeSpecified = fs.startTime != null 
+                                                   && fs.startTime.getTime() >= standardStart.getTime() 
+                                                   && fs.startTime.getTime() < standardEnd.getTime();
+                                                   
+            boolean isEndTimeWithinRangeSpecified = fs.endTime != null 
+                                                 && fs.endTime.getTime() > standardStart.getTime() 
+                                                 && fs.endTime.getTime() <= standardEnd.getTime();
+            
+            if (isStartTimeWithinRangeSpecified || isEndTimeWithinRangeSpecified) {
+                list.add(fs);
             }
         }
              
