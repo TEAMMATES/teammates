@@ -34,12 +34,7 @@ var addCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    var user = formObject.find("[name='user']").val();
-                    var courseId = formObject.find("[name='courseid']").val();
-                    var fsName = formObject.find("[name='fsname']").val();
-                    var fsIndx = formObject.find("[name='fsindex']").val();
-                    
-                    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Inject new comment row
                     addFormRow.parent().attr("class", "list-group");
@@ -98,12 +93,7 @@ var editCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if(isInCommentsPage()) {
-                    var user = formObject.find("[name='user']").val();
-                    var courseId = formObject.find("[name='courseid']").val();
-                    var fsName = formObject.find("[name='fsname']").val();
-                    var fsIndx = formObject.find("[name='fsindex']").val();
-                    
-                    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Update editted comment
                     displayedText.html(data.comment.commentText.value);
@@ -159,12 +149,7 @@ var deleteCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    var user = formObject.find("[name='user']").val();
-                    var courseId = formObject.find("[name='courseid']").val();
-                    var fsName = formObject.find("[name='fsname']").val();
-                    var fsIndx = formObject.find("[name='fsindex']").val();
-                    
-                    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
                     if (numberOfItemInFrCommentList.length <= 2) {
@@ -377,6 +362,18 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
         $("#responseCommentEditForm-" + addedIndex).prev().remove();
     }
     $("#responseCommentEditForm-" + addedIndex).show();
+}
+
+/**
+ * Reload feedback response comments after adding/editing/deleting.
+ */
+function reloadFeedbackResponseComments(formObject, panelHeading) {
+    var user = formObject.find("[name='user']").val();
+    var courseId = formObject.find("[name='courseid']").val();
+    var fsName = formObject.find("[name='fsname']").val();
+    var fsIndx = formObject.find("[name='fsindex']").val();
+    
+    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
 }
 
 function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement, isClicked) {
