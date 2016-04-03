@@ -8,7 +8,7 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 [Knowledge required](#knowledge-required)
 
-[Workload](#workload)
+[Dev Community Structure](#dev-community-structure)
 
 [Getting started](#getting-started)
 
@@ -31,7 +31,7 @@ Roles:
 *   **Frontend developer**: Works on the frontend of the App that is generated dynamically from the server side.
 *   **Backend developer**: Works on the backend logic of the App, including data storage.
 
-## Workload
+## Dev Community Structure
 
 [TEAMMATES community](https://teammatesv4.appspot.com/about.html) has three tiers, defined based on the level of involvement.
 
