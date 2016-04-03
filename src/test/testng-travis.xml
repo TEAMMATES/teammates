@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
+<suite name="travis-tests" parallel="tests" thread-count="2">
     <test name="component-tests">
         <listeners>
             <listener class-name="teammates.test.util.PriorityInterceptor" />
@@ -47,7 +47,6 @@
             <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
             <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
             <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
-            <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
         </classes>
     </test>
 
@@ -77,11 +76,10 @@
             <class name="teammates.test.cases.ui.browsertests.FeedbackRubricQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackRankQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEditStudentFeedbackPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditCopyUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" /> 
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
@@ -101,7 +99,7 @@
             <class name="teammates.test.cases.ui.browsertests.AdminSearchPageUiTest" />
         </classes>
     </test>
-    
+
     <test name="rare-tests" parallel="classes">
      <!-- These need not be run during staging. -->
         <listeners>
@@ -111,5 +109,4 @@
             <class name="teammates.test.cases.testdriver.BackDoorTest" />
         </classes>
     </test>
-
-</suite> 
+</suite>
