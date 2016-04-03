@@ -365,8 +365,8 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
 }
 
 /**
- * Reload feedback response comments after adding/editing/deleting.
- * @param formObject the form object where the add/edit/delete action is triggered
+ * Reload feedback response comments.
+ * @param formObject the form object where the action is triggered
  * @param panelHeading the heading of the feedback session panel
  */
 function reloadFeedbackResponseComments(formObject, panelHeading) {
