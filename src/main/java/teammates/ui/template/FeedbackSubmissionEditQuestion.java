@@ -32,7 +32,7 @@ public class FeedbackSubmissionEditQuestion {
         numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
         this.isModeratedQuestion = isModeratedQuestion;
         isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
-        isTeamQuestion = (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS));
+        isTeamQuestion = questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS);
     }
 
     public String getCourseId() {
