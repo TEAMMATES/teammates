@@ -1,4 +1,4 @@
-![](images/teammates_heading.png)
+![](images/teammates-heading.png)
 
 # **Contributor Orientation Guide**
 
