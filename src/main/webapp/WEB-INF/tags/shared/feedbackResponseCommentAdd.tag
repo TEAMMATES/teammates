@@ -12,7 +12,8 @@
 <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
 <li class="list-group-item list-group-item-warning"
     id="showResponseCommentAddForm-${divId}" style="display: none;">
-    <shared:feedbackResponseCommentForm frc="${frc}"
+    <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
+                                        frc="${frc}"
                                         divId="${divId}"
                                         divIdAsJsParams="${divIdAsJsParams}"
                                         formType="Add"
