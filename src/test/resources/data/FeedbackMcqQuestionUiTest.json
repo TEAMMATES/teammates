@@ -32,7 +32,23 @@
       "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
-      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+      "instructorPrivilegesAsText": "{
+        \"courseLevel\": {
+          \"canviewstudentinsection\": true,
+          \"cangivecommentinsection\": true,
+          \"cansubmitsessioninsection\": true,
+          \"canmodifysessioncommentinsection\": true,
+          \"canmodifycommentinsection\": true,
+          \"canmodifycourse\": true,
+          \"canviewsessioninsection\": true,
+          \"canmodifysession\": true,
+          \"canviewcommentinsection\": true,
+          \"canmodifystudent\": true,
+          \"canmodifyinstructor\": true
+        },
+        \"sectionLevel\": {},
+        \"sessionLevel\": {}
+      }"
     }
   },
   
@@ -41,9 +57,9 @@
       "googleId": "FMcqQnUiT.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "CFeedbackEditUiT.CS2104",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "name": "Alice Betsy</td></div>'\"",
+      "comments": "This student's name is Alice Betsy</td></div>'\"",
+      "team": "Team </option><option value=\"dump\">1'"
     }
   },
   

@@ -52,7 +52,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
-      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+      "instructorPrivilegesAsText": "{
+        \"courseLevel\": {
+          \"canviewstudentinsection\": true,
+          \"cangivecommentinsection\": true,
+          \"cansubmitsessioninsection\": true,
+          \"canmodifysessioncommentinsection\": true,
+          \"canmodifycommentinsection\": true,
+          \"canmodifycourse\": true,
+          \"canviewsessioninsection\": true,
+          \"canmodifysession\": true,
+          \"canviewcommentinsection\": true,
+          \"canmodifystudent\": true,
+          \"canmodifyinstructor\": true
+        },
+        \"sectionLevel\": {},
+        \"sessionLevel\": {}
+      }"
     },
     "SCDetailsUiT.coord": {
       "googleId": "SCDetailsUiT.coord",
@@ -62,7 +78,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":false,
       "displayedName":"Instructor",
-      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+      "instructorPrivilegesAsText": "{
+        \"courseLevel\": {
+          \"canviewstudentinsection\": true,
+          \"cangivecommentinsection\": true,
+          \"cansubmitsessioninsection\": true,
+          \"canmodifysessioncommentinsection\": true,
+          \"canmodifycommentinsection\": true,
+          \"canmodifycourse\": true,
+          \"canviewsessioninsection\": true,
+          \"canmodifysession\": true,
+          \"canviewcommentinsection\": true,
+          \"canmodifystudent\": true,
+          \"canmodifyinstructor\": true
+        },
+        \"sectionLevel\": {},
+        \"sessionLevel\": {}
+      }"
     }
   },
   
@@ -71,9 +103,9 @@
       "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
       "email": "SCDetailsUiT.alice@gmail.tmt",
       "course": "SCDetailsUiT.CS2104",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "SCDetailsUiT.benny": {
       "googleId": "SCDetailsUiT.benny",
@@ -81,7 +113,7 @@
       "course": "SCDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     },
     "SCDetailsUiT.charlie": {
       "googleId": "SCDetailsUiT.charlie",

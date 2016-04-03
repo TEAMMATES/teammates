@@ -37,10 +37,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
-        
     }
     
-
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
                      List<FeedbackQuestionAttributes> copiableQuestions, 
                      Map<String, Boolean> questionHasResponses,
@@ -78,7 +76,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.courseId, fsa.feedbackSessionName, "");
+        String fsDeleteLink = getInstructorFeedbackDeleteLink(fsa.courseId, fsa.feedbackSessionName, Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         String copyToLink = getInstructorFeedbackEditCopyLink();
         
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings, 
@@ -307,6 +305,15 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public void setStatusForAjax(String statusForAjax) {
         this.statusForAjax = statusForAjax;
+    }
+
+    /**
+     * Retrieves the link to submit the request for copy of session. 
+     * Also contains feedback page link to return after the action.
+     * @return form submit action link
+     */
+    public String getEditCopyActionLink() {
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
 
     public boolean getHasError() {

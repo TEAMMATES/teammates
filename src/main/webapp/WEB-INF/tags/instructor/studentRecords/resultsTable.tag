@@ -1,5 +1,6 @@
 <%@ tag description="instructorStudentRecords - Ajax result (feedback responses and FRCs)" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="responses" type="java.util.Collection" required="true" %>
@@ -14,13 +15,13 @@
     <c:when test="${not empty responses}">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                ${panelHeadingToOrFrom}: <strong>${studentName}</strong>
+                ${panelHeadingToOrFrom}: <strong>${fn:escapeXml(studentName)}</strong>
             </div>
             <div class="panel-body">
                 <c:forEach items="${responses}" var="responsesByPerson" varStatus="personIndex">
                     <div class="row<c:if test="${personIndex.index != 0}"> border-top-gray</c:if>">
                         <div class="col-md-2">
-                            ${panelEntryToOrFrom}: <strong>${responsesByPerson.personName}</strong>
+                            ${panelEntryToOrFrom}: <strong>${fn:escapeXml(responsesByPerson.personName)}</strong>
                         </div>
                         <div class="col-md-10">
                             <c:forEach items="${responsesByPerson.responses}" var="response" varStatus="qnIndex">
@@ -58,7 +59,7 @@
     <c:otherwise>
         <div class="panel panel-info">
             <div class="panel-body">
-                No feedback ${forOrBy} ${studentName} found
+                No feedback ${forOrBy} ${fn:escapeXml(studentName)} found
             </div>
         </div>
     </c:otherwise>
