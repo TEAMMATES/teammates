@@ -366,6 +366,8 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
 
 /**
  * Reload feedback response comments after adding/editing/deleting.
+ * @param formObject the form object where the add/edit/delete action is triggered
+ * @param panelHeading the heading of the feedback session panel
  */
 function reloadFeedbackResponseComments(formObject, panelHeading) {
     var user = formObject.find("[name='user']").val();
