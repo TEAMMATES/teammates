@@ -162,8 +162,9 @@ public class InstructorStudentRecordsPage extends AppPage {
      */
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector(".panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
 
-        waitForElementToDisappear(panelCollapseSelector);
+        waitForElementsToDisappear(webElements);
     }
 
     /**
