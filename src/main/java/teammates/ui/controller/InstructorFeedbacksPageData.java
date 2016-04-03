@@ -30,11 +30,9 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsTable fsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
-    
 
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
-        
     }
 
     public boolean isUsingAjax() {
@@ -114,10 +112,16 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                         courseIdForNewSession);
         
         String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        
+        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        
+        // adds the default option to courseIdOptions if it is empty
+        if (courseIdOptions.isEmpty()) {
+            addPlaceholder(courseIdOptions);
+        }
+        
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
-                                                          fsName, 
-                                                          getCourseIdOptions(courses, courseIdForNewSession, 
-                                                                             instructors, newFeedbackSession));
+                                                          fsName, courseIdOptions);
     }
 
     private void buildFsList(String courseIdToHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
@@ -152,14 +156,22 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                                 String feedbackSessionNameForSessionList, List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        
+        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        boolean isSubmitButtonDisabled = courseIdOptions.isEmpty();
+        
+        // adds the placeholder option to courseIdOptions if it is empty
+        if (isSubmitButtonDisabled) {
+            addPlaceholder(courseIdOptions);
+        }
+        
         return FeedbackSessionsForm.getFormForNewFs(
                                         newFeedbackSession,
                                         getFeedbackSessionTypeOptions(feedbackSessionType),
                                         courseIdForNewSession,
-                                        courseIds, getCourseIdOptions(courses,  courseIdForNewSession, 
-                                                           instructors, newFeedbackSession), 
+                                        courseIds, courseIdOptions, 
                                         instructors,
-                                        additionalSettings);
+                                        additionalSettings, isSubmitButtonDisabled);
     }
 
     private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
@@ -198,7 +210,8 @@ public class InstructorFeedbacksPageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, false,
+            InstructorFeedbackSessionActions actions = getInstructorFeedbackSessionActions(session, 
+                                                                                           Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                                                            instructors.get(courseId));
             
             ElementTag elementAttributes ;
@@ -271,16 +284,36 @@ public class InstructorFeedbacksPageData extends PageData {
             }
         }
         
-        // Add "No active courses" option if there are no active courses
-        if (result.isEmpty()) {
-            ElementTag blankOption = createOption("No active courses!", "", true);
-            result.add(blankOption);
-        }
-        
         return result;
     }
     
-
+    /**
+     * Adds the placeholder option to the list of select options if the list is empty.
+     * @param selectOptions list containing all the options
+     */
+    private void addPlaceholder(List<ElementTag> selectOptions) {
+        ElementTag placeholder = createOption("No active courses!", "", true);
+        selectOptions.add(placeholder);
+    }
+    
+    /**
+     * Retrieves the link to submit the request to remind particular students.
+     * Also contains feedbacks page link to return after the action.
+     * @return form submit action link
+     */
+    public String getRemindParticularStudentsLink() {
+        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    }
+    
+    /**
+     * Retrieves the link to submit the request for copy of session. 
+     * Also contains feedback page link to return after the action.
+     * @return form submit action link
+     */
+    public String getEditCopyActionLink() {
+        return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    }
+    
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
     }

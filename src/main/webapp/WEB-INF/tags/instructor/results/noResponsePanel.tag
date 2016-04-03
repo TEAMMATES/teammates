@@ -1,5 +1,7 @@
 <%@ tag description="instructorFeedbackResultsBottom - Users with No Response Panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ attribute name="noResponsePanel" type="teammates.ui.template.InstructorFeedbackResultsNoResponsePanel" required="true" %>
@@ -25,8 +27,8 @@
                 <tbody>
                     <c:forEach items="${noResponsePanel.emails}" var="email">
                         <tr>
-                            <td>${noResponsePanel.teams[email]}</td>
-                            <td>${noResponsePanel.names[email]}</td>
+                            <td>${fn:escapeXml(noResponsePanel.teams[email])}</td>
+                            <td>${fn:escapeXml(noResponsePanel.names[email])}</td>
                             <td>
                                 <c:if test="${not empty noResponsePanel.moderationButtons[email]}">
                                     <results:moderationButton moderationButton="${noResponsePanel.moderationButtons[email]}"/>

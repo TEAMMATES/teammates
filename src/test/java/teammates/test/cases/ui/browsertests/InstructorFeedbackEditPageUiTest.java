@@ -148,7 +148,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
                 editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
-        assertEquals("alert alert-success", feedbackEditPage.getStatusMessage().getAttribute("class"));
+        assertEquals("overflow-auto alert alert-success statusMessage", 
+                feedbackEditPage.getStatusMessage().findElement(By.className("statusMessage")).getAttribute("class"));
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, feedbackEditPage.getStatus());
         feedbackEditPage.reloadPage();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
@@ -164,7 +165,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
 
         // Ensuring that the settings did not default back to original values after manual publishing
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditManuallyPublished.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditManuallyPublished.html");
 
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
@@ -332,7 +333,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                         .withSessionName(feedbackSessionName)
                                         .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
 
-        assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
+        assertTrue(feedbackEditPage.isElementVisible("statusMessagesToUser"));
         // different sanitization because the one in actual is sanitized via JS (encodeURIComponent)
         assertEquals("Link for question 1: " + expectedUrl.toAbsoluteString().replace("+", "%20"),
                      feedbackEditPage.getStatus());
@@ -507,6 +508,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("check response rate before editing question");
 
         InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
 
@@ -519,6 +521,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("check response rate after editing question");
 
         feedbacksPage = navigateToInstructorFeedbacksPage();
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
         

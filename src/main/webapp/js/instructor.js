@@ -100,16 +100,16 @@ function isStudentTeamNameValid(teamName) {
  */
 function isStudentInputValid(editName, editTeamName, editEmail) {
     if (editName === '' || editTeamName === '' || editEmail === '') {
-        setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
+        setStatusMessage(DISPLAY_FIELDS_EMPTY, StatusType.DANGER);
         return false;
     } else if (!isNameValid(editName)) {
-        setStatusMessage(DISPLAY_NAME_INVALID, true);
+        setStatusMessage(DISPLAY_NAME_INVALID, StatusType.DANGER);
         return false;
     } else if (!isStudentTeamNameValid(editTeamName)) {
-        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, true);
+        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, StatusType.DANGER);
         return false;
     } else if (!isEmailValid(editEmail)) {
-        setStatusMessage(DISPLAY_EMAIL_INVALID, true);
+        setStatusMessage(DISPLAY_EMAIL_INVALID, StatusType.DANGER);
         return false;
     }
     
@@ -252,7 +252,7 @@ function bindStudentPhotoLink(elements) {
                         // this is so that the user can hover over the
                         // pop-over photo without hiding the photo
                         setTimeout(function(obj) {
-                            if (!$(obj).siblings('.popover').is(':hover')) {
+                            if ($(obj).siblings('.popover').find(':hover').length === 0) {
                                 $(obj).popover('hide');
                             }
                         }, 200, this);
@@ -284,8 +284,8 @@ function bindStudentPhotoHoverLink(elements) {
             // pop-over without accidentally hiding the 'view photo' link
             setTimeout(function(obj) {
                 if ($(obj).siblings('.popover').find('.profile-pic').length !== 0 ||
-                    !$(obj).siblings('.popover').is(':hover')) {
-                    
+                    $(obj).siblings('.popover').find(':hover').length === 0) {
+
                     $(obj).popover('hide');
                 }
             }, 200, this);
@@ -302,6 +302,42 @@ function bindStudentPhotoHoverLink(elements) {
                 'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">' +
                 'View Photo</a>';
         }
+    });
+}
+
+function bindDeleteButtons() {
+    $('body').on('click', '.session-delete-for-test', function(e) {
+
+        var $button = $(this);
+        var courseId = $button.data('courseid');
+        var feedbackSessionName = $button.data('fsname');
+
+        return toggleDeleteFeedbackSessionConfirmation(courseId, feedbackSessionName); 
+    });
+}
+
+function bindRemindButtons() {
+    $('body').on('click', '.session-remind-inner-for-test, .session-remind-for-test', function(e) {
+        if (!toggleRemindStudents($(this).data('fsname'))) {
+            e.preventDefault();
+        }
+    });
+}
+
+function bindPublishButtons() {
+    $('body').on('click', '.session-publish-for-test', function(e) {
+ 
+        var $button = $(this);
+        var feedbackSessionName = $button.data('fsname');
+        var isSendingPublishedEmail = $button.data('sending-published-email');
+
+        return togglePublishEvaluation(feedbackSessionName, isSendingPublishedEmail);
+    });
+}
+
+function bindUnpublishButtons() {
+    $('body').on('click', '.session-unpublish-for-test', function(e) {
+        return toggleUnpublishEvaluation($(this).data('fsname'));
     });
 }
 
@@ -363,7 +399,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
                 // this is so that the user can hover over the
                 // pop-over photo without hiding the photo
                 setTimeout(function(obj) {
-                    if (!$(obj).siblings('.popover').is(':hover')) {
+                    if ($(obj).siblings('.popover').find(':hover').length === 0) {
                         $(obj).popover('hide');
                     }
                 }, 200, this);

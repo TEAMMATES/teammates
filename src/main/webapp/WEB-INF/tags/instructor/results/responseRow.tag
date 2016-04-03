@@ -2,6 +2,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="responseRow" type="teammates.ui.template.InstructorFeedbackResultsResponseRow" required="true" %>
@@ -29,17 +30,17 @@
              </c:choose>
                 </td>
         </c:if>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.giverTeam}</td>
+        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}">
-                    ${responseRow.giverDisplayableIdentifier}
+                    ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>             
             </c:when>
             <c:otherwise>  
-                ${responseRow.giverDisplayableIdentifier}
+                ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
             </c:otherwise>
         </c:choose>   
         </td>
@@ -66,17 +67,17 @@
                 </c:choose>
             </td>
         </c:if>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.recipientTeam}</td>
+        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
-                    ${responseRow.recipientDisplayableIdentifier}
+                    ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>             
             </c:when>
             <c:otherwise>  
-                ${responseRow.recipientDisplayableIdentifier}
+                ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
             </c:otherwise>
         </c:choose>   
         </td>
