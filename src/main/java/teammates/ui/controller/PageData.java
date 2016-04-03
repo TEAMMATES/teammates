@@ -578,15 +578,31 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName) {
+    /**
+     * Retrieves the link to submit the request for remind student
+     * Appends the return url to the link.
+     * @param courseID the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
-    public String getInstructorFeedbackRemindParticularStudentsLink(String courseID, String feedbackSessionName) {
+    /**
+     * Retrieves the link to load remind modal
+     * @param courseID the courseID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load remind modal
+     */
+    public String getInstructorFeedbackRemindParticularStudentsPageLink(String courseID, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -594,6 +610,18 @@ public class PageData {
         return link;
     }
     
+    /**
+     * Retrieves the link to submit the request to remind a particular student(s)
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackRemindParticularStudentsLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        
+        return link;
+    }
+
     public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);

@@ -297,6 +297,15 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     /**
+     * Retrieves the link to submit the request to remind particular students.
+     * Also contains feedbacks page link to return after the action.
+     * @return form submit action link
+     */
+    public String getRemindParticularStudentsLink() {
+        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    }
+    
+    /**
      * Retrieves the link to submit the request for copy of session. 
      * Also contains feedback page link to return after the action.
      * @return form submit action link
