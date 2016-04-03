@@ -477,6 +477,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("check response rate before editing question");
 
         InstructorFeedbacksPage feedbacksPage = navigateToInstructorFeedbacksPage();
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         assertEquals("1 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
 
@@ -489,6 +490,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("check response rate after editing question");
 
         feedbacksPage = navigateToInstructorFeedbacksPage();
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
 
         assertEquals("0 / 1", feedbacksPage.getResponseValue(courseId, feedbackSessionName));
         
