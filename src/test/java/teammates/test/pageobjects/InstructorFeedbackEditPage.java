@@ -796,10 +796,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         removeOptionLink.click();
     }
     
-    public void clickAssignWeightsLink(int qnIndex) {
-        String idSuffix = getIdSuffix(qnIndex);
-        WebElement assignWeightsLink = browser.driver.findElement(By.id("rubricAssignWeightsLink" + idSuffix));
-        assignWeightsLink.click();
+    public void clickAssignWeightsCheckbox(int qnIndex) {
+        By by = By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED + getIdSuffix(qnIndex));
+        WebElement assignWeightsCheckbox = browser.driver.findElement(by);
+        assignWeightsCheckbox.click();
     }
 
     public void clickAddRubricRowLink(int qnIndex) {
