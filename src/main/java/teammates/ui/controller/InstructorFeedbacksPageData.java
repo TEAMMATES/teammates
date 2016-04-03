@@ -115,9 +115,13 @@ public class InstructorFeedbacksPageData extends PageData {
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
-        // adds the default option to courseIdOptions if it is empty
+        // Adds a placeholder option to courseIdOptions if it is empty
         if (courseIdOptions.isEmpty()) {
-            addPlaceholder(courseIdOptions, courses);
+            if (courses.isEmpty())
+                addPlaceholder(courseIdOptions, Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES);
+            else {
+                addPlaceholder(courseIdOptions, Const.StatusMessages.INSTRUCTOR_NO_MODIFY_COURSES_SESSION_PERMISSION);
+            }
         }
         
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
@@ -160,9 +164,13 @@ public class InstructorFeedbacksPageData extends PageData {
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         boolean isSubmitButtonDisabled = courseIdOptions.isEmpty();
         
-        // adds the placeholder option to courseIdOptions if it is empty
-        if (isSubmitButtonDisabled) {
-            addPlaceholder(courseIdOptions, courses);
+        // Adds a placeholder option to courseIdOptions if it is empty
+        if (courseIdOptions.isEmpty()) {
+            if (courses.isEmpty())
+                addPlaceholder(courseIdOptions, Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES);
+            else {
+                addPlaceholder(courseIdOptions, Const.StatusMessages.INSTRUCTOR_NO_MODIFY_COURSES_SESSION_PERMISSION);
+            }
         }
         
         return FeedbackSessionsForm.getFormForNewFs(
@@ -290,16 +298,10 @@ public class InstructorFeedbacksPageData extends PageData {
     /**
      * Adds the placeholder option to the list of select options if the list is empty.
      * @param selectOptions list containing all the options
-     * @param courses list of courses that the instructor have
+     * @param message the message of the placeholder
      */
-    private void addPlaceholder(List<ElementTag> selectOptions, List<CourseAttributes> courses) {
-        ElementTag placeholder;
-        
-        if (courses.size() == 0) {
-            placeholder = createOption("No active courses!", "", true);
-        } else {
-            placeholder = createOption("No permission to modify course's sessions!", "", true);
-        }
+    private void addPlaceholder(List<ElementTag> selectOptions, String message) {
+        ElementTag placeholder = createOption(message, "", true);
         
         selectOptions.add(placeholder);
     }
