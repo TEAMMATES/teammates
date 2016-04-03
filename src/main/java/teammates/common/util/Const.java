@@ -215,6 +215,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
+        public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS = "Assign weights to the columns to calculate the statistics.";
         
         public static final String FEEDBACK_RESPONSE_VISIBILITY_INFO = "Here you can see the visibility of your feedback to the various users" +
                 "<br />in the course once the results are published.";
@@ -459,6 +460,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_SUBQUESTION = "rubricSubQn";
         public static final String FEEDBACK_QUESTION_RUBRIC_CHOICE = "rubricChoice";
         public static final String FEEDBACK_QUESTION_RUBRIC_DESCRIPTION = "rubricDesc";
+        public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED = "rubricAssignWeights";
         public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHT = "rubricWeight";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_ROWS = "rubricNumRows";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";

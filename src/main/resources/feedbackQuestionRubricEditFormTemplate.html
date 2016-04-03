@@ -5,7 +5,8 @@
             <thead>
                 <tr>
                     <th style="text-align:center; vertical-align:middle;">
-                        <a class="btn btn-xs btn-primary" id="rubricAssignWeightsLink-${qnIndex}">assign weights <span class="glyphicon glyphicon-arrow-right"></span></a>
+                        <input type="checkbox" class="nonDestructive" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED}-${qnIndex}" name="rubricAssignWeights" ${checkAssignWeights}>
+                        <span data-toggle="tooltip" data-placement="top" data-original-title="${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}">Weighted columns</span>
                     </th>
                     ${tableHeaderRowFragmentHtml}
                 </tr>

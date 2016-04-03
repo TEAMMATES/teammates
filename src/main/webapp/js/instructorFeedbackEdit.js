@@ -57,7 +57,7 @@ function readyFeedbackEditPage() {
     
     setupFsCopyModal();
     
-    bindAssignWeightsButtons();
+    bindAssignWeightsCheckboxes();
     
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
@@ -319,7 +319,6 @@ function disableQuestion(number) {
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).hide();
-    $currentQuestionTable.find('#rubricAssignWeightsLink-' + number).hide();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).hide();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).hide();
 
@@ -1453,10 +1452,9 @@ function addRubricCol(questionNumber) {
     var lastTh = $('#rubricEditTable' + idSuffix + ' th:last');
     $(rubricHeaderFragment).insertAfter(lastTh);
 
-    // Hide the new rubric weight box if the others are hidden
-    var visibleRubricWeightBoxes = $('input[id^="rubricWeight-' + questionNumber + '"]:visible');
-    if (visibleRubricWeightBoxes.length === 1) {
-        visibleRubricWeightBoxes.hide();
+    // Hide the new rubric weight box if the weights are not assigned by the user
+    if (!hasAssignedWeights(questionNumber)) {
+        $('input[id^="rubricWeight-' + questionNumber + '"]').hide();
     }
 
     // Insert body <td>'s
@@ -1572,11 +1570,11 @@ function highlightRubricCol(index, questionNumber, highlight) {
 }
 
 /**
- * Attaches event handlers to "assign weights" buttons to toggle the visibility
+ * Attaches event handlers to "assign weights" checkboxes to toggle the visibility
  * of the input boxes for rubric weights
  */
-function bindAssignWeightsButtons() {
-    $('body').on('click', 'a[id^="rubricAssignWeightsLink"]', function(e) {
+function bindAssignWeightsCheckboxes() {
+    $('body').on('click', 'input[id^="rubricAssignWeights"]', function(e) {
         $(this).closest('form').find('input[id^="rubricWeight"]').toggle();
     });
 }
@@ -1584,21 +1582,10 @@ function bindAssignWeightsButtons() {
 /**
  * @param questionNumber
  *            the question number of the feedback question
- * @returns {Boolean} true if the weights are assigned by the user(the weights
- *          are not all zeros), otherwise false
+ * @returns {Boolean} true if the weights are assigned by the user, otherwise false
  */
 function hasAssignedWeights(questionNumber) {
-
-    var areWeightsAssigned = false;
-
-    $('#questionTable' + questionNumber).find('input[id^="rubricWeight"]').each(function() {
-        if ($(this).val() !== '0') {
-            areWeightsAssigned = true;
-            return false;
-        }
-    });
-
-    return areWeightsAssigned;
+    return $('#rubricAssignWeights-' + questionNumber).prop('checked');
 }
 
 /**
