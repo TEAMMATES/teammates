@@ -272,6 +272,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
         verifyPresentInDatastore(student4InCourse1);
         String originalEmail = student4InCourse1.email;
+        student4InCourse1 = studentsLogic.getStudentForEmail(student4InCourse1.course, student4InCourse1.email);
         student4InCourse1.name = student4InCourse1.name + "y";
         student4InCourse1.googleId = student4InCourse1.googleId + "y";
         student4InCourse1.comments = student4InCourse1.comments + "y";
@@ -280,6 +281,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         student4InCourse1.team = "Team 1.2"; // move to a different team
 
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student4InCourse1);
+        StudentAttributes updatedStudent4InCourse1 = studentsLogic.getStudentForEmail(student4InCourse1.course, student4InCourse1.email);
+        assertFalse(student4InCourse1.getUpdatedAt().equals(updatedStudent4InCourse1.getUpdatedAt()));
 
         ______TS("check for KeepExistingPolicy : change email only");
         

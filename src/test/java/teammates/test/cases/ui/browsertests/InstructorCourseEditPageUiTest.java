@@ -62,7 +62,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testDeleteInstructorAction();
         
         testUnregisteredInstructorEmailNotEditable();
-        
+
+        testEditCourseAction();
         testDeleteCourseAction();
 
     }
@@ -476,6 +477,33 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // Restore own instructor role to ensure remaining test cases work properly
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.test"));
+    }
+    
+    /**
+     * Tests the UI of edit course.
+     */
+    private void testEditCourseAction() {
+        courseEditPage = getCourseEditPage();
+        
+        ______TS("edit course valid name");
+        
+        assertFalse(courseEditPage.isCourseEditFormEnabled());
+        courseEditPage.clickEditCourseLink();
+        assertTrue(courseEditPage.isCourseEditFormEnabled());
+        
+        courseEditPage.clickSaveCourseButton();
+        courseEditPage.changePageType(InstructorCourseEditPage.class);
+        assertEquals(Const.StatusMessages.COURSE_EDITED, courseEditPage.getStatus());
+        
+        ______TS("edit course invalid name");
+        assertFalse(courseEditPage.isCourseEditFormEnabled());
+        courseEditPage.clickEditCourseLink();
+        assertTrue(courseEditPage.isCourseEditFormEnabled());
+        courseEditPage.editCourseName("");
+        courseEditPage.clickSaveCourseButton();
+        courseEditPage.changePageType(InstructorCourseEditPage.class);
+        assertEquals(String.format(FieldValidator.COURSE_NAME_ERROR_MESSAGE, "", FieldValidator.REASON_EMPTY), 
+                     courseEditPage.getStatus());
     }
     
     private void testDeleteCourseAction() {

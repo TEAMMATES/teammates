@@ -18,7 +18,7 @@ public class InstructorFeedbackSessionActions {
     private String deleteLink;
     private String submitLink;
     private String remindLink;
-    private String remindParticularStudentsLink;
+    private String remindParticularStudentsPageLink;
     private String editCopyLink;
 
     private boolean allowedToEdit;
@@ -30,7 +30,7 @@ public class InstructorFeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, boolean isHome,
+    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
@@ -42,13 +42,11 @@ public class InstructorFeedbackSessionActions {
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
-        this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName,
-                                                                      (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                                                              : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE));
+        this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
-        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName);
-        this.remindParticularStudentsLink = data.getInstructorFeedbackRemindParticularStudentsLink(courseId,
-                                                                                                     feedbackSessionName);
+        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
+        this.remindParticularStudentsPageLink = data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId,
+                                                                                                           feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
 
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -61,7 +59,7 @@ public class InstructorFeedbackSessionActions {
         this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
         this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor,
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor, 
                                                               PUBLISH_BUTTON_TYPE);
     }
 
@@ -97,8 +95,8 @@ public class InstructorFeedbackSessionActions {
         return remindLink;
     }
 
-    public String getRemindParticularStudentsLink() {
-        return remindParticularStudentsLink;
+    public String getRemindParticularStudentsPageLink() {
+        return remindParticularStudentsPageLink;
     }
 
     public String getEditCopyLink() {

@@ -51,32 +51,47 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
+        List<String> rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
+        List<String> rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
+        List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters, 
+                                                                              numOfRubricChoices, numOfRubricSubQuestions);
+        
+        // Set details
+        setRubricQuestionDetails(rubricChoices, rubricSubQuestions, rubricDescriptions);
+        
+        if (!this.isValidDescriptionSize()) {
+            // If description sizes are invalid, default to empty descriptions.
+            this.initializeRubricDescriptions();
+        }
+        
+        return true;
+    }
+    
+    private List<String> getRubricChoices(Map<String, String[]> requestParameters, int numOfRubricChoices) {
         List<String> rubricChoices = new ArrayList<String>();
-        List<String> rubricSubQuestions = new ArrayList<String>();
-        List<List<String>> rubricDescriptions = new ArrayList<List<String>>();
-        
-        int numActualChoices = 0;
-        int numActualSubQuestions = 0;
-        
-        // Get list of choices
         for(int i = 0 ; i<numOfRubricChoices ; i++) {
             String choice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
             if(choice != null) {
                 rubricChoices.add(choice);
-                numActualChoices++;
             }
         }
-        
-        // Get list of sub-questions
+        return rubricChoices;
+    }
+    
+    private List<String> getSubQuestions(Map<String, String[]> requestParameters, int numOfRubricSubQuestions) {
+        List<String> rubricSubQuestions = new ArrayList<String>();
         for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
             String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
             if(subQuestion != null) {
                 rubricSubQuestions.add(subQuestion);
-                numActualSubQuestions++;
             }
         }
-        
-        // Get descriptions
+        return rubricSubQuestions;
+    }
+
+    private List<List<String>> getRubricQuestionDescriptions(Map<String, String[]> requestParameters,
+                                                             int numOfRubricChoices, int numOfRubricSubQuestions) {
+        List<List<String>> rubricDescriptions = new ArrayList<List<String>>();
         int descRows = -1;
         for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
             boolean rowAdded = false;
@@ -92,17 +107,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
         }
-        
-        // Set details
-        setRubricQuestionDetails(numActualChoices, rubricChoices,
-                numActualSubQuestions, rubricSubQuestions, rubricDescriptions);
-        
-        if (!this.isValidDescriptionSize()) {
-            // If description sizes are invalid, default to empty descriptions.
-            this.initializeRubricDescriptions();
-        }
-        
-        return true;
+        return rubricDescriptions;
     }
     
     /**
@@ -121,14 +126,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return true;
     }
 
-    private void setRubricQuestionDetails(int numOfRubricChoices,
-            List<String> rubricChoices,
-            int numOfRubricSubQuestions,
+    private void setRubricQuestionDetails(List<String> rubricChoices,
             List<String> rubricSubQuestions,
             List<List<String>> rubricDescriptions) {
-        this.numOfRubricChoices = numOfRubricChoices;
+        this.numOfRubricChoices = rubricChoices.size();
         this.rubricChoices = rubricChoices;
-        this.numOfRubricSubQuestions = numOfRubricSubQuestions;
+        this.numOfRubricSubQuestions = rubricSubQuestions.size();
         this.rubricSubQuestions = rubricSubQuestions;
         this.rubricDescriptions = rubricDescriptions;
     }
@@ -519,37 +522,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Initialize response frequency variable, used to store frequency each choice is selected.
         int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
-        // Initialize percentage frequencies and average value
-        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
-        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
-            //+ 1 is the position for average value
-            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
-            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
-                // Initialize to be number of responses
-                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
-            }
-            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
-        }
-        
-        // Calculate percentage frequencies
-        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
-            // Count total number of responses for each sub-question
-            int totalForSubQuestion = 0;
-            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
-                totalForSubQuestion += responseFrequency[i][j];
-            }
-            
-            // Divide by totalForSubQuestion to get percentage and calculate the average value
-            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
-                percentageFrequencyOrAverage[i][j] /= totalForSubQuestion;
-                float choiceWeight = (j + 1) * percentageFrequencyOrAverage[i][j];
-                percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] += choiceWeight;
-            }
-        }
-        
-        return percentageFrequencyOrAverage;
+        return getPercentageFrequencyAndAverage(responseFrequency, fqd);
     }
-    
+
+    /**
+     * gets the result of the percentage frequency for each choice and average value for each subquestion
+     */
+    private float[][] getPercentageFrequencyAndAverage(int[][] responseFrequency, 
+                                                       FeedbackRubricQuestionDetails fqd) {
+        float[][] percentageFrequencyOrAverage = initializePercentageFrequenciesAndAverageValue(responseFrequency, fqd);
+        return calculatePercentageFrequencyAndAverageValue(responseFrequency, fqd, percentageFrequencyOrAverage);
+    }
+
+    /**
+     * Calculates the response frequency for each choice
+     */
     private int[][] calculateResponseFrequency(
             List<FeedbackResponseAttributes> responses,
             FeedbackRubricQuestionDetails fqd) {
@@ -572,6 +559,50 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         return responseFrequency;
+    }
+    
+    /**
+     * Initializes a 2D float array percentageFrequencyOrAverage using response frequency statistics
+     */
+    private float[][] initializePercentageFrequenciesAndAverageValue(int[][] responseFrequency, 
+                                                                     FeedbackRubricQuestionDetails fqd) {
+        
+        float[][] percentageFrequencyOrAverage = new float[fqd.numOfRubricSubQuestions][];
+        for (int i = 0; i < percentageFrequencyOrAverage.length; i++) {
+            //+ 1 is the position for average value
+            percentageFrequencyOrAverage[i] = new float[fqd.numOfRubricChoices + 1];
+            for (int j = 0; j < percentageFrequencyOrAverage[i].length - 1; j++) {
+                // Initialize to be number of responses
+                percentageFrequencyOrAverage[i][j] = responseFrequency[i][j];
+            }
+            percentageFrequencyOrAverage[i][fqd.numOfRubricChoices] = 0;
+        }
+        return percentageFrequencyOrAverage;
+    }
+   
+    /**
+     * Calculates the percentage frequency for each choice and the average value for each subquestion
+     * using the response frequency statistics
+     */
+    private float[][] calculatePercentageFrequencyAndAverageValue(int[][] responseFrequency,
+                                                                  FeedbackRubricQuestionDetails fqd, 
+                                                                  float[][] percentageFrequencyOrAverage) {
+        float[][] percentageFrequencyAndAverageValue = percentageFrequencyOrAverage;
+        for (int i = 0; i < percentageFrequencyAndAverageValue.length; i++) {
+            // Count total number of responses for each sub-question
+            int totalForSubQuestion = 0;
+            for (int j = 0; j < percentageFrequencyAndAverageValue[i].length - 1; j++) {
+                totalForSubQuestion += responseFrequency[i][j];
+            }
+            
+            // Divide by totalForSubQuestion to get percentage and calculate the average value
+            for (int j = 0; j < percentageFrequencyAndAverageValue[i].length - 1; j++) {
+                percentageFrequencyAndAverageValue[i][j] /= totalForSubQuestion;
+                float choiceWeight = (j + 1) * percentageFrequencyAndAverageValue[i][j];
+                percentageFrequencyAndAverageValue[i][fqd.numOfRubricChoices] += choiceWeight;
+            }
+        }
+        return percentageFrequencyAndAverageValue;
     }
 
     @Override

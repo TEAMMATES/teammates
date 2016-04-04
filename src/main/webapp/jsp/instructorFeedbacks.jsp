@@ -30,8 +30,8 @@
         </c:if>
     </div>
 
-    <ti:remindParticularStudentsModal />
+    <ti:remindParticularStudentsModal remindParticularStudentsLink="${data.remindParticularStudentsLink}" />
     <feedbacks:copyFromModal copyFromModal="${data.copyFromModal}" />
-    <ti:copyModal />
+    <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
     
 </ti:instructorPage>

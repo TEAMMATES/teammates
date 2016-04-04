@@ -365,7 +365,7 @@
     <div id="panel_display-2">
       <br>
       <div class="panel panel-primary">
-        <div class="panel-heading loaded" onclick="loadFeedbackResponseComments('comments.idOfInstructorOfCourseWithUriChars','comments.idOfUriCharsCourse','comments.Session with name ,?:@=+$#', '1', this);" style="cursor: pointer;">
+        <div class="panel-heading loaded" onclick="loadFeedbackResponseComments('comments.idOfInstructorOfCourseWithUriChars','comments.idOfUriCharsCourse','comments.Session with name ,?:@=+$#', '1', this, true);" style="cursor: pointer;">
           <strong>
             Comments in session: comments.Session with name ,?:@=+$#
           </strong>
@@ -431,6 +431,7 @@
                                 <span class="glyphicon glyphicon-trash glyphicon-primary">
                                 </span>
                               </a>
+                              <input name="fsindex" type="hidden" value="1">
                               <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt">
                               <input name="responsecommentid" type="hidden" value="${comment.id}">
                               <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse">
@@ -519,6 +520,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentEditForm(1,1,1,1);" type="button" value="Cancel">
                             </div>
                             <input name="responsecommentid" type="hidden" value="${comment.id}">
+                            <input name="fsindex" type="hidden" value="1">
                             <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt">
                             <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse">
                             <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#">
@@ -601,6 +603,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="1">
                             <input name="responseid" type="hidden" value="${question.id}%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt">
                             <input name="courseid" type="hidden" value="comments.idOfUriCharsCourse">
                             <input name="fsname" type="hidden" value="comments.Session with name ,?:@=+$#">

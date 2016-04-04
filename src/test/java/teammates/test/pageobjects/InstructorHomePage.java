@@ -161,31 +161,31 @@ public class InstructorHomePage extends AppPage {
     /**
      * This is for customized feedback session 
      */
-    public InstructorFeedbacksPage clickFeedbackSessionRemindLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName){
         clickAndConfirm(getRemindLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorHomePage.class);
     }
     
     /**
      * This is for customized feedback session 
      */
-    public InstructorFeedbacksPage clickFeedbackSessionUnpublishLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName){
         clickAndConfirm(getUnpublishLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorHomePage.class);
     }
     
     /**
      * This is for customized feedback session 
      */
-    public InstructorFeedbacksPage clickFeedbackSessionPublishLink(String courseId, String fsName){
+    public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName){
         clickAndConfirm(getPublishLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorHomePage.class);
     }
     
     

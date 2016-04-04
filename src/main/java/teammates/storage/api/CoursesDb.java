@@ -102,8 +102,7 @@ public class CoursesDb extends EntitiesDb {
 
     /**
      * Updates the course.<br>
-     * Updates only course archive status.<br>
-     * Does not follow the 'keep existing' policy <br> 
+     * Updates only name and course archive status.<br>
      * Preconditions: <br>
      * * {@code courseToUpdate} is non-null.<br>
      * @throws InvalidParametersException, EntityDoesNotExistException
@@ -125,6 +124,7 @@ public class CoursesDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
         }
         
+        courseEntityToUpdate.setName(courseToUpdate.name);
         courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
         
         log.info(courseToUpdate.getBackupIdentifier());
