@@ -1,5 +1,3 @@
-![](images/teammates-heading.png)
-
 # **Contributor Orientation Guide**
 
 We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.html) for a list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
