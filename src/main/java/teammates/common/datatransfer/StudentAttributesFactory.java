@@ -19,10 +19,10 @@ public class StudentAttributesFactory {
     public static final String ERROR_HEADER_ROW_FIELD_MISSED =
             "The following required column names are missing in the header row";
 
-    public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
+    public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty" + Const.HTML_BR_TAG;
     public static final String ERROR_ENROLL_LINE_TOOFEWPARTS =
             "Enroll line had fewer than the minimally expected "
-            + MIN_FIELD_COUNT + " columns (Team, Name and Email)\n";
+            + MIN_FIELD_COUNT + " columns (Team, Name and Email)" + Const.HTML_BR_TAG;
 
     public static final int FIRST_COLUMN_INDEX = 0;
     public static final int SECOND_COLUMN_INDEX = 1;
