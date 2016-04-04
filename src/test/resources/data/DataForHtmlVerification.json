@@ -35,9 +35,9 @@
       "id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "CS2104-TESTING",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "benny.c.tmms@CS2104-TESTING": {
       "id": "benny.c.tmms",
@@ -45,7 +45,7 @@
       "course": "CS2104-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     },
     "charlie.d.tmms@CS2104-TESTING": {
       "id": "charlie.d.tmms",
@@ -67,9 +67,9 @@
       "id": "alice.b.tmms",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "CS1101-TESTING",
-      "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "name": "Alice Betsy</td></div>'\"",
+      "comments": "This student's name is Alice Betsy</td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "benny.c.tmms@CS1101-TESTING": {
       "id": "benny.c.tmms",
@@ -77,7 +77,7 @@
       "course": "CS1101-TESTING",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     },
     "charlie.d.tmms@CS1101-TESTING": {
       "id": "charlie.d.tmms",

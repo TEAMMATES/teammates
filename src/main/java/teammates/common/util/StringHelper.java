@@ -373,7 +373,7 @@ public class StringHelper {
             
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", td));
+                result.append(String.format("<td>%s</td>\n", Sanitizer.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }
@@ -413,8 +413,12 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                inquote = !inquote;
-                continue;
+                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                    i++;
+                } else {
+                    inquote = !inquote;
+                    continue;
+                }
             }
             
             if (chars[i] == ',') {    

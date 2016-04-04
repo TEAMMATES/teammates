@@ -11,12 +11,14 @@ public class FeedbackSessionResponseStatus {
     public List<String> hasResponse;
     public List<String> noResponse;
     public Map<String, String> emailNameTable;
+    public Map<String, String> emailSectionTable;
     public Map<String, String> emailTeamNameTable;
 
     public FeedbackSessionResponseStatus() {
         hasResponse = new ArrayList<String>();
         noResponse = new ArrayList<String>();
         emailNameTable = new HashMap<String, String>();
+        emailSectionTable = new HashMap<String, String>();
         emailTeamNameTable = new HashMap<String, String>();
     }
 
@@ -94,5 +96,13 @@ public class FeedbackSessionResponseStatus {
 
     public Map<String, String> getEmailNameTable() {
         return emailNameTable;
+    }
+
+    public Map<String, String> getEmailTeamNameTable() {
+        return emailTeamNameTable;
+    }
+
+    public Map<String, String> getEmailSectionTable() {
+        return emailSectionTable;
     }
 }

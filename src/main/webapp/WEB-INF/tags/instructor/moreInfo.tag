@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourseStudentDetails / instructorStudentRecords - More Info Modal & Panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="student" type="teammates.ui.template.StudentProfile" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
 <c:set var="notFilled"><i class="text-muted"><%= Const.STUDENT_PROFILE_FIELD_NOT_FILLED %></i></c:set>
@@ -8,7 +9,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">${student.name}'s Profile - More Info</h4>
+                <h4 class="modal-title">${fn:escapeXml(student.name)}'s Profile - More Info</h4>
             </div>
             <div class="modal-body">
                 <br>

@@ -111,7 +111,8 @@ public class FeedbackSessionsForm {
                                                        String defaultCourseId,
                                                        List<String> courseIds, List<ElementTag> courseIdOptions,
                                                        Map<String, InstructorAttributes> instructors,
-                                                       FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+                                                       FeedbackSessionsAdditionalSettingsFormSegment additionalSettings,
+                                                       boolean isSubmitButtonDisabled) {
         FeedbackSessionsForm newFsForm = new FeedbackSessionsForm();
         
         newFsForm.isShowNoCoursesMessage = courseIds.isEmpty();
@@ -156,7 +157,7 @@ public class FeedbackSessionsForm {
                                                                               ? Const.INT_UNINITIALIZED  
                                                                               : feedbackSession.gracePeriod);
         
-        newFsForm.isSubmitButtonDisabled= courseIds.isEmpty();
+        newFsForm.isSubmitButtonDisabled = isSubmitButtonDisabled;
         newFsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
         newFsForm.submitButtonText = "Create Feedback Session";
         newFsForm.isSubmitButtonVisible = true;

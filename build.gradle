@@ -1,0 +1,97 @@
+def libsVersion = "5.60"
+def libsUrl = "http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV${libsVersion}.zip"
+def libsPath = "libs/libsV${libsVersion}.zip"
+def failedXmlPath = "test-output/testng-failed.xml"
+def failedXmlUrl = "https://gist.githubusercontent.com/anonymous/gist_id/raw/"
+
+task clean << {
+  def testOutputDir = new File("test-output")
+  testOutputDir.deleteDir()
+}
+
+task downloadFailedXml {
+    onlyIf {
+        project.hasProperty("gist")
+    }
+    doFirst {
+        def failedXml = new File(failedXmlPath)
+        failedXml.getParentFile().mkdirs()
+        def downloadUrl = failedXmlUrl.replace(/gist_id/, project.getProperty("gist"))
+        new URL(downloadUrl).withInputStream{i -> failedXml.withOutputStream{ it << i }}
+    }
+    doLast {
+        logger.lifecycle("The failed xml has been downloaded successfully.")
+        logger.lifecycle("You can now run the failed tests from Eclipse.")
+    }
+    dependsOn clean
+  }
+
+
+task copyTemplateConfigs << {
+    def templatesToCopy = [
+        "src/main/resources/build.template.properties",
+        "src/test/resources/test.template.properties",
+        "src/main/webapp/WEB-INF/appengine-web.template.xml",
+        ".settings/com.google.gdt.eclipse.core.template.prefs"
+    ]
+    templatesToCopy.findAll {
+        !(new File(it.replace(".template", ""))).exists()
+    }.each {
+        filename -> copy {
+            from filename
+            into new File(filename).getParent()
+            rename '(.*).template(.*)', '$1$2'
+        }
+    }
+}
+
+task populateProjectDir << {
+    def filesToPopulate = [
+        ".settings/com.google.gdt.eclipse.core.template.prefs"
+    ]
+    filesToPopulate.each { filename ->
+        filename = filename.replace(".template", "")
+        def filecontents = new File(filename).getText('UTF-8')
+        new File(filename).text = filecontents.replaceAll(/\*/, projectDir.canonicalPath)
+    }
+}
+
+task createConfigs {
+    dependsOn copyTemplateConfigs, populateProjectDir
+}
+
+task downloadLibs {
+    onlyIf {
+        !(new File(libsPath)).exists()
+    }
+    doFirst {
+        def currentDependencies = new File(libsPath)
+        currentDependencies.getParentFile().mkdirs()
+        new URL(libsUrl).withInputStream{i -> currentDependencies.withOutputStream{ it << i }}
+    }
+}
+
+task updateLibs {
+    def zipFile = new File(libsPath)
+    def libsDir = new File(zipFile.getParentFile(), 'src')
+    doFirst {
+        copy {
+            from zipTree(zipFile)
+            into zipFile.getParentFile()
+        }
+        copy {
+            from libsDir
+            into new File(projectDir, 'src')
+        }
+    }
+    doLast {
+        libsDir.deleteDir()
+    }
+    dependsOn downloadLibs
+}
+
+task setup {
+    dependsOn updateLibs, createConfigs
+}
+
+defaultTasks "setup"

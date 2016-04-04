@@ -201,7 +201,7 @@ function enableQuestion(number) {
     $currentQuestionTable.find('text,button,textarea,select,input')
                          .not('[name="receiverFollowerCheckbox"]')
                          .not('.disabled_radio')
-                         .removeAttr('disabled', 'disabled');
+                         .prop('disabled', false);
     
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
@@ -260,7 +260,7 @@ function enableNewQuestion() {
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
-                               .removeAttr('disabled', 'disabled');
+                               .prop('disabled', false);
     $currentQuestionTableSuffix.find('.removeOptionLink').show();
     $currentQuestionTableSuffix.find('.addOptionLink').show();
 
@@ -297,7 +297,7 @@ function enableNewQuestion() {
 function disableQuestion(number) {
     var $currentQuestionTable = $('#questionTable' + number);
 
-    $currentQuestionTable.find('text,button,textarea,select,input').attr('disabled', 'disabled');
+    $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
     $currentQuestionTable.find('#mcqAddOptionLink').hide();
     $currentQuestionTable.find('#msqAddOptionLink').hide();
@@ -305,7 +305,7 @@ function disableQuestion(number) {
     
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
-    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
+    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).prop('checked')) {
         $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).closest(".checkbox").hide();
         $currentQuestionTable.find("#msqOtherOptionFlag-" + number).closest(".checkbox").hide();
     } else {
@@ -647,20 +647,31 @@ function disableRow(elem, row) {
 }
 
 function feedbackRecipientUpdateVisibilityOptions(elem) {
-    elem = $(elem);
-    if (elem.val() === 'OWN_TEAM' || elem.val() === 'TEAMS' ||
-            elem.val() === 'INSTRUCTORS' || elem.val() === 'OWN_TEAM_MEMBERS') {
-        enableRow(elem, 1);
-        disableRow(elem, 3);
+    var $elem = $(elem);
+    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
+        // show the row Recipient(s) and hide the row Recipient's Team Members
+        enableRow($elem, 1);
+        disableRow($elem, 3);
         return;
-    } else if(elem.val() === 'NONE') {
-        disableRow(elem, 3);
-        disableRow(elem, 1);
+    } else if ($elem.val() === 'NONE') {
+        // hide both the row Recipient(s) and the row Recipient's Team Members
+        disableRow($elem, 3);
+        disableRow($elem, 1);
         return;
     }
     
-    enableRow(elem, 1);
-    enableRow(elem, 3);
+    enableRow($elem, 1);
+    enableRow($elem, 3);
+}
+
+/**
+ * Returns true if "recipient's team members" visibility option 
+ * is not applicable for the recipient type
+ */
+function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
+    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
+           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS' 
+           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
 function feedbackGiverUpdateVisibilityOptions(elem) {
@@ -769,7 +780,7 @@ function bindCopyEvents() {
             numRowsSelected--;
         } else {
             $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked="checked">');
+            $(this).children('td:first').html('<input type="checkbox" checked>');
             numRowsSelected++;
         }
 
@@ -919,7 +930,7 @@ function addMcqOption(questionNumber) {
     $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"radio\" disabled=\"disabled\">"
+        +          "<input type=\"radio\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
@@ -1011,7 +1022,7 @@ function addMsqOption(questionNumber) {
     $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"checkbox\" disabled=\"disabled\">"
+        +          "<input type=\"checkbox\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"

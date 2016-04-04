@@ -39,6 +39,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                                               EntityDoesNotExistException {
         
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
+        
+        // remove possibly conflicting entity from the database
+        fqDb.deleteEntity(fq);
+        
         fqDb.createEntity(fq);
         verifyPresentInDatastore(fq, true);
         
@@ -54,8 +58,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("success : defaultTimeStamp for updatedAt date");
 
         assertEquals(defaultTimeStamp, fq.getUpdatedAt());
-        
-        fqDb.deleteEntity(fq);
     }
 
     @Test
@@ -65,6 +67,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("success : created");
 
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
+        
+        // remove possibly conflicting entity from the database
+        fqDb.deleteEntity(fq);
+        
         fqDb.createEntity(fq);
         verifyPresentInDatastore(fq, true);
         
@@ -98,8 +104,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFq.getUpdatedAt(), updatedFqTwo.getUpdatedAt());
-        
-        fqDb.deleteEntity(updatedFqTwo);
     }
       
     @Test
@@ -108,6 +112,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
 
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        
+        // remove possibly conflicting entity from the database
+        fqDb.deleteEntity(fqa);
+        
         fqDb.createEntity(fqa);
         verifyPresentInDatastore(fqa, true);
 
@@ -150,6 +158,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetFeedbackQuestions() throws Exception {
         FeedbackQuestionAttributes expected = getNewFeedbackQuestionAttributes();
+        
+        // remove possibly conflicting entity from the database
+        fqDb.deleteEntity(expected);
+        
         fqDb.createEntity(expected);
 
         ______TS("standard success case");
@@ -191,8 +203,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         actual = fqDb.getFeedbackQuestion("non-existent id");
 
         assertNull(actual);
-
-        fqDb.deleteEntity(expected);
     }
 
     @Test
@@ -245,6 +255,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetFeedbackQuestionsForGiverType() throws Exception {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        
+        // remove possibly conflicting entity from the database
+        fqDb.deleteEntity(fqa);
+        
         int[] numOfQuestions = createNewQuestionsForDifferentRecipientTypes();
 
         ______TS("standard success case");
@@ -396,6 +410,10 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         for (int i = 1; i <= num; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
+            
+            // remove possibly conflicting entity from the database
+            fqDb.deleteEntity(fqa);
+            
             fqDb.createEntity(fqa);
             returnVal.add(fqa);
         }

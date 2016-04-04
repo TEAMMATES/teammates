@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourseStudentDetails / instructorStudentRecords - Student Information" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="studentInfoTable" type="teammates.ui.template.StudentInfoTable" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
@@ -7,28 +8,28 @@
     <button type="button" class="btn btn-default btn-xs icon-button pull-right"
             id="button_add_comment" data-toggle="tooltip"
             data-placement="top" title="Add comment"
-        <c:if test="${not studentInfoTable.ableToAddComment}">disabled="disabled"</c:if>>
+        <c:if test="${not studentInfoTable.ableToAddComment}">disabled</c:if>>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
     </button>
     <div class="form form-horizontal" id="studentInfomationTable">
         <div class="form-group">
             <label class="col-sm-1 control-label">Student Name:</label>
             <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_NAME%>">
-                <p class="form-control-static"><c:out value="${studentInfoTable.name}"/></p>
+                <p class="form-control-static">${fn:escapeXml(studentInfoTable.name)}</p>
             </div>
         </div>
         <c:if test="${studentInfoTable.hasSection}">
             <div class="form-group">
                 <label class="col-sm-1 control-label">Section Name:</label>
                 <div class="col-sm-11" id="<%= Const.ParamsNames.SECTION_NAME %>">
-                    <p class="form-control-static"><c:out value="${studentInfoTable.section}"/></p>
+                    <p class="form-control-static">${fn:escapeXml(studentInfoTable.section)}</p>
                 </div>
             </div>
         </c:if>
         <div class="form-group">
             <label class="col-sm-1 control-label">Team Name:</label>
             <div class="col-sm-11" id="<%= Const.ParamsNames.TEAM_NAME %>">
-                <p class="form-control-static"><c:out value="${studentInfoTable.team}"/></p>
+                <p class="form-control-static">${fn:escapeXml(studentInfoTable.team)}</p>
             </div>
         </div>
         <div class="form-group">
@@ -40,7 +41,7 @@
         <div class="form-group">
             <label class="col-sm-1 control-label">Comments:</label>
             <div class="col-sm-11" id="<%= Const.ParamsNames.COMMENTS %>">
-                <p class="form-control-static"><c:out value="${studentInfoTable.comments}"/></p>
+                <p class="form-control-static">${fn:escapeXml(studentInfoTable.comments)}</p>
             </div>
         </div>
     </div>
@@ -51,14 +52,14 @@
             <label style="margin-right: 24px;">Recipient:</label>
             <select id="comment_recipient_select" class="form-control">
                 <option value="<%= CommentParticipantType.PERSON %>" selected>
-                    <c:out value="${studentInfoTable.name}"/>
+                    ${fn:escapeXml(studentInfoTable.name)}
                 </option>
                 <option value="<%= CommentParticipantType.TEAM %>">
-                    <c:out value="${studentInfoTable.team}"/>
+                    ${fn:escapeXml(studentInfoTable.team)}
                 </option>
                 <c:if test="${studentInfoTable.hasSection && studentInfoTable.section != 'None'}">
                     <option value="<%= CommentParticipantType.SECTION %>">
-                        <c:out value="${studentInfoTable.section}"/>
+                        ${fn:escapeXml(studentInfoTable.section)}
                     </option>
                 </c:if>
             </select>
@@ -100,7 +101,7 @@
                             <input class="visibilityCheckbox recipientCheckbox"
                                    name="receiverFollowerCheckbox"
                                    type="checkbox" value="<%= CommentParticipantType.PERSON %>"
-                                   disabled="disabled">
+                                   disabled>
                         </td>
                     </tr>
                     <tr id="recipient-team">
