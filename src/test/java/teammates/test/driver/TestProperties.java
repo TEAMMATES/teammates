@@ -41,7 +41,6 @@ public class TestProperties {
     public String FIREFOX_PATH;
     
     public int TEST_TIMEOUT;
-    public String TEST_TIMEOUT_PAGELOAD;
     
     private static TestProperties instance;
     private Properties prop;
@@ -88,7 +87,6 @@ public class TestProperties {
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
-            TEST_TIMEOUT_PAGELOAD = prop.getProperty("test.timeout") + "000";
 
         } catch (IOException e) {
             e.printStackTrace();

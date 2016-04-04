@@ -178,7 +178,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void closeModal() {
         WebElement closeButton = browser.driver.findElement(By.className("close"));
-        
+        waitForElementToBeClickable(closeButton);
         closeButton.click();
         try {
             Thread.sleep(1000);

@@ -409,8 +409,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }
     
+    public void clickVisibilityPreviewForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)).click();
+    }
+    
     public void clickVisibilityOptionsForQuestion1() {
         browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
+    }
+    
+    public void clickVisibilityOptionsForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)).click();
     }
     
     public void clickVisibilityPreviewForNewQuestion() {
@@ -678,6 +686,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void selectRecipientsToBeStudents() {
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
+    
+    public void selectRecipientsToBeGiverTeamMembersAndGiver() {
+        selectDropdownByVisibleValue(recipientDropdown, "Giver's team members and Giver");
+    }
 
     public void selectRecipientsToBeInstructors() {
         selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
@@ -925,7 +937,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
     }
-    
+
+    public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
+        return getVisibilityOptions(questionNumber).findElement(By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
+    }
+
     public WebElement getPreviewLabel(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessageButton-" + String.valueOf(questionNumber)));   
     }
