@@ -342,15 +342,13 @@ public class TimeHelper {
             return false;
         }
         
-        if (isStartInclusive && isEndInclusive) {
-            return startTime.getTime() <= time.getTime() && time.getTime() <= endTime.getTime();
-        } else if (isStartInclusive && !isEndInclusive) {
-            return startTime.getTime() <= time.getTime() && time.getTime() < endTime.getTime();
-        } else if (!isStartInclusive && isEndInclusive) {
-            return startTime.getTime() < time.getTime() && time.getTime() <= endTime.getTime();
-        } else {
-            return startTime.getTime() < time.getTime() && time.getTime() < endTime.getTime();
-        }
+        boolean isAfterStartTime = isStartInclusive ? startTime.getTime() <= time.getTime()
+                                                    : startTime.getTime() < time.getTime();
+        
+        boolean isBeforeEndTime = isEndInclusive ? time.getTime() <= endTime.getTime()
+                                                 : time.getTime() < endTime.getTime();
+        
+        return isAfterStartTime && isBeforeEndTime;
     }
     
     public static double getLocalTimezoneHourOffset() {
