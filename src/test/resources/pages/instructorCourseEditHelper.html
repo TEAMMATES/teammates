@@ -111,11 +111,18 @@
       <strong>
         Course:
       </strong>
-      <a class="btn btn-primary btn-xs pull-right" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.Helper" id="courseDeleteLink" onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');" title="" type="button">
-        <span class="glyphicon glyphicon-trash">
-        </span>
-        Delete
-      </a>
+      <div class="pull-right">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit course name" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="courseEditLink" title="" type="button">
+          <span class="glyphicon glyphicon-pencil">
+          </span>
+          Edit
+        </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.Helper" id="courseDeleteLink" onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');" title="" type="button">
+          <span class="glyphicon glyphicon-trash">
+          </span>
+          Delete
+        </a>
+      </div>
     </div>
     <div class="panel-body fill-plain">
       <form action="/page/instructorCourseEditSave" class="form form-horizontal" id="formEditcourse" method="post">
@@ -139,7 +146,7 @@
         </div>
         <div class="form-group">
           <div class=" col-sm-12 align-center">
-            <input class="button" id="btnSaveCourse" name="btnSaveCourse" onclick="return verifyCourseData();" style="display:none;" type="submit" value="Save Changes">
+            <input class="btn btn-primary" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" type="submit" value="Save Changes">
           </div>
         </div>
         <input name="user" type="hidden" value="InsCrsEdit.Helper">
