@@ -171,7 +171,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;    
@@ -187,7 +189,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList; 
@@ -248,7 +252,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;
@@ -269,7 +275,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;    
@@ -290,7 +298,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;    
@@ -314,7 +324,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         FeedbackResponseComment frc = (FeedbackResponseComment) getEntity(newAttributes);
         
-        if (frc == null) {
+        if (frc == null || JDOHelper.isDeleted(frc)) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
@@ -375,7 +385,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state);
         List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
+            if (!JDOHelper.isDeleted(frc)) {
+                resultList.add(new FeedbackResponseCommentAttributes(frc));
+            }
         }
         
         return resultList;  
@@ -432,7 +444,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
         List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
         for(FeedbackResponseComment comment : entities) {
-            list.add(new FeedbackResponseCommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                list.add(new FeedbackResponseCommentAttributes(comment));
+            }
         }
         return list;
     }
