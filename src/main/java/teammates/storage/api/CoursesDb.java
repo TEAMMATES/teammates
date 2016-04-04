@@ -71,7 +71,9 @@ public class CoursesDb extends EntitiesDb {
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
         // TODO add method to get List<CourseAttributes> from List<Course>
         for (Course c: courses) {
-            courseAttributes.add(new CourseAttributes(c));
+            if (!JDOHelper.isDeleted(c)) {
+                courseAttributes.add(new CourseAttributes(c));
+            }
         }
         return courseAttributes;
     }
@@ -90,7 +92,9 @@ public class CoursesDb extends EntitiesDb {
     
         List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
         for (Course c : courseList) {
-            courseDataList.add(new CourseAttributes(c));
+            if (!JDOHelper.isDeleted(c)) {
+                courseDataList.add(new CourseAttributes(c));
+            }
         }
     
         return courseDataList;
@@ -98,8 +102,7 @@ public class CoursesDb extends EntitiesDb {
 
     /**
      * Updates the course.<br>
-     * Updates only course archive status.<br>
-     * Does not follow the 'keep existing' policy <br> 
+     * Updates only name and course archive status.<br>
      * Preconditions: <br>
      * * {@code courseToUpdate} is non-null.<br>
      * @throws InvalidParametersException, EntityDoesNotExistException
@@ -121,6 +124,7 @@ public class CoursesDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
         }
         
+        courseEntityToUpdate.setName(courseToUpdate.name);
         courseEntityToUpdate.setArchiveStatus(Boolean.valueOf(courseToUpdate.isArchived));
         
         log.info(courseToUpdate.getBackupIdentifier());

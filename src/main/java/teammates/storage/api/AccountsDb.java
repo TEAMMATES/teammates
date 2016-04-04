@@ -118,7 +118,9 @@ public class AccountsDb extends EntitiesDb {
         List<AccountAttributes> instructorsAccountData = new ArrayList<AccountAttributes>();
                 
         for (Account a : accountsList) {
-            instructorsAccountData.add(new AccountAttributes(a));
+            if (!JDOHelper.isDeleted(a)) {
+                instructorsAccountData.add(new AccountAttributes(a));
+            }
         }
         
         return instructorsAccountData;
