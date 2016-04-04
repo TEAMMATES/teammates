@@ -1125,6 +1125,7 @@ public class Const {
     private void _______repeated_phrases___________________________________(){}
     
     public static final String EOL = System.getProperty("line.separator");
+    public static final String HTML_BR_TAG = "<br>";
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
