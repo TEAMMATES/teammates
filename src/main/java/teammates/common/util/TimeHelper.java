@@ -321,35 +321,36 @@ public class TimeHelper {
     }
     
     /**
-     * Checks if the time falls between the time range specified.
-     * Start time is inclusive (i.e. {@code startTime <= time < endTime})
-     * @param startTime the start time of the time range
-     * @param endTime the end time of the time range
+     * Checks if the time falls between the period specified.<br>
+     * i.e.
+     * <ul>
+     *  <li>{@code startTime <= time <= endTime}</li>
+     *  <li>{@code startTime <= time < endTime}</li>
+     *  <li>{@code startTime < time <= endTime}</li>
+     *  <li>{@code startTime < time < endTime}</li>
+     * </ul>
+     * @param startTime the start time of the period
+     * @param endTime the end time of the period
      * @param time the time to be checked
+     * @param isStartInclusive true to allow time to fall on start time
+     * @param isEndInclusive true to allow time to fall on end time
      * @return true if the time falls between the start and end time
      */
-    public static boolean isStartTimeWithinRange(Date startTime, Date endTime, Date time) {
+    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time, 
+                                             boolean isStartInclusive, boolean isEndInclusive) {
         if (startTime == null || endTime == null || time == null) {
             return false;
         }
         
-        return startTime.getTime() <= time.getTime() && time.getTime() < endTime.getTime();
-    }
-    
-    /**
-     * Checks if the time falls between the time range specified.
-     * End time is inclusive (i.e. {@code startTime < time <= endTime})
-     * @param startTime the start time of the time range
-     * @param endTime the end time of the time range
-     * @param time the time to be checked
-     * @return true if the time falls between the start and end time
-     */
-    public static boolean isEndTimeWithinRange(Date startTime, Date endTime, Date time) {
-        if (startTime == null || endTime == null || time == null) {
-            return false;
+        if (isStartInclusive && isEndInclusive) {
+            return startTime.getTime() <= time.getTime() && time.getTime() <= endTime.getTime();
+        } else if (isStartInclusive && !isEndInclusive) {
+            return startTime.getTime() <= time.getTime() && time.getTime() < endTime.getTime();
+        } else if (!isStartInclusive && isEndInclusive) {
+            return startTime.getTime() < time.getTime() && time.getTime() <= endTime.getTime();
+        } else {
+            return startTime.getTime() < time.getTime() && time.getTime() < endTime.getTime();
         }
-        
-        return startTime.getTime() < time.getTime() && time.getTime() <= endTime.getTime();
     }
     
     public static double getLocalTimezoneHourOffset() {

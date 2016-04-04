@@ -94,9 +94,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
             Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
             Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
             
-            boolean isStartTimeWithinRange = TimeHelper.isStartTimeWithinRange(standardStart, standardEnd, fs.startTime);
-            boolean isEndTimeWithinRange = TimeHelper.isEndTimeWithinRange(standardStart, standardEnd, fs.endTime);
-            
+            boolean isStartTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.startTime, true, false);
+            boolean isEndTimeWithinRange = TimeHelper.isTimeWithinPeriod(standardStart, standardEnd, fs.endTime, false, true);
+
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
             }
