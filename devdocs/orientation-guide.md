@@ -6,13 +6,13 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 
 
-[Knowledge required](#knowledge-required)
+* [Knowledge required](#knowledge-required)
 
-[Dev Community Structure](#dev-community-structure)
+* [Dev Community Structure](#dev-community-structure)
 
-[Getting started](#getting-started)
+* [Getting started](#getting-started)
 
-[Contacting us](#contacting-us)
+* [Contacting us](#contacting-us)
 
 * * *
 
