@@ -71,7 +71,9 @@ public class CoursesDb extends EntitiesDb {
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
         // TODO add method to get List<CourseAttributes> from List<Course>
         for (Course c: courses) {
-            courseAttributes.add(new CourseAttributes(c));
+            if (!JDOHelper.isDeleted(c)) {
+                courseAttributes.add(new CourseAttributes(c));
+            }
         }
         return courseAttributes;
     }
@@ -90,7 +92,9 @@ public class CoursesDb extends EntitiesDb {
     
         List<CourseAttributes> courseDataList = new ArrayList<CourseAttributes>();
         for (Course c : courseList) {
-            courseDataList.add(new CourseAttributes(c));
+            if (!JDOHelper.isDeleted(c)) {
+                courseDataList.add(new CourseAttributes(c));
+            }
         }
     
         return courseDataList;
