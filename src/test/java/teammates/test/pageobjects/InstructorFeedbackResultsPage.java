@@ -379,7 +379,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         actions.moveToElement(photoLink).perform();
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
-        ThreadHelper.waitFor(500);
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
                                                                  .get(0)
@@ -398,16 +397,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
          * regarding unix systems and current testing version of Selenium and Firefox
          */
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -200);",
+                                           browser.driver.findElement(By.id(idOfQuestionBody)));
         jsExecutor.executeScript("$(document.getElementById('" +  idOfQuestionBody + "')" +
                                            ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" +
                                            ".querySelectorAll('td')['" + tableCol + "']" +
                                            ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
         waitForElementPresence(By.cssSelector(".popover-content"));
-        
-        WebElement popoverContent = browser.driver.findElement(By.className("popover-content"));
-        
-        waitForElementVisibility(popoverContent);
         
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
                                            ".getElementsByTagName('a')[0].click();");
