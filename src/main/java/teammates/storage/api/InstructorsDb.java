@@ -312,7 +312,7 @@ public class InstructorsDb extends EntitiesDb{
         instructorToUpdate.setRole(instructorAttributesToUpdate.role);
         instructorToUpdate.setIsDisplayedToStudents(instructorAttributesToUpdate.isDisplayedToStudents);
         instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
-        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
+        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
         
         //TODO: make courseId+email the non-modifiable values
         
@@ -350,7 +350,7 @@ public class InstructorsDb extends EntitiesDb{
         instructorToUpdate.setIsArchived(instructorAttributesToUpdate.isArchived);
         instructorToUpdate.setRole(instructorAttributesToUpdate.role);
         instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
-        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
+        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
         
         //TODO: make courseId+email the non-modifiable values
         putDocument(new InstructorAttributes(instructorToUpdate));

@@ -171,10 +171,6 @@ public class BaseComponentTestCase extends BaseTestCase {
         if (actualInstructor.key != null) {
             expectedInstructor.key = actualInstructor.key;
         }
-        if (!expectedInstructor.instructorPrivilegesAsText.equals(actualInstructor.instructorPrivilegesAsText)
-                && expectedInstructor.privileges.equals(actualInstructor.privileges)) {
-            actualInstructor.instructorPrivilegesAsText = expectedInstructor.getTextFromInstructorPrivileges();
-        }
     }
 
     protected static void verifyAbsentInDatastore(StudentAttributes student) {
