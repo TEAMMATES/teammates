@@ -33,9 +33,9 @@ Roles:
 
 [TEAMMATES community](https://teammatesv4.appspot.com/about.html) has three tiers, defined based on the level of involvement.
 
-*   Contributor: Small but noteworthy contribution to the project.
-*   Committer: Significant contributions sustained over a long period of time.
-*   Core member: Significant and sustained contributions in recent times. Core members can progress through the levels: Snr Developer, Area Lead, Project Lead, and Project Manager.
+*   **Contributor**: Small but noteworthy contribution to the project.
+*   **Committer**: Significant contributions sustained over a long period of time.
+*   **Core member**: Significant and sustained contributions in recent times. Core members can progress through the levels: Snr Developer, Area Lead, Project Lead, and Project Manager.
 
 ## Getting started
 
@@ -63,14 +63,10 @@ _**Phase A**: Know the project_
     * [feature overview](https://teammatesv4.appspot.com/features.html) (users’ point of view)
 
 2.  Decide in which role(s) you want to contribute. i.e., tester, copy-editor, etc. as specified [earlier in this document](#knowledge-required).
-3.  If you are aiming for tech writer or tester roles, get an instructor account using the link in the TEAMMATES home page. Remember to mention the purpose of your request under any other comments.
+    * If you are aiming for tech writer or tester roles, get an instructor account using the link in the TEAMMATES home page. Remember to mention the purpose of your request under any other comments.If you are sure you want to become a contributor, you can skip this step. In Phase B, you get to set up TEAMMATES on your own machine and use that instance to try the functionality.
 
-    If you are sure you want to become a contributor, you can skip this step. In Phase B, you get to set up TEAMMATES on your own machine and use that instance to try the functionality.
-
-    If you plan to contribute code, continue with the tasks below.
-
-
-
+    *  If you plan to contribute code, continue with the tasks below.
+    
 _**Phase B**: Set up locally_
 
 1.  Set up TEAMMATES development environment on your computer.  
@@ -79,12 +75,9 @@ _**Phase B**: Set up locally_
     * If you encounter any problems, refer to the [Developer Troubleshooting Guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true).
 2.  Get dev green. It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
-
-
-
 _**Phase C**: Deploy_
 
-1.  Deploy your own copy of TEAMMATES to your staging server.
+  Deploy your own copy of TEAMMATES to your staging server.
 
 _**Phase D**: Tinker with the code_
 
@@ -104,7 +97,7 @@ _**Phase D**: Tinker with the code_
 _**Phase E**: Start contributing_
 
 After you complete the above tasks, you are ready to become a contributor.
-Steps for fixing an issue is explained in the [process document](./process.md) document. New contributors are advised to start doing an issue labeled [d.FirstTimers](https://github.com/TEAMMATES/teammates/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ad.FirstTimers) (but do not do more than one of those), move to other issues labeled as [d.Contributors](https://github.com/TEAMMATES/teammates/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ad.Contributors).
+Steps for fixing an issue is explained in the [process document](./process.md). New contributors are advised to start doing an issue labeled [d.FirstTimers](https://github.com/TEAMMATES/teammates/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ad.FirstTimers) (but do not do more than one of those), move to other issues labeled as [d.Contributors](https://github.com/TEAMMATES/teammates/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ad.Contributors).
 
 
 #### **_Important:_**
