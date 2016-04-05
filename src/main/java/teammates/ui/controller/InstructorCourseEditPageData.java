@@ -13,6 +13,7 @@ import teammates.ui.template.ElementTag;
 
 public class InstructorCourseEditPageData extends PageData {
     private int instructorToShowIndex;
+    private ElementTag editCourseButton;
     private ElementTag deleteCourseButton;
     private CourseAttributes course;
     private List<CourseEditInstructorPanel> instructorPanelList;
@@ -72,9 +73,14 @@ public class InstructorCourseEditPageData extends PageData {
     private void createButtons(InstructorAttributes currentInstructor) {
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+        
+        String editCourseButtonContent = "<span class=\"glyphicon glyphicon-pencil\"></span> Edit";
+        editCourseButton = createButton(editCourseButtonContent, "btn btn-primary btn-xs", "courseEditLink",
+                                        "javascript:;", Const.Tooltips.COURSE_INFO_EDIT, null, isDisabled);
+        
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
         String onClick = "return toggleDeleteCourseConfirmation('" + course.id + "');";
-        deleteCourseButton = createButton(content, "btn btn-primary btn-xs pull-right", "courseDeleteLink", 
+        deleteCourseButton = createButton(content, "btn btn-primary btn-xs", "courseDeleteLink", 
                                           getInstructorCourseDeleteLink(course.id, false), 
                                           Const.Tooltips.COURSE_DELETE, onClick, isDisabled);
         
@@ -125,6 +131,10 @@ public class InstructorCourseEditPageData extends PageData {
         }
         
         return instructorPanel;
+    }
+    
+    public ElementTag getEditCourseButton() {
+        return editCourseButton;
     }
     
     public ElementTag getDeleteCourseButton() {

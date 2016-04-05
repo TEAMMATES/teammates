@@ -4,8 +4,8 @@
 <%@ attribute name="fsIdx" required="true" %>
 <%@ attribute name="panelIdx" required="true" %>
 <div class="panel panel-primary">
-    <div class="panel-heading" onclick="loadFeedbackResponseComments('${data.account.googleId}','${courseId}','${fsName}', '${fsIdx}', this);"
-        style="cursor: pointer;">
+    <div class="panel-heading" style="cursor: pointer;"
+         onclick="loadFeedbackResponseComments('${data.account.googleId}','${courseId}','${fsName}', '${fsIdx}', this, true);">
         <strong>Comments in session: ${fsName}</strong>
         <div class="pull-right">
             <div class="placeholder-img-loading" style="display:inline-block;"></div>

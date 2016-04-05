@@ -78,6 +78,14 @@ public class Config {
         return SystemProperty.applicationVersion.get().split("\\.")[0].replace("-", ".");
     }
 
+    /**
+     * This method is not to be used by classes not compiled by GAE (e.g non-production codes).
+     * @return true if the system is running at development environment
+     */
+    public boolean isDevServer() {
+        return SystemProperty.environment.value() == SystemProperty.Environment.Value.Development;
+    }
+
     private static void initProperties(){
         APP_URL = instance.getAppUrl();
         GCS_BUCKETNAME= instance.getGcsBucketname();
