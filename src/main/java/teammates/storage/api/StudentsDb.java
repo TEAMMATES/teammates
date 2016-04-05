@@ -575,7 +575,7 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
 
-    private List<Student> getStudentEntitiesForCourse(String courseId) {
+    public List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
@@ -629,7 +629,11 @@ public class StudentsDb extends EntitiesDb {
         return studentList;
     }
 
-    private List<Student> getStudentEntities() { 
+    @Deprecated
+    /**
+     * Retrieves all student entities. This function is not scalable.
+     */
+    public List<Student> getStudentEntities() { 
         
         Query q = getPM().newQuery(Student.class);
         
