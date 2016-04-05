@@ -86,23 +86,23 @@
             "email": "FSRTest.instr1@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "instructor2OfCourse1": {
             "googleId": "FSRTest.idOfInstructor2OfCourse1",
@@ -111,23 +111,23 @@
             "email": "FSRTest.instr2@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "instructor3OfCourse1": {
             "googleId": "FSRTest.idOfInstructor3",
@@ -136,23 +136,23 @@
             "email": "FSRTest.instr3@course1n2.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         },
         "instructor4": {
             "googleId": "FSRTest.idOfInstructor3",
@@ -161,23 +161,23 @@
             "email": "FSRTest.instr3@course1n2.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{
-                \"courseLevel\": {
-                    \"canviewstudentinsection\": true,
-                    \"cangivecommentinsection\": true,
-                    \"cansubmitsessioninsection\": true,
-                    \"canmodifysessioncommentinsection\": true,
-                    \"canmodifycommentinsection\": true,
-                    \"canmodifycourse\": true,
-                    \"canviewsessioninsection\": true,
-                    \"canmodifysession\": true,
-                    \"canviewcommentinsection\": true,
-                    \"canmodifystudent\": true,
-                    \"canmodifyinstructor\": true
+            "privileges": {
+                "courseLevel": {
+                    "canviewstudentinsection": true,
+                    "cangivecommentinsection": true,
+                    "cansubmitsessioninsection": true,
+                    "canmodifysessioncommentinsection": true,
+                    "canmodifycommentinsection": true,
+                    "canmodifycourse": true,
+                    "canviewsessioninsection": true,
+                    "canmodifysession": true,
+                    "canviewcommentinsection": true,
+                    "canmodifystudent": true,
+                    "canmodifyinstructor": true
                 },
-                \"sectionLevel\": {},
-                \"sessionLevel\": {}
-            }"
+                "sectionLevel": {},
+                "sessionLevel": {}
+            }
         }
     },
 
