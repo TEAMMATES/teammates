@@ -20,9 +20,14 @@
     </c:otherwise>
 </c:choose>
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading cursor-pointer"  data-toggle="collapse"
+        data-target="#panelBodyCollapse" onclick="toggleChevron(this)">
+        <div class="display-icon pull-right">
+            <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+        </div>
         <strong>${bodyTitle}</strong>
     </div>
+    <div id="panelBodyCollapse" class="panel-collapse collapse in">
     <div class="panel-body">
         <c:if test="${viewingDraft}">Your comments that are not finished:</c:if>
         <c:set var="commentIndex" value="${0}"/>
@@ -199,5 +204,6 @@
                 </ul>
             </div>
         </c:forEach>
+    </div>
     </div>
 </div>
