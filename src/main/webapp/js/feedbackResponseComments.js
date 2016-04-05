@@ -7,8 +7,7 @@ var addCommentHandler = function(e) {
     var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).parent().parent();
     var addFormRow = $(this).parent().parent().parent();
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find(".panel-heading").first();
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
     var numberOfComments = addFormRow.parent().find('li').length;
@@ -35,7 +34,7 @@ var addCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    panelHeading.click();
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Inject new comment row
                     addFormRow.parent().attr("class", "list-group");
@@ -70,8 +69,7 @@ var editCommentHandler = function(e) {
     var formObject = $(this).parent().parent();
     var displayedText = $(this).parent().parent().prev();
     var commentBar = displayedText.parent().find("div[id^=commentBar]");
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find(".panel-heading").first();
     var formData = formObject.serialize();
     
     e.preventDefault();
@@ -95,7 +93,7 @@ var editCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if(isInCommentsPage()) {
-                    panelHeading.click();
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Update editted comment
                     displayedText.html(data.comment.commentText.value);
@@ -130,8 +128,7 @@ var deleteCommentHandler = function(e) {
     var formData = formObject.serialize();
     var editForm = submitButton.parent().next().next().next();
     var frCommentList = submitButton.parent().parent().parent().parent();
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find(".panel-heading").first();
     
     e.preventDefault();
     
@@ -152,7 +149,7 @@ var deleteCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    panelHeading.click();
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
                     if (numberOfItemInFrCommentList.length <= 2) {
@@ -367,7 +364,21 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
     $("#responseCommentEditForm-" + addedIndex).show();
 }
 
-function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement) {
+/**
+ * Reload feedback response comments.
+ * @param formObject the form object where the action is triggered
+ * @param panelHeading the heading of the feedback session panel
+ */
+function reloadFeedbackResponseComments(formObject, panelHeading) {
+    var user = formObject.find("[name='user']").val();
+    var courseId = formObject.find("[name='courseid']").val();
+    var fsName = formObject.find("[name='fsname']").val();
+    var fsIndx = formObject.find("[name='fsindex']").val();
+    
+    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
+}
+
+function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement, isClicked) {
     $(".tooltip").hide();
     var $clickedElement = $(clickedElement);
     var $collapsiblePanel = $clickedElement.siblings(".collapse");
@@ -376,7 +387,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
     
     // If the content is already loaded, toggle the chevron and exit.
-    if ($clickedElement.hasClass("loaded")) {
+    if ($clickedElement.hasClass("loaded") && isClicked) {
         toggleCollapsiblePanel($collapsiblePanel);
         toggleChevron(clickedElement);
         
@@ -395,9 +406,12 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedEle
             $clickedElement.addClass("loaded");
         }
 
-        toggleCollapsiblePanel($collapsiblePanel);
+        if (isClicked) {
+            toggleCollapsiblePanel($collapsiblePanel);
+            toggleChevron(clickedElement);
+        }
+
         $clickedElement.find('div[class^="placeholder-img-loading"]').html("");
-        toggleChevron(clickedElement);
     });
     
 }

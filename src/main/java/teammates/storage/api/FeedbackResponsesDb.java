@@ -137,7 +137,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -159,7 +161,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -182,7 +186,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;   
@@ -204,7 +210,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -226,7 +234,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;        
@@ -249,7 +259,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -272,7 +284,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -295,7 +309,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -318,7 +334,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -341,7 +359,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -364,7 +384,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList){
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
@@ -387,7 +409,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -411,7 +435,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -435,7 +461,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -459,7 +487,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         
         return fraList;
@@ -605,7 +635,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
         
-        if (fr == null) {
+        if (fr == null || JDOHelper.isDeleted(fr)) {
             throw new EntityDoesNotExistException(
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
@@ -637,9 +667,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
     public void deleteFeedbackResponsesForCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         
-        List<FeedbackResponse> feedbackResponseList = getFeedbackResponseEntitiesForCourses(courseIds);
+        List<FeedbackResponse> feedbackResponses = getFeedbackResponseEntitiesForCourses(courseIds);
         
-        getPM().deletePersistentAll(feedbackResponseList);
+        getPM().deletePersistentAll(feedbackResponses);
         getPM().flush();
     }
     
@@ -648,8 +678,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter(":p.contains(courseId)");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponseList = (List<FeedbackResponse>) q.execute(courseIds);
-        return feedbackResponseList;
+        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseIds);
+        return feedbackResponses;
     }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
@@ -658,7 +688,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
+            if (!JDOHelper.isDeleted(fr)) {
                 fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
         return fraList;
     }
@@ -669,8 +701,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam");
 
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> feedbackResponseList = (List<FeedbackResponse>) q.execute(courseId);
-        return feedbackResponseList;
+        List<FeedbackResponse> feedbackResponses = (List<FeedbackResponse>) q.execute(courseId);
+        return feedbackResponses;
     }
     
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
@@ -679,14 +711,14 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackResponseId == feedbackResponseIdParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackResponseId);
         
-        if (FeedbackResponseList.isEmpty() || JDOHelper.isDeleted(FeedbackResponseList.get(0))) {
+        if (feedbackResponses.isEmpty() || JDOHelper.isDeleted(feedbackResponses.get(0))) {
             return null;
         }
     
-        return FeedbackResponseList.get(0);
+        return feedbackResponses.get(0);
     }
 
         
@@ -701,20 +733,20 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 "receiver == receiverParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, receiver);
         
-        if (FeedbackResponseList.isEmpty() || JDOHelper.isDeleted(FeedbackResponseList.get(0))) {
+        if (feedbackResponses.isEmpty() || JDOHelper.isDeleted(feedbackResponses.get(0))) {
             return null;
         }
     
-        return FeedbackResponseList.get(0);
+        return feedbackResponses.get(0);
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(    
                 String feedbackQuestionId, String section) {
         
-        List<FeedbackResponse> FeedbackResponseList = new ArrayList<FeedbackResponse>();
+        List<FeedbackResponse> feedbackResponses = new ArrayList<FeedbackResponse>();
        
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String giverSectionParam, String receiverSectionParam");
@@ -723,19 +755,19 @@ public class FeedbackResponsesDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, section, section);
-        FeedbackResponseList.addAll(firstQueryResponses);
+        feedbackResponses.addAll(firstQueryResponses);
          
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, section, "None");
-        FeedbackResponseList.addAll(secondQueryResponses);
+        feedbackResponses.addAll(secondQueryResponses);
 
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> thirdQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, "None", section);
-        FeedbackResponseList.addAll(thirdQueryResponses);
+        feedbackResponses.addAll(thirdQueryResponses);
        
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(    
@@ -746,10 +778,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(    
@@ -761,10 +793,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setRange(0, range + 1);
 
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSession(
@@ -775,10 +807,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
 
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionWithinRange(
@@ -790,16 +822,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setRange(0, range + 1);
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
  
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
 
-        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
 
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
@@ -809,7 +841,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
@@ -817,10 +851,12 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
-        return FeedbackResponseList.values();   
+        return feedbackResponses.values();   
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSection(
@@ -854,7 +890,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSectionWithinRange(
             String feedbackSessionName, String courseId, String section, long range) {
 
-        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
 
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam, String sectionParam");
@@ -865,7 +901,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam && receiverSection == sectionParam");
@@ -874,10 +912,12 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackSessionName, courseId, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
-        return FeedbackResponseList.values();   
+        return feedbackResponses.values();   
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSectionWithinRange(
@@ -918,16 +958,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestionInSection(
             String feedbackQuestionId, String receiver, String section) {
         
-        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
         
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String receiverParam, String sectionParam");
@@ -938,7 +978,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && receiver == receiverParam "
@@ -947,10 +989,12 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, receiver, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
-        return FeedbackResponseList.values();   
+        return feedbackResponses.values();   
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestion(
@@ -961,16 +1005,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestionInSection(
             String feedbackQuestionId, String giverEmail, String section) {
         
-        Map<String, FeedbackResponse> FeedbackResponseList = new HashMap<String,FeedbackResponse>();
+        Map<String, FeedbackResponse> feedbackResponses = new HashMap<String,FeedbackResponse>();
         
         Query q = getPM().newQuery(FeedbackResponse.class);
         q.declareParameters("String feedbackQuestionIdParam, String giverEmailParam, String sectionParam");
@@ -981,7 +1025,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> firstQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
         for(FeedbackResponse response : firstQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam && giverEmail == giverEmailParam "
@@ -990,10 +1036,12 @@ public class FeedbackResponsesDb extends EntitiesDb {
         List<FeedbackResponse> secondQueryResponses =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId, giverEmail, section);
         for(FeedbackResponse response : secondQueryResponses){
-            FeedbackResponseList.put(response.getId(), response);
+            if (!JDOHelper.isDeleted(response)) {
+                feedbackResponses.put(response.getId(), response);
+            }
         }
         
-        return FeedbackResponseList.values(); 
+        return feedbackResponses.values(); 
     }
     
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForSessionWithinRange(
@@ -1005,10 +1053,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setRange(0, range + 1);
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(giverEmail, feedbackSessionName, courseId);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForCourse(
@@ -1019,10 +1067,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam && receiver == receiverParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(courseId, receiver);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForCourse(
@@ -1033,10 +1081,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> FeedbackResponseList =
+        List<FeedbackResponse> feedbackResponses =
             (List<FeedbackResponse>) q.execute(courseId, giverEmail);
         
-        return FeedbackResponseList;
+        return feedbackResponses;
     }
     
     @Override
