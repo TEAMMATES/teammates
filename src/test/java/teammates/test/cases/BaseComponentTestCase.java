@@ -161,7 +161,8 @@ public class BaseComponentTestCase extends BaseTestCase {
                                     ? instructorsDb.getInstructorForEmail(expected.courseId, expected.email)
                                     : instructorsDb.getInstructorForGoogleId(expected.courseId, expected.googleId);
         equalizeIrrelevantData(expected, actual);
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+
+        assertTrue(expected.isEqualToAnotherInstructor(actual));
     }
     
     private static void equalizeIrrelevantData(InstructorAttributes expectedInstructor,
