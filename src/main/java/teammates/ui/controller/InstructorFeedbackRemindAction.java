@@ -12,6 +12,9 @@ public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageActio
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -25,7 +28,7 @@ public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageActio
                         "Feedback Session <span class=\"bold\">(" + feedbackSessionName + 
                         ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
         
-        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        return createRedirectResult(nextUrl);
     }
 
 }

@@ -80,7 +80,7 @@
                 </li>
                 <li>
                     <a href="#"
-                       data-actionlink="${actions.remindParticularStudentsLink}"
+                       data-actionlink="${actions.remindParticularStudentsPageLink}"
                        class="session-remind-particular-for-test"
                        data-courseid="${actions.courseId}"
                        data-fsname="${actions.fsName}"

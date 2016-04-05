@@ -199,10 +199,17 @@ public abstract class AppPage {
     }
 
     /**
-     * Waits until the page is fully loaded. Times out after 15 seconds.
+     * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
-        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
+                // to understand more on a web document's readyState
+                return ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete");
+            }
+        });
     }
     
     /**

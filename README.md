@@ -6,6 +6,7 @@
 <img src="https://img.shields.io/badge/js-14%20KLoC-blue.svg">
 <img src="https://img.shields.io/badge/html-5%20KLoC-blue.svg">
 <img src="https://img.shields.io/badge/css-7%20KLoC-blue.svg">
+[![Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 
 TEAMMATES is a free online tool for managing peer evaluations and other 
 feedback paths of your students. It is provided as a cloud-based service for 

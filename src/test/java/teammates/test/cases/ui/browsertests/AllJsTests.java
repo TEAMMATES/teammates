@@ -44,7 +44,7 @@ public class AllJsTests extends BaseUiTestCase{
         assertTrue(failedCases == 0);
         assertTrue(totalCases != 0);
         
-        print("As expected, "+ failedCases + " failed tests out of " + totalCases + " tests.");
+        print("As expected, 0 failed tests out of " + totalCases + " tests.");
 
     }
 
