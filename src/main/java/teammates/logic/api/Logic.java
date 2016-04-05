@@ -862,8 +862,13 @@ public class Logic {
         return coursesLogic.getCoursesForInstructor(instructorList);
     }
     
-    public void updateCourse(CourseAttributes course) throws NotImplementedException {
-        throw new NotImplementedException("Not implemented because we do not allow editing courses");
+    /**
+     * Updates the details of a course
+     */
+    public void updateCourse(CourseAttributes course) throws InvalidParametersException,
+                                                             EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
+        coursesLogic.updateCourse(course);
     }
     
     /**

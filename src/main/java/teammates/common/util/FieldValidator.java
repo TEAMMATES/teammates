@@ -125,7 +125,7 @@ public class FieldValidator {
      * =======================================================================
      * Field: Course name
      */
-    private static final String COURSE_NAME_FIELD_NAME = "a course name";
+    public static final String COURSE_NAME_FIELD_NAME = "a course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
     public static final String COURSE_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as "+COURSE_NAME_FIELD_NAME+" because it %s. " +
