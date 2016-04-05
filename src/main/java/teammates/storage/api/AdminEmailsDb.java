@@ -50,7 +50,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(ae.emailId);
         
-        if(adminEmailToUpdate == null){
+        if (adminEmailToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + ae.getSubject() +
                                                   "/" + ae.getSendDate() +
                                                   ThreadHelper.getCurrentThreadStack());
@@ -94,7 +94,7 @@ public class AdminEmailsDb extends EntitiesDb {
         List<AdminEmailAttributes> emailsInTrashBin = getAdminEmailsInTrashBin();
         
         for (AdminEmailAttributes a : emailsInTrashBin){
-            if(a.getGroupReceiver() != null){
+            if (a.getGroupReceiver() != null){
                 for(String key : a.getGroupReceiver()){
                     BlobKey blobKey = new BlobKey(key);
                     deleteAdminEmailUploadedFile(blobKey);
@@ -110,7 +110,7 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         AdminEmail adminEmailToUpdate = getAdminEmailEntity(emailId);
-        if(adminEmailToUpdate == null){
+        if (adminEmailToUpdate == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + "with Id : " + emailId + 
                                                   ThreadHelper.getCurrentThreadStack());
         }
@@ -153,7 +153,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail matched = getAdminEmailEntity(emailId);
         
-        if(matched == null){
+        if (matched == null) {
             return null;
         }
         
@@ -168,7 +168,7 @@ public class AdminEmailsDb extends EntitiesDb {
         
         AdminEmail matched = getAdminEmailEntity(subject, createDate);
         
-        if(matched == null){
+        if (matched == null) {
             return null;
         }
         
@@ -196,7 +196,11 @@ public class AdminEmailsDb extends EntitiesDb {
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
         while(it.hasNext()){
-            list.add(new AdminEmailAttributes(it.next()));
+            AdminEmail adminEmail = it.next();
+            
+            if (!JDOHelper.isDeleted(adminEmail)) {
+                list.add(new AdminEmailAttributes(adminEmail));
+            }
         }
         
         return list;
@@ -219,13 +223,17 @@ public class AdminEmailsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(false);
        
-        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
+        if (adminEmailList.isEmpty()) {
             return list;
         }
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
         while(it.hasNext()){
-            list.add(new AdminEmailAttributes(it.next()));
+            AdminEmail adminEmail = it.next();
+            
+            if (!JDOHelper.isDeleted(adminEmail)) {
+                list.add(new AdminEmailAttributes(adminEmail));
+            }
         }
         
         return list;
@@ -251,7 +259,11 @@ public class AdminEmailsDb extends EntitiesDb {
         
         Iterator<AdminEmail> it = adminEmailList.iterator();
         while(it.hasNext()){
-            list.add(new AdminEmailAttributes(it.next()));
+            AdminEmail adminEmail = it.next();
+            
+            if (!JDOHelper.isDeleted(adminEmail)) {
+                list.add(new AdminEmailAttributes(adminEmail));
+            }
         }
         
         return list;
