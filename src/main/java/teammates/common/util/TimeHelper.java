@@ -341,11 +341,8 @@ public class TimeHelper {
             return false;
         }
         
-        boolean isAfterStartTime = isStartInclusive ? startTime.getTime() <= time.getTime()
-                                                    : time.after(startTime);
-        
-        boolean isBeforeEndTime = isEndInclusive ? time.getTime() <= endTime.getTime()
-                                                 : time.before(endTime);
+        boolean isAfterStartTime = time.after(startTime) || (isStartInclusive && time.equals(startTime));
+        boolean isBeforeEndTime = time.before(endTime) || (isEndInclusive && time.equals(endTime));
         
         return isAfterStartTime && isBeforeEndTime;
     }

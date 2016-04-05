@@ -101,8 +101,6 @@ public class TimeHelperTest extends BaseTestCase {
         Date endTime = endCalendar.getTime();
         Date time;
         
-        
-        
         ______TS("Time within period test");
         time = timeCalendar.getTime();
         
@@ -110,8 +108,6 @@ public class TimeHelperTest extends BaseTestCase {
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
-        
-        
         
         ______TS("Time on start time test");
         timeCalendar = startCalendar;
@@ -122,8 +118,6 @@ public class TimeHelperTest extends BaseTestCase {
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
-        
-
         ______TS("Time before start time test");
         timeCalendar.add(Calendar.DAY_OF_MONTH, -10);
         time = timeCalendar.getTime();
@@ -132,8 +126,6 @@ public class TimeHelperTest extends BaseTestCase {
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
-        
-        
         
         ______TS("Time on end time test");
         timeCalendar = endCalendar;
@@ -144,8 +136,6 @@ public class TimeHelperTest extends BaseTestCase {
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
-        
-        
         ______TS("Time after start time test");
         timeCalendar.add(Calendar.DAY_OF_MONTH, 10);
         time = timeCalendar.getTime();
@@ -155,15 +145,11 @@ public class TimeHelperTest extends BaseTestCase {
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
-        
-
         ______TS("Start time null test");
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, true, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, true, false));
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, false, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, false, false));
-
-        
 
         ______TS("End time null test");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, true, true));
@@ -171,8 +157,6 @@ public class TimeHelperTest extends BaseTestCase {
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, false, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, false, false));
         
-        
-
         ______TS("Time null test");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, true, true));
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, true, false));
