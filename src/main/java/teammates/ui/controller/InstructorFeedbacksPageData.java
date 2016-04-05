@@ -287,7 +287,7 @@ public class InstructorFeedbacksPageData extends PageData {
      * @return no active courses or no modify courses' sessions permission message
      */
     private String determinePlaceholderMessage(boolean hasActiveCourses) {
-        return hasActiveCourses ? Const.StatusMessages.INSTRUCTOR_NO_MODIFY_COURSES_SESSION_PERMISSION
+        return hasActiveCourses ? Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS
                                 : Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES;
     }
     
