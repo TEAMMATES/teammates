@@ -321,8 +321,7 @@ public class TimeHelper {
     }
     
     /**
-     * Checks if the time falls between the period specified.<br>
-     * i.e.
+     * Checks if the time falls between the period specified. Possible scenarios:
      * <ul>
      *  <li>{@code startTime <= time <= endTime}</li>
      *  <li>{@code startTime <= time < endTime}</li>
@@ -343,10 +342,10 @@ public class TimeHelper {
         }
         
         boolean isAfterStartTime = isStartInclusive ? startTime.getTime() <= time.getTime()
-                                                    : startTime.getTime() < time.getTime();
+                                                    : time.after(startTime);
         
         boolean isBeforeEndTime = isEndInclusive ? time.getTime() <= endTime.getTime()
-                                                 : time.getTime() < endTime.getTime();
+                                                 : time.before(endTime);
         
         return isAfterStartTime && isBeforeEndTime;
     }

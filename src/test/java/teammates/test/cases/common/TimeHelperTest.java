@@ -106,16 +106,9 @@ public class TimeHelperTest extends BaseTestCase {
         ______TS("Time within period test");
         time = timeCalendar.getTime();
         
-        ______TS("Time within period: include start and end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-
-        ______TS("Time within period: include start and exclude end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-
-        ______TS("Time within period: exclude start and include end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-
-        ______TS("Time within period: exclude start and end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
         
@@ -124,16 +117,9 @@ public class TimeHelperTest extends BaseTestCase {
         timeCalendar = startCalendar;
         time = timeCalendar.getTime();
         
-        ______TS("Time on start time: include start and end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-
-        ______TS("Time on start time: include start and exclude end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        
-        ______TS("Time on start time: exclude start and include end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-
-        ______TS("Time on start time: exclude start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
         
@@ -142,16 +128,9 @@ public class TimeHelperTest extends BaseTestCase {
         timeCalendar.add(Calendar.DAY_OF_MONTH, -10);
         time = timeCalendar.getTime();
 
-        ______TS("Time before start time: include start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-
-        ______TS("Time before start time: include start and exclude end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        
-        ______TS("Time before start time: exclude start and include end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-
-        ______TS("Time before start time: exclude start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
         
@@ -160,16 +139,9 @@ public class TimeHelperTest extends BaseTestCase {
         timeCalendar = endCalendar;
         time = timeCalendar.getTime();
 
-        ______TS("Time on end time: include start and end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-
-        ______TS("Time on end time: include start and exclude end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        
-        ______TS("Time on end time: exclude start and include end time");
         assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-
-        ______TS("Time on end time: exclude start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
         
@@ -178,64 +150,33 @@ public class TimeHelperTest extends BaseTestCase {
         timeCalendar.add(Calendar.DAY_OF_MONTH, 10);
         time = timeCalendar.getTime();
 
-        ______TS("Time after start time: include start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-
-        ______TS("Time after start time: include start and exclude end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        
-        ______TS("Time after start time: exclude start and include end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-
-        ______TS("Time after start time: exclude start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
         
         
 
         ______TS("Start time null test");
-        
-        ______TS("Start time null: include start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, true, true));
-        
-        ______TS("Start time null: include start and exclude end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, true, false));
-        
-        ______TS("Start time null: exclude start and include end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, false, true));
-
-        ______TS("Start time null: exclude start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, false, false));
 
         
 
         ______TS("End time null test");
-        
-        ______TS("End time null: include start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, true, true));
-        
-        ______TS("End time null: include start and exclude end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, true, false));
-        
-        ______TS("End time null: exclude start and include end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, false, true));
-
-        ______TS("End time null: exclude start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, false, false));
         
         
 
         ______TS("Time null test");
-        
-        ______TS("Time null: include start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, true, true));
-        
-        ______TS("Time null: include start and exclude end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, true, false));
-        
-        ______TS("Time null: exclude start and include end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, false, true));
-
-        ______TS("Time null: exclude start and end time");
         assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, false, false));
     }
     
