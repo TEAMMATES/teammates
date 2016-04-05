@@ -57,6 +57,32 @@ public class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
+        /**
+         * @return The file source for jquery.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+        }
+        
+        /**
+         * @return The file source for jquery-ui.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryUiFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery-ui.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
+        }
+        
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
             ActionURIs.STUDENT_COURSE_JOIN,
             ActionURIs.STUDENT_COURSE_JOIN_NEW,
@@ -98,6 +124,7 @@ public class Const {
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
+        public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
@@ -1028,6 +1055,9 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course. Click <a href=\"%s\">here</a> to enroll students.";
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
+        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS 
+                                   = "No permission to modify any sessions in un-archived courses";
+        public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
         public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";

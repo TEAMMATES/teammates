@@ -12,8 +12,14 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "courseid")
     private WebElement courseIdTextBox;
     
-    @FindBy(id = "courseName")
+    @FindBy(id = "coursename")
     private WebElement courseNameTextBox;
+    
+    @FindBy(id = "btnSaveCourse")
+    private WebElement saveCourseButton;
+    
+    @FindBy(id = "courseEditLink")
+    private WebElement editCourseLink;
     
     @FindBy(id = "courseDeleteLink")
     private WebElement deleteCourseLink;
@@ -172,7 +178,7 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void closeModal() {
         WebElement closeButton = browser.driver.findElement(By.className("close"));
-        
+        waitForElementToBeClickable(closeButton);
         closeButton.click();
         try {
             Thread.sleep(1000);
@@ -302,6 +308,26 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
     
+    /**
+     * Clicks the button to edit the course.
+     */
+    public void clickEditCourseLink() {
+        editCourseLink.click();
+        waitForElementVisibility(saveCourseButton);
+    }
+    
+    /**
+     * Clicks the save changes button to save the changes made to the course.
+     */
+    public void clickSaveCourseButton() {
+        saveCourseButton.click();
+        waitForPageToLoad();
+    }
+    
+    public void editCourseName(String value) {
+        fillTextBox(courseNameTextBox, value);
+    }
+    
     public InstructorCoursesPage clickDeleteCourseLinkAndConfirm() {
         clickAndConfirm(deleteCourseLink);
         waitForPageToLoad();
@@ -344,6 +370,14 @@ public class InstructorCourseEditPage extends AppPage {
                         + privilege + "']");
         WebElement checkbox = browser.driver.findElement(selector);
         return checkbox.isSelected();
+    }
+    
+    /**
+     * Checks if the course edit form is enabled.
+     * @return true if the course edit form is enabled
+     */
+    public boolean isCourseEditFormEnabled() {
+        return !courseIdTextBox.isEnabled() && courseNameTextBox.isEnabled() && saveCourseButton.isDisplayed();
     }
     
     public void changeCourseIdInForm(int instrNum, String newCourseId) {
