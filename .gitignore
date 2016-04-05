@@ -15,6 +15,7 @@ chromedriver*
 *.bak
 *.db
 *.md.html
+libs/
 
 .launches/TM - Start dev server.launch
 test-output/*
@@ -22,3 +23,18 @@ testrunner/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes
 *.exe
+
+### Gradle ###
+.gradle
+build/
+bin/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache

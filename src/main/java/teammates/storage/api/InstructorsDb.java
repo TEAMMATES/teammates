@@ -134,7 +134,7 @@ public class InstructorsDb extends EntitiesDb{
     
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{  
         Instructor instructor = (Instructor)createEntity(instructorToAdd);
-        if(instructor == null) {
+        if (instructor == null) {
             throw new InvalidParametersException("Created instructor is null.");
         }
         InstructorAttributes createdInstructor = new InstructorAttributes(instructor);
@@ -171,7 +171,7 @@ public class InstructorsDb extends EntitiesDb{
     
         Instructor i = getInstructorEntityForGoogleId(courseId, googleId);
     
-        if (i == null) {
+        if (i == null || JDOHelper.isDeleted(i)) {
             log.info("Trying to get non-existent Instructor: " + googleId);
             return null;
         }
@@ -190,7 +190,7 @@ public class InstructorsDb extends EntitiesDb{
         String decryptedKey = StringHelper.decrypt(encryptedKey);
         
         Instructor instructor = getInstructorEntityForRegistrationKey(decryptedKey);
-        if (instructor == null) {
+        if (instructor == null || JDOHelper.isDeleted(instructor)) {
             return null;
         }
     
@@ -273,7 +273,11 @@ public class InstructorsDb extends EntitiesDb{
         List<Instructor> entities = getInstructorEntities();
         Iterator<Instructor> it = entities.iterator();
         while(it.hasNext()) {
-            list.add(new InstructorAttributes(it.next()));
+            Instructor instructor = it.next();
+            
+            if (!JDOHelper.isDeleted(instructor)) {
+                list.add(new InstructorAttributes(instructor));
+            }
         }    
         return list;
     }
@@ -297,7 +301,7 @@ public class InstructorsDb extends EntitiesDb{
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.googleId);
         
-        if(instructorToUpdate == null){
+        if (instructorToUpdate == null || JDOHelper.isDeleted(instructorToUpdate)){
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId
                         + ThreadHelper.getCurrentThreadStack());
         }
@@ -336,7 +340,7 @@ public class InstructorsDb extends EntitiesDb{
                 instructorAttributesToUpdate.courseId, 
                 instructorAttributesToUpdate.email);
         
-        if(instructorToUpdate == null){
+        if (instructorToUpdate == null){
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.email
                         + ThreadHelper.getCurrentThreadStack());
         }

@@ -320,6 +320,38 @@ public class TimeHelper {
         return (differenceInDays > 365);
     }
     
+    /**
+     * Checks if the time falls between the time range specified.
+     * Start time is inclusive (i.e. {@code startTime <= time < endTime})
+     * @param startTime the start time of the time range
+     * @param endTime the end time of the time range
+     * @param time the time to be checked
+     * @return true if the time falls between the start and end time
+     */
+    public static boolean isStartTimeWithinRange(Date startTime, Date endTime, Date time) {
+        if (startTime == null || endTime == null || time == null) {
+            return false;
+        }
+        
+        return startTime.getTime() <= time.getTime() && time.getTime() < endTime.getTime();
+    }
+    
+    /**
+     * Checks if the time falls between the time range specified.
+     * End time is inclusive (i.e. {@code startTime < time <= endTime})
+     * @param startTime the start time of the time range
+     * @param endTime the end time of the time range
+     * @param time the time to be checked
+     * @return true if the time falls between the start and end time
+     */
+    public static boolean isEndTimeWithinRange(Date startTime, Date endTime, Date time) {
+        if (startTime == null || endTime == null || time == null) {
+            return false;
+        }
+        
+        return startTime.getTime() < time.getTime() && time.getTime() <= endTime.getTime();
+    }
+    
     public static double getLocalTimezoneHourOffset() {
         // getOffset returns the offset from UTC in milliseconds
         // so we need to divide it by (1000 * 60 * 60) to get it in hours

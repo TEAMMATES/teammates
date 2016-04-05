@@ -1,13 +1,18 @@
-function handleData(err, userData) {
+
+function handleError() {
+    var contentHolder = d3.select('#contentHolder');
+    contentHolder.html('');
+    contentHolder.append('p')
+        .text('An error has occured in getting data, please try reloading.');
+    contentHolder.append('p')
+        .html('If the problem persists after a few retries, please <a href="/contact.html">contact us</a>.');
+}
+
+function handleData(err, countryCoordinates, userData) {
     // based on example from https://github.com/markmarkoh/datamaps/blob/master/src/examples/highmaps_world.html
     // Country code: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
     if (err) {
-        var contentHolder = d3.select('#contentHolder');
-        contentHolder.html('');
-        contentHolder.append('p')
-            .text('An error has occured in getting data, please try reloading.');
-        contentHolder.append('p')
-            .html('If the problem persists after a few retries, please <a href="/contact.html">contact us</a>.');
+        handleError();
         return;
     }
     var countriesObj = {};
@@ -26,8 +31,11 @@ function handleData(err, userData) {
         }
     }
 
-    d3.select('#totalCount').text(userData.length + ' institutions from ' + countriesArr.length + ' countries');
-
+    //set the institution count in the page
+    document.getElementById('totalUserCount').innerHTML = userData.length;
+    //set the country count in the page
+    document.getElementById('totalCountryCount').innerHTML = countriesArr.length;
+    
     // Data format example
     // var series = [
     //     ['BLR', 1], ['BLZ', 1], ['RUS', 1], ['RWA', 1], ['SRB', 1], ['TLS', 1],
@@ -38,6 +46,7 @@ function handleData(err, userData) {
     //     ['IND', 1], ['CHN', 1], ['USA', 1], ['CAN', 1]];
 
     var dataset = {};
+    var pins = [];
     var onlyValues = countriesArr.map(function(obj) {
         return obj[1];
     });
@@ -49,11 +58,18 @@ function handleData(err, userData) {
     countriesArr.forEach(function(item) {
         var iso = item[0];
         var value = item[1];
+        var coordinates = countryCoordinates[iso];
         dataset[iso] = { numOfInstitutions: value, fillColor: paletteScale(value) };
+        pins.push({
+            name: getCountryNameByCode(iso),
+            numOfInstitutions: value,
+            latitude: coordinates.lat,
+            longitude: coordinates.lon
+        });
     });
 
     // Word map
-    new Datamap({
+    var map = new Datamap({
         scope: 'world',
         element: document.getElementById('container'),
         setProjection: function(element) {
@@ -90,22 +106,101 @@ function handleData(err, userData) {
                 if (!data) {
                     return;
                 }
-                // tooltip content
-                return '<div class="hoverinfo">'
-                         + '<p>'
-                             + '<span class="bold">'
-                             + geo.properties.name
-                             + '</span>'
-                             + '<br>'
-                             + 'Institution(s): '
-                             + data.numOfInstitutions
-                         + '</p>'
-                     + '</div>';
+                return getTooltipContent({
+                    name: geo.properties.name,
+                    numOfInstitutions: data.numOfInstitutions
+                });
             }
         }
     });
+
+    map.addPlugin('pins', function(layer, data, options) {
+        var self = this,
+            fillData = this.options.fills,
+            svg = this.svg;
+
+        if (!data || (data && !data.slice)) {
+            handleError();
+            return;
+        }
+
+        var markers = layer.selectAll('image.datamaps-pins').data(data, JSON.stringify);
+
+        markers
+        .enter()
+        .append('image')
+        .attr('class', 'datamaps-pin')
+        .attr('xlink:href', 'images/pin.png')
+        .attr('height', 20)
+        .attr('width', 20)
+        .attr('x', getX)
+        .attr('y', getY)
+        .on('mouseover', function(datum) {
+            var $this = d3.select(this);
+
+            if (options.popupOnHover) {
+                self.updatePopup($this, datum, options, svg);
+            }
+        })
+        .on('mouseout', function(datum) {
+            var $this = d3.select(this);
+
+            if (options.highlightOnHover) {
+                var previousAttributes = JSON.parse($this.attr('data-previousAttributes'));
+                for (var attr in previousAttributes) {
+                    $this.style(attr, previousAttributes[attr]);
+                }
+            }
+            d3.selectAll('.datamaps-hoverover').style('display', 'none');
+        });
+
+        markers.exit()
+        .transition()
+        .delay(options.exitDelay)
+        .attr('height', 0)
+        .remove();
+
+        function getCoordinates(datum) {
+            return datumHasCoords(datum) ? self.latLngToXY(datum.latitude, datum.longitude)
+                                         : self.path.centroid(svg.select('path.' + datum.centered).data()[0]);
+        }
+
+        function getX(datum) {
+            return getCoordinates(datum)[0];
+        }
+
+        function getY(datum) {
+            return getCoordinates(datum)[1];
+        }
+
+        function datumHasCoords(datum) {
+            return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
+        }
+    });
+
+    map.pins(pins, {
+        popupOnHover: true,
+        popupTemplate: getTooltipContent
+    });
+}
+
+function getTooltipContent(data) {
+    return '<div class="hoverinfo">'
+            + '<p>'
+                + '<span class="bold">'
+                + data.name
+                + '</span>'
+                + '<br>'
+                + 'Institution(s): '
+                + data.numOfInstitutions
+            + '</p>'
+         + '</div>';
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
-    d3.json('/js/userMapData.json', handleData);
+    d3.json('/js/countryCoordinates.json', function(countryCoordinates) {
+        d3.json('/js/userMapData.json', function(err, userData) {
+            handleData(err, countryCoordinates, userData);
+        });
+    });
 });

@@ -10,11 +10,18 @@
       <strong>
         Course:
       </strong>
-      <a class="btn btn-primary btn-xs pull-right" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.tutor" id="courseDeleteLink" onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');" title="" type="button">
-        <span class="glyphicon glyphicon-trash">
-        </span>
-        Delete
-      </a>
+      <div class="pull-right">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit course name" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="courseEditLink" title="" type="button">
+          <span class="glyphicon glyphicon-pencil">
+          </span>
+          Edit
+        </a>
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=InsCrsEdit.tutor" id="courseDeleteLink" onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');" title="" type="button">
+          <span class="glyphicon glyphicon-trash">
+          </span>
+          Delete
+        </a>
+      </div>
     </div>
     <div class="panel-body fill-plain">
       <form action="/page/instructorCourseEditSave" class="form form-horizontal" id="formEditcourse" method="post">
@@ -38,7 +45,7 @@
         </div>
         <div class="form-group">
           <div class=" col-sm-12 align-center">
-            <input class="button" id="btnSaveCourse" name="btnSaveCourse" onclick="return verifyCourseData();" style="display:none;" type="submit" value="Save Changes">
+            <input class="btn btn-primary" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" type="submit" value="Save Changes">
           </div>
         </div>
         <input name="user" type="hidden" value="InsCrsEdit.tutor">
@@ -73,12 +80,12 @@
           <input name="courseeditmainindex" type="hidden" value="1">
           <input name="user" type="hidden" value="InsCrsEdit.tutor">
         </form>
-        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink1" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="instrEditLink1" title="" type="button">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.Helper%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink1" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.Helper@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.Helper%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink1" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.Helper@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -165,12 +172,12 @@
           <input name="courseeditmainindex" type="hidden" value="2">
           <input name="user" type="hidden" value="InsCrsEdit.tutor">
         </form>
-        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink2" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="instrEditLink2" title="" type="button">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.coord%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink2" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.coord@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.coord%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink2" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.coord@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -260,12 +267,12 @@
           <input name="courseeditmainindex" type="hidden" value="3">
           <input name="user" type="hidden" value="InsCrsEdit.tutor">
         </form>
-        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink3" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="instrEditLink3" title="" type="button">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink3" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.manager@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink3" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.manager@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -349,7 +356,7 @@
       <div class="pull-right">
         <div class="display-icon" style="display:inline;">
         </div>
-        <a class="btn btn-primary btn-xs" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.tutor" id="instrRemindLink4" onclick="return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.tmt);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.tutor" id="instrRemindLink4" onclick="return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.tmt);" title="" type="button">
           <span class="glyphicon glyphicon-envelope">
           </span>
           Resend Invite
@@ -360,12 +367,12 @@
           <input name="courseeditmainindex" type="hidden" value="4">
           <input name="user" type="hidden" value="InsCrsEdit.tutor">
         </form>
-        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink4" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="instrEditLink4" title="" type="button">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink4" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.newInstr%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink4" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -443,12 +450,12 @@
           <input name="courseeditmainindex" type="hidden" value="5">
           <input name="user" type="hidden" value="InsCrsEdit.tutor">
         </form>
-        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink5" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="instrEditLink5" title="" type="button">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.observer%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink5" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.observer@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.observer%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink5" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.observer@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -538,12 +545,12 @@
           <input name="courseeditmainindex" type="hidden" value="6">
           <input name="user" type="hidden" value="InsCrsEdit.tutor">
         </form>
-        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink6" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="instrEditLink6" title="" type="button">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink6" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test@gmail.tmt', false);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.test%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink6" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test@gmail.tmt', false);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -633,12 +640,12 @@
           <input name="courseeditmainindex" type="hidden" value="7">
           <input name="user" type="hidden" value="InsCrsEdit.tutor">
         </form>
-        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" href="javascript:;" id="instrEditLink7" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Edit instructor details" data-placement="top" data-toggle="tooltip" disabled="" href="javascript:;" id="instrEditLink7" title="" type="button">
           <span class="glyphicon glyphicon-pencil">
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.tutor%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink7" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.tutor@gmail.tmt', true);" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.tutor%40gmail.tmt&user=InsCrsEdit.tutor" id="instrDeleteLink7" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.tutor@gmail.tmt', true);" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -715,7 +722,7 @@
   <br>
   <br>
   <div class="align-center">
-    <input class="btn btn-primary" id="btnShowNewInstructorForm" onclick="showNewInstructorForm()" type="button" value="Add New Instructor">
+    <input class="btn btn-primary" disabled="" id="btnShowNewInstructorForm" onclick="showNewInstructorForm()" type="button" value="Add New Instructor">
   </div>
   <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
     <div class="panel-heading">

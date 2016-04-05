@@ -215,6 +215,10 @@ Apply to thead to make headers not bold.
     padding-right: 10px;
 }
 
+.padding-right-25px {
+    padding-right: 25px !important;
+}
+
 .padding-top-0 {
     padding-top: 0;
 }
@@ -681,6 +685,11 @@ Apply to thead to make headers not bold.
 .student-profile-pic-view-link {
     text-align: center;
 }
+
+.table-column-no-float {
+    float: none !important;
+}
+
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Footer ///////////////////////////
 //////////////////////////////////////////////////////////*/
@@ -815,5 +824,11 @@ Prevent Long URL From Breaking Out of Container
     }
     .tablet-margin-10px {
         margin: 10px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .text-nowrap {
+        white-space: nowrap;
     }
 }
