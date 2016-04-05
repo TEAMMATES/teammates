@@ -397,8 +397,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
          * regarding unix systems and current testing version of Selenium and Firefox
          */
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -200);",
-                                           browser.driver.findElement(By.id(idOfQuestionBody)));
         jsExecutor.executeScript("$(document.getElementById('" +  idOfQuestionBody + "')" +
                                            ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" +
                                            ".querySelectorAll('td')['" + tableCol + "']" +
