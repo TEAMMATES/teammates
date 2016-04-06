@@ -133,11 +133,11 @@ Remember to state which tests are failing and for each of those
   ![troubleshooting-test-4.png](images/troubleshooting-test-4.png)
 
 2. **ERROR (on Windows)**: NullPointerException when trying to access email box. The error message looks something like this:
-```
-  java.lang.NullPointerException at
-  javax.mail.internet.ParameterList.set(ParameterList.java:165) at
-  com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)
-```
+   ```
+      java.lang.NullPointerException at
+      javax.mail.internet.ParameterList.set(ParameterList.java:165) at
+      com.sun.mail.imap.protocol.BODYSTRUCTURE.parseParameters(BODYSTRUCTURE.java:390)
+   ```
   **SOLUTION**: In eclipse, move the javax.mail.....jar (from Oracle) to the top of the build class path.
 
    (Properties → Java build path → 'order and export' tab)
