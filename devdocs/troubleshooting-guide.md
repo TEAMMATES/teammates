@@ -7,7 +7,7 @@
     * [Optimizing IDE layout for testing](#optimizing-ide-layout-for-testing)
     * [How automated browser tests work](#how-automated-browser-tests-work)
     * [Getting help to resolve test failures](#getting-help-to-resolve-test-failures)
-    * [Common errors and solutions](#common-errors-and-solutions)
+    * [Other errors and solutions](#other-errors-and-solutions)
         * [Errors specific to Linux](#errors-specific-to-linux)
 
 This document can help you to fix the problems encountered while contributing to TEAMMATES.Failing that, you can post in the [issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to ask for help.Remember to supply as much relevant information as possible when asking for help. e.g. Which operating system are you using.
@@ -126,7 +126,7 @@ Remember to state which tests are failing and for each of those
 
 * Any relevant screenshots (e.g. screen shot of the diff window showing the offending difference)
 
-### Common errors and solutions
+### Other errors and solutions
 
 1. **ERROR**: Tests fail randomly during dev server testing.
 
