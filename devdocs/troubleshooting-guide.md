@@ -58,14 +58,13 @@ Use this checklist to verify that your project setup is correct.
 
 ### Common errors and solutions
 
-
 1. **ERROR**: Eclipse complains about FileWriter and ConsoleHandler e.g. java.io.FileWriter is not supported by Google App Engine's Java runtime environment.
 
   **SOLUTION**: These are OK because the offending files belong to test driver and will not be deployed to GAE. Choose to 'Quick Fix' and then choose to exclude those files from validation.
 
 2. **ERROR**: Eclipse complains "...your project must be configured to use a jdk in order to use jsp".
 
-  **SOLUTION**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). Go to Window→Preferences→Java→Installed JREs. You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add→Standard VM, then for the JRE Path enter the path of the jre folder inside your jdk installation folder. e.g., C:\jdk1.7\jre Now you should see all of the JARs added to the library section.
+  **SOLUTION**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). Go to Window → Preferences → Java → Installed JREs. You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add → Standard VM, then for the JRE Path enter the path of the jre folder inside your jdk installation folder. e.g., C:\jdk1.7\jre Now you should see all of the JARs added to the library section.
 
 3. **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
