@@ -5,7 +5,7 @@
     * [Common errors and solutions](#common-errors-and-solutions)
 2. [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Optimizing IDE layout for testing](#optimizing-ide-layout-for-testing)
-    * [How automated Browser tests work](#how-automated-Browser-tests-work)
+    * [How automated browser tests work](#how-automated-browser-tests-work)
     * [Getting help to resolve test failures](#getting-help-to-resolve-test-failures)
     * [Common errors and solutions](#common-errors-and-solutions)
         * [Errors specific to Linux](#errors-specific-to-linux)
@@ -26,7 +26,7 @@ Use this checklist to verify that your project setup is correct.
 
     In Eclipse, go to Help → Install new software → What's already installed
 
-    Ensure that Google Plugin version is 4.3 or 4.4 and TestNG is installed.
+    Ensure that Google Plugin version is `4.3 or 4.4` and TestNG is installed.
 
     ![setup-checklist-1.png](images/setup-checklist-1.png)
 
@@ -81,7 +81,10 @@ Use this checklist to verify that your project setup is correct.
 6. **ERROR**: Eclipse complains "There are no JREs installed in the workplace that are strictly compatible with this environment.".
 
   **SOLUTION**: Eclipse may be using an incompatible version of the JRE Library (with respect to TEAMMATES) for the current JRE definition. System Library for JRE should be set to the workspace default, after appropriate JRE definition has been added (covered in existing point#2 of the troubleshooting section).
-→ Right-click on project → Properties → Java Build Path → "Libraries" tab → Select JRE System Library from the list → Edit… → Select and mark radio button for "Workspace default JRE"
+  
+   
+   → Right-click on project → Properties → Java Build Path → "Libraries" tab → Select JRE System Library from the list → Edit… → Select and mark radio button for "Workspace default JRE"
+   
 
 7. **ERROR**: Everything seems normal and the dev server starts normally. But you get a 'Class not found" or "Class cannot initialize" error when you try to access any non-static pages of the app.
 
@@ -170,7 +173,7 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
 9. **ERROR**: InstructorCourseEnrollPageUiTest fails due to a hash mismatch.
 
-  **REASON**: The hash of the file in the repo is different from the one used in the live site due to line endings are encoded on different OSes.
+  **REASON**: The hash of the file in the repo is different from the one used in the live site due to line endings are encoded on different Operating Systems.
 
   **SOLUTION**: Replace "\src\main\webapp\files\Course Enroll Sample Spreadsheet.csv" with this copy of file.
 
