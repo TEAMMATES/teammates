@@ -1,7 +1,7 @@
 # Developer Troubleshooting Guide
 
 1. [Troubleshooting project setup](#troubleshooting-project-setup)
-    * [Setup checklist](#settup-checklist)
+    * [Setup checklist](#setup-checklist)
     * [Common errors and solutions](#common-errors-and-solutions)
 2. [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Optimizing IDE layout for testing](#optimizing-ide-layout-for-testing)
@@ -10,18 +10,20 @@
     * [Common errors and solutions](#common-errors-and-solutions)
         * [Errors specific to Linux](#errors-specific-to-linux)
 
-This document can help you to fix the problems encountered while contributing to TEAMMATES.Failing that, you can post in the teammates-contributors to ask for help.Remember to supply as much relevant information as possible when asking for help. e.g. Which operating system are you using.
+This document can help you to fix the problems encountered while contributing to TEAMMATES.Failing that, you can post in the [issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to ask for help.Remember to supply as much relevant information as possible when asking for help. e.g. Which operating system are you using.
 
 ## Troubleshooting project setup
 
 ### Setup checklist
 
 Use this checklist to verify that your project setup is correct.
+
 1. **Undo any automatic setting changes done by Eclipse**
 
-    Make sure Eclipse hasn’t modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from Google Code. If there are any changes, do an git reset --hard and restart Eclipse.
+    Make sure Eclipse hasn't modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from Google Code. If there are any changes, do an git reset --hard and restart Eclipse.
+
 2. **Check the version of the Google plugin for Eclipse**
-    In Eclipse, go to Help → Install new software → What’s already installed
+    In Eclipse, go to Help → Install new software → What's already installed
 
     Ensure that Google Plugin version is 4.3 or 4.4 and TestNG is installed.
 
@@ -29,7 +31,7 @@ Use this checklist to verify that your project setup is correct.
 
 3. Check the text encoding settings
 
-    Window→Preferences→General→Workspace
+    Window → Preferences → General → Workspace
 
     ![setup-checklist-2.png](images/setup-checklist-2.png)
 
@@ -60,11 +62,11 @@ Use this checklist to verify that your project setup is correct.
 
   **SOLUTION**: These are OK because the offending files belong to test driver and will not be deployed to GAE. Choose to 'Quick Fix' and then choose to exclude those files from validation.
 
-* **ERROR**: Eclipse complains "...your project must be configured to use a jdk in order to use jsp".
+2. **ERROR**: Eclipse complains "...your project must be configured to use a jdk in order to use jsp".
 
   **SOLUTION**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). Go to Window→Preferences→Java→Installed JREs. You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add→Standard VM, then for the JRE Path enter the path of the jre folder inside your jdk installation folder. e.g., C:\jdk1.7\jre Now you should see all of the JARs added to the library section.
 
-* **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
+3. **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
   **SOLUTION**: You can force Eclipse to use the JDK (instead of JRE) by modifying the eclipse.ini file. See here for more details.
 
@@ -79,9 +81,9 @@ Use this checklist to verify that your project setup is correct.
 6. **ERROR**: Eclipse complains "There are no JREs installed in the workplace that are strictly compatible with this environment.".
 
   **SOLUTION**: Eclipse may be using an incompatible version of the JRE Library (with respect to TEAMMATES) for the current JRE definition. System Library for JRE should be set to the workspace default, after appropriate JRE definition has been added (covered in existing point#2 of the troubleshooting section).
--> Right-click on project -> Properties-> Java Build Path-> "Libraries" tab-> Select JRE System Library from the list-> Edit…-> Select and mark radio button for "Workspace default JRE"
+→ Right-click on project → Properties → Java Build Path → "Libraries" tab → Select JRE System Library from the list → Edit… → Select and mark radio button for "Workspace default JRE"
 
-7. **ERROR**: Everything seems normal and the dev server starts normally. But you get a ‘Class not found” or “Class cannot initialize” error when you try to access any non-static pages of the app.
+7. **ERROR**: Everything seems normal and the dev server starts normally. But you get a 'Class not found" or "Class cannot initialize" error when you try to access any non-static pages of the app.
 
   **SOLUTION**: Check if the build.properties and appengine-web.xml has been renamed properly, which you were supposed to during the set up.
 
@@ -93,7 +95,7 @@ Use this checklist to verify that your project setup is correct.
 
   ![troubleshooting-test-1.png](images/troubleshooting-test-1.png)
 
-  Here’s a better place for it. Just drag the tab and drop it alongside the Project Explorer tab.
+  Here's a better place for it. Just drag the tab and drop it alongside the Project Explorer tab.
 
   ![troubleshooting-test-2.png](images/troubleshooting-test-2.png)
 
@@ -137,16 +139,16 @@ Remember to state which tests are failing and for each of those
 
    (Properties → Java build path → 'order and export' tab)
 
-3. **ERROR**: Test failure message encountered when running full test suite: “Selenium cannot find Firefox binary in PATH”.
+3. **ERROR**: Test failure message encountered when running full test suite: "Selenium cannot find Firefox binary in PATH".
 
   **SOLUTION 1**: Path to Firefox executable on local machine is incorrect. Specify the correct folder in system PATH variable.
--> Open Windows Explorer-> Right-click on Computer-> Advanced System Settings-> “Advanced” tab-> Environment Variables…-> Select “PATH” from the list-> Add directory of “Mozilla Firefox” folder to “Variable value” field
+→ Open Windows Explorer → Right-click on Computer → Advanced System Settings → "Advanced" tab → Environment Variables… → Select "PATH" from the list → Add directory of "Mozilla Firefox" folder to "Variable value" field
 
   **SOLUTION 2**: Incorrect custom path in test.firefox.path. Make sure that the path is set correctly following the example from test.template.properties
 
 4. **ERROR**: After deploying on the staging server, you get an error related to … Unsupported major.minor version ... when trying to access pages of the staged app.
 This can happen if you have Java 8 is installed and Eclipse uses Java 8 during deployment, even if you have already configured the project to use Java 7.
-Refer [this page]() to learn how to modify eclipse.ini to use Java 7 by default.
+Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed) to learn how to modify eclipse.ini to use Java 7 by default.
 
 5. **ERROR**: A handful of failed test cases (<10).
 
@@ -158,9 +160,9 @@ Refer [this page]() to learn how to modify eclipse.ini to use Java 7 by default.
 7. **ERROR**: Test cases failed due to accented characters.
 
   **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to UTF-8 as specified under Prerequisites.
-8. **ERROR**: Error message in the console about ‘incorrect date format’.
+8. **ERROR**: Error message in the console about 'incorrect date format'.
 
-  **SOLUTION**: Ensure the date format of your computer matches the below. For Windows, [this link]() may be useful.
+  **SOLUTION**: Ensure the date format of your computer matches the below. For Windows, [this link](http://www.sevenforums.com/tutorials/3530-time-format-change.html) may be useful.
 
   ![troubleshooting-test-5.png](images/troubleshooting-test-5.png)
 
@@ -168,7 +170,7 @@ Refer [this page]() to learn how to modify eclipse.ini to use Java 7 by default.
 
   **REASON**: The hash of the file in the repo is different from the one used in the live site due to line endings are encoded on different OSes.
 
-  **SOLUTION**: Replace “\src\main\webapp\files\Course Enroll Sample Spreadsheet.csv” with this copy of file.
+  **SOLUTION**: Replace "\src\main\webapp\files\Course Enroll Sample Spreadsheet.csv" with this copy of file.
 
 10. **ERROR**: "no chromedrive_osx" when testing on Mac using Chrome.
 
@@ -177,11 +179,11 @@ Refer [this page]() to learn how to modify eclipse.ini to use Java 7 by default.
 11. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
 
   **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. Here is a useful [reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).
-12. **ERROR**: InstructorCourseDetailsPageUiTest fails in production server due to Gmail’s access restriction (e.g javax.mail.AuthenticationFailedException)
-  **SOLUTION**: “Allow access for less secure apps” for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes. Check for [reference]( https://support.google.com/accounts/answer/6010255?hl=en).
+12. **ERROR**: InstructorCourseDetailsPageUiTest fails in production server due to Gmail's access restriction (e.g javax.mail.AuthenticationFailedException)
+  **SOLUTION**: "Allow access for less secure apps" for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes. Check for [reference]( https://support.google.com/accounts/answer/6010255?hl=en).
 
-    # Errors specific to Linux
+    #### Errors specific to Linux
 
-    **ERROR**: java.io.IOException: Directory ‘/tmpfiles’ could not be created.
+    **ERROR**: java.io.IOException: Directory '/tmpfiles' could not be created.
 
     **SOLUTION**: Specify an additional parameter, -Djava.io.tmpdir, in the VM arguments for the tests' run configurations. Add "-Djava.io.tmpdir=/path/to/teammates/tmp". The 'tmp' folder in the specified directory needs to be created before running the tests.
