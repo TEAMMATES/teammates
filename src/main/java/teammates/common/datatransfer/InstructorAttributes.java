@@ -314,6 +314,13 @@ public class InstructorAttributes extends EntityAttributes {
         return privileges.hasTutorPrivileges();
     }
 
+    /**
+     * @param instructor
+     *            the {@link InstructorAttributes} of an instructor, cannot be
+     *            {@code null}
+     * @return true if this {@link InstructorAttributes} is equal to
+     *         {@code instructor}, otherwise false
+     */
     public boolean isEqualToAnotherInstructor(InstructorAttributes instructor) {
         JsonParser parser = new JsonParser();
         return parser.parse(getJsonString()).equals(parser.parse(instructor.getJsonString()));
