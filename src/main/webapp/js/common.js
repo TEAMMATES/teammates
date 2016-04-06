@@ -854,7 +854,7 @@ function toggleSingleCollapse(e) {
 }
 
 /**
- * Shows panel's content and changes chevron state.
+ * Shows panel's content and changes chevron to point up.
  */
 function showSingleCollapse(e) {
     var heading = $(e).parent().children('.panel-heading');
@@ -866,7 +866,7 @@ function showSingleCollapse(e) {
 }
 
 /**
- * Hides panel's content and changes chevron state.
+ * Hides panel's content and changes chevron to point down.
  */
 function hideSingleCollapse(e) {
     var heading = $(e).parent().children('.panel-heading');
