@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -145,10 +146,7 @@ public class InstructorStudentRecordsPage extends AppPage {
      * @return true if all record panel bodies are equals to the visibility being checked.
      */
     private boolean areAllRecordPanelBodiesVisibilityEquals(boolean isVisible) {
-        By panelCollapseSelector = By.cssSelector(".panel-collapse");
-        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
-
-        for(WebElement e : webElements) {
+        for(WebElement e : getStudentFeedbackPanels()) {
             if(e.isDisplayed() != isVisible) {
                 return false;
             }
@@ -157,24 +155,30 @@ public class InstructorStudentRecordsPage extends AppPage {
         return true;
     }
 
+    public List<WebElement> getStudentFeedbackPanels() {
+        List<WebElement> webElements = new ArrayList<WebElement>();
+        for (WebElement e : browser.driver.findElements(By.cssSelector("div[id^='studentFeedback-']"))) {
+            WebElement panel = e.findElement(By.cssSelector(".panel-collapse"));
+            if (panel != null) {
+                webElements.add(panel);
+            }
+        }
+
+        return webElements;
+    }
+
     /**
      * Waits for all the panels to collapse.
      */
     public void waitForPanelsToCollapse() {
-        By panelCollapseSelector = By.cssSelector(".panel-collapse");
-        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
-
-        waitForElementsToDisappear(webElements);
+        waitForElementsToDisappear(getStudentFeedbackPanels());
     }
 
     /**
      * Waits for all the panels to expand.
      */
     public void waitForPanelsToExpand() {
-        By panelExpandSelector = By.cssSelector(".panel-collapse");
-        List<WebElement> webElements = browser.driver.findElements(panelExpandSelector);
-
-        waitForElementsVisibility(webElements);
+        waitForElementsVisibility(getStudentFeedbackPanels());
     }
 
 }
