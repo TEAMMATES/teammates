@@ -12,6 +12,7 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
     <course:courseEditCourseInfo 
+            editCourseButton="${data.editCourseButton}"
             deleteCourseButton="${data.deleteCourseButton}" 
             course="${data.course}" />
     <br>

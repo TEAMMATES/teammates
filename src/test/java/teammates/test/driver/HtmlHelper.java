@@ -399,12 +399,10 @@ public class HtmlHelper {
                       .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      // jQuery files
-                      .replace("/js/lib/jquery.min.js", "${lib.path}/jquery.min.js")
-                      .replace("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "${lib.path}/jquery.min.js")
-                      // jQuery-ui files
-                      .replace("/js/lib/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
-                      .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "${lib.path}/jquery-ui.min.js")
+                      // jQuery js file
+                      .replace(Const.SystemParams.getjQueryFilePath(TP.isDevServer()), "${lib.path}/jquery.min.js")
+                      // jQuery-ui js file
+                      .replace(Const.SystemParams.getjQueryUiFilePath(TP.isDevServer()), "${lib.path}/jquery-ui.min.js")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -449,7 +447,9 @@ public class HtmlHelper {
                                StringHelper.truncateLongId(TP.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now));
+                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
+                      .replace("<!-- filepath.jquery -->", Const.SystemParams.getjQueryFilePath(TP.isDevServer()))
+                      .replace("<!-- filepath.jquery-ui -->", Const.SystemParams.getjQueryUiFilePath(TP.isDevServer()));
     }
 
 }
