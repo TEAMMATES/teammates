@@ -115,10 +115,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
-        // adds the default option to courseIdOptions if it is empty
-        if (courseIdOptions.isEmpty()) {
-            addPlaceholder(courseIdOptions);
-        }
+        addPlaceholderIfEmpty(courseIdOptions, determinePlaceholderMessage(!courses.isEmpty()));
         
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
                                                           fsName, courseIdOptions);
@@ -160,10 +157,7 @@ public class InstructorFeedbacksPageData extends PageData {
         List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
         boolean isSubmitButtonDisabled = courseIdOptions.isEmpty();
         
-        // adds the placeholder option to courseIdOptions if it is empty
-        if (isSubmitButtonDisabled) {
-            addPlaceholder(courseIdOptions);
-        }
+        addPlaceholderIfEmpty(courseIdOptions, determinePlaceholderMessage(!courses.isEmpty()));
         
         return FeedbackSessionsForm.getFormForNewFs(
                                         newFeedbackSession,
@@ -288,11 +282,26 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     /**
+     * Determines the message for placeholder depending on whether the instructor has any active courses.
+     * @param hasActiveCourses true if instructor have active courses
+     * @return no active courses or no modify courses' sessions permission message
+     */
+    private String determinePlaceholderMessage(boolean hasActiveCourses) {
+        return hasActiveCourses ? Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS
+                                : Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES;
+    }
+    
+    /**
      * Adds the placeholder option to the list of select options if the list is empty.
      * @param selectOptions list containing all the options
+     * @param message the message of the placeholder
      */
-    private void addPlaceholder(List<ElementTag> selectOptions) {
-        ElementTag placeholder = createOption("No active courses!", "", true);
+    private void addPlaceholderIfEmpty(List<ElementTag> selectOptions, String message) {
+        if (!selectOptions.isEmpty()) {
+            return;
+        }
+        
+        ElementTag placeholder = createOption(message, "", true);
         selectOptions.add(placeholder);
     }
     
