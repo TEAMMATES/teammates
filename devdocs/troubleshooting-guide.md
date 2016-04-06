@@ -23,31 +23,32 @@ Use this checklist to verify that your project setup is correct.
     Make sure Eclipse hasn't modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from Google Code. If there are any changes, do an git reset --hard and restart Eclipse.
 
 2. **Check the version of the Google plugin for Eclipse**
+
     In Eclipse, go to Help → Install new software → What's already installed
 
     Ensure that Google Plugin version is 4.3 or 4.4 and TestNG is installed.
 
     ![setup-checklist-1.png](images/setup-checklist-1.png)
 
-3. Check the text encoding settings
+3. **Check the text encoding settings**
 
     Window → Preferences → General → Workspace
 
     ![setup-checklist-2.png](images/setup-checklist-2.png)
 
-4. Check the JDK compatibility
+4. **Check the JDK compatibility**
 
     Project → Properties → Java Compiler
 
     ![setup-checklist-3.png](images/setup-checklist-3.png)
 
-5. Check the SDK version
+5. **Check the SDK version**
 
     Project → Properties → Google → App Engine
 
     ![setup-checklist-4.png](images/setup-checklist-4.png)
 
-6. Check for compilation errors.
+6. **Check for compilation errors**
 
     Markers tab should have 0 errors.
 
@@ -101,16 +102,18 @@ Use this checklist to verify that your project setup is correct.
 
 ### How automated browser tests work
 
-  Our automated Browser tests compare generated Web pages with expected pages (these are in the \src\test\resources\pages folder). Such a test case fails when the expected page does not match the actual page. To see the diff between actual and expected, double click the error message in the TestNG tab.Here is an example (use the zoom feature of the Browser to see details of the screenshot).
+  Our automated Browser tests compare generated Web pages with expected pages (these are in the \src\test\resources\pages folder). Such a test case fails when the expected page does not match the actual page. To see the diff between actual and expected, double click the error message in the TestNG tab.
+  
+Here is an example (use the zoom feature of the Browser to see details of the screenshot).
 
   ![troubleshooting-test-3.png](images/troubleshooting-test-3.png)
 
   Note that you can ignore the following differences reported by Eclipse diff tool. Those are not the cause of the test failure.
 
-  | Expected | Actual | Explanation |
-| --- | --- | --- |
-| `<expected></expected>` | `<actual></actual>` | These are inserted by the test code for easier reference, after the comparison has been done. |
-| {*} | Any text | The expression {*} is used to mark a piece of text we cannot predict in advance. e.g. current time. These differences are ignored by our comparison algorithm. |
+ Expected | Actual | Explanation 
+ --- | --- | --- 
+ `<expected></expected>` | `<actual></actual>` | These are inserted by the test code for easier reference, after the comparison has been done. 
+ {*} | Any text | The expression {*} is used to mark a piece of text we cannot predict in advance. e.g. current time. These differences are ignored by our comparison algorithm. 
 
   Furthermore, you might see tags such as ${test.student1} and ${version} in some of the  expected files (e.g. StudentHomeHTML.html) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, ${version} will be replaced by something like V4.89
 
@@ -179,11 +182,14 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 11. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
 
   **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. Here is a useful [reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).
+  
+
 12. **ERROR**: InstructorCourseDetailsPageUiTest fails in production server due to Gmail's access restriction (e.g javax.mail.AuthenticationFailedException)
+
   **SOLUTION**: "Allow access for less secure apps" for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes. Check for [reference]( https://support.google.com/accounts/answer/6010255?hl=en).
 
-    #### Errors specific to Linux
+#### Errors specific to Linux
 
-    **ERROR**: java.io.IOException: Directory '/tmpfiles' could not be created.
+   **ERROR**: java.io.IOException: Directory '/tmpfiles' could not be created.
 
-    **SOLUTION**: Specify an additional parameter, -Djava.io.tmpdir, in the VM arguments for the tests' run configurations. Add "-Djava.io.tmpdir=/path/to/teammates/tmp". The 'tmp' folder in the specified directory needs to be created before running the tests.
+   **SOLUTION**: Specify an additional parameter, -Djava.io.tmpdir, in the VM arguments for the tests' run configurations. Add "-Djava.io.tmpdir=/path/to/teammates/tmp". The 'tmp' folder in the specified directory needs to be created before running the tests.
