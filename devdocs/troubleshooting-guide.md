@@ -10,7 +10,7 @@
     * [Other errors and solutions](#other-errors-and-solutions)
         * [Errors specific to Linux](#errors-specific-to-linux)
 
-This document can help you to fix the problems encountered while contributing to TEAMMATES.Failing that, you can post in the [issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to ask for help.Remember to supply as much relevant information as possible when asking for help. e.g. Which operating system are you using.
+This document can help you to fix the problems encountered while contributing to TEAMMATES. Failing that, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to ask for help. Remember to supply as much relevant information as possible when asking for help. e.g. Which operating system are you using.
 
 ## Troubleshooting project setup
 
@@ -20,7 +20,7 @@ Use this checklist to verify that your project setup is correct.
 
 1. **Undo any automatic setting changes done by Eclipse**
 
-    Make sure Eclipse hasn't modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from Google Code. If there are any changes, do an git reset --hard and restart Eclipse.
+    Make sure Eclipse hasn't modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from Google Code → GitHub. If there are any changes, do an git reset --hard and restart Eclipse.
 
 2. **Check the version of the Google plugin for Eclipse**
 
@@ -43,7 +43,9 @@ Use this checklist to verify that your project setup is correct.
     ![setup-checklist-3.png](images/setup-checklist-3.png)
 
 5. **Check the SDK version**
-
+   ```
+    Note : We are using version 1.9.27 instead of 1.9.4
+   ```
     Project → Properties → Google → App Engine
 
     ![setup-checklist-4.png](images/setup-checklist-4.png)
@@ -64,7 +66,11 @@ Use this checklist to verify that your project setup is correct.
 
 2. **ERROR**: Eclipse complains "...your project must be configured to use a jdk in order to use jsp".
 
-  **SOLUTION**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). Go to Window → Preferences → Java → Installed JREs. You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add → Standard VM, then for the JRE Path enter the path of the jre folder inside your jdk installation folder. e.g., C:\jdk1.7\jre Now you should see all of the JARs added to the library section.
+  **SOLUTION**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). 
+  
+   Go to Window → Preferences → Java → Installed JREs. 
+   
+   You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add → Standard VM, then for the JRE Path enter the path of the jre folder inside your jdk installation folder. e.g., C:\jdk1.7\jre Now you should see all of the JARs added to the library section.
 
 3. **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
@@ -83,10 +89,10 @@ Use this checklist to verify that your project setup is correct.
   **SOLUTION**: Eclipse may be using an incompatible version of the JRE Library (with respect to TEAMMATES) for the current JRE definition. System Library for JRE should be set to the workspace default, after appropriate JRE definition has been added (covered in existing point#2 of the troubleshooting section).
   
    
-   → Right-click on project → Properties → Java Build Path → "Libraries" tab → Select JRE System Library from the list → Edit… → Select and mark radio button for "Workspace default JRE"
+   Right-click on project → Properties → Java Build Path → "Libraries" tab → Select JRE System Library from the list → Edit… → Select and mark radio button for "Workspace default JRE"
    
 
-7. **ERROR**: Everything seems normal and the dev server starts normally. But you get a 'Class not found" or "Class cannot initialize" error when you try to access any non-static pages of the app.
+7. **ERROR**: Everything seems normal and the dev server starts normally. But you get a "Class not found" or "Class cannot initialize" error when you try to access any non-static pages of the app.
 
   **SOLUTION**: Check if the build.properties and appengine-web.xml has been renamed properly, which you were supposed to during the set up.
 
@@ -148,7 +154,7 @@ Remember to state which tests are failing and for each of those
 
   **SOLUTION 1**: Path to Firefox executable on local machine is incorrect. Specify the correct folder in system PATH variable.
   
-   → Open Windows Explorer → Right-click on Computer → Advanced System Settings → "Advanced" tab → Environment Variables… → Select "PATH" from the list → Add directory of "Mozilla Firefox" folder to "Variable value" field
+   Open Windows Explorer → Right-click on Computer → Advanced System Settings → "Advanced" tab → Environment Variables… → Select "PATH" from the list → Add directory of "Mozilla Firefox" folder to "Variable value" field
 
   **SOLUTION 2**: Incorrect custom path in test.firefox.path. Make sure that the path is set correctly following the example from test.template.properties
 
