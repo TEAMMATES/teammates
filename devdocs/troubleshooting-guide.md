@@ -2,12 +2,12 @@
 
 1. [Troubleshooting project setup](#troubleshooting-project-setup)
     * [Setup checklist](#setup-checklist)
-    * [Common errors and solutions](#common-errors-and-solutions)
+    * [Common setup errors and solutions](#common-setup-errors-and-solutions)
 2. [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Optimizing IDE layout for testing](#optimizing-ide-layout-for-testing)
     * [How automated browser tests work](#how-automated-browser-tests-work)
     * [Getting help to resolve test failures](#getting-help-to-resolve-test-failures)
-    * [Other errors and solutions](#other-errors-and-solutions)
+    * [Common test errors and solutions](#common-test-errors-and-solutions)
         * [Errors specific to Linux](#errors-specific-to-linux)
 
 This document can help you to fix the problems encountered while contributing to TEAMMATES. Failing that, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to ask for help. Remember to supply as much relevant information as possible when asking for help. e.g. Which operating system are you using.
@@ -20,7 +20,7 @@ Use this checklist to verify that your project setup is correct.
 
 1. **Undo any automatic setting changes done by Eclipse**
 
-    Make sure Eclipse hasn't modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from Google Code → GitHub. If there are any changes, do an git reset --hard and restart Eclipse.
+    Make sure Eclipse hasn't modified any settings/files during set up. Run git status to ensure the repo is same as the one you cloned from GitHub. If there are any changes, do an git reset --hard and restart Eclipse.
 
 2. **Check the version of the Google plugin for Eclipse**
 
@@ -58,19 +58,19 @@ Use this checklist to verify that your project setup is correct.
 
     If it shows errors, try refreshing the project (right-click on the project in Project explorer) followed by a Project → Clean.
 
-### Common errors and solutions
+### Common setup errors and solutions
 
 1. **ERROR**: Eclipse complains about FileWriter and ConsoleHandler e.g. java.io.FileWriter is not supported by Google App Engine's Java runtime environment.
 
-  **SOLUTION**: These are OK because the offending files belong to test driver and will not be deployed to GAE. Choose to 'Quick Fix' and then choose to exclude those files from validation.
+  **SOLUTION**: These are OK because the offending files belong to test driver and will not be deployed to GAE. Choose to "Quick Fix" and then choose to exclude those files from validation.
 
-2. **ERROR**: Eclipse complains "...your project must be configured to use a jdk in order to use jsp".
+2. **ERROR**: Eclipse complains "...your project must be configured to use a JDK in order to use JSP".
 
   **SOLUTION**: This happens because Eclipse is only aware of JRE, not JDK (Compiling JSP requires the JDK). 
   
    Go to Window → Preferences → Java → Installed JREs. 
    
-   You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add → Standard VM, then for the JRE Path enter the path of the jre folder inside your jdk installation folder. e.g., C:\jdk1.7\jre Now you should see all of the JARs added to the library section.
+   You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add → Standard VM, then for the JRE Path enter the path of the jre folder inside your JDK installation folder. e.g., C:/jdk1.7/jre Now you should see all of the JARs added to the library section.
 
 3. **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
@@ -82,7 +82,7 @@ Use this checklist to verify that your project setup is correct.
 
 5. **ERROR**: Eclipse complains "file out of sync".
 
-  **SOLUTION**: 'refresh' the project in eclipse.
+  **SOLUTION**: "Refresh" the project in eclipse.
 
 6. **ERROR**: Eclipse complains "There are no JREs installed in the workplace that are strictly compatible with this environment.".
 
@@ -132,15 +132,23 @@ Remember to state which tests are failing and for each of those
 
 * Any relevant screenshots (e.g. screen shot of the diff window showing the offending difference)
 
-### Other errors and solutions
+### Common test errors and solutions
 
-1. **ERROR**: Tests fail randomly during dev server testing.
+1. **Error**: Encountered "java.net.ConnectException: Connection refused" when running some tests.
+
+  **Solution**: Ensure that your dev server is started prior to running those tests.
+
+2. **Error**: Encountered "org.openqa.selenium.WebDriverException: Unable to bind to locking port 7054 within 45000 ms" when running tests with Browser.
+
+  **Solution**: Ensure compatible version of Firefox is installed as specified under Prerequisites.
+  
+3. **ERROR**: Tests fail randomly during dev server testing.
 
   **SOLUTION**: Make sure there is only one dev server running. Eclipse will happily allow you to start multiple dev servers.
 
   ![troubleshooting-test-4.png](images/troubleshooting-test-4.png)
 
-2. **ERROR (on Windows)**: NullPointerException when trying to access email box. The error message looks something like this:
+4. **ERROR (on Windows)**: NullPointerException when trying to access email box. The error message looks something like this:
    ```
       java.lang.NullPointerException at
       javax.mail.internet.ParameterList.set(ParameterList.java:165) at
@@ -148,9 +156,9 @@ Remember to state which tests are failing and for each of those
    ```
   **SOLUTION**: In eclipse, move the javax.mail.....jar (from Oracle) to the top of the build class path.
 
-   (Properties → Java build path → 'order and export' tab)
+   (Properties → Java build path → "Order and Export" tab)
 
-3. **ERROR**: Test failure message encountered when running full test suite: "Selenium cannot find Firefox binary in PATH".
+5. **ERROR**: Test failure message encountered when running full test suite: "Selenium cannot find Firefox binary in PATH".
 
   **SOLUTION 1**: Path to Firefox executable on local machine is incorrect. Specify the correct folder in system PATH variable.
   
@@ -158,48 +166,49 @@ Remember to state which tests are failing and for each of those
 
   **SOLUTION 2**: Incorrect custom path in test.firefox.path. Make sure that the path is set correctly following the example from test.template.properties
 
-4. **ERROR**: After deploying on the staging server, you get an error related to … Unsupported major.minor version ... when trying to access pages of the staged app.
-This can happen if you have Java 8 is installed and Eclipse uses Java 8 during deployment, even if you have already configured the project to use Java 7.
+6. **ERROR**: After deploying on the staging server, you get an error related to … Unsupported major.minor version ... when trying to access pages of the staged app.
+
+  **SOLUTION**: This can happen if you have Java 8 is installed and Eclipse uses Java 8 during deployment, even if you have already configured the project to use Java 7.
 Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed) to learn how to modify eclipse.ini to use Java 7 by default.
 
-5. **ERROR**: A handful of failed test cases (<10).
+7. **ERROR**: A handful of failed test cases (<10).
 
   **SOLUTION**: Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
   
-6. **ERROR**: Browser alert about invalid ssl certificate.
+8. **ERROR**: Browser alert about invalid ssl certificate.
 
   **SOLUTION**: Ensure that test.app.url in your test.properties uses -dot- instead of '.' when using secondary subdomains.
-  Eg. `http//4-30-dot-teammates-john.appspot.com`
-7. **ERROR**: Test cases failed due to accented characters.
+  Eg. `http://4-30-dot-teammates-john.appspot.com`
+9. **ERROR**: Test cases failed due to accented characters.
 
   **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to UTF-8 as specified under Prerequisites.
-8. **ERROR**: Error message in the console about 'incorrect date format'.
+10. **ERROR**: Error message in the console about "incorrect date format".
 
   **SOLUTION**: Ensure the date format of your computer matches the below. For Windows, [this link](http://www.sevenforums.com/tutorials/3530-time-format-change.html) may be useful.
 
   ![troubleshooting-test-5.png](images/troubleshooting-test-5.png)
 
-9. **ERROR**: InstructorCourseEnrollPageUiTest fails due to a hash mismatch.
+11. **ERROR**: InstructorCourseEnrollPageUiTest fails due to a hash mismatch.
 
   **REASON**: The hash of the file in the repo is different from the one used in the live site due to line endings are encoded on different Operating Systems.
 
   **SOLUTION**: Replace "\src\main\webapp\files\Course Enroll Sample Spreadsheet.csv" with [this copy of file](https://teammatesv4.appspot.com/files/Course%20Enroll%20Sample%20Spreadsheet.csv).
 
-10. **ERROR**: "no chromedrive_osx" when testing on Mac using Chrome.
+12. **ERROR**: "no chromedrive_osx" when testing on Mac using Chrome.
 
   **SOLUTION**: download the file from [here]( http://chromedriver.storage.googleapis.com/index.html) and extract to /src/test/resources/lib/selenium, then rename it by adding "`_osx`". Refresh the folder in eclipse.
 
-11. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
+13. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
 
   **SOLUTION**: This can happen if you have Java 8 installed on your computer. Change Eclipse configuration to use Java 7 instead. Here is a useful [reference]( http://java.wildstartech.com/Java-Platform-Standard-Edition/mac-os-x-java-development/how-to-configure-eclipse-to-run-with-java-7-when-java-8-is-installed).
   
 
-12. **ERROR**: InstructorCourseDetailsPageUiTest fails in production server due to Gmail's access restriction (e.g javax.mail.AuthenticationFailedException)
+14. **ERROR**: InstructorCourseDetailsPageUiTest fails in production server due to Gmail's access restriction (e.g javax.mail.AuthenticationFailedException)
 
   **SOLUTION**: "Allow access for less secure apps" for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes. Check for [reference]( https://support.google.com/accounts/answer/6010255?hl=en).
 
 #### Errors specific to Linux
 
-   **ERROR**: java.io.IOException: Directory '/tmpfiles' could not be created.
+   **ERROR**: java.io.IOException: Directory "/tmpfiles" could not be created.
 
-   **SOLUTION**: Specify an additional parameter, -Djava.io.tmpdir, in the VM arguments for the tests' run configurations. Add "-Djava.io.tmpdir=/path/to/teammates/tmp". The 'tmp' folder in the specified directory needs to be created before running the tests.
+   **SOLUTION**: Specify an additional parameter, -Djava.io.tmpdir, in the VM arguments for the tests' run configurations. Add "-Djava.io.tmpdir=/path/to/teammates/tmp". The "tmp" folder in the specified directory needs to be created before running the tests.
