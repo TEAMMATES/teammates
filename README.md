@@ -6,6 +6,7 @@
 <img src="https://img.shields.io/badge/js-14%20KLoC-blue.svg">
 <img src="https://img.shields.io/badge/html-5%20KLoC-blue.svg">
 <img src="https://img.shields.io/badge/css-7%20KLoC-blue.svg">
+[![Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 
 TEAMMATES is a free online tool for managing peer evaluations and other 
 feedback paths of your students. It is provided as a cloud-based service for 
@@ -20,7 +21,7 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 ##Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources: 
-  * [**Contributor Orientation Guide**](https://docs.google.com/document/d/1cY9pmEmw4dC6Z4LjN1WUTsynJ0jVPgbWsFhdyBy_wCU/pub?embedded=true) : This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
+  * [**Contributor Orientation Guide**](/devdocs/orientation-guide.md) : This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
   * [**Project ideas page**] (https://docs.google.com/document/d/1fAvYvQr0E93OsZgyneaXGX0jaMA-zptTIxqLn83xwN0/pub?embedded=true) : These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g., summer internships).
   * [**Instructions for Google Summer of Code applicants**] (https://docs.google.com/document/d/1Iu63WRIw8uz8liEW089IQHDQTRbh-QoOLMyfTPXNOa0/pub?embedded=true) : Read this before you apply to work for TEAMMATES under GSoC.
 

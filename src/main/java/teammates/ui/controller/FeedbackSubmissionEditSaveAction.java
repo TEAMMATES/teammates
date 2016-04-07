@@ -127,8 +127,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 }
             }
                     
-            List<String> questionSpecificErrors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
-            errors.addAll(questionSpecificErrors);
+            if (!qnId.equals("")) {
+                List<String> questionSpecificErrors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
+                errors.addAll(questionSpecificErrors);
+            }
             
             if (!emailSet.containsAll(responsesRecipients)) {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                

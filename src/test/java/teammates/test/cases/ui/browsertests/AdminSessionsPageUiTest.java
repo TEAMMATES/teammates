@@ -8,7 +8,9 @@ import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
@@ -38,6 +40,11 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
     public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception {
         testContent();
     }
+
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
+    }
     
     private void testContent() {
         
@@ -45,25 +52,22 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
         
         AppUrl sessionsUrl = createUrl(Const.ActionURIs.ADMIN_SESSIONS_PAGE);
         sessionsPage = loginAdminToPage(browser, sessionsUrl, AdminSessionsPage.class);
-        assertFalse(isTimeFramePanelVisible());
+        By timeFramePanel = By.id("timeFramePanel");
+        sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());
         
         ______TS("content: show filter");
         
         sessionsPage.clickDetailButton();
-        assertTrue(isTimeFramePanelVisible());
+        sessionsPage.waitForElementVisibility(browser.driver.findElement(timeFramePanel));
         assertTrue(isSessionDataDisplayCorrect());
         
         ______TS("content: hide filter");
         
         sessionsPage.clickDetailButton();
-        assertFalse(isTimeFramePanelVisible());
+        sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());
         
-    }
-    
-    private boolean isTimeFramePanelVisible() {
-        return sessionsPage.isElementVisible(By.id("timeFramePanel"));
     }
     
     /**

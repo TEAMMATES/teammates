@@ -51,6 +51,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     @Test
     public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+        
+        // remove possibly conflicting entity from the database
+        frDb.deleteEntity(fra);
+        
         frDb.createEntity(fra);
         verifyPresentInDatastore(fra, true);
         
@@ -66,8 +70,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("success : defaultTimeStamp for updatedAt date");
         
         assertEquals(defaultTimeStamp, fra.getUpdatedAt());
-        
-        frDb.deleteEntity(fra);
     }
     
     @Test
@@ -76,6 +78,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("success : created");
 
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+        
+        // remove possibly conflicting entity from the database
+        frDb.deleteEntity(fra);
+        
         frDb.createEntity(fra);
         verifyPresentInDatastore(fra, true);
         
@@ -111,9 +117,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         // Assert lastUpdate has NOT changed.
         assertEquals(updatedFr.getUpdatedAt(), updatedFrTwo.getUpdatedAt());
-        
-        frDb.deleteEntity(updatedFrTwo);
-            
     }
     
     @Test
@@ -123,6 +126,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
         
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+        
+        // remove possibly conflicting entity from the database
+        frDb.deleteEntity(fra);
+        
         frDb.createEntity(fra);
         
         // sets the id for fra
@@ -221,7 +228,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         actual = frDb.getFeedbackResponse("non-existent id");
         
         assertNull(actual);
-        
     }
     
     @Test

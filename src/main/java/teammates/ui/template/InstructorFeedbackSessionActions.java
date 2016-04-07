@@ -18,7 +18,7 @@ public class InstructorFeedbackSessionActions {
     private String deleteLink;
     private String submitLink;
     private String remindLink;
-    private String remindParticularStudentsLink;
+    private String remindParticularStudentsPageLink;
     private String editCopyLink;
 
     private boolean allowedToEdit;
@@ -44,9 +44,9 @@ public class InstructorFeedbackSessionActions {
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
         this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
-        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName);
-        this.remindParticularStudentsLink = data.getInstructorFeedbackRemindParticularStudentsLink(courseId,
-                                                                                                     feedbackSessionName);
+        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
+        this.remindParticularStudentsPageLink = data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId,
+                                                                                                           feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
 
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -95,8 +95,8 @@ public class InstructorFeedbackSessionActions {
         return remindLink;
     }
 
-    public String getRemindParticularStudentsLink() {
-        return remindParticularStudentsLink;
+    public String getRemindParticularStudentsPageLink() {
+        return remindParticularStudentsPageLink;
     }
 
     public String getEditCopyLink() {

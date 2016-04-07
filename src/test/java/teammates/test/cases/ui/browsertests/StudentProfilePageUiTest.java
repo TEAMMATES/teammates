@@ -291,7 +291,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-    public void testAfter() {
+    public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
 

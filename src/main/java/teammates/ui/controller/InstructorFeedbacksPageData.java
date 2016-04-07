@@ -112,10 +112,13 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                         courseIdForNewSession);
         
         String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        
+        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        
+        addPlaceholderIfEmpty(courseIdOptions, determinePlaceholderMessage(!courses.isEmpty()));
+        
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
-                                                          fsName, 
-                                                          getCourseIdOptions(courses, courseIdForNewSession, 
-                                                                             instructors, newFeedbackSession));
+                                                          fsName, courseIdOptions);
     }
 
     private void buildFsList(String courseIdToHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
@@ -150,14 +153,19 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                                 String feedbackSessionNameForSessionList, List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        
+        List<ElementTag> courseIdOptions = getCourseIdOptions(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        boolean isSubmitButtonDisabled = courseIdOptions.isEmpty();
+        
+        addPlaceholderIfEmpty(courseIdOptions, determinePlaceholderMessage(!courses.isEmpty()));
+        
         return FeedbackSessionsForm.getFormForNewFs(
                                         newFeedbackSession,
                                         getFeedbackSessionTypeOptions(feedbackSessionType),
                                         courseIdForNewSession,
-                                        courseIds, getCourseIdOptions(courses,  courseIdForNewSession, 
-                                                           instructors, newFeedbackSession), 
+                                        courseIds, courseIdOptions, 
                                         instructors,
-                                        additionalSettings);
+                                        additionalSettings, isSubmitButtonDisabled);
     }
 
     private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
@@ -270,15 +278,42 @@ public class InstructorFeedbacksPageData extends PageData {
             }
         }
         
-        // Add "No active courses" option if there are no active courses
-        if (result.isEmpty()) {
-            ElementTag blankOption = createOption("No active courses!", "", true);
-            result.add(blankOption);
-        }
-        
         return result;
     }
-
+    
+    /**
+     * Determines the message for placeholder depending on whether the instructor has any active courses.
+     * @param hasActiveCourses true if instructor have active courses
+     * @return no active courses or no modify courses' sessions permission message
+     */
+    private String determinePlaceholderMessage(boolean hasActiveCourses) {
+        return hasActiveCourses ? Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS
+                                : Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES;
+    }
+    
+    /**
+     * Adds the placeholder option to the list of select options if the list is empty.
+     * @param selectOptions list containing all the options
+     * @param message the message of the placeholder
+     */
+    private void addPlaceholderIfEmpty(List<ElementTag> selectOptions, String message) {
+        if (!selectOptions.isEmpty()) {
+            return;
+        }
+        
+        ElementTag placeholder = createOption(message, "", true);
+        selectOptions.add(placeholder);
+    }
+    
+    /**
+     * Retrieves the link to submit the request to remind particular students.
+     * Also contains feedbacks page link to return after the action.
+     * @return form submit action link
+     */
+    public String getRemindParticularStudentsLink() {
+        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+    }
+    
     /**
      * Retrieves the link to submit the request for copy of session. 
      * Also contains feedback page link to return after the action.
