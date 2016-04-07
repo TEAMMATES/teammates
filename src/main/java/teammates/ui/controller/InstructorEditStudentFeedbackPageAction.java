@@ -61,7 +61,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                 false, studentUnderModeration.section, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, studentUnderModeration.email);
@@ -83,7 +83,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                 "Course ID: " + courseId;
         
         data.bundle.hideQuestionsWithAnonymousResponses();
-        data.init();
+        data.init(courseId);
         
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }

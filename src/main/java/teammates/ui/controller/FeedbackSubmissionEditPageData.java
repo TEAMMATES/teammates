@@ -31,10 +31,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
     
-    public FeedbackSubmissionEditPageData(AccountAttributes account) {
-        this(account, null);
-    }
-    
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
         super(account, student);
         isPreview = false;
@@ -43,10 +39,23 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isHeaderHidden = false;        
     }
     
-    public void init() {
-        createQuestionsWithResponses();
+    /**
+     * Generates the register message with join URL containing course ID 
+     * if the student is unregistered. Also loads the questions with responses.
+     * @param courseId the course ID
+     */
+    public void init(String courseId) {
+        init("", "", courseId);
     }
 
+    
+    /**
+     * Generates the register message with join URL containing registration key, 
+     * email and course ID if the student is unregistered. Also loads the questions and responses.
+     * @param regKey the registration key
+     * @param email the email
+     * @param courseId the course ID
+     */
     public void init(String regKey, String email, String courseId) {
         String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(regKey)
@@ -56,7 +65,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         registerMessage = (student == null || joinUrl == null) ? "" : String.format(Const.StatusMessages.UNREGISTERED_STUDENT, 
                                                                                        student.name, joinUrl);
-        init();        
+        createQuestionsWithResponses();        
     }
     
     public FeedbackSessionQuestionsBundle getBundle() {

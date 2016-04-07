@@ -50,7 +50,7 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
                     + ".");
         }
 
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account);
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
 
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName, 
@@ -74,7 +74,7 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
                         "Course ID: " + courseId;
         
         data.bundle.hideQuestionsWithAnonymousResponses();
-        data.init();
+        data.init(courseId);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
