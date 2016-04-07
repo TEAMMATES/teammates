@@ -234,7 +234,7 @@ Client scripts are scripts that remotely manipulate data on GAE via its Remote A
 
 
 ##Troubleshooting
-Troubleshooting instructions are given [in this document](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
+Troubleshooting instructions are given [in this document](troubleshooting-guide.md)
 
 ##<a name="toolStack"></a>Tool stack
 
