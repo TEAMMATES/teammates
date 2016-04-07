@@ -6271,6 +6271,7 @@
                                 </div>
                                 <br> To setup the question, enter the main question text, and add choices and sub-questions by using the add column and add row buttons.
                                 <br> Rows and columns can be deleted by clicking on the respective 'x' buttons. Optional description text can be used to specify and describe the choices.
+                                <br> You may also assign weights to the choices for calculating statistics.
                                 <br>
                                 <br>
                                 <div class="bs-example">
@@ -6318,7 +6319,7 @@
                                                             <table class="table table-bordered margin-0" id="rubricEditTable-12">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th></th>
+                                                                        <th style="text-align:center; vertical-align:middle;">Choices</th>
                                                                         <th class="rubricCol-12-0">
                                                                             <div class="col-sm-12 input-group">
                                                                                 <input type="text" class="form-control" value="Yes" id="rubricChoice-12-0" name="rubricChoice-0" disabled="">
@@ -6335,7 +6336,15 @@
                                                                                 </span>
                                                                             </div>
                                                                         </th>
-
+                                                                    </tr>
+                                                                    <tr id="rubricWeights-1">
+                                                                        <th style="text-align:center; vertical-align:middle;"><input type="checkbox" class="nonDestructive" id="rubricAssignWeights-1" name="rubricAssignWeights" checked="" disabled=""><label data-toggle="tooltip" data-placement="top" data-original-title="Assign weights to the columns for calculating statistics.">Weights</label></th>
+                                                                        <th class="rubricCol-1-0">
+                                                                            <input type="number" class="form-control nonDestructive" value="1.5" id="rubricWeight-1-0" name="rubricWeight-0" step="0.01" disabled="">
+                                                                        </th>
+                                                                        <th class="rubricCol-1-1">
+                                                                            <input type="number" class="form-control nonDestructive" value="-1.5" id="rubricWeight-1-1" name="rubricWeight-1" step="0.01" disabled="">
+                                                                        </th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -6583,6 +6592,7 @@
                                     </form>
                                 </div>
                                 <br> The statistics for rubric question show the frquency which a choice is selected for each sub-question.
+                                <br> If weights are assigned to the choices, they will be shown beside their corresponding choices.
                                 <br>
                                 <br>
                                 <div class="bs-example">
@@ -6602,16 +6612,19 @@
                                                             <tr>
                                                                 <th></th>
                                                                 <th>
-                                                                    <p>Strongly Agree</p>
+                                                                    <p>Strongly Agree<span style="font-weight:normal;"> (Weight: 4)</span></p>
                                                                 </th>
                                                                 <th>
-                                                                    <p>Agree</p>
+                                                                    <p>Agree<span style="font-weight:normal;"> (Weight: 3)</span></p>
                                                                 </th>
                                                                 <th>
-                                                                    <p>Disagree</p>
+                                                                    <p>Disagree<span style="font-weight:normal;"> (Weight: 2)</span></p>
                                                                 </th>
                                                                 <th>
-                                                                    <p>Strongly Disagree</p>
+                                                                    <p>Strongly Disagree<span style="font-weight:normal;"> (Weight: 1)</span></p>
+                                                                </th>
+                                                                <th>
+                                                                    <p>Average</p>
                                                                 </th>
 
                                                             </tr>
@@ -6633,6 +6646,9 @@
                                                                 <td>
                                                                     38% (3)
                                                                 </td>
+                                                                <td>
+                                                                    2.13
+                                                                </td>
 
                                                             </tr>
                                                             <tr>
@@ -6650,6 +6666,9 @@
                                                                 </td>
                                                                 <td>
                                                                     14% (1)
+                                                                </td>
+                                                                <td>
+                                                                    2.86
                                                                 </td>
 
                                                             </tr>
