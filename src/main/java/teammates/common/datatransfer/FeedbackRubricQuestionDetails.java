@@ -511,15 +511,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
 
-            String header = rubricChoices.get(i);
+            String header = Sanitizer.sanitizeForHtml(rubricChoices.get(i));
 
             if (fqd.hasAssignedWeights) {
-                header += "(" + weightFormat.format(rubricWeights.get(i)) + ")";
+                header += "<span style=\"font-weight:normal;\"> (Weight: "
+                          + weightFormat.format(rubricWeights.get(i)) 
+                          + ")</span>";
             }
 
             String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
-                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(header));
+                            "${rubricChoiceValue}", header);
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
 
