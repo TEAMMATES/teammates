@@ -1614,7 +1614,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             "Question 1,\"Please choose the best choice for the following sub-questions.\"",
             "",
             "Summary Statistics,",
-            ",\"Yes(1.25)\",\"No(-1.7)\",Average",
+            ",\"Yes (Weight: 1.25)\",\"No (Weight: -1.7)\",Average",
             "\"a) This student has done a good job.\",67% (2),33% (1),0.27",
             "\"b) This student has tried his/her best.\",75% (3),25% (1),0.51",
             "",
