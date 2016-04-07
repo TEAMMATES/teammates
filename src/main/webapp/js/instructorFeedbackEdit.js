@@ -210,7 +210,6 @@ function enableQuestion(number) {
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).show();
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).show();
-    $currentQuestionTable.find('#rubricAssignWeightsLink-' + number).show();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).show();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).show();
     
@@ -269,8 +268,7 @@ function enableNewQuestion() {
 
     $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + number).show();
     $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + number).show();
-    $currentQuestionTableNumber.find('#rubricAssignWeightsLink-' + number).show();
-    $currentQuestionTableSuffix.find('input[id^="rubricWeight"]').hide();
+    $currentQuestionTableSuffix.find('#rubricWeights-' + number).hide();
     $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + number).show();
     $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + number).show();
 
@@ -321,9 +319,11 @@ function disableQuestion(number) {
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).hide();
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).hide();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).hide();
+    
+    moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
     if (!hasAssignedWeights(number)) {
-        $currentQuestionTable.find('input[id^="rubricWeight"]').hide();
+        $currentQuestionTable.find('#rubricWeights-' + number).hide();
     }
 
     $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).show();
@@ -1444,7 +1444,6 @@ function addRubricCol(questionNumber) {
       +             "<span class=\"glyphicon glyphicon-remove\"></span>"
       +         "</span>"
       +     "</div>"
-      +     "<input type=\"number\" class=\"form-control\" value=\"${rubricWeight}\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${qnIndex}-${col}\"  name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${col}\">"
       + "</th>";
 
     var rubricHeaderFragment = rubricHeaderFragmentTemplate;
@@ -1454,19 +1453,28 @@ function addRubricCol(questionNumber) {
     rubricHeaderFragment = replaceAll(rubricHeaderFragment,
                                       '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}',
                                       'rubricChoice');
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment,
-                                      '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}',
-                                      'rubricWeight');
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${rubricWeight}", 0);
 
     // Insert after last <th>
-    var lastTh = $('#rubricEditTable' + idSuffix + ' th:last');
+    var lastTh = $('#rubricEditTable' + idSuffix).find('tr:first').children().last();
     $(rubricHeaderFragment).insertAfter(lastTh);
+    
+    // Insert weight <th>
+    var rubricWeightFragmentTemplate = 
+        '<th class=\"rubricCol-${qnIndex}-${col}\">'
+       +    '<input type=\"number\" class=\"form-control nonDestructive\" value=\"${rubricWeight}\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${qnIndex}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}-${col}\" step=\"0.01\">'
+       +'</th>';
 
-    // Hide the new rubric weight box if the weights are not assigned by the user
-    if (!hasAssignedWeights(questionNumber)) {
-        $('input[id^="rubricWeight-' + questionNumber + '"]').hide();
-    }
+    var rubricWeightFragment = rubricWeightFragmentTemplate;
+    rubricWeightFragment = replaceAll(rubricWeightFragment, '${qnIndex}', questionNumber);
+    rubricWeightFragment = replaceAll(rubricWeightFragment, '${col}', newColNumber - 1);
+    rubricWeightFragment = replaceAll(rubricWeightFragment, '${rubricWeight}', 0);
+    rubricWeightFragment = replaceAll(rubricWeightFragment, 
+                                      '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}',
+                                      'rubricWeight');
+
+    // Insert after last <th>
+    var lastWeightCell = $('#rubricWeights-' + questionNumber + ' th:last');
+    $(rubricWeightFragment).insertAfter(lastWeightCell);
 
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
@@ -1533,8 +1541,8 @@ function removeRubricCol(index, questionNumber) {
     
     var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
     
-    // count number of table rows from table body
-    var numberOfCols = $thisCol.not('align-center').parent().children('th').length - 1;
+    // count number of table columns from table body
+    var numberOfCols = $thisCol.first().parent().children().length - 1;
     
     var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
     if (!confirm('Are you sure you want to ' + delStr + ' the column?')) {
@@ -1581,13 +1589,45 @@ function highlightRubricCol(index, questionNumber, highlight) {
 }
 
 /**
- * Attaches event handlers to "assign weights" checkboxes to toggle the visibility
- * of the input boxes for rubric weights
+ * Attaches event handlers to "weights" checkboxes to toggle the visibility of
+ * the input boxes for rubric weights and move the "weights" checkbox to the
+ * appropriate location
  */
 function bindAssignWeightsCheckboxes() {
     $('body').on('click', 'input[id^="rubricAssignWeights"]', function(e) {
-        $(this).closest('form').find('input[id^="rubricWeight"]').toggle();
+
+        var $checkbox = $(this);
+
+        $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
+
+        moveAssignWeightsCheckbox($checkbox);
     });
+}
+
+/**
+ * Move the "weights" checkbox to the weight row if it is checked, otherwise
+ * move it to the choice row
+ * 
+ * @param checkbox the "weights" checkbox
+ */
+function moveAssignWeightsCheckbox(checkbox) {
+
+    var $choicesRow = checkbox.closest('thead').find('tr').eq(0);
+    var $weightsRow = checkbox.closest('thead').find('tr').eq(1);
+    var $choicesRowFirstCell = $choicesRow.find('th').first();
+    var $weightsRowFirstCell = $weightsRow.find('th').first();
+
+    var $checkboxCellContent = checkbox.closest('th').children().detach();
+
+    $choicesRowFirstCell.empty();
+    $weightsRowFirstCell.empty();
+
+    if (checkbox.prop('checked')) {
+        $choicesRowFirstCell.append('Choices');
+        $weightsRowFirstCell.append($checkboxCellContent);
+    } else {
+        $choicesRowFirstCell.append($checkboxCellContent);
+    }
 }
 
 /**

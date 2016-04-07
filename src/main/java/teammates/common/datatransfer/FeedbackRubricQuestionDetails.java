@@ -352,12 +352,23 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE,
-                            "${rubricWeight}", hasAssignedWeights ? weightFormat.format(rubricWeights.get(i)) : "0",
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
             tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
+        // Create rubric weights row
+        StringBuilder tableWeightFragmentHtml = new StringBuilder();
+        String tableWeightFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
+        for (int i = 0; i < numOfRubricChoices; i++) {
+            String tableWeightCell = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableWeightFragmentTemplate,
+                            "${qnIndex}", questionNumberString,
+                            "${col}", Integer.toString(i),
+                            "${rubricWeight}", hasAssignedWeights ? weightFormat.format(rubricWeights.get(i)) : "0",
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
+            tableWeightFragmentHtml.append(tableWeightCell + Const.EOL);
+        }
+
         // Create table body
         StringBuilder tableBodyHtml = new StringBuilder();
         
@@ -395,6 +406,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
                 "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
+                "${tableWeightRowFragmentHtml}", tableWeightFragmentHtml.toString(),
                 "${tableBodyHtml}", tableBodyHtml.toString(),
                 "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS,
                 "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS,
