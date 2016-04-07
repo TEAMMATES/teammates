@@ -702,7 +702,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String header = rubricChoices.get(i);
 
             if (hasAssignedWeights) {
-                header += "(" + dfWeight.format(rubricWeights.get(i)) + ")";
+                header += " (Weight: " + dfWeight.format(rubricWeights.get(i)) + ")";
             }
 
             csv.append("," + Sanitizer.sanitizeForCsv(header));
