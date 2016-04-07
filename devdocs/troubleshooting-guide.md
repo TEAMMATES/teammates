@@ -164,11 +164,12 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
 5. **ERROR**: A handful of failed test cases (<10).
 
-  **SOLUTION**: Ensure compatible version of Firefox is installed as specified under Prerequisites.
+  **SOLUTION**: Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
+  
 6. **ERROR**: Browser alert about invalid ssl certificate.
 
   **SOLUTION**: Ensure that test.app.url in your test.properties uses -dot- instead of '.' when using secondary subdomains.
-  Eg. http\://4-30-dot-teammates-john.appspot.com
+  Eg. `http//4-30-dot-teammates-john.appspot.com`
 7. **ERROR**: Test cases failed due to accented characters.
 
   **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to UTF-8 as specified under Prerequisites.
@@ -182,7 +183,7 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
   **REASON**: The hash of the file in the repo is different from the one used in the live site due to line endings are encoded on different Operating Systems.
 
-  **SOLUTION**: Replace "\src\main\webapp\files\Course Enroll Sample Spreadsheet.csv" with this copy of file.
+  **SOLUTION**: Replace "\src\main\webapp\files\Course Enroll Sample Spreadsheet.csv" with [this copy of file](https://teammatesv4.appspot.com/files/Course%20Enroll%20Sample%20Spreadsheet.csv).
 
 10. **ERROR**: "no chromedrive_osx" when testing on Mac using Chrome.
 
