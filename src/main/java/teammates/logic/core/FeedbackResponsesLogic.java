@@ -12,6 +12,7 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.TeamDetailsBundle;
@@ -61,10 +62,9 @@ public class FeedbackResponsesLogic {
     public FeedbackResponseAttributes getFeedbackResponse(
             String feedbackResponseId) {
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(feedbackResponseId);
-        if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-            return response;
-        } 
-        return null;
+        ArrayList<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+        responses.add(response);
+        return getValidResponses(responses, response.courseId).get(0);
     }
 
     public FeedbackResponseAttributes getFeedbackResponse(
@@ -72,22 +72,15 @@ public class FeedbackResponsesLogic {
         // TODO: check what is this line doing here!!!
         log.warning(feedbackQuestionId);
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
-        if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-            return response;
-        } 
-        return null;
+        ArrayList<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+        responses.add(response);
+        return getValidResponses(responses, response.courseId).get(0);
     }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, courseId);
     }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
@@ -96,13 +89,7 @@ public class FeedbackResponsesLogic {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         } else {
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
-            List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-            for (FeedbackResponseAttributes response: responses) {
-                if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                    validResponses.add(response);
-                }
-            }
-            return validResponses;
+            return getValidResponses(responses, courseId);
         }
     }
 
@@ -112,13 +99,7 @@ public class FeedbackResponsesLogic {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         } else {
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);
-            List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-            for (FeedbackResponseAttributes response: responses) {
-                if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                    validResponses.add(response);
-                }
-            }
-            return validResponses;
+            return getValidResponses(responses, courseId);
         }
     }
 
@@ -128,13 +109,7 @@ public class FeedbackResponsesLogic {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         } else {
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, section);
-            List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-            for (FeedbackResponseAttributes response: responses) {
-                if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                    validResponses.add(response);
-                }
-            }
-            return validResponses;
+            return getValidResponses(responses, courseId);
         }
     }
     
@@ -142,13 +117,7 @@ public class FeedbackResponsesLogic {
             String feedbackSessionName, String courseId, long range) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionWithinRange(
                                                      feedbackSessionName, courseId, range);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSectionWithinRange(
@@ -160,13 +129,7 @@ public class FeedbackResponsesLogic {
         } else {
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSectionWithinRange(
                                                          feedbackSessionName, courseId, section, range);
-            List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-            for (FeedbackResponseAttributes response: responses) {
-                if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                    validResponses.add(response);
-                }
-            }
-            return validResponses;
+            return getValidResponses(responses, courseId);
         }
     }
 
@@ -179,13 +142,7 @@ public class FeedbackResponsesLogic {
         } else {
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionFromSectionWithinRange(
                                                          feedbackSessionName, courseId, section, range);
-            List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-            for (FeedbackResponseAttributes response: responses) {
-                if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                    validResponses.add(response);
-                }
-            }
-            return validResponses;
+            return getValidResponses(responses, courseId);
         }
     }
 
@@ -198,36 +155,18 @@ public class FeedbackResponsesLogic {
         } else {
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionToSectionWithinRange(
                                                          feedbackSessionName, courseId, section, range);
-            List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-            for (FeedbackResponseAttributes response: responses) {
-                if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                    validResponses.add(response);
-                }
-            }
-            return validResponses;
+            return getValidResponses(responses, courseId);
         }
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, responses.get(0).courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(String feedbackQuestionId, long range) {
         List<FeedbackResponseAttributes> responsesWithRange = frDb.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, range);
-        List<FeedbackResponseAttributes> validResponsesWithRange = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responsesWithRange) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-                validResponsesWithRange.add(response);
-            }
-        }
-        return validResponsesWithRange;
+        return getValidResponses(responsesWithRange, responsesWithRange.get(0).courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
@@ -237,25 +176,13 @@ public class FeedbackResponsesLogic {
         }
         
         List<FeedbackResponseAttributes> responsesInSession = frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
-        List<FeedbackResponseAttributes> validResponsesInSession = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responsesInSession) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-                validResponsesInSession.add(response);
-            }
-        }
-        return validResponsesInSession;
+        return getValidResponses(responsesInSession, responsesInSession.get(0).courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
             String feedbackQuestionId, String userEmail) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, responses.get(0).courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestionInSection(
@@ -266,25 +193,13 @@ public class FeedbackResponsesLogic {
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForReceiverForQuestionInSection(
                                                               feedbackQuestionId, userEmail, section);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, responses.get(0).courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestion(
             String feedbackQuestionId, String userEmail) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, userEmail);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, responses.get(0).courseId);
      }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestionInSection(
@@ -294,26 +209,14 @@ public class FeedbackResponsesLogic {
         }
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesFromGiverForQuestionInSection(
                                                      feedbackQuestionId, userEmail, section);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, responses.get(0).courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
             String giverEmail, String feedbackSessionName, String courseId, long range) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesFromGiverForSessionWithinRange(giverEmail, 
                                                      feedbackSessionName, courseId, range);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, courseId);
     }
 
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId){
@@ -324,25 +227,13 @@ public class FeedbackResponsesLogic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
             String courseId, String userEmail) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, courseId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
             String courseId, String userEmail) {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
-        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response: responses) {
-            if (isResponseValid(response, fqLogic.getFeedbackQuestion(response.feedbackQuestionId))) {
-                validResponses.add(response);
-            }
-        }
-        return validResponses;
+        return getValidResponses(responses, courseId);
     }
 
     /**
@@ -356,13 +247,7 @@ public class FeedbackResponsesLogic {
                     question.getId(), question.courseId, student.team);
         } else {
             List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
-            List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
-            for (FeedbackResponseAttributes response: responses) {
-                if (isResponseValid(response, fqLogic.getFeedbackQuestion(question.getId()))) {
-                    validResponses.add(response);
-                }
-            }
-            return validResponses;
+            return getValidResponses(responses, question.courseId);
         }
     }
 
@@ -983,34 +868,17 @@ public class FeedbackResponsesLogic {
 
         return viewableResponses;
     }
-    
-    public boolean isResponseValid(FeedbackResponseAttributes response,
-                                   FeedbackQuestionAttributes question) {
-        if (response == null || question == null) {
-            return false;
-        }
-        return response.isValid() && isResponseGiverAndReceiverValid(response, question);
-    }
-
-    public boolean isResponseGiverAndReceiverValid(FeedbackResponseAttributes response,
-                                                   FeedbackQuestionAttributes question) {
-        if (question == null || response == null) {
-            return false;
-        }
-
-        return isResponseGiverTypeMatchedToQuestionSetting(response, question) 
-               && isResponseRecipientTypeMatchedToQuestionSetting(response, question);
-    }
-
-    private boolean isResponseGiverTypeMatchedToQuestionSetting(FeedbackResponseAttributes response,
-                                                                FeedbackQuestionAttributes question) {
+    public List<FeedbackResponseAttributes> getValidResponses(List<FeedbackResponseAttributes> responses, String courseId) {
         
-        FeedbackParticipantType giverType = question.giverType;
-        
-        String courseId = response.courseId;
-        if (!courseId.equals(question.courseId)) {
-            return false;
+        // get instructors of the course
+        List<InstructorAttributes> instructors = instructorLogic.getInstructorsForCourse(courseId);
+        ArrayList<String> instructorEmails = new ArrayList<String>();
+        for (int i = 0; i < instructors.size(); i++) {
+            instructorEmails.add(instructors.get(i).email);
         }
+        
+        // get students of the course
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
         
         // get team name from the course
         List<TeamDetailsBundle> teams;
@@ -1018,24 +886,59 @@ public class FeedbackResponsesLogic {
             teams = coursesLogic.getTeamsForCourse(courseId);
         } catch (EntityDoesNotExistException e) {
             log.severe(e.toString());
-            return false;
+            teams = new ArrayList<TeamDetailsBundle>();
         }
-        ArrayList<String> teamName = new ArrayList<String>();
+        ArrayList<String> teamNames = new ArrayList<String>();
         for (int i = 0; i < teams.size(); i++) {
-            teamName.add(teams.get(i).name);
+            teamNames.add(teams.get(i).name);
         }
         
+        ArrayList<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
+        for(FeedbackResponseAttributes response: responses) {
+            if (isResponseValid(response, courseId, instructorEmails, students, teamNames)) {
+                validResponses.add(response);
+            }
+        }
+        return validResponses;
+    }
+    private boolean isResponseValid(FeedbackResponseAttributes response, String courseId,
+                                    List<String> instructorEmails, 
+                                    List<StudentAttributes> students,
+                                    List<String> teamNames) {
+        // get the question for the response
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+        
+        if (response == null || question == null || !response.isValid()) {
+            return false;
+        }
+        
+        ArrayList<String> studentEmails = new ArrayList<String>();
+        for (int i = 0; i < students.size(); i++) {
+            studentEmails.add(students.get(i).email);
+        }
+        
+        return isGiverMatchedQuestionSetting(response, question, instructorEmails, studentEmails, teamNames) 
+               && isRecipientMatchedQuestionSetting(response, question, instructorEmails, students, teamNames);
+    }
+
+    
+
+    private boolean isGiverMatchedQuestionSetting(FeedbackResponseAttributes response, 
+                                                  FeedbackQuestionAttributes question,
+                                                  List<String> instructorEmails, 
+                                                  List<String> studentEmails,
+                                                  List<String> teamNames) {
+        FeedbackParticipantType giverType = question.giverType;
         switch (giverType) {
         case TEAMS:
             // Check if giver is in the course (as a student or an instructor or a team)
-            if (!studentsLogic.isStudentInCourse(courseId, response.giverEmail) 
-                && !instructorLogic.isEmailOfInstructorOfCourse(response.giverEmail, courseId)
-                && !teamName.contains(response.giverEmail)) {
+            if (!studentEmails.contains(response.giverEmail) && !instructorEmails.contains(response.giverEmail)
+                && !teamNames.contains(response.giverEmail)) {
                 return false;
             }
             break;
         case INSTRUCTORS:
-            if (!instructorLogic.isEmailOfInstructorOfCourse(response.giverEmail, courseId)) {
+            if (!instructorEmails.contains(response.giverEmail)) {
                 return false;
             }
             break;
@@ -1046,7 +949,7 @@ public class FeedbackResponsesLogic {
             } 
             break;
         case STUDENTS:
-            if (!studentsLogic.isStudentInCourse(courseId, response.giverEmail)) {
+            if (!studentEmails.contains(response.giverEmail)) {
                 return false;
             }
             break;
@@ -1056,39 +959,31 @@ public class FeedbackResponsesLogic {
         return true;
     }
     
-    private boolean isResponseRecipientTypeMatchedToQuestionSetting(FeedbackResponseAttributes response,
-                                                                    FeedbackQuestionAttributes question) {
-        
-        FeedbackParticipantType recipientType = question.recipientType;    
-        
-        String courseId = response.courseId;
-        if (!courseId.equals(question.courseId)) {
-            return false;
-        }
-        
-        // get team name from the course
-        List<TeamDetailsBundle> teams;
-        try {
-            teams = coursesLogic.getTeamsForCourse(courseId);
-        } catch (EntityDoesNotExistException e) {
-            log.severe(e.toString());
-            return false;
-        }
-        ArrayList<String> teamName = new ArrayList<String>();
-        for (int i = 0; i < teams.size(); i++) {
-            teamName.add(teams.get(i).name);
-        }
+    
+    private boolean isRecipientMatchedQuestionSetting(FeedbackResponseAttributes response,
+                                                      FeedbackQuestionAttributes question,
+                                                      List<String> instructorEmails, 
+                                                      List<StudentAttributes> students,
+                                                      List<String> teamNames) {
         
         String giver;
         String recipient;
         String giverTeam;
         String recipientTeam;
+        FeedbackParticipantType recipientType = question.recipientType;
         
-        if (studentsLogic.isStudentInCourse(courseId, response.giverEmail)) {
+        // get student email
+        ArrayList<String> studentEmails = new ArrayList<String>();
+        for (int i = 0; i < students.size(); i++) {
+            studentEmails.add(students.get(i).email);
+        }
+        
+        if (students.contains(response.giverEmail)) {
             giver = response.giverEmail;
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, response.giverEmail);
+            int index = studentEmails.indexOf(response.giverEmail);
+            StudentAttributes student = students.get(index);
             giverTeam = student.team;
-        } else if (instructorLogic.isEmailOfInstructorOfCourse(response.giverEmail, courseId)) {
+        } else if (instructorEmails.contains(response.giverEmail)) {
             giver = response.giverEmail;
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
@@ -1096,11 +991,12 @@ public class FeedbackResponsesLogic {
             giverTeam = response.giverEmail;
         }
         
-        if (studentsLogic.isStudentInCourse(courseId, response.recipientEmail)) {
+        if (students.contains(response.recipientEmail)) {
             recipient = response.recipientEmail;
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, response.recipientEmail);
+            int index = studentEmails.indexOf(response.recipientEmail);
+            StudentAttributes student = students.get(index);
             recipientTeam = student.team;
-        } else if (instructorLogic.isEmailOfInstructorOfCourse(response.recipientEmail, courseId)) {
+        } else if (instructorEmails.contains(response.recipientEmail)) {
             recipient = response.recipientEmail;
             recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         } else {
@@ -1110,7 +1006,7 @@ public class FeedbackResponsesLogic {
         
         switch(recipientType) {
             case TEAMS:
-                if (!teamName.contains(recipientTeam) || recipientTeam.equals(giverTeam)) {
+                if (!teamNames.contains(recipientTeam) || recipientTeam.equals(giverTeam)) {
                     return false;
                 }
                 break;
@@ -1125,40 +1021,30 @@ public class FeedbackResponsesLogic {
                 }
                 break;
             case INSTRUCTORS:
-                if (!instructorLogic.isEmailOfInstructorOfCourse(response.recipientEmail, courseId)) {
+                if (!instructorEmails.contains(response.recipientEmail)) {
                     return false;
                 }
                 break;
             case STUDENTS:
-                if (!studentsLogic.isStudentInCourse(courseId, response.recipientEmail)) {
+                if (!studentEmails.contains(response.recipientEmail)) {
                     return false;
                 }
                 break;
             case OWN_TEAM_MEMBERS:
-                if (teamName.contains(giver)) {
-                    List<StudentAttributes> studentsInThisTeam = studentsLogic.getStudentsForTeam(giver, courseId);
-                    ArrayList<String> studentEmails = new ArrayList<String>();
-                    for(int i = 0; i < studentsInThisTeam.size(); i++) {
-                        studentEmails.add(studentsInThisTeam.get(i).email);
-                    }
-                    if (!studentEmails.contains(recipient)) {
+                if (teamNames.contains(giver)) {
+                    if (!recipientTeam.equals(giver)) {
                         return false;
-                    }
-                } else if (!studentsLogic.isStudentsInSameTeam(courseId, giver, recipient) || recipient.equals(giver)) {
+                    } 
+                } else if (giverTeam != recipientTeam || recipient.equals(giver)) {
                     return false;
                 }
                 break;
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                if (teamName.contains(giver)) {
-                    List<StudentAttributes> studentsInThisTeam = studentsLogic.getStudentsForTeam(giver, courseId);
-                    ArrayList<String> studentEmails = new ArrayList<String>();
-                    for(int i = 0; i < studentsInThisTeam.size(); i++) {
-                        studentEmails.add(studentsInThisTeam.get(i).email);
-                    }
-                    if (!studentEmails.contains(recipient)) {
+                if (teamNames.contains(giver)) {
+                    if (!recipientTeam.equals(giver)) {
                         return false;
                     }
-                } else if (!studentsLogic.isStudentsInSameTeam(courseId, giver, recipient)) {
+                } else if (giverTeam != recipientTeam) {
                     return false;
                 }
                 break;
