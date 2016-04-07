@@ -70,7 +70,7 @@ Use this checklist to verify that your project setup is correct.
   
    Go to Window → Preferences → Java → Installed JREs. 
    
-   You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add → Standard VM, then for the JRE Path enter the path of the jre folder inside your JDK installation folder. e.g., C:/jdk1.7/jre Now you should see all of the JARs added to the library section.
+   You will note that a JRE path is the one selected, not a JDK path. To fix this, Click add → Standard VM, then for the JRE Path enter the path of the JRE folder inside your JDK installation folder. e.g., C:/jdk1.7/jre Now you should see all of the JARs added to the library section.
 
 3. **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
@@ -110,7 +110,7 @@ Use this checklist to verify that your project setup is correct.
 
 ### How automated browser tests work
 
-  Our automated Browser tests compare generated Web pages with expected pages (these are in the \src\test\resources\pages folder). Such a test case fails when the expected page does not match the actual page. To see the diff between actual and expected, double click the error message in the TestNG tab.
+  Our automated Browser tests compare generated Web pages with expected pages (these are in the /src/test/resources/pages folder). Such a test case fails when the expected page does not match the actual page. To see the diff between actual and expected, double click the error message in the TestNG tab.
   
 Here is an example (use the zoom feature of the Browser to see details of the screenshot).
 
@@ -175,7 +175,7 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
   **SOLUTION**: Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
   
-8. **ERROR**: Browser alert about invalid ssl certificate.
+8. **ERROR**: Browser alert about invalid SSL certificate.
 
   **SOLUTION**: Ensure that test.app.url in your test.properties uses -dot- instead of '.' when using secondary subdomains.
   Eg. `http://4-30-dot-teammates-john.appspot.com`
@@ -192,11 +192,11 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
   **REASON**: The hash of the file in the repo is different from the one used in the live site due to line endings are encoded on different Operating Systems.
 
-  **SOLUTION**: Replace "\src\main\webapp\files\Course Enroll Sample Spreadsheet.csv" with [this copy of file](https://teammatesv4.appspot.com/files/Course%20Enroll%20Sample%20Spreadsheet.csv).
+  **SOLUTION**: Replace "/src/main/webapp/files/Course Enroll Sample Spreadsheet.csv" with [this copy of file](https://teammatesv4.appspot.com/files/Course%20Enroll%20Sample%20Spreadsheet.csv).
 
 12. **ERROR**: "no chromedrive_osx" when testing on Mac using Chrome.
 
-  **SOLUTION**: download the file from [here]( http://chromedriver.storage.googleapis.com/index.html) and extract to /src/test/resources/lib/selenium, then rename it by adding "`_osx`". Refresh the folder in eclipse.
+  **SOLUTION**: Download the file from [here]( http://chromedriver.storage.googleapis.com/index.html) and extract to /src/test/resources/lib/selenium, then rename it by adding "`_osx`". Refresh the folder in eclipse.
 
 13. **ERROR**:java.lang.UnsupportedClassVersionError when running on staging server.
 
