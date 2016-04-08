@@ -272,6 +272,8 @@ function enableNewQuestion() {
     $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + number).show();
     $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + number).show();
 
+    moveAssignWeightsCheckbox($currentQuestionTableSuffix.find('#rubricAssignWeights-' + number));
+
     if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
         $('#mcqChoiceTable-' + number).hide();
         $('#msqChoiceTable-' + number).hide();
@@ -1623,10 +1625,12 @@ function moveAssignWeightsCheckbox(checkbox) {
     $weightsRowFirstCell.empty();
 
     if (checkbox.prop('checked')) {
-        $choicesRowFirstCell.append('Choices');
+        $choicesRowFirstCell.append('Choices <span class="glyphicon glyphicon-arrow-right"></span>');
         $weightsRowFirstCell.append($checkboxCellContent);
+        $weightsRowFirstCell.find('.glyphicon-arrow-right').show();
     } else {
         $choicesRowFirstCell.append($checkboxCellContent);
+        $choicesRowFirstCell.find('.glyphicon-arrow-right').hide();
     }
 }
 
