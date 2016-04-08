@@ -33,7 +33,7 @@ Request from the Browser for a specific page will go through following steps:
 ![UI Workflow](images/UiWorkflow.png)
 
 1. Request received by the GAE server.
-2. Custom filters are applied according to the order specified in `web.xml`. In our case this would be `DatastoreFilter` and `LoginFilter`. For example, the `LoginFilter` will forward any request from not-logged-in users to the login page. If the request is from logged in user, then it will proceed according to the URL. e.g. `/page/instructorHomePage`
+2. Custom filters are applied according to the order specified in `web.xml`. In our case this would be `DatastoreFilter` and `AppstatsFilter`.
 3. Request forwarded to the `ControllerServlet`.
 4. `ControllerServlet` uses the `ActionFactory` to generate the matching `Action` object. E.g., `InstructorHomePageAction`.
 5. `ControllerServlet` executes the action.
@@ -53,8 +53,8 @@ Things to note:
   - Server processes the request separately (creates a `ShowPageResult` object but no `PageData` object) and returns the 'courses' page.
 + The result of some actions is downloading of a file (e.g. an evaluation report). In such cases, the result type will be `FileDownloadResult` and no `PageData` object will be generated.
 + Since the high-level workflow of processing a request is same for any request, we use the , the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process folow into the `Action` class.
-+ The list of actions and corresponding URIs are listed in the `ActionURIs` nested class of the [Const](https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java) class.
-+ The list of pages and corresponding URIs are listed in the `ViewURIs` nested class of the [Const](https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/common/util/Const.java) class.
++ The list of actions and corresponding URIs are listed in the `ActionURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
++ The list of pages and corresponding URIs are listed in the `ViewURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 
 ###Types of pages
 
@@ -62,12 +62,11 @@ The UI consist of following pages:
 + Product pages (functional): e.g., 'courses' page. These require login.
 + Product pages (peripheral): e.g., help pages, error pages. etc.
 + Website pages: These are the static pages of the product website. e.g., `contact.html`
-+ Project pages: Pages meant for developers, such as this page.
 
 ##Logic
 
 The `Logic` component handles the business logic of TEAMMATES. 
-It is accessible via a thin [facade class](http://en.wikipedia.org/wiki/Facade_pattern) called [Logic](https://code.google.com/p/teammatespes/source/browse/src/main/java/teammates/logic/api/Logic.java) which makes use of several *`Logic` classes to handle the logic related to various types of data and to access data from the `Storage` component. In particular, `Logic` is responsible for these: 
+It is accessible via a thin [facade class](http://en.wikipedia.org/wiki/Facade_pattern) called [Logic](../src/main/java/teammates/logic/api/Logic.java) which makes use of several `*Logic` classes to handle the logic related to various types of data and to access data from the `Storage` component. In particular, `Logic` is responsible for these: 
 + Managing relationships between entities. e.g., cascade logic for create/update/delete.
 + Managing transactions. e.g., to ensure atomicity of a transaction.
 + Sanitizing input values recevied from the UI component.
@@ -80,6 +79,7 @@ Package overview:
 + **`logic.backdoor`**: Provides a mechanism for the test driver to access data.
 + **`logic.core`**: Contains the core logic of the system.
 + **`logic.automated`**: Contains the logic of automated tasks.
++ **`logic.publicresource`**: Contains the logic for retrieving data without the need for authentication.
 
 ###Logic API
 
@@ -94,13 +94,13 @@ General:
 + Null values should **not** be used as parameters to this API, except when following the KeepExisting policy (explained later).
 
 Access control:
-+ Although this component provides methods to perform access control, it API itself is not access controlled. The UI is expected to check access control (using `GateKeeper` class) before calling a method in the `Logic`.
++ Although this component provides methods to perform access control, the API itself is not access controlled. The UI is expected to check access control (using `GateKeeper` class) before calling a method in the `Logic`.
 + However, calls received by `BackDoorServlet` are authenticated using the 'backdoor key'. Backdoor key is a string known only to the person who deployed the app (typically, the administrator).
 
 API for creating entities:
 + Null parameters: Causes an assertion failure.
 + Invalid parameters: Throws `InvalidParametersException`.
-+ Entity already exists: Throws `EntityAlreadyExists` exception (escalated from Storage level).
++ Entity already exists: Throws `EntityAlreadyExistsException` (escalated from Storage level).
 + When creating `Evaluations`, `Submission` entities are automatically created at the time of creating an evaluation or changing the team structure of a course.
 
 API for retrieving entities:
@@ -113,7 +113,7 @@ API for updating entities:
 + Primary keys cannot be edited except: `Student.email`.
 + KeepExistingPolicy: the new value of an optional attribute is specified as `null` or set to “Uninitialized”, the existing value will prevail. {This is not a good policy. To be reconsidered}.
 + `Null` parameters: Throws an assertion error if that parameter cannot be null. Optional attributes follow KeepExistingPolicy.
-+ Entity not found: Throws `EntityDoesNotExistException` exception.
++ Entity not found: Throws `EntityDoesNotExistException`.
 + Invalid parameters: Throws `InvalidParametersException`.
 
 API for deleting entities:
@@ -132,6 +132,7 @@ Package overview:
 + **`storage.api`**: Provides the normal API of the component.
 + **`storage.entity`**: Classes that represent persistable entities.
 + **`storage.datastore`**: Classes for dealing with the datastore.
++ **`storage.search`**: Classes for dealing with searching and indexing.
 
 Storage contains minimal logic beyond what is directly relevant to CRUD operations. 
 
@@ -139,9 +140,9 @@ In particular, it handles these:
 + Validating data inside entities before creating/updating them, to ensure they are in a valid state.
 + Hiding the complexities of datastore from the `Logic` component. All GQL queries are to be contained inside the `Storage` component.
 + Protecting persitable objects: Classes in the `storage::entity` package are not visible outside this component to prevent accidental modification to the entity's attributes (Since these classes have been marked as 'persistence capable', and changes to their attributes are automatically persisted to the datastore by default). 
-Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named *`Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned, where values can be modified easily without any impact on the persistent data copy. These datatransfer classes are in `common::datatransfer` package explained later. Note: This decision was taken before GAE started supporting [the ability to 'detach' entities](https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata) to prevent accidental modifications to persistable data. The decision to use data transfer objects is to be reconsidered in the future.
+Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned, where values can be modified easily without any impact on the persistent data copy. These datatransfer classes are in `common::datatransfer` package explained later. Note: This decision was taken before GAE started supporting [the ability to 'detach' entities](https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata) to prevent accidental modifications to persistable data. The decision to use data transfer objects is to be reconsidered in the future.
 
-The `Storage` component will not perform any cascade delete/create operations.Cascade logic is currently handled by the `Logic` component. 
+The `Storage` component will not perform any cascade delete/create operations. Cascade logic is currently handled by the `Logic` component. 
 
 Note that the navigability of the association links between entity objects appear to be in the reverse direction of what we see in a normal OOP design. This is because we want to keep the data scheme flexible so that new entity types can be added later with minimal modifications to existing elements.
 
@@ -156,7 +157,7 @@ General:
 + If `Null` is passed as a parameter, the corresponding value is **NOT** modified, as per the KeepExistingPolicy that was previously mentioned.
 
 API for creating:
-+ Attempt to create an entity that already exists: Throws `EntityAlreadyExists` exception.
++ Attempt to create an entity that already exists: Throws `EntityAlreadyExistsException`.
 + Attempt to create an entity with invalid data: Throws `InvalidParametersException`.
 
 API for retrieving:
@@ -199,13 +200,15 @@ This component automates the testing of TEAMMATES.
 Package overview:
 + **`test.driver`**: Contains infrastructure need for running the test driver.
 + **`test.pageobjects`**: Contains abstractions of the pages as the appear on a Browser (i.e. SUTs).
++ **`test.util`**: Contains helper methods.
 + **`test.cases`**:   Contains test cases.  
   Sub packages:  
  - **`.cases.driver`**: Component test cases for testing test driver infrastructure.
- - **`.cases.browsertests`**: System test cases for testing the UI.
+ - **`.cases.automated`**: Component test cases for testing some automated tasks.
  - **`.cases.common`**: Component test cases for testing the `Common` component.
  - **`.cases.logic`**: Component test cases for testing the `Logic` component.
  - **`.cases.storage`**: Component test cases for testing the `Storage` component.
+ - **`.cases.ui`**: System test cases for testing the UI.
 
 Notes:
 + Component tests: Some of these are pure unit tests (i.e., test one component in isolation) while others are integration tests that tests units as well as integration of units with each other.
@@ -213,9 +216,12 @@ Notes:
 
 This is how TEAMMATES testing maps to standard types of testing. 
 
-Normal: `|---------acceptance tests----|---system tests----|-----integration tests-----|------unit tests---------|`
-
-TEAMMATES: `|---------manual testing-------------|` `----automated UI tests----|---automated component tests---|`
+```
+Normal
+|---------acceptance tests----|---system tests----|-----integration tests-----|------unit tests---------|
+|-------------manual testing-------------|----automated UI tests----|-----automated component tests-----|
+TEAMMATES
+```
 
 ##Client
 
