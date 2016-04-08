@@ -51,7 +51,7 @@ Things to note:
   - Server performs the action (creates a `RedirectResult` object but no `PageData` object) and instructs the Browser to load the 'courses' page.
   - As instructed, the Browser requests for the 'courses' page.
   - Server processes the request separately (creates a `ShowPageResult` object but no `PageData` object) and returns the 'courses' page.
-+ The result of some actions is downloading of a file (e.g. an evaluation report). In such cases, the result type will be `FileDownloadResult` and no `PageData` object will be generated.
++ The result of some actions is downloading of a file (e.g. a feedback session report). In such cases, the result type will be `FileDownloadResult` and no `PageData` object will be generated.
 + Since the high-level workflow of processing a request is same for any request, we use the , the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process folow into the `Action` class.
 + The list of actions and corresponding URIs are listed in the `ActionURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 + The list of pages and corresponding URIs are listed in the `ViewURIs` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
@@ -101,7 +101,6 @@ API for creating entities:
 + Null parameters: Causes an assertion failure.
 + Invalid parameters: Throws `InvalidParametersException`.
 + Entity already exists: Throws `EntityAlreadyExistsException` (escalated from Storage level).
-+ When creating `Evaluations`, `Submission` entities are automatically created at the time of creating an evaluation or changing the team structure of a course.
 
 API for retrieving entities:
 + Attempting to retrieve objects using `null` parameters: Causes an assertion failure.
@@ -187,7 +186,7 @@ Package overview:
 
   (a) `Test Driver` can use the `DataBundle` in this manner to send an arbitrary number of objects to be persisted in the database.  
   (b) This structure can be used to transfer data of a course (e.g., when constructing the home page for an instructor).  
-  (c) This structure can be used to send results of an evaluation (e.g., when showing an evaluation report to an instructor).   
+  (c) This structure can be used to send results of a feedback session (e.g., when showing a feedback session report to an instructor).   
 
 For convenience, these classes use public variables for data. This is not a good practice as it contravenes OO principle of _information hiding_ and increases the risk of inconsistent data. This strategy is to be reconsidered at a later date. 
 
