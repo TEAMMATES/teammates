@@ -317,7 +317,11 @@ public class StudentsDb extends EntitiesDb {
         List<Student> entities = getStudentEntities();
         Iterator<Student> it = entities.iterator();
         while(it.hasNext()) {
-            list.add(new StudentAttributes(it.next()));
+            Student student = it.next();
+            
+            if (!JDOHelper.isDeleted(student)) {
+                list.add(new StudentAttributes(student));
+            }
         }
         return list;
     }
@@ -558,7 +562,7 @@ public class StudentsDb extends EntitiesDb {
         return studentList.get(0);
     }
 
-    private List<Student> getStudentEntitiesForCourse(String courseId) {
+    public List<Student> getStudentEntitiesForCourse(String courseId) {
         Query q = getPM().newQuery(Student.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("courseID == courseIdParam");
@@ -612,7 +616,11 @@ public class StudentsDb extends EntitiesDb {
         return studentList;
     }
 
-    private List<Student> getStudentEntities() { 
+    @Deprecated
+    /**
+     * Retrieves all student entities. This function is not scalable.
+     */
+    public List<Student> getStudentEntities() { 
         
         Query q = getPM().newQuery(Student.class);
         

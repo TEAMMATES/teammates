@@ -13,7 +13,7 @@ public class InstructorHomePageData extends PageData {
     private boolean isSortingDisabled;
     private List<CourseTable> courseTables;
     private String sortCriteria;
-
+    
     public InstructorHomePageData(AccountAttributes account) {
         super(account);
     }
@@ -36,6 +36,15 @@ public class InstructorHomePageData extends PageData {
         return courseTables;
     }
     
+    /**
+     * Retrieves the link to submit the request to remind particular students.
+     * Also contains home page link to return after the action.
+     * @return form submit action link
+     */
+    public String getRemindParticularStudentsLink() {
+        return getInstructorFeedbackRemindParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+    }
+
     /**
      * Retrieves the link to submit the request for copy of session. 
      * Also contains home page link to return after the action.

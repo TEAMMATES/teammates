@@ -296,8 +296,32 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    public void testPublishUnpublishActions(){
-        //TODO add test for publishing and unpublishing feedback sessions
+    public void testPublishUnpublishActions() {
+        ______TS("publish action: AWAITING feedback session");
+        
+        homePage.verifyUnclickable(homePage.getPublishLink(feedbackSession_AWAITING.courseId, feedbackSession_AWAITING.feedbackSessionName));
+
+        ______TS("publish action: OPEN feedback session");
+        
+        homePage.clickAndCancel(homePage.getPublishLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
+
+        ______TS("publish action: CLOSED feedback session");
+        
+        homePage.clickAndCancel(homePage.getPublishLink(feedbackSession_CLOSED.courseId, feedbackSession_CLOSED.feedbackSessionName));
+        
+        ______TS("unpublish action: PUBLISHED feedback session");
+        homePage.clickFeedbackSessionUnpublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
+        assertFalse(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
+                                                feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
+
+        ______TS("publish action: PUBLISHED feedback session");
+        homePage.clickFeedbackSessionPublishLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName);
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
+        assertTrue(BackDoor.getFeedbackSession(feedbackSession_PUBLISHED.courseId, 
+                                               feedbackSession_PUBLISHED.feedbackSessionName).isPublished());
     }
     
     public void testArchiveCourseAction() throws Exception {
