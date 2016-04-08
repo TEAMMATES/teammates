@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,6 +42,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         testLinks();
         testScript();
         testAction();
+        testPanelsCollapseExpand();
     }
 
     private void testContent() throws Exception {
@@ -173,6 +176,19 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);
         return loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
+    }
+
+    private void testPanelsCollapseExpand() {
+
+        ______TS("Typical case: panels expand/collapse");
+
+        viewPage.clickAllRecordPanelHeadings();
+        viewPage.waitForPanelsToCollapse();
+        assertTrue(viewPage.areRecordsHidden());
+
+        viewPage.clickAllRecordPanelHeadings();
+        viewPage.waitForPanelsToExpand();
+        assertTrue(viewPage.areRecordsVisible());
     }
 
     @AfterClass
