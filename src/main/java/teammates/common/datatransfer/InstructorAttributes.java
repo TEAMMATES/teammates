@@ -315,11 +315,6 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
-     * Compares this instructor with another instructor. JsonParser is used
-     * instead of {@code this.getJsonString().equals(instructor.getJsonString)}
-     * so that the comparison ignores the order of key-value pairs in the json
-     * strings.
-     * 
      * @param instructor
      *            the {@link InstructorAttributes} of an instructor, cannot be
      *            {@code null}
@@ -327,6 +322,9 @@ public class InstructorAttributes extends EntityAttributes {
      *         {@code instructor}, otherwise false
      */
     public boolean isEqualToAnotherInstructor(InstructorAttributes instructor) {
+        // JsonParser is used instead of
+        // this.getJsonString().equals(instructor.getJsonString) so that the
+        // comparison ignores the order of key-value pairs in the json strings.
         JsonParser parser = new JsonParser();
         return parser.parse(getJsonString()).equals(parser.parse(instructor.getJsonString()));
     }
