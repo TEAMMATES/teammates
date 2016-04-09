@@ -21,10 +21,10 @@
     "AutSessRem.instructor": {
       "googleId": "AutSessRem.instructor",
       "courseId": "AutSessRem.course",
-      "name": "Test Ins for Aut Sessions Reminder",
+      "name": "Test Ins for Aut Sessions Reminder</td></div>'\"",
       "email": "${value.injected.in.testfile}",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "instructorPrivilegesAsText": "{
         \"courseLevel\": {
           \"canviewstudentinsection\": true,
