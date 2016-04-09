@@ -266,7 +266,7 @@ public class InstructorCommentsPage extends AppPage {
     public void waitForPanelsToCollapse() {
         By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
         
-        waitForElementToDisappear(panelCollapseSelector);
+        waitForElementsToDisappear(browser.driver.findElements(panelCollapseSelector));
     }
     
     /**
