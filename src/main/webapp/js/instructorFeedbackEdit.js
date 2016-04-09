@@ -1477,6 +1477,8 @@ function addRubricCol(questionNumber) {
     // Insert after last <th>
     var lastWeightCell = $('#rubricWeights-' + questionNumber + ' th:last');
     $(rubricWeightFragment).insertAfter(lastWeightCell);
+    
+    disallowNonNumericEntries($('#rubricWeight-' + questionNumber + '-' + (newColNumber - 1)), true, true);
 
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
