@@ -44,7 +44,7 @@
                     <select class="form-control margin-bottom-7px" name="<%= Const.ParamsNames.PREVIEWAS %>">
                         <c:forEach items="${previewForm.instructorToPreviewAsOptions}" var="option">
                             <option ${option.attributesToString}>
-                                ${option.content}
+                                ${fn:escapeXml(option.content)}
                             </option>
                         </c:forEach>
                     </select>
