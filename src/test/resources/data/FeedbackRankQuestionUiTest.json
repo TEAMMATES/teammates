@@ -41,10 +41,10 @@
     "instructor1": {
       "googleId": "FRankUiT.instructor",
       "courseId": "FRankUiT.CS4221",
-      "name": "Teammates Test",
+      "name": "Teammates Test</td></div>'\"",
       "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
-      "displayedName":"Co-owner",
+      "displayedName":"Co-owner</td></div>'\"",
       "isDisplayedToStudents":true,
       "instructorPrivilegesAsText": "{
         \"courseLevel\": {
@@ -67,10 +67,10 @@
     "instructorhelper": {
       "googleId": "FRankUiT.helper",
       "courseId": "FRankUiT.CS4221",
-      "name": "Teammates Helper who can only see section 1",
+      "name": "Teammates Helper who can only see section 1</td></div>'\"",
       "email": "tmms.helper1@gmail.tmt",
       "role":"Custom",
-      "displayedName":"Helper",
+      "displayedName":"Helper</td></div>'\"",
       "isDisplayedToStudents":true,
       "instructorPrivilegesAsText":"{  
         \"courseLevel\": {
