@@ -8,7 +8,6 @@
     * [How automated browser tests work](#how-automated-browser-tests-work)
     * [Getting help to resolve test failures](#getting-help-to-resolve-test-failures)
     * [Common test errors and solutions](#common-test-errors-and-solutions)
-        * [Errors specific to Linux](#errors-specific-to-linux)
 
 This document can help you to fix the problems encountered while contributing to TEAMMATES. Failing that, you can [post in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new) to ask for help. Remember to supply as much relevant information as possible when asking for help. e.g. Which operating system are you using.
 
@@ -134,13 +133,13 @@ Remember to state which tests are failing and for each of those
 
 ### Common test errors and solutions
 
-1. **Error**: Encountered "java.net.ConnectException: Connection refused" when running some tests.
+1. **ERROR**: Encountered "java.net.ConnectException: Connection refused" when running some tests.
 
-  **Solution**: Ensure that your dev server is started prior to running those tests.
+  **SOLUTION**: Ensure that your dev server is started prior to running those tests.
 
-2. **Error**: Encountered "org.openqa.selenium.WebDriverException: Unable to bind to locking port 7054 within 45000 ms" when running tests with Browser.
+2. **ERROR**: Encountered "org.openqa.selenium.WebDriverException: Unable to bind to locking port 7054 within 45000 ms" when running tests with Browser.
 
-  **Solution**: Ensure compatible version of Firefox is installed as specified under Prerequisites.
+  **SOLUTION**: Ensure compatible version of Firefox is installed as specified under Prerequisites.
   
 3. **ERROR**: Tests fail randomly during dev server testing.
 
@@ -207,8 +206,6 @@ Refer [this page](http://java.wildstartech.com/Java-Platform-Standard-Edition/ma
 
   **SOLUTION**: "Allow access for less secure apps" for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes. Check for [reference]( https://support.google.com/accounts/answer/6010255?hl=en).
 
-#### Errors specific to Linux
-
-   **ERROR**: java.io.IOException: Directory "/tmpfiles" could not be created.
+15. **ERROR (on Linux)**: java.io.IOException: Directory "/tmpfiles" could not be created.
 
    **SOLUTION**: Specify an additional parameter, -Djava.io.tmpdir, in the VM arguments for the tests' run configurations. Add "-Djava.io.tmpdir=/path/to/teammates/tmp". The "tmp" folder in the specified directory needs to be created before running the tests.
