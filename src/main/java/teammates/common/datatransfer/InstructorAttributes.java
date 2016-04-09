@@ -315,6 +315,11 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     /**
+     * Compares this instructor with another instructor. JsonParser is used
+     * instead of {@code this.getJsonString().equals(instructor.getJsonString)}
+     * so that the comparison ignores the order of key-value pairs in the json
+     * strings.
+     * 
      * @param instructor
      *            the {@link InstructorAttributes} of an instructor, cannot be
      *            {@code null}
