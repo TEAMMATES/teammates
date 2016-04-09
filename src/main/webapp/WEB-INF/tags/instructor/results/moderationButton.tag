@@ -11,7 +11,7 @@
     <input type="hidden" name="courseid" value="${moderationButton.courseId}">
     <input type="hidden" name="fsname" value="${moderationButton.feedbackSessionName}">
     <c:if test="${moderationButton.questionNumber != -1}">
-        <input type="hidden" name="moderatedquestion" value="${moderationButton.questionNumber}">
+        <input type="hidden" name="moderatedquestionid" value="${moderationButton.questionId}">
     </c:if>
     <input type="hidden" name="moderatedstudent" value="${fn:escapeXml(moderationButton.giverIdentifier)}">
 </form>
