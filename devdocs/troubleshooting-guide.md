@@ -52,7 +52,7 @@ Use this checklist to verify that your project setup is correct.
 
 6. **Check for compilation errors**
 
-    Markers tab should have 0 errors.
+    Markers tab should have 0 errors. Warnings are generally fine to be ignored.
 
     ![setup-checklist-5.png](images/setup-checklist-5.png)
 
@@ -74,7 +74,7 @@ Use this checklist to verify that your project setup is correct.
 
 3. **ERROR**: When trying to deploy, Eclipse complains "... Cannot get the System Java Compiler. Please use a JDK, not a JRE.".
 
-  **SOLUTION**: You can force Eclipse to use the JDK (instead of JRE) by modifying the eclipse.ini file. See here for more details.
+  **SOLUTION**: You can force Eclipse to use the JDK (instead of JRE) by modifying the eclipse.ini file. See [here](http://stackoverflow.com/questions/13913019/changing-jdk-in-eclipse) for more details.
 
 4. **ERROR (on Windows)**: Dev server launched by Eclipse keeps running even after closing Eclipse. After restarting Eclipse, you'll be able to relaunch dev server on the same port but requests will be received by the previous server instance.
 
@@ -123,7 +123,7 @@ Here is an example (use the zoom feature of the Browser to see details of the sc
  `<expected></expected>` | `<actual></actual>` | These are inserted by the test code for easier reference, after the comparison has been done. 
  {*} | Any text | The expression {*} is used to mark a piece of text we cannot predict in advance. e.g. current time. These differences are ignored by our comparison algorithm. 
 
-  Furthermore, you might see tags such as ${test.student1} and ${version} in some of the  expected files (e.g. StudentHomeHTML.html) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, ${version} will be replaced by something like V4.89
+  Furthermore, you might see tags such as ${test.student1} and ${version} in some of the expected files (e.g. StudentHomeHTML.html) if you open them in Eclipse. The test code will replace those tags with correct values before performing the comparison. For example, ${version} will be replaced by something like V4.89
 
 ### Getting help to resolve test failures
 
