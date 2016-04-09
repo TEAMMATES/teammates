@@ -82,7 +82,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
         
-        data.bundle.hideQuestionsWithAnonymousResponses();
+        data.bundle.hideQuestionsWithHiddenResponsesOrAnonymousRecipientOrGiver();
         data.init(courseId);
         
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
