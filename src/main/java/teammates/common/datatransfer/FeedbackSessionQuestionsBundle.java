@@ -108,9 +108,9 @@ public class FeedbackSessionQuestionsBundle {
      
     /**
      * Removes question from the bundle if the question has givers or recipients that are anonymous to the instructor
-     * or responses that are hidden from the instructors.
+     * or responses that are hidden from the instructor.
      */
-    public void hideQuestionsWithHiddenResponsesOrAnonymousRecipientOrGiver() {
+    public void hideUnmoderatableQuestions() {
         List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
