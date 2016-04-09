@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
@@ -35,6 +36,8 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_DELETE_TEAM_PROFILE = "OPERATION_DELETE_TEAM_PROFILE";
     public static final String OPERATION_DELETE_TFS = "OPERATION_DELETE_TFS";
     public static final String OPERATION_DELETE_FEEDBACK_SESSION = "OPERATION_DELETE_FEEDBACK_SESSION";
+    public static final String OPERATION_DELETE_FEEDBACK_QUESTION = "OPERATION_DELETE_FEEDBACK_QUESTION";
+    public static final String OPERATION_DELETE_FEEDBACK_RESPONSE = "OPERATION_DELETE_FEEDBACK_RESPONSE";
     public static final String OPERATION_EDIT_ACCOUNT = "OPERATION_EDIT_ACCOUNT";
     public static final String OPERATION_EDIT_FEEDBACK_SESSION = "OPERATION_EDIT_FEEDBACK_SESSION";
     public static final String OPERATION_EDIT_FEEDBACK_QUESTION = "OPERATION_EDIT_FEEDBACK_QUESTION";
@@ -261,12 +264,21 @@ public class BackDoorServlet extends HttpServlet {
             return backDoorLogic.getFeedbackQuestionAsJson(feedbackSessionName, courseId, qnNumber);            
         }  else if (action.equals(OPERATION_GET_FEEDBACK_QUESTION_FOR_ID_AS_JSON)) { 
             String questionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
-            return backDoorLogic.getFeedbackQuestionForIdAsJson(questionId);            
-        }  else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON)) { 
+            return backDoorLogic.getFeedbackQuestionForIdAsJson(questionId);
+        } else if (action.equals(OPERATION_DELETE_FEEDBACK_QUESTION)) {
+            String questionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
+            backDoorLogic.deleteFeedbackQuestion(questionId);
+        } else if (action.equals(OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON)) { 
             String feedbackQuestionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
             String giverEmail = req.getParameter(PARAMETER_GIVER_EMAIL);
             String recipient = req.getParameter(PARAMETER_RECIPIENT);
             return backDoorLogic.getFeedbackResponseAsJson(feedbackQuestionId, giverEmail, recipient);            
+        } else if (action.equals(OPERATION_DELETE_FEEDBACK_RESPONSE)) {
+            String feedbackQuestionId = req.getParameter(PARAMETER_FEEDBACK_QUESTION_ID);
+            String giverEmail = req.getParameter(PARAMETER_GIVER_EMAIL);
+            String recipient = req.getParameter(PARAMETER_RECIPIENT);
+            FeedbackResponseAttributes fr = backDoorLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
+            backDoorLogic.deleteFeedbackResponse(fr);
         } else {
             throw new Exception("Unknown command: " + action);
         }

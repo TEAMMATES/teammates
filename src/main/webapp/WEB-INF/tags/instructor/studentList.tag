@@ -22,25 +22,21 @@
             <thead class="${tableHeaderClass}">
                 <tr id="resultsHeader-${courseIndex}">
                     <th>Photo</th>
-                    <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this,2)">
+                    <th id="button_sortsection-${courseIndex}" class="button-sort-none<c:if test="${not hasSection}"> hidden</c:if>" onclick="toggleSort(this)">
                         Section <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,3)">
+                    <th id="button_sortteam-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Team <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,4)">
+                    <th id="button_sortstudentname-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <c:if test="${not fromCourseDetailsPage}">
-                        <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this,5)">
-                            Email <span class="icon-sort unsorted"></span>
-                        </th>
-                    </c:if>
-                    <c:if test="${fromCourseDetailsPage}">
-                        <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
-                            Status <span class="icon-sort unsorted"></span>
-                        </th>
-                    </c:if>
+                    <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this)">
+                        Status <span class="icon-sort unsorted"></span>
+                    </th>
+                    <th id="button_sortemail-${courseIndex}" class="button-sort-none" onclick="toggleSort(this)">
+                        Email <span class="icon-sort unsorted"></span>
+                    </th>
                     <th>Action(s)</th>
                 </tr>
             </thead>
@@ -53,7 +49,7 @@
                         <%-- generated here but to be appended to #sectionChoices in instructorStudentList.jsp
                              will be transported via JavaScript in instructorStudentListAjax.js --%>
                         <div class="checkbox section-to-be-transported">
-                            <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked="checked" class="section_check">
+                            <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked class="section_check">
                             <label for="section_check-${courseIndex}-${sectionIndex}">
                                 [${courseId}] : <c:out value="${section.sectionName}"/>
                             </label>
@@ -65,7 +61,7 @@
                             <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
                                  will be transported via JavaScript in instructorStudentListAjax.js --%>
                             <div class="checkbox team-to-be-transported">
-                                <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked="checked" class="team_check">
+                                <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked class="team_check">
                                 <label for="team_check-${courseIndex}-${sectionIndex}-${teamIndex}">
                                     [${courseId}] : <c:out value="${team.teamName}"/>
                                 </label>
@@ -97,16 +93,12 @@
                                 <td id="studentname-c${courseIndex}.${studentIndex}">
                                     <c:out value="${student.studentName}"/>
                                 </td>
-                                <c:if test="${not fromCourseDetailsPage}">
-                                    <td id="studentemail-c${courseIndex}.${studentIndex}">
-                                        <c:out value="${student.studentEmail}"/>
-                                    </td>
-                                </c:if>
-                                <c:if test="${fromCourseDetailsPage}">
-                                    <td class="align-center">
-                                        ${student.studentStatus}
-                                    </td>
-                                </c:if>
+                                <td class="align-center">
+                                    ${student.studentStatus}
+                                </td>
+                                <td id="studentemail-c${courseIndex}.${studentIndex}">
+                                    <c:out value="${student.studentEmail}"/>
+                                </td>
                                 <td class="no-print align-center">
                                     <a class="btn btn-default btn-xs student-view-for-test"
                                        href="${student.courseStudentDetailsLink}"
@@ -114,7 +106,7 @@
                                        target="_blank"
                                        data-toggle="tooltip"
                                        data-placement="top"
-                                       <c:if test="${not section.allowedToViewStudentInSection}">disabled="disabled"</c:if>>
+                                       <c:if test="${not section.allowedToViewStudentInSection}">disabled</c:if>>
                                         View
                                     </a>
                                     <a class="btn btn-default btn-xs student-edit-for-test"
@@ -123,7 +115,7 @@
                                        target="_blank"
                                        data-toggle="tooltip"
                                        data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                       <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
                                         Edit
                                     </a>
                                     <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
@@ -133,7 +125,7 @@
                                            data-toggle="tooltip"
                                            data-placement="top"
                                            onclick="return toggleSendRegistrationKey()"
-                                           <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                           <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
                                             Send Invite
                                         </a>
                                     </c:if>
@@ -143,7 +135,7 @@
                                        title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
                                        data-toggle="tooltip"
                                        data-placement="top"
-                                       <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                       <c:if test="${not section.allowedToModifyStudent}">disabled</c:if>>
                                         Delete
                                     </a>
                                     <a class="btn btn-default btn-xs student-records-for-test"
@@ -166,7 +158,7 @@
                                         <a class="btn btn-default btn-xs dropdown-toggle"
                                            href="javascript:;"
                                            data-toggle="dropdown"
-                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled="disabled"</c:if>>
+                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled</c:if>>
                                             <span class="caret"></span><span class="sr-only">Add comments</span>
                                         </a>
                                         <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">

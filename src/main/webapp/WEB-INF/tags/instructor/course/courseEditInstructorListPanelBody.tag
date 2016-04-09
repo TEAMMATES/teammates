@@ -23,7 +23,7 @@
                     <div class="col-sm-9">
                         <input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
                                 value="${instructorPanel.instructor.googleId}" maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" 
-                                tabindex="3" disabled="disabled">
+                                tabindex="3" disabled>
                     </div>
                 </div>
             </c:if>
@@ -34,7 +34,7 @@
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" 
                             id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${fn:escapeXml(instructorPanel.instructor.name)}" 
                             data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor." 
-                            maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="4" disabled="disabled">
+                            maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="4" disabled>
                 </div>
             </div>
         
@@ -44,7 +44,7 @@
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" 
                             id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>${instructorPanel.index}" value="${fn:escapeXml(instructorPanel.instructor.email)}"
                             data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor." 
-                            maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="5" disabled="disabled"
+                            maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="5" disabled
                             <c:if test="${empty instructorPanel.instructor.googleId}">
                                 readonly="readonly"
                             </c:if> >
@@ -55,10 +55,10 @@
                 <label class="col-sm-3 control-label">
                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
                             <c:if test="${instructorPanel.instructor.displayedToStudents}">
-                                checked="checked"
+                                checked
                             </c:if>
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
-                            disabled="disabled">
+                            disabled>
                     Display to students as:
                 </label>
 
@@ -66,7 +66,7 @@
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
                             placeholder="E.g.Co-lecturer, Teaching Assistant" value="${fn:escapeXml(instructorPanel.instructor.displayedName)}"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"
-                            disabled="disabled"/>
+                            disabled>
                 </div>
             </div>
 

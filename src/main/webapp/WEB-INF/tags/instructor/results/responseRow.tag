@@ -2,6 +2,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="responseRow" type="teammates.ui.template.InstructorFeedbackResultsResponseRow" required="true" %>
@@ -20,7 +21,6 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    
                         <div class="align-center" data-link="">
                             <a class="student-profile-pic-view-link btn-link">
                                 No Photo
@@ -30,20 +30,20 @@
              </c:choose>
                 </td>
         </c:if>
+        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.giverTeam)}</td>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.giverProfilePictureLink && !responseRow.giverProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.giverProfilePictureLink}">
-                    ${responseRow.giverDisplayableIdentifier}
+                    ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>             
             </c:when>
             <c:otherwise>  
-                ${responseRow.giverDisplayableIdentifier}
+                ${fn:escapeXml(responseRow.giverDisplayableIdentifier)}
             </c:otherwise>
         </c:choose>   
         </td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.giverTeam}</td>
     </c:if>
     <c:if test="${responseRow.recipientDisplayed}">
         <c:if test="${responseRow.recipientProfilePictureAColumn}">
@@ -58,31 +58,29 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        
                             <div class="align-center" data-link="">
                                 <a class="student-profile-pic-view-link btn-link">
                                     No Photo
                                 </a>
                             </div>
-                       
                     </c:otherwise>
                 </c:choose>
             </td>
         </c:if>
+        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${fn:escapeXml(responseRow.recipientTeam)}</td>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
             <c:when test="${not empty responseRow.recipientProfilePictureLink && !responseRow.recipientProfilePictureAColumn}">
                 <div class="profile-pic-icon-hover" data-link="${responseRow.recipientProfilePictureLink}">
-                    ${responseRow.recipientDisplayableIdentifier}
+                    ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                 </div>             
             </c:when>
             <c:otherwise>  
-                ${responseRow.recipientDisplayableIdentifier}
+                ${fn:escapeXml(responseRow.recipientDisplayableIdentifier)}
             </c:otherwise>
         </c:choose>   
         </td>
-        <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.recipientTeam}</td>
     </c:if>
     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
     <td class="text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
@@ -93,5 +91,4 @@
             </c:if>
         </td>
     </c:if>
-
 </tr>

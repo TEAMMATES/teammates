@@ -113,7 +113,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
-      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+      "instructorPrivilegesAsText": "{
+          \"courseLevel\": {
+            \"canviewstudentinsection\": true,
+            \"cangivecommentinsection\": true,
+            \"cansubmitsessioninsection\": true,
+            \"canmodifysessioncommentinsection\": true,
+            \"canmodifycommentinsection\": true,
+            \"canmodifycourse\": true,
+            \"canviewsessioninsection\": true,
+            \"canmodifysession\": true,
+            \"canviewcommentinsection\": true,
+            \"canmodifystudent\": true,
+            \"canmodifyinstructor\": true
+          },
+          \"sectionLevel\": {},
+          \"sessionLevel\": {}
+      }"
     }
   },
 
@@ -2785,7 +2801,7 @@
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
             "receiverEmail":"alice.b.tmms@gmail.tmt",
-            "createdAt":"2016-04-01 11:59 PM UTC",
+            "createdAt":"2016-03-30 11:59 PM UTC",
             "commentText":{
                 "value":"Alice wanted me to help her catch up with project work"
             }
@@ -2801,7 +2817,7 @@
             "showGiverNameTo": [TEAM],
             "showRecipientNameTo": [TEAM],
             "receiverEmail":"benny.c.tmms@gmail.tmt",
-            "createdAt":"2016-04-02 11:59 PM UTC",
+            "createdAt":"2016-03-31 11:59 PM UTC",
             "commentText":{
                 "value":"Benny, Thanks for helping Alice in her project work. Keep up the good work!"
             }

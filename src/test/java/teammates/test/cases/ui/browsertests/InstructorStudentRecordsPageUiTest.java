@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,6 +42,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         testLinks();
         testScript();
         testAction();
+        testPanelsCollapseExpand();
     }
 
     private void testContent() throws Exception {
@@ -59,7 +62,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         viewPage = getStudentRecordsPage();
         // This is the full HTML verification for Instructor Student Records Page, the rest can all be verifyMainHtml
-        viewPage.verifyHtmlAjax("/instructorStudentRecords.html");
+        viewPage.verifyHtml("/instructorStudentRecords.html");
 
         ______TS("content: typical case, normal student records with comments, helper view");
 
@@ -70,7 +73,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsWithHelperView.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsWithHelperView.html");
 
         ______TS("content: normal student records with private feedback session");
 
@@ -82,7 +85,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
 
         ______TS("content: no student records, no profiles");
 
@@ -94,7 +97,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsPageNoRecords.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageNoRecords.html");
 
         ______TS("content: multiple feedback session type student record");
 
@@ -108,7 +111,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
 
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlAjaxMainContent("/instructorStudentRecordsPageMixedQuestionType.html");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageMixedQuestionType.html");
 
     }
 
@@ -173,6 +176,19 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);
         return loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
+    }
+
+    private void testPanelsCollapseExpand() {
+
+        ______TS("Typical case: panels expand/collapse");
+
+        viewPage.clickAllRecordPanelHeadings();
+        viewPage.waitForPanelsToCollapse();
+        assertTrue(viewPage.areRecordsHidden());
+
+        viewPage.clickAllRecordPanelHeadings();
+        viewPage.waitForPanelsToExpand();
+        assertTrue(viewPage.areRecordsVisible());
     }
 
     @AfterClass

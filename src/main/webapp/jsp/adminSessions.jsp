@@ -8,7 +8,6 @@
     <script type="text/javascript" src="/js/administrator.js"></script>
     <script type="text/javascript" src="/js/adminSessions.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-    <script type="text/javascript" src="/js/date.js"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
 </c:set>
 <ta:adminPage bodyTitle="Ongoing Sessions" pageTitle="TEAMMATES - Administrator Sessions" jsIncludes="${jsIncludes}">
@@ -30,7 +29,7 @@
     </h1>
     <br>
     <adminSessions:filter filter="${data.filter}"/>
-    <t:statusMessage/>
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <c:forEach items="${data.institutionPanels}" var="institutionPanel" varStatus="i">
         <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.count}" showAll="${data.showAll}" />
     </c:forEach>

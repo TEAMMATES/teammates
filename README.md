@@ -1,10 +1,18 @@
 #TEAMMATES Developer Web Site
 
+<img src="https://img.shields.io/badge/users-80K%2B-brightgreen.svg"> 
+<img src="https://img.shields.io/badge/universities-700%2B-green.svg"> 
+<img src="https://img.shields.io/badge/java-110%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/js-14%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/html-5%20KLoC-blue.svg">
+<img src="https://img.shields.io/badge/css-7%20KLoC-blue.svg">
+[![Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
+
 TEAMMATES is a free online tool for managing peer evaluations and other 
 feedback paths of your students. It is provided as a cloud-based service for 
 educators/students and is currently used by hundreds of universities across the world.
-This is the developer web site for TEAMMATES. Click [here](http://teammatesv4.appspot.com/)
- to go to the TEAMMATES product website
+This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/)
+ to go to the TEAMMATES product website**
 
 <img src="http://4-19.teammatesv4.appspot.com/images/overview.png" width='600'>
 
@@ -13,7 +21,7 @@ This is the developer web site for TEAMMATES. Click [here](http://teammatesv4.ap
 ##Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources: 
-  * [**Contributor Orientation Guide**](https://docs.google.com/document/d/1cY9pmEmw4dC6Z4LjN1WUTsynJ0jVPgbWsFhdyBy_wCU/pub?embedded=true) : This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
+  * [**Contributor Orientation Guide**](/devdocs/orientation-guide.md) : This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
   * [**Project ideas page**] (https://docs.google.com/document/d/1fAvYvQr0E93OsZgyneaXGX0jaMA-zptTIxqLn83xwN0/pub?embedded=true) : These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g., summer internships).
   * [**Instructions for Google Summer of Code applicants**] (https://docs.google.com/document/d/1Iu63WRIw8uz8liEW089IQHDQTRbh-QoOLMyfTPXNOa0/pub?embedded=true) : Read this before you apply to work for TEAMMATES under GSoC.
 
@@ -38,7 +46,7 @@ Here are some documents important for TEAMMATES developers:
   * The [**glossary**](/devdocs/glossary.md) of terms used in the project.
   * **Coding standards** for :
     [Java](https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true), 
-    [JSP](http://teammatesv4.appspot.com/dev/jspstyleguide.html), 
+    [JSP](https://docs.google.com/document/d/14bXfdveXvoIaPBYpL19m4PK6oPabSnnoawj6OGjOzD4/pub?embedded=true), 
     [JavaScript](https://docs.google.com/document/d/1gZ6WG6HBTJYHAtVkz9kzi_SUuzfXqzO-SvFnLuag2xM/pub?embedded=true),
     [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub), 
     [HTML](https://docs.google.com/document/d/12PJYbQoqjK-0LzaUuguQ4kGE--eikCcHfwzZDGwFOJ0/pub?embedded=true)
@@ -48,6 +56,7 @@ Here are some documents important for TEAMMATES developers:
     [Coding](https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true), 
     [Testing](https://docs.google.com/document/d/1aK-1ubIA59fbNsEujwvWKqx7itwLPTD6mzFo4F_oEoI/pub?embedded=true)
   * [**Version History**](https://github.com/TEAMMATES/repo/milestones?direction=desc&sort=due_date&state=closed)
+  * [**Project stats**](https://www.openhub.net/p/teammatesonline)
   
    
   * **Technical reports** about TEAMMATES : In-depth descriptions about various aspects of the project
@@ -75,3 +84,9 @@ TEAMMATES team wishes to thank the following invaluable contributions.
 
 ##License
 TEAMMATES is released under GPLv2
+
+##Contact 
+The best way for potential contributors to contact us is by [posting a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new) 
+(yes, we use the issue tracker as a discussion forum too).
+
+Alternatively (less preferred), you can email `teammates [at] comp.nus.edu.sg` 

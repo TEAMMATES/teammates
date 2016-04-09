@@ -8,7 +8,6 @@ import teammates.common.util.Sanitizer;
 
 public class InstructorFeedbackResultsFilterPanel {
     private boolean isStatsShown;
-    private boolean isCollapsed;
     private String courseId;
     private String feedbackSessionName;
     private boolean isAllSectionsSelected;
@@ -18,12 +17,11 @@ public class InstructorFeedbackResultsFilterPanel {
     private String resultsLink;
     private List<String> sections;
     
-    public InstructorFeedbackResultsFilterPanel(boolean isStatsShown, boolean isCollapsed,
+    public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
                                     String selectedSection, boolean isGroupedByTeam, String sortType,
                                     String resultsLink, List<String> sections) {
         this.isStatsShown = isStatsShown;
-        this.isCollapsed = isCollapsed;
         this.courseId = Sanitizer.sanitizeForHtml(session.courseId);
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(session.feedbackSessionName);
         this.isAllSectionsSelected = isAllSectionsSelected;
@@ -41,10 +39,6 @@ public class InstructorFeedbackResultsFilterPanel {
 
     public boolean isStatsShown() {
         return isStatsShown;
-    }
-
-    public boolean isCollapsed() {
-        return isCollapsed;
     }
 
     public String getCourseId() {

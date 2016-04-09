@@ -42,9 +42,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
-    @FindBy(id = "panelBodyCollapse-1")
-    public WebElement instructorPanelBody;
-
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
@@ -66,8 +63,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void waitForPageToLoad() {
         super.waitForPageToLoad();
         // results page has panels that are loaded by ajax,
-        // and these panels collapse when their contents are loaded
-        waitForPanelsToCollapse();
+        // and these panels expand when their contents are loaded
+        waitForPanelsToExpand();
     }
     
     /**
@@ -209,20 +206,59 @@ public class InstructorFeedbackResultsPage extends AppPage {
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
-
-    public boolean verifyAllResultsPanelBodyVisibility(boolean visible) {
-        int numOfQns = browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse")).size();
+    
+    /**
+     * Makes sure the result panels are indeed all visible.
+     */
+    public void verifyResultsVisible() {
+        assertTrue(isAllResultsPanelBodyVisibilityEquals(true));
+    }
+    
+    /**
+     * Makes sure the result panels are indeed all hidden.
+     */
+    public void verifyResultsHidden() {
+        assertTrue(isAllResultsPanelBodyVisibilityEquals(false));
+    }
+    
+    /**
+     * Checks if the body of all the results panels are collapsed or expanded.
+     * @param isVisible true to check for expanded, false to check for collapsed.
+     * @return true if all results panel body are equals to the visibility being checked.
+     */
+    private boolean isAllResultsPanelBodyVisibilityEquals(boolean isVisible) {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        int numOfQns = webElements.size();
+        
         assertTrue(numOfQns > 0);
-
-        // Wait for the total duration according to the number of collapse/expand intervals between questions
-        ThreadHelper.waitFor((numOfQns * 50) + 1000);
-
-        for (WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))) {
-            if (e.isDisplayed() != visible) {
+        
+        for (WebElement e : webElements) {
+            if (e.isDisplayed() != isVisible) {
                 return false;
             }
         }
+        
         return true;
+    }
+    
+    /**
+     * Waits for all the panels to collapse.
+     */    
+    public void waitForPanelsToCollapse() {
+        By panelCollapseSelector = By.cssSelector("div[id^='panelBodyCollapse-']");
+        
+        waitForElementsToDisappear(browser.driver.findElements(panelCollapseSelector));
+    }
+    
+    /**
+     * Waits for all the panels to expand.
+     */
+    public void waitForPanelsToExpand() {
+        By panelCollapseSelector = By.cssSelector(".panel-heading+.panel-collapse");
+        List<WebElement> webElements = browser.driver.findElements(panelCollapseSelector);
+        
+        waitForElementsVisibility(webElements);
     }
 
     public boolean verifyAllStatsVisibility() {
@@ -343,7 +379,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         actions.moveToElement(photoLink).perform();
 
         waitForElementPresence(By.cssSelector(".popover-content > img"));
-        ThreadHelper.waitFor(500);
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
                                                                  .get(0)
@@ -383,12 +418,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow,
                                                        String urlRegex) throws Exception {
-        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 0, urlRegex);
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 1, urlRegex);
     }
 
     public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow,
                                                            String urlRegex) throws Exception {
-        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 2, urlRegex);
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 3, urlRegex);
     }
 
     public void removeNavBar() {
@@ -410,25 +445,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
         instructorPanelCollapseStudentsButton.click();
     }
 
-    public void verifyParticipantPanelIsCollapsed(int id, int timeToWait) {
-        WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
-
-        // Need to wait for the total duration according to the number of collapse/expand intervals 
-        // between panels before checking final state of the panel
-        ThreadHelper.waitFor(timeToWait);
-        assertFalse(panel.isDisplayed());
+    public void waitForInstructorPanelStudentPanelsToCollapse() {
+        List<WebElement> studentPanels = browser.driver.findElements(By.cssSelector("#panelBodyCollapse-2 .panel-collapse"));
+        waitForElementsToDisappear(studentPanels);
     }
 
-    public int getNumOfPanelsInInstructorPanel() {
-        List<WebElement> participantPanels = instructorPanelBody
-                                                 .findElements(By.xpath(".//div[contains(@class, 'panel-collapse')]"));
-        return participantPanels.size();
-    }
-    
-    public void waitForPanelsToCollapse() {
-        List<WebElement> panelBodies = browser.driver.findElements(By.cssSelector("div[id^='panelBodyCollapse-']"));
-        waitForElementsVisibility(panelBodies);
-        ThreadHelper.waitFor(1000);
+    public void verifySpecifiedPanelIdsAreCollapsed(int[] ids) {
+        for (int id : ids) {
+            WebElement panel = browser.driver.findElement(By.id("panelBodyCollapse-" + id));
+            assertFalse(panel.isDisplayed());
+        }
     }
 
     public boolean isSectionPanelExist(String section) {

@@ -46,8 +46,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
     private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
     
-    // TODO find out why it's 500
-    private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
     private static final int RESPONDENTS_LIMIT_FOR_AUTOLOADING = 150;
 
     // isLargeNumberOfRespondents is an attribute used for testing the ui, for ViewType.Question 
@@ -61,7 +59,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private String groupByTeam = null;
     private String showStats = null;
     private int startIndex = -1;
-    private boolean isPanelsCollapsed;
     
     private FieldValidator validator = new FieldValidator();
     private String feedbackSessionName = null;
@@ -226,8 +223,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // no responses, nothing to initialize
             return;
         }
-        
-        this.isPanelsCollapsed = bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL;
         
         switch (viewType) {
             case RECIPIENT_GIVER_QUESTION:
@@ -828,8 +823,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
-        this.isPanelsCollapsed = true;
-        
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         
         for (String section : sections) {
@@ -1094,89 +1087,88 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags, 
                                                        Map<String, Boolean> isSortable) {
-        ElementTag giverElement 
-            = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,1)", "style", "width: 15%;");
         ElementTag giverTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,2)", "style", "width: 15%;");
-        ElementTag recipientElement 
-            = new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,3)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+        ElementTag giverElement 
+            = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
+                             "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
         ElementTag recipientTeamElement 
             = new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-ascending", "onclick", 
-                             "toggleSort(this,4)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+        ElementTag recipientElement 
+            = new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick", 
+                             "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,5)");
+                             "toggleSort(this)", "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions");
-        
-        columnTags.add(giverElement);
+
         columnTags.add(giverTeamElement);
-        columnTags.add(recipientElement);
+        columnTags.add(giverElement);
         columnTags.add(recipientTeamElement);
+        columnTags.add(recipientElement);
         columnTags.add(responseElement);
         columnTags.add(actionElement);
-        
+
         isSortable.put(giverElement.getContent(), true);
         isSortable.put(giverTeamElement.getContent(), true);
         isSortable.put(recipientElement.getContent(), true);
         isSortable.put(responseElement.getContent(), true);
         isSortable.put(actionElement.getContent(), false);
     }
-    
+
     private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
-        ElementTag recipientElement 
-            = new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,2)", "style", "width: 15%;");
         ElementTag recipientTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", 
-                             "toggleSort(this,3)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+        ElementTag recipientElement 
+            = new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick", 
+                             "toggleSort(this)", "style", "width: 15%; min-width: 90px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)");
+                             "toggleSort(this)", "style", "min-width: 95px;");
 
         columnTags.add(photoElement);
-        columnTags.add(recipientElement);
         columnTags.add(recipientTeamElement);
+        columnTags.add(recipientElement);
         columnTags.add(responseElement);
-        
+
         isSortable.put(photoElement.getContent(), false);
         isSortable.put(recipientTeamElement.getContent(), true);
         isSortable.put(recipientElement.getContent(), true);
         isSortable.put(responseElement.getContent(), true);
-
     }
-    
+
     private void buildTableColumnHeaderForRecipientQuestionGiverView(List<ElementTag> columnTags,
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
-        ElementTag giverElement 
-            = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,2)", "style", "width: 15%;");
         ElementTag giverTeamElement 
             = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", 
-                             "toggleSort(this,3)", "style", "width: 15%;");
+                         "toggleSort(this)", "style", "width: 15%; min-width: 67px;");
+        ElementTag giverElement 
+            = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", 
+                             "toggleSort(this)", "style", "width: 15%; min-width: 65px;");
         ElementTag responseElement 
             = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", 
-                             "toggleSort(this,4)");
+                             "toggleSort(this)", "style", "min-width: 95px;");
         ElementTag actionElement = new ElementTag("Actions");
-        
+
         columnTags.add(photoElement);
-        columnTags.add(giverElement);
         columnTags.add(giverTeamElement);
+        columnTags.add(giverElement);
         columnTags.add(responseElement);
         columnTags.add(actionElement);
-        
+
         isSortable.put(photoElement.getContent(), false);
         isSortable.put(giverTeamElement.getContent(), true);
         isSortable.put(giverElement.getContent(), true);
         isSortable.put(responseElement.getContent(), true);
         isSortable.put(actionElement.getContent(), false);
     }
-    
+
     /**
      * Builds response rows for a given question. This not only builds response rows for existing responses, but includes 
      * the missing responses between pairs of givers and recipients.
@@ -1553,7 +1545,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isHome = false;
         return new FeedbackSessionPublishButton(this,
                                                 bundle.feedbackSession,
-                                                isHome,
+                                                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                 instructor,
                                                 "btn-primary btn-block");
     }
@@ -1775,10 +1767,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String getSessionResultsHtmlTableAsString() {
         return sessionResultsHtmlTableAsString;
     }
-    
-    public boolean isShouldCollapsed() {
-        return isPanelsCollapsed;
-    }
 
     public List<InstructorFeedbackResultsQuestionTable> getQuestionPanels() {
         return questionPanels;
@@ -1812,7 +1800,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
-                isStatsShown(), isPanelsCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
+                isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
                 isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), getSections());
     }
     

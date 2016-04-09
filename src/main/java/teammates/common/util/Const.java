@@ -57,6 +57,32 @@ public class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
+        /**
+         * @return The file source for jquery.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+        }
+        
+        /**
+         * @return The file source for jquery-ui.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryUiFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery-ui.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
+        }
+        
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
             ActionURIs.STUDENT_COURSE_JOIN,
             ActionURIs.STUDENT_COURSE_JOIN_NEW,
@@ -98,6 +124,7 @@ public class Const {
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
+        public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
@@ -372,8 +399,6 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
-        public static final String CURRENT_PAGE = "currentPage";
-        
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
@@ -521,8 +546,7 @@ public class Const {
         public static final String COMMENTS = "comments";
         public static final String TEAMMATES = "teammates";
     
-        public static final String STATUS_MESSAGE = "message";
-        public static final String STATUS_MESSAGE_COLOR = "statusmessagecolor";
+        public static final String STATUS_MESSAGES_LIST = "statusMessagesToUser";
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
@@ -843,7 +867,7 @@ public class Const {
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp"; 
         
-        public static final String MASHUP = "/dev/mashup.jsp";
+        public static final String MASHUP = "/mashup.jsp";
     
         //View fragments
         public static final String INSTRUCTOR_HEADER = "/jsp/instructorHeader.jsp"; 
@@ -862,6 +886,8 @@ public class Const {
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
+        public static final String EMAIL_NOT_FOUND = "The requested email was not found";
+        public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
         
         public static final String RECEIVER_LIST_FILE_TOO_LARGE = "The uploaded receiver list file was too large. ";
         public static final String NOT_A_RECEIVER_LIST_FILE = "The file that you have uploaded is not a receiver list file. ";
@@ -915,7 +941,7 @@ public class Const {
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
-        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
+        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor %s has been updated.";
         public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
         public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED = "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";
@@ -953,6 +979,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS = "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
+        public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS = "The feedback session has been deleted and is no longer accessible.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.";
@@ -1028,6 +1055,9 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course. Click <a href=\"%s\">here</a> to enroll students.";
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
+        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS 
+                                   = "No permission to modify any sessions in un-archived courses";
+        public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
         public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
@@ -1073,14 +1103,15 @@ public class Const {
         public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
                 + "However, you do not have access to view this student's profile";
         
-        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
-                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
-                + "(recommended).";
-        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
-                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
-                + "(recommended).";
+        public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "
+                + "that are currently open and view results without logging in. To access other features "
+                + "you need <a href='%s' class='link'>to login using a Google account</a> (recommended).";
+        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as "
+                + "<span class='text-danger text-bold text-large'>%s</span>. " 
+                + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
+                + "<span class='text-danger text-bold text-large'>%s</span>. " 
+                + UNREGISTERED_STUDENT_MESSAGE;
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -1123,6 +1154,7 @@ public class Const {
     private void _______repeated_phrases___________________________________(){}
     
     public static final String EOL = System.getProperty("line.separator");
+    public static final String HTML_BR_TAG = "<br>";
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
@@ -1186,19 +1218,22 @@ public class Const {
     public static final String GENERAL_QUESTION = "%GENERAL%";
     public static final String USER_IS_TEAM = "%TEAM%";
     public static final String USER_IS_NOBODY = "%NOBODY%";
+    public static final String USER_IS_MISSING = "%MISSING%";
     
     public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
     public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
     public static final Date TIME_REPRESENTS_NEVER;
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
-    
+    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+      
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 00:00 AM UTC");
         TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 00:00 AM UTC");
         TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 00:00 AM UTC");
         TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 00:00 AM UTC");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 00:00 AM UTC");
     }
     
     /* Other Constants

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
@@ -78,6 +79,22 @@ public class StringHelper {
             result = inputString.substring(0, truncateLength - 3) + "...";
         }
         return result;
+    }
+    
+    /**
+     * Trims head of the String if it is longer than specified Length.
+     *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
+     * @param inputString
+     * @param maximumStringLength - maximum required length of the string
+     * @return String with at most maximumStringLength length
+     */
+    public static String truncateHead(String inputString, final int maximumStringLength) {
+        final int inputStringLength = inputString.length();
+        if (inputStringLength <= maximumStringLength) {
+            return inputString;
+        } else {
+            return inputString.substring(inputStringLength - maximumStringLength);
+        }
     }
 
     /**
@@ -272,11 +289,22 @@ public class StringHelper {
         if (str == null) {
             return null;
         }
-        
         return str.trim().replaceAll("\\s+", " ");
-        
     }
     
+    /**
+     * trims all strings in the set and reduces consecutive white spaces to only one space
+     */
+    public static Set<String> removeExtraSpace(Set<String> strSet) {       
+        if (strSet == null) {
+            return null;
+        }
+        Set<String> result = new TreeSet<String>();
+        for (String s : strSet) {
+            result.add(removeExtraSpace(s));
+        }
+        return result;
+    }
     
     private static String byteArrayToHexString(byte[] b) {
         StringBuilder sb = new StringBuilder(b.length * 2);
@@ -357,7 +385,7 @@ public class StringHelper {
             
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", td));
+                result.append(String.format("<td>%s</td>\n", Sanitizer.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }
@@ -397,8 +425,12 @@ public class StringHelper {
         
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
-                inquote = !inquote;
-                continue;
+                if ((i + 1 < chars.length) && (chars[i + 1] == '"')) {
+                    i++;
+                } else {
+                    inquote = !inquote;
+                    continue;
+                }
             }
             
             if (chars[i] == ',') {    
@@ -492,5 +524,38 @@ public class StringHelper {
     public static String convertToEmptyStringIfNull(String str) {
         return (str == null) ? "" : str;
     }
-
+    
+    /**
+     * Removes the outermost enclosing square brackets surrounding a string.
+     * 
+     * @param str
+     * @return the string without the outermost enclosing square brackets
+     *         if the given string is enclosed by square brackets <br/> 
+     *         the string itself if the given string is not enclosed by square brackets <br/>
+     *         null if the given string is null
+     */
+    public static String removeEnclosingSquareBrackets(String str) {
+        if (str == null) {
+            return null;
+        }
+        
+        if (!str.startsWith("[") || !str.endsWith("]")) {
+            return str;
+        }
+        
+        return str.substring(1, str.length() - 1);
+    }
+	
+    /**
+     * Returns a String array after removing white spaces leading and
+     * trailing any string in the input array.
+     */
+    public static String[] trim(String[] stringsToTrim) {
+        String[] stringsAfterTrim = new String[stringsToTrim.length];
+        int i = 0;
+        for (String stringToTrim : stringsToTrim) {
+            stringsAfterTrim[i++] = stringToTrim.trim();
+        }
+        return stringsAfterTrim;
+    }
 }

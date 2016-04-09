@@ -81,18 +81,13 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
     if (!currentDate || !baseDate) {
         return errorMsg;
     }
-    var CurrBaseDateDifference = new Date(currentDate - baseDate);
-    if (CurrBaseDateDifference < 0) {
+    var currBaseDateDifference = currentDate - baseDate;
+    if (currBaseDateDifference < 0) {
         return errorMsg;
     }
 
-    var dd = CurrBaseDateDifference.getDate();
-    var mm = CurrBaseDateDifference.getMonth();
-    var yyyy = CurrBaseDateDifference.getFullYear() - 1970;
-    var month = mm + yyyy * 12;
-    var days = dd + month * 30;
-    var hr = days * 24;
-    var numberOfSubmissions = hr * submissionPerHour;
+    var hr = currBaseDateDifference / 60 / 60 / 1000; // convert from millisecond to hour
+    var numberOfSubmissions = Math.floor(hr * submissionPerHour);
     numberOfSubmissions += baseCount;
     return formatNumber(numberOfSubmissions);
 }
@@ -101,9 +96,9 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
 onload = function() {
     
     // Parameters for the estimation calculation
-    var baseDate = new Date('October 30, 2015 00:00:00');  //The date the parameters were adjusted
-    var baseCount = 2000000;     //The submission count on the above date
-    var submissionPerHour = 27; //The rate at which the submission count is growing
+    var baseDate = new Date('March 30, 2016 00:00:00');  //The date the parameters were adjusted
+    var baseCount = 3000000;     //The submission count on the above date
+    var submissionPerHour = 128; //The rate at which the submission count is growing
     
     //set the submission count in the page
     var e = document.getElementById('submissionsNumber');

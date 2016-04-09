@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,9 +17,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
+import org.apache.http.ssl.SSLContexts;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -26,11 +30,14 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -58,6 +65,8 @@ import teammates.test.driver.TestProperties;
 public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
     private static final By MAIN_CONTENT = By.id("mainContent");
+    private static final int VERIFICATION_RETRY_COUNT = 5;
+    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     
     static final long ONE_MINUTE_IN_MILLIS=60000;
     
@@ -68,7 +77,7 @@ public abstract class AppPage {
     @SuppressWarnings("unused")
     private void ____Common_page_elements___________________________________() {
     }
-    @FindBy(id = "statusMessage")
+    @FindBy(id = "statusMessagesToUser")
     protected WebElement statusMessage;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
@@ -190,10 +199,29 @@ public abstract class AppPage {
     }
 
     /**
-     * Waits until the page is fully loaded. Times out after 15 seconds.
+     * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
-        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
+                // to understand more on a web document's readyState
+                return ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete");
+            }
+        });
+    }
+    
+    /**
+     * Waits until the element is not covered by any other element.
+     */
+    public void waitForElementNotCovered(final WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return !isElementCovered(element);
+            }
+        });
     }
     
     public void waitForElementVisibility(WebElement element){
@@ -201,6 +229,11 @@ public abstract class AppPage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
+    public void waitForElementToBeClickable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
     public void waitForElementsVisibility(List<WebElement> elements) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
@@ -214,6 +247,45 @@ public abstract class AppPage {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
+    /**
+     * Waits for a list of elements to be invisible or not present, or timeout.
+     */
+    public void waitForElementsToDisappear(List<WebElement> elements) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(invisibilityOfAllElements(elements));
+    }
+    
+    /**
+     * Code adapted from SeleniumHQ's GitHub page.
+     * TODO to be removed when Selenium is upgraded to the version supporting this method.
+     *
+     * An expectation for checking all elements from given list to be invisible
+     *
+     * @param elements used to check their invisibility
+     * @return Boolean true when all elements are not visible anymore
+     */
+    private ExpectedCondition<Boolean> invisibilityOfAllElements(final List<WebElement> elements) {
+        return new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver webDriver) {
+                for (WebElement element : elements) {
+                    try {
+                        if (element.isDisplayed()) {
+                            return false;
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public String toString() {
+                return "invisibility of all elements " + elements;
+            }
+        };
+    }
+
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
@@ -245,25 +317,13 @@ public abstract class AppPage {
      * Switches to the new browser window just opened.
      */
     protected void switchToNewWindow() {
-        String curWin = browser.driver.getWindowHandle();
-        for (String handle : browser.driver.getWindowHandles()) {
-            if (handle.equals(curWin))
-                continue;
-            browser.selenium.selectWindow(handle);
-            browser.selenium.windowFocus();
-        }
+        browser.switchToNewWindow();
     }
     
     public void closeCurrentWindowAndSwitchToParentWindow() {
-        browser.selenium.close();
-        switchToParentWindow();
+        browser.closeCurrentWindowAndSwitchToParentWindow();
     }
     
-    public void switchToParentWindow() {
-        browser.selenium.selectWindow("null");
-        browser.selenium.windowFocus();
-    }
-
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
         waitForPageToLoad();
@@ -518,7 +578,7 @@ public abstract class AppPage {
      * from the first table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int row, int column) {
-        return browser.selenium.getTable("css=table[class~='table']." + row + "." + column);
+        return getCellValueFromDataTable(0, row, column);
     }
     
     /** 
@@ -688,6 +748,19 @@ public abstract class AppPage {
             return false;
         }
     }
+    
+    /**
+     * Checks if the midpoint of an element is covered by any other element.
+     * @param element
+     * @return true if element is covered, false otherwise.
+     */
+    public boolean isElementCovered(WebElement element) {
+        int x = element.getLocation().x + element.getSize().width / 2;
+        int y = element.getLocation().y + element.getSize().height / 2;
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        WebElement topElem = (WebElement) js.executeScript("return document.elementFromPoint(" + x + "," + y + ");");
+        return !topElem.equals(element);
+    }
 
     public void verifyUnclickable(WebElement element){
         try {
@@ -735,10 +808,10 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtml(String filePath) throws IOException {
-        return verifyHtml(null, filePath, false);
+        return verifyHtml(null, filePath);
     }
 
-    private AppPage verifyHtml(By by, String filePath, boolean isAfterAjaxLoad) throws IOException {
+    private AppPage verifyHtml(By by, String filePath) throws IOException {
         // TODO: improve this method by insert header and footer
         //       to the file specified by filePath
         if (filePath.startsWith("/")) {
@@ -749,18 +822,22 @@ public abstract class AppPage {
         try {
             String expected = FileHelper.readFile(filePath);
             expected = HtmlHelper.injectTestProperties(expected);
-            if (isAfterAjaxLoad) {
-                int maxRetryCount = 5;
-                int waitDuration = 1000;
-                for (int i = 0; i < maxRetryCount; i++) {
-                    if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
-                        break;
-                    }
-                    ThreadHelper.waitFor(waitDuration);
-                    actual = getPageSource(by);
+            
+            // The check is done multiple times with waiting times in between to account for
+            // certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
+            for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
+                if (i == VERIFICATION_RETRY_COUNT - 1) {
+                    // Last retry count: do one last attempt and if it still fails,
+                    // throw assertion error and show the differences
+                    HtmlHelper.assertSameHtml(expected, actual, isPart);
+                    break;
                 }
+                if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
+                    break;
+                }
+                ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
+                actual = getPageSource(by);
             }
-            HtmlHelper.assertSameHtml(expected, actual, isPart);
             
         } catch (IOException|AssertionError e) {
             if (!testAndRunGodMode(filePath, actual, isPart)) {
@@ -773,7 +850,7 @@ public abstract class AppPage {
 
     private String getPageSource(By by) {
         waitForAjaxLoaderGifToDisappear();
-        String actual = by == null ? getPageSource()
+        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
                                    : browser.driver.findElement(by).getAttribute("outerHTML");
         return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
@@ -809,7 +886,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePath) throws IOException {
-        return verifyHtml(by, filePath, false);
+        return verifyHtml(by, filePath);
     }
     
     /**
@@ -826,35 +903,6 @@ public abstract class AppPage {
     }
     
     /**
-     * Verifies that main content specified id "mainContent" in currently 
-     * loaded page has the same HTML content as 
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * Since the verification is done after making AJAX request(s), the HTML is checked
-     * after "waitDuration", for "maxRetryCount" number of times.
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlAjaxMainContent(String filePath) throws IOException {
-        return verifyHtml(MAIN_CONTENT, filePath, true);
-    }
-
-    /**
-     * Verifies that the currently loaded page has the same HTML content as 
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence. <br>
-     * Since the verification is done after making AJAX request(s), the HTML is checked
-     * after "waitDuration", for "maxRetryCount" number of times.
-     * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
-     * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
-     * @return The page (for chaining method calls).
-     */
-    public AppPage verifyHtmlAjax(String filePath) throws IOException {
-        return verifyHtml(null, filePath, true);
-    }
-
-    /**
      * Also supports the expression "{*}" which will match any text.
      * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
      */
@@ -869,51 +917,27 @@ public abstract class AppPage {
      */
     public AppPage verifyStatus(String expectedStatus){
         
-        try{
-            assertEquals(expectedStatus, this.getStatus());
-        } catch(Exception e){
-            if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"));
-                if(!statusMessage.isDisplayed()){
-                    this.waitForElementVisibility(statusMessage);
-                }
-            }
-        }
-        assertEquals(expectedStatus, this.getStatus());
-        return this;
-    }
-
-    /**
-     * Verifies the status message in the page is same as the one specified, retrying up till numberOfTries
-     * times. This can be used when status message test results in inconsistency due to timing issues
-     * or inconsistency in Selenium's API such as .click() which may or may not result in detecting a page
-     * load depending on things such as browser type and how an event is triggered.
-     * 
-     * Note that we must wait for the next page's status message to be visible on every try within the while
-     * loop. This is because the previous check might have checked early and have not waited for the page
-     * load to finish. From that, it is possible to create a situation whereby the page has now loaded
-     * on the next try (after 1000ms) and the status message is still loading and still not displayed.
-     * 
-     * @return The app page itself for method chaining flexibility
-     */
-    public AppPage verifyStatusWithRetry(String expectedStatus, int maxRetryCount) {
-        int currentRetryCount = 0;
-
-        while (currentRetryCount < maxRetryCount) {
-            if (!statusMessage.isDisplayed()) {
-                this.waitForElementVisibility(statusMessage);
-            }
-
-            if (expectedStatus.equals(this.getStatus())) {
+        // The check is done multiple times with waiting times in between to account for
+        // timing issues due to page load, inconsistencies in Selenium API, etc.
+        for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
+            if (i == VERIFICATION_RETRY_COUNT - 1) {
+                // Last retry count: do one last attempt and if it still fails,
+                // throw assertion error and show the difference
+                waitForElementVisibility(statusMessage);
+                assertEquals(expectedStatus, getStatus());
                 break;
             }
-
-            currentRetryCount++;
-
-            ThreadHelper.waitFor(1000);
+            try {
+                waitForElementVisibility(statusMessage);
+                if (expectedStatus.equals(getStatus())) {
+                    break;
+                }
+            } catch (StaleElementReferenceException e) {
+                // Might occur if the page reloads, which makes the previous WebElement
+                // stored in the variable statusMessage "stale"
+            }
+            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
         }
-
-        assertEquals(expectedStatus, this.getStatus());
 
         return this;
     }
@@ -952,7 +976,10 @@ public abstract class AppPage {
             downloadedFile.setWritable(true);
         }
         
-        CloseableHttpClient client = HttpClientBuilder.create().build();
+        SSLConnectionSocketFactory sslConnectionFactory =
+                new SSLConnectionSocketFactory(SSLContexts.createDefault(), new AllowAllHostnameVerifier());
+        
+        CloseableHttpClient client = HttpClientBuilder.create().setSSLSocketFactory(sslConnectionFactory).build();
         
         HttpGet httpget = new HttpGet(fileToDownload.toURI());
         HttpParams httpRequestParameters = httpget.getParams();
@@ -975,6 +1002,18 @@ public abstract class AppPage {
     public void verifyFieldValue (String fieldId, String expectedValue) {
         assertEquals(expectedValue,
                 browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
+    }
+    
+    /**
+     * Verifies that the page source does not contain the given searchString.
+     * 
+     * @param searchString the substring that we want to omit from the page source
+     * @return the AppPage
+     */
+    public AppPage verifyNotContain(String searchString) {
+        String pageSource = getPageSource();
+        assertFalse(pageSource.contains(searchString));
+        return this;
     }
         
     @SuppressWarnings("unused")

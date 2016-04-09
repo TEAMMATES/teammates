@@ -2,11 +2,14 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.fail;
 
-import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -135,9 +138,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
-    
-    @FindBy(id = "fscopy_submit")
-    private WebElement fscopySubmitButton;
+ 
     
     @FindBy(id = "button_copy")
     private WebElement copyButton;
@@ -155,8 +156,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     private WebElement getLinkButton;
     
     
+    public InstructorCopyFsToModal fsCopyToModal;
+    
     public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
+        fsCopyToModal = new InstructorCopyFsToModal(browser);
     }
 
     @Override
@@ -342,18 +346,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
-    public void clickEndDateBox() {
-        endDateBox.click();
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("$(arguments[0]).focus();", endDateBox);
-    }
-    
     public void clickFsCopyButton() {
+        waitForElementNotCovered(fscopyButton);
         fscopyButton.click();
-    }
-    
-    public void clickFsCopySubmitButton() {
-        fscopySubmitButton.click();
     }
     
     public void clickCopyButton() {
@@ -370,21 +365,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
         addMsqOtherOptionCheckboxForNewQuestion.click();
-    }
-    
-    public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-    }
-    
-    public void fillCopyToOtherCoursesForm(String newName) {
-        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
-        for (WebElement e : coursesCheckBoxes) {
-            markCheckBoxAsChecked(e);
-        }
-        
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
-        fillTextBox(fsNameInput, newName);
     }
     
     public WebElement getDeleteSessionLink() {
@@ -421,12 +401,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickAndConfirmSaveForQuestion1() {
+        clickAndConfirm(questionSaveForQuestion1);
+    }
+    
     public void clickVisibilityPreviewForQuestion1() {
         browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }
     
+    public void clickVisibilityPreviewForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityMessageButton-" + qnNumber)).click();
+    }
+    
     public void clickVisibilityOptionsForQuestion1() {
         browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
+    }
+    
+    public void clickVisibilityOptionsForQuestion(int qnNumber) {
+        browser.driver.findElement(By.id("visibilityOptionsLabel-" + qnNumber)).click();
     }
     
     public void clickVisibilityPreviewForNewQuestion() {
@@ -529,43 +521,102 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement contribForm = browser.driver.findElement(By.id("rankOptionsForm"));
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
+    
     public boolean verifyNewRankRecipientsQuestionFormIsDisplayed() {
         WebElement contribForm = browser.driver.findElement(By.id("rankRecipientsForm"));
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
-    
-    public boolean verifyEndDatesBeforeTodayAreDisabled() {
-        Calendar cal = Calendar.getInstance();
-        
-        // if today is the 1st day of the month, the datepicker cannot navigate to the previous month (yesterday) 
-        if (cal.get(Calendar.DATE) != 1) {
-            cal.add(Calendar.DATE, -1);       
 
-            // get month names
-            DateFormatSymbols dfs = new DateFormatSymbols();
-            String[] months = dfs.getMonths();        
+    public boolean areDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
+        return areDatesOfPreviousCurrentAndNextMonthEnabled(startDateBox) 
+               && areDatesOfPreviousCurrentAndNextMonthEnabled(endDateBox);
+    }
 
-            // yesterday's day, month and year
-            String day = Integer.toString(cal.get(Calendar.DATE));
-            String month = months[cal.get(Calendar.MONTH)];
-            String year = Integer.toString(cal.get(Calendar.YEAR));
+    /**
+     * @param dateBox is a {@link WebElement} that triggers a datepicker
+     * @return true if the dates of previous, current and next month are
+     *         enabled, otherwise false
+     * @throws ParseException if the string in {@code dateBox} cannot be parsed
+     */
+    private boolean areDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
 
-            // go to previous month
-            while (!(getDatepickerMonth().equals(month) && getDatepickerYear().equals(year))) {
-                browser.driver.findElement(By.className("ui-datepicker-prev")).click();
-            }
+        Calendar previousMonth = Calendar.getInstance();
+        previousMonth.add(Calendar.MONTH, -1);
 
-            // different months with the same day (e.g. first week or last week of the month) in the datepicker
-            List<WebElement> daysWithSameDayAsYesterday = browser.driver.findElements(By.xpath("//td[a[text() = \"" + day + "\"]]"));
-            
-            for (WebElement yesterday : daysWithSameDayAsYesterday) {
-                // yesterday is enabled
-                if (!yesterday.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled")) {
+        // Navigate to the previous month
+        if (!navigate(dateBox, previousMonth)) {
+            fail("Cannot navigate to the previous month");
+        }
+
+        // Check if the dates of previous, current and next month are enabled 
+        for (int i = 0; i < 3; i++) {
+
+            List<WebElement> dates = browser.driver.findElements(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr/td"));
+
+            for (WebElement date : dates) {
+
+                boolean isDisabled = date.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled");
+                boolean isFromOtherMonth = date.getAttribute("class").contains("ui-datepicker-other-month");
+
+                if (isDisabled && !isFromOtherMonth) {
                     return false;
                 }
             }
+
+            // Navigate to the next month
+            browser.driver.findElement(By.className("ui-datepicker-next")).click();
         }
-        
+
+        return true;
+    }
+
+    /**
+     * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}
+     * 
+     * @param dateBox is a {@link WebElement} that triggers a datepicker
+     * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
+     * @return true if navigated to the {@code date} successfully, otherwise
+     *         false
+     * @throws ParseException if the string in {@code dateBox} cannot be parsed
+     */
+    private boolean navigate(WebElement dateBox, Calendar date) throws ParseException {
+
+        dateBox.click();
+
+        Calendar selectedDate = Calendar.getInstance();
+
+        String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
+        String year = Integer.toString(date.get(Calendar.YEAR));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
+
+        if (selectedDate.after(date)) {
+
+            while (!getDatepickerMonth().equals(month) || !getDatepickerYear().equals(year)) {
+
+                WebElement previousButton = browser.driver.findElement(By.className("ui-datepicker-prev"));
+                if (previousButton.getAttribute("class").contains("ui-state-disabled")) {
+                    return false;
+                } else {
+                    previousButton.click();
+                }
+            }
+
+        } else {
+
+            while (!getDatepickerMonth().equals(month) || !getDatepickerYear().equals(year)) {
+
+                WebElement nextButton = browser.driver.findElement(By.className("ui-datepicker-next"));
+                if (nextButton.getAttribute("class").contains("ui-state-disabled")) {
+                    return false;
+                } else {
+                    nextButton.click();
+                }
+            }
+        }
+
         return true;
     }
 
@@ -580,7 +631,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForElementPresence(by);
         return browser.driver.findElement(by).getText();
     }
-    
+
     public void selectNewQuestionType(String questionType) {
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
     }
@@ -636,6 +687,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
     }
     
+    public void selectRecipientsToBeGiverTeamMembersAndGiver() {
+        selectDropdownByVisibleValue(recipientDropdown, "Giver's team members and Giver");
+    }
+
+    public void selectRecipientsToBeInstructors() {
+        selectDropdownByVisibleValue(recipientDropdown, "Instructors in the course");
+    }
+
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
@@ -878,7 +937,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
         return getVisibilityOptions(questionNumber).isDisplayed();
     }
-    
+
+    public WebElement getVisibilityOptionTableRow(int questionNumber, int optionRowNumber) {
+        return getVisibilityOptions(questionNumber).findElement(By.xpath("(table/tbody/tr|table/tbody/hide)[" + optionRowNumber + "]"));
+    }
+
     public WebElement getPreviewLabel(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessageButton-" + String.valueOf(questionNumber)));   
     }

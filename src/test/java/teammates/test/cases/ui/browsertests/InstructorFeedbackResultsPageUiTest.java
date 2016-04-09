@@ -79,24 +79,24 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-        resultsPage.waitForPanelsToCollapse();
+        resultsPage.waitForPanelsToExpand();
         // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
-        resultsPage.waitForPanelsToCollapse();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
-        resultsPage.waitForPanelsToCollapse();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
-        resultsPage.waitForPanelsToCollapse();
+        resultsPage.waitForPanelsToExpand();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
         
     }
@@ -127,7 +127,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with errors");
-        resultsPage.waitForPanelsToCollapse();
+        resultsPage.waitForPanelsToExpand();
         
         // compare html for each question panel
         // to verify that the right responses are showing for each question
@@ -142,6 +142,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                               + "//div[contains(@class, 'table-responsive')]");
         resultsPage.verifyHtmlPart(secondQuestionPanelResponses, 
                                    "/instructorFeedbackResultsDuplicateQuestionNumberPanel2.html");
+        
+        
+        ______TS("Results with sanitized data");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.SanitizedTeam.instr", "Session with sanitized data");
+        resultsPage.waitForPanelsToExpand();
+        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageWithSanitizedData.html");
     }
 
     public void testModerateResponsesButton() {
@@ -158,7 +166,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: test moderate responses button for team response");
 
-        verifyModerateResponsesButton(4, "Team 1");
+        verifyModerateResponsesButton(4, "Team 1</td></div>'\"");
 
     }
 
@@ -266,9 +274,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
          * TODO: split up verifySortingOrder to enable this test
         verifySortingOrder(By.id("button_sortToTeam"), 
                 "Team 2{*}Team 3",
-                "Team 1{*}Team 2",
-                "Team 1{*}Team 2",
-                "Team 1{*}Team 1");
+                "Team 1</td></div>'\"{*}Team 2",
+                "Team 1</td></div>'\"{*}Team 2",
+                "Team 1</td></div>'\"{*}Team 1</td></div>'\"");
          */
 
     }
@@ -342,7 +350,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "Open Session", true, "question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestion.html");
         
         ______TS("Failure case: Ajax error");
         
@@ -368,14 +376,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
 
-        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
         
         ______TS("Typical case: ajax for view by question for helper2");
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper2",
                                         "Open Session", true, "question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
 
         ______TS("Typical case: ajax for view by giver > recipient > question");
 
@@ -384,16 +392,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
 
-        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
 
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.click(By.id("panelHeading-5"));
-        ThreadHelper.waitFor(1000);
-
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
         
         ______TS("Failure case: ajax error for giver > recipient > question");
@@ -407,7 +412,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByGQR.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
                 
         ______TS("Typical case: test view photo for view by giver > question > recipient");
         
@@ -421,7 +426,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "recipient-question-giver");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByRQG.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRQG.html");
 
         ______TS("Typical case: test view photo for view by recipient > question > giver");
 
@@ -435,16 +440,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                                                                        "recipient-giver-question");
 
         resultsPage.clickAjaxLoadResponsesPanel(0);
-        resultsPage.verifyHtmlAjaxMainContent("/instructorFeedbackResultsAjaxByRGQ.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByRGQ.html");
 
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.click(By.id("panelHeading-5"));
-        ThreadHelper.waitFor(1000);
-
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
     }
 
@@ -483,10 +485,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverRecipientQuestion();
         assertEquals("Collapse Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
         resultsPage.clickInstructorPanelCollapseStudentsButton();
+        resultsPage.waitForInstructorPanelStudentPanelsToCollapse();
         assertEquals("Expand Students", resultsPage.instructorPanelCollapseStudentsButton.getText());
-        
-        int numOfPanels = resultsPage.getNumOfPanelsInInstructorPanel();
-        resultsPage.verifyParticipantPanelIsCollapsed(4, (numOfPanels * 50));
+        resultsPage.verifySpecifiedPanelIdsAreCollapsed(new int[] { 3, 4, 5 });
 
         resultsPage.clickGroupByTeam();
         resultsPage.displayByQuestion();
@@ -496,19 +497,21 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
-        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
+        resultsPage.verifyResultsVisible();
 
         resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToCollapse();
         assertEquals("Expand Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Expand all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
-        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
+        resultsPage.verifyResultsHidden();
 
         resultsPage.clickCollapseExpand();
+        resultsPage.waitForPanelsToExpand();
         assertEquals("Collapse Questions", resultsPage.collapseExpandButton.getText());
         assertEquals("Collapse all panels. You can also click on the panel heading to toggle each one individually.",
                      resultsPage.collapseExpandButton.getAttribute("data-original-title"));
-        assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
+        resultsPage.verifyResultsVisible();
 
     }
 

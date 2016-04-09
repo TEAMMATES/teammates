@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <div class="col-md-12">
                             <div class="form-control-static">
-                                <strong>Possible Labels:</strong>&nbsp;from, to, person, role, request, response, version,time,info<br>
+                                <strong>Possible Labels:</strong>&nbsp;from, to, person, role, request, response, version, time, info, id<br>
                                 <ul>
                                     <li>E.g. from: 13/03/13</li>
                                     <li>E.g. to: 13/03/13</li>
@@ -89,6 +89,7 @@
                                     <li>E.g. time: 1000 (means 1000ms) </li>
                                     <li>E.g. info: Admin Account Management Page Load </li> 
                                     <li>E.g. info: Admin Account Management Page Load, Total, 90 (Use "," to search multiple key strings)</li>
+                                    <li>E.g. id: alice@gmail.com%20160131181745245, charlie@gmail.com%20160201182727734</li>
                                 </ul>
                             </div>
                         </div>

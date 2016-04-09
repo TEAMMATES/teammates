@@ -543,9 +543,22 @@ public class BackDoor {
         String status = makePOSTRequest(params);
         return status;
     }
-    
+
+    public static String deleteFeedbackQuestion(String questionId) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_QUESTION);
+        params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, questionId);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+
     @SuppressWarnings("unused")
     private void ____FEEDBACK_RESPONSE_level_methods______________________________() {
+    }
+    
+    public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
+        return persistNewDataBundle(Utils.getTeammatesGson().toJson(dataBundle));
     }
     
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
@@ -596,6 +609,17 @@ public class BackDoor {
         params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipient);
         String feedbackResponseJson = makePOSTRequest(params);
         return feedbackResponseJson;
+    }
+    
+    public static String deleteFeedbackResponse(String feedbackQuestionId,
+                                              String giverEmail, 
+                                              String recipient) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_FEEDBACK_RESPONSE);
+        params.put(BackDoorServlet.PARAMETER_FEEDBACK_QUESTION_ID, feedbackQuestionId);
+        params.put(BackDoorServlet.PARAMETER_GIVER_EMAIL, giverEmail);
+        params.put(BackDoorServlet.PARAMETER_RECIPIENT, recipient);
+        String status = makePOSTRequest(params);
+        return status;
     }
     
     @SuppressWarnings("unused")

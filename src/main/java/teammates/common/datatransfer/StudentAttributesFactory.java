@@ -19,10 +19,10 @@ public class StudentAttributesFactory {
     public static final String ERROR_HEADER_ROW_FIELD_MISSED =
             "The following required column names are missing in the header row";
 
-    public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
+    public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty" + Const.HTML_BR_TAG;
     public static final String ERROR_ENROLL_LINE_TOOFEWPARTS =
             "Enroll line had fewer than the minimally expected "
-            + MIN_FIELD_COUNT + " columns (Team, Name and Email)\n";
+            + MIN_FIELD_COUNT + " columns (Team, Name and Email)" + Const.HTML_BR_TAG;
 
     public static final int FIRST_COLUMN_INDEX = 0;
     public static final int SECOND_COLUMN_INDEX = 1;
@@ -90,20 +90,20 @@ public class StudentAttributesFactory {
             throw new EnrollException(ERROR_ENROLL_LINE_TOOFEWPARTS);
         }
 
-        String paramTeam = columns[teamColumnIndex].trim();
-        String paramName = columns[nameColumnIndex].trim();
-        String paramEmail = columns[emailColumnIndex].trim();
+        String paramTeam = StringHelper.removeExtraSpace(columns[teamColumnIndex]);
+        String paramName = StringHelper.removeExtraSpace(columns[nameColumnIndex]);
+        String paramEmail = StringHelper.removeExtraSpace(columns[emailColumnIndex]);
 
         String paramComment = "";
 
         if (hasComment && columns.length > commentColumnIndex) {
-            paramComment = columns[commentColumnIndex].trim();
+            paramComment = StringHelper.removeExtraSpace(columns[commentColumnIndex]);
         }
 
         String paramSection;
 
         if (hasSection && columns.length > sectionColumnIndex) {
-            paramSection = columns[sectionColumnIndex].trim();
+            paramSection = StringHelper.removeExtraSpace(columns[sectionColumnIndex]);
         } else {
             paramSection = Const.DEFAULT_SECTION;
         }

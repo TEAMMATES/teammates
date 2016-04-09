@@ -204,15 +204,7 @@ public class ActivityLogEntry {
             googleId = acc.googleId;
             email = acc.email;
         }
-        
-        boolean isUnregisteredStudent = googleId.contentEquals("Unknown") 
-                                     && unregisteredUserCourse != null 
-                                     && unregisteredUserEmail != null;
-        if (isUnregisteredStudent) {
-            id = unregisteredUserEmail + "%" + unregisteredUserCourse + "%" + formatTimeForId(new Date(time));
-        } else {
-            id = googleId + "%" + formatTimeForId(new Date(time));
-        }
+        id = generateLogId(googleId, unregisteredUserEmail, unregisteredUserCourse, time);
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
@@ -271,12 +263,7 @@ public class ActivityLogEntry {
         }
         
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
-        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) && student != null;
-        if (isUnregisteredStudent) {
-            id = student.email + "%" + student.course + "%" + formatTimeForId(new Date(time));
-        } else {
-            id = googleId + "%" + formatTimeForId(new Date(time));
-        }
+        id = generateLogId(googleId, student, time);
     }
     
     private String formatTimeForId(Date date) {
@@ -387,8 +374,6 @@ public class ActivityLogEntry {
     }
     
     public String getMessageInfo(){
-        
-        Sanitizer.sanitizeForHtml(message);
         
         if (message.toLowerCase().contains(Const.ACTION_RESULT_FAILURE.toLowerCase())){
             message = message.replace(Const.ACTION_RESULT_FAILURE, "<span class=\"text-danger\"><strong>" + Const.ACTION_RESULT_FAILURE + "</strong><br>");
@@ -511,6 +496,34 @@ public class ActivityLogEntry {
         return timeTaken;       
     }
     
+    /**
+     * Generates the ID for the log. If the googleId is unknown or unregistered, 
+     * the email and course of the {@code student} will be used to construct the id.
+     * @param googleId the google ID
+     * @param student StudentAttributes object
+     * @return log ID
+     */
+    public String generateLogId(String googleId, StudentAttributes student, long time) {
+        return (student != null) ? generateLogId(googleId, student.email, student.course, time)
+                                 : generateLogId(googleId, null, null, time);
+    }
+    
+    /**
+     * Generates the ID for the log. If the googleId is unknown or unregistered, 
+     * the {@code email} and {@code course} will be used to construct the id.
+     * @param googleId the google ID
+     * @param email the email
+     * @param course the course
+     * @return log ID
+     */
+    public String generateLogId(String googleId, String email, String course, long time) {
+        boolean isUnregisteredStudent = (googleId.contentEquals("Unknown") || googleId.contentEquals("Unregistered")) 
+                                        && email != null && course != null;
+        
+        return isUnregisteredStudent ? email + "%" + course + "%" + formatTimeForId(new Date(time))
+                                     : googleId + "%" + formatTimeForId(new Date(time));
+    }
+    
     public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
@@ -540,19 +553,19 @@ public class ActivityLogEntry {
         }
         String url = HttpRequestHelper.getRequestedURL(req);
         
-        String message = "";
-        if(errorEmail != null){
-            try {
-                  message += "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>";
-                  message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
-                  message += "<br>";
-                  message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
-                  message += errorEmail.getContent().toString();
-                  message += "</span>";
-              } catch (Exception e) {
-                  message = "System Error. Unable to retrieve Email Report";
-              }
-          }
+        String message;
+        
+        try {
+            message = "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>"
+                    + "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() + "');\">Show/Hide Details >></a>"
+                    + "<br>"
+                    + "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">"
+                    + errorEmail.getContent().toString()
+                    + "</span>";
+        } catch (Exception e) {
+            message = "System Error: Unable to retrieve Email Report: "
+                    + TeammatesException.toStringWithStackTrace(e);
+        }
         
         String courseId = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.COURSE_ID);
         String studentEmail = HttpRequestHelper.getValueFromRequestParameterMap(req, Const.ParamsNames.STUDENT_EMAIL);

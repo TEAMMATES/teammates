@@ -6,13 +6,13 @@
 <table class="table-responsive table table-striped table-bordered">
     <thead>
         <tr>
-            <th onclick="toggleSort(this,1);" class="button_sortname button-sort-none">
+            <th onclick="toggleSort(this);" class="button_sortname button-sort-none">
                 Session Name<span class="icon-sort unsorted"></span></th>
-            <th onclick="toggleSort(this,2,instructorHomeDateComparator);" class="button_sortstartdate button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
-            <th onclick="toggleSort(this,3,instructorHomeDateComparator);" class="button_sortenddate button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
+            <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button_sortstartdate button-sort-none">Start Date<span class="icon-sort unsorted"></span></th>
+            <th onclick="toggleSort(this,instructorHomeDateComparator);" class="button_sortenddate button-sort-none">End Date<span class="icon-sort unsorted"></span></th>
             <th>Status</th>
             <th>
-                <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" 
+                <span class="text-nowrap" title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" 
                       data-toggle="tooltip" data-placement="top">Response Rate</span>
             </th>
             <th class="no-print">Action(s)</th>
@@ -37,8 +37,8 @@
             <td>
                 ${sessionRow.name}
             </td>
-            <td>${sessionRow.startTime}</td>
-            <td>${sessionRow.endTime}</td>
+            <td class="text-nowrap">${sessionRow.startTime}</td>
+            <td class="text-nowrap">${sessionRow.endTime}</td>
             <td>
                 <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
                     ${sessionRow.status}
@@ -47,7 +47,7 @@
             <td class="session-response-for-test<c:if test="${sessionRow.recent}"> recent</c:if>">
                 <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
             </td>
-            <td class="no-print">
+            <td class="no-print text-nowrap padding-right-25px">
                 <tif:feedbackSessionActions actions="${sessionRow.actions}" />
             </td>
         </tr>

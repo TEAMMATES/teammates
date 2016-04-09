@@ -8,6 +8,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.util.Date;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,20 +35,33 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
+    public void testDefaultTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {        
+        
+        StudentAttributes s = createNewStudent();
+        
+        StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
+        assertNotNull(student);
+        
+        student.setCreated_NonProduction(null);
+        student.setUpdatedAt_NonProduction(null);
+        
+        Date defaultStudentCreationTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        
+        ______TS("success : defaultTimeStamp for createdAt date");
+        
+        assertEquals(defaultStudentCreationTimeStamp, student.getCreatedAt());
+        
+        ______TS("success : defaultTimeStamp for updatedAt date");
+        
+        assertEquals(defaultStudentCreationTimeStamp, student.getUpdatedAt());
+    }
+    
+    @Test
     public void testTimestamp() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException 
     {        
         ______TS("success : created");
         
-        StudentAttributes s = new StudentAttributes();
-        s.name = "valid student";
-        s.lastName = "student";
-        s.email = "valid-fresh@email.com";
-        s.team = "validTeamName";
-        s.section = "validSectionName";
-        s.comments = "";
-        s.googleId = "validGoogleId";
-        s.course = "valid-course";
-        studentsDb.createEntity(s);
+        StudentAttributes s = createNewStudent();
         
         StudentAttributes student = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertNotNull(student);
@@ -76,7 +91,6 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         // Assert lastUpdate has NOT changed.
         assertTrue(updatedStudent.getUpdatedAt().equals(updatedStudent2.getUpdatedAt()));
-        
     }
     
     @Test
@@ -106,6 +120,10 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         ______TS("success : valid params");
         s.course = "valid-course";
+        
+        // remove possibly conflicting entity from the database
+        studentsDb.deleteStudent(s.course, s.email);
+        
         studentsDb.createEntity(s);
         verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
@@ -133,6 +151,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
+        
     }
 
     @SuppressWarnings("deprecation")
@@ -186,6 +205,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
+        
+        studentsDb.deleteStudent(s.course, s.email);
     }
     
     @Test
@@ -283,6 +304,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
         
+        studentsDb.deleteStudent(s.course, s.email);
+
       //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
       //       Reason: Difficult to reproduce a persistence delay during testing
     }

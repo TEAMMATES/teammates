@@ -15,40 +15,40 @@ public class AdminAccountManagementPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
         new GateKeeper().verifyAdminPrivileges(account);
         
-        @SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
-        List<InstructorAttributes> allInstructorsList = logic.getAllInstructors();
-        @SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
-        List<AccountAttributes> allInstructorAccountsList = logic.getInstructorAccounts();
-        
-        boolean isToShowAll = this.getRequestParamAsBoolean("all");
+        String instructorGoogleId = this.getRequestParamValue("googleId");
+        if (instructorGoogleId == null) {
+            instructorGoogleId = "";
+        }
         
         Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();
         Map<String, AccountAttributes> instructorAccountsTable = new HashMap<String, AccountAttributes>();
         
-        for(AccountAttributes acc : allInstructorAccountsList){
-            instructorAccountsTable.put(acc.googleId, acc);
-            System.out.println(acc.googleId);
-        }
+        List<InstructorAttributes> instructorsList = logic.getInstructorsForGoogleId(instructorGoogleId);
+        AccountAttributes instructorAccount = logic.getAccount(instructorGoogleId);
         
-        for(InstructorAttributes instructor : allInstructorsList){
-            ArrayList<InstructorAttributes> courseList = instructorCoursesTable.get(instructor.googleId);
-            if (courseList == null){
-                courseList = new ArrayList<InstructorAttributes>();
-                instructorCoursesTable.put(instructor.googleId, courseList);
-            }
+        boolean isToShowAll = this.getRequestParamAsBoolean("all");
+        boolean isAccountExisting = instructorAccount != null;
+        if (isAccountExisting) {
+            instructorAccountsTable.put(instructorAccount.googleId, instructorAccount);
             
-            courseList.add(instructor);
+            for (InstructorAttributes instructor : instructorsList) {
+                ArrayList<InstructorAttributes> courseList = instructorCoursesTable.get(instructor.googleId);
+                if (courseList == null) {
+                    courseList = new ArrayList<InstructorAttributes>();
+                    instructorCoursesTable.put(instructor.googleId, courseList);
+                }
+                
+                courseList.add(instructor);
+            }
         }
             
         AdminAccountManagementPageData data = new AdminAccountManagementPageData(account, instructorAccountsTable,
                                                                                  instructorCoursesTable, isToShowAll);
         
-        statusToAdmin = "Admin Account Management Page Load<br>" + 
-                "<span class=\"bold\">Total Instructors:</span> " + 
-                instructorAccountsTable.size();
+        statusToAdmin = "Admin Account Management Page Load<br>" 
+                        + "<span class=\"bold\">Total Instructors:</span> " + instructorAccountsTable.size();
         
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, data);
     }

@@ -1,6 +1,9 @@
 $(document).ready(function() {
     $(".fslink").hide();
 
+    // highlight search string 
+    highlightSearchResult("#filterQuery", ".studentRow, .instructorRow");
+
 	$("#rebuildButton").click(function() {
 
 		$(this).val("true");
@@ -42,7 +45,7 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
-	$(".recentActionButton").click(function(e){
+	$(".optionButton").click(function(e){
 		e.stopPropagation();
 	});
 	
@@ -92,7 +95,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                 	$(button).html("An Error Occurred, Please Retry");      	
                 }
             	               
-                $("#statusMessage").html(data.statusForAjax);
+                setStatusMessage(data.statusForAjax, StatusType.INFO);
 
             },500);
         }

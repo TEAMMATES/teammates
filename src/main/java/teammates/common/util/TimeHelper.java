@@ -208,6 +208,11 @@ public class TimeHelper {
     public static String formatTime12H(Date date) {
         if (date == null)
             return "";
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm").format(date) + " NOON";
+        }
         return new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a").format(date);
     }
     
@@ -215,7 +220,15 @@ public class TimeHelper {
         if (date == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date) + " NOON UTC";
+        }
+        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a zzz");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
@@ -226,7 +239,15 @@ public class TimeHelper {
     public static String formatDateTimeForInstructorHomePage(Date date) {
         if (date == null)
             return "";
-        SimpleDateFormat sdf = new SimpleDateFormat("d MMM h:mm a");
+        SimpleDateFormat sdf = null;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
+            sdf = new SimpleDateFormat("d MMM h:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date) + " NOON";
+        }
+        sdf = new SimpleDateFormat("d MMM h:mm a");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf.format(date);
     }
@@ -297,6 +318,33 @@ public class TimeHelper {
         differenceInDays = (int) ((currentDate.getTime() - compareDate.getTime()) / (1000*60*60*24));
         
         return (differenceInDays > 365);
+    }
+    
+    /**
+     * Checks if the time falls between the period specified. Possible scenarios:
+     * <ul>
+     *  <li>{@code startTime <= time <= endTime}</li>
+     *  <li>{@code startTime <= time < endTime}</li>
+     *  <li>{@code startTime < time <= endTime}</li>
+     *  <li>{@code startTime < time < endTime}</li>
+     * </ul>
+     * @param startTime the start time of the period
+     * @param endTime the end time of the period
+     * @param time the time to be checked
+     * @param isStartInclusive true to allow time to fall on start time
+     * @param isEndInclusive true to allow time to fall on end time
+     * @return true if the time falls between the start and end time
+     */
+    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time, 
+                                             boolean isStartInclusive, boolean isEndInclusive) {
+        if (startTime == null || endTime == null || time == null) {
+            return false;
+        }
+        
+        boolean isAfterStartTime = time.after(startTime) || (isStartInclusive && time.equals(startTime));
+        boolean isBeforeEndTime = time.before(endTime) || (isEndInclusive && time.equals(endTime));
+        
+        return isAfterStartTime && isBeforeEndTime;
     }
     
     public static double getLocalTimezoneHourOffset() {

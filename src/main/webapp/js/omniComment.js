@@ -429,14 +429,10 @@ function disableComment(commentIdx){
 	$("div[id='commentTextEdit"+commentIdx+"']").hide();
 }
 
-function isBlank(str) {
-    return (!str || /^\s*$/.test(str));
-}
-
 function checkComment(form){
     var formTextField = $(form).find('[name=commenttext]').val();
     if (isBlank(formTextField)) {
-        setStatusMessage("Please enter a valid comment. The comment can't be empty.", true);
+        setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
         scrollToTop();
         return false;
     }

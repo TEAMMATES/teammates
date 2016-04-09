@@ -371,7 +371,6 @@ public class Emails {
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
-        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
@@ -412,7 +411,6 @@ public class Emails {
 
         String emailBody = template;
 
-        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${userName}", i.name);
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
@@ -447,7 +445,6 @@ public class Emails {
 
         String emailBody = template;
 
-        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${userName}", i.name);
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
@@ -638,7 +635,7 @@ public class Emails {
         MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         message.setSubject("Severe Error Logs Compilation");
 
-        String emailBody = logs;
+        String emailBody = logs.replace("\n", "<br>");
 
         message.setContent(emailBody, "text/html");
         return message;
@@ -663,8 +660,7 @@ public class Emails {
                 addEmailToTaskQueue(m, emailDelayTimer);
                 numberOfEmailsSent++;
             } catch (MessagingException e) {
-                log.severe("Error in sending : " + m.toString()
-                        + " Cause : " + e.getMessage());
+                logSevereForErrorInSendingItem("message", m, e);
             }
         }
 
@@ -806,23 +802,26 @@ public class Emails {
             forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
-            log.severe("Error in sending crash report: "
-                    + (email == null ? "" : email.toString()));
+            log.severe("Crash report failed to send. Detailed error stack trace: "
+                     + TeammatesException.toStringWithStackTrace(error));
+            logSevereForErrorInSendingItem("crash report", email, e);
         }
     
         return email;
     }
 
     public MimeMessage sendLogReport(MimeMessage message) {
-        MimeMessage email = null;
         try {
             forceSendEmailThroughGaeWithoutLogging(message);
         } catch (Exception e) {
-            log.severe("Error in sending log report: "
-                    + (email == null ? "" : email.toString()));
+            logSevereForErrorInSendingItem("log report", message, e);
         }
+        return message;
+    }
     
-        return email;
+    private void logSevereForErrorInSendingItem(String itemType, MimeMessage message, Exception e) {
+        log.severe("Error in sending " + itemType + ": " + (message == null ? "" : message.toString())
+                   + "\nCause: " + TeammatesException.toStringWithStackTrace(e));        
     }
     
     private String fillUpStudentJoinFragment(StudentAttributes s, String emailBody) {

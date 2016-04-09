@@ -12,7 +12,7 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentListAjaxPageAction extends Action {
@@ -37,19 +37,15 @@ public class InstructorStudentListAjaxPageAction extends Action {
         int courseIndex = Integer.parseInt(courseIndexString);
         boolean hasSection = logic.hasIndicatedSections(courseId);
 
-        String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                        + "?" + Const.ParamsNames.STUDENT_EMAIL
-                        + "=%s&" + Const.ParamsNames.COURSE_ID
-                        + "=%s&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
-
         Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         Map<String, Map<String, Boolean>> sectionPrivileges = new HashMap<>();
         for (SectionDetailsBundle sectionDetails : courseSectionDetails) {
             for (TeamDetailsBundle teamDetails : sectionDetails.teams) {
                 for (StudentAttributes student : teamDetails.students) {
-                    emailPhotoUrlMapping.put(student.email, String.format(photoUrl,
-                                                                          StringHelper.encrypt(student.email),
-                                                                          StringHelper.encrypt(student.course)));
+                    String studentPhotoUrl = student.getPublicProfilePictureUrl();
+                    studentPhotoUrl = Url.addParamToUrl(studentPhotoUrl, 
+                                                    Const.ParamsNames.USER_ID, account.googleId);
+                    emailPhotoUrlMapping.put(student.email, studentPhotoUrl);
                 }
             }
             Map<String, Boolean> sectionPrivilege = new HashMap<String, Boolean>();

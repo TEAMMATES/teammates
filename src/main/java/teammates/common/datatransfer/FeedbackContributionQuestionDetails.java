@@ -80,7 +80,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectFragmentsHtml);
         
         return html;
@@ -97,7 +97,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${qnIdx}", Integer.toString(qnIdx),
                 "${responseIdx}", Integer.toString(responseIdx),
                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                "${disabled}", sessionIsOpen ? "" : "disabled",
                 "${contribSelectFragmentsHtml}", optionSelectHtml);
         
         return html;
@@ -108,7 +108,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${isNotSureAllowedChecked}", (isNotSureAllowed) ? "checked=\"checked\"" : "",
+                "${isNotSureAllowedChecked}", (isNotSureAllowed) ? "checked" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }
@@ -576,8 +576,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle) {
         List<String> teamNames = new ArrayList<String>();
         for(FeedbackResponseAttributes response : responses){
-            if(!teamNames.contains(bundle.getTeamNameForEmail(response.giverEmail))){
-                teamNames.add(bundle.getTeamNameForEmail(response.giverEmail));
+            String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giverEmail);
+            if (!teamNames.contains(teamNameOfResponseGiver)) {
+                teamNames.add(teamNameOfResponseGiver);
             }
         }
         return teamNames;
@@ -828,13 +829,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String result = "<option class=\""
                 + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
                 + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
-                + (points == Const.POINTS_NOT_SUBMITTED ? " selected=\"selected\"" : "") + ">"
+                + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
                 + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
         for(int i=200; i>=0; i-=10){
             result += "<option "+
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
                         "value=\"" + i + "\"" +
-                        (i==points ? "selected=\"selected\"" : "") +
+                        (i == points ? "selected" : "") +
                         ">" + convertToEqualShareFormat(i) +
                         "</option>\r\n";
         }
@@ -842,7 +843,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             result += "<option class=\""
                     + getContributionOptionsColor(Const.POINTS_NOT_SURE)
                     + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
-                    + (points == Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">"
+                    + (points == Const.POINTS_NOT_SURE ? " selected" : "") + ">"
                     + "Not Sure</option>";
         }
         return result;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertTrue;
@@ -47,6 +48,11 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         emailLogPage = loginAdminToPage(browser, logPageUrl, AdminEmailLogPage.class);
         emailLogPage.verifyIsCorrectPage();
         assertTrue(isEmailLogDataDisplayCorrect());
+    }
+
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
     }
 
     /**

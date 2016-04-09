@@ -7,13 +7,13 @@
 <div class="panel panel-primary" id="course-${index}"<c:if test="${isNotLoaded}"> style="cursor: pointer;"</c:if>>
     <div class="panel-heading">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <strong>
                     [${courseTable.courseId}] : ${courseTable.courseName}
                 </strong>
             </div>
-            <div class="col-md-6">
-                <span class="pull-right">
+            <div class="mobile-margin-top-10px col-sm-6">
+                <span class="mobile-no-pull pull-right">
                     <c:forEach items="${courseTable.buttons}" var="button">
                         <a data-toggle="tooltip" data-placement="top" ${button.attributesToString}>
                             ${button.content}

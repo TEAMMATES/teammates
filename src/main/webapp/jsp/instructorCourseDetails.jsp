@@ -16,7 +16,7 @@
                                        courseRemindButton="${data.courseRemindButton}"/>
     <course:commentArea courseId="${data.courseDetails.course.id}"/>
     <br>
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
     <br>
     <ti:studentList courseId="${data.courseDetails.course.id}" courseIndex="${0}" hasSection="${data.hasSection}" sections="${data.sections}"
                     fromCourseDetailsPage="${true}"/>

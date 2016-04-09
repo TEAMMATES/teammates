@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.listener.StoreCallback;
 
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -116,7 +117,7 @@ public class Student implements StoreCallback {
     }
     
     public Date getCreatedAt() {
-        return createdAt;
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
     
     public void setCreatedAt(Date created) {
@@ -125,7 +126,7 @@ public class Student implements StoreCallback {
     }
     
     public Date getUpdatedAt() {
-        return updatedAt;
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     public void setLastUpdate(Date updatedAt) {

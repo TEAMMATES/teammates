@@ -23,6 +23,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
@@ -78,7 +79,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
+        assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
+        assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
         assertEquals("", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
@@ -92,8 +94,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(7, formModel.getGracePeriodOptions().size());
         
         int expectedDefaultGracePeriodOptionsIndex = 3;
-        String defaultSelectedAttribute = formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected");
-        assertEquals("selected", defaultSelectedAttribute);
+        assertNull(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected"));
+        assertTrue(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().containsKey("selected"));
         
         assertEquals("Please answer all the given questions.", formModel.getInstructions());
         assertEquals("", formModel.getAdditionalSettings().getResponseVisibleDateValue());
@@ -134,6 +136,35 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         
         
+        ______TS("case with instructor with only archived course");
+        AccountAttributes instructorOfArchivedCourseAccount = dataBundle.accounts.get("instructorOfArchivedCourse");
+        InstructorFeedbacksPageData instructorArchivedCourseData = new InstructorFeedbacksPageData(instructorOfArchivedCourseAccount);
+        Map<String, InstructorAttributes> archivedCourseInstructorMap = new HashMap<String, InstructorAttributes>();
+        
+        instructors = getInstructorsForGoogleId(instructorOfArchivedCourseAccount.googleId, true);
+        
+        for (InstructorAttributes instructor : instructors) {
+            archivedCourseInstructorMap.put(instructor.courseId, instructor);
+        }
+        
+        List<InstructorAttributes> instructorsForArchivedCourse = new ArrayList<InstructorAttributes>(archivedCourseInstructorMap.values());
+        List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
+        List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
+        instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList, archivedCourseInstructorMap, null);
+
+        ______TS("case with instructor with only archived course: test new fs form");
+        // Test new fs form model
+        formModel = instructorArchivedCourseData.getNewFsForm();
+        
+        assertNull(formModel.getCourseId());
+        assertEquals(1, formModel.getCoursesSelectField().size());
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_ACTIVE_COURSES, 
+                     formModel.getCoursesSelectField().get(0).getContent());
+        
+        assertTrue(formModel.isSubmitButtonDisabled());
+        
+        
+        
         ______TS("case with instructor with restricted permissions");
         AccountAttributes helperAccount = dataBundle.accounts.get("helperOfCourse1");
         
@@ -158,9 +189,10 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals("No active courses!", formModel.getCoursesSelectField().get(0).getContent());
+        assertEquals(Const.StatusMessages.INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS, 
+                     formModel.getCoursesSelectField().get(0).getContent());
         
-        assertFalse(formModel.isSubmitButtonDisabled());
+        assertTrue(formModel.isSubmitButtonDisabled());
         
         ______TS("case with instructor with restricted permissions: session rows");
         fsTableModel = helperData.getFsList();
@@ -245,9 +277,10 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
+        assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
+        assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
         
-        assertEquals("30/04/2017", formModel.getFsEndDate());
+        assertEquals("30/04/2027", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("First feedback session", formModel.getFsName());
         
@@ -257,11 +290,11 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(7, formModel.getGracePeriodOptions().size());
         
         int expectedDefaultGracePeriodOptionsIndex = 2;
-        String defaultSelectedAttribute = formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected");
-        assertEquals("selected", defaultSelectedAttribute);
+        assertNull(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected"));
+        assertTrue(formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().containsKey("selected"));
         
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
-        assertEquals("01/05/2017", formModel.getAdditionalSettings().getResponseVisibleDateValue());
+        assertEquals("01/05/2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("28/03/2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
@@ -327,7 +360,8 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
-        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
+        assertNull(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
+        assertTrue(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().containsKey("selected"));
 
         FeedbackSessionsCopyFromModal modal = data.getCopyFromModal();
         assertEquals("First feedback session", modal.getFsName());

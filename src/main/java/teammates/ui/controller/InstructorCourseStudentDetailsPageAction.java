@@ -59,7 +59,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
 
         // this means that the user is returning to the page and is not the first time
         boolean hasExistingStatus = !statusToUser.isEmpty()
-                                    || session.getAttribute(Const.ParamsNames.STATUS_MESSAGE) != null;
+                                    || session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST) != null;
         
         if (student.googleId.isEmpty()) {
             if (!hasExistingStatus) {

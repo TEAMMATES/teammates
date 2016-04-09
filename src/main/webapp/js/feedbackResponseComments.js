@@ -7,12 +7,11 @@ var addCommentHandler = function(e) {
     var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).parent().parent();
     var addFormRow = $(this).parent().parent().parent();
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find(".panel-heading").first();
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
     var numberOfComments = addFormRow.parent().find('li').length;
-    var commentId = responseCommentId.substring(21) + '-' + numberOfComments;
+    var commentId = responseCommentId.substring("responseCommentTable-".length) + '-' + numberOfComments;
     
     e.preventDefault();
     
@@ -35,16 +34,12 @@ var addCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    panelHeading.click();
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Inject new comment row
                     addFormRow.parent().attr("class", "list-group");
                     addFormRow.before(data);
                     removeUnwantedVisibilityOptions(commentId);
-                    var newCommentRow = addFormRow.prev();
-                    newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
-                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-                    registerResponseCommentCheckboxEvent();
 
                     // Reset add comment form
                     formObject.find("textarea").prop("disabled", false);
@@ -74,8 +69,7 @@ var editCommentHandler = function(e) {
     var formObject = $(this).parent().parent();
     var displayedText = $(this).parent().parent().prev();
     var commentBar = displayedText.parent().find("div[id^=commentBar]");
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find(".panel-heading").first();
     var formData = formObject.serialize();
     
     e.preventDefault();
@@ -99,7 +93,7 @@ var editCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if(isInCommentsPage()) {
-                    panelHeading.click();
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     // Update editted comment
                     displayedText.html(data.comment.commentText.value);
@@ -134,8 +128,7 @@ var deleteCommentHandler = function(e) {
     var formData = formObject.serialize();
     var editForm = submitButton.parent().next().next().next();
     var frCommentList = submitButton.parent().parent().parent().parent();
-    var panelHeading = $(this).parent().parent().parent().parent()
-        .parent().parent().parent().parent().parent().parent().prev();
+    var panelHeading = $(this).parents("[id^='panel_display-']").find(".panel-heading").first();
     
     e.preventDefault();
     
@@ -156,7 +149,7 @@ var deleteCommentHandler = function(e) {
         success: function(data) {
             if (!data.isError) {
                 if (isInCommentsPage()) {
-                    panelHeading.click();
+                    reloadFeedbackResponseComments(formObject, panelHeading);
                 } else {
                     var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
                     if (numberOfItemInFrCommentList.length <= 2) {
@@ -181,17 +174,15 @@ var deleteCommentHandler = function(e) {
 };
 
 function registerResponseCommentsEvent() {
-    $("form[class*='responseCommentAddForm'] > div > a[id^='button_save_comment_for_add']").click(addCommentHandler);
-    $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
-    $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
-    
-    registerResponseCommentCheckboxEvent();
+    $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]', addCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]', editCommentHandler);
+    $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
     
     $("div[id^=plainCommentText]").css("margin-left","15px");
 }
 
 function registerResponseCommentCheckboxEvent() {
-    $("input[type=checkbox]").click(function(e) {
+    $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];
@@ -237,14 +228,21 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
 
 function enableHoverToDisplayEditOptions() {
     //show on hover for comment
-    $('.comments > .list-group-item').hover(function() {
+    $('body').on('mouseenter', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).show();
-    }, function() {
+    });
+    
+    $('body').on('mouseleave', '.comments > .list-group-item', function() {
         $('div[id|="commentBar"] a[type="button"]', this).hide();
     });
 }
 
-$(document).ready(registerResponseCommentsEvent);
+$(document).ready(function() {
+    registerResponseCommentsEvent();
+    registerResponseCommentCheckboxEvent();
+    registerCheckboxEventForVisibilityOptions();
+    enableHoverToDisplayEditOptions();
+});
 
 function removeUnwantedVisibilityOptions(commentId) {
     var addFormId = "showResponseCommentAddForm-" + commentId.split('-').splice(0, 3).join('-');
@@ -366,26 +364,65 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
     $("#responseCommentEditForm-" + addedIndex).show();
 }
 
-function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
+/**
+ * Reload feedback response comments.
+ * @param formObject the form object where the action is triggered
+ * @param panelHeading the heading of the feedback session panel
+ */
+function reloadFeedbackResponseComments(formObject, panelHeading) {
+    var user = formObject.find("[name='user']").val();
+    var courseId = formObject.find("[name='courseid']").val();
+    var fsName = formObject.find("[name='fsname']").val();
+    var fsIndx = formObject.find("[name='fsindex']").val();
+    
+    loadFeedbackResponseComments(user, courseId, fsName, fsIndx, panelHeading, false);
+}
+
+function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, clickedElement, isClicked) {
     $(".tooltip").hide();
-    var panelBody = $(sender).parent().find('div[class^="panel-body"]');
+    var $clickedElement = $(clickedElement);
+    var $collapsiblePanel = $clickedElement.siblings(".collapse");
+    var panelBody = $clickedElement.parent().find('div[class^="panel-body"]');
     var fsNameForUrl = encodeURIComponent(fsName);
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
-    $(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+    
+    // If the content is already loaded, toggle the chevron and exit.
+    if ($clickedElement.hasClass("loaded") && isClicked) {
+        toggleCollapsiblePanel($collapsiblePanel);
+        toggleChevron(clickedElement);
+        
+        return;
+    }
+    
+    $clickedElement.find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+    
     panelBody.load(url, function( response, status, xhr ) {
-        if (status == "success") {
-            panelBody.removeClass('hidden');
+        if (status !== "success") {
+            panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
+        } else {
             updateBadgeForPendingComments(panelBody.children(":first").text());
             panelBody.children(":first").remove();
-            registerResponseCommentsEvent();
-            registerCheckboxEventForVisibilityOptions();
-            enableHoverToDisplayEditOptions();
-      } else {
-          panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
-          panelBody.removeClass('hidden');
-      }
-      $(sender).find('div[class^="placeholder-img-loading"]').html("");
+
+            $clickedElement.addClass("loaded");
+        }
+
+        if (isClicked) {
+            toggleCollapsiblePanel($collapsiblePanel);
+            toggleChevron(clickedElement);
+        }
+
+        $clickedElement.find('div[class^="placeholder-img-loading"]').html("");
     });
+    
+}
+
+/**
+ * Clears the animation queue of the panel before collapsing/expanding the panel.
+ */
+function toggleCollapsiblePanel(collapsiblePanel) {
+    //clearQueue to clear the animation queue to prevent animation build up
+    collapsiblePanel.clearQueue();
+    collapsiblePanel.collapse("toggle");
 }
 
 function updateBadgeForPendingComments(numberOfPendingComments) {
@@ -399,7 +436,7 @@ function updateBadgeForPendingComments(numberOfPendingComments) {
 }
 
 function registerCheckboxEventForVisibilityOptions() {
-    $("input[type=checkbox]").click(function(e) {
+    $('body').on('click', 'div[class*="student-record-comments"] * input[type=checkbox]', function(e) {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
         var visibilityOptions = [];

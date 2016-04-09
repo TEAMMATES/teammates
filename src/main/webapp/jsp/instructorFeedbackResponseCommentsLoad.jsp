@@ -7,7 +7,7 @@
 <div class="hidden number-of-pending-comments">${data.numberOfPendingComments}</div>
 <c:choose>
     <c:when test="${empty data.questionCommentsMap}">
-        <div id="no-comment-panel" style="">
+        <div id="no-comment-panel">
             <br>
             <div class="panel panel-info">
                 <ul class="list-group comments">
@@ -45,7 +45,7 @@
                                             onclick="showResponseCommentAddForm(${fsIndex},${responseEntriesStatus.count},${responseStatus.count})"
                                             data-toggle="tooltip" data-placement="top"
                                             title="<%= Const.Tooltips.COMMENT_ADD %>"
-                                            <c:if test="${not response.instructorAllowedToSubmit}">disabled="disabled"</c:if>>
+                                            <c:if test="${not response.instructorAllowedToSubmit}">disabled</c:if>>
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>
                                 </td>

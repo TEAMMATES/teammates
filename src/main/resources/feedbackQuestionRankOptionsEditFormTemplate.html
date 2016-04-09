@@ -17,11 +17,13 @@
             value="${numOfRankOptions}">
     </div>
     <div class="col-sm-6">
-        <div class="form-inline col-sm-12"  data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will allow response givers to give the same rank to multiple options">
-            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}" 
-               id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}-${questionNumber}" 
-               ${areDuplicatesAllowedChecked}>
-            <span style="margin-left: 5px; font-weight: bold;">Allow response giver to give the same rank to multiple options</span>
+        <div class="checkbox" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this will allow response givers to give the same rank to multiple options">
+            <label class="bold-label">
+                <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}"
+                    id="${Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED}-${questionNumber}"
+                    ${areDuplicatesAllowedChecked}>
+                Allow response giver to give the same rank to multiple options
+            </label>
         </div>
     </div>
     

@@ -73,24 +73,19 @@ function bindFeedbackSessionEditFormSubmission() {
             type: 'POST',
             data: $form.serialize(),
             beforeSend: function() {
-                $('#statusMessage').hide();
+                clearStatusMessages();
             },
             success: function(result) {
-            	$statusMessage = $('#statusMessage');
-            		
-            	$statusMessage.text(result.statusForAjax);
                 
-            	$statusMessage.removeClass("alert alert-danger alert-warning");
                 if (result.hasError) {
-                	$statusMessage.addClass("alert alert-danger");
+                    setStatusMessage(result.statusForAjax, StatusType.DANGER);
                 } else {
+                    setStatusMessage(result.statusForAjax, StatusType.SUCCESS);
                     disableEditFS();
-                    $statusMessage.addClass("alert alert-success");
                 }
-                $statusMessage.show();
                 
                 // focus on status message
-                scrollToElement($statusMessage[0], {offset: ($('.navbar').height() + 30) * -1});
+                scrollToElement($("#statusMessagesToUser"), {offset: ($('.navbar').height() + 30) * -1});
             }
         });
     });
@@ -206,7 +201,7 @@ function enableQuestion(number) {
     $currentQuestionTable.find('text,button,textarea,select,input')
                          .not('[name="receiverFollowerCheckbox"]')
                          .not('.disabled_radio')
-                         .removeAttr('disabled', 'disabled');
+                         .prop('disabled', false);
     
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
@@ -219,15 +214,15 @@ function enableQuestion(number) {
     if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
         $('#mcqChoiceTable-' + number).hide();
         $('#msqChoiceTable-' + number).hide();
-        $("#mcqOtherOptionFlag-" + number).parent().hide();
-        $("#msqOtherOptionFlag-" + number).parent().hide();
+        $("#mcqOtherOptionFlag-" + number).closest(".checkbox").hide();
+        $("#msqOtherOptionFlag-" + number).closest(".checkbox").hide();
         $('#mcqGenerateForSelect-' + number).prop('disabled', false);
         $('#msqGenerateForSelect-' + number).prop('disabled', false);
     } else {
         $('#mcqChoiceTable-' + number).show();
         $('#msqChoiceTable-' + number).show();
-        $("#mcqOtherOptionFlag-" + number).parent().show();
-        $("#msqOtherOptionFlag-" + number).parent().show();
+        $("#mcqOtherOptionFlag-" + number).closest(".checkbox").show();
+        $("#msqOtherOptionFlag-" + number).closest(".checkbox").show();
         $('#mcqGenerateForSelect-' + number).prop('disabled', true);
         $('#msqGenerateForSelect-' + number).prop('disabled', true);
     }
@@ -265,7 +260,7 @@ function enableNewQuestion() {
     $currentQuestionTableSuffix.find('text,button,textarea,select,input')
                                .not('[name="receiverFollowerCheckbox"]')
                                .not('.disabled_radio')
-                               .removeAttr('disabled', 'disabled');
+                               .prop('disabled', false);
     $currentQuestionTableSuffix.find('.removeOptionLink').show();
     $currentQuestionTableSuffix.find('.addOptionLink').show();
 
@@ -302,7 +297,7 @@ function enableNewQuestion() {
 function disableQuestion(number) {
     var $currentQuestionTable = $('#questionTable' + number);
 
-    $currentQuestionTable.find('text,button,textarea,select,input').attr('disabled', 'disabled');
+    $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     
     $currentQuestionTable.find('#mcqAddOptionLink').hide();
     $currentQuestionTable.find('#msqAddOptionLink').hide();
@@ -310,12 +305,12 @@ function disableQuestion(number) {
     
     /* Check whether generate options for students/instructors/teams is selected
        If so, hide 'add Other option' */
-    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
-        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().hide();
-        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().hide();
+    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).prop('checked')) {
+        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).closest(".checkbox").hide();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).closest(".checkbox").hide();
     } else {
-        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().show();
-        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).parent().show();
+        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).closest(".checkbox").show();
+        $currentQuestionTable.find("#msqOtherOptionFlag-" + number).closest(".checkbox").show();
     }
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
@@ -652,20 +647,31 @@ function disableRow(elem, row) {
 }
 
 function feedbackRecipientUpdateVisibilityOptions(elem) {
-    elem = $(elem);
-    if (elem.val() === 'OWN_TEAM' || elem.val() === 'TEAMS' ||
-            elem.val() === 'INSTRUCTORS' || elem.val() === 'OWN_TEAM_MEMBERS') {
-        enableRow(elem, 1);
-        disableRow(elem, 3);
+    var $elem = $(elem);
+    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
+        // show the row Recipient(s) and hide the row Recipient's Team Members
+        enableRow($elem, 1);
+        disableRow($elem, 3);
         return;
-    } else if(elem.val() === 'NONE') {
-        disableRow(elem, 3);
-        disableRow(elem, 1);
+    } else if ($elem.val() === 'NONE') {
+        // hide both the row Recipient(s) and the row Recipient's Team Members
+        disableRow($elem, 3);
+        disableRow($elem, 1);
         return;
     }
     
-    enableRow(elem, 1);
-    enableRow(elem, 3);
+    enableRow($elem, 1);
+    enableRow($elem, 3);
+}
+
+/**
+ * Returns true if "recipient's team members" visibility option 
+ * is not applicable for the recipient type
+ */
+function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
+    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
+           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS' 
+           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
 function feedbackGiverUpdateVisibilityOptions(elem) {
@@ -710,7 +716,7 @@ function getQuestionLink(qnNumber) {
                         '&fsname=' + fsname +
                         '&questionid=' + questionId;
     
-    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, false);
+    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, StatusType.WARNING);
 }
 
 function toParameterFormat(str) {
@@ -723,9 +729,9 @@ function bindCopyButton() {
         
         var questionRows = $('#copyTableModal >tbody>tr');
         if (!questionRows.length) {
-            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, true);
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, StatusType.DANGER);
         } else {
-            setStatusMessage('', false);
+            setStatusMessage('', StatusType.WARNING);
             $('#copyModal').modal('show');
         }
        
@@ -751,7 +757,7 @@ function bindCopyButton() {
         });
 
         if (!hasRowSelected) {
-            setStatusMessage('No questions are selected to be copied', true);
+            setStatusMessage('No questions are selected to be copied', StatusType.DANGER);
             $('#copyModal').modal('hide');
         } else {
             $('#copyModalForm').submit();
@@ -774,7 +780,7 @@ function bindCopyEvents() {
             numRowsSelected--;
         } else {
             $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked="checked">');
+            $(this).children('td:first').html('<input type="checkbox" checked>');
             numRowsSelected++;
         }
 
@@ -924,7 +930,7 @@ function addMcqOption(questionNumber) {
     $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"radio\" disabled=\"disabled\">"
+        +          "<input type=\"radio\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
@@ -972,14 +978,14 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#mcqChoiceTable' + idSuffix).hide();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', false);
-        $("#mcqOtherOptionFlag" + idSuffix).parent().hide();
+        $("#mcqOtherOptionFlag" + idSuffix).closest('.checkbox').hide();
         $('#generatedOptions' + idSuffix).attr('value',
                                                $('#mcqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#mcqChoiceTable' + idSuffix).show();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', true);
-        $("#mcqOtherOptionFlag" + idSuffix).parent().show();
+        $("#mcqOtherOptionFlag" + idSuffix).closest('.checkbox').show();
         $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }
@@ -1016,7 +1022,7 @@ function addMsqOption(questionNumber) {
     $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
-        +          "<input type=\"checkbox\" disabled=\"disabled\">"
+        +          "<input type=\"checkbox\" disabled>"
         +       "</span>"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
@@ -1065,14 +1071,14 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#msqChoiceTable' + idSuffix).hide();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
-        $("#msqOtherOptionFlag" + idSuffix).parent().hide();
+        $("#msqOtherOptionFlag" + idSuffix).closest(".checkbox").hide();
         $('#generatedOptions' + idSuffix).attr('value',
                                                $('#msqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#msqChoiceTable' + idSuffix).show();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', true);
-        $("#msqOtherOptionFlag" + idSuffix).parent().show();
+        $("#msqOtherOptionFlag" + idSuffix).closest(".checkbox").show();
         $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }
@@ -1175,8 +1181,8 @@ function addConstSumOption(questionNumber) {
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
-    $(    "<div id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
-        +   "<div class=\"input-group\">"
+    $(    "<div class=\"margin-bottom-7px\" id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group width-100-pc\">"
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control constSumOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"

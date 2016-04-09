@@ -73,8 +73,8 @@ public class StudentAttributes extends EntityAttributes {
      * Creation and update time stamps. 
      * Updated automatically in Student.java, jdoPreStore()
      */
-    private Date createdAt;
-    private Date updatedAt;
+    private transient Date createdAt;
+    private transient Date updatedAt;
 
     public StudentAttributes(String id, String email, String name, String comments, String courseId,
                              String team, String section) {
@@ -364,11 +364,11 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     public Date getCreatedAt() {
-        return createdAt;
+        return (createdAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
     public Date getUpdatedAt() {
-        return updatedAt;
+        return (updatedAt == null) ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
     
     /**

@@ -103,7 +103,7 @@ public class StudentProfilePage extends AppPage {
 
     public void showPictureEditor() throws Exception {
         uploadPopupButton.click();
-        waitForElementVisibility(browser.driver.findElement(By.id("studentPhotoUploader")));
+        waitForUploadEditModalVisible();
     }
 
     public void fillShortName(String shortName) {
@@ -214,6 +214,10 @@ public class StudentProfilePage extends AppPage {
     public void verifyUploadButtonState(boolean expectedState) {
         assertEquals(expectedState, uploadPictureSubmit.isEnabled());
         
+    }
+    
+    public void waitForUploadEditModalVisible() {
+        waitForElementVisibility(uploadEditModal);
     }
 
 }

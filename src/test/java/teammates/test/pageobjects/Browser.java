@@ -2,9 +2,10 @@ package teammates.test.pageobjects;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Stack;
 
 import org.openqa.selenium.WebDriver;
-import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
+
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -15,12 +16,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import teammates.test.driver.TestProperties;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
  * A programmatic interface to the Browser used to test the app.
  */
-@SuppressWarnings("deprecation")
 public class Browser {
     
     protected ChromeDriverService chromeService = null;
@@ -32,12 +31,6 @@ public class Browser {
     public WebDriver driver;
 
     /**
-     * A wrapper around the {@code driver} that represents a slightly
-     * higher-level programmatic interface to the Browser instance.
-     */
-    public DefaultSelenium selenium = null;
-    
-    /**
      * Indicated to the {@link BrowserPool} that this object is currently being
      * used and not ready to be reused by another test.
      */
@@ -45,12 +38,39 @@ public class Browser {
     
     public boolean isAdminLoggedIn;
     
+    /**
+     * Keeps track of multiple windows opened by the {@link WebDriver}.
+     */
+    private final Stack<String> windowHandles = new Stack<String>();
+    
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
-        this.selenium = new WebDriverBackedSelenium(this.driver, TestProperties.inst().TEAMMATES_URL);
         isInUse = false; 
         isAdminLoggedIn = false;
+    }
+    
+    /**
+     * Switches to new browser window for browsing.
+     */
+    public void switchToNewWindow() {
+        String curWin = driver.getWindowHandle();
+        for (String handle : driver.getWindowHandles()) {
+            if (!handle.equals(curWin) && !windowHandles.contains(curWin)) {
+                windowHandles.push(curWin);
+                driver.switchTo().window(handle);
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Closes the current browser window and switches back to the last window
+     * used previously.
+     */
+    public void closeCurrentWindowAndSwitchToParentWindow() {
+        driver.close();
+        driver.switchTo().window(windowHandles.pop());
     }
     
     private WebDriver createWebDriver() {

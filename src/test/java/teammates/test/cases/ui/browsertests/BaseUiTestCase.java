@@ -3,6 +3,8 @@ package teammates.test.cases.ui.browsertests;
 import java.io.File;
 import java.io.IOException;
 
+import org.testng.annotations.BeforeSuite;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Assumption;
@@ -19,6 +21,20 @@ import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 
 public class BaseUiTestCase extends BaseTestCase {
+
+    /** indicates if the test-run is to use GodMode */
+    protected static Boolean enableGodMode = false;
+
+    /**
+     * Checks if the current test-run should use godmode, 
+     * if yes, enables GodMode
+     */
+    @BeforeSuite
+    public static void checkAndEnableGodMode() {
+        if (enableGodMode) {
+            System.setProperty("godmode", "true");
+        }
+    }
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
@@ -110,10 +126,9 @@ public class BaseUiTestCase extends BaseTestCase {
     /**
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
-    @SuppressWarnings("deprecation")
     protected static void logout(Browser currentBrowser) {
         currentBrowser.driver.get(createUrl(Const.ViewURIs.LOGOUT).toAbsoluteString());
-        currentBrowser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
+        AppPage.getNewPageInstance(currentBrowser).waitForPageToLoad();
         currentBrowser.isAdminLoggedIn = false;
     }
     
