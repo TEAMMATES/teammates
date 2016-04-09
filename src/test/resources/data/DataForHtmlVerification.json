@@ -2,17 +2,17 @@
   "instructors": {
     "teammates.demo.instructor": {
       "id": "teammates.demo.instructor",
-      "name" : "Teammates Demo Instructor",
+      "name" : "Teammates Demo Instructor</td></div>'\"",
       "email" : "teammates.demo.instructor@gmail.tmt"
     },
     "teammates.instructor": {
       "id": "teammates.instructor",
-      "name" : "Instructor",
+      "name" : "Instructor</td></div>'\"",
       "email" : "teammates.instructor@gmail.tmt"
     },
     "teammates.test": {
       "id": "teammates.test",
-      "name" : "Instructor",
+      "name" : "Instructor</td></div>'\"",
       "email" : "teammates.test@gmail.tmt"
     }
   },
