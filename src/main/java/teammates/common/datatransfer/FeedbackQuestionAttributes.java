@@ -273,9 +273,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public int compareTo(FeedbackQuestionAttributes o) {
         if (o == null) {
             return 1;
-        } else {
+        }
+        
+        if (this.questionNumber != o.questionNumber) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
+        return this.feedbackQuestionId.compareTo(o.feedbackQuestionId);
     }
 
     @Override
