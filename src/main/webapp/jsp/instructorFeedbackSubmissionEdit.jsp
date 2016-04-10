@@ -31,6 +31,7 @@
     </c:set>
 </c:if>
 
-<ti:instructorPageCustom pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+<ti:instructorPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
     <instructorFeedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
-</ti:instructorPageCustom>
+</ti:instructorPage>
+
