@@ -156,6 +156,10 @@ public class FeedbackQuestionEditForm {
         return questionIndex;
     }
     
+    public String getQuestionIndexIfNonZero() {
+        return questionIndex == 0 ? "" : String.valueOf(questionIndex);
+    }
+    
     public void setAction(String action) {
         this.actionLink = action;
     }
