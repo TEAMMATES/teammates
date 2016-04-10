@@ -65,10 +65,10 @@ public class FeedbackResponsesLogic {
         if (response == null) {
             return null;
         }
-        ArrayList<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
         responses.add(response);
         List<FeedbackResponseAttributes> validResponses = getValidResponses(responses, response.courseId);
-        if (validResponses.size() == 0) {
+        if (validResponses.isEmpty()) {
             return null;
         }
         return validResponses.get(0);
@@ -82,10 +82,10 @@ public class FeedbackResponsesLogic {
         if (response == null) {
             return null;
         }
-        ArrayList<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
         responses.add(response);
         List<FeedbackResponseAttributes> validResponses = getValidResponses(responses, response.courseId);
-        if (validResponses.size() == 0) {
+        if (validResponses.isEmpty()) {
             return null;
         }
         return validResponses.get(0);
@@ -910,9 +910,9 @@ public class FeedbackResponsesLogic {
         
         // get instructors of the course
         List<InstructorAttributes> instructors = instructorLogic.getInstructorsForCourse(courseId);
-        ArrayList<String> instructorEmails = new ArrayList<String>();
-        for (int i = 0; i < instructors.size(); i++) {
-            instructorEmails.add(instructors.get(i).email);
+        List<String> instructorEmails = new ArrayList<String>();
+        for (InstructorAttributes instructor: instructors) {
+            instructorEmails.add(instructor.email);
         }
         
         // get students of the course
@@ -926,12 +926,12 @@ public class FeedbackResponsesLogic {
             log.severe(e.toString());
             teams = new ArrayList<TeamDetailsBundle>();
         }
-        ArrayList<String> teamNames = new ArrayList<String>();
-        for (int i = 0; i < teams.size(); i++) {
-            teamNames.add(teams.get(i).name);
+        List<String> teamNames = new ArrayList<String>();
+        for (TeamDetailsBundle team: teams) {
+            teamNames.add(team.name);
         }
         
-        ArrayList<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
         for(FeedbackResponseAttributes response: responses) {
             if (isResponseValid(response, courseId, instructorEmails, students, teamNames)) {
                 validResponses.add(response);
@@ -954,9 +954,9 @@ public class FeedbackResponsesLogic {
             return false;
         }
         
-        ArrayList<String> studentEmails = new ArrayList<String>();
-        for (int i = 0; i < students.size(); i++) {
-            studentEmails.add(students.get(i).email);
+        List<String> studentEmails = new ArrayList<String>();
+        for (StudentAttributes student: students) {
+            studentEmails.add(student.email);
         }
         
         return isGiverMatchedQuestionSetting(response, question, instructorEmails, 
@@ -1020,9 +1020,9 @@ public class FeedbackResponsesLogic {
         FeedbackParticipantType recipientType = question.recipientType;
         
         // get student email
-        ArrayList<String> studentEmails = new ArrayList<String>();
-        for (int i = 0; i < students.size(); i++) {
-            studentEmails.add(students.get(i).email);
+        List<String> studentEmails = new ArrayList<String>();
+        for (StudentAttributes student: students) {
+            studentEmails.add(student.email);
         }
         
         if (studentEmails.contains(response.giverEmail)) {
