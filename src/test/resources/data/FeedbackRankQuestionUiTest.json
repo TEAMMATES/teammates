@@ -46,23 +46,23 @@
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "isDisplayedToStudents":true,
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-        }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+        }
     },
     "instructorhelper": {
       "googleId": "FRankUiT.helper",
@@ -72,42 +72,42 @@
       "role":"Custom",
       "displayedName":"Helper",
       "isDisplayedToStudents":true,
-      "instructorPrivilegesAsText":"{  
-        \"courseLevel\": {
-            \"canviewstudentinsection\": false,
-            \"cangivecommentinsection\": false,
-            \"cansubmitsessioninsection\": true,
-            \"canmodifysessioncommentinsection\": false,
-            \"canmodifycommentinsection\": false,
-            \"canmodifycourse\": false,
-            \"canviewsessioninsection\": false,
-            \"canmodifysession\": false,
-            \"canviewcommentinsection\": false,
-            \"canmodifystudent\": false,
-            \"canmodifyinstructor\": false
+      "privileges":{  
+        "courseLevel": {
+            "canviewstudentinsection": false,
+            "cangivecommentinsection": false,
+            "cansubmitsessioninsection": true,
+            "canmodifysessioncommentinsection": false,
+            "canmodifycommentinsection": false,
+            "canmodifycourse": false,
+            "canviewsessioninsection": false,
+            "canmodifysession": false,
+            "canviewcommentinsection": false,
+            "canmodifystudent": false,
+            "canmodifyinstructor": false
           },
-          \"sectionLevel\": {
-            \"Section 1\": {
-              \"canviewstudentinsection\": true,
-              \"cangivecommentinsection\": true,
-              \"cansubmitsessioninsection\": true,
-              \"canmodifysessioncommentinsection\": false,
-              \"canmodifycommentinsection\": false,
-              \"canviewsessioninsection\": false,
-              \"canviewcommentinsection\": false
+          "sectionLevel": {
+            "Section 1": {
+              "canviewstudentinsection": true,
+              "cangivecommentinsection": true,
+              "cansubmitsessioninsection": true,
+              "canmodifysessioncommentinsection": false,
+              "canmodifycommentinsection": false,
+              "canviewsessioninsection": false,
+              "canviewcommentinsection": false
             },
-            \"Section 2\": {
-              \"canviewstudentinsection\": false,
-              \"cangivecommentinsection\": false,
-              \"cansubmitsessioninsection\": false,
-              \"canmodifysessioncommentinsection\": false,
-              \"canmodifycommentinsection\": false,
-              \"canviewsessioninsection\": false,
-              \"canviewcommentinsection\": false
+            "Section 2": {
+              "canviewstudentinsection": false,
+              "cangivecommentinsection": false,
+              "cansubmitsessioninsection": false,
+              "canmodifysessioncommentinsection": false,
+              "canmodifycommentinsection": false,
+              "canviewsessioninsection": false,
+              "canviewcommentinsection": false
             }
           },
-          \"sessionLevel\": {}
-          }"
+          "sessionLevel": {}
+          }
     }
 
   },
