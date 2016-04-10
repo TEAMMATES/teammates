@@ -28,6 +28,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private StudentAttributes studentToViewPageAs;
     private InstructorAttributes previewInstructor;    
     private String registerMessage; 
+    private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
     
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
@@ -37,7 +38,24 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isShowRealQuestionNumber = false;
         isHeaderHidden = false;        
     }
+    
+    /**
+     * Generates the register message with join URL containing course ID 
+     * if the student is unregistered. Also loads the questions with responses.
+     * @param courseId the course ID
+     */
+    public void init(String courseId) {
+        init("", "", courseId);
+    }
 
+    
+    /**
+     * Generates the register message with join URL containing registration key, 
+     * email and course ID if the student is unregistered. Also loads the questions and responses.
+     * @param regKey the registration key
+     * @param email the email
+     * @param courseId the course ID
+     */
     public void init(String regKey, String email, String courseId) {
         String joinUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(regKey)
@@ -99,8 +117,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
     
     public String getSubmitAction() {
-        return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE
-                              : Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+        return submitAction;
     }
     
     public String getSubmitActionQuestion() {
@@ -150,6 +167,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     public void setRegisterMessage(String registerMessage) {
         this.registerMessage = registerMessage;
+    }
+    
+    public void setSubmitAction(String submitAction) {
+        this.submitAction = submitAction;
     }
 
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {

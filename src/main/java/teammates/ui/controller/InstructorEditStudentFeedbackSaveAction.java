@@ -34,8 +34,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     
     @Override
     protected void setAdditionalParameters() {
-        String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail);
+        String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
 
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
     }
@@ -143,7 +143,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         
         result.responseParams.put(Const.ParamsNames.COURSE_ID, moderatedStudent.course);
         result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudent.email);
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudent.email);
         
         return result;
     }

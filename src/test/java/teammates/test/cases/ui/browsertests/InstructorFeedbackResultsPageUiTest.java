@@ -156,7 +156,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        ThreadHelper.waitFor(2000);
 
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
@@ -167,7 +166,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for team response");
 
         verifyModerateResponsesButton(4, "Team 1</td></div>'\"");
-
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
+        resultsPage.displayByQuestion();
+        resultsPage.waitForPageToLoad();
+        
+        ______TS("Typical case: test moderate responses button for instructors as givers");
+        verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt");
+        
     }
 
     public void testSortAction() throws Exception {

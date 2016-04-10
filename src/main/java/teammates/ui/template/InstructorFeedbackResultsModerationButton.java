@@ -11,11 +11,12 @@ public class InstructorFeedbackResultsModerationButton {
     private String giverIdentifier;
     private String courseId;
     private String feedbackSessionName;
+    private String moderateFeedbackResponseLink;
     
     public InstructorFeedbackResultsModerationButton(boolean isDisabled, String className,
                              String giverIdentifier,
                              String courseId, String feedbackSessionName, FeedbackQuestionAttributes question,
-                             String buttonText) {
+                             String buttonText, String moderateFeedbackResponseLink) {
         
         this.isDisabled = isDisabled;
         this.className = className;
@@ -24,7 +25,7 @@ public class InstructorFeedbackResultsModerationButton {
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
         this.buttonText = buttonText;
-        
+        this.moderateFeedbackResponseLink = moderateFeedbackResponseLink;
     }
     
     public String getQuestionId() {
@@ -55,5 +56,11 @@ public class InstructorFeedbackResultsModerationButton {
         return buttonText;
     }
     
-    
+    /**
+     * Retrieves the link to moderate the feedback.
+     * @return the link to the feedback edit page
+     */
+    public String getModerateFeedbackResponseLink() {
+        return moderateFeedbackResponseLink;
+    }
 }
