@@ -33,7 +33,7 @@
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorHomePage" method="post" name="form_remind_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
@@ -264,7 +264,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=CHomeUiT.instructor.tmms" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Second Feedback Session');" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CHomeUiT.CS2104" data-fsname="Second Feedback Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Delete
             </a>
             <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="Second Feedback Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CHomeUiT.CS2104-Second Feedback Session" title="Copy feedback session details">
@@ -277,7 +277,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=CHomeUiT.instructor.tmms" onclick="return false">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Second Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -286,7 +286,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&user=CHomeUiT.instructor.tmms">
+                    <a class="session-remind-inner-for-test" data-fsname="Second Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                       Remind all students
                     </a>
                   </li>
@@ -298,7 +298,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-original-title="This session is not yet opened" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return false" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Second Feedback Session" data-original-title="This session is not yet opened" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" disabled="" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Second+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Publish Results
             </a>
           </td>
@@ -328,7 +328,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=CHomeUiT.instructor.tmms" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','First Feedback Session');" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CHomeUiT.CS2104" data-fsname="First Feedback Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Delete
             </a>
             <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="First Feedback Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CHomeUiT.CS2104-First Feedback Session" title="Copy feedback session details">
@@ -341,7 +341,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=CHomeUiT.instructor.tmms" onclick="return toggleRemindStudents('First Feedback Session');">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="First Feedback Session" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
@@ -350,7 +350,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&user=CHomeUiT.instructor.tmms" onclick="return toggleRemindStudents('First Feedback Session');">
+                    <a class="session-remind-inner-for-test" data-fsname="First Feedback Session" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                       Remind all students
                     </a>
                   </li>
@@ -362,7 +362,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return togglePublishEvaluation('First Feedback Session', true);" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="First Feedback Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=First+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Publish Results
             </a>
           </td>
@@ -394,7 +394,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=CHomeUiT.instructor.tmms" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Fourth Feedback Session');" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CHomeUiT.CS2104" data-fsname="Fourth Feedback Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Delete
             </a>
             <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="Fourth Feedback Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CHomeUiT.CS2104-Fourth Feedback Session" title="Copy feedback session details">
@@ -407,7 +407,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=CHomeUiT.instructor.tmms" onclick="return false">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Fourth Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -416,7 +416,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=CHomeUiT.instructor.tmms">
+                    <a class="session-remind-inner-for-test" data-fsname="Fourth Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                       Remind all students
                     </a>
                   </li>
@@ -428,7 +428,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return toggleUnpublishEvaluation('Fourth Feedback Session');" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-unpublish-for-test" data-fsname="Fourth Feedback Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Unpublish Results
             </a>
           </td>
@@ -460,7 +460,7 @@
             <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=CHomeUiT.instructor.tmms" title="">
               Edit
             </a>
-            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return toggleDeleteFeedbackSessionConfirmation('CHomeUiT.CS2104','Third Feedback Session');" title="">
+            <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px" data-courseid="CHomeUiT.CS2104" data-fsname="Third Feedback Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Delete
             </a>
             <a class="btn btn-default btn-xs btn-tm-actions session-copy-for-test margin-bottom-7px" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="Third Feedback Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy-CHomeUiT.CS2104-Third Feedback Session" title="Copy feedback session details">
@@ -473,7 +473,7 @@
             </div>
             <div data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" style="display: inline-block; padding-right: 5px;" title="">
               <div class="btn-group margin-bottom-7px">
-                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=CHomeUiT.instructor.tmms" onclick="return false">
+                <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-fsname="Third Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                   Remind
                 </a>
                 <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" disabled="" type="button">
@@ -482,7 +482,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li>
-                    <a class="session-remind-inner-for-test" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&user=CHomeUiT.instructor.tmms">
+                    <a class="session-remind-inner-for-test" data-fsname="Third Feedback Session" disabled="" href="/page/instructorFeedbackRemind?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms">
                       Remind all students
                     </a>
                   </li>
@@ -494,7 +494,7 @@
                 </ul>
               </div>
             </div>
-            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-original-title="Make session responses available for viewing" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCHomeUiT.instructor.tmms&user=CHomeUiT.instructor.tmms" onclick="return togglePublishEvaluation('Third Feedback Session', true);" title="">
+            <a class="btn btn-default btn-xs margin-bottom-7px btn-tm-actions session-publish-for-test" data-fsname="Third Feedback Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CHomeUiT.CS2104&fsname=Third+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms" title="">
               Publish Results
             </a>
           </td>
@@ -505,7 +505,7 @@
   <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackEditCopy" id="instructorCopyModalForm" method="post" role="form">
+        <form action="/page/instructorFeedbackEditCopy?next=%2Fpage%2FinstructorHomePage" id="instructorCopyModalForm" method="post" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×

@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StatusMessage;
@@ -41,8 +42,6 @@ public class PageData {
     public AccountAttributes account;
     public StudentAttributes student;
 
-    private String jQueryFilePath;
-    private String jQueryUiFilePath;
     private List<StatusMessage> statusMessagesToUser;
 
     /**
@@ -51,7 +50,6 @@ public class PageData {
     public PageData(AccountAttributes account) {
         this.account = account;
         this.student = null;
-        initCustomFilePaths();
     }
     
     /**
@@ -60,25 +58,6 @@ public class PageData {
     public PageData(AccountAttributes account, StudentAttributes student) {
         this.account = account;
         this.student = student;
-        initCustomFilePaths();
-    }
-    
-    /**
-     * Here is where we can initiate custom file paths for files that should be served via CDN on staging /
-     * live but through local files on Dev server to allow local testing without internet.
-     */
-    private void initCustomFilePaths() {
-        boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty("isDevEnvironment"));
-
-        if (isDevEnvironment) {
-            // V1.11.3
-            jQueryFilePath = "/js/lib/jquery.min.js";
-            // V1.11.4
-            jQueryUiFilePath = "/js/lib/jquery-ui.min.js";
-        } else {
-            jQueryFilePath = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
-            jQueryUiFilePath = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js";
-        }
     }
     
     public AccountAttributes getAccount() {
@@ -471,7 +450,19 @@ public class PageData {
         return link;
     }
     
-  
+    /**
+     * Retrieves the link to submit the request for copy of session.
+     * Appends the return url to the link.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackEditCopyActionLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        
+        return link;
+    }
+    
     /**
      * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
@@ -525,12 +516,20 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String nextURL) {
+    /**
+     * Retrieves the link to submit request to delete the session.
+     * @param courseId course ID
+     * @param feedbackSessionName the session name
+     * @param returnUrl the url of the page to return to after the delete
+     * @return the link to submit request to delete the session with return page link
+     */
+    public String getInstructorFeedbackDeleteLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, addUserIdToUrl(nextURL));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }    
     
@@ -558,15 +557,31 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName) {
+    /**
+     * Retrieves the link to submit the request for remind student
+     * Appends the return url to the link.
+     * @param courseID the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackRemindLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
-    public String getInstructorFeedbackRemindParticularStudentsLink(String courseID, String feedbackSessionName) {
+    /**
+     * Retrieves the link to load remind modal
+     * @param courseID the courseID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load remind modal
+     */
+    public String getInstructorFeedbackRemindParticularStudentsPageLink(String courseID, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -574,28 +589,36 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+    /**
+     * Retrieves the link to submit the request to remind a particular student(s)
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackRemindParticularStudentsLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        
+        return link;
+    }
+
+    public String getInstructorFeedbackPublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL, 
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE) 
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
     
-    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, boolean isHome) {
+    public String getInstructorFeedbackUnpublishLink(String courseID, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        link = Url.addParamToUrl(link, 
-                                 Const.ParamsNames.NEXT_URL,
-                                 (isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
-                                         : addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        
         return link;
     }
     
@@ -742,8 +765,8 @@ public class PageData {
      * Returns the links of actions available for a specific session
      * @param session
      *         The feedback session details
-     * @param isHome
-     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param returnUrl
+     *         The return URL after performing the action.
      * @param instructor
      *         The Instructor details
      * @param sectionsInCourse
@@ -752,9 +775,9 @@ public class PageData {
      * @throws EntityDoesNotExistException 
      */
     public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-                                                                                boolean isHome,
+                                                                                String returnUrl,
                                                                                 InstructorAttributes instructor) {
-        return new InstructorFeedbackSessionActions(this, session, isHome, instructor);
+        return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
     }
 
     /**
@@ -1035,10 +1058,11 @@ public class PageData {
     }
 
     public String getjQueryFilePath() {
-        return jQueryFilePath;
+        return Const.SystemParams.getjQueryFilePath(Config.inst().isDevServer());
     }
 
     public String getjQueryUiFilePath() {
-        return jQueryUiFilePath;
+        return Const.SystemParams.getjQueryUiFilePath(Config.inst().isDevServer());
     }
+
 }

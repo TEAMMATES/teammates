@@ -161,7 +161,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals("No active courses!", formModel.getCoursesSelectField().get(0).getContent());
         
-        assertFalse(formModel.isSubmitButtonDisabled());
+        assertTrue(formModel.isSubmitButtonDisabled());
         
         ______TS("case with instructor with restricted permissions: session rows");
         fsTableModel = helperData.getFsList();

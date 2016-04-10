@@ -10,7 +10,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -84,10 +83,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
             .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
         page.navigateTo(url);
         print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);    
-        
-        ______TS("DeadlineExceededException error view");
-        
-        page.verifyHtml(TestProperties.TEST_PAGES_FOLDER+"/deadlineExceededErrorPage.html");
         
     }
     

@@ -79,11 +79,13 @@ function checkEditFeedbackSession(form) {
 function selectDefaultTimeOptions() {
     var now = new Date();
 
+    var currentDate = convertDateToDDMMYYYY(now);
     var hours = convertDateToHHMM(now).substring(0, 2);
     var currentTime = (parseInt(hours) + 1);
     var timeZone = -now.getTimezoneOffset() / 60;
 
     if (!isTimeZoneIntialized()) {
+        $('#' + FEEDBACK_SESSION_STARTDATE).val(currentDate);
         $('#' + FEEDBACK_SESSION_STARTTIME).val(currentTime);
         $('#' + FEEDBACK_SESSION_TIMEZONE).val(timeZone);
     }
@@ -219,6 +221,12 @@ function readyFeedbackPage() {
     selectDefaultTimeOptions();
     loadSessionsByAjax();
     bindUncommonSettingsEvents();
+
+    bindDeleteButtons();
+    bindRemindButtons();
+    bindPublishButtons();
+    bindUnpublishButtons();
+
     updateUncommonSettingsInfo();
     hideUncommonPanels();
 }

@@ -1,5 +1,8 @@
 #Setting Up the Developer Environment
-These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
+>If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
+
+These instructions work for Linux, OS X as well as for the Windows
+environment. The only difference for Windows environment is that the command `./gradlew` should be replaced by `gradlew.bat` everywhere.
 
 The full tool stack is given at the [end of this document](#toolStack).
 
@@ -7,20 +10,20 @@ The full tool stack is given at the [end of this document](#toolStack).
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
-3. Install JDK 7.
-4. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
-6. Install Google Plugin for Eclipse version 4.4. <br>
+2. Install JDK 7.
+3. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
+4. Install Google Plugin for Eclipse version 4.4. <br>
    Be careful to omit other plugins shown on the screen 
    (e.g., Google App Engine Tools for Android, GWT plugin).<br>
    Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-7. Install Google App Engine SDK version 1.9.27. <br>
+5. Install Google App Engine SDK version 1.9.27. <br>
    Download link to the SDK is http://central.maven.org/maven2/com/google/appengine/appengine-java-sdk/1.9.27/appengine-java-sdk-1.9.27.zip.<br>
    Go to `Window → Preferences → Google → App Engine` (Mac: `Eclipse → Preferences → Google → App Engine`), click the `Add` button,
    and point it to where you extracted the SDK zip file. <br>
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
-8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
+6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
 ##Setting up the dev server
 `Dev server` means running the server in your own computer.
@@ -42,30 +45,22 @@ Important: When a version is specified, please install that version instead of t
     to indent using 4 spaces instead of tabs.
     * HTML syntax: We prefer not to use the HTML syntax validator provided by Eclipse.
     To turn it off, go to `Window → Preferences → Validation → HTML Syntax Validator` (Mac: `Eclipse → Preferences → Validation → HTML Syntax Validator`) and uncheck the `Build` option.
-3. Create main config files {These are not under revision control because their 
-   content vary from developer to developer}.
+3. Run the command `./gradlew setUp`.<br>
+   This creates the main config files {These are not under revision control because their content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
-   Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `duplicate -> remove '.template' from name`).
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
-   Create it using `test.template.properties`. 
    Append a unique id (e.g. your name) to **each** of the default accounts found at the bottom of this file. 
    e.g. change `test.student1.account=alice.tmms` to `test.student1.account=alice.tmms.KevinChan`<br>
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
-   Create it using `appengine-web.template.xml`. 
-   For now, property values can remain as they are.
    * `.settings/com.google.gdt.eclipse.core.prefs`<br>
-   Create it using `com.google.gdt.eclipse.core.template.prefs`.
-   In the newly created `com.google.gdt.eclipse.core.prefs` file, replace all the `*` in the value of `jarsExcludedFromWebInfLib` to your TEAMMATES project folder,
-   e.g. `jarsExcludedFromWebInfLib=*/src/test/resources/lib/appengine/appengine-api-labs.jar` becomes `jarsExcludedFromWebInfLib=C:/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if your TEAMMATES project folder is `C:/TEAMMATES`<br>
-   (Mac: `jarsExcludedFromWebInfLib=/Users/someuser/TEAMMATES/src/test/resources/lib/appengine/appengine-api-labs.jar` if the project folder is `/Users/someuser/TEAMMATES`).
-4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.60.zip)
-   containing the required library files and unzip it into
-   your project folder. Note that this will overwrite some existing library files,
-   which is what we want. If you unzipped it into the right location, you should now see
-   a `[project folder]/src/test/resources/lib/appengine` containing several jar files.
+   Additionally, this command downloads the dependencies required by TEAMMATES and places them in the appropriate directories.<br>
+   This command can be run again whenever the dependencies need to be updated.
+   Sometimes, the changes from this command might not show up in Eclipse immediately. "Refreshing" the project or restarting Eclipse
+   should fix that.
+4. Start Eclipse and go to `File → Import...` and select `Existing Projects into Workspace` under `General`. Set the `root directory` to the location where
+   the repo is cloned. Click `Finish`.
 5. Start the dev server.<br>
     Right-click on the project folder and choose `Run → As Web Application`. 
     After some time, you should see this message on the console 
@@ -94,7 +89,7 @@ Important: When a version is specified, please install that version instead of t
    Then, log out and use that join link to log in as a student. You have the required access now.<br>
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
    Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
-   
+
 ##Running the test suite
 
 
@@ -105,9 +100,7 @@ Important: When a version is specified, please install that version instead of t
     Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
    
 2. Before running the test suite, both the server and the test environment 
-   should be using the UTC time zone. The server and the test environment should 
-   also serve the CDN files (files that we off-load to servers such as Google's servers)
-   locally instead. In our case, these are files such as jQuery.min.js.
+   should be using the UTC time zone.
    
    Here is the procedure:
     
@@ -116,7 +109,7 @@ Important: When a version is specified, please install that version instead of t
     b. Specify timezone as a VM argument: 
        * Go to the `run configuration` Eclipse created when you started the dev server
         (`Run → Run configurations ...` and select the appropriate one).
-       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` and '-DisDevEnvironment="true"' to the `VM arguments` text box.
+       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
        * Save the configuration for future use: Go to the `Common` tab (the last one) 
        and make sure you have selected `Save as → Local file` and 
        `Display in favorites menu →  Run, Debug`.
@@ -124,15 +117,29 @@ Important: When a version is specified, please install that version instead of t
     c. Start the server again using the _run configuration_ you created in
        the previous step..<br>
    
-4. Run tests. <br>
-    This can be done using the `All tests` option under the green `Run` button 
-    in the Eclipse toolbar. If this option is not available 
-    (sometimes, Eclipse does not show this option immediately after you set up the project. 
-    It will appear in subsequent runs. 'Refreshing' will make it appear too.), 
-    run `src/test/testng.xml` (right click and choose `Run as → TestNG Suite`). Most of the tests should pass.
-    If a few cases fail (this can happen due to timing issues), run the failed cases 
-    using the `Run Failed Test` icon in the TestNG tab in Eclipse until they pass. 
-    
+3. Run tests. <br>
+   Test can be run using the configurations available under the green `Run` button
+   in the Eclipse toolbar. There are several configurations that are provided by default.
+   These are:
+
+      * `All tests` - This runs the files `src/test/testng-travis.xml` as well as `src/test/testng-local.xml`.
+      * `Travis tests` - This runs the file `src/test/testng-travis.xml`. It contains all the tests that are run by Travis.
+      * `Local tests` - This runs the file `src/test/testng-local.xml`. It contains all the tests that need
+                         to be run locally by developers. `Dev green` mean passing all the tests in this configuration.
+      * `Staging tests` - This runs a subset of the tests in `src/test/testng-travis.xml`.
+                           This is run before deploying to a staging server.
+
+   New developers should at least run the `Local tests` and have all of them passing on their local environments.
+   Running `Travis tests` and getting everything passing is also recommended.
+
+   Additionally, configurations that run the tests with `GodMode` turned on are also provided.
+   More info on this can be found [here](/devdocs/godmode.md). Sometimes, Eclipse does not show
+   these options immediately after you set up the project. 'Refreshing' the project should fix that. 
+
+   When running the test cases, if a few cases fail (this can happen due to timing issues),
+   run the failed cases using the `Run Failed Test` icon in the TestNG tab in Eclipse
+   until they pass. 
+
 
 To change the browser that is used in the UI tests, go to the `test.properties` 
 file and change the `test.selenium.browser` value to the browser you want to test. 
@@ -239,6 +246,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Google App Engine Plugin for Eclipse** [version 4.4]
 * **Google App Engine SDK** [version 1.9.27]
 * **GitHub** : Used to host the repo and code reviewing.
+* **Gradle** : Build and dependency management tool.
 * [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
 * Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
   Can be used as a client for accessing the GitHub issue tracker.
@@ -275,7 +283,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     Usage: For accessing test users' email accounts to examine emails sent from TEAMMATES.
 * **TestNG** [latest stable]
     TestNG is a Java test automation framework.
-* **QUnit** [version 1.10.0]
+* **QUnit** [version 1.22.0]
     QUnit is a JavaScript unit test suite.
 * **Blanket.js** [version 1.2.1]
     Blanket.js is a JavaScript code coverage library.

@@ -74,7 +74,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DFRankUiT.instructor&user=FRankUiT.instructor" onclick="return toggleUnpublishEvaluation('Instructor Session');" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="Instructor Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FRankUiT.instructor" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -152,16 +152,16 @@
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
-                    Group by - Giver > Recipient > Question
+                    Group by - Giver &gt; Recipient &gt; Question
                   </option>
                   <option selected="" value="recipient-giver-question">
-                    Group by - Recipient > Giver > Question
+                    Group by - Recipient &gt; Giver &gt; Question
                   </option>
                   <option value="giver-question-recipient">
-                    Group by - Giver > Question > Recipient
+                    Group by - Giver &gt; Question &gt; Recipient
                   </option>
                   <option value="recipient-question-giver">
-                    Group by - Recipient > Question > Giver
+                    Group by - Recipient &gt; Question &gt; Giver
                   </option>
                 </select>
               </div>
@@ -272,7 +272,7 @@
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
               <strong>
-                Alice Betsy (Team 1)
+                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" (Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'")
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
               <a class="link-in-dark-bg" href="mailto:alice.b.tmms@gmail.tmt">
@@ -304,7 +304,7 @@
                     <br class="hidden-xs hidden-sm">
                     To:
                     <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
-                      Alice Betsy (Team 1)
+                      Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" (Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'")
                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     </div>
                   </div>
@@ -395,7 +395,7 @@
                                 <p>
                                   Giver: Teammates Test (Instructors)
                                   <br>
-                                  Recipient: Alice Betsy (Team 1)
+                                  Recipient: Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" (Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'")
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -475,6 +475,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="0">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%alice.b.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -521,7 +522,7 @@
                                 <p>
                                   Giver: Teammates Test (Instructors)
                                   <br>
-                                  Recipient: Alice Betsy (Team 1)
+                                  Recipient: Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'" (Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'")
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -601,6 +602,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,2);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="0">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%alice.b.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -775,6 +777,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,1,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="2">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%danny.e.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -796,7 +799,7 @@
             To:
             <div class="inline panel-heading-text">
               <strong>
-                Team 1
+                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </strong>
             </div>
             <div class="pull-right">
@@ -822,7 +825,7 @@
                   </div>
                   <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
                     <br class="hidden-xs hidden-sm">
-                    To: Team 1
+                    To: Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                   </div>
                 </div>
                 <div class="col-md-10">
@@ -881,7 +884,7 @@
                                 <p>
                                   Giver: Teammates Test (Instructors)
                                   <br>
-                                  Recipient: Team 1
+                                  Recipient: Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
@@ -961,7 +964,8 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%Team 1">
+                            <input name="fsindex" type="hidden" value="1">
+                            <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
                             <input name="user" type="hidden" value="FRankUiT.instructor">
@@ -982,7 +986,7 @@
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
               <strong>
-                Benny Charles (Team 1)
+                Benny Charles (Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'")
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
               <a href="mailto:benny.c.tmms@gmail.tmt">
@@ -1266,6 +1270,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,1,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="3">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%emily.f.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -1322,9 +1327,7 @@
           <tbody>
             <tr>
               <td>
-                <i>
-                  Instructors
-                </i>
+                &lt;i&gt;Instructors&lt;/i&gt;
               </td>
               <td>
                 Teammates Helper who can only see section 1
@@ -1334,10 +1337,10 @@
             </tr>
             <tr>
               <td>
-                Team 1
+                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </td>
               <td>
-                Alice Betsy
+                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </td>
               <td>
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
@@ -1350,7 +1353,7 @@
             </tr>
             <tr>
               <td>
-                Team 1
+                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </td>
               <td>
                 Benny Charles

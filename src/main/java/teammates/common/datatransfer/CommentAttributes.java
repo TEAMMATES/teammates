@@ -212,12 +212,12 @@ public class CommentAttributes extends EntityAttributes
         this.commentText = Sanitizer.sanitizeTextField(this.commentText);
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
-
+        
         if (recipients != null) {
             HashSet<String> sanitizedRecipients = new HashSet<String>();
             for (String recipientId : recipients) {
                 sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
-            }
+            }     
             recipients = sanitizedRecipients;
         }
         

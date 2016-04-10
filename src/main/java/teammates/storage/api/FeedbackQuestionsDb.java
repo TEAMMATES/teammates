@@ -102,7 +102,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {
-            fqList.add(new FeedbackQuestionAttributes(question));
+            if (!JDOHelper.isDeleted(question)) {
+                fqList.add(new FeedbackQuestionAttributes(question));
+            }
         }
         
         return fqList;
@@ -124,7 +126,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {
-            fqList.add(new FeedbackQuestionAttributes(question));
+            if (!JDOHelper.isDeleted(question)) {
+                fqList.add(new FeedbackQuestionAttributes(question));
+            }
         }
         
         return fqList;
@@ -142,7 +146,9 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
 
         for (FeedbackQuestion question : questions) {
-            fqList.add(new FeedbackQuestionAttributes(question));
+            if (!JDOHelper.isDeleted(question)) {
+                fqList.add(new FeedbackQuestionAttributes(question));
+            }
         }
         
         return fqList;

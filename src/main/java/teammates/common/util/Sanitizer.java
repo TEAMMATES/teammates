@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
@@ -19,17 +21,18 @@ import com.google.appengine.api.datastore.Text;
 public class Sanitizer {
     
     /**
-     * Sanitizes a google ID by removing any whitespaces at the start/end
+     * Sanitizes a google ID by removing leading/trailing whitespace
      * and the trailing "@gmail.com".
      * 
      * @param rawGoogleId
      * @return the sanitized google ID or null (if the parameter was null).
      */
     public static String sanitizeGoogleId(String rawGoogleId) {
-        if (rawGoogleId == null) return null;
+        if (rawGoogleId == null) {
+            return null;
+        }
         
         String sanitized = rawGoogleId.trim();
-        // trim @gmail.com in ID field
         if (sanitized.toLowerCase().endsWith("@gmail.com")) {
             sanitized = sanitized.split("@")[0];
         }
@@ -39,18 +42,18 @@ public class Sanitizer {
     /**
      * Sanitizes an email address by removing leading/trailing whitespace.
      * 
-     * @param rawGoogleId
-     * @return the sanitized google ID or null (if the parameter was null).
+     * @param rawEmail
+     * @return the sanitized email address or null (if the parameter was null).
      */
     public static String sanitizeEmail(String rawEmail) {
         return trimIfNotNull(rawEmail);
-    }    
+    }
     
     /**
      * Sanitizes name by removing leading, trailing, and duplicate internal whitespace.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawName
+     * @return the sanitized name or null (if the parameter was null).
      */
     public static String sanitizeName(String rawName) {
         return StringHelper.removeExtraSpace(rawName);
@@ -59,19 +62,19 @@ public class Sanitizer {
     /**
      * Sanitizes title by removing leading, trailing, and duplicate internal whitespace.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawTitle
+     * @return the sanitized title or null (if the parameter was null).
      */
-    public static String sanitizeTitle(String rawName) {
-        return StringHelper.removeExtraSpace(rawName);
+    public static String sanitizeTitle(String rawTitle) {
+        return StringHelper.removeExtraSpace(rawTitle);
     }
     
     /**
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawText
+     * @return the sanitized text or null (if the parameter was null).
      */
     public static String sanitizeTextField(String rawText) {
         return trimIfNotNull(rawText);
@@ -81,22 +84,27 @@ public class Sanitizer {
      * Sanitizes a user input text field by removing leading/trailing whitespace.
      * i.e. comments, instructions, etc.
      * 
-     * @param string
-     * @return the sanitized string or null (if the parameter was null).
+     * @param rawText
+     * @return the sanitized text or null (if the parameter was null).
      */
     public static Text sanitizeTextField(Text rawText) {
-        return (rawText==null) ? null :  new Text(trimIfNotNull(rawText.getValue()));
-    }
-    
-    public static String sanitizeHtmlForSaving(String html) {
-        return sanitizeForHtml(html);
+        if (rawText == null) {
+            return null;
+        }
+        return new Text(trimIfNotNull(rawText.getValue()));
     }
 
     /**
      * Escape the string for inserting into javascript code.
-     * This automatically calls {@link #escapeHTML} so make it safe for HTML too.
+     * This automatically calls {@link #sanitizeForHtml} so make it safe for HTML too.
+     *
+     * @param string
+     * @return the sanitized string or null (if the parameter was null).
      */
-    public static String sanitizeForJs(String str){ 
+    public static String sanitizeForJs(String str) {
+        if (str == null) {
+            return null;
+        }
         return Sanitizer.sanitizeForHtml(
                 str.replace("\\", "\\\\")
                 .replace("\"", "\\\"")
@@ -105,11 +113,13 @@ public class Sanitizer {
     }
 
     /**
-     * Sanitize the string for inserting into HTML. Converts special characters
+     * Sanitizes the string for inserting into HTML. Converts special characters
      * into HTML-safe equivalents.
      */
-    public static String sanitizeForHtml(String str){ 
-        if(str == null) return null;
+    public static String sanitizeForHtml(String str) {
+        if (str == null) {
+            return null;
+        }
         return str.replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
@@ -118,6 +128,38 @@ public class Sanitizer {
                 //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
                 //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+    }
+
+    /**
+     * Escapes HTML tag safely. This function can be applied multiple times.
+     */
+    public static String sanitizeForHtmlTag(String str) {
+        if (str == null) {
+            return null;
+        }
+        return str.replace("<", "&lt;").replace(">", "&gt;");
+    }
+    
+    /**
+     * Sanitizes a list of strings for inserting into HTML.
+     */
+    public static List<String> sanitizeForHtml(List<String> list){ 
+        List<String> sanitizedList = new ArrayList<String>();
+        for (String str : list) {
+            sanitizedList.add(sanitizeForHtml(str));
+        }
+        return sanitizedList;
+    }
+    
+    /**
+     * Sanitizes a set of strings for inserting into HTML.
+     */
+    public static Set<String> sanitizeForHtml(Set<String> set){ 
+        Set<String> sanitizedSet = new TreeSet<String>();
+        for (String str : set) {
+            sanitizedSet.add(sanitizeForHtml(str));
+        }
+        return sanitizedSet;
     }
     
     /**
@@ -142,8 +184,14 @@ public class Sanitizer {
      * <li>%23 (encoded #), to prevent Google from decoding it back to #,
      *     which is used to traverse the HTML document to a certain id</li>
      * </ul>
+     *
+     * @param url
+     * @return the sanitized url or null (if the parameter was null).
      */
     public static String sanitizeForNextUrl(String url) {
+        if (url == null) {
+            return null;
+        }
         return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
     }
     
@@ -167,8 +215,10 @@ public class Sanitizer {
     /**
      * Sanitize the string for searching. 
      */
-    public static String sanitizeForSearch(String str){ 
-        if(str == null) return null;
+    public static String sanitizeForSearch(String str) {
+        if (str == null) {
+            return null;
+        }
         return str
                 //general case for punctuation
                 .replace("`", " ").replace("!", " ").replace("#", " ").replace("$", " ").replace("%", " ").replace("^", " ")
@@ -195,11 +245,11 @@ public class Sanitizer {
      * We follow the definition described by RFC 4180:<br>
      * {@link http://tools.ietf.org/html/rfc4180}
      */
-    public static List<String> sanitizeListForCsv(List<String> strList){
+    public static List<String> sanitizeListForCsv(List<String> strList) {
         List<String> sanitizedStrList = new ArrayList<String>();
         
         Iterator<String> itr = strList.iterator();
-        while(itr.hasNext()) {
+        while (itr.hasNext()) {
             sanitizedStrList.add(sanitizeForCsv(itr.next()));
         }
         
@@ -213,7 +263,7 @@ public class Sanitizer {
      * @return the trimmed string or null (if the parameter was null).
      */
     private static String trimIfNotNull(String string) {
-        return ((string == null) ? null : string.trim());
+        return (string == null) ? null : string.trim();
     }
     
     /**
@@ -228,24 +278,26 @@ public class Sanitizer {
      * @param text
      * @return safer version of the text for XPath
      */
-    public static String convertStringForXPath(String text){
+    public static String convertStringForXPath(String text) {
         String result = "";
-        int startPos = 0;
-        for(int i=0;i<text.length();i++){
-            while((i<text.length()) && (text.charAt(i)!='\'')){
+        int startPos = 0, i = 0;
+        while (i < text.length()) {
+            while (i < text.length() && text.charAt(i) != '\'') {
                 i++;
             }
-            if (startPos<i){
+            if (startPos < i) {
                 result += "'" + text.substring(startPos, i) + "',";
                 startPos = i;
             }
-            while((i<text.length()) && (text.charAt(i)=='\'')) i++;
-            if (startPos<i){
+            while (i < text.length() && text.charAt(i) == '\'') {
+                i++;
+            }
+            if (startPos < i) {
                 result += "\"" + text.substring(startPos, i) + "\",";
                 startPos = i;
             }
         }
-        if (result.equals("")){
+        if (result.equals("")) {
             return "''";
         }
         return "concat(" + result + "'')";

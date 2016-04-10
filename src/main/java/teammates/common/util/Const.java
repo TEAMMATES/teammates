@@ -57,6 +57,32 @@ public class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
+        /**
+         * @return The file source for jquery.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+        }
+        
+        /**
+         * @return The file source for jquery-ui.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryUiFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery-ui.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
+        }
+        
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
             ActionURIs.STUDENT_COURSE_JOIN,
             ActionURIs.STUDENT_COURSE_JOIN_NEW,
@@ -98,6 +124,7 @@ public class Const {
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
+        public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";

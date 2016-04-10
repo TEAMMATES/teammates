@@ -50,17 +50,49 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
-      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+      "instructorPrivilegesAsText": "{
+        \"courseLevel\": {
+          \"canviewstudentinsection\": true,
+          \"cangivecommentinsection\": true,
+          \"cansubmitsessioninsection\": true,
+          \"canmodifysessioncommentinsection\": true,
+          \"canmodifycommentinsection\": true,
+          \"canmodifycourse\": true,
+          \"canviewsessioninsection\": true,
+          \"canmodifysession\": true,
+          \"canviewcommentinsection\": true,
+          \"canmodifystudent\": true,
+          \"canmodifyinstructor\": true
+        },
+        \"sectionLevel\": {},
+        \"sessionLevel\": {}
+      }"
     },
     "CCSDetailsUiT.Helper": {
       "googleId": "CCSDetailsUiT.Helper",
       "courseId": "CCSDetailsUiT.CS2104",
       "name": "Teammates Test",
       "email": "CCSDetailsUiT.Helper@gmail.tmt",
-      "role":"Helper",
+      "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
-      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+      "instructorPrivilegesAsText": "{
+        \"courseLevel\": {
+          \"canviewstudentinsection\": true,
+          \"cangivecommentinsection\": false,
+          \"cansubmitsessioninsection\": false,
+          \"canmodifysessioncommentinsection\": false,
+          \"canmodifycommentinsection\": false,
+          \"canmodifycourse\": false,
+          \"canviewsessioninsection\": false,
+          \"canmodifysession\": false,
+          \"canviewcommentinsection\": false,
+          \"canmodifystudent\": false,
+          \"canmodifyinstructor\": false
+        },
+        \"sectionLevel\": {},
+        \"sessionLevel\": {}
+      }"
     }
   },
   
@@ -69,9 +101,9 @@
       "googleId": "CCSDetailsUiT.jose.tmms",
       "email": "CCSDetailsUiT.jose.tmms@gmail.tmt",
       "course": "CCSDetailsUiT.CS2104",
-      "name": "José Gómez",
-      "comments": "This student's name is José Gómez",
-      "team": "Team 1"
+      "name": "José Gómez</option></td></div>'\"",
+      "comments": "This student's name is José Gómez</option></td></div>'\"",
+      "team": "Team 1</td></div>'\""
     },
     "unregisteredStudent": {
       "googleId": "",
@@ -79,7 +111,7 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1</td></div>'\""
     }
   }
 }

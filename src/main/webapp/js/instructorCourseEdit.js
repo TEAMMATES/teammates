@@ -344,3 +344,16 @@ $(function(){
 		checkTheRoleThatApplies(i + 1);
 	}
 });
+
+/**
+ * Activates the edit course form.
+ */
+function editCourse() {
+    $("#btnSaveCourse").show();
+    $("#" + COURSE_NAME).prop("disabled", false);
+    $("#courseEditLink").hide();
+}
+
+$(document).ready(function() {
+    $("#courseEditLink").click(editCourse);
+});
