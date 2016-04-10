@@ -445,7 +445,6 @@ public class Const {
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
-        public static final String FEEDBACK_SESSION_MODERATED_QUESTION = "moderatedquestion";
         public static final String FEEDBACK_SESSION_MODERATED_QUESTION_ID = "moderatedquestionid";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
