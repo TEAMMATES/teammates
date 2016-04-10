@@ -6,7 +6,7 @@ public class InstructorFeedbackResultsModerationButton {
     
     private boolean isDisabled;
     private String buttonText;
-    private int questionNumber;
+    private String questionId;
     private String className;
     private String giverIdentifier;
     private String courseId;
@@ -19,7 +19,7 @@ public class InstructorFeedbackResultsModerationButton {
         
         this.isDisabled = isDisabled;
         this.className = className;
-        this.questionNumber = question != null ? question.questionNumber : -1;
+        this.questionId = question != null ? question.getId() : null;
         this.giverIdentifier = giverIdentifier;
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
@@ -27,8 +27,8 @@ public class InstructorFeedbackResultsModerationButton {
         
     }
     
-    public int getQuestionNumber() {
-        return questionNumber;
+    public String getQuestionId() {
+        return questionId;
     }
     
     public String getGiverIdentifier() {

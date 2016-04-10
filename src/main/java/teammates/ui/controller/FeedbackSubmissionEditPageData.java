@@ -19,7 +19,7 @@ import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses
 
 public class FeedbackSubmissionEditPageData extends PageData {
     public FeedbackSessionQuestionsBundle bundle = null;
-    private String moderatedQuestion = null;
+    private String moderatedQuestionId = null;
     private boolean isSessionOpenForSubmission;
     private boolean isPreview;
     private boolean isModeration;
@@ -54,8 +54,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return bundle;
     }
     
-    public String getModeratedQuestion() {
-        return moderatedQuestion;
+    public String getModeratedQuestionId() {
+        return moderatedQuestionId;
     }
    
     public boolean isSessionOpenForSubmission() {
@@ -116,8 +116,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return questionsWithResponses;
     }
 
-    public void setModeratedQuestion(String moderatedQuestion) {
-        this.moderatedQuestion = moderatedQuestion;
+    public void setModeratedQuestionId(String moderatedQuestionId) {
+        this.moderatedQuestionId = moderatedQuestionId;
     }
 
     public void setSessionOpenForSubmission(boolean isSessionOpenForSubmission) {
@@ -205,7 +205,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     private FeedbackSubmissionEditQuestion createQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx) {
-        boolean isModeratedQuestion = String.valueOf(questionAttributes.questionNumber).equals(getModeratedQuestion());
+        boolean isModeratedQuestion = String.valueOf(questionAttributes.getId()).equals(getModeratedQuestionId());
         
         return new FeedbackSubmissionEditQuestion(questionAttributes, qnIndx, isModeratedQuestion);
     }

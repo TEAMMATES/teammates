@@ -21,7 +21,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
-        String moderatedQuestionNumber = getRequestParamValue("moderatedquestion");
+        String moderatedQuestionId = getRequestParamValue("moderatedquestionid");
 
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
@@ -73,8 +73,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.setHeaderHidden(true);
         data.setStudentToViewPageAs(studentUnderModeration);
         
-        if (moderatedQuestionNumber != null) {
-          data.setModeratedQuestion(moderatedQuestionNumber);
+        if (moderatedQuestionId != null) {
+            data.setModeratedQuestionId(moderatedQuestionId);
         }
         
         hideQuestionsWithAnonymousResponses(data.bundle);
