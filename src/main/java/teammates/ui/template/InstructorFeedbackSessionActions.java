@@ -10,9 +10,6 @@ public class InstructorFeedbackSessionActions {
     
     private boolean privateSession;
 
-    private boolean hasSubmit;
-    private boolean hasRemind;
-    
     private String courseId;
     private String fsName;
 
@@ -21,7 +18,7 @@ public class InstructorFeedbackSessionActions {
     private String deleteLink;
     private String submitLink;
     private String remindLink;
-    private String remindParticularStudentsLink;
+    private String remindParticularStudentsPageLink;
     private String editCopyLink;
 
     private boolean allowedToEdit;
@@ -29,35 +26,27 @@ public class InstructorFeedbackSessionActions {
     private boolean allowedToSubmit;
     private boolean allowedToRemind;
 
-    private String toggleDeleteFeedbackSessionParams;
-    private String toggleRemindStudentsParams;
-    
     private FeedbackSessionPublishButton publishButton;
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, boolean isHome,
+    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                             InstructorAttributes instructor) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 
         this.privateSession = session.isPrivateSession();
 
-        this.hasSubmit = session.isVisible() || session.isPrivateSession();
-        this.hasRemind = session.isOpened();
-
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.fsName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeForJs(courseId);
+        this.fsName = Sanitizer.sanitizeForJs(feedbackSessionName);
 
         this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
-        this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName,
-                                                                      (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                                                              : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE));
+        this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
-        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName);
-        this.remindParticularStudentsLink = data.getInstructorFeedbackRemindParticularStudentsLink(courseId,
-                                                                                                     feedbackSessionName);
+        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
+        this.remindParticularStudentsPageLink = data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId,
+                                                                                                           feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
 
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -67,27 +56,15 @@ public class InstructorFeedbackSessionActions {
             shouldEnableSubmitLink = instructor.isAllowedForPrivilegeAnySection(session.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         }
         
-        this.allowedToSubmit = shouldEnableSubmitLink;
-        this.allowedToRemind = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind;
-
-        this.toggleDeleteFeedbackSessionParams = "'" + Sanitizer.sanitizeForJs(courseId) + "','"
-                                               + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
-        this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
+        this.allowedToSubmit = (session.isVisible() || session.isPrivateSession()) && shouldEnableSubmitLink;
+        this.allowedToRemind = session.isOpened() && instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             
-        this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor,
+        this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor, 
                                                               PUBLISH_BUTTON_TYPE);
     }
 
     public boolean isPrivateSession() {
         return privateSession;
-    }
-
-    public boolean isHasSubmit() {
-        return hasSubmit;
-    }
-
-    public boolean isHasRemind() {
-        return hasRemind;
     }
 
     public String getCourseId() {
@@ -118,8 +95,8 @@ public class InstructorFeedbackSessionActions {
         return remindLink;
     }
 
-    public String getRemindParticularStudentsLink() {
-        return remindParticularStudentsLink;
+    public String getRemindParticularStudentsPageLink() {
+        return remindParticularStudentsPageLink;
     }
 
     public String getEditCopyLink() {
@@ -140,14 +117,6 @@ public class InstructorFeedbackSessionActions {
 
     public boolean isAllowedToRemind() {
         return allowedToRemind;
-    }
-
-    public String getToggleDeleteFeedbackSessionParams() {
-        return toggleDeleteFeedbackSessionParams;
-    }
-
-    public String getToggleRemindStudentsParams() {
-        return toggleRemindStudentsParams;
     }
 
     public FeedbackSessionPublishButton getPublishButton() {

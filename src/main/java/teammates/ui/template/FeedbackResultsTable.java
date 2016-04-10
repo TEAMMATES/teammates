@@ -15,7 +15,7 @@ public class FeedbackResultsTable {
     private List<FeedbackResponsePersonRow> givenResponses;
 
     public FeedbackResultsTable(int fbIndex, String studentName, FeedbackSessionResultsBundle result) {
-        this.studentName = Sanitizer.sanitizeForHtml(studentName);
+        this.studentName = studentName;
 
         this.receivedResponses = new ArrayList<FeedbackResponsePersonRow>();
         Map<String, List<FeedbackResponseAttributes>> received =

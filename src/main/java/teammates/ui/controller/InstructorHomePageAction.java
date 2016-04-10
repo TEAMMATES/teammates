@@ -23,6 +23,7 @@ public class InstructorHomePageAction extends Action {
                                                            new InstructorHomePageData(account));
             statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE,
                                                StatusMessageColor.WARNING));
+            statusToAdmin = "instructorHome " + Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE;
             return response;
         }
         
@@ -51,6 +52,8 @@ public class InstructorHomePageAction extends Action {
         InstructorHomeCourseAjaxPageData data = new InstructorHomeCourseAjaxPageData(account);
         data.init(index, course, instructor, pendingCommentsCount, sectionNames);
         
+        statusToAdmin = "instructorHome Course Load:<br>" + courseToLoad;
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
     }
 
