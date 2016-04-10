@@ -260,6 +260,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         try {
             editInstructorFSAction = getAction(submissionParams);
             editInstructorFSAction.executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to " +
                          "instructor [" + instructor.email + "] for privilege [canmodifysession]", e.getMessage());

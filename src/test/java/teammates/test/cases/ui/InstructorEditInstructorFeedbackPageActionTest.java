@@ -95,6 +95,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         try {
             editInstructorFPAction = getAction(submissionParams);
             editInstructorFPAction.executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible "+
                          "to instructor [" + moderatedInstructor.email + "] " +
@@ -113,6 +114,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
         try {
             editInstructorFPAction = getAction(submissionParams);
             editInstructorFPAction.executeAndPostProcess();
+            signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Instructor Email " + moderatedInstructorEmail + 
                          " does not exist in " + courseId + ".", edne.getMessage());
