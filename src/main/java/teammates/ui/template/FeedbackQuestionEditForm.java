@@ -29,7 +29,9 @@ public class FeedbackQuestionEditForm {
     private List<ElementTag> questionNumberOptions;
     
     private FeedbackQuestionAttributes question;
+    private int questionIndex;
     
+
     //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;
     
@@ -150,7 +152,15 @@ public class FeedbackQuestionEditForm {
     public String getAction() {
         return actionLink;
     }
-
+    
+    public void setQuestionIndex(int questionIndex) {
+        this.questionIndex = questionIndex;
+    }
+    
+    public int getQuestionIndex() {
+        return questionIndex;
+    }
+    
     public void setAction(String action) {
         this.actionLink = action;
     }
