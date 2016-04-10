@@ -156,7 +156,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        resultsPage.waitForPageToLoad();
 
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
