@@ -533,7 +533,7 @@ public class BackDoorTest extends BaseTestCase {
         InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
         
         equalizeIrrelevantData(expectedInstructor, actualInstructor);
-        assertEquals(gson.toJson(expectedInstructor), gson.toJson(actualInstructor));
+        assertTrue(expectedInstructor.isEqualToAnotherInstructor(actualInstructor));
     }
     
     private void verifyPresentInDatastore(AccountAttributes expectedAccount) {

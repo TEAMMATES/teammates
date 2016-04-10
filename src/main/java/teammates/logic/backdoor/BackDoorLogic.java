@@ -201,7 +201,7 @@ public class BackDoorLogic extends Logic {
             return;
         }
 
-        InstructorPrivileges privileges = instructor.getInstructorPrivilegesFromText();
+        InstructorPrivileges privileges = instructor.privileges;
 
         switch (instructor.getRole()) {
 
