@@ -74,7 +74,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.setStudentToViewPageAs(studentUnderModeration);
         
         if (moderatedQuestionId != null) {
-          data.setModeratedQuestionId(moderatedQuestionId);
+            data.setModeratedQuestionId(moderatedQuestionId);
         }
         
         hideQuestionsWithAnonymousResponses(data.bundle);
