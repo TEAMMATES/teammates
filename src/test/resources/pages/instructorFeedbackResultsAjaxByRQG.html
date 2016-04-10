@@ -45,7 +45,7 @@
                   <b>
                     to
                   </b>
-                     Sat, 30 Apr 2016, 11:59 PM
+                     Thu, 30 Apr 2026, 11:59 PM
                 </p>
               </div>
             </div>
@@ -74,7 +74,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation('First Session');" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -152,16 +152,16 @@
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
-                    Group by - Giver > Recipient > Question
+                    Group by - Giver &gt; Recipient &gt; Question
                   </option>
                   <option value="recipient-giver-question">
-                    Group by - Recipient > Giver > Question
+                    Group by - Recipient &gt; Giver &gt; Question
                   </option>
                   <option value="giver-question-recipient">
-                    Group by - Giver > Question > Recipient
+                    Group by - Giver &gt; Question &gt; Recipient
                   </option>
-                  <option selected="selected" value="recipient-question-giver">
-                    Group by - Recipient > Question > Giver
+                  <option selected="" value="recipient-question-giver">
+                    Group by - Recipient &gt; Question &gt; Giver
                   </option>
                 </select>
               </div>
@@ -210,7 +210,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="selected" value="All">
+                  <option selected="" value="All">
                     All
                   </option>
                   <option value="Section A">
@@ -228,7 +228,7 @@
           </div>
           <div class="col-sm-7 pull-right" style="padding-top:8px;">
             <div class="pull-right" data-original-title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below." data-toggle="tooltip" style="display:inline-block;" title="">
-              <a class="btn btn-default btn-xs pull-right" disabled="disabled" id="collapse-panels-button" onclick="toggleCollapse(this)">
+              <a class="btn btn-default btn-xs pull-right" disabled="" id="collapse-panels-button" onclick="toggleCollapse(this)">
                 Expand Sections
               </a>
             </div>
@@ -241,8 +241,10 @@
     <input name="user" type="hidden" value="CFResultsUiT.instr">
   </form>
   <br>
-  <div class="overflow-auto alert alert-danger" id="statusMessage">
-    This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-warning statusMessage">
+      This session seems to have a large number of responses. It is recommended to view the results one question/section at a time. To view responses for a particular question, click on the question below. To view response for a particular section, choose the section from the drop-down box above.
+    </div>
   </div>
   <script src="/js/statusMessage.js" type="text/javascript">
   </script>
@@ -287,7 +289,7 @@
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Alice Betsy
+                Alice Betsy&lt;/td&gt;'"
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
               <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
@@ -430,10 +432,10 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
-                              Alice Betsy
+                              Alice Betsy&lt;/td&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               Alice self feedback.
@@ -602,10 +604,10 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
-                              Alice Betsy
+                              Alice Betsy&lt;/td&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               PowerSearch
@@ -774,10 +776,10 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
-                              Alice Betsy
+                              Alice Betsy&lt;/td&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               <ul class="selectedOptionsList">
@@ -908,10 +910,10 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
-                              Alice Betsy
+                              Alice Betsy&lt;/td&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               Danny
@@ -1035,10 +1037,10 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
-                              Alice Betsy
+                              Alice Betsy&lt;/td&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               Team 1
@@ -1135,10 +1137,10 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
-                              Alice Betsy
+                              Alice Betsy&lt;/td&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               2 Response to Benny.
@@ -1261,7 +1263,7 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
                               Benny Charles
@@ -1360,7 +1362,7 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
                               Benny Charles
@@ -1460,7 +1462,7 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
                               Benny Charles
@@ -1588,10 +1590,10 @@
                               </div>
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="middlealign">
-                              Alice Betsy
+                              Alice Betsy&lt;/td&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               Response to Dropout.
@@ -1984,7 +1986,7 @@
                             <td class="middlealign">
                             </td>
                             <td class="middlealign">
-                              Team 1
+                              Team 1&lt;/td&gt;&lt;/div&gt;'"
                             </td>
                             <td class="text-preserve-space">
                               Response from team 1 (by alice) to team 2.
@@ -1995,7 +1997,7 @@
                                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                 <input name="fsname" type="hidden" value="First Session">
                                 <input name="moderatedquestion" type="hidden" value="4">
-                                <input name="moderatedstudent" type="hidden" value="Team 1">
+                                <input name="moderatedstudent" type="hidden" value="Team 1</td></div>'&quot;">
                               </form>
                             </td>
                           </tr>

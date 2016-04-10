@@ -28,8 +28,8 @@
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
      
     <br>
-    <t:statusMessage />
-    <ti:copyModal />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
+    <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
     
     <c:if test="${empty data.qnForms}">
         <br>

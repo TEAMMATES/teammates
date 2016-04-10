@@ -45,7 +45,7 @@
                   <b>
                     to
                   </b>
-                     Sat, 30 Apr 2016, 11:59 PM
+                     Thu, 30 Apr 2026, 11:59 PM
                 </p>
               </div>
             </div>
@@ -74,7 +74,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation('First Session');" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="First Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -152,16 +152,16 @@
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
-                    Group by - Giver > Recipient > Question
+                    Group by - Giver &gt; Recipient &gt; Question
                   </option>
-                  <option selected="selected" value="recipient-giver-question">
-                    Group by - Recipient > Giver > Question
+                  <option selected="" value="recipient-giver-question">
+                    Group by - Recipient &gt; Giver &gt; Question
                   </option>
                   <option value="giver-question-recipient">
-                    Group by - Giver > Question > Recipient
+                    Group by - Giver &gt; Question &gt; Recipient
                   </option>
                   <option value="recipient-question-giver">
-                    Group by - Recipient > Question > Giver
+                    Group by - Recipient &gt; Question &gt; Giver
                   </option>
                 </select>
               </div>
@@ -187,7 +187,7 @@
             <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label>
-                  <input checked="checked" id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox">
+                  <input checked="" id="frgroupbyteam" name="frgroupbyteam" onchange="this.form.submit()" type="checkbox">
                   Group by Teams
                 </label>
               </div>
@@ -195,7 +195,7 @@
             <div data-original-title="Show statistics" data-toggle="tooltip" title="">
               <div class="checkbox padding-top-0 min-height-0">
                 <label class="text-strike">
-                  <input checked="checked" id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                  <input checked="" id="show-stats-checkbox" name="frshowstats" type="checkbox">
                   Show Statistics
                 </label>
               </div>
@@ -210,7 +210,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="selected" value="All">
+                  <option selected="" value="All">
                     All
                   </option>
                   <option value="Section A">
@@ -239,8 +239,10 @@
     <input name="user" type="hidden" value="CFResultsUiT.instr">
   </form>
   <br>
-  <div id="statusMessage" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;">
   </div>
+  <script src="/js/statusMessage.js" type="text/javascript">
+  </script>
   <br>
   <br>
   <div class="panel panel-success">
@@ -377,10 +379,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -397,6 +399,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(0,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="0">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -445,7 +448,7 @@
           <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
             <div class="inline panel-heading-text">
               <strong>
-                Team 1
+                Team 1&lt;/td&gt;&lt;/div&gt;'"
               </strong>
             </div>
             <div class="pull-right">
@@ -464,7 +467,7 @@
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
-                      Alice Betsy (Team 1)
+                      Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
@@ -487,7 +490,7 @@
                           From:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>
-                              Alice Betsy (Team 1)
+                              Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
@@ -496,7 +499,7 @@
                           <br class="hidden-xs hidden-sm">
                           To:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                            Alice Betsy (Team 1)
+                            Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
@@ -533,9 +536,9 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Alice Betsy (Team 1)
+                                        Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
-                                        Recipient: Alice Betsy (Team 1)
+                                        Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -569,10 +572,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-1-1">
@@ -582,10 +585,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-1-1-1">
@@ -595,10 +598,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-1-1-1">
@@ -608,10 +611,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -628,6 +631,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="1">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -685,9 +689,9 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Alice Betsy (Team 1)
+                                        Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
-                                        Recipient: Alice Betsy (Team 1)
+                                        Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -721,10 +725,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-1-2">
@@ -734,10 +738,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-1-1-2">
@@ -747,10 +751,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-1-1-2">
@@ -760,10 +764,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -780,6 +784,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,2);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="1">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -844,9 +849,9 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Alice Betsy (Team 1)
+                                        Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
-                                        Recipient: Alice Betsy (Team 1)
+                                        Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -880,10 +885,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-1-3">
@@ -893,10 +898,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-1-1-3">
@@ -906,10 +911,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-1-1-3">
@@ -919,10 +924,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -939,6 +944,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,3);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="1">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -984,9 +990,9 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Alice Betsy (Team 1)
+                                        Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
-                                        Recipient: Alice Betsy (Team 1)
+                                        Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -1020,10 +1026,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-1-4">
@@ -1033,10 +1039,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-1-1-4">
@@ -1046,10 +1052,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-1-1-4">
@@ -1059,10 +1065,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -1079,6 +1085,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,4);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="1">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -1124,9 +1131,9 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Alice Betsy (Team 1)
+                                        Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
-                                        Recipient: Alice Betsy (Team 1)
+                                        Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -1160,10 +1167,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-1-5">
@@ -1173,10 +1180,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-1-1-5">
@@ -1186,10 +1193,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-1-1-5">
@@ -1199,10 +1206,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -1219,6 +1226,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,1,5);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="1">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -1247,7 +1255,7 @@
                           <br class="hidden-xs hidden-sm">
                           To:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                            Alice Betsy (Team 1)
+                            Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
@@ -1286,7 +1294,7 @@
                                       <p>
                                         Giver: Drop out (Team 2)
                                         <br>
-                                        Recipient: Alice Betsy (Team 1)
+                                        Recipient: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -1320,10 +1328,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-1-2-1">
@@ -1333,10 +1341,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-1-2-1">
@@ -1346,10 +1354,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-1-2-1">
@@ -1359,10 +1367,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-1-2-1">
@@ -1372,10 +1380,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -1392,6 +1400,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,2,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="1">
                                   <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -1413,7 +1422,7 @@
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
-                      Benny Charles (Team 1)
+                      Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     <a class="link-in-dark-bg" href="mailto:CFResultsUiT.benny.c@gmail.tmt">
@@ -1436,7 +1445,7 @@
                           From:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>
-                              Alice Betsy (Team 1)
+                              Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
@@ -1445,7 +1454,7 @@
                           <br class="hidden-xs hidden-sm">
                           To:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                            Benny Charles (Team 1)
+                            Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
@@ -1482,9 +1491,9 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Alice Betsy (Team 1)
+                                        Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
-                                        Recipient: Benny Charles (Team 1)
+                                        Recipient: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -1518,10 +1527,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-2-1-1">
@@ -1531,10 +1540,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-2-1-1">
@@ -1544,10 +1553,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-2-1-1">
@@ -1557,10 +1566,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-2-1-1">
@@ -1570,10 +1579,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -1590,6 +1599,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="2">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -1609,7 +1619,7 @@
                           From:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>
-                              Benny Charles (Team 1)
+                              Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
@@ -1618,7 +1628,7 @@
                           <br class="hidden-xs hidden-sm">
                           To:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                            Benny Charles (Team 1)
+                            Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
@@ -1677,9 +1687,9 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Benny Charles (Team 1)
+                                        Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
-                                        Recipient: Benny Charles (Team 1)
+                                        Recipient: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -1713,10 +1723,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-2-2-1">
@@ -1726,10 +1736,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-2-2-1">
@@ -1739,10 +1749,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-2-2-1">
@@ -1752,10 +1762,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -1772,6 +1782,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,2,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="2">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -1800,7 +1811,7 @@
                           <br class="hidden-xs hidden-sm">
                           To:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                            Benny Charles (Team 1)
+                            Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
                         </div>
@@ -1839,7 +1850,7 @@
                                       <p>
                                         Giver: Drop out (Team 2)
                                         <br>
-                                        Recipient: Benny Charles (Team 1)
+                                        Recipient: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                       </p>
                                       You may change comment's visibility using the visibility options on the right hand side.
                                     </div>
@@ -1873,10 +1884,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-2-3-1">
@@ -1886,10 +1897,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-2-3-1">
@@ -1899,10 +1910,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-2-3-1">
@@ -1912,10 +1923,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-2-3-1">
@@ -1925,10 +1936,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -1945,6 +1956,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,3,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="2">
                                   <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -2010,7 +2022,7 @@
                           From:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>
-                              Benny Charles (Team 1)
+                              Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
@@ -2056,7 +2068,7 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Benny Charles (Team 1)
+                                        Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
                                         Recipient: Charlie Dávis (Team 2)
                                       </p>
@@ -2092,10 +2104,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-3-1-1">
@@ -2105,10 +2117,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-3-1-1">
@@ -2118,10 +2130,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-3-1-1">
@@ -2131,10 +2143,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-3-1-1">
@@ -2144,10 +2156,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -2164,6 +2176,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="3">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -2208,7 +2221,7 @@
                           From:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>
-                              Benny Charles (Team 1)
+                              Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
@@ -2254,7 +2267,7 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Benny Charles (Team 1)
+                                        Giver: Benny Charles (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
                                         Recipient: Danny Engrid (Team 2)
                                       </p>
@@ -2290,10 +2303,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-4-1-1">
@@ -2303,10 +2316,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-4-1-1">
@@ -2316,10 +2329,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-4-1-1">
@@ -2329,10 +2342,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-4-1-1">
@@ -2342,10 +2355,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -2362,6 +2375,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="4">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.benny.c@gmail.tmt%CFResultsUiT.danny.e@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -2463,10 +2477,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-4-2-1">
@@ -2476,10 +2490,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-4-2-1">
@@ -2489,10 +2503,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-4-2-1">
@@ -2502,10 +2516,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-4-2-1">
@@ -2515,10 +2529,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -2535,6 +2549,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,2,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="4">
                                   <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%CFResultsUiT.danny.e@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -2579,7 +2594,7 @@
                           From:
                           <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>
-                              Alice Betsy (Team 1)
+                              Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                             </strong>
                             <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                           </div>
@@ -2625,7 +2640,7 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Alice Betsy (Team 1)
+                                        Giver: Alice Betsy&lt;/td&gt;'" (Team 1&lt;/td&gt;&lt;/div&gt;'")
                                         <br>
                                         Recipient: Drop out (Team 2)
                                       </p>
@@ -2661,10 +2676,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-5-1-1">
@@ -2674,10 +2689,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-5-1-1">
@@ -2687,10 +2702,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-5-1-1">
@@ -2700,10 +2715,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-5-1-1">
@@ -2713,10 +2728,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -2733,6 +2748,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(5,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="5">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%drop.out@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -2857,10 +2873,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-5-2-1">
@@ -2870,10 +2886,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-5-2-1">
@@ -2883,10 +2899,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-5-2-1">
@@ -2896,10 +2912,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -2916,6 +2932,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(5,2,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="5">
                                   <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%drop.out@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -2997,10 +3014,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-5-2-2">
@@ -3010,10 +3027,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-5-2-2">
@@ -3023,10 +3040,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-5-2-2">
@@ -3036,10 +3053,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -3056,6 +3073,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(5,2,2);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="5">
                                   <input name="responseid" type="hidden" value="${question.id}%drop.out@gmail.tmt%drop.out@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -3095,7 +3113,7 @@
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding">
                           From:
                           <strong>
-                            Team 1
+                            Team 1&lt;/td&gt;&lt;/div&gt;'"
                           </strong>
                         </div>
                         <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
@@ -3107,7 +3125,7 @@
                             <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                             <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                             <input name="fsname" type="hidden" value="First Session">
-                            <input name="moderatedstudent" type="hidden" value="Team 1">
+                            <input name="moderatedstudent" type="hidden" value="Team 1</td></div>'&quot;">
                           </form>
                         </div>
                       </div>
@@ -3135,7 +3153,7 @@
                                   <div class="form-group form-inline">
                                     <div class="form-group text-muted">
                                       <p>
-                                        Giver: Team 1
+                                        Giver: Team 1&lt;/td&gt;&lt;/div&gt;'"
                                         <br>
                                         Recipient: Team 2
                                       </p>
@@ -3171,10 +3189,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-6-1-1">
@@ -3184,10 +3202,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-6-1-1">
@@ -3197,10 +3215,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -3217,6 +3235,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(6,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="6">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%Team 2">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -3417,10 +3436,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-recipient-7-1-1">
@@ -3430,10 +3449,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
                                           </td>
                                         </tr>
                                         <tr id="response-giver-team-7-1-1">
@@ -3443,10 +3462,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="OWN_TEAM_MEMBERS">
                                           </td>
                                         </tr>
                                         <tr id="response-students-7-1-1">
@@ -3456,10 +3475,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="STUDENTS">
                                           </td>
                                         </tr>
                                         <tr id="response-instructors-7-1-1">
@@ -3469,10 +3488,10 @@
                                             </div>
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                           <td>
-                                            <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
+                                            <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
                                           </td>
                                         </tr>
                                       </tbody>
@@ -3489,6 +3508,7 @@
                                     <input class="btn btn-default" onclick="return hideResponseCommentAddForm(7,1,1);" type="button" value="Cancel">
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
+                                  <input name="fsindex" type="hidden" value="7">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.charlie.d@gmail.tmt%CFResultsUiT.emily.f@gmail.tmt">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -3548,9 +3568,7 @@
           <tbody>
             <tr>
               <td>
-                <i>
-                  Instructors
-                </i>
+                &lt;i&gt;Instructors&lt;/i&gt;
               </td>
               <td>
                 Teammates Helper1
@@ -3560,9 +3578,7 @@
             </tr>
             <tr>
               <td>
-                <i>
-                  Instructors
-                </i>
+                &lt;i&gt;Instructors&lt;/i&gt;
               </td>
               <td>
                 Teammates Helper2

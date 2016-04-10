@@ -17,7 +17,7 @@
     </c:if>
     
     <feedbackResults:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
-    <t:statusMessage/>
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <br>
     
     <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithResponses">

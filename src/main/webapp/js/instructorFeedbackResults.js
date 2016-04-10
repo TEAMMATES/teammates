@@ -51,7 +51,7 @@ function submitFormAjax() {
                     ajaxStatus.html(data.errorMessage);
                     content.html('<button class="btn btn-info" onclick="submitFormAjax()"> retry</button>');
                 }
-                $('#statusMessage').html(data.statusForAjax);
+                setStatusMessage(data.statusForAjax);
             }, 500);
         }
     });
@@ -315,4 +315,7 @@ $(document).ready(function() {
 
     var panels = $('div.panel');
     bindCollapseEvents(panels, 0);
+    
+    bindPublishButtons();
+    bindUnpublishButtons();
 });

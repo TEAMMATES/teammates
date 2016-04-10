@@ -59,9 +59,9 @@ public class DataBundleTest extends BaseTestCase {
         // STUDENTS
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
         assertEquals("student1InCourse1", student1InCourse1.googleId);
-        assertEquals("student1 In Course1", student1InCourse1.name);
-        assertEquals("Team 1.1", student1InCourse1.team);
-        assertEquals("comment for student1InCourse1",
+        assertEquals("student1 In Course1</td></div>'\"", student1InCourse1.name);
+        assertEquals("Team 1.1</td></div>'\"", student1InCourse1.team);
+        assertEquals("comment for student1InCourse1</td></div>'\"",
                 student1InCourse1.comments);
         assertEquals("idOfTypicalCourse1", student1InCourse1.course);
         

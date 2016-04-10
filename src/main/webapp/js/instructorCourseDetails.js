@@ -38,7 +38,8 @@ function submitFormAjax() {
                     ajaxStatus.html(data.errorMessage);
                     content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");   
                 }
-                $("#statusMessage").html(data.statusForAjax);
+
+                setStatusMessage(data.statusForAjax);
             }, 500);
         }
     });
@@ -49,10 +50,8 @@ function submitFormAjax() {
  * Functions to trigger registration key sending to a specific student in the
  * course.
  * Currently no confirmation dialog is shown.
- * @param courseID
- * @param email
  */
-function toggleSendRegistrationKey(courseID, email) {
+function toggleSendRegistrationKey() {
     return confirm("Usually, there is no need to use this feature because TEAMMATES " 
                    + "sends an automatic invite to students at the opening time of each" 
                    + " session. Send a join request anyway?");

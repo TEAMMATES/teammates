@@ -13,7 +13,7 @@
     <br>
     <h2>Filter Students</h2>
     <tisl:filterBox filterBox="${data.filterBox}" />
-    <t:statusMessage />
+    <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <c:if test="${data.numOfCourses > 0}">
         <br>
         <div class="text-muted">

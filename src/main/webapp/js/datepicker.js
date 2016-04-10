@@ -1,13 +1,15 @@
 $(document).ready(function(){
 	var today = new Date();
-	var yesterday = today.setDate(today.getDate() - 1);
-	var tomorrow = today.setDate(today.getDate() + 1);
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
 	
 	$("#start").datepicker({
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
-        defaultDate: new Date(),
+        defaultDate: today,
         onSelect: function(date) {
         	$("#deadline").datepicker("option", "minDate", getMinDateForEndDate($('#start').datepicker("getDate")));
         }
@@ -17,7 +19,7 @@ $(document).ready(function(){
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
-    	defaultDate: new Date(),
+    	defaultDate: today,
     	onSelect: function(date) {
     		$("#start").datepicker("option", "maxDate", date);
     	}
@@ -27,7 +29,7 @@ $(document).ready(function(){
     	dateFormat: "dd/mm/yy",
     	showOtherMonths: true,
     	gotoCurrent: true,
-    	defaultDate: new Date(),
+    	defaultDate: today,
         onSelect: function(date, inst) {
     		var newVisibleDate = getMaxDateForVisibleDate($('#startdate').datepicker("getDate"), 
     				$('#publishdate').datepicker("getDate"));
@@ -68,7 +70,24 @@ $(document).ready(function(){
     		$("#visibledate").datepicker("option", "maxDate", newVisibleDate);
     	}
     });
+    
+    triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
+    
 });
+
+/**
+ * Adds an event handler on all passed in divs to open datepicker on 'click'.
+ * @assumption: all passed in divs are valid datepicker divs
+ */
+function triggerDatepickerOnClick(datepickerDivs) {
+    $.each(datepickerDivs, function(i, datepickerDiv) {
+        datepickerDiv.on('click', function() {
+            if (!datepickerDiv.prop('disabled')) {
+                datepickerDiv.datepicker('show');        		
+            }
+        });
+    });
+}
 
 /**
  * @assumption: startDate has a valid value

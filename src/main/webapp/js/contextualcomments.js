@@ -15,7 +15,7 @@ $(document).ready(function(){
 	function checkComment(form){
 	    var formTextField = $(form).find('[name=commenttext]').val();
 	    if (isBlank(formTextField)) {
-	        setStatusMessage("Please enter a valid comment. The comment can't be empty.", true);
+	        setStatusMessage("Please enter a valid comment. The comment can't be empty.", StatusType.DANGER);
 	        scrollToTop();
 	        return false;
 	    }
@@ -46,20 +46,20 @@ $(document).ready(function(){
 			$('#recipient-person').show();
 			$('#recipient-team').show();
 			$('#recipient-team').find('div[data-toggle="tooltip"]').text('Recipient\'s Team');
-			$('#recipient-team').find('input[class="visibilityCheckbox recipientCheckbox"]').removeAttr('disabled');
-			$('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').removeAttr('disabled');
+			$('#recipient-team').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', false);
+			$('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', false);
 		} else if(selectedValue == 'TEAM'){
 			$('input[name="recipienttype"]').val('TEAM');
 			$('input[name="recipients"]').val($('#teamname > p').text());
 			$('#recipient-person').hide();
-			$('#recipient-team').find('input[class="visibilityCheckbox recipientCheckbox"]').attr('disabled', 'disabled');
-			$('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').removeAttr('disabled');
+			$('#recipient-team').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', true);
+			$('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', false);
 			$('#recipient-team').find('div[data-toggle="tooltip"]').text('Recipient Team');
 			$('#recipient-team').show();
 		} else if(selectedValue == 'SECTION'){
 			$('input[name="recipienttype"]').val('SECTION');
 			$('input[name="recipients"]').val($('#sectionname > p').text());
-			$('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').attr('disabled', 'disabled');
+			$('#recipient-section').find('input[class="visibilityCheckbox recipientCheckbox"]').prop('disabled', true);
 			$('#recipient-person').hide();
 			$('#recipient-team').hide();
 		}

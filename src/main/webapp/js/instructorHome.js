@@ -2,6 +2,12 @@ var COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 var CURRENT_YEAR = (new Date()).getFullYear();
 
 $(document).ready(function() {
+
+    bindDeleteButtons();
+    bindRemindButtons();
+    bindPublishButtons();
+    bindUnpublishButtons();
+    
     setupFsCopyModal();
     
     //Click event binding for radio buttons
@@ -73,7 +79,7 @@ $(document).ready(function() {
  */
 function toggleArchiveCourseConfirmation(courseId) {
     return confirm('Are you sure you want to archive ' + courseId + '? This action can be reverted'
-                   + 'by going to the "courses" tab and unarchiving the desired course(s).');
+                   + ' by going to the "courses" tab and unarchiving the desired course(s).');
 }
 
 /**
