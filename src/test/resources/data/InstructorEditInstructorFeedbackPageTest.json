@@ -57,8 +57,7 @@
     "courses":{
         "IEIFPTCourse":{
             "id":"IEIFPTCourse",
-            "name":"IEIFPTCourse",
-            "isArchived":false
+            "name":"IEIFPTCourse"
         }
     },
     "instructors":{
