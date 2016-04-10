@@ -64,7 +64,7 @@ public class EmailLogEntry {
         str.append("<ul class=\"list-group\">");
         str.append("<li class=\"list-group-item list-group-item-info\">");
         str.append("<input type=\"text\" value=\"" + this.getContent() + "\" class=\"form-control\"");
-        str.append(" readonly");
+        str.append(" readonly>");
         str.append("</li>");
         str.append("</ul>    ");
         str.append("</td>");
