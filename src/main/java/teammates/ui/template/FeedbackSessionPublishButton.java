@@ -19,7 +19,7 @@ public class FeedbackSessionPublishButton {
 
     private String buttonType;
     
-    public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, boolean isHome,
+    public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                         InstructorAttributes instructor, String buttonType) {
         String courseId = session.courseId;
         this.feedbackSessionName = Sanitizer.sanitizeForJs(session.feedbackSessionName);
@@ -32,7 +32,7 @@ public class FeedbackSessionPublishButton {
             
             this.tooltipText = Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH;
             this.actionName = "Unpublish";
-            this.actionLink = data.getInstructorFeedbackUnpublishLink(courseId, feedbackSessionName, isHome);
+            this.actionLink = data.getInstructorFeedbackUnpublishLink(courseId, feedbackSessionName, returnUrl);
             
         } else {
             
@@ -40,7 +40,7 @@ public class FeedbackSessionPublishButton {
             this.tooltipText = isReadyToPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH
                                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING;            
             this.actionName = "Publish";
-            this.actionLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, isHome);
+            this.actionLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, returnUrl);
             this.actionAllowed &= isReadyToPublish;
         }
 

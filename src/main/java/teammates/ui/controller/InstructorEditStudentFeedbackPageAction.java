@@ -21,7 +21,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        String moderatedQuestionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION);
+        String moderatedQuestionId = getRequestParamValue("moderatedquestionid");
 
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
@@ -74,8 +74,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.setStudentToViewPageAs(studentUnderModeration);
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE);
         
-        if (moderatedQuestionNumber != null) {
-          data.setModeratedQuestion(moderatedQuestionNumber);
+        if (moderatedQuestionId != null) {
+            data.setModeratedQuestionId(moderatedQuestionId);
         }
 
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +

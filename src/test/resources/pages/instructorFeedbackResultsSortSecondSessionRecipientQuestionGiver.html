@@ -74,7 +74,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&user=CFResultsUiT.instr" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" data-fsname="Second Session" data-original-title="Make session responses available for viewing" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&fsname=Second+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=CFResultsUiT.instr" title="">
                     Publish Results
                   </a>
                 </div>
@@ -152,16 +152,16 @@
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
-                    Group by - Giver > Recipient > Question
+                    Group by - Giver &gt; Recipient &gt; Question
                   </option>
                   <option value="recipient-giver-question">
-                    Group by - Recipient > Giver > Question
+                    Group by - Recipient &gt; Giver &gt; Question
                   </option>
                   <option value="giver-question-recipient">
-                    Group by - Giver > Question > Recipient
+                    Group by - Giver &gt; Question &gt; Recipient
                   </option>
                   <option selected="" value="recipient-question-giver">
-                    Group by - Recipient > Question > Giver
+                    Group by - Recipient &gt; Question &gt; Giver
                   </option>
                 </select>
               </div>
@@ -582,7 +582,7 @@
                                   <td class="middlealign">
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     0
@@ -592,7 +592,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="12">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="Team 1</td></div>'&quot;">
                                     </form>
                                   </td>
@@ -620,7 +620,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="12">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="Team 2">
                                     </form>
                                   </td>
@@ -648,7 +648,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="12">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="Team 3">
                                     </form>
                                   </td>
@@ -788,10 +788,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     3
@@ -801,7 +801,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="8">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -872,10 +872,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     <span class="color_neutral">
@@ -887,7 +887,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="10">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -1002,10 +1002,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     4
@@ -1015,7 +1015,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="8">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -1086,10 +1086,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     <span class="color_neutral">
@@ -1101,7 +1101,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="10">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -1122,7 +1122,7 @@
           <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
             <div class="inline panel-heading-text">
               <strong>
-                Team 1</td></div>'"
+                Team 1&lt;/td&gt;&lt;/div&gt;'"
               </strong>
             </div>
             <div class="pull-right">
@@ -1134,7 +1134,7 @@
             <div class="panel-body background-color-warning">
               <div class="resultStatistics">
                 <h3>
-                  Team 1</td></div>'" Received Responses Statistics
+                  Team 1&lt;/td&gt;&lt;/div&gt;'" Received Responses Statistics
                 </h3>
                 <hr class="margin-top-0">
                 <div class="panel panel-info">
@@ -1362,10 +1362,10 @@
                                 <tbody>
                                   <tr>
                                     <td>
-                                      Team 1</td></div>'"
+                                      Team 1&lt;/td&gt;&lt;/div&gt;'"
                                     </td>
                                     <td>
-                                      Alice Betsy</td>'"
+                                      Alice Betsy&lt;/td&gt;'"
                                     </td>
                                     <td>
                                       3.5
@@ -1543,7 +1543,7 @@
                                 <tbody>
                                   <tr>
                                     <td>
-                                      Team 1</td></div>'"
+                                      Team 1&lt;/td&gt;&lt;/div&gt;'"
                                     </td>
                                     <td>
                                       Benny Charles
@@ -1557,10 +1557,10 @@
                                   </tr>
                                   <tr>
                                     <td>
-                                      Team 1</td></div>'"
+                                      Team 1&lt;/td&gt;&lt;/div&gt;'"
                                     </td>
                                     <td>
-                                      Alice Betsy</td>'"
+                                      Alice Betsy&lt;/td&gt;'"
                                     </td>
                                     <td>
                                       110
@@ -1581,7 +1581,7 @@
                 <div class="row">
                   <div class="col-sm-9">
                     <h3>
-                      Team 1</td></div>'" Detailed Responses
+                      Team 1&lt;/td&gt;&lt;/div&gt;'" Detailed Responses
                     </h3>
                   </div>
                   <div class="col-sm-3 h3">
@@ -1597,7 +1597,7 @@
                   To:
                   <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
                     <strong>
-                      Alice Betsy</td>'"
+                      Alice Betsy&lt;/td&gt;'"
                     </strong>
                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
                     <a class="link-in-dark-bg" href="mailto:CFResultsUiT.alice.b@gmail.tmt">
@@ -1717,10 +1717,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     <ul class="selectedOptionsList">
@@ -1734,7 +1734,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="2">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -1859,10 +1859,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     <ul class="selectedOptionsList">
@@ -1879,7 +1879,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="3">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -1960,10 +1960,10 @@
                                     <tbody>
                                       <tr>
                                         <td>
-                                          Team 1</td></div>'"
+                                          Team 1&lt;/td&gt;&lt;/div&gt;'"
                                         </td>
                                         <td>
-                                          Alice Betsy</td>'"
+                                          Alice Betsy&lt;/td&gt;'"
                                         </td>
                                         <td>
                                           3.5
@@ -2021,10 +2021,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     3.5
@@ -2034,7 +2034,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="4">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -2172,10 +2172,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     <ul>
@@ -2192,7 +2192,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="5">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -2262,10 +2262,10 @@
                                     <tbody>
                                       <tr>
                                         <td>
-                                          Team 1</td></div>'"
+                                          Team 1&lt;/td&gt;&lt;/div&gt;'"
                                         </td>
                                         <td>
-                                          Alice Betsy</td>'"
+                                          Alice Betsy&lt;/td&gt;'"
                                         </td>
                                         <td>
                                           110
@@ -2320,10 +2320,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     110
@@ -2333,7 +2333,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -2348,7 +2348,7 @@
                                     </div>
                                   </td>
                                   <td class="middlealign color_neutral">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign color_neutral">
                                     Benny Charles
@@ -2363,7 +2363,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
                                     </form>
                                   </td>
@@ -2434,10 +2434,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     <span class="color-positive">
@@ -2456,7 +2456,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="7">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -2471,7 +2471,7 @@
                                     </div>
                                   </td>
                                   <td class="middlealign color_neutral">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign color_neutral">
                                     Benny Charles
@@ -2486,7 +2486,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="7">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
                                     </form>
                                   </td>
@@ -2581,7 +2581,7 @@
                                     <tbody>
                                       <tr>
                                         <td>
-                                          Team 1</td></div>'"
+                                          Team 1&lt;/td&gt;&lt;/div&gt;'"
                                         </td>
                                         <td>
                                           Benny Charles
@@ -2639,10 +2639,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     90
@@ -2652,7 +2652,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -2667,7 +2667,7 @@
                                     </div>
                                   </td>
                                   <td class="middlealign color_neutral">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign color_neutral">
                                     Benny Charles
@@ -2682,7 +2682,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
                                     </form>
                                   </td>
@@ -2753,10 +2753,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     <span class="color_neutral">
@@ -2768,7 +2768,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="7">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -2783,7 +2783,7 @@
                                     </div>
                                   </td>
                                   <td class="middlealign color_neutral">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign color_neutral">
                                     Benny Charles
@@ -2805,7 +2805,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="7">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
                                     </form>
                                   </td>
@@ -2824,7 +2824,7 @@
                   To:
                   <div class="inline panel-heading-text">
                     <strong>
-                      Team 1</td></div>'"
+                      Team 1&lt;/td&gt;&lt;/div&gt;'"
                     </strong>
                   </div>
                   <div class="pull-right">
@@ -2889,7 +2889,7 @@
                                   <td class="middlealign">
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     Response from benny to Team 1 (own team)
@@ -2899,7 +2899,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="11">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="Team 1</td></div>'&quot;">
                                     </form>
                                   </td>
@@ -3186,10 +3186,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     50
@@ -3199,7 +3199,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -3229,7 +3229,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt">
                                     </form>
                                   </td>
@@ -3259,7 +3259,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
                                     </form>
                                   </td>
@@ -3289,7 +3289,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
                                     </form>
                                   </td>
@@ -3319,7 +3319,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
                                     </form>
                                   </td>
@@ -3472,10 +3472,10 @@
                                     </div>
                                   </td>
                                   <td class="middlealign">
-                                    Team 1</td></div>'"
+                                    Team 1&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td class="middlealign">
-                                    Alice Betsy</td>'"
+                                    Alice Betsy&lt;/td&gt;'"
                                   </td>
                                   <td class="text-preserve-space">
                                     150
@@ -3485,7 +3485,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
                                     </form>
                                   </td>
@@ -3515,7 +3515,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt">
                                     </form>
                                   </td>
@@ -3545,7 +3545,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
                                     </form>
                                   </td>
@@ -3575,7 +3575,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
                                     </form>
                                   </td>
@@ -3605,7 +3605,7 @@
                                       <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
                                       <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                       <input name="fsname" type="hidden" value="Second Session">
-                                      <input name="moderatedquestion" type="hidden" value="6">
+                                      <input name="moderatedquestionid" type="hidden" value="${question.id}">
                                       <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
                                     </form>
                                   </td>

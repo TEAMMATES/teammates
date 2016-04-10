@@ -1548,7 +1548,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isHome = false;
         return new FeedbackSessionPublishButton(this,
                                                 bundle.feedbackSession,
-                                                isHome,
+                                                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE,
                                                 instructor,
                                                 "btn-primary btn-block");
     }
