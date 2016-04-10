@@ -8,6 +8,7 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -126,10 +127,14 @@ public class InstructorFeedbackEditPageData extends PageData {
         qnForm.setAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT);
         qnForm.setCourseId(courseId);
         
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         qnForm.setFeedbackSessionName(feedbackSessionName);
-        qnForm.setQuestion(question);
+        qnForm.setQuestionText(questionDetails.questionText);
         qnForm.setQuestionNumberSuffix("-" + questionIndex);
         qnForm.setQuestionIndex(questionIndex);
+        qnForm.setQuestionId(question.getId());
+        qnForm.setQuestionTypeDisplayName(questionDetails.getQuestionTypeDisplayName());
+        qnForm.setQuestionType(question.questionType);
         
         qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questionsSize));
         
@@ -169,7 +174,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
         
-        qnForm.setQuestionSpecificEditFormHtml(question.getQuestionDetails().getQuestionSpecificEditFormHtml(questionIndex));
+        qnForm.setQuestionSpecificEditFormHtml(questionDetails.getQuestionSpecificEditFormHtml(questionIndex));
         qnForm.setEditable(false);
         
         qnForms.add(qnForm);

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 
@@ -20,16 +20,17 @@ public class FeedbackQuestionEditForm {
     private String feedbackSessionName;
     
     private String questionNumberSuffix;
-    
+    private String questionText;
+    private String questionTypeDisplayName;
+    private FeedbackQuestionType questionType;
+    private int questionIndex;
+
     // Used for adding a new question
     private String questionTypeOptions;
     private String doneEditingLink;
     
     private boolean isQuestionHasResponses;
     private List<ElementTag> questionNumberOptions;
-    
-    private FeedbackQuestionAttributes question;
-    private int questionIndex;
     
 
     //TODO use element tags or a new class instead of having html in java
@@ -38,6 +39,8 @@ public class FeedbackQuestionEditForm {
     private boolean isEditable;
     private FeedbackQuestionFeedbackPathSettings feedbackPathSettings;
     private FeedbackQuestionVisibilitySettings visibilitySettings;
+
+    private String questionId;
     
     public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
                                                         String questionTypeChoiceOptions, List<ElementTag> giverOptions,
@@ -113,14 +116,6 @@ public class FeedbackQuestionEditForm {
         this.feedbackSessionName = feedbackSessionName;
     }
     
-    public FeedbackQuestionAttributes getQuestion() {
-        return question;
-    }
-    
-    public void setQuestion(FeedbackQuestionAttributes question) {
-        this.question = question;
-    }
-    
     public boolean isQuestionHasResponses() {
         return isQuestionHasResponses;
     }
@@ -146,7 +141,7 @@ public class FeedbackQuestionEditForm {
     }
    
     public String getQuestionText() {
-        return question.getQuestionDetails().questionText;
+        return questionText;
     }
 
     public String getAction() {
@@ -213,4 +208,32 @@ public class FeedbackQuestionEditForm {
         this.isEditable = isEditable;
     }
 
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+    
+    public String getQuestionId() {
+        return this.questionId;
+    }
+
+    public String getQuestionTypeDisplayName() {
+        return questionTypeDisplayName;
+    }
+
+    public void setQuestionTypeDisplayName(String questionTypeDisplayName) {
+        this.questionTypeDisplayName = questionTypeDisplayName;
+    }
+    
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+    
+    public void setQuestionType(FeedbackQuestionType questionType) {
+        this.questionType = questionType;
+    }
+    
+    public String getQuestionType() {
+        return this.questionType.toString();
+    }
+    
 }

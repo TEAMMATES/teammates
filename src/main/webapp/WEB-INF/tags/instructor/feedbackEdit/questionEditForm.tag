@@ -31,7 +31,7 @@
                                 </option>
                             </c:forEach>
                         </select>
-                        &nbsp;${fqForm.question.questionDetails.questionTypeDisplayName}
+                        &nbsp;${fqForm.questionTypeDisplayName}
                     </span>
                 </div>
                 <div class="col-sm-5 mobile-margin-top-10px">
@@ -102,9 +102,9 @@
     </div>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fqForm.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fqForm.courseId}">
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${fqForm.question.id}">
+    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${fqForm.questionId}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="${fqForm.questionIndex}">
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>" value="${fqForm.question.questionType}">
+    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>" value="${fqForm.questionType}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE %>" id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE %>-${fqForm.questionIndex}" value="edit">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO %>" >
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO %>" >

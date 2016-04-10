@@ -49,9 +49,9 @@
             </select>
         </div>
     </div>
-    <div class="col-sm-12 row numberOfEntitiesElements${fqForm.question.questionNumber}">
-        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.question.questionNumber}" class="control-label col-sm-4 small">
-            The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.question.questionNumber}"></span> each respondant should give feedback to:
+    <div class="col-sm-12 row numberOfEntitiesElements${fqForm.questionIndex}">
+        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.questionIndex}" class="control-label col-sm-4 small">
+            The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.questionIndex}"></span> each respondant should give feedback to:
         </label>
         <div class="col-sm-8 form-control-static">
             <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
