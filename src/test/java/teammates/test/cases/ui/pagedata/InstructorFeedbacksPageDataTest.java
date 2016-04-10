@@ -374,9 +374,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         Iterator<InstructorAttributes> iter = instructors.iterator();
         while (iter.hasNext()) {
             InstructorAttributes instructor = iter.next();
-            
-            instructor.privileges = gson.fromJson(instructor.instructorPrivilegesAsText, InstructorPrivileges.class);
-            
+
             boolean isGoogleIdSame = instructor.googleId != null 
                                      && instructor.googleId.equals(googleId);
             boolean isOmittedDueToArchiveStatus = isOmitArchived 

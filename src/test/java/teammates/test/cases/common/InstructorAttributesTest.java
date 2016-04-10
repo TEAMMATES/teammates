@@ -35,7 +35,7 @@ public class InstructorAttributesTest extends BaseTestCase {
         assertEquals(privileges, instructor.privileges);
         
         InstructorAttributes instructor1 = new InstructorAttributes(instructor.googleId, instructor.courseId, instructor.name, instructor.email,
-                instructor.role, instructor.displayedName, instructor.instructorPrivilegesAsText);
+                instructor.role, instructor.displayedName, instructor.getTextFromInstructorPrivileges());
         
         assertEquals(privileges, instructor1.privileges);
         
@@ -150,7 +150,6 @@ public class InstructorAttributesTest extends BaseTestCase {
         instructor.role = null;
         instructor.displayedName = null;
         instructor.privileges = null;
-        instructor.instructorPrivilegesAsText = null;
         instructor.sanitizeForSaving();
         assertEquals(privileges, instructor.privileges);
     }
@@ -196,10 +195,8 @@ public class InstructorAttributesTest extends BaseTestCase {
         
         assertTrue(instructor.isEqualToAnotherInstructor(instructor2));
         instructor2.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
-        instructor2.instructorPrivilegesAsText = instructor2.getTextFromInstructorPrivileges();
         assertFalse(instructor.isEqualToAnotherInstructor(instructor2));
         instructor2.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
-        instructor2.instructorPrivilegesAsText = instructor2.getTextFromInstructorPrivileges();
         assertTrue(instructor.isEqualToAnotherInstructor(instructor2));
         // TODO: find ways to test this method more thoroughly
     }
