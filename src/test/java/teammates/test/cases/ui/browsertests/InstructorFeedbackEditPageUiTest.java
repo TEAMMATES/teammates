@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -397,6 +398,34 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectQuestionNumber(2, 1);        
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+        
+        ______TS("questions still editable even if questions numbers became inconsistent");
+        
+        FeedbackQuestionAttributes firstQuestion = 
+                                        BackDoor.getFeedbackQuestion(courseId, 
+                                                                     feedbackSessionName, 
+                                                                     1);
+        assertEquals(1, firstQuestion.questionNumber);
+
+        FeedbackQuestionAttributes secondQuestion = 
+                                        BackDoor.getFeedbackQuestion(courseId, 
+                                                                     feedbackSessionName, 
+                                                                     2);
+        assertEquals(2, secondQuestion.questionNumber);
+        
+        // edit so that both questions have the same question number
+        secondQuestion.questionNumber = 1;
+        BackDoor.editFeedbackQuestion(secondQuestion);
+        
+        // verify both can be edited
+        feedbackEditPage = getFeedbackEditPage();
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(2));
+        
+        // fix inconsistent state
+        secondQuestion.questionNumber = 2;
+        BackDoor.editFeedbackQuestion(secondQuestion);
+        feedbackEditPage = getFeedbackEditPage();
     }
 
     private void testCopyQuestion() throws Exception {
