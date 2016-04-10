@@ -43,9 +43,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
         String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                            Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
+                                                                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
         String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
+                                                                     Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
         
         if (numOfRubricChoicesString == null || numOfRubricSubQuestionsString == null) {
             return false;
@@ -74,7 +74,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<String> rubricChoices = new ArrayList<String>();
         for (int i = 0; i < numOfRubricChoices; i++) {
             String choice = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                              Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
+                                                  Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
             if (choice != null) {
                 rubricChoices.add(choice);
             }
@@ -86,7 +86,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<String> rubricSubQuestions = new ArrayList<String>();
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                   Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
             if (subQuestion != null) {
                 rubricSubQuestions.add(subQuestion);
             }
@@ -102,7 +102,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             boolean rowAdded = false;
             for (int j = 0; j < numOfRubricChoices; j++) {
                 String description = HttpRequestHelper.getValueFromParamMap(requestParameters, 
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
+                                                           Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
                 if (description != null) {
                     if (rowAdded == false) {
                         descRows++;
