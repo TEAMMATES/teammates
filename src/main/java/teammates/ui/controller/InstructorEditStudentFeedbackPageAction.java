@@ -21,7 +21,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        String moderatedQuestionId = getRequestParamValue("moderatedquestionid");
+        String moderatedQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_QUESTION_ID);
 
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
