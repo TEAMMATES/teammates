@@ -238,7 +238,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private String getSubmissionFormTableBodyHtml(String questionNumberString, String responseNumberString,
-             boolean sessionIsOpen, boolean isExistingResponse, FeedbackRubricResponseDetails frd) {
+                                                  boolean sessionIsOpen, boolean isExistingResponse, 
+                                                  FeedbackRubricResponseDetails frd) {
         StringBuilder tableBodyHtml = new StringBuilder();
         String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT;
         String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY;
@@ -543,8 +544,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Calculates the response frequency for each choice
      */
-    private int[][] calculateResponseFrequency(
-             List<FeedbackResponseAttributes> responses, FeedbackRubricQuestionDetails fqd) {
+    private int[][] calculateResponseFrequency(List<FeedbackResponseAttributes> responses, 
+                                               FeedbackRubricQuestionDetails fqd) {
         int[][] responseFrequency = new int[fqd.numOfRubricSubQuestions][];
         for (int i = 0; i < responseFrequency.length; i++) {
             responseFrequency[i] = new int[fqd.numOfRubricChoices];
