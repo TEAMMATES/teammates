@@ -60,14 +60,14 @@
             <%-- Email --%>
             <li class="list-group-item list-group-item-success has-success">
                 <strong>Email</strong>
-                <input value="${instructor.email}" readonly="readonly" class="form-control" />
+                <input value="${instructor.email}" readonly class="form-control" />
             </li>
              
              <%-- Course join link --%>
             <c:if test="${not empty instructor.courseJoinLink}">
                 <li class="list-group-item list-group-item-info">
                     <strong>Course Join Link</strong>
-                    <input value="${instructor.courseJoinLink}" readonly="readonly" class="form-control" />
+                    <input value="${instructor.courseJoinLink}" readonly class="form-control" />
                 </li>
             </c:if>                               
         </ul>
