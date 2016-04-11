@@ -310,7 +310,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
     
     public InstructorAttributes getInstructorFromBundle(String instructor) {
         InstructorAttributes instructorAttributes = dataBundle.instructors.get(instructor);
-        instructorAttributes.privileges = gson.fromJson(instructorAttributes.instructorPrivilegesAsText, InstructorPrivileges.class);
         return instructorAttributes;
     }
 

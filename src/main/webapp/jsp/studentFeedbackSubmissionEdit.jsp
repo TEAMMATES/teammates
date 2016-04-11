@@ -27,7 +27,7 @@
 </c:if>
 
 
-<ts:studentPageCustom bodyTitle="Submit Feedback" pageTitle="TEAMMATES - Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+<ts:studentPage bodyTitle="Submit Feedback" pageTitle="TEAMMATES - Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
     <c:if test="${not data.headerHidden}">
         <ts:studentMessageOfTheDay/>
     </c:if>
@@ -40,4 +40,4 @@
     
     <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
     
-</ts:studentPageCustom>
+</ts:studentPage>

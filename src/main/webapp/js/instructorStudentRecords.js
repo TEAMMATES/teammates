@@ -20,6 +20,8 @@ $(document).ready(function() {
         }
     });
 
+    $('.panel-heading.student_feedback').click(toggleSingleCollapse);
+
     $('input[type=checkbox]').click(function() {
         var table = $(this).parent().parent().parent().parent();
         var form = table.parent().parent().parent();
