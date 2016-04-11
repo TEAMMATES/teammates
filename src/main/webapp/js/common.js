@@ -777,7 +777,7 @@ highlightSearchResult: function(searchKeyId, sectionToHighlight) {
     symbolTrimmedSearchKey = symbolTrimmedSearchKey.filter(function(n){
         return (!(n == "")) });
     $(sectionToHighlight).highlight(symbolTrimmedSearchKey);
-}
+}};
 
 /**
  * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
@@ -790,10 +790,9 @@ if (!String.prototype.includes) {
     }
 }
 
-<<<<<<< HEAD
 /** Selector for status message div tag (to be used in jQuery) */
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
-=======
+
 /**
  * Checks if the input value is a blank string
  * 
@@ -879,5 +878,3 @@ function hideSingleCollapse(e) {
     $(e).collapse('hide');
     $(heading).find('a.btn').hide();
 }
-
->>>>>>> master
