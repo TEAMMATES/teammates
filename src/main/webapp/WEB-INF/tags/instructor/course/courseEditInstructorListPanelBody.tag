@@ -45,7 +45,7 @@
                             data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor." 
                             maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="5" disabled
                             <c:if test="${empty instructorPanel.instructor.googleId}">
-                                readonly="readonly"
+                                readonly
                             </c:if> >
                 </div>
             </div>

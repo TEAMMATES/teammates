@@ -81,8 +81,6 @@ public class InstructorCourseInstructorAddAction extends Action {
         
         instructorToAdd.privileges.validatePrivileges();
         
-        instructorToAdd.instructorPrivilegesAsText = instructorToAdd.getTextFromInstructorPrivileges();
-        
         return instructorToAdd;
     }
     
@@ -96,8 +94,6 @@ public class InstructorCourseInstructorAddAction extends Action {
         
         InstructorAttributes instructorToAdd = new InstructorAttributes(null, courseId, instrName, instrEmail,
                 instrRole, isDisplayedToStudents, instrDisplayedName, privileges);
-        
-        instructorToAdd.instructorPrivilegesAsText = instructorToAdd.getTextFromInstructorPrivileges();
         
         return instructorToAdd;
     }
