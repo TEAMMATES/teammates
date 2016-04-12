@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.util.Sanitizer;
-import teammates.common.util.Utils;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
+
+import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 
 /**
  * The SearchQuery object that defines how we query {@link Document}
@@ -40,13 +43,30 @@ public abstract class SearchQuery {
     }
     
     protected SearchQuery setTextFilter(String textField, String queryString){
-        String sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
+        String sanitizedQueryString;
+        if(isValidEmailAddress(queryString)){
+            sanitizedQueryString = queryString.toLowerCase().trim();
+        }else{
+            sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
+        }
+        
         if(!sanitizedQueryString.isEmpty()){
             String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
             this.textQueryStrings.add(textField + ":" + preparedOrQueryString);
         }
         return this;
     }
+    
+    private boolean isValidEmailAddress(String email) {
+        boolean result = true;
+        try {
+           InternetAddress emailAddress = new InternetAddress(email);
+           emailAddress.validate();
+        } catch (AddressException exception) {
+           result = false;
+        }
+        return result;
+     }
     
     private String prepareOrQueryString(String queryString){
         queryString = queryString.replaceAll("\"", " \" ");
