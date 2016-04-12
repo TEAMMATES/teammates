@@ -296,7 +296,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * To be used to set any extra parameters or attributes that 
      * a class inheriting FeedbackSubmissionEditSaveAction requires
      */
-    protected void setAdditionalParameters() {
+    protected void setAdditionalParameters() throws EntityDoesNotExistException {
         return;
     }
     

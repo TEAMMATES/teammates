@@ -6,7 +6,7 @@ import java.util.TimeZone;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
 
-import teammates.googleSendgridJava.Sendgrid;
+import teammates.logic.core.Sendgrid;
 
 import com.google.appengine.api.log.AppLogLine;
 

@@ -162,7 +162,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-        ThreadHelper.waitFor(2000);
 
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
@@ -174,7 +173,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for team response");
 
         verifyModerateResponsesButton(4, "Team 1</td></div>'\"");
-
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Session with Instructors as Givers");
+        resultsPage.displayByQuestion();
+        resultsPage.waitForPageToLoad();
+        
+        ______TS("Typical case: test moderate responses button for instructors as givers");
+        verifyModerateResponsesButton(1, "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt", "CFResultsUiT.instr@gmail.tmt");
+        
     }
 
     public void testSortAction() throws Exception {
@@ -406,9 +412,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.click(By.id("panelHeading-5"));
-        ThreadHelper.waitFor(1000);
-
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
         
         ______TS("Failure case: ajax error for giver > recipient > question");
@@ -457,9 +460,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.click(By.id("panelHeading-5"));
-        ThreadHelper.waitFor(1000);
-
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
     }
 

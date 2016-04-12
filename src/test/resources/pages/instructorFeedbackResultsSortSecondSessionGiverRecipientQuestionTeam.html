@@ -284,7 +284,7 @@
                 <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.alice.b@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2185,339 +2185,6 @@
         <div class="panel panel-primary">
           <div class="panel-heading" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
             From:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-              <strong>
-                Ford Goh (Team 2)
-              </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a class="link-in-dark-bg" href="mailto:CFResultsUiT.ford.g@gmail.tmt">
-                [CFResultsUiT.ford.g@gmail.tmt]
-              </a>
-            </div>
-            <div class="pull-right">
-              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="CFResultsUiT.ford.g@gmail.tmt">
-              </form>
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-4">
-            <div class="panel-body">
-              <div class="row ">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      <strong>
-                        Charlie Dávis (Team 2)
-                      </strong>
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
-                    <br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Ford Goh (Team 2)
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 6:
-                      <span class="text-preserve-space">
-                        Split points among the your team members and yourself, according to how much you think each member has contributed. 
-                        <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-giver-3-recipient-1" onclick="toggleAdditionalQuestionInfo('6-giver-3-recipient-1')">
-                            [more]
-                          </a>
-                          <br>
-                          <span id="questionAdditionalInfo-6-giver-3-recipient-1" style="display:none;">
-                            Distribute points (among recipients) question
-                            <br>
-                            Points per recipient: 100
-                          </span>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          50
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,3,1)" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-1-3-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-3-1" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Ford Goh (Team 2)
-                                  <br>
-                                  Recipient: Charlie Dávis (Team 2)
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-3-1" onclick="toggleVisibilityEditForm(1,3,1)">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-1-3-1" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see your comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see your name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-1-3-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-recipient-1-3-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Recipient(s)
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-1-3-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <textarea class="form-control" id="responseCommentAddForm-1-3-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
-                              </textarea>
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-3-1" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,3,1);" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="1">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.ford.g@gmail.tmt%CFResultsUiT.charlie.d@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="Second Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row border-top-gray">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      <strong>
-                        Danny Engrid (Team 2)
-                      </strong>
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small">
-                    <br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-                      Ford Goh (Team 2)
-                      <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 6:
-                      <span class="text-preserve-space">
-                        Split points among the your team members and yourself, according to how much you think each member has contributed. 
-                        <span style=" white-space: normal;">
-                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-6-giver-3-recipient-2" onclick="toggleAdditionalQuestionInfo('6-giver-3-recipient-2')">
-                            [more]
-                          </a>
-                          <br>
-                          <span id="questionAdditionalInfo-6-giver-3-recipient-2" style="display:none;">
-                            Distribute points (among recipients) question
-                            <br>
-                            Points per recipient: 100
-                          </span>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear:both; overflow: hidden">
-                        <div class="pull-left text-preserve-space">
-                          150
-                        </div>
-                        <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,3,1)" title="" type="button">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary">
-                          </span>
-                        </button>
-                      </div>
-                      <ul class="list-group" id="responseCommentTable-2-3-1" style="display:none">
-                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-3-1" style="display: none;">
-                          <form class="responseCommentAddForm">
-                            <div class="form-group form-inline">
-                              <div class="form-group text-muted">
-                                <p>
-                                  Giver: Ford Goh (Team 2)
-                                  <br>
-                                  Recipient: Danny Engrid (Team 2)
-                                </p>
-                                You may change comment's visibility using the visibility options on the right hand side.
-                              </div>
-                              <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-2-3-1" onclick="toggleVisibilityEditForm(2,3,1)">
-                                <span class="glyphicon glyphicon-eye-close">
-                                </span>
-                                Show Visibility Options
-                              </a>
-                            </div>
-                            <div class="panel panel-default" id="visibility-options-2-3-1" style="display: none;">
-                              <div class="panel-heading">
-                                Visibility Options
-                              </div>
-                              <table class="table text-center" style="color: #000;">
-                                <tbody>
-                                  <tr>
-                                    <th class="text-center">
-                                      User/Group
-                                    </th>
-                                    <th class="text-center">
-                                      Can see your comment
-                                    </th>
-                                    <th class="text-center">
-                                      Can see your name
-                                    </th>
-                                  </tr>
-                                  <tr id="response-giver-2-3-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Giver
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-recipient-2-3-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what response recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Response Recipient(s)
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="RECEIVER">
-                                    </td>
-                                  </tr>
-                                  <tr id="response-instructors-2-3-1">
-                                    <td class="text-left">
-                                      <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                        Instructors
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                    <td>
-                                      <input checked="" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <textarea class="form-control" id="responseCommentAddForm-2-3-1" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
-                              </textarea>
-                            </div>
-                            <div class="col-sm-offset-5">
-                              <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-3-1" type="button">
-                                Add
-                              </a>
-                              <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,3,1);" type="button" value="Cancel">
-                            </div>
-                            <input name="questionid" type="hidden" value="${question.id}">
-                            <input name="fsindex" type="hidden" value="2">
-                            <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.ford.g@gmail.tmt%CFResultsUiT.danny.e@gmail.tmt">
-                            <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                            <input name="fsname" type="hidden" value="Second Session">
-                            <input name="user" type="hidden" value="CFResultsUiT.instr">
-                            <input name="showresponsecommentsto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS">
-                            <input name="showresponsegiverto" type="hidden" value="GIVER,RECEIVER, INSTRUCTORS">
-                          </form>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-primary">
-          <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
-            From:
             <div class="inline panel-heading-text">
               <strong>
                 Team 1&lt;/td&gt;&lt;/div&gt;'"
@@ -2528,7 +2195,7 @@
                 <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="Team 1</td></div>'&quot;">
+                <input name="moderatedperson" type="hidden" value="Team 1</td></div>'&quot;">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2537,7 +2204,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-4">
             <div class="panel-body">
               <div class="row ">
                 <div class="col-md-2">
@@ -2807,7 +2474,7 @@
           </div>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
@@ -2823,7 +2490,41 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.benny.c@gmail.tmt">
+              </form>
+               
+              <div class="display-icon" style="display:inline;">
+                <span class="glyphicon glyphicon-chevron-up pull-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
+            <div class="panel-body">
+              <i>
+                There are no responses given by this user or you may not have the permission to see the response
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
+            From:
+            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
+              <strong>
+                Charlie Dávis (Team 2)
+              </strong>
+              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
+              <a href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
+                [CFResultsUiT.charlie.d@gmail.tmt]
+              </a>
+            </div>
+            <div class="pull-right">
+              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
+                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                <input name="fsname" type="hidden" value="Second Session">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2845,11 +2546,11 @@
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Charlie Dávis (Team 2)
+                Danny Engrid (Team 2)
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:CFResultsUiT.charlie.d@gmail.tmt">
-                [CFResultsUiT.charlie.d@gmail.tmt]
+              <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
+                [CFResultsUiT.danny.e@gmail.tmt]
               </a>
             </div>
             <div class="pull-right">
@@ -2857,7 +2558,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2879,11 +2580,11 @@
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Danny Engrid (Team 2)
+                Drop out (Team 2)
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:CFResultsUiT.danny.e@gmail.tmt">
-                [CFResultsUiT.danny.e@gmail.tmt]
+              <a href="mailto:drop.out@gmail.tmt">
+                [drop.out@gmail.tmt]
               </a>
             </div>
             <div class="pull-right">
@@ -2891,7 +2592,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2913,11 +2614,11 @@
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
-                Drop out (Team 2)
+                Extra guy (Team 2)
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:drop.out@gmail.tmt">
-                [drop.out@gmail.tmt]
+              <a href="mailto:extra.guy@gmail.tmt">
+                [extra.guy@gmail.tmt]
               </a>
             </div>
             <div class="pull-right">
@@ -2925,7 +2626,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -2942,45 +2643,11 @@
             </div>
           </div>
         </div>
-        <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
-            From:
-            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
-              <strong>
-                Extra guy (Team 2)
-              </strong>
-              <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
-              <a href="mailto:extra.guy@gmail.tmt">
-                [extra.guy@gmail.tmt]
-              </a>
-            </div>
-            <div class="pull-right">
-              <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
-                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
-                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
-                <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt">
-              </form>
-               
-              <div class="display-icon" style="display:inline;">
-                <span class="glyphicon glyphicon-chevron-up pull-right">
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-10">
-            <div class="panel-body">
-              <i>
-                There are no responses given by this user or you may not have the permission to see the response
-              </i>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
   <div class="panel panel-success">
-    <div class="panel-heading" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
+    <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
@@ -2999,10 +2666,10 @@
         </div>
       </div>
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-10">
       <div class="panel-body" id="sectionBody-1">
         <div class="panel panel-default">
-          <div class="panel-heading" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
+          <div class="panel-heading" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
             From:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=CFResultsUiT.instr" data-original-title="" title="">
               <strong>
@@ -3018,7 +2685,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                 <input name="fsname" type="hidden" value="Second Session">
-                <input name="moderatedstudent" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -3027,7 +2694,7 @@
               </div>
             </div>
           </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse-12">
+          <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
             <div class="panel-body">
               <i>
                 There are no responses given by this user or you may not have the permission to see the response
@@ -3039,7 +2706,7 @@
     </div>
   </div>
   <div class="panel panel-warning">
-    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-13" id="panelHeading-13" style="cursor: pointer;">
+    <div class="panel-heading ajax_response_rate_auto" data-target="#panelBodyCollapse-12" id="panelHeading-12" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="fsname" type="hidden" value="Second Session">
@@ -3052,7 +2719,7 @@
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse in" id="panelBodyCollapse-13" style="height: auto;">
+    <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
       <div class="panel-body padding-0">
         <table class="table table-striped table-bordered margin-0">
           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
@@ -3085,7 +2752,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="fsname" type="hidden" value="Second Session">
-                  <input name="moderatedstudent" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="CFResultsUiT.charlie.d@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -3101,7 +2768,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="fsname" type="hidden" value="Second Session">
-                  <input name="moderatedstudent" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="CFResultsUiT.danny.e@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -3117,7 +2784,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="fsname" type="hidden" value="Second Session">
-                  <input name="moderatedstudent" type="hidden" value="drop.out@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="drop.out@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -3133,7 +2800,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="fsname" type="hidden" value="Second Session">
-                  <input name="moderatedstudent" type="hidden" value="extra.guy@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="extra.guy@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -3149,7 +2816,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="fsname" type="hidden" value="Second Session">
-                  <input name="moderatedstudent" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="CFResultsUiT.emily.f@gmail.tmt">
                 </form>
               </td>
             </tr>

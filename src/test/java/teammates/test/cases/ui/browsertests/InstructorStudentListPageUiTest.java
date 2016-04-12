@@ -113,10 +113,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
-        instructorWith2Courses.privileges = instructorWith2Courses.getInstructorPrivilegesFromText();
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
-        instructorWith2Courses.instructorPrivilegesAsText = instructorWith2Courses
-                                                             .getTextFromInstructorPrivileges();
         BackDoor.createInstructor(instructorWith2Courses);
 
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
