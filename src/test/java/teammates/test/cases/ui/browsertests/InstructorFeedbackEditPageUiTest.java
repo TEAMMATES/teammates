@@ -272,13 +272,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickResponseVisiblityCheckBoxForNewQuestion("RECEIVER_TEAM_MEMBERS");
         feedbackEditPage.clickVisibilityPreviewForNewQuestion();
         
-        feedbackEditPage.waitForElementVisibility(feedbackEditPage.getNewQnVisibilityMessage());
-        assertTrue("Expected recipient's team members to be able to see response, but was "
-                   + feedbackEditPage.getNewQnVisibilityMessage().getText(), 
-                   feedbackEditPage.getNewQnVisibilityMessage()
-                                   .getText()
-                                   .contains("The recipient's team members can see your response, but not the name of the recipient, or your name."));
-        
+        feedbackEditPage.waitForTextContainedInElementPresence(
+                By.id("visibilityMessage"), 
+                "The recipient's team members can see your response, but not the name of the recipient, or your name.");
         feedbackEditPage.selectRecipientTypeForNewQuestion("Instructors in the course");
         
         assertFalse("Expected recipient's team members to not be able to see response, but was "
@@ -532,7 +528,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     
     private InstructorFeedbacksPage navigateToInstructorFeedbacksPage() {
         
-        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withInstructorId(instructorId);
+        AppUrl feedbacksPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
         InstructorFeedbacksPage feedbacksPage = feedbackEditPage.navigateTo(feedbacksPageUrl, InstructorFeedbacksPage.class);
         feedbacksPage.waitForPageToLoad();
         return feedbacksPage;
