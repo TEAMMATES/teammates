@@ -25,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
 import teammates.storage.search.CommentSearchDocument;
@@ -116,7 +117,7 @@ public class CommentsDb extends EntitiesDb {
             comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                                        commentToGet.recipients, commentToGet.createdAt);
         }
-        if (comment == null) {
+        if (comment == null || JDOHelper.isDeleted(comment)) {
             log.info("Trying to get non-existent Comment: " + commentToGet);
             return null;
         } else {
@@ -135,7 +136,9 @@ public class CommentsDb extends EntitiesDb {
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for (Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                commentAttributesList.add(new CommentAttributes(comment));
+            }
         }
         return commentAttributesList;
     }
@@ -153,7 +156,9 @@ public class CommentsDb extends EntitiesDb {
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for (Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                commentAttributesList.add(new CommentAttributes(comment));
+            }
         }
         return commentAttributesList;
     }
@@ -168,7 +173,9 @@ public class CommentsDb extends EntitiesDb {
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for (Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                commentAttributesList.add(new CommentAttributes(comment));
+            }
         }
         return commentAttributesList;
     }
@@ -186,7 +193,9 @@ public class CommentsDb extends EntitiesDb {
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for(Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                commentAttributesList.add(new CommentAttributes(comment));
+            }
         }
         return commentAttributesList;
     }
@@ -203,7 +212,9 @@ public class CommentsDb extends EntitiesDb {
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for (Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                commentAttributesList.add(new CommentAttributes(comment));
+            }
         }
         return commentAttributesList;
     }
@@ -218,7 +229,9 @@ public class CommentsDb extends EntitiesDb {
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for (Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                commentAttributesList.add(new CommentAttributes(comment));
+            }
         }
         return commentAttributesList;
     }
@@ -233,7 +246,9 @@ public class CommentsDb extends EntitiesDb {
         List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
         
         for (Comment comment : comments) {
-            commentAttributesList.add(new CommentAttributes(comment));
+            if (!JDOHelper.isDeleted(comment)) {
+                commentAttributesList.add(new CommentAttributes(comment));
+            }
         }
         return commentAttributesList;
     }
@@ -600,7 +615,7 @@ public class CommentsDb extends EntitiesDb {
         q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
         
         @SuppressWarnings("unchecked")
-        List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientType.toString(), recipient);
+        List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientType.toString(), Sanitizer.sanitizeForHtml(recipient));
         
         return getCommentsWithoutDeletedEntity(commentList);
     }
@@ -658,7 +673,7 @@ public class CommentsDb extends EntitiesDb {
             if (!JDOHelper.isDeleted(comment) 
                     && comment.getGiverEmail().equals(giverEmail)
                     && comment.getCreatedAt().equals(date)
-                    && comment.getRecipients().equals(recipients)) {
+                    && comment.getRecipients().equals(Sanitizer.sanitizeForHtml(recipients))) {
                 return comment;
             }
         }

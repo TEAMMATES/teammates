@@ -77,14 +77,14 @@
             <c:if test="${not empty student.email}">
                 <li class="list-group-item list-group-item-success has-success">
                     <strong>Email</strong>
-                    <input value="${student.email}" readonly="readonly" class="form-control" />
+                    <input value="${student.email}" readonly class="form-control">
                 </li>
             </c:if>
                                             
             <%-- Course join link --%>
             <li class="list-group-item list-group-item-info">
                 <strong>Course Join Link</strong>
-                <input value="${student.links.courseJoinLink}" readonly="readonly" class="form-control" />
+                <input value="${student.links.courseJoinLink}" readonly class="form-control">
             </li>
             
             <%-- Open feedback sessions --%>
@@ -92,7 +92,7 @@
                 <c:forEach items="${student.openFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-warning">
                         <strong>${session.fsName}</strong>
-                        <input value="${session.link}" readonly="readonly" class="form-control"/ >
+                        <input value="${session.link}" readonly class="form-control">
                     </li>
                 </c:forEach>
             </c:if>
@@ -102,7 +102,7 @@
                 <c:forEach items="${student.closedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-danger">
                         <strong>${session.fsName}</strong>
-                        <input value="${session.link}" readonly="readonly" class="form-control"/ >
+                        <input value="${session.link}" readonly class="form-control">
                     </li>
                 </c:forEach>
             </c:if>
@@ -112,7 +112,7 @@
                 <c:forEach items="${student.publishedFeedbackSessions}" var="session">
                     <li class="list-group-item list-group-item-success">
                         <strong>${session.fsName}</strong>
-                        <input value="${session.link}" readonly="readonly" class="form-control"/ >
+                        <input value="${session.link}" readonly class="form-control">
                     </li>
                 </c:forEach>
             </c:if>

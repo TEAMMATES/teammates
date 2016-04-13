@@ -2,6 +2,12 @@ var COURSE_PANELS_TO_AUTO_LOAD_COUNT = 3;
 var CURRENT_YEAR = (new Date()).getFullYear();
 
 $(document).ready(function() {
+
+    bindDeleteButtons();
+    bindRemindButtons();
+    bindPublishButtons();
+    bindUnpublishButtons();
+    
     setupFsCopyModal();
     
     //Click event binding for radio buttons

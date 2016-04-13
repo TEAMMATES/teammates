@@ -42,7 +42,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -371,7 +370,6 @@ public class Emails {
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
-        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime12H(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
@@ -412,7 +410,6 @@ public class Emails {
 
         String emailBody = template;
 
-        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${userName}", i.name);
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
@@ -447,7 +444,6 @@ public class Emails {
 
         String emailBody = template;
 
-        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${userName}", i.name);
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);

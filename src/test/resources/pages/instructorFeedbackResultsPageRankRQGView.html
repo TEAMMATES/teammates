@@ -74,7 +74,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DFRankUiT.instructor&user=FRankUiT.instructor" onclick="return toggleUnpublishEvaluation('Instructor Session');" title="">
+                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="Instructor Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FRankUiT.instructor" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -152,16 +152,16 @@
                     Group by - Question
                   </option>
                   <option value="giver-recipient-question">
-                    Group by - Giver > Recipient > Question
+                    Group by - Giver &gt; Recipient &gt; Question
                   </option>
                   <option value="recipient-giver-question">
-                    Group by - Recipient > Giver > Question
+                    Group by - Recipient &gt; Giver &gt; Question
                   </option>
                   <option value="giver-question-recipient">
-                    Group by - Giver > Question > Recipient
+                    Group by - Giver &gt; Question &gt; Recipient
                   </option>
-                  <option selected="selected" value="recipient-question-giver">
-                    Group by - Recipient > Question > Giver
+                  <option selected="" value="recipient-question-giver">
+                    Group by - Recipient &gt; Question &gt; Giver
                   </option>
                 </select>
               </div>
@@ -210,7 +210,7 @@
               </label>
               <div class="col-sm-10">
                 <select class="form-control" id="sectionSelect" name="frgroupbysection" onchange="this.form.submit()">
-                  <option selected="selected" value="All">
+                  <option selected="" value="All">
                     All
                   </option>
                   <option value="Section 1">
@@ -272,7 +272,7 @@
             To:
             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}&user=FRankUiT.instructor" data-original-title="" title="">
               <strong>
-                Alice Betsy
+                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </strong>
               <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src="">
               <a class="link-in-dark-bg" href="mailto:alice.b.tmms@gmail.tmt">
@@ -467,6 +467,13 @@
                               </ul>
                             </td>
                             <td>
+                              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                                <input name="fsname" type="hidden" value="Instructor Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="tmms.test@gmail.tmt">
+                              </form>
                             </td>
                           </tr>
                         </tbody>
@@ -533,10 +540,10 @@
                               <tbody>
                                 <tr>
                                   <td>
-                                    Team 1
+                                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
                                   </td>
                                   <td>
-                                    Alice Betsy
+                                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                                   </td>
                                   <td>
                                     1
@@ -600,6 +607,13 @@
                               1
                             </td>
                             <td>
+                              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                                <input name="fsname" type="hidden" value="Instructor Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="tmms.test@gmail.tmt">
+                              </form>
                             </td>
                           </tr>
                         </tbody>
@@ -758,6 +772,13 @@
                               2
                             </td>
                             <td>
+                              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                                <input name="fsname" type="hidden" value="Instructor Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="tmms.test@gmail.tmt">
+                              </form>
                             </td>
                           </tr>
                         </tbody>
@@ -774,7 +795,7 @@
             To:
             <div class="inline panel-heading-text">
               <strong>
-                Team 1
+                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </strong>
             </div>
             <div class="pull-right">
@@ -946,6 +967,13 @@
                               </ul>
                             </td>
                             <td>
+                              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                                <input name="fsname" type="hidden" value="Instructor Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="tmms.test@gmail.tmt">
+                              </form>
                             </td>
                           </tr>
                         </tbody>
@@ -1238,6 +1266,13 @@
                               </ul>
                             </td>
                             <td>
+                              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                                <input name="fsname" type="hidden" value="Instructor Session">
+                                <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                                <input name="moderatedperson" type="hidden" value="tmms.test@gmail.tmt">
+                              </form>
                             </td>
                           </tr>
                         </tbody>
@@ -1289,9 +1324,7 @@
           <tbody>
             <tr>
               <td>
-                <i>
-                  Instructors
-                </i>
+                &lt;i&gt;Instructors&lt;/i&gt;
               </td>
               <td>
                 Teammates Helper who can only see section 1
@@ -1301,23 +1334,23 @@
             </tr>
             <tr>
               <td>
-                Team 1
+                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </td>
               <td>
-                Alice Betsy
+                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
               </td>
               <td>
                 <form action="/page/instructorEditStudentFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="alice.b.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="alice.b.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
             <tr>
               <td>
-                Team 1
+                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
               </td>
               <td>
                 Benny Charles
@@ -1327,7 +1360,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="benny.c.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -1343,7 +1376,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="charlie.d.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="charlie.d.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -1359,7 +1392,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="danny.e.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="danny.e.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -1375,7 +1408,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="emily.f.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="emily.f.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>

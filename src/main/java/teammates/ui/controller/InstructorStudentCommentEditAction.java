@@ -21,6 +21,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.Const.StatusMessageColor;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -95,14 +96,15 @@ public class InstructorStudentCommentEditAction extends Action {
         }
         CommentParticipantType commentRecipientType = commentInDb.recipientType;
         String recipients = commentInDb.recipients.iterator().next();
+        String unsanitizedRecipients = StringHelper.recoverFromSanitizedText(recipients);
         if (commentRecipientType == CommentParticipantType.COURSE) {
             new GateKeeper().verifyAccessible(instructor, course,
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.SECTION) {
-            new GateKeeper().verifyAccessible(instructor, course, recipients,
+            new GateKeeper().verifyAccessible(instructor, course, unsanitizedRecipients,
                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.TEAM) {
-            List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
+            List<StudentAttributes> students = logic.getStudentsForTeam(unsanitizedRecipients, courseId);
 
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
@@ -111,7 +113,7 @@ public class InstructorStudentCommentEditAction extends Action {
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         } else { // TODO: modify this after comment for instructor is enabled
-            StudentAttributes student = logic.getStudentForEmail(courseId, recipients);
+            StudentAttributes student = logic.getStudentForEmail(courseId, unsanitizedRecipients);
             if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
