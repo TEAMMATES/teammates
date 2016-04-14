@@ -46,7 +46,7 @@ public abstract class SearchQuery {
         String sanitizedQueryString;
         if(isValidEmailAddress(queryString)){
             sanitizedQueryString = queryString.toLowerCase().trim();
-        }else{
+        } else {
             sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
         }
         
