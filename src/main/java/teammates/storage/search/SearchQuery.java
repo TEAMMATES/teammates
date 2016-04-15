@@ -10,7 +10,6 @@ import com.google.appengine.api.search.QueryOptions;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 
 /**
@@ -43,7 +42,7 @@ public abstract class SearchQuery {
     
     protected SearchQuery setTextFilter(String textField, String queryString){
         String sanitizedQueryString;
-        if(isValidEmailAddress(queryString)){
+        if(FieldValidator.isValidEmailAddress(queryString)){
             sanitizedQueryString = queryString.toLowerCase().trim();
         } else {
             sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim(); 
@@ -55,10 +54,6 @@ public abstract class SearchQuery {
         }
         return this;
     }
-    
-    private boolean isValidEmailAddress(String email) {
-        return StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL);
-     }
     
     private String prepareOrQueryString(String queryString){
         queryString = queryString.replaceAll("\"", " \" ");
