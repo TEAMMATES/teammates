@@ -42,6 +42,11 @@ public abstract class SearchQuery {
     
     protected SearchQuery setTextFilter(String textField, String queryString){
         String sanitizedQueryString;
+        
+        // The sanitize process considers the '.'(dot) as a space and this
+        // returns unnecessary search results in the case if someone searches
+        // using an email. To avoid this, we check whether the input text is an
+        // email, and if yes, we skip the sanitize process.
         if(FieldValidator.isValidEmailAddress(queryString)){
             sanitizedQueryString = queryString.toLowerCase().trim();
         } else {
