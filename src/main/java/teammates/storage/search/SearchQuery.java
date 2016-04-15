@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 
 /**
@@ -58,14 +57,7 @@ public abstract class SearchQuery {
     }
     
     private boolean isValidEmailAddress(String email) {
-        boolean result = true;
-        try {
-           InternetAddress emailAddress = new InternetAddress(email);
-           emailAddress.validate();
-        } catch (AddressException exception) {
-           result = false;
-        }
-        return result;
+        return StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL);
      }
     
     private String prepareOrQueryString(String queryString){
