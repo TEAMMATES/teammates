@@ -412,9 +412,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                                                      feedbackSessionName, 
                                                                      2);
         assertEquals(2, secondQuestion.questionNumber);
+        int originalSecondQuestionNumber = secondQuestion.questionNumber; 
         
         // edit so that both questions have the same question number
-        secondQuestion.questionNumber = 1;
+        secondQuestion.questionNumber = firstQuestion.questionNumber;
         BackDoor.editFeedbackQuestion(secondQuestion);
         
         // verify both can be edited
@@ -423,7 +424,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.clickEditQuestionButton(2));
         
         // fix inconsistent state
-        secondQuestion.questionNumber = 2;
+        secondQuestion.questionNumber = originalSecondQuestionNumber;
         BackDoor.editFeedbackQuestion(secondQuestion);
         feedbackEditPage = getFeedbackEditPage();
     }

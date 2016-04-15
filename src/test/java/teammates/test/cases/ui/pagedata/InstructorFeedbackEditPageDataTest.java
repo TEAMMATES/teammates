@@ -129,11 +129,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(fs.courseId, questionForms.get(0).getCourseId());
         assertEquals(fs.feedbackSessionName, questionForms.get(0).getFeedbackSessionName());
 
-        assertEquals(dataBundle.feedbackQuestions
-                               .get("qn1InSession1InCourse1")
-                               .getQuestionDetails().questionText, 
-                     questionForms.get(0)
-                                  .getQuestionText());
+        String questionTextOfFirstQuestion = dataBundle.feedbackQuestions
+                                                       .get("qn1InSession1InCourse1")
+                                                       .getQuestionDetails().questionText;
+        assertEquals(questionTextOfFirstQuestion, 
+                     questionForms.get(0).getQuestionText());
         assertEquals(3, questionForms.get(0).getQuestionNumberOptions().size());
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
         

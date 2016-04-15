@@ -151,11 +151,19 @@ public class FeedbackQuestionEditForm {
     public void setQuestionIndex(int questionIndex) {
         this.questionIndex = questionIndex;
     }
-    
+
+    /**
+     * @see {@link #getQuestionIndexIfNonZero}
+     */
     public int getQuestionIndex() {
         return questionIndex;
     }
     
+    /**
+     * @return empty string is questionIndex is 0 (uninitialised), otherwise the value of the questionIndex
+     * @see {@link #getQuestionIndex}. An example of use of this will be if 
+     *      the html id of the form of a new question is not indexed  
+     */
     public String getQuestionIndexIfNonZero() {
         return questionIndex == 0 ? "" : String.valueOf(questionIndex);
     }
