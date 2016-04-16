@@ -177,11 +177,13 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
 
             /* If the giver is the same user, show the real name of the receiver */
-            if (giverName.equals("You") && (!recipientName.equals("You"))) {
+            if (student.email.equals(singleResponse.giverEmail) 
+                && (!student.email.equals(singleResponse.recipientEmail))) {
                 recipientName = bundle.getNameForEmail(singleResponse.recipientEmail);
             }
             
-            if (!giverName.equals("You") && !bundle.isRecipientVisible(singleResponse)) {
+            if (!student.email.equals(singleResponse.giverEmail) 
+                && !bundle.isRecipientVisible(singleResponse)) {
                 // Hide anonymous recipient entirely to prevent student from guessing the identity  
                 // based on responses from other response givers 
                 recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
