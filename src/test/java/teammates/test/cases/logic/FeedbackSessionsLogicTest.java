@@ -794,6 +794,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Test the user email-name maps used for display purposes
         String mapString = results.emailNameTable.toString();
         List<String> expectedStrings = new ArrayList<String>();
+        
+        String student2AnonEmail = getAnonEmail(responseBundle, "student2InCourse1");
+        String student2AnonName = getAnonName(responseBundle, "student2InCourse1");
+        String student4AnonEmail = getAnonEmail(responseBundle, "student4InCourse1");
+        String student4AnonName = getAnonName(responseBundle, "student4InCourse1");
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
                 "FSRTest.student2InCourse1@gmail.tmt=student2 In Course1",
@@ -806,8 +811,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "FSRTest.student1InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
                 "FSRTest.student2InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
                 "FSRTest.student4InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.2",
-                "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946",
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508");
+                student2AnonEmail + "=" + student2AnonName, 
+                student4AnonEmail + "=" + student4AnonName);
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(13, results.emailNameTable.size());
 
@@ -826,8 +831,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "Team 1.2=",
                 "Team 1.4=",
                 "FSRTest.instr1@course1.tmt=Instructors",
-                "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946"+ Const.TEAM_OF_EMAIL_OWNER,
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508"+ Const.TEAM_OF_EMAIL_OWNER);
+                student2AnonEmail + "=" + student2AnonName + Const.TEAM_OF_EMAIL_OWNER, 
+                student4AnonEmail + "=" + student4AnonName + Const.TEAM_OF_EMAIL_OWNER);
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(13, results.emailTeamNameTable.size());
         
@@ -845,12 +850,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             actualStrings.add(recipientName);
         }
         Collections.addAll(expectedStrings,
-                "Anonymous student 670710946",
+                getAnonName(responseBundle, "student2InCourse1"),
+                getAnonName(responseBundle, "student4InCourse1"),
                 "student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")",
                 "student2 In Course1 (Team 1.1</td></div>'\")",
                 "student4 In Course1 (Team 1.2)",
                 "Instructor1 Course1 (Instructors)",
-                "Anonymous student 412545508",
                 "Team 1.1</td></div>'\"",
                 "Team 1.2",
                 "Team 1.3",
@@ -916,6 +921,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         // Test the user email-name maps used for display purposes
         mapString = results.emailNameTable.toString();
         expectedStrings.clear();
+        String student1AnonEmail = getAnonEmail(responseBundle, "student1InCourse1");
+        String student1AnonName = getAnonName(responseBundle, "student1InCourse1");
+        String student3AnonEmail = getAnonEmail(responseBundle,"student3InCourse1");
+        String student3AnonName = getAnonName(responseBundle,"student3InCourse1");
+        String student6AnonEmail = getAnonEmail(responseBundle,"student6InCourse1");
+        String student6AnonName = getAnonName(responseBundle,"student6InCourse1");
+        String instructor1AnonEmail = FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor1OfCourse1").name);
+        String instructor1AnonName = FeedbackSessionResultsBundle.getAnonName(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor1OfCourse1").name);
+        String instructor2AnonEmail = FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor2OfCourse1").name);
+        String instructor2AnonName = FeedbackSessionResultsBundle.getAnonName(FeedbackParticipantType.INSTRUCTORS, responseBundle.instructors.get("instructor2OfCourse1").name);
         Collections.addAll(expectedStrings,
                 "%GENERAL%=%NOBODY%",
                 "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1</td></div>'\"",
@@ -926,12 +941,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "FSRTest.student6InCourse1@gmail.tmt=student6 In Course1",
                 "FSRTest.instr1@course1.tmt=Instructor1 Course1",
                 "FSRTest.instr2@course1.tmt=Instructor2 Course1",
-                "Anonymous student 1479876785@@Anonymous student 1479876785.com=Anonymous student 1479876785",
-                "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384",
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508",
-                "Anonymous student 541628227@@Anonymous student 541628227.com=Anonymous student 541628227",
-                "Anonymous instructor 1805393227@@Anonymous instructor 1805393227.com=Anonymous instructor 1805393227",
-                "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606",
+                student1AnonEmail + "=" + student1AnonName,
+                student2AnonEmail + "=" + student2AnonName,
+                student3AnonEmail + "=" + student3AnonName,
+                student6AnonEmail + "=" + student6AnonName,
+                instructor1AnonEmail + "=" + instructor1AnonName,
+                instructor2AnonEmail + "=" + instructor2AnonName,
                 "Team 1.2=Team 1.2",
                 "Team 1.3=Team 1.3",
                 "Team 1.4=Team 1.4");
@@ -951,12 +966,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
                 "FSRTest.student6InCourse1@gmail.tmt=Team 1.4",
                 "FSRTest.instr2@course1.tmt=Instructors",
                 "FSRTest.instr1@course1.tmt=Instructors",
-                "Anonymous student 1479876785@@Anonymous student 1479876785.com=Anonymous student 1479876785's Team",
-                "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384's Team",
-                "Anonymous student 541628227@@Anonymous student 541628227.com=Anonymous student 541628227's Team",
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508's Team",
-                "Anonymous instructor 1805393227@@Anonymous instructor 1805393227.com=Anonymous instructor 1805393227's Team",
-                "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606's Team",
+                student1AnonEmail + "=" + student1AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                student2AnonEmail + "=" + student2AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                student3AnonEmail + "=" + student3AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                student6AnonEmail + "=" + student6AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                instructor1AnonEmail + "=" + instructor1AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                instructor2AnonEmail + "=" + instructor2AnonName + Const.TEAM_OF_EMAIL_OWNER,
                 "Team 1.3=",
                 "Team 1.2=",
                 "Team 1.4=");
@@ -996,9 +1011,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
-                "Anonymous student 1479876785@@Anonymous student 1479876785.com=Anonymous student 1479876785",
-                "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606",
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508",
+                student1AnonEmail + "=" + student1AnonName,
+                student2AnonEmail + "=" + student2AnonName,
+                student3AnonEmail + "=" + student3AnonName,
+                student6AnonEmail + "=" + student6AnonName,
+                instructor1AnonEmail + "=" + instructor1AnonName,
                 "FSRTest.student2InCourse1@gmail.tmt=student2 In Course1",
                 "Team 1.4=Team 1.4",
                 "FSRTest.instr1@course1.tmt=Instructor1 Course1");
@@ -1010,9 +1027,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
-                "Anonymous student 1479876785@@Anonymous student 1479876785.com=Anonymous student 1479876785's Team",
-                "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508's Team",
-                "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606's Team",
+                student1AnonEmail + "=" + student1AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                student2AnonEmail + "=" + student2AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                student3AnonEmail + "=" + student3AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                student6AnonEmail + "=" + student6AnonName + Const.TEAM_OF_EMAIL_OWNER,
+                instructor1AnonEmail + "=" + instructor1AnonName + Const.TEAM_OF_EMAIL_OWNER,
                 "FSRTest.student2InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
                 "Team 1.4=",
                 "FSRTest.instr1@course1.tmt=Instructors");
@@ -1064,7 +1083,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
                 "Team 1.2=Team 1.2",
-                "Anonymous team 1605535342@@Anonymous team 1605535342.com=Anonymous team 1605535342",
+                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS, responseBundle.students.get("student3InCourse1").team),
                 "FSRTest.instr1@course1.tmt=Instructor1 Course1");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(4, results.emailNameTable.size());
@@ -1075,7 +1094,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         Collections.addAll(expectedStrings,
                 "FSRTest.student1InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
                 "Team 1.2=",
-                "Anonymous team 1605535342@@Anonymous team 1605535342.com=Anonymous team 1605535342's Team",
+                FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.TEAMS, responseBundle.students.get("student3InCourse1").team),
                 "FSRTest.instr1@course1.tmt=Instructors");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(4, results.emailTeamNameTable.size());
@@ -1526,6 +1545,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         session = newDataBundle.feedbackSessions.get("contribSessionStudentAnonymised");
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");
         
+        String student1Name = getAnonName(newDataBundle, "student1InCourse1");
+        String student2Name = getAnonName(newDataBundle, "student2InCourse1");
+        String student3Name = getAnonName(newDataBundle, "student3InCourse1");;
+        String student4Name = getAnonName(newDataBundle, "student4InCourse1");;
+        String student5Name = getAnonName(newDataBundle, "student5InCourse1");;
+        
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
 
@@ -1541,15 +1566,15 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
             "Claimed Contribution (CC) = the contribution claimed by the student.",
             "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.",
             "Team, Name, Email, CC, PC, Ratings Recieved",
-            "\"Anonymous student 1479876785's Team\",\"Anonymous student 1479876785\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 412545508's Team\",\"Anonymous student 412545508\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 541628227's Team\",\"Anonymous student 541628227\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 670710946's Team\",\"Anonymous student 670710946\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
-            "\"Anonymous student 799793665's Team\",\"Anonymous student 799793665\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
+            "\"" + student4Name + "'s Team\",\"" + student4Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"" + student5Name + "'s Team\",\"" + student5Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A\"",
+            "\"" + student1Name + "'s Team\",\"" + student1Name + "\",\"-\",\"100\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"" + student3Name + "'s Team\",\"" + student3Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
+            "\"" + student2Name + "'s Team\",\"" + student2Name + "\",\"-\",\"Not Submitted\",\"N/A\",\"N/A, N/A, N/A\"",
             "",
             "",
             "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
-            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Anonymous student 1479876785's Team\",\"Anonymous student 1479876785\",\"Unknown user\",\"-\",\"\"",
+            "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"" + student1Name +"'s Team\",\"" + student1Name + "\",\"Unknown user\",\"-\",\"\"",
             "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"No Response\"",
             "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"No Response\"",
             "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"",
@@ -1708,6 +1733,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentTestCase {
         } catch (EntityDoesNotExistException e) {
             assertEquals(e.getMessage(), "Trying to view non-existent feedback session.");
         }
+    }
+    
+    private String getAnonEmail(DataBundle dataBundle, String studentKey) {
+        return FeedbackSessionResultsBundle.getAnonEmail(FeedbackParticipantType.STUDENTS, 
+                                                         dataBundle.students.get(studentKey).name);
+    }
+
+    private String getAnonName(DataBundle dataBundle, String studentKey) {
+        return FeedbackSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, 
+                                                        dataBundle.students.get(studentKey).name);
     }
 
     public void testIsFeedbackSessionViewableToStudents() throws EntityDoesNotExistException {
