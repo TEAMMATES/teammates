@@ -57,7 +57,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
                                         + "</div>"
                                         + "</div>"
                                         + "<br>"
-                                        + "<div style=\"text-align:left; \">"
+                                        + "<div>"
                                         + "<br>"
                                         + "To access a course on TEAMMATES, first you need to wait till an "
                                         + "instructor adds you to that course and TEAMMATES sends you "
