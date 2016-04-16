@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 
@@ -206,7 +207,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return isFeedbackParticipantVisible(true, response);
     }
 
-    private String getAnonEmail(FeedbackParticipantType type, String name) {
+    public static String getAnonEmail(FeedbackParticipantType type, String name) {
         String anonName = getAnonName(type, name);
         return anonName + "@@" + anonName + ".com";
     }
@@ -216,14 +217,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
     }
 
-    private String getAnonName(FeedbackParticipantType type, String name) {
-        String hash = getHashOfName(name);
-        String anonName = type.toSingularFormString();
-        anonName = "Anonymous " + anonName + " " + hash;
-        return anonName;
+    public static String getAnonName(FeedbackParticipantType type, String name) {
+        String hashedEncryptedName = getHashOfName(getEncryptedName(name));
+        String participantType = type.toSingularFormString();
+        return String.format("Anonymous %s %s", participantType, hashedEncryptedName);
     }
 
-    private String getHashOfName(String name) {
+    private static String getEncryptedName(String name) {
+        return StringHelper.encrypt(name);
+    }
+    
+    private static String getHashOfName(String name) {
         return Integer.toString(Math.abs(name.hashCode()));
     }
 

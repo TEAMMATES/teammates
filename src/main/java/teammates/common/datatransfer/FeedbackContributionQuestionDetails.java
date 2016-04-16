@@ -281,9 +281,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayName = name;
             String displayTeam = team;
             if (hideRecipient == true) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                displayName = type.toSingularFormString();
-                displayName = "Anonymous " + displayName + " " + hash;
+                displayName = FeedbackSessionResultsBundle.getAnonName(type, name);
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
             }
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
@@ -380,9 +378,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String displayTeam = team;
             String displayEmail = email;
             if (hideRecipient == true) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                displayName = type.toSingularFormString();
-                displayName = "Anonymous " + displayName + " " + hash;
+                displayName = FeedbackSessionResultsBundle.getAnonName(
+                                                type, name);
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
                 displayEmail = Const.USER_NOBODY_TEXT;
             }
