@@ -157,12 +157,15 @@ public class StudentFeedbackResultsPageData extends PageData {
         for (FeedbackResponseAttributes singleResponse : responsesBundleForRecipient) {
             String giverName = bundle.getGiverNameForResponse(singleResponse);
 
+            boolean isUserGiverOfResponse = student.email.equals(singleResponse.giverEmail);
+            boolean isUserRecipientOfResponse = student.email.equals(singleResponse.recipientEmail);
+            
             /* Change display name to 'You' or 'Your team' if necessary */
             if (question.giverType == FeedbackParticipantType.TEAMS) {
                 if (student.team.equals(giverName)) {
                     giverName = "Your Team (" + giverName + ")";
                 }
-            } else if (student.email.equals(singleResponse.giverEmail)) {
+            } else if (isUserGiverOfResponse) {
                 giverName = "You";
             }
             
@@ -171,18 +174,18 @@ public class StudentFeedbackResultsPageData extends PageData {
                       !(recipientName.startsWith("Your Team (") && recipientName.endsWith(")"))) { // To avoid duplicate replacement
                     recipientName = "Your Team (" + recipientName + ")";
                 }
-            } else if (student.email.equals(singleResponse.recipientEmail)
+            } else if (isUserRecipientOfResponse
                        && student.name.equals(recipientName)) {
                 recipientName = "You";
             }
 
             /* If the giver is the same user, show the real name of the receiver */
-            if (student.email.equals(singleResponse.giverEmail) 
-                && (!student.email.equals(singleResponse.recipientEmail))) {
+            if (isUserGiverOfResponse 
+                && (!isUserRecipientOfResponse)) {
                 recipientName = bundle.getNameForEmail(singleResponse.recipientEmail);
             }
             
-            if (!student.email.equals(singleResponse.giverEmail) 
+            if (!isUserGiverOfResponse 
                 && !bundle.isRecipientVisible(singleResponse)) {
                 // Hide anonymous recipient entirely to prevent student from guessing the identity  
                 // based on responses from other response givers 
