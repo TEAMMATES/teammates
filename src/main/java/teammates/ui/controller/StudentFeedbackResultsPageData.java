@@ -181,6 +181,12 @@ public class StudentFeedbackResultsPageData extends PageData {
                 recipientName = bundle.getNameForEmail(singleResponse.recipientEmail);
             }
             
+            if (!giverName.equals("You") && !bundle.isRecipientVisible(singleResponse)) {
+                // Hide anonymous recipient entirely to prevent student from guessing the identity  
+                // based on responses from other response givers 
+                recipientName = bundle.getAnonNameWithoutNumericalId(question.recipientType);
+            }
+            
             String answer = singleResponse.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
             List<FeedbackResponseComment> comments = createStudentFeedbackResultsResponseComments(
                                                                                           singleResponse.getId());
