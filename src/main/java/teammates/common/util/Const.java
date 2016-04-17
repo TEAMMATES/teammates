@@ -56,7 +56,8 @@ public class Const {
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
-		/**
+	
+	/**
          * @return The file source for jquery.min.js used in application pages,
          * chosen based on the build's environment.<br>
          * <ul>
