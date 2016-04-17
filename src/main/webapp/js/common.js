@@ -794,19 +794,6 @@ if (!String.prototype.includes) {
 var DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
 /**
- * Checks if the input value is a blank string
- * 
- * @param str
- * @returns true if the input is a blank string, false otherwise
- */
-function isBlank(str) {
-    if (typeof str !== 'string' && !(str instanceof String)) {
-        return false;
-    }
-    return str.trim() === '';
-}
-
-/**
  * Sets the chevron of a panel from up to down or from down to up depending on its current state.
  * clickedElement must be at least the parent of the chevron.
  */ 
