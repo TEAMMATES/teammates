@@ -1,16 +1,11 @@
 #Setting Up the Developer Environment
-<<<<<<< HEAD
->If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
-
-These instructions are for the Windows environment. Instructions for Mac OS is similar, with slight variations that you can figure out yourself.
-=======
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
 These instructions work for Linux, OS X as well as for the Windows
 environment. The only difference for Windows environment is that the command `./gradlew` should be replaced by `gradlew.bat` everywhere.
->>>>>>> fbb2c78a651b240fb1e02f18a5b331f786be6ff4
 
 The full tool stack is given at the [end of this document](#toolStack).
+
 
 ##Table Of Contents
 [Prerequisites](#prerequisites) <br/>
@@ -19,7 +14,6 @@ The full tool stack is given at the [end of this document](#toolStack).
 [Deploying to a staging server](#deploying-to-a-staging-server) <br/>
 [Running client scripts](#running-client-scripts) <br/>
 [Troubleshooting](#troubleshooting) <br/>
-
 
 ##Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
@@ -63,11 +57,6 @@ Important: When a version is specified, please install that version instead of t
 3. Run the command `./gradlew setUp`.<br>
    This creates the main config files {These are not under revision control because their content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
-<<<<<<< HEAD
-   Use `build.template.properties` (in the same folder) 
-   as the template (i.e. `duplicate -> remove '.template' from name`).
-=======
->>>>>>> fbb2c78a651b240fb1e02f18a5b331f786be6ff4
    For now, property values can remain as they are.
    If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
    * `src/test/resources/test.properties`<br>
