@@ -364,7 +364,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
             return student.section;
         } else if (isInstructor || participantIsGeneral) {
-            return Const.USER_NOT_IN_A_SECTION;
+            return Const.USER_NAME_FOR_NO_SPECIFIED_RECIPIENT;
         } else {
             return "";
         }

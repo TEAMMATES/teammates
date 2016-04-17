@@ -900,7 +900,7 @@ public class Const {
         
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
         public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
-                + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
+                + "<br/><br/>It seems you are not a registered of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
                 + "After that, TEAMMATES will send you an email containing the link to 'join' that course. "
                 + "<br/><br/>Not a stranger to TEAMMATES? Could log in before, but not any more? These are the possible reasons:"
                 + "<br/>1. You used a different Google account to access TEAMMATES in the past. "
@@ -1183,7 +1183,7 @@ public class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String USER_NOT_IN_A_SECTION = "No specified recipient";
+    public static final String USER_NAME_FOR_NO_SPECIFIED_RECIPIENT= "No specified recipient";
     
     public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";

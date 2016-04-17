@@ -41,7 +41,7 @@ import teammates.ui.template.InstructorFeedbackResultsModerationButton;
 
 
 public class InstructorFeedbackResultsPageData extends PageData {
-    private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = "No specified recipient";
+    private static final String DISPLAY_NAME_FOR_DEFAULT_SECTION = Const.USER_NAME_FOR_NO_SPECIFIED_RECIPIENT;
 
     private static final String MODERATE_RESPONSES_FOR_GIVER = "Moderate Responses";
     private static final String MODERATE_SINGLE_RESPONSE = "Moderate Response";
