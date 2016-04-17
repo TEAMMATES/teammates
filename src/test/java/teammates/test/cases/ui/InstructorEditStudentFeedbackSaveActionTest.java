@@ -72,7 +72,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         InstructorEditStudentFeedbackSaveAction a = getAction(submissionParams);
@@ -81,7 +81,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
@@ -98,7 +98,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         a = getAction(submissionParams);
@@ -107,7 +107,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
@@ -123,7 +123,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "" ,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         a = getAction(submissionParams);
@@ -132,7 +132,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
@@ -148,7 +148,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "New " + fr.getResponseDetails().getAnswerString(), 
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         a = getAction(submissionParams);
@@ -157,7 +157,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
@@ -179,7 +179,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1").courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         InstructorEditStudentFeedbackSaveAction a;
@@ -200,7 +200,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName, 
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         try {
@@ -231,7 +231,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
-                    Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT), e.getMessage());
+                    Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON), e.getMessage());
         }
         
     }
@@ -262,7 +262,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         InstructorEditStudentFeedbackSaveAction a;
@@ -290,7 +290,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         try {
@@ -321,7 +321,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         a = getAction(submissionParams);
@@ -330,7 +330,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCoursehelper1&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
@@ -356,7 +356,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         try {
@@ -385,7 +385,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         a = getAction(submissionParams);
@@ -394,7 +394,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCoursehelper2&courseid=IESFPTCourse" + 
                      "&fsname=Another+feedback+session",
                      r.getDestinationWithParams());
@@ -422,7 +422,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         a = getAction(submissionParams);
@@ -431,7 +431,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student2InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCoursehelper3&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
@@ -457,7 +457,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         try{
@@ -493,7 +493,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         InstructorEditStudentFeedbackSaveAction a;
@@ -526,7 +526,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         try {
@@ -554,7 +554,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         try {
@@ -591,7 +591,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
         };
         
         InstructorEditStudentFeedbackSaveAction a = getAction(submissionParams);
@@ -600,7 +600,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "?error=false&moderatedperson=student1InIESFPTCourse%40gmail.tmt" + 
                      "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=Closed+feedback+session",
                      r.getDestinationWithParams());

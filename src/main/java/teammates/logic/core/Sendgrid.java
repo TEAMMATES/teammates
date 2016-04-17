@@ -5,7 +5,7 @@
  * via Sendgrid for Java: https://cloud.google.com/appengine/docs/java/mail/sendgrid
  */
 
-package teammates.googleSendgridJava;
+package teammates.logic.core;
 
 import java.net.HttpURLConnection;
 import java.util.*;

@@ -82,10 +82,6 @@ h2 {
     vertical-align: middle;
 }
 
-.bold {
-    font-weight: bold;
-}
-
 .italic {
     font-style: italic;
 }
@@ -219,9 +215,15 @@ h2.subcaption {
     display: block;
 }
 
-.submissionsNumber {
+.submissionsNumber,
+.totalCount {
     color: #e46d0b;
     font-size: 20px;
+}
+
+.lastUpdate {
+    text-align: right;
+    color: #808080;
 }
 
 .overviewByte {

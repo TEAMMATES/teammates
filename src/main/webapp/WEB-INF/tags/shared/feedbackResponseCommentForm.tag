@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
+<%@ attribute name="fsIndex" required="true" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
 <%@ attribute name="divId" required="true" %>
 <%@ attribute name="divIdAsJsParams" required="true" %>
@@ -16,9 +17,9 @@
     <div class="form-group form-inline">
         <div class="form-group text-muted">
             <p>
-                Giver: ${frc.responseGiverName}
+                Giver: ${fn:escapeXml(frc.responseGiverName)}
                 <br>
-                Recipient: ${frc.responseRecipientName}
+                Recipient: ${fn:escapeXml(frc.responseRecipientName)}
             </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
@@ -202,7 +203,8 @@
     </div>
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
     <c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
+    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${fsIndex}">
+    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${fn:escapeXml(frc.feedbackResponseId)}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">

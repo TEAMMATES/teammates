@@ -70,7 +70,24 @@ $(document).ready(function(){
     		$("#visibledate").datepicker("option", "maxDate", newVisibleDate);
     	}
     });
+    
+    triggerDatepickerOnClick([$('#startdate'), $('#enddate'), $('#visibledate'), $('#publishdate')]);
+    
 });
+
+/**
+ * Adds an event handler on all passed in divs to open datepicker on 'click'.
+ * @assumption: all passed in divs are valid datepicker divs
+ */
+function triggerDatepickerOnClick(datepickerDivs) {
+    $.each(datepickerDivs, function(i, datepickerDiv) {
+        datepickerDiv.on('click', function() {
+            if (!datepickerDiv.prop('disabled')) {
+                datepickerDiv.datepicker('show');        		
+            }
+        });
+    });
+}
 
 /**
  * @assumption: startDate has a valid value

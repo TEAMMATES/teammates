@@ -4,11 +4,15 @@
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
 <%@ attribute name="feedbackSubmissionForm" type="teammates.ui.controller.FeedbackSubmissionEditPageData" required="true" %>
-<%@ attribute name="feedbackSubmissionAction" required="true" %>
 
-<form method="post" name="form_submit_response" action="${feedbackSubmissionAction}">
+<form method="post" name="form_submit_response" action="${feedbackSubmissionForm.submitAction}">
     <jsp:include page="<%= Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT %>" />
+    
     <div class="bold align-center"> 
+        <c:if test="${feedbackSubmissionForm.moderation}">       
+            <input name="moderatedperson" value="${feedbackSubmissionForm.previewInstructor.email}" type="hidden">
+        </c:if>
+        
         <c:choose>
             <c:when test="${empty feedbackSubmissionForm.bundle.questionResponseBundle}">
                     There are no questions for you to answer here!

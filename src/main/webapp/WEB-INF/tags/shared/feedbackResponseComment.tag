@@ -1,5 +1,6 @@
 <%@ tag description="Feedback Response Comment" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
@@ -21,7 +22,7 @@
 <li class="list-group-item list-group-item-warning${frc.extraClass}" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
         <span class="text-muted">
-            From: ${frc.giverDisplay} [${frc.createdAt}] ${frc.editedAt}
+            From: ${fn:escapeXml(frc.giverDisplay)} [${frc.createdAt}] ${frc.editedAt}
         </span>
         <c:if test="${frc.withVisibilityIcon}">
             <span class="glyphicon glyphicon-eye-open"
@@ -61,6 +62,7 @@
                    <c:if test="${not frc.instructorAllowedToDelete}">disabled</c:if>>
                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                 </a>
+                <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${frc.feedbackResponseId}">
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
                 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
@@ -85,7 +87,8 @@
     <c:if test="${frc.editDeleteEnabled}">
         <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
-        <shared:feedbackResponseCommentForm frc="${frc}"
+        <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
+                                            frc="${frc}"
                                             divId="${divId}"
                                             divIdAsJsParams="${divIdAsJsParams}"
                                             formType="Edit"

@@ -33,7 +33,7 @@
                                 <ul class="list-group">
                                     <li class="list-group-item list-group-item-info">
                                         <input type="text" value="${log.content}" class="form-control"
-                                               readonly="readonly">
+                                               readonly>
                                     </li>
                                 </ul>    
                             </td>

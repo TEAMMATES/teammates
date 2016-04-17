@@ -54,6 +54,7 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
         map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
         map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);
+        map(INSTRUCTOR_COURSE_EDIT_SAVE, InstructorCourseEditSaveAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_ADD, InstructorCourseInstructorAddAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE, InstructorCourseInstructorEditSaveAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_DELETE, InstructorCourseInstructorDeleteAction.class);
@@ -66,6 +67,8 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE, InstructorCourseStudentDetailsEditSaveAction.class);
         map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE, InstructorEditStudentFeedbackPageAction.class);
         map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE, InstructorEditStudentFeedbackSaveAction.class);
+        map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE, InstructorEditInstructorFeedbackPageAction.class);
+        map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE, InstructorEditInstructorFeedbackSaveAction.class);
         map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
         map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
         map(INSTRUCTOR_FEEDBACK_COPY, InstructorFeedbackCopyAction.class);
