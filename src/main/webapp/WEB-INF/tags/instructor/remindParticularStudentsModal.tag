@@ -1,11 +1,13 @@
 <%@ tag description="instructorHome / instructorFeedbacks - Remind modal" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ attribute name="remindParticularStudentsLink" required="true" %>
+
 <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" 
      aria-labelledby="remindModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" name="form_remind_list" role="form"
-                  action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS %>"> 
+                  action="${remindParticularStudentsLink}"> 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" 
                             aria-hidden="true">&times;</button>

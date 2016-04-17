@@ -57,6 +57,32 @@ public class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
+        /**
+         * @return The file source for jquery.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+        }
+        
+        /**
+         * @return The file source for jquery-ui.min.js used in application pages,
+         * chosen based on the build's environment.<br>
+         * <ul>
+         * <li>Local files are used on development to enable purely offline testing</li>
+         * <li>CDN files are used on production to reduce the load on appspot's server</li>
+         * </ul>
+         */
+        public static final String getjQueryUiFilePath(boolean isDevServer) {
+            return isDevServer ? "/js/lib/jquery-ui.min.js"
+                               : "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js";
+        }
+        
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
             ActionURIs.STUDENT_COURSE_JOIN,
             ActionURIs.STUDENT_COURSE_JOIN_NEW,
@@ -98,6 +124,7 @@ public class Const {
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
+        public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
@@ -417,7 +444,8 @@ public class Const {
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
-        public static final String FEEDBACK_SESSION_MODERATED_STUDENT = "moderatedstudent";
+        public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
+        public static final String FEEDBACK_SESSION_MODERATED_QUESTION_ID = "moderatedquestionid";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
@@ -648,6 +676,8 @@ public class Const {
         
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE = "/page/instructorEditStudentFeedbackPage";
         public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
+        public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE = "/page/instructorEditInstructorFeedbackPage";
+        public static final String INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE = "/page/instructorEditInstructorFeedbackSave";
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
@@ -914,7 +944,7 @@ public class Const {
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
-        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
+        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor %s has been updated.";
         public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
         public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED = "The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.";
@@ -1028,6 +1058,9 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_EMPTY = "There are no students in this course. Click <a href=\"%s\">here</a> to enroll students.";
         public static final String INSTRUCTOR_PERSISTENCE_ISSUE = "Account creation is still in progress. Please reload the page"
                 + " after sometime.";
+        public static final String INSTRUCTOR_NO_MODIFY_PERMISSION_FOR_ACTIVE_COURSES_SESSIONS 
+                                   = "No permission to modify any sessions in un-archived courses";
+        public static final String INSTRUCTOR_NO_ACTIVE_COURSES = "No un-archived courses";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
         public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
@@ -1073,14 +1106,15 @@ public class Const {
         public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
                 + "However, you do not have access to view this student's profile";
         
-        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
-                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
-                + "(recommended).";
-        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as <span class='text-danger text-bold text-large'>%s</span>. " 
-                + "You may submit feedback and view results without logging in. "
-                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
-                + "(recommended).";
+        public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "
+                + "that are currently open and view results without logging in. To access other features "
+                + "you need <a href='%s' class='link'>to login using a Google account</a> (recommended).";
+        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as "
+                + "<span class='text-danger text-bold text-large'>%s</span>. " 
+                + UNREGISTERED_STUDENT_MESSAGE;
+        public static final String UNREGISTERED_STUDENT_RESULTS = "You are viewing feedback results as "
+                + "<span class='text-danger text-bold text-large'>%s</span>. " 
+                + UNREGISTERED_STUDENT_MESSAGE;
     }
 
     /* These indicate status of an operation, but they are not shown to the user */
@@ -1123,6 +1157,7 @@ public class Const {
     private void _______repeated_phrases___________________________________(){}
     
     public static final String EOL = System.getProperty("line.separator");
+    public static final String HTML_BR_TAG = "<br>";
     
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";

@@ -351,8 +351,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             
             String recipientFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
                     fragmentTemplateToUse,
-                    "${recipientTeam}", recipientTeam,
-                    "${recipientName}", recipientName,
+                    "${recipientTeam}", Sanitizer.sanitizeForHtml(recipientTeam),
+                    "${recipientName}", Sanitizer.sanitizeForHtml(recipientName),
                     "${Average}", df.format(averageScore),
                     "${Max}", df.format(maxScore),
                     "${Min}", df.format(minScore),
@@ -383,13 +383,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Replace current user name with "You"
         if (!isHiddenRecipient && isRecipientCurrentUser && hasAtLeastTwoResponses){
-            return isRecipientTypeStudent? "You" : "Your Team (" + Sanitizer.sanitizeForHtml(currentUserTeam) + ")";
+            return isRecipientTypeStudent? "You" : "Your Team (" + currentUserTeam + ")";
         }
         
         // Replace general identifier with "General"
         if (!isHiddenRecipient && !isRecipientCurrentUser && 
             hasAtLeastTwoResponsesOtherThanCurrentUser){
-            return isRecipientGeneral ? "General" : Sanitizer.sanitizeForHtml(recipientName);
+            return isRecipientGeneral ? "General" : recipientName;
         }
         return null;
     }
@@ -401,13 +401,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         // Replace current user team with "" when recipient type is not student
         if (!isHiddenRecipient && isRecipientCurrentUser && hasAtLeastTwoResponses){
-            return isRecipientTypeStudent? Sanitizer.sanitizeForHtml(currentUserTeam) : "";
+            return isRecipientTypeStudent? currentUserTeam : "";
         }
         
         // Display other recipients' team name
         if (!isHiddenRecipient && !isRecipientCurrentUser && 
             hasAtLeastTwoResponsesOtherThanCurrentUser){
-            return Sanitizer.sanitizeForHtml(recipientTeamName);
+            return recipientTeamName;
         }
         return null;
     }

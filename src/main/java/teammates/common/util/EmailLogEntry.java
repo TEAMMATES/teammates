@@ -6,7 +6,7 @@ import java.util.TimeZone;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
 
-import teammates.googleSendgridJava.Sendgrid;
+import teammates.logic.core.Sendgrid;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -64,7 +64,7 @@ public class EmailLogEntry {
         str.append("<ul class=\"list-group\">");
         str.append("<li class=\"list-group-item list-group-item-info\">");
         str.append("<input type=\"text\" value=\"" + this.getContent() + "\" class=\"form-control\"");
-        str.append(" readonly=\"readonly\">");
+        str.append(" readonly>");
         str.append("</li>");
         str.append("</ul>    ");
         str.append("</td>");

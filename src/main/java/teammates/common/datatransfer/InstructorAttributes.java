@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -28,13 +29,8 @@ public class InstructorAttributes extends EntityAttributes {
     public String role;
     public boolean isDisplayedToStudents;
     public String displayedName;
-    
-    /**
-     * The json representation of privileges, used for storing the 
-     * instructorPrivilege content in instructor entity
-     */
-    public String instructorPrivilegesAsText;
-    public transient InstructorPrivileges privileges;
+
+    public InstructorPrivileges privileges;
     
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
     
@@ -75,8 +71,7 @@ public class InstructorAttributes extends EntityAttributes {
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
-        this.instructorPrivilegesAsText = instructorPrivilegesAsText;
-        this.privileges = this.getInstructorPrivilegesFromText();
+        this.privileges = getInstructorPrivilegesFromText(instructorPrivilegesAsText);
     }
     
     /**
@@ -100,8 +95,7 @@ public class InstructorAttributes extends EntityAttributes {
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
-        this.privileges = privileges;
-        this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();     
+        this.privileges = privileges;    
     }
     
     /**
@@ -152,12 +146,9 @@ public class InstructorAttributes extends EntityAttributes {
         
         if (instructor.getInstructorPrivilegesAsText() == null) {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-            this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
         } else {
-            this.instructorPrivilegesAsText = instructor.getInstructorPrivilegesAsText();
+            this.privileges = getInstructorPrivilegesFromText(instructor.getInstructorPrivilegesAsText());
         }
-        
-        this.privileges = this.getInstructorPrivilegesFromText();
     }
     
     @Deprecated
@@ -169,7 +160,7 @@ public class InstructorAttributes extends EntityAttributes {
         return gson.toJson(privileges, InstructorPrivileges.class);
     }
     
-    public InstructorPrivileges getInstructorPrivilegesFromText() {
+    private static InstructorPrivileges getInstructorPrivilegesFromText(String instructorPrivilegesAsText) {
         return gson.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
     
@@ -196,10 +187,10 @@ public class InstructorAttributes extends EntityAttributes {
     public Instructor toEntity() {
         if (key != null) {
             return new Instructor(googleId, courseId, name, email, key, role,
-                                  isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
+                                  isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
         } else {
             return new Instructor(googleId, courseId, isArchived, name, email, role,
-                                  isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
+                                  isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
         }
     }
 
@@ -255,25 +246,24 @@ public class InstructorAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         googleId = Sanitizer.sanitizeGoogleId(googleId);
-        name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(name));
+        name = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(name));
         email = Sanitizer.sanitizeEmail(email);
         courseId = Sanitizer.sanitizeTitle(courseId);
         
         if (role == null) {
             role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            role = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(role));
+            role = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(role));
         }
         
         if (displayedName == null) {
             displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            displayedName = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(displayedName));
+            displayedName = Sanitizer.sanitizeForHtml(Sanitizer.sanitizeName(displayedName));
         }
         
-        if (instructorPrivilegesAsText == null) {
+        if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-            instructorPrivilegesAsText = getTextFromInstructorPrivileges();
         }
     }
     
@@ -307,19 +297,36 @@ public class InstructorAttributes extends EntityAttributes {
         }
         return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
     }
-    
+
+    public boolean hasCoownerPrivileges() {
+        return privileges.hasCoownerPrivileges();
+    }
+
+    public boolean hasManagerPrivileges() {
+        return privileges.hasManagerPrivileges();
+    }
+
+    public boolean hasObserverPrivileges() {
+        return privileges.hasObserverPrivileges();
+    }
+
+    public boolean hasTutorPrivileges() {
+        return privileges.hasTutorPrivileges();
+    }
+
     /**
-     * pre-condition: instructorPrivilegesAsText and privileges should be non-null
      * @param instructor
-     * @return
+     *            the {@link InstructorAttributes} of an instructor, cannot be
+     *            {@code null}
+     * @return true if this {@link InstructorAttributes} is equal to
+     *         {@code instructor}, otherwise false
      */
     public boolean isEqualToAnotherInstructor(InstructorAttributes instructor) {
-        if (gson.toJson(this).equals(gson.toJson(instructor))) {
-            return true;
-        } else {
-            return !instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText) 
-                   && privileges.equals(instructor.privileges);
-        }
+        // JsonParser is used instead of
+        // this.getJsonString().equals(instructor.getJsonString) so that the
+        // comparison ignores the order of key-value pairs in the json strings.
+        JsonParser parser = new JsonParser();
+        return parser.parse(getJsonString()).equals(parser.parse(instructor.getJsonString()));
     }
     
     public boolean isCustomRole() {

@@ -7,13 +7,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.test.pageobjects.AdminSearchPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -73,6 +77,10 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         
         assertTrue(isSearchPanelPresent());
         assertTrue(isSearchDataDisplayCorrect());
+        
+        StudentAttributes student = testData.students.get("student1InCourse1");
+        InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
+        assertTrue(isStudentRowDisplayed(student, instructor));
         
         ______TS("search for student name with special characters");
         
@@ -178,7 +186,98 @@ public class AdminSearchPageUiTest extends BaseUiTestCase {
         return actualSessionTableHeaders.equals(expectedSearchTableHeaders);
     }
 
-    
+    /**
+     * @param student
+     *            the student to be displayed
+     * @param instructorToMasquaradeAs
+     *            a registered instructor with co-owner privileges or the
+     *            privilege to modify instructors
+     * @return true if the student is displayed correctly in the student table,
+     *         otherwise false
+     */
+    private boolean isStudentRowDisplayed(StudentAttributes student, InstructorAttributes instructorToMasquaradeAs) {
+
+        By by = By.xpath("//table[@id = 'search_table']/tbody/tr[@class='studentRow']");
+        List<WebElement> studentRows = browser.driver.findElements(by);
+        
+        for (WebElement studentRow : studentRows) {
+            
+            boolean isStudentCorrect = isStudentContentCorrect(studentRow, student)
+                                       && isStudentLinkCorrect(studentRow, student, instructorToMasquaradeAs);
+           
+            if (isStudentCorrect) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * @param studentRow
+     *            a row of the student table
+     * @param student
+     *            the student to be displayed
+     * @return true if the {@code student}'s course, section, team, name,
+     *         googleId and comment are displayed correctly, otherwise false
+     */
+    private boolean isStudentContentCorrect(WebElement studentRow, StudentAttributes student) {
+
+        String actualDetails = studentRow.findElement(By.xpath("td[2]")).getText();
+        String actualName = studentRow.findElement(By.xpath("td[3]")).getText();
+        String actualGoogleId = studentRow.findElement(By.xpath("td[4]")).getText();
+        String actualComment = studentRow.findElement(By.xpath("td[5]")).getText();
+
+        String expectedDetails = student.course + "\n"
+                                 + (student.section == null ? Const.DEFAULT_SECTION : student.section) + "\n"
+                                 + student.team;
+        String expectedName = student.name;
+        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.googleId);
+        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.comments);
+
+        return actualDetails.equals(expectedDetails)
+               && actualName.equals(expectedName)
+               && actualGoogleId.equals(expectedGoogleId)
+               && actualComment.equals(expectedComment);
+    }
+
+    /**
+     * @param studentRow
+     *            a row of the student table
+     * @param student
+     *            the student to be displayed
+     * @param instructorToMasquaradeAs
+     *            a registered instructor with co-owner privileges or the
+     *            privilege to modify instructors
+     * @return true if the links associated with the {@code student}'s name and
+     *         googleId (if he/she is registered) are correct, otherwise false
+     */
+    private boolean isStudentLinkCorrect(WebElement studentRow, 
+                                         StudentAttributes student, 
+                                         InstructorAttributes instructorToMasquaradeAs) {
+
+        String actualNameLink = studentRow.findElement(By.xpath("td[3]/a")).getAttribute("href");
+        String expectedNameLink = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
+                                  .withCourseId(student.course)
+                                  .withStudentEmail(student.email)
+                                  .withUserId(instructorToMasquaradeAs.googleId)
+                                  .toAbsoluteString();
+
+        if (student.isRegistered()) {
+
+            String actualGoogleIdLink = studentRow.findElement(By.xpath("td[4]/a")).getAttribute("href");
+            String expectedGoogleIdLink = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                                          .withUserId(student.googleId)
+                                          .toAbsoluteString();
+
+            return actualNameLink.equals(expectedNameLink) 
+                   && actualGoogleIdLink.equals(expectedGoogleIdLink);
+
+        } else {
+            return actualNameLink.equals(expectedNameLink);
+        }
+    }
+
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
