@@ -1,5 +1,5 @@
 #Setting Up the Developer Environment
->If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
+>If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
 These instructions work for Linux, OS X as well as for the Windows
 environment. The only difference for Windows environment is that the command `./gradlew` should be replaced by `gradlew.bat` everywhere.
@@ -35,7 +35,7 @@ Important: When a version is specified, please install that version instead of t
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
    * JRE: Go to `Windows → Preferences → Java → Installed JRE` (Mac: `Eclipse → Preferences → Java → Installed JRE`) and ensure a 
    JDK (not a JRE) is selected(Use a Java 7 JDK, as recommended by GAE). One of the items in the [Troubleshooting help]
-   (https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
+   (troubleshooting-guide.md)
     explains how to do this.
     * Tab behavior: In TEAMMATES, we use spaces in place of tabs. 
     `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs` (Mac: `Eclipse → Preferences → General → Editors → Text Editors → Insert spaces for tabs`)<br>
@@ -100,9 +100,7 @@ Important: When a version is specified, please install that version instead of t
     Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
    
 2. Before running the test suite, both the server and the test environment 
-   should be using the UTC time zone. The server and the test environment should 
-   also serve the CDN files (files that we off-load to servers such as Google's servers)
-   locally instead. In our case, these are files such as jQuery.min.js.
+   should be using the UTC time zone.
    
    Here is the procedure:
     
@@ -111,7 +109,7 @@ Important: When a version is specified, please install that version instead of t
     b. Specify timezone as a VM argument: 
        * Go to the `run configuration` Eclipse created when you started the dev server
         (`Run → Run configurations ...` and select the appropriate one).
-       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` and `-DisDevEnvironment="true"` to the `VM arguments` text box.
+       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
        * Save the configuration for future use: Go to the `Common` tab (the last one) 
        and make sure you have selected `Save as → Local file` and 
        `Display in favorites menu →  Run, Debug`.
@@ -234,7 +232,7 @@ Client scripts are scripts that remotely manipulate data on GAE via its Remote A
 
 
 ##Troubleshooting
-Troubleshooting instructions are given [in this document](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
+Troubleshooting instructions are given [in this document](troubleshooting-guide.md)
 
 ##<a name="toolStack"></a>Tool stack
 

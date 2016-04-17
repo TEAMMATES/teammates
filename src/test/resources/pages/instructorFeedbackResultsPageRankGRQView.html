@@ -280,6 +280,12 @@
               </a>
             </div>
             <div class="pull-right">
+              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
+                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                <input name="fsname" type="hidden" value="Instructor Session">
+                <input name="moderatedperson" type="hidden" value="tmms.test@gmail.tmt">
+              </form>
                
               <div class="display-icon" style="display:inline;">
                 <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -475,6 +481,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="1">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%alice.b.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -601,6 +608,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(1,0,2);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="1">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%alice.b.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -750,6 +758,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(2,0,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="2">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%danny.e.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -949,6 +958,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(3,0,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="3">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%emily.f.tmms@gmail.tmt">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -1115,6 +1125,7 @@
                               <input class="btn btn-default" onclick="return hideResponseCommentAddForm(4,0,1);" type="button" value="Cancel">
                             </div>
                             <input name="questionid" type="hidden" value="${question.id}">
+                            <input name="fsindex" type="hidden" value="4">
                             <input name="responseid" type="hidden" value="${question.id}%tmms.test@gmail.tmt%Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
                             <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                             <input name="fsname" type="hidden" value="Instructor Session">
@@ -1144,6 +1155,12 @@
               </a>
             </div>
             <div class="pull-right">
+              <form action="/page/instructorEditInstructorFeedbackPage?user=FRankUiT.instructor" class="inline" method="post" target="_blank">
+                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
+                <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+                <input name="fsname" type="hidden" value="Instructor Session">
+                <input name="moderatedperson" type="hidden" value="tmms.helper1@gmail.tmt">
+              </form>
                
               <div class="display-icon" style="display:inline;">
                 <span class="glyphicon glyphicon-chevron-up pull-right">
@@ -1201,7 +1218,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                 <input name="fsname" type="hidden" value="Instructor Session">
-                <input name="moderatedstudent" type="hidden" value="alice.b.tmms@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="alice.b.tmms@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -1235,7 +1252,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                 <input name="fsname" type="hidden" value="Instructor Session">
-                <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="benny.c.tmms@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -1269,7 +1286,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                 <input name="fsname" type="hidden" value="Instructor Session">
-                <input name="moderatedstudent" type="hidden" value="charlie.d.tmms@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="charlie.d.tmms@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -1303,7 +1320,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                 <input name="fsname" type="hidden" value="Instructor Session">
-                <input name="moderatedstudent" type="hidden" value="danny.e.tmms@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="danny.e.tmms@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -1362,7 +1379,7 @@
                 <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses">
                 <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                 <input name="fsname" type="hidden" value="Instructor Session">
-                <input name="moderatedstudent" type="hidden" value="emily.f.tmms@gmail.tmt">
+                <input name="moderatedperson" type="hidden" value="emily.f.tmms@gmail.tmt">
               </form>
                
               <div class="display-icon" style="display:inline;">
@@ -1439,7 +1456,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="alice.b.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="alice.b.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -1455,7 +1472,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="benny.c.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -1471,7 +1488,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="charlie.d.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="charlie.d.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -1487,7 +1504,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="danny.e.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="danny.e.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>
@@ -1503,7 +1520,7 @@
                   <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Submit Responses">
                   <input name="courseid" type="hidden" value="FRankUiT.CS4221">
                   <input name="fsname" type="hidden" value="Instructor Session">
-                  <input name="moderatedstudent" type="hidden" value="emily.f.tmms@gmail.tmt">
+                  <input name="moderatedperson" type="hidden" value="emily.f.tmms@gmail.tmt">
                 </form>
               </td>
             </tr>

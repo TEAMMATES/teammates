@@ -647,20 +647,31 @@ function disableRow(elem, row) {
 }
 
 function feedbackRecipientUpdateVisibilityOptions(elem) {
-    elem = $(elem);
-    if (elem.val() === 'OWN_TEAM' || elem.val() === 'TEAMS' ||
-            elem.val() === 'INSTRUCTORS' || elem.val() === 'OWN_TEAM_MEMBERS') {
-        enableRow(elem, 1);
-        disableRow(elem, 3);
+    var $elem = $(elem);
+    if (isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType($elem.val())) {
+        // show the row Recipient(s) and hide the row Recipient's Team Members
+        enableRow($elem, 1);
+        disableRow($elem, 3);
         return;
-    } else if(elem.val() === 'NONE') {
-        disableRow(elem, 3);
-        disableRow(elem, 1);
+    } else if ($elem.val() === 'NONE') {
+        // hide both the row Recipient(s) and the row Recipient's Team Members
+        disableRow($elem, 3);
+        disableRow($elem, 1);
         return;
     }
     
-    enableRow(elem, 1);
-    enableRow(elem, 3);
+    enableRow($elem, 1);
+    enableRow($elem, 3);
+}
+
+/**
+ * Returns true if "recipient's team members" visibility option 
+ * is not applicable for the recipient type
+ */
+function isRecipientsTeamMembersVisibilityOptionInvalidForRecipientType(recipientType) {
+    return recipientType === 'OWN_TEAM' || recipientType === 'TEAMS' 
+           || recipientType === 'INSTRUCTORS' || recipientType === 'OWN_TEAM_MEMBERS' 
+           || recipientType === 'OWN_TEAM_MEMBERS_INCLUDING_SELF';
 }
 
 function feedbackGiverUpdateVisibilityOptions(elem) {

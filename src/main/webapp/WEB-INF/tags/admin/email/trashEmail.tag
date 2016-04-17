@@ -16,8 +16,8 @@
                ${trashEmail.actions.moveOutOfTrashButton.content}
         </a>
     </td>
-    <td><input value="${trashEmail.addressReceiver}" readonly="readonly" class="form-control"></td>
-    <td><input value="${trashEmail.groupReceiver}" readonly="readonly" class="form-control"></td>
-    <td><input value="${trashEmail.subject}" readonly="readonly" class="form-control"></td>
+    <td><input value="${trashEmail.addressReceiver}" readonly class="form-control"></td>
+    <td><input value="${trashEmail.groupReceiver}" readonly class="form-control"></td>
+    <td><input value="${trashEmail.subject}" readonly class="form-control"></td>
     <td>${trashEmail.date}</td>
 </tr>

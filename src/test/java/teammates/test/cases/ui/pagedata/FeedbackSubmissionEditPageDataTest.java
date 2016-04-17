@@ -3,6 +3,7 @@ package teammates.test.cases.ui.pagedata;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
                       + "to login using a Google account</a> (recommended).", pageData.getRegisterMessage());
         
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
+        assertNull(pageData.getSubmitAction());
         assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
@@ -102,8 +103,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "key=regKeyForStuNotYetJoinCourse&studentemail=student1InUnregisteredCourse%40gmail.tmt&"
                       + "courseid=idOfUnregisteredCourse' class='link'>to login using a Google account</a> "
                       + "(recommended).", pageData.getRegisterMessage());
-        
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
+
+        assertNull(pageData.getSubmitAction());
         assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
@@ -126,8 +127,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "you need <a href='/page/studentCourseJoinAuthentication?studentemail=student1InArchivedCourse%40"
                       + "gmail.tmt&courseid=idOfArchivedCourse' class='link'>to login using a Google account</a> "
                       + "(recommended).", pageData.getRegisterMessage());
-        
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
+
+        assertNull(pageData.getSubmitAction());
         assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
@@ -151,8 +152,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
                       + "To access other features you need <a href='/page/studentCourseJoinAuthentication?"
                       + "studentemail=student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>"
                       + "to login using a Google account</a> (recommended).", pageData.getRegisterMessage());
-        
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
+
+        assertNull(pageData.getSubmitAction());
         assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());
@@ -169,8 +170,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         
         pageData.setModeration(true);
         pageData.init("", student.email, student.course);
-        
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitAction());
+
+        assertNull(pageData.getSubmitAction());
         assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
         
         assertTrue(pageData.isModeration());
@@ -188,8 +189,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.setModeration(true);
         pageData.setSessionOpenForSubmission(true);
         pageData.init("", student.email, student.course);
-        
-        assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitAction());
+
+        assertNull(pageData.getSubmitAction());
         assertEquals("/page/instructorEditStudentFeedbackSave", pageData.getSubmitActionQuestion());
         
         assertTrue(pageData.isModeration());
@@ -205,8 +206,8 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         pageData.setPreview(true);
         pageData.setPreviewInstructor(instructor);
         pageData.init("", student.email, student.course);
-        
-        assertEquals("/page/studentFeedbackSubmissionEditSave", pageData.getSubmitAction());
+
+        assertNull(pageData.getSubmitAction());
         assertEquals("/page/studentFeedbackQuestionSubmissionEditSave", pageData.getSubmitActionQuestion());
         
         assertFalse(pageData.isModeration());

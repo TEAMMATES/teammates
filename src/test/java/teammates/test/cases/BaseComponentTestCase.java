@@ -161,7 +161,8 @@ public class BaseComponentTestCase extends BaseTestCase {
                                     ? instructorsDb.getInstructorForEmail(expected.courseId, expected.email)
                                     : instructorsDb.getInstructorForGoogleId(expected.courseId, expected.googleId);
         equalizeIrrelevantData(expected, actual);
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
+
+        assertTrue(expected.isEqualToAnotherInstructor(actual));
     }
     
     private static void equalizeIrrelevantData(InstructorAttributes expectedInstructor,
@@ -170,10 +171,6 @@ public class BaseComponentTestCase extends BaseTestCase {
         // pretend keys match because the key is generated only before storing into database
         if (actualInstructor.key != null) {
             expectedInstructor.key = actualInstructor.key;
-        }
-        if (!expectedInstructor.instructorPrivilegesAsText.equals(actualInstructor.instructorPrivilegesAsText)
-                && expectedInstructor.privileges.equals(actualInstructor.privileges)) {
-            actualInstructor.instructorPrivilegesAsText = expectedInstructor.getTextFromInstructorPrivileges();
         }
     }
 

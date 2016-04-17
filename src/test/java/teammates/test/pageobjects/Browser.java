@@ -6,8 +6,6 @@ import java.util.Stack;
 
 import org.openqa.selenium.WebDriver;
 
-import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
-
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -18,12 +16,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import teammates.test.driver.TestProperties;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
  * A programmatic interface to the Browser used to test the app.
  */
-@SuppressWarnings("deprecation")
 public class Browser {
     
     protected ChromeDriverService chromeService = null;
@@ -34,12 +30,6 @@ public class Browser {
      */
     public WebDriver driver;
 
-    /**
-     * A wrapper around the {@code driver} that represents a slightly
-     * higher-level programmatic interface to the Browser instance.
-     */
-    public DefaultSelenium selenium = null;
-    
     /**
      * Indicated to the {@link BrowserPool} that this object is currently being
      * used and not ready to be reused by another test.
@@ -56,7 +46,6 @@ public class Browser {
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
-        this.selenium = new WebDriverBackedSelenium(this.driver, TestProperties.inst().TEAMMATES_URL);
         isInUse = false; 
         isAdminLoggedIn = false;
     }

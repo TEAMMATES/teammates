@@ -11,7 +11,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends FeedbackS
     protected FeedbackSubmissionEditPageData data;
     
     @Override
-    protected void setAdditionalParameters() {
+    protected void setAdditionalParameters() throws EntityDoesNotExistException {
         super.setAdditionalParameters();
         
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1");
