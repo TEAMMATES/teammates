@@ -191,7 +191,7 @@ function getTooltipContent(data) {
                 + data.name
                 + '</span>'
                 + '<br>'
-                + 'Institution(s): '
+                + 'Institutions: '
                 + data.numOfInstitutions
             + '</p>'
          + '</div>';
