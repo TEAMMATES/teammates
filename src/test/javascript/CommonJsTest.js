@@ -1,16 +1,16 @@
 QUnit.module('common.js');
 
-QUnit.test('isNumber(num)', function(assert) {
-    assert.equal(isNumber('-0.001'), true, 'Negative double');
-    assert.equal(isNumber('12.056'), true, 'Positive double');
-    assert.equal(isNumber('100356'), true, 'Positive integer');
-    assert.equal(isNumber('-237'), true, 'Negative integer');
-    assert.equal(isNumber('ABCDE'), false, 'Letters');
-    assert.equal(isNumber('$12.57'), false, 'With Dollar Sign');
-    assert.equal(isNumber('12A5'), false, 'Letter in Numbers');
-    assert.equal(isNumber('0'), true, 'zero');
-    assert.equal(isNumber('   124    '), true, 'With Spacing');
-    assert.equal(isNumber('   12   4    '), false, 'With Spacing between');
+QUnit.test('util.isNumber(num)', function(assert) {
+    assert.equal(util.isNumber('-0.001'), true, 'Negative double');
+    assert.equal(util.isNumber('12.056'), true, 'Positive double');
+    assert.equal(util.isNumber('100356'), true, 'Positive integer');
+    assert.equal(util.isNumber('-237'), true, 'Negative integer');
+    assert.equal(util.isNumber('ABCDE'), false, 'Letters');
+    assert.equal(util.isNumber('$12.57'), false, 'With Dollar Sign');
+    assert.equal(util.isNumber('12A5'), false, 'Letter in Numbers');
+    assert.equal(util.isNumber('0'), true, 'zero');
+    assert.equal(util.isNumber('   124    '), true, 'With Spacing');
+    assert.equal(util.isNumber('   12   4    '), false, 'With Spacing between');
 });
 
 /**
@@ -22,29 +22,29 @@ QUnit.test('isNumber(num)', function(assert) {
  * TEAMMATES currently follows the RFC2822 / IETF date syntax
  * e.g. 02 Apr 2012, 23:59
  */
-QUnit.test('isDate(date)', function(assert) {
-    assert.equal(isDate('12432567'), false, 'Numbers');
-    assert.equal(isDate('0/0/0'), true, '0/0/0 - valid date on Firefox, invalid on Chrome');
-    assert.equal(isDate('12/2/13'), true, '12/2/13 - valid format');
-    assert.equal(isDate('12/02/2013'), true, '12/02/2013 - valid format (mm/dd/yyyy)');
-    assert.equal(isDate('28/12/2013'), true, '28/12/2013 - valid format (dd/mm/yyyy)');
-    assert.equal(isDate('12/12/13'), true, '12/02/13 - valid format');
-    assert.equal(isDate('2013-12-12'), true, '2013-12-12 - valid format');
-    assert.equal(isDate('28-12-2013'), false, '28-12-2013 - invalid format (dd-mm-yyyy)');
-    assert.equal(isDate('2013-12-28'), true, '2013-12-28 - valid format (yyyy-mm-dd)');
-    assert.equal(isDate('01 03 2003'), true, '01 03 2003 - valid format');
-    assert.equal(isDate('A1/B3/C003'), false, 'A1/B3/C003 - invalid date');
-    assert.equal(isDate('Abcdef'), false, 'Invalid Date string');
-    assert.equal(isDate('02 Apr 2012, 23:59'), true, 'Valid Date string with time');
-    assert.equal(isDate('02 Apr 2012'), true, 'Valid Date string without time');
-    assert.equal(isDate('    12/12/01'), true, 'With Spacing in front');
-    assert.equal(isDate('12 12 01       '), true, 'With Spacing behind');
-    assert.equal(isDate('            12-12-01       '), false, 'With Spacing,' +
+QUnit.test('util.isDate(date)', function(assert) {
+    assert.equal(util.isDate('12432567'), false, 'Numbers');
+    assert.equal(util.isDate('0/0/0'), true, '0/0/0 - valid date on Firefox, invalid on Chrome');
+    assert.equal(util.isDate('12/2/13'), true, '12/2/13 - valid format');
+    assert.equal(util.isDate('12/02/2013'), true, '12/02/2013 - valid format (mm/dd/yyyy)');
+    assert.equal(util.isDate('28/12/2013'), true, '28/12/2013 - valid format (dd/mm/yyyy)');
+    assert.equal(util.isDate('12/12/13'), true, '12/02/13 - valid format');
+    assert.equal(util.isDate('2013-12-12'), true, '2013-12-12 - valid format');
+    assert.equal(util.isDate('28-12-2013'), false, '28-12-2013 - invalid format (dd-mm-yyyy)');
+    assert.equal(util.isDate('2013-12-28'), true, '2013-12-28 - valid format (yyyy-mm-dd)');
+    assert.equal(util.isDate('01 03 2003'), true, '01 03 2003 - valid format');
+    assert.equal(util.isDate('A1/B3/C003'), false, 'A1/B3/C003 - invalid date');
+    assert.equal(util.isDate('Abcdef'), false, 'Invalid Date string');
+    assert.equal(util.isDate('02 Apr 2012, 23:59'), true, 'Valid Date string with time');
+    assert.equal(util.isDate('02 Apr 2012'), true, 'Valid Date string without time');
+    assert.equal(util.isDate('    12/12/01'), true, 'With Spacing in front');
+    assert.equal(util.isDate('12 12 01       '), true, 'With Spacing behind');
+    assert.equal(util.isDate('            12-12-01       '), false, 'With Spacing,' +
         ' invalid on Firefox and valid on Chrome');
-    assert.equal(isDate('a12-12-2001'), false, 'a12-12-2001 - not in proper format');
-    assert.equal(isDate('    a      12 12 2001'), false,
+    assert.equal(util.isDate('a12-12-2001'), false, 'a12-12-2001 - not in proper format');
+    assert.equal(util.isDate('    a      12 12 2001'), false,
         '    a      12 12 2001 - not in proper format');
-    assert.equal(isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
+    assert.equal(util.isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
 });
 
 QUnit.test('scrollToTop()', function(assert) {
