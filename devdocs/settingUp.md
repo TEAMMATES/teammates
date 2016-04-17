@@ -6,7 +6,6 @@ environment. The only difference for Windows environment is that the command `./
 
 The full tool stack is given at the [end of this document](#toolStack).
 
-
 ##Table Of Contents
 [Prerequisites](#prerequisites) <br/>
 [Setting up the dev server](#setting-up-the-dev-server) <br/>
