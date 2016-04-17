@@ -16,7 +16,7 @@ import teammates.storage.entity.Instructor;
  * The data transfer class for Instructor entities.
  */
 public class InstructorAttributes extends EntityAttributes {
-    private static Gson gson = Utils.getTeammatesGson();
+    private static Gson gson = Utils.getTeammatesGsonWithDisableHtmlEscaping();
     
     // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
