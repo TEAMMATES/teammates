@@ -93,19 +93,14 @@ public class Browser {
             }
 
             // Allow CSV files to be download automatically, without a download popup.
-            // This method is used because Selenium cannot directly interact
-            // with the download dialog.
-            // Reference:
-            // http://stackoverflow.com/questions/24852709
+            // This method is used because Selenium cannot directly interact with the download dialog.
+            // Taken from http://stackoverflow.com/questions/24852709
             FirefoxProfile profile = new FirefoxProfile();
             profile.setPreference("browser.download.panel.shown", false);
-            profile.setPreference("browser.helperApps.neverAsk.openFile",
-                                  "text/csv,application/vnd.ms-excel");
-            profile.setPreference("browser.helperApps.neverAsk.saveToDisk",
-                                  "text/csv,application/vnd.ms-excel");
+            profile.setPreference("browser.helperApps.neverAsk.openFile", "text/csv,application/vnd.ms-excel");
+            profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.download.folderList", 2);
-            profile.setPreference("browser.download.dir",
-                                  System.getProperty("java.io.tmpdir"));
+            profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
             return new FirefoxDriver(profile);
 
         } else if (TestProperties.inst().BROWSER.equals("chrome")) {
