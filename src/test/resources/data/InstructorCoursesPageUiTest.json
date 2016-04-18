@@ -46,23 +46,23 @@
       "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": false,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": false,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": false,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
  	"instructor2CS1101": { 
       "googleId": "CCAddUiTest.instr3", 
@@ -73,23 +73,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "instructor1CS2104": { 
       "googleId": "CCAddUiTest.instructor", 
@@ -99,23 +99,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   }
   

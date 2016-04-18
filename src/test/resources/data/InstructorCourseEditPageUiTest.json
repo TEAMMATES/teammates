@@ -47,23 +47,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "InsCrsEdit.manager": {
       "googleId": "InsCrsEdit.manager",
@@ -73,23 +73,23 @@
       "role":"Manager",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": false,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "InsCrsEdit.observer": {
       "googleId": "InsCrsEdit.observer",
@@ -99,23 +99,23 @@
       "role":"Observer",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": false,
-          \"cansubmitsessioninsection\": false,
-          \"canmodifysessioncommentinsection\": false,
-          \"canmodifycommentinsection\": false,
-          \"canmodifycourse\": false,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": false,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": false,
-          \"canmodifyinstructor\": false
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canviewcommentinsection": true,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "InsCrsEdit.tutor": {
       "googleId": "InsCrsEdit.tutor",
@@ -125,23 +125,23 @@
       "role":"Tutor",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": false,
-          \"canmodifycommentinsection\": false,
-          \"canmodifycourse\": false,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": false,
-          \"canviewcommentinsection\": false,
-          \"canmodifystudent\": false,
-          \"canmodifyinstructor\": false
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canviewcommentinsection": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "InsCrsEdit.coord": {
       "googleId": "InsCrsEdit.coord",
@@ -151,23 +151,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "InsCrsEdit.newInstructor": {
       "googleId": null,
@@ -178,23 +178,23 @@
       "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": false,
-          \"cangivecommentinsection\": false,
-          \"cansubmitsessioninsection\": false,
-          \"canmodifysessioncommentinsection\": false,
-          \"canmodifycommentinsection\": false,
-          \"canmodifycourse\": false,
-          \"canviewsessioninsection\": false,
-          \"canmodifysession\": false,
-          \"canviewcommentinsection\": false,
-          \"canmodifystudent\": false,
-          \"canmodifyinstructor\": false
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cangivecommentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canviewcommentinsection": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "InsCrsEdit.Helper": {
       "googleId": "InsCrsEdit.Helper",
@@ -205,23 +205,23 @@
       "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": false,
-          \"cangivecommentinsection\": false,
-          \"cansubmitsessioninsection\": false,
-          \"canmodifysessioncommentinsection\": false,
-          \"canmodifycommentinsection\": false,
-          \"canmodifycourse\": false,
-          \"canviewsessioninsection\": false,
-          \"canmodifysession\": false,
-          \"canviewcommentinsection\": false,
-          \"canmodifystudent\": false,
-          \"canmodifyinstructor\": false
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cangivecommentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canviewcommentinsection": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   

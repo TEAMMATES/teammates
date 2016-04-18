@@ -76,7 +76,6 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         if (lastCanModifyInstructor) {
             instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
         }
-        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
     }
     
     private InstructorAttributes extractUpdatedInstructor(String courseId, String instructorId, String instructorName, String instructorEmail) {
@@ -99,8 +98,6 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         updateInstructorWithSectionLevelPrivileges(courseId, instructorToEdit);
         
         instructorToEdit.privileges.validatePrivileges();
-        
-        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
         
         return instructorToEdit;
     }
@@ -151,7 +148,6 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         instructorToEdit.displayedName = Sanitizer.sanitizeName(displayedName);
         instructorToEdit.isDisplayedToStudents = isDisplayedToStudents;
         instructorToEdit.privileges = new InstructorPrivileges(instructorToEdit.role);
-        instructorToEdit.instructorPrivilegesAsText = instructorToEdit.getTextFromInstructorPrivileges();
         
         return instructorToEdit;
     }

@@ -64,23 +64,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "teammates.test.helper": {
       "googleId": "CFeedbackUiT.helper",
@@ -90,23 +90,23 @@
       "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": false,
-          \"cangivecommentinsection\": false,
-          \"cansubmitsessioninsection\": false,
-          \"canmodifysessioncommentinsection\": false,
-          \"canmodifycommentinsection\": false,
-          \"canmodifycourse\": false,
-          \"canviewsessioninsection\": false,
-          \"canmodifysession\": false,
-          \"canviewcommentinsection\": false,
-          \"canmodifystudent\": false,
-          \"canmodifyinstructor\": false
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cangivecommentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canviewcommentinsection": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "Ins.for.course.without.sessions": {
       "googleId": "CFeedbackUiT.nosessions",
@@ -116,23 +116,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "teammates.test.instructor.for.different.course": {
       "googleId": "CFeedbackUiT.instructor",
@@ -142,23 +142,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "teammates.test.helper.for.different.course": {
       "googleId": "CFeedbackUiT.helper",
@@ -168,23 +168,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "teammates.test.instructor2": {
       "googleId": "CFeedbackUiT.instructor2",
@@ -194,23 +194,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "teammates.test.instructor2.for.different.course": {
       "googleId": "CFeedbackUiT.instructor2",
@@ -220,23 +220,23 @@
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   

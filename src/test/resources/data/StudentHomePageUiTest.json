@@ -46,23 +46,23 @@
       "email": "SHomeUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "SHomeUiT.instr.CS1101": {
       "googleId": "SHomeUiT.instr",
@@ -71,23 +71,23 @@
       "email": "SHomeUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "SHomeUiT.instr.CS4215": {
       "googleId": "SHomeUiT.instr",
@@ -96,23 +96,23 @@
       "email": "SHomeUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "SHomeUiT.instr.CS4221": {
       "googleId": "SHomeUiT.instr",
@@ -121,23 +121,23 @@
       "email": "SHomeUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   

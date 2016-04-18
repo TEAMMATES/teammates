@@ -19,6 +19,11 @@
                     <h3 class="text-center">Previewing Session as Instructor ${fn:escapeXml(data.previewInstructor.name)} (${fn:escapeXml(data.previewInstructor.email)})</h3>
                 </nav>
             </c:when>
+            <c:when test="${data.moderation}">
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <h3 class="text-center">Moderating Responses for Instructor ${data.previewInstructor.name} (${data.previewInstructor.email})</h3>
+                </nav>
+            </c:when>
             <c:otherwise>
                 <%-- For when header is hidden but it is not a preview --%>
                 <span style="display:none"></span>
@@ -27,6 +32,7 @@
     </c:set>
 </c:if>
 
-<ti:instructorPageCustom pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
-    <instructorFeedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}" feedbackSubmissionAction="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE %>"/>
-</ti:instructorPageCustom>
+<ti:instructorPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+    <instructorFeedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
+</ti:instructorPage>
+

@@ -17,23 +17,23 @@
       "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "AAMgtUiT.instr2-AAMgtUiT.CS2103": {
       "googleId": "AAMgtUiT.instr2",
@@ -42,23 +42,23 @@
       "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     },
     "AAMgtUiT.instr2-AAMgtUiT.CS1101": {
       "googleId": "AAMgtUiT.instr2",
@@ -67,23 +67,23 @@
       "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner</td></div>'\"",
-      "instructorPrivilegesAsText": "{
-        \"courseLevel\": {
-          \"canviewstudentinsection\": true,
-          \"cangivecommentinsection\": true,
-          \"cansubmitsessioninsection\": true,
-          \"canmodifysessioncommentinsection\": true,
-          \"canmodifycommentinsection\": true,
-          \"canmodifycourse\": true,
-          \"canviewsessioninsection\": true,
-          \"canmodifysession\": true,
-          \"canviewcommentinsection\": true,
-          \"canmodifystudent\": true,
-          \"canmodifyinstructor\": true
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
         },
-        \"sectionLevel\": {},
-        \"sessionLevel\": {}
-      }"
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
 

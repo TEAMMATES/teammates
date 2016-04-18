@@ -72,7 +72,7 @@ _**Phase B**: Set up locally_
 1.  Set up TEAMMATES development environment on your computer.  
     Important:  
     * Follow instructions to the letter. _Install the specified versions of the tool stack, not the latest versions._  
-    * If you encounter any problems, refer to the [Developer Troubleshooting Guide](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true).
+    * If you encounter any problems, refer to the [Developer Troubleshooting Guide](troubleshooting-guide.md).
 2.  Get dev green. It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 _**Phase C**: Deploy_

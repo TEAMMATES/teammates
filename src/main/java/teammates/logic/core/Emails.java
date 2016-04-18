@@ -42,7 +42,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.api.GateKeeper;
 
 /**
