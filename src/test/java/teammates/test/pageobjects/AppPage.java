@@ -238,7 +238,7 @@ public abstract class AppPage {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
-    
+
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
@@ -284,6 +284,14 @@ public abstract class AppPage {
                 return "invisibility of all elements " + elements;
             }
         };
+    }
+
+    /**
+     * Waits for an alert to appear on the page, up to the timeout specified.
+     */
+    public void waitForAlertPresence() {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.alertIsPresent());
     }
 
     /**
@@ -762,13 +770,8 @@ public abstract class AppPage {
         return !topElem.equals(element);
     }
 
-    public void verifyUnclickable(WebElement element){
-        try {
-            respondToAlertWithRetry(element, false);
-            Assert.fail("This should not give an alert when clicked");
-        } catch (NoAlertPresentException e) {
-            return;
-        }
+    public void verifyUnclickable(WebElement element) {
+        Assert.assertNotNull(element.getAttribute("disabled"));
     }
 
     /**
@@ -1034,11 +1037,8 @@ public abstract class AppPage {
 
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
-        elementToClick.click();    
-        //This method might fail at times due to a Selenium bug
-        //  See https://code.google.com/p/selenium/issues/detail?id=3544
-        //  The delay below is a temporary workaround to minimize the failure rate.
-        ThreadHelper.waitFor(250);
+        elementToClick.click();
+        waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
         if(isConfirm){
             alert.accept();
@@ -1050,10 +1050,7 @@ public abstract class AppPage {
     private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
-        //This method might fail at times due to a Selenium bug
-        //  See https://code.google.com/p/selenium/issues/detail?id=3544
-        //  The delay below is a temporary workaround to minimize the failure rate.
-        ThreadHelper.waitFor(250);
+        waitForAlertPresence();
         Alert alert = browser.driver.switchTo().alert();
         if(isConfirm){
             alert.accept();
