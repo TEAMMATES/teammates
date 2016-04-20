@@ -351,6 +351,21 @@ public class StringHelper {
     }
     
     /**
+     * Recovers text that has been sanitized for javascript under Sanitizer.sanitizeForJs()
+     */
+    public static String recoverFromSanitizedForJsText(String str) {  
+        if (str == null) {
+            return null;
+        }
+        
+        return recoverFromSanitizedText(str)
+                  .replace("\\\\", "\\")
+                  .replace("\\\"", "\"")
+                  .replace("\\\'", "\'")
+                  .replace("\\#", "#");
+    }
+    
+    /**
      * This recovers a set of html-sanitized string to original encoding for appropriate display in files such as csv file <br>
      * It restores encoding for < > \ / ' &  <br>
      * @param sanitized string set

@@ -7,6 +7,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Const.StatusMessageColor;
 import teammates.logic.api.GateKeeper;
 
@@ -20,6 +21,8 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
 
+        feedbackSessionName = StringHelper.recoverFromSanitizedForJsText(feedbackSessionName);
+        
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = false;
