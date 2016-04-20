@@ -278,7 +278,7 @@
    
   "feedbackSessions" : {  
     "publishedSession": {
-      "feedbackSessionName" : "First Session",
+      "feedbackSessionName" : "First Session #1",
       "courseId" : "CFeedbackUiT.CS2104",
       "creatorEmail" : "teammates.test2@gmail.tmt",
       "instructions": {"value" : "Instructions for first session"},
@@ -294,7 +294,7 @@
       "sentPublishedEmail" : true
     },
     "privateSession": {
-      "feedbackSessionName" : "Private Session",
+      "feedbackSessionName" : "Private Session #",
       "courseId" : "CFeedbackUiT.CS2104",
       "creatorEmail" : "teammates.test1@gmail.tmt",
       "instructions": {"value" : "Please please fill in the second feedback session"},
@@ -326,7 +326,7 @@
       "sentPublishedEmail" : false
     },
     "openSession": {
-      "feedbackSessionName" : "Open Session",
+      "feedbackSessionName" : "Open Session #",
       "courseId" : "CFeedbackUiT.CS1101",
       "creatorEmail" : "teammates.test2@gmail.tmt",
       "instructions": {"value" : "Please please fill in the fourth feedback session"},
@@ -342,7 +342,7 @@
       "sentPublishedEmail" : false
     },
     "awaitingSession": {
-      "feedbackSessionName" : "Awaiting Session",
+      "feedbackSessionName" : "Awaiting Session #",
       "courseId" : "CFeedbackUiT.CS2104",
       "creatorEmail" : "teammates.test2@gmail.tmt",
       "instructions": {"value" : "Instructions for first session"},
