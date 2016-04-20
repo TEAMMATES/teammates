@@ -208,19 +208,6 @@ public class StringHelperTest extends BaseTestCase {
         str = Sanitizer.sanitizeForHtml("<text><div> 'param' &&& \\//\\");
         assertEquals("<text><div> 'param' &&& \\//\\",StringHelper.recoverFromSanitizedText(str));
     }
-    
-    @Test
-    public void testRecoverFromSanitizedForJsText(){        
-        String str = null;
-        assertEquals(null,StringHelper.recoverFromSanitizedForJsText(str));
-        
-        str = "";
-        assertEquals("",StringHelper.recoverFromSanitizedForJsText(str));
-        
-        String stringToBeSanitized = "\\ \" ' #";
-        str = Sanitizer.sanitizeForJs(stringToBeSanitized);
-        assertEquals(stringToBeSanitized, StringHelper.recoverFromSanitizedForJsText(str));
-    }
 
     @Test
     public void testCountEmptyStrings() {
