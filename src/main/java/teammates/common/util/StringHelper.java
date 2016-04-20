@@ -361,7 +361,7 @@ public class StringHelper {
         return recoverFromSanitizedText(str)
                   .replace("\\\\", "\\")
                   .replace("\\\"", "\"")
-                  .replace("\\\'", "'")
+                  .replace("\\'", "'")
                   .replace("\\#", "#");
     }
     

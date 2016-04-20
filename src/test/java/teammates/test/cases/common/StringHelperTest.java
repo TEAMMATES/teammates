@@ -217,8 +217,9 @@ public class StringHelperTest extends BaseTestCase {
         str = "";
         assertEquals("",StringHelper.recoverFromSanitizedForJsText(str));
         
-        str = Sanitizer.sanitizeForJs("\\ \" ' #");
-        assertEquals("\\ \" ' #",StringHelper.recoverFromSanitizedForJsText(str));
+        String stringToBeSanitized = "\\ \" ' #";
+        str = Sanitizer.sanitizeForJs(stringToBeSanitized);
+        assertEquals(stringToBeSanitized, StringHelper.recoverFromSanitizedForJsText(str));
     }
 
     @Test
