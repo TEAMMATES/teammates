@@ -310,7 +310,7 @@
       "sentPublishedEmail" : false
     },
     "manualSession": {
-      "feedbackSessionName" : "Manual Session",
+      "feedbackSessionName" : "Manual Session #1",
       "courseId" : "CFeedbackUiT.CS1101",
       "creatorEmail" : "teammates.test1@gmail.tmt",
       "instructions": {"value" : "Please please fill in the third feedback session"},

@@ -157,9 +157,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1,"Awaiting Session{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
+                0, 1,"Awaiting Session{*}First Session{*}Manual Session #1{*}Open Session{*}Private Session");
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}Awaiting Session");
+                0, 1,"Private Session{*}Open Session{*}Manual Session #1{*}First Session{*}Awaiting Session");
         
         
         ______TS("sort by course id");
