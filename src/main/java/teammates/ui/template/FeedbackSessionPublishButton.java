@@ -3,7 +3,6 @@ package teammates.ui.template;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.ui.controller.PageData;
 
 public class FeedbackSessionPublishButton {
@@ -22,7 +21,7 @@ public class FeedbackSessionPublishButton {
     public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, String returnUrl,
                                         InstructorAttributes instructor, String buttonType) {
         String courseId = session.courseId;
-        this.feedbackSessionName = Sanitizer.sanitizeForJs(session.feedbackSessionName);
+        this.feedbackSessionName = session.feedbackSessionName;
         this.isSendingPublishedEmail = session.isPublishedEmailEnabled;
 
         boolean isUnpublishing = !session.isWaitingToOpen() && session.isPublished();
