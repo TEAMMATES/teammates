@@ -6,6 +6,14 @@ environment. The only difference for Windows environment is that the command `./
 
 The full tool stack is given at the [end of this document](#toolStack).
 
+##Table Of Contents
+[Prerequisites](#prerequisites) <br/>
+[Setting up the dev server](#setting-up-the-dev-server) <br/>
+[Running the test suite](#running-the-test-suite) <br/>
+[Deploying to a staging server](#deploying-to-a-staging-server) <br/>
+[Running client scripts](#running-client-scripts) <br/>
+[Troubleshooting](#troubleshooting) <br/>
+
 ##Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
 
