@@ -1,10 +1,12 @@
 #Table of Contents
-1. [Prerequisites](#prereq)<br>
-2. [Setting up the dev server](#setup-dev)
+1. [Setting Up the Developer Environment](#1)
+2. [Prerequisites](#2)<br>
+3. [Setting up the dev server](#3)
+3. [](#)
 
 
 
-##Setting Up the Developer Environment
+##<a name="1"></a>Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
 These instructions work for Linux, OS X as well as for the Windows
@@ -12,7 +14,7 @@ environment. The only difference for Windows environment is that the command `./
 
 The full tool stack is given at the [end of this document](#toolStack).
 
-##<a name="prereq"></a>Prerequisites
+##<a name="2"></a>Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
@@ -31,7 +33,7 @@ Important: When a version is specified, please install that version instead of t
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
-##<a name="setup-dev"></a>Setting up the dev server
+##<a name="3"></a>Setting up the dev server
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
