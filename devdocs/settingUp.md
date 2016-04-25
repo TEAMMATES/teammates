@@ -9,7 +9,7 @@ environment. The only difference for Windows environment is that the command `./
 
 The full tool stack is given at the [end of this document](#toolStack).
 
-<a name="prereq">##Prerequisites</a>
+(#prereq)##Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
