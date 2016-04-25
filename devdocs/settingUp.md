@@ -2,7 +2,11 @@
 1. [Setting Up the Developer Environment](#1)
 2. [Prerequisites](#2)<br>
 3. [Setting up the dev server](#3)
-3. [](#)
+4. [Running the test suite](#4)
+5. [Deploying to a staging server](#5)
+6. [Running client scripts](#6)
+7. [Troubleshooting](#7)
+8. [Tool stack](#toolStack)
 
 
 
@@ -98,7 +102,7 @@ Important: When a version is specified, please install that version instead of t
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
    Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
 
-##Running the test suite
+##<a name="4"></a>Running the test suite
 
 
 
@@ -199,7 +203,7 @@ this section.
   `runtests.bat  C:\appengine-java-sdk-1.9.27  C:\teammates -testnames component-tests,sequential-ui-tests,parallel-ui-tests`<br>
   (**Mac**: `./runtests.sh /Users/someuser/appengine-java-sdk-1.9.27 /Users/someuser/TEAMMATES -testnames component-tests,sequential-ui-tests,parallel-ui-tests`)
   
-##Deploying to a staging server
+##<a name="5"></a>Deploying to a staging server
 `Staging server` is the server instance you set up on Google App Engine for hosting the app for testing purposes.
 
 1. Create your own app on GAE.
@@ -229,7 +233,7 @@ this section.
     Note that GAE daily quota will be exhausted after 2-3 runs of the full test suite.
 
 
-##Running client scripts
+##<a name="6"></a>Running client scripts
 Client scripts are scripts that remotely manipulate data on GAE via its Remote API. Most of developers may not need to write and/or run client scripts but if you are to do so, additional steps are required:
 
 1. Download and install Google Cloud SDK at https://cloud.google.com/sdk/downloads.
@@ -239,7 +243,7 @@ Client scripts are scripts that remotely manipulate data on GAE via its Remote A
 3. Now you can run your scripts.
 
 
-##Troubleshooting
+##<a name="7"></a>Troubleshooting
 Troubleshooting instructions are given [in this document](troubleshooting-guide.md)
 
 ##<a name="toolStack"></a>Tool stack
