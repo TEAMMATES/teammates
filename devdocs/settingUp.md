@@ -1,5 +1,6 @@
 #Table of Contents
-[Prerequisites](#prereq)
+	-[Prerequisites](#prereq)
+	-[Setting up the dev server](#setup-dev)
 
 #Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
@@ -28,7 +29,7 @@ Important: When a version is specified, please install that version instead of t
    Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 6. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/download.html).
 
-##Setting up the dev server
+##<a name="setup-dev"></a>Setting up the dev server
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
