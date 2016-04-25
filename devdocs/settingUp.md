@@ -1,6 +1,7 @@
 #Table of Contents
 
-```[Prerequisites](#prereq)<br>
+```
+[Prerequisites](#prereq)<br>
 [Setting up the dev server](#setup-dev)
 ```
 
