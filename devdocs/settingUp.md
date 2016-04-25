@@ -1,10 +1,10 @@
 #Table of Contents
-	* [Prerequisites](#prereq)<br>
-	* [Setting up the dev server](#setup-dev)
+1. [Prerequisites](#prereq)<br>
+2. [Setting up the dev server](#setup-dev)
 
 
 
-#Setting Up the Developer Environment
+##Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
 These instructions work for Linux, OS X as well as for the Windows
