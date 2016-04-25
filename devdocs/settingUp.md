@@ -1,3 +1,6 @@
+#Table of Contents
+[Prerequisites](#prereq)
+
 #Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
 
@@ -6,7 +9,7 @@ environment. The only difference for Windows environment is that the command `./
 
 The full tool stack is given at the [end of this document](#toolStack).
 
-##Prerequisites
+<a name="prereq">##Prerequisites</a>
 Important: When a version is specified, please install that version instead of the latest version available.
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
