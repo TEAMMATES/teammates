@@ -1,8 +1,8 @@
 #Table of Contents
-<ol>
-<li> [Prerequisites](#prereq)<br></li>
-<li> [Setting up the dev server](#setup-dev)</li>
-</ol>
+
+*[Prerequisites](#prereq)<br>
+*[Setting up the dev server](#setup-dev)
+
 
 #Setting Up the Developer Environment
 >If you encounter any problems during the setting up process, please refer to our [troubleshooting guide](troubleshooting-guide.md) before posting a help request in our [issue tracker](https://github.com/TEAMMATES/teammates/issues).
