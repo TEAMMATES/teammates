@@ -1,11 +1,7 @@
 #Table of Contents
+	* [Prerequisites](#prereq)<br>
+	* [Setting up the dev server](#setup-dev)
 
-```
-<p>
-[Prerequisites](#prereq)<br>
-[Setting up the dev server](#setup-dev)
-</p>
-```
 
 
 #Setting Up the Developer Environment
