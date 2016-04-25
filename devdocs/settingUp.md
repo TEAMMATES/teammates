@@ -1,7 +1,7 @@
 #Table of Contents
 <ol>
-<li>[Prerequisites](#prereq)<br></li>
-<li>[Setting up the dev server](#setup-dev)</li>
+<li> [Prerequisites](#prereq)<br></li>
+<li> [Setting up the dev server](#setup-dev)</li>
 </ol>
 
 #Setting Up the Developer Environment
