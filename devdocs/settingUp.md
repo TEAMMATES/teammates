@@ -6,7 +6,7 @@
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
 * [Troubleshooting](#troubleshooting)
-* [Tool stack](#toolStack)
+* [Tool stack](#tool-stack)
 
 
 
@@ -16,7 +16,7 @@
 These instructions work for Linux, OS X as well as for the Windows
 environment. The only difference for Windows environment is that the command `./gradlew` should be replaced by `gradlew.bat` everywhere.
 
-The full tool stack is given at the [end of this document](#toolStack).
+The full tool stack is given at the [end of this document](#tool-stack).
 
 ## Prerequisites
 Important: When a version is specified, please install that version instead of the latest version available.
@@ -246,7 +246,7 @@ Client scripts are scripts that remotely manipulate data on GAE via its Remote A
 ## Troubleshooting
 Troubleshooting instructions are given [in this document](troubleshooting-guide.md)
 
-##<a name="toolStack"></a>Tool stack
+## Tool stack
 
 ####Deployment environment
 * **Google App Engine** (GAE)
