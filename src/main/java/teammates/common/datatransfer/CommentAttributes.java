@@ -197,6 +197,7 @@ public class CommentAttributes extends EntityAttributes
     }
 
     @Override
+    // TODO: use getTeammatesGsonWithDisableHtmlEscaping() instead.
     public String getJsonString() {
         return Utils.getTeammatesGson().toJson(this, CommentAttributes.class);
     }
